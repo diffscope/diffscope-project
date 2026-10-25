@@ -59,6 +59,8 @@ namespace Audio::Internal {
                 this, [this] { Q_EMIT deviceGainChanged(); });
         connect(GlobalAudioContext::instance(), &GlobalAudioContext::devicePanChanged,
                 this, [this] { Q_EMIT devicePanChanged(); });
+        connect(m_outputSystem, &OutputSystem::hotPlugNotificationModeChanged,
+                this, &AudioOutputSettingsHelper::hotPlugNotificationModeChanged);
 
         reload();
     }
@@ -476,6 +478,17 @@ namespace Audio::Internal {
 
     void AudioOutputSettingsHelper::setDevicePan(double pan) {
         GlobalAudioContext::setDevicePan(pan);
+    }
+
+    int AudioOutputSettingsHelper::hotPlugNotificationMode() const {
+        return m_outputSystem->outputContext()->hotPlugNotificationMode();
+    }
+
+    void AudioOutputSettingsHelper::setHotPlugNotificationMode(int mode) {
+        if (mode < talcs::OutputContext::Omni || mode > talcs::OutputContext::None) {
+            return;
+        }
+        m_outputSystem->setHotPlugNotificationMode(static_cast<talcs::OutputContext::HotPlugNotificationMode>(mode));
     }
 
     // Helper method: Find driver index by name

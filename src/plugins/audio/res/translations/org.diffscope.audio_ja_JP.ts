@@ -450,17 +450,32 @@
 <context>
     <name>Audio::Internal::AudioPlugin</name>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="56"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="59"/>
         <source>Initializing audio plugin...</source>
         <translation type="unfinished">Initializing audio plugin...</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="103"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="76"/>
+        <source>Audio Device Changed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/AudioPlugin.cpp" line="77"/>
+        <source>A change in audio devices has been detected. You can check or adjust the current device in the audio settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/AudioPlugin.cpp" line="78"/>
+        <source>Open Audio Output Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/AudioPlugin.cpp" line="121"/>
         <source>Failed to initialize audio output system</source>
         <translation type="unfinished">Failed to initialize audio output system</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="104"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="122"/>
         <source>%1 will not play sound because no available audio output device found.
 
 Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device status.</source>

@@ -45,6 +45,7 @@ namespace Audio::Internal {
         Q_PROPERTY(int bufferSizeCurrentIndex READ bufferSizeCurrentIndex WRITE setBufferSizeCurrentIndex NOTIFY bufferSizeCurrentIndexChanged)
         Q_PROPERTY(double deviceGain READ deviceGain WRITE setDeviceGain NOTIFY deviceGainChanged)
         Q_PROPERTY(double devicePan READ devicePan WRITE setDevicePan NOTIFY devicePanChanged)
+        Q_PROPERTY(int hotPlugNotificationMode READ hotPlugNotificationMode WRITE setHotPlugNotificationMode NOTIFY hotPlugNotificationModeChanged)
 
     public:
         explicit AudioOutputSettingsHelper(QObject *parent = nullptr);
@@ -76,6 +77,9 @@ namespace Audio::Internal {
         double devicePan() const;
         void setDevicePan(double pan);
 
+        int hotPlugNotificationMode() const;
+        void setHotPlugNotificationMode(int mode);
+
         Q_INVOKABLE void testDevice();
         Q_INVOKABLE static void openControlPanel();
         Q_INVOKABLE void reload();
@@ -91,6 +95,7 @@ namespace Audio::Internal {
         void bufferSizeCurrentIndexChanged();
         void deviceGainChanged();
         void devicePanChanged();
+        void hotPlugNotificationModeChanged();
         void deviceError(const QString &message);
 
     private Q_SLOTS:

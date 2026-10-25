@@ -34,6 +34,9 @@ namespace Audio::Internal {
 
         void playTestSound();
 
+    Q_SIGNALS:
+        void hotPlugNotificationModeChanged();
+
     private:
         void load();
         void save() const;

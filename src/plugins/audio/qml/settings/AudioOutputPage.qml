@@ -187,6 +187,8 @@ ScrollView {
                             qsTr("Show notification only when the current device is removed"),
                             qsTr("Do not show notification")
                         ]
+                        currentIndex: page.helper?.hotPlugNotificationMode ?? -1
+                        onActivated: (index) => page.helper.hotPlugNotificationMode = index
                     }
                 }
             }

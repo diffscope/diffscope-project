@@ -18,7 +18,10 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
+#include <TalcsDevice/OutputContext.h>
+
 #include <coreplugin/CoreInterface.h>
+#include <coreplugin/NotificationMessage.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/EffectsUnitCollection.h>
@@ -68,6 +71,21 @@ namespace Audio::Internal {
     }
     void AudioPlugin::extensionsInitialized() {
         initializeAudioOutput();
+        connect(AudioSystem::outputSystem()->outputContext(), &talcs::OutputContext::deviceHotPlugged, this, [this] {
+            auto message = new Core::NotificationMessage(this);
+            message->setIcon(SVS::SVSCraft::Information);
+            message->setTitle(tr("Audio Device Changed"));
+            message->setText(tr("A change in audio devices has been detected. You can check or adjust the current device in the audio settings."));
+            message->setButtons({tr("Open Audio Output Settings")});
+            message->setPrimaryButton(0);
+            connect(message, &Core::NotificationMessage::closed, message, &QObject::deleteLater);
+            connect(message, &Core::NotificationMessage::buttonClicked, this, [](int index) {
+                if (index == 0) {
+                    Core::CoreInterface::execSettingsDialog(QStringLiteral("audio.AudioOutput"), QApplication::focusWindow());
+                }
+            }, Qt::QueuedConnection);
+            Core::CoreInterface::sendNotification(message, Core::CoreInterface::AutoHide);
+        });
     }
     bool AudioPlugin::delayedInitialize() {
         return IPlugin::delayedInitialize();
