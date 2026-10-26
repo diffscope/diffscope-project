@@ -38,11 +38,14 @@ runs:
     - name: Install vcpkg dependencies
       env:
         USE_CACHE: ${{ inputs.use_cache }}
-        QT_DIR: ${{ env.Qt_ROOT_DIR }}/lib/cmake/Qt6
-        Qt6_DIR: ${{ env.Qt_ROOT_DIR }}/lib/cmake/Qt6
+        QT_DIR: ${{ env.QT_ROOT_DIR }}/lib/cmake/Qt6
+        Qt6_DIR: ${{ env.QT_ROOT_DIR }}/lib/cmake/Qt6
         VCPKG_KEEP_ENV_VARS: "QT_DIR;Qt6_DIR;VCPKG_BUILD_TYPE;MACOSX_DEPLOYMENT_TARGET"
       shell: pwsh
       run: |
+        if (-not (Test-Path -LiteralPath $env:Qt6_DIR -PathType Container)) {
+          throw "The Qt CMake directory does not exist: $env:Qt6_DIR"
+        }
         if ($env:USE_CACHE -eq 'true' -and !(Test-Path $env:VCPKG_DEFAULT_BINARY_CACHE)) {
           New-Item $env:VCPKG_DEFAULT_BINARY_CACHE -ItemType directory
         }
