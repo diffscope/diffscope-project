@@ -22,7 +22,6 @@ namespace Core::Internal {
         Q_PROPERTY(WorkspaceSession *session READ session CONSTANT)
         Q_PROPERTY(QVariantList panelEntries READ panelEntries NOTIFY panelEntriesChanged)
         Q_PROPERTY(QVariantList newPanelEntries READ newPanelEntries NOTIFY panelEntriesChanged)
-        Q_PROPERTY(QStringList registeredPanelIds READ registeredPanelIds NOTIFY registeredPanelIdsChanged)
     public:
         explicit WorkspaceAddOn(QObject *parent = nullptr);
         ~WorkspaceAddOn() override;
@@ -38,17 +37,14 @@ namespace Core::Internal {
         void showWorkspaceCustomLayoutCommand(const ProjectWindowWorkspaceLayout &layout) const;
         QVariantList panelEntries() const;
         QVariantList newPanelEntries() const;
-        QStringList registeredPanelIds() const;
     Q_SIGNALS:
         void panelEntriesChanged();
-        void registeredPanelIdsChanged();
 
     private:
         ProjectWindowWorkspaceManager *m_workspaceManager;
         WorkspaceSession *m_session = nullptr;
         QPointer<QObject> m_helper;
         QPointer<QObject> m_actions;
-        QStringList m_registeredPanelIds;
     };
 }
 

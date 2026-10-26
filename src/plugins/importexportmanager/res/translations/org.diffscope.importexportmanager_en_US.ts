@@ -123,11 +123,6 @@
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished">Workspace Panel Widgets</translation>
     </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="634"/>
-        <source>Show Import</source>
-        <translation type="unfinished">Show Import</translation>
-    </message>
 </context>
 <context>
     <name>ImportExportManager::Internal::DspxFileExporter</name>

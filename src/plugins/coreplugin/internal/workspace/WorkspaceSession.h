@@ -50,7 +50,6 @@ namespace Core {
             void initialize();
             void apply(const ProjectWindowWorkspaceLayout &layout);
             ProjectWindowWorkspaceLayout snapshot(const QString &name) const;
-            Q_INVOKABLE void showPanel(const QString &id);
             void shutdown();
         Q_SIGNALS:
             void busyChanged();
@@ -75,7 +74,6 @@ namespace Core {
             QHash<SVS::DockingHost *, QPointer<QQuickWindow>> m_floatingWindows;
             QVariantMap m_panelStates;
             ProjectWindowWorkspaceLayout m_pendingLayout;
-            QString m_pendingShow;
             bool m_busy = false;
             bool m_ready = false;
             bool m_shuttingDown = false;

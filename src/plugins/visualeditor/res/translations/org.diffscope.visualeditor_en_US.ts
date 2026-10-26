@@ -596,21 +596,6 @@
         <translation type="unfinished">Piano Roll Panel Timeline Tool Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4024"/>
-        <source>Show Arrangement</source>
-        <translation type="unfinished">Show Arrangement</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4026"/>
-        <source>Show Mixer</source>
-        <translation type="unfinished">Show Mixer</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4028"/>
-        <source>Show Piano Roll</source>
-        <translation type="unfinished">Show Piano Roll</translation>
-    </message>
-    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4019"/>
         <source>Edit Previous Track</source>
         <translation type="unfinished">Edit Previous Track</translation>

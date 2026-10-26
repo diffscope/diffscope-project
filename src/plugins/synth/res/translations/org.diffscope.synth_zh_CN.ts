@@ -125,11 +125,6 @@
         <translation type="unfinished">分离音频...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1034"/>
-        <source>Show Synthesis Services</source>
-        <translation type="unfinished">显示合成服务</translation>
-    </message>
-    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1039"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished">工作区面板小部件</translation>

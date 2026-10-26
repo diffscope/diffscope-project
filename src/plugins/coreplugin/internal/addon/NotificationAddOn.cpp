@@ -11,6 +11,7 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
+#include <SVSCraftQuick/DockingContext.h>
 #include <SVSCraftQuick/StatusTextContext.h>
 
 #include <coreplugin/CoreInterface.h>
@@ -89,8 +90,12 @@ namespace Core::Internal {
     }
     void NotificationAddOn::extensionsInitialized() {
         auto window = windowHandle()->cast<ProjectWindowInterface>();
-        connect(this, &NotificationAddOn::showPanelRequested, this, [window] { window->triggerAction("org.diffscope.core.panel.notifications.show"); });
-        connect(this, &NotificationAddOn::_diffscope_statusTipTriggered, this, [window] { window->triggerAction("org.diffscope.core.panel.notifications.show"); });
+        const auto openNotifications = [window] {
+            if (auto context = window->getFirstObject<SVS::DockingContext>())
+                context->show(context->panel("org.diffscope.core.panel.notifications"));
+        };
+        connect(this, &NotificationAddOn::showPanelRequested, this, openNotifications);
+        connect(this, &NotificationAddOn::_diffscope_statusTipTriggered, this, openNotifications);
     }
     bool NotificationAddOn::delayedInitialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();

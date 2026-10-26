@@ -150,19 +150,12 @@ SPDX-License-Identifier: Apache-2.0
         <action id="org.diffscope.core.selectionIndicator" category="Core" triggerable="false" diffscope:componentType="widget" />
         <action id="org.diffscope.core.notificationErrorIndicator" category="Core" triggerable="false" diffscope:componentType="widget" />
         <action id="org.diffscope.core.panel.properties" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="properties" triggerable="false" diffscope:componentType="custom"/>
-        <action id="org.diffscope.core.panel.properties.show" category="Panel" text="Show Properties" />
         <action id="org.diffscope.core.panel.plugins" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="puzzle_piece" triggerable="false" diffscope:componentType="custom"/>
-        <action id="org.diffscope.core.panel.plugins.show" category="Panel" text="Show Plugins" />
         <action id="org.diffscope.core.panel.singers" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="mic" triggerable="false" diffscope:componentType="custom"/>
-        <action id="org.diffscope.core.panel.singers.show" category="Panel" text="Show Singer Picker" />
         <action id="org.diffscope.core.panel.notifications" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="alert" triggerable="false" diffscope:componentType="custom"/>
-        <action id="org.diffscope.core.panel.notifications.show" category="Panel" text="Show Notifications" />
         <action id="org.diffscope.core.panel.tips" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="chat_sparkle" triggerable="false" diffscope:componentType="custom"/>
-        <action id="org.diffscope.core.panel.tips.show" category="Panel" text="Show Tips" />
         <action id="org.diffscope.core.panel.recentFiles" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="history" triggerable="false" diffscope:componentType="custom" />
-        <action id="org.diffscope.core.panel.recentFiles.show" category="Panel" text="Show Recent Files" />
         <action id="org.diffscope.core.panel.recoveryFiles" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="document_sync" triggerable="false" diffscope:componentType="custom" />
-        <action id="org.diffscope.core.panel.recoveryFiles.show" category="Panel" text="Show Recovery Files" />
         <action id="org.diffscope.core.widget.digitalClock" category="Widget" triggerable="false" diffscope:componentType="widget"/>
         <action id="org.diffscope.core.widget.tempoTimeSignatureIndicator" category="Widget" triggerable="false" diffscope:componentType="widget"/>
 

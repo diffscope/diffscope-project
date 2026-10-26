@@ -139,7 +139,7 @@ ActionCollection {
                         const addPanel = checked
                         checked = Qt.binding(() => Boolean(allPanelAction.panel?.group))
                         if (addPanel)
-                            collection.session.showPanel(entry.id)
+                            collection.session.context.show(panel)
                         else
                             collection.session.context.remove(panel)
                     }
@@ -178,7 +178,7 @@ ActionCollection {
                         const activatePanel = checked
                         checked = Qt.binding(() => Boolean(activePanelAction.panel) && collection.session?.context?.activePanel === activePanelAction.panel)
                         if (activatePanel)
-                            collection.session.showPanel(entry.id)
+                            collection.session.context.show(panel)
                         else if (panel?.group?.canHide(panel))
                             collection.session.context.hide(panel)
                     }
@@ -186,21 +186,6 @@ ActionCollection {
                 onObjectAdded: (index, object) => activePanels.insertAction(index, object)
                 onObjectRemoved: (index, object) => activePanels.removeAction(object)
             }
-        }
-    }
-
-    readonly property Instantiator showCommands: Instantiator {
-        model: collection.addOn?.registeredPanelIds ?? []
-        delegate: QtObject {
-            id: showCommand
-            required property string modelData
-
-            readonly property Component actionComponent: Action {
-                enabled: collection.usable
-                onTriggered: collection.session.showPanel(showCommand.modelData)
-            }
-            Component.onCompleted: if (collection.usable)
-                collection.addOn.windowHandle.actionContext.addAction(showCommand.modelData + ".show", actionComponent)
         }
     }
 }

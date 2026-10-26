@@ -1685,41 +1685,6 @@
         <source>Active &amp;Panel</source>
         <translation type="unfinished">活动面板(&amp;P)</translation>
     </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6799"/>
-        <source>Show Properties</source>
-        <translation type="unfinished">显示属性</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6801"/>
-        <source>Show Plugins</source>
-        <translation type="unfinished">显示插件</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6803"/>
-        <source>Show Singer Picker</source>
-        <translation type="unfinished">显示歌手选择器</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6805"/>
-        <source>Show Notifications</source>
-        <translation type="unfinished">显示通知</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6807"/>
-        <source>Show Tips</source>
-        <translation type="unfinished">显示提示</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6808"/>
-        <source>Show Recent Files</source>
-        <translation type="unfinished">显示最近使用的文件</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6809"/>
-        <source>Show Recovery Files</source>
-        <translation type="unfinished">显示恢复文件</translation>
-    </message>
 </context>
 <context>
     <name>ClipPropertyEditor</name>

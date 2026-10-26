@@ -604,21 +604,6 @@
         <translation type="vanished">新建</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4024"/>
-        <source>Show Arrangement</source>
-        <translation type="unfinished">显示编排</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4026"/>
-        <source>Show Mixer</source>
-        <translation type="unfinished">显示混音器</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4028"/>
-        <source>Show Piano Roll</source>
-        <translation type="unfinished">显示钢琴卷帘</translation>
-    </message>
-    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4019"/>
         <source>Edit Previous Track</source>
         <translation type="unfinished">编辑上一轨道</translation>

@@ -159,11 +159,6 @@
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished">工作区面板小部件</translation>
     </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="969"/>
-        <source>Show Effects</source>
-        <translation type="unfinished">显示效果器</translation>
-    </message>
 </context>
 <context>
     <name>Audio::AudioExporter</name>

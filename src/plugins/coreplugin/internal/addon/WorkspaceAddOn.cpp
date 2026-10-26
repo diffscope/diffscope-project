@@ -50,6 +50,7 @@ namespace Core::Internal {
         auto window = windowHandle()->cast<ProjectWindowInterface>();
         m_session = new WorkspaceSession(window, this);
         window->addObject(m_session);
+        window->addObject(m_session->context());
 
         QQmlComponent helper(RuntimeInterface::qmlEngine(), "DiffScope.Core", "WorkspaceAddOnHelper");
         if (helper.isError()) {
@@ -96,10 +97,6 @@ namespace Core::Internal {
     }
 
     void WorkspaceAddOn::extensionsInitialized() {
-        if (auto catalog = RuntimeInterface::instance()->getFirstObject<WorkspacePanelCatalog>())
-            for (const auto &entry : catalog->entries())
-                m_registeredPanelIds.append(entry.toMap().value("id").toString());
-        Q_EMIT registeredPanelIdsChanged();
         m_session->initialize();
         Q_EMIT panelEntriesChanged();
         m_session->apply(m_workspaceManager->currentLayout());
@@ -251,10 +248,6 @@ namespace Core::Internal {
     QVariantList WorkspaceAddOn::newPanelEntries() const {
         auto catalog = RuntimeInterface::instance()->getFirstObject<WorkspacePanelCatalog>();
         return catalog ? catalog->pendingEntries() : QVariantList{};
-    }
-
-    QStringList WorkspaceAddOn::registeredPanelIds() const {
-        return m_registeredPanelIds;
     }
 }
 

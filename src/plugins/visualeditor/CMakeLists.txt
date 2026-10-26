@@ -35,6 +35,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         uishell
         QAKCore
         QAKQuick
+        svscraft::Quick
         svscraft::QmlExtras
         dspxmodelCore
         dspxmodelORM

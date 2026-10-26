@@ -17,6 +17,8 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
+#include <SVSCraftQuick/DockingContext.h>
+
 #include <ScopicFlowCore/ClavierViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/TimeViewModel.h>
@@ -105,8 +107,11 @@ namespace VisualEditor::Internal {
     void PianoRollAddOn::extensionsInitialized() {
         auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
         connect(pianoRollPanelInterface(), &PianoRollPanelInterface::editingClipChanged, this, [this, window] {
-            if (pianoRollPanelInterface()->editingClip())
-                window->triggerAction("org.diffscope.visualeditor.panel.pianoRoll.show");
+            if (!pianoRollPanelInterface()->editingClip())
+                return;
+
+            if (auto context = window->getFirstObject<SVS::DockingContext>())
+                context->show(context->panel("org.diffscope.visualeditor.panel.pianoRoll"));
         });
     }
 

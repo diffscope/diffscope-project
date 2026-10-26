@@ -326,9 +326,6 @@ namespace Core::Internal {
                 auto next = m_pendingLayout;
                 m_pendingLayout = {};
                 QTimer::singleShot(0, this, [this, next] { apply(next); });
-            } else if (!m_pendingShow.isEmpty()) {
-                auto id = std::exchange(m_pendingShow, {});
-                QTimer::singleShot(0, this, [this, id] { showPanel(id); });
             }
         };
         if (ids.isEmpty()) {
@@ -417,6 +414,10 @@ namespace Core::Internal {
             request->reject("workspaceBusy");
             return;
         }
+        if (m_pending.contains(request->panel()->key())) {
+            request->reject("contentPending");
+            return;
+        }
         ensureContent(request->panel(), false, [this, guard](bool ready) {
             if (!guard)
                 return;
@@ -468,22 +469,6 @@ namespace Core::Internal {
         return layout;
     }
 
-    void WorkspaceSession::showPanel(const QString &id) {
-        if (m_shuttingDown)
-            return;
-        if (m_busy) {
-            m_pendingShow = id;
-            return;
-        }
-        if (m_pending.contains(id))
-            return;
-        auto panel = ensurePanel(id);
-        if (panel->group())
-            m_context->show(panel);
-        else
-            m_context->requestFloat(panel);
-    }
-
     void WorkspaceSession::disposeFloatingHosts() {
         for (auto host : m_context->hosts())
             if (host != m_embeddedHost) {
@@ -504,7 +489,6 @@ namespace Core::Internal {
         Q_EMIT shuttingDownChanged();
         m_context->cancelDrag();
         m_pending.clear();
-        m_pendingShow.clear();
         m_pendingLayout = {};
         disposeFloatingHosts();
         m_embeddedHost->layout()->clear();

@@ -125,11 +125,6 @@
         <translation type="unfinished">Separate Audio...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1034"/>
-        <source>Show Synthesis Services</source>
-        <translation type="unfinished">Show Synthesis Services</translation>
-    </message>
-    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1039"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished">Workspace Panel Widgets</translation>

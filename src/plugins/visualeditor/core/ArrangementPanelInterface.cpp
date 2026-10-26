@@ -14,6 +14,8 @@
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <SVSCraftQuick/DockingContext.h>
+
 #include <ScopicFlowCore/ClipPaneInteractionController.h>
 #include <ScopicFlowCore/LabelSequenceInteractionController.h>
 #include <ScopicFlowCore/ScrollBehaviorViewModel.h>
@@ -76,7 +78,8 @@ namespace VisualEditor {
                 selectionModel->select(singingClip, dspx::SelectionModel::Select);
                 auto pianoRollPanelInterface = PianoRollPanelInterface::of(windowHandle);
                 pianoRollPanelInterface->setEditingClip(singingClip);
-                windowHandle->triggerAction("org.diffscope.visualeditor.panel.pianoRoll.show");
+                if (auto context = windowHandle->getFirstObject<SVS::DockingContext>())
+                    context->show(context->panel("org.diffscope.visualeditor.panel.pianoRoll"));
 
                 if (!Internal::EditorPreference::centerPianoRollOnClipDoubleClick() || !clipPane || !clipPane->window())
                     return;
