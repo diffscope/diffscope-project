@@ -180,6 +180,13 @@ Window {
             }
             color: Theme.backgroundPrimaryColor
             visible: windowAgent.framelessSetup && (!window.isMacOS || window.visibility !== Window.FullScreen)
+            Item {
+                id: titleBarArea
+                anchors.left: parent.left
+                anchors.right: parent.right
+                y: titleBarSpacer.y
+                height: titleBarSpacer.height
+            }
             RowLayout {
                 anchors.fill: parent
                 spacing: 0
@@ -204,7 +211,7 @@ Window {
                     visible: window.titleBarStyle === ProjectWindow.Style_Windows && !window.useSeparatedMenu && menuBar.height !== 0
                 }
                 Item {
-                    id: titleBarArea
+                    id: titleBarSpacer
                     Layout.fillWidth: true
                     Layout.fillHeight: window.titleBarStyle !== ProjectWindow.Style_MacOS
                     Layout.preferredHeight: window.titleBarStyle === ProjectWindow.Style_MacOS ? titleBar.height + (toolBar.visible ? toolBar.height : 0) : 0
