@@ -4,6 +4,7 @@
 #include "AudioPlugin.h"
 
 #include <QApplication>
+#include <QDir>
 #include <QPointer>
 #include <QQmlComponent>
 #include <QSplashScreen>
@@ -19,6 +20,7 @@
 
 #include <SVSCraftQuick/MessageBox.h>
 
+#include <TalcsDevice/AudioDriverManager.h>
 #include <TalcsDevice/OutputContext.h>
 
 #include <coreplugin/CoreInterface.h>
@@ -117,6 +119,10 @@ namespace Audio::Internal {
 
     void AudioPlugin::initializeAudioSystem() {
         new AudioSystem(this);
+#ifdef Q_OS_LINUX
+        const auto directory = QDir(pluginSpec()->location()).absoluteFilePath(QStringLiteral(AUDIO_TALCS_LIBRARY_RELATIVE_DIR));
+        AudioSystem::outputSystem()->outputContext()->driverManager()->loadBuiltInDriverLibraries(directory);
+#endif
         GlobalAudioContextPrivate::create(this);
     }
 

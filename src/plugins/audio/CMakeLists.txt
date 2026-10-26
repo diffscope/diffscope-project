@@ -43,6 +43,12 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         internal/**
 )
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    add_dependencies(${PROJECT_NAME} TalcsPipeWire TalcsPulseAudio TalcsJack TalcsAlsa)
+    file(RELATIVE_PATH _talcs_library_dir "/${CK_INSTALL_PLUGINS_DIR}/audio" "/${CK_INSTALL_LIBRARY_DIR}")
+    target_compile_definitions(${PROJECT_NAME} PRIVATE AUDIO_TALCS_LIBRARY_RELATIVE_DIR="${_talcs_library_dir}")
+endif()
+
 file(GLOB _res_soundfx res/soundfx/*)
 qt_add_resources(${PROJECT_NAME} soundfx
     PREFIX /diffscope/audio/soundfx

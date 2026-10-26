@@ -47,6 +47,18 @@ endif()
 
 set(_exclude)
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    # Native driver modules are loaded at runtime and are not link dependencies of the audio plugin.
+    install(TARGETS TalcsPipeWire TalcsPulseAudio TalcsJack TalcsAlsa
+        LIBRARY DESTINATION ${CK_INSTALL_LIBRARY_DIR}
+    )
+    # Native audio clients and their backend modules must use the deployment environment.
+    list(APPEND _exclude
+        "/lib(pipewire-0[.]3|pulse(-simple|-mainloop-glib|-common-[^/]*)?|jack(net|server)?|asound|atopology)[.]so([.][^/]*)?$"
+        "/(pipewire-0[.]3|spa-0[.]2|pulseaudio)/"
+    )
+endif()
+
 if(UNIX AND NOT APPLE)
     # Libraries resolved from the system library directories (glibc, graphics drivers, X11, D-Bus,
     # ...) must come from the target system. Qt and vcpkg libraries resolve from their own
