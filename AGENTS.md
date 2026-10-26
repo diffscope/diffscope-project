@@ -16,7 +16,7 @@ DiffScope is a C++20/Qt 6 singing-voice editor. Keep `src/app` a thin launcher; 
 - `src/share/`: shared install/deployment rules used after ChorusKit finishes configuring the application.
 - `src/libs/3rdparty/`: Git submodules. Treat these as upstream projects; do not mix ordinary feature changes with submodule edits.
 - `src/libs/application/uishell/tests/`: standalone visual/smoke applications. `src/tests/` is reserved for application-wide tests.
-- `scripts/vcpkg-manifest/` and `scripts/vcpkg/`: dependency manifest and overlay ports/triplets. `scripts/ci/` is the packaging reference. `dist/` contains installers.
+- `scripts/vcpkg-manifest/`: dependency manifest. `scripts/vcpkg-sources.json` specifies the repositories and refs of vcpkg and of the overlays, which `scripts/vcpkg-workspace.cmake` checks out into the ignored directory `deps/`. The ignored file `scripts/vcpkg-sources.local.json` takes precedence over it, for example to use a local overlay through `"path"`. `scripts/ci/` is the packaging reference. `dist/` contains installers.
 
 Never commit generated files from `build/`, `cmake-build-*`, `out/`, `.qm`, MOC, QML cache, or synchronized include directories.
 
@@ -215,15 +215,16 @@ View-model bindings maintain explicit document-to-view and view-to-document maps
 
 ## Configure, Build, and Run
 
-Use a recursive checkout, CMake 3.19+, Qt 6.10-compatible development packages, Ninja, and a C++20 compiler. During vcpkg installation, expose the Qt CMake directory through `QT_DIR`/`Qt6_DIR` and retain those variables for overlay ports.
+Use a recursive checkout, CMake 3.19+, Qt 6.10-compatible development packages, Ninja, and a C++20 compiler. `scripts/vcpkg-workspace.cmake`, which is downloaded from https://github.com/stdware/dev-scripts and ignored by git, prepares vcpkg, the overlays, and the dependencies in `deps/`, and passes the Qt CMake directory to the ports that build against Qt. `cmake -P scripts/vcpkg-workspace.cmake help` lists its commands, and `--dry-run` prints the commands without running them. The configuration requires `CMAKE_TOOLCHAIN_FILE`, the toolchain of `deps/vcpkg`.
 
 Do not perform any test, build, run, or automatic formatting operations unless explicitly requested by the user. Also do not include any of these operations in the plan unless explicitly requested by the user.
 
 ```sh
 git submodule update --init --recursive
-<vcpkg>/vcpkg install --x-manifest-root=scripts/vcpkg-manifest --x-install-root=<vcpkg>/installed --triplet=<triplet>
+curl -fsSL -o scripts/vcpkg-workspace.cmake https://raw.githubusercontent.com/stdware/dev-scripts/main/scripts/vcpkg-workspace.cmake
+cmake -P scripts/vcpkg-workspace.cmake install --qt-dir <qt>/lib/cmake/Qt6 --triplet <triplet>
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug \
-  -DCMAKE_TOOLCHAIN_FILE=<vcpkg>/scripts/buildsystems/vcpkg.cmake \
+  -DCMAKE_TOOLCHAIN_FILE=deps/vcpkg/scripts/buildsystems/vcpkg.cmake \
   -DQt6_DIR=<qt>/lib/cmake/Qt6 -DAPPLICATION_BUILD_TESTS=ON \
   -DTALCS_DSPX=ON -DTALCS_WIDGETS=ON
 cmake --build build --parallel

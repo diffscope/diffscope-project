@@ -39,6 +39,11 @@ else()
     set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
 endif()
 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+# Sets the cache entry APPLICATION_TRIPLET, the triplet of the build such as x86_64-windows-msvc
+include(DetectTriplet)
+
 if(APPLICATION_INSTALL)
     include(GNUInstallDirs)
     include(CMakePackageConfigHelpers)

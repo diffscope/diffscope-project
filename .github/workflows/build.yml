@@ -78,7 +78,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       QT_VERSION: 6.11.2
-      VCPKG_REF: 39344dff01c5a5a0134caf2624cdd492f05d30ea
       VCPKG_DISABLE_METRICS: '1'
       INNOSETUP_REF: is-6_5_4
       DSSP_CHANNEL: nightly
@@ -168,10 +167,13 @@ jobs:
           "DSSP_DIRECTORY=$dsspDirectory" >> $env:GITHUB_ENV
 
       - name: Initialize Vcpkg
-        uses: ./.github/actions/initialize-vcpkg
+        id: vcpkg
+        uses: stdware/dev-scripts/actions/vcpkg-workspace@main
+        env:
+          VCPKG_KEEP_ENV_VARS: VCPKG_BUILD_TYPE;MACOSX_DEPLOYMENT_TARGET
         with:
-          ref: ${{ env.VCPKG_REF }}
-          use_cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
+          qt-dir: ${{ env.QT_ROOT_DIR }}
+          cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
 
       - name: Restore CCache cache
         if: inputs.build_type != 'nightly' && inputs.use_cache && inputs.use_ccache
@@ -185,6 +187,7 @@ jobs:
       - name: Build
         env:
           DSPM_EXECUTABLE: ${{ steps.download_dspm.outputs.path }}
+          VCPKG_ROOT_DIR: ${{ steps.vcpkg.outputs.vcpkg-root }}
         run: |
           $expectedRunnerArch = $env:ARTIFACT_ARCH -eq 'amd64' ? 'X64' : 'ARM64'
           if ($env:RUNNER_ARCH -ne $expectedRunnerArch) {
@@ -218,6 +221,8 @@ jobs:
           key: ${{ runner.os }}-ccache-${{ inputs.source_sha }}
 
       - name: Collect symbol files
+        env:
+          VCPKG_ROOT_DIR: ${{ steps.vcpkg.outputs.vcpkg-root }}
         run: |
           $output = & ./scripts/ci/Collect-Symbol-Files.ps1 `
             -VcpkgRootDir $env:VCPKG_ROOT_DIR `
