@@ -33,7 +33,7 @@ runs:
       run: |
         sudo apt update
         sudo apt-get -y install `
-          ninja-build ccache file binutils patchelf p7zip-full pkg-config tar xz-utils unzip `
+          ninja-build ccache file binutils patchelf p7zip-full pkg-config tar xz-utils unzip autoconf automake libtool python3 `
           libasound2-dev libatopology-dev  `
           libxrandr-dev libxinerama-dev libxrender-dev libxcomposite-dev libxcursor-dev `
           libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev `
