@@ -128,6 +128,7 @@ namespace Audio::Internal {
                 return;
             }
             SVS::DesktopServices::reveal(QFileInfo(m_exportedFiles.first()).absolutePath(), m_exportedFiles);
+            m_exportCompletedMessage->close();
         });
 
         auto io = GlobalAudioContext::formatManager()->getFormatLoad(":/diffscope/audio/soundfx/export_completed.ogg");

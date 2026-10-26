@@ -4,6 +4,7 @@
 #include "AudioPlugin.h"
 
 #include <QApplication>
+#include <QPointer>
 #include <QQmlComponent>
 #include <QSplashScreen>
 
@@ -79,9 +80,12 @@ namespace Audio::Internal {
             message->setButtons({tr("Open Audio Output Settings")});
             message->setPrimaryButton(0);
             connect(message, &Core::NotificationMessage::closed, message, &QObject::deleteLater);
-            connect(message, &Core::NotificationMessage::buttonClicked, this, [](int index) {
+            connect(message, &Core::NotificationMessage::buttonClicked, message, [message = QPointer<Core::NotificationMessage>(message)](int index) {
                 if (index == 0) {
                     Core::CoreInterface::execSettingsDialog(QStringLiteral("audio.AudioOutput"), QApplication::focusWindow());
+                    if (message) {
+                        message->close();
+                    }
                 }
             }, Qt::QueuedConnection);
             Core::CoreInterface::sendNotification(message, Core::CoreInterface::AutoHide);
