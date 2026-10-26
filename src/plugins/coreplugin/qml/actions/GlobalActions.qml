@@ -42,7 +42,7 @@ ActionCollection {
         actionId: "org.diffscope.core.file.open"
         Action {
             onTriggered: (o) => {
-                CoreInterface.openFile("", d.windowHandle.window)
+                CoreInterface.openFiles([], d.windowHandle.window)
             }
         }
     }

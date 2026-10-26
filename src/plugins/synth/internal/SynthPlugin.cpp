@@ -27,7 +27,9 @@
 #include <synth/internal/DsspServerAddOn.h>
 #include <synth/internal/DsspServerManager.h>
 #include <synth/internal/DsspServerPage.h>
+#include <synth/internal/PackageFileOpenHandler.h>
 #include <synth/internal/PackageManagerAddOn.h>
+#include <synth/internal/PackageManagerController.h>
 #include <synth/internal/PackageManagerPage.h>
 #include <synth/internal/PackageManagerSettings.h>
 #include <synth/internal/ServicesPage.h>
@@ -65,6 +67,9 @@ namespace Synth::Internal {
         m_dsspServer = new DsspServerManager(pluginSpec()->location(), this);
         Core::RuntimeInterface::instance()->addObject(m_dsspServer);
         m_dsspServer->initialize();
+
+        m_packageManager = new PackageManagerController(this);
+        Core::CoreInterface::fileOpenDispatcher()->registerHandler(new PackageFileOpenHandler(m_packageManager, this));
 
         auto rootPage = new SynthesisPage;
         rootPage->addPage(new ArchitecturePage);

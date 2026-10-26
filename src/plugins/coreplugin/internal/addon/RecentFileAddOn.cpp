@@ -326,7 +326,7 @@ namespace Core::Internal {
 
     void RecentFileAddOn::openRecentFile(int index) {
         auto filePath = CoreInterface::recentFileCollection()->recentFiles().at(index);
-        CoreInterface::openFile(filePath);
+        CoreInterface::openFiles({filePath});
     }
 
     void RecentFileAddOn::removeRecentFile(int index) {

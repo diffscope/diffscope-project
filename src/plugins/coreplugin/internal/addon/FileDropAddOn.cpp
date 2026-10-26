@@ -18,7 +18,7 @@ namespace Core::Internal {
         if (!window) {
             qFatal("FileDropAddOn requires a QQuickWindow");
         }
-        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectFileDropArea");
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "FileDropArea");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
@@ -29,7 +29,7 @@ namespace Core::Internal {
             qFatal() << component.errorString();
         }
         if (!qobject_cast<QQuickItem *>(object)) {
-            qFatal("ProjectFileDropArea in DiffScope.Core is not QQuickItem");
+            qFatal("FileDropArea in DiffScope.Core is not QQuickItem");
         }
     }
     void FileDropAddOn::extensionsInitialized() {

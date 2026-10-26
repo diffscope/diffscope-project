@@ -10,6 +10,7 @@ namespace Synth::Internal {
 
     class SynthService;
     class DsspServerManager;
+    class PackageManagerController;
 
     class SynthPlugin : public ExtensionSystem::IPlugin {
         Q_OBJECT
@@ -28,6 +29,7 @@ namespace Synth::Internal {
 
         SynthService *m_service{};
         DsspServerManager *m_dsspServer{};
+        PackageManagerController *m_packageManager{};
     };
 
 }

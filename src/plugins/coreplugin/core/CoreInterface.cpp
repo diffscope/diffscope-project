@@ -16,6 +16,7 @@
 #include <QFileDialog>
 #include <QFontDatabase>
 #include <QMessageBox>
+#include <QPointer>
 #include <QQmlComponent>
 #include <QQmlEngine>
 #include <QQuickWindow>
@@ -79,6 +80,7 @@ namespace Core {
         DefaultLyricManager *defaultLyricManager;
         SingerRegistry *singerRegistry;
         MixedSingerPresets *mixedSingerPresets;
+        FileOpenDispatcher *fileOpenDispatcher;
         Internal::NotificationCenter *notificationCenter;
 
         void init() {
@@ -92,6 +94,7 @@ namespace Core {
             defaultLyricManager = new DefaultLyricManager(q);
             singerRegistry = new SingerRegistry(q);
             mixedSingerPresets = new MixedSingerPresets(q);
+            fileOpenDispatcher = new FileOpenDispatcher(q);
             notificationCenter = new Internal::NotificationCenter(q);
             QObject::connect(q, &CoreInterface::resetAllDoNotShowAgainRequested,
                              notificationCenter, &Internal::NotificationCenter::clearHiddenMessageIdentifiers);
@@ -142,6 +145,11 @@ namespace Core {
     MixedSingerPresets *CoreInterface::mixedSingerPresets() {
         Q_ASSERT(instance());
         return instance()->d_func()->mixedSingerPresets;
+    }
+
+    FileOpenDispatcher *CoreInterface::fileOpenDispatcher() {
+        Q_ASSERT(instance());
+        return instance()->d_func()->fileOpenDispatcher;
     }
 
     static Internal::NotificationManager::NotificationBubbleMode toInternalNotificationBubbleMode(CoreInterface::NotificationBubbleMode mode) {
@@ -436,17 +444,28 @@ namespace Core {
         return windowInterface;
     }
 
-    ProjectWindowInterface *CoreInterface::openFile(const QString &filePath_, QWindow *parent) {
-        qCInfo(lcCoreInterface) << "Open file" << filePath_;
+    void CoreInterface::openFiles(const QStringList &filePaths, QWindow *parent) {
+        if (!filePaths.isEmpty()) {
+            fileOpenDispatcher()->openFiles(filePaths, parent);
+            return;
+        }
+        const QPointer<QWindow> parentWindow(parent);
+        OpenSaveProjectFileScenario scenario;
+        scenario.setWindow(parent);
+        const auto filePath = scenario.openProjectFile();
+        if (!filePath.isEmpty()) {
+            fileOpenDispatcher()->openFiles({filePath}, parentWindow);
+        }
+    }
+
+    ProjectWindowInterface *CoreInterface::openProjectFile(const QString &filePath, QWindow *parent) {
+        if (filePath.isEmpty()) {
+            return nullptr;
+        }
+        qCInfo(lcCoreInterface) << "Open project file" << filePath;
         Internal::ProjectStartupTimerAddOn::startTimer();
         auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
         projectDocumentContext->openSaveProjectFileScenario()->setWindow(parent);
-        auto filePath = filePath_;
-        if (filePath.isEmpty()) {
-            filePath = projectDocumentContext->openSaveProjectFileScenario()->openProjectFile();
-            if (filePath.isEmpty())
-                return nullptr;
-        }
 
         auto windows = windowSystem()->windows();
         auto openedWindow = std::ranges::find_if(windows, [filePath](WindowInterface *windowInterface) {

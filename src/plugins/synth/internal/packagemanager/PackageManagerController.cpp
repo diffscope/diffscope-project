@@ -453,6 +453,10 @@ namespace Synth::Internal {
     }
 
     void PackageManagerController::installPackages(const QList<QUrl> &files) {
+        installPackages(files, m_window.data());
+    }
+
+    void PackageManagerController::installPackages(const QList<QUrl> &files, QWindow *parent) {
         if (m_refreshing || m_uninstalling || m_installing || packageOperationActive() || files.isEmpty())
             return;
         setInstalling(true);
@@ -463,7 +467,7 @@ namespace Synth::Internal {
             qFatal() << component.errorString();
         auto object = component.createWithInitialProperties({
             {QStringLiteral("installModel"), QVariant::fromValue(&model)},
-            {QStringLiteral("transientParent"), QVariant::fromValue(m_window.data())},
+            {QStringLiteral("transientParent"), QVariant::fromValue(parent)},
         });
         if (!object)
             qFatal() << component.errorString();
@@ -473,7 +477,7 @@ namespace Synth::Internal {
         if (model.attemptedInstallation()) {
             QString errorMessage;
             if (!reloadPackageModel(&errorMessage, true))
-                showError(tr("Failed to refresh packages:\n\n%1").arg(errorMessage));
+                showError(tr("Failed to refresh packages:\n\n%1").arg(errorMessage), parent);
         }
     }
 
@@ -554,10 +558,10 @@ namespace Synth::Internal {
         Q_EMIT installingChanged();
     }
 
-    void PackageManagerController::showError(const QString &message) const {
+    void PackageManagerController::showError(const QString &message, QWindow *parent) const {
         SVS::MessageBox::critical(
             Core::RuntimeInterface::qmlEngine(),
-            m_window,
+            parent ? parent : m_window.data(),
             tr("Package Manager"),
             message
         );

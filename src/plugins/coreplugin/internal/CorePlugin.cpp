@@ -65,6 +65,7 @@
 #include <coreplugin/internal/MenuPage.h>
 #include <coreplugin/internal/NotificationAddOn.h>
 #include <coreplugin/internal/PlatformJumpListHelper.h>
+#include <coreplugin/internal/ProjectFileOpenHandler.h>
 #include <coreplugin/internal/ProjectStartupTimerAddOn.h>
 #include <coreplugin/internal/ProjectWindowNavigatorAddOn.h>
 #include <coreplugin/internal/PropertiesAddOn.h>
@@ -142,44 +143,42 @@ namespace Core::Internal {
     static constexpr char kFatalWithoutPlugins[] = "--fatal-without-plugins";
     static constexpr char kNoWarningPluginError[] = "--no-warning-plugin-error";
 
-    static ActionWindowInterfaceBase *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
+    static WindowInterface *initializeGui(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         qCDebug(lcCorePlugin) << "Initializing GUI" << options << args;
         if (options.contains(kOpenSettingsArg)) {
             qCInfo(lcCorePlugin) << "Open settings dialog with command line args";
             CoreInterface::execSettingsDialog("", nullptr);
         }
-        QList<ActionWindowInterfaceBase *> windowInterfaceList;
-        do {
-            if (!args.isEmpty()) {
-                for (const auto &arg : args) {
-                    auto filePath = QDir(workingDirectory).absoluteFilePath(arg);
-                    auto windowInterface = CoreInterface::openFile(filePath);
-                    if (windowInterface) {
-                        windowInterfaceList.append(windowInterface);
-                    }
-                }
-                if (!windowInterfaceList.isEmpty()) {
-                    break;
-                }
+        if (!args.isEmpty()) {
+            QStringList filePaths;
+            for (const auto &arg : args) {
+                filePaths.append(QDir(workingDirectory).absoluteFilePath(arg));
             }
+            CoreInterface::fileOpenDispatcher()->openFiles(filePaths);
+            if (auto windowInterface = CoreInterface::windowSystem()->firstWindow()) {
+                return windowInterface;
+            }
+        }
+        auto windowInterface = CoreInterface::windowSystem()->firstWindow();
+        if (!windowInterface || options.contains(kNewProjectArg)) {
+            windowInterface = nullptr;
             if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
                 qCInfo(lcCorePlugin) << "Create new project on startup";
-                windowInterfaceList.append(CoreInterface::newFile());
-            } else {
+                windowInterface = CoreInterface::newFile();
+            }
+            if (!windowInterface) {
                 qCInfo(lcCorePlugin) << "Open home window on startup";
                 CoreInterface::showHome();
-                windowInterfaceList.append(HomeWindowInterface::instance());
+                windowInterface = HomeWindowInterface::instance();
             }
-        } while (false);
-        for (auto windowInterface : windowInterfaceList) {
-            auto win = windowInterface->window();
-            if (win->visibility() == QWindow::Minimized) {
-                win->showNormal();
-            }
-            win->raise();
-            win->requestActivate();
         }
-        return windowInterfaceList.first();
+        auto win = windowInterface->window();
+        if (win->visibility() == QWindow::Minimized) {
+            win->showNormal();
+        }
+        win->raise();
+        win->requestActivate();
+        return windowInterface;
     }
 
     bool CorePlugin::initialize(const QStringList &arguments, QString *errorMessage) {
@@ -187,10 +186,9 @@ namespace Core::Internal {
         RuntimeInterface::splash()->showMessage(tr("Initializing core plugin..."));
         qCInfo(lcCorePlugin) << "Initializing";
 
-        // Handle FileOpenEvent
-        qApp->installEventFilter(this);
-
         initializeSingletons();
+        CoreInterface::fileOpenDispatcher()->setReady(false);
+        qApp->installEventFilter(this);
         initializeBehaviorPreference();
         initializeActions();
         initializeSettings();
@@ -218,11 +216,13 @@ namespace Core::Internal {
         }
         checkLastRun();
         checkPlugins();
+        CoreInterface::fileOpenDispatcher()->registerHandler(new ProjectFileOpenHandler(this));
     }
 
     bool CorePlugin::delayedInitialize() {
         RuntimeInterface::splash()->showMessage(tr("Initializing GUI..."));
         qCInfo(lcCorePlugin) << "Initializing GUI";
+        CoreInterface::fileOpenDispatcher()->setReady(true);
         // TODO plugin arguments
         auto args = QApplication::arguments();
         auto windowInterface = initializeGui(args, QDir::currentPath(), ExtensionSystem::PluginManager::arguments());
@@ -240,8 +240,12 @@ namespace Core::Internal {
                 return QObject::eventFilter(watched, event);
             }
         };
-        auto listener = new ExposedListener(win);
-        win->installEventFilter(listener);
+        if (win->isExposed()) {
+            RuntimeInterface::splash()->close();
+        } else {
+            auto listener = new ExposedListener(win);
+            win->installEventFilter(listener);
+        }
         QApplication::setQuitOnLastWindowClosed(true);
         return false;
     }
@@ -256,9 +260,7 @@ namespace Core::Internal {
             const auto filePath = static_cast<QFileOpenEvent *>(event)->file();
             if (!filePath.isEmpty()) {
                 auto firstWindow = CoreInterface::windowSystem()->firstWindow();
-                if (auto windowInterface = CoreInterface::openFile(filePath, firstWindow ? firstWindow->window() : nullptr)) {
-                    ProjectWindowNavigatorAddOn::raiseWindow(windowInterface);
-                }
+                CoreInterface::fileOpenDispatcher()->openFiles({filePath}, firstWindow ? firstWindow->window() : nullptr);
             }
             return true;
         }

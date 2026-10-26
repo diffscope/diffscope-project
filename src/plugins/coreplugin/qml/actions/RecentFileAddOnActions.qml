@@ -31,7 +31,7 @@ ActionCollection {
                         required property var modelData
                         text: `${index < 9 ? "&" + Qt.locale().toString(index + 1) + ". " : ""}${modelData.name} [${modelData.path}]`
                         onTriggered: (o) => {
-                            Qt.callLater(() => CoreInterface.openFile(modelData.path, o.Window.window))
+                            Qt.callLater(() => CoreInterface.openFiles([modelData.path], o.Window.window))
                         }
                     }
                 }

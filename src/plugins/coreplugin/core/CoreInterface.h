@@ -5,12 +5,14 @@
 #define DIFFSCOPE_COREPLUGIN_COREINTERFACE_H
 
 #include <QObject>
+#include <QStringList>
 #include <qqmlintegration.h>
 
 #include <CoreApi/coreinterfacebase.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
+#include <coreplugin/FileOpenDispatcher.h>
 #include <coreplugin/coreglobal.h>
 
 class QQmlEngine;
@@ -51,6 +53,7 @@ namespace Core {
         Q_PROPERTY(DefaultLyricManager *defaultLyricManager READ defaultLyricManager CONSTANT)
         Q_PROPERTY(SingerRegistry *singerRegistry READ singerRegistry CONSTANT)
         Q_PROPERTY(MixedSingerPresets *mixedSingerPresets READ mixedSingerPresets CONSTANT)
+        Q_PROPERTY(FileOpenDispatcher *fileOpenDispatcher READ fileOpenDispatcher CONSTANT)
     public:
         static CoreInterface *instance();
         static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
@@ -67,6 +70,8 @@ namespace Core {
         static SingerRegistry *singerRegistry();
 
         static MixedSingerPresets *mixedSingerPresets();
+
+        static FileOpenDispatcher *fileOpenDispatcher();
 
         static constexpr const char *dspxEditorId() {
             return "org.diffscope.diffscope";
@@ -92,7 +97,8 @@ namespace Core {
     public:
         Q_INVOKABLE static ProjectWindowInterface *newFile(QWindow *parent = nullptr);
         Q_INVOKABLE static ProjectWindowInterface *newFileFromTemplate(const QString &templateFilePath, QWindow *parent = nullptr);
-        Q_INVOKABLE static ProjectWindowInterface *openFile(const QString &filePath, QWindow *parent = nullptr);
+        Q_INVOKABLE static void openFiles(const QStringList &filePaths, QWindow *parent = nullptr);
+        Q_INVOKABLE static ProjectWindowInterface *openProjectFile(const QString &filePath, QWindow *parent = nullptr);
         Q_INVOKABLE static ProjectWindowInterface *createProjectWindow(ProjectDocumentContext *projectDocumentContext);
 
     Q_SIGNALS:

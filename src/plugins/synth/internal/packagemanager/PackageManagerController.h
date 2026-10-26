@@ -41,6 +41,7 @@ namespace Synth::Internal {
         Q_INVOKABLE void refresh();
         Q_INVOKABLE void uninstallPackage(int index);
         Q_INVOKABLE void installPackages(const QList<QUrl> &files);
+        void installPackages(const QList<QUrl> &files, QWindow *parent);
 
     Q_SIGNALS:
         void refreshStarted();
@@ -55,7 +56,7 @@ namespace Synth::Internal {
         void setRefreshing(bool refreshing);
         void setUninstalling(bool uninstalling);
         void setInstalling(bool installing);
-        void showError(const QString &message) const;
+        void showError(const QString &message, QWindow *parent = nullptr) const;
 
         QStandardItemModel m_packageModel;
         bool m_refreshing{};
