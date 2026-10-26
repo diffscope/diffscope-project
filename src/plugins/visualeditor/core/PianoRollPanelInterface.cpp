@@ -224,34 +224,34 @@ namespace VisualEditor {
                     case sflow::ParameterEditorInteractionController::Brush:
                     case sflow::ParameterEditorInteractionController::Eraser:
                     case sflow::ParameterEditorInteractionController::FreeRangeSelect:
-                    case sflow::ParameterEditorInteractionController::Pen:
-                        if (interaction == sflow::ParameterEditorInteractionController::Pen)
-                            ProjectViewModelContext::of(windowHandle)->parameterEditorContext()
-                                ->pitchBinding()->focusAnchorLayer();
-                        else
-                            ProjectViewModelContext::of(windowHandle)->parameterEditorContext()
-                                ->pitchBinding()->focusFreeLayer();
+                        ProjectViewModelContext::of(windowHandle)->parameterEditorContext()
+                            ->pitchBinding()->focusFreeLayer();
                         pitchController->setPrimaryItemInteraction(interaction);
                         pitchController->setPrimarySceneInteraction(interaction);
+                        pitchController->setPrimarySelectInteraction(sflow::ParameterEditorInteractionController::FreeRangeSelect);
                         pitchController->setSecondaryItemInteraction(alternateInteraction);
                         pitchController->setSecondarySceneInteraction(alternateInteraction);
+                        pitchController->setSecondarySelectInteraction(sflow::ParameterEditorInteractionController::FreeRangeSelect);
                         break;
                     case sflow::ParameterEditorInteractionController::Pointer:
+                    case sflow::ParameterEditorInteractionController::Pen:
                     case sflow::ParameterEditorInteractionController::AnchorRubberBandSelect:
                         ProjectViewModelContext::of(windowHandle)->parameterEditorContext()
                             ->pitchBinding()->focusAnchorLayer();
                         pitchController->setPrimaryItemInteraction(interaction);
                         pitchController->setPrimarySceneInteraction(interaction);
-                        pitchController->setPrimarySelectInteraction(interaction);
+                        pitchController->setPrimarySelectInteraction(sflow::ParameterEditorInteractionController::AnchorRubberBandSelect);
                         pitchController->setSecondaryItemInteraction(alternateInteraction);
                         pitchController->setSecondarySceneInteraction(alternateInteraction);
-                        pitchController->setSecondarySelectInteraction(alternateInteraction);
+                        pitchController->setSecondarySelectInteraction(sflow::ParameterEditorInteractionController::AnchorTimeRangeSelect);
                         break;
                     case sflow::ParameterEditorInteractionController::ConvertAnchor:
                         ProjectViewModelContext::of(windowHandle)->parameterEditorContext()
                             ->pitchBinding()->focusAnchorLayer();
                         pitchController->setPrimaryItemInteraction(interaction);
+                        pitchController->setPrimarySelectInteraction(sflow::ParameterEditorInteractionController::AnchorRubberBandSelect);
                         pitchController->setSecondaryItemInteraction(alternateInteraction);
+                        pitchController->setSecondarySelectInteraction(sflow::ParameterEditorInteractionController::AnchorTimeRangeSelect);
                         break;
                     default:
                         break;

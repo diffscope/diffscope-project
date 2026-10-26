@@ -232,24 +232,28 @@ QtObject {
             case ParameterEditorInteractionController.Brush:
             case ParameterEditorInteractionController.Eraser:
             case ParameterEditorInteractionController.FreeRangeSelect:
-            case ParameterEditorInteractionController.Pen:
                 controller.primaryItemInteraction = tool
                 controller.primarySceneInteraction = tool
+                controller.primarySelectInteraction = ParameterEditorInteractionController.FreeRangeSelect
                 controller.secondaryItemInteraction = alternate
                 controller.secondarySceneInteraction = alternate
+                controller.secondarySelectInteraction = ParameterEditorInteractionController.FreeRangeSelect
                 break
             case ParameterEditorInteractionController.Pointer:
+            case ParameterEditorInteractionController.Pen:
             case ParameterEditorInteractionController.AnchorRubberBandSelect:
                 controller.primaryItemInteraction = tool
                 controller.primarySceneInteraction = tool
-                controller.primarySelectInteraction = tool
+                controller.primarySelectInteraction = ParameterEditorInteractionController.AnchorRubberBandSelect
                 controller.secondaryItemInteraction = alternate
                 controller.secondarySceneInteraction = alternate
-                controller.secondarySelectInteraction = alternate
+                controller.secondarySelectInteraction = ParameterEditorInteractionController.AnchorTimeRangeSelect
                 break
             case ParameterEditorInteractionController.ConvertAnchor:
                 controller.primaryItemInteraction = tool
+                controller.primarySelectInteraction = ParameterEditorInteractionController.AnchorRubberBandSelect
                 controller.secondaryItemInteraction = alternate
+                controller.secondarySelectInteraction = ParameterEditorInteractionController.AnchorTimeRangeSelect
                 break
             }
         }
