@@ -90,6 +90,13 @@ ActionCollection {
     }
 
     ActionItem {
+        actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchTransformTool"
+        ToolAction {
+            tool: PianoRollPanelInterface.PitchTransformTool
+        }
+    }
+
+    ActionItem {
         actionId: "org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool"
         ToolAction {
             tool: PianoRollPanelInterface.PitchEraserTool

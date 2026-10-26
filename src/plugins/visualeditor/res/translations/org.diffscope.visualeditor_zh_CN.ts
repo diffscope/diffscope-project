@@ -83,6 +83,11 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml" line="62"/>
+        <source>Drag vertically to shift the pitch curve; drag horizontally to scale the pitch curve.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4065"/>
         <source>Select, move, or resize clips.</source>
         <translation type="unfinished">选择、移动剪辑或调整其长度。</translation>
@@ -235,6 +240,11 @@
 </context>
 <context>
     <name>Application::ActionText</name>
+    <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml" line="62"/>
+        <source>Pitch Transform Tool</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3996"/>
         <source>Pointer Tool</source>
@@ -1150,6 +1160,11 @@
 </context>
 <context>
     <name>ParameterTrack</name>
+    <message>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="422"/>
+        <source>Transform Tool</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="267"/>
         <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="268"/>

@@ -111,6 +111,7 @@ namespace VisualEditor {
             PitchPencilTool,
             PitchLineTool,
             PitchBrushTool,
+            PitchTransformTool,
             PitchEraserTool,
             PitchRangeSelectTool,
             PitchPointerTool,

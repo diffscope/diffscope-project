@@ -184,6 +184,8 @@ namespace VisualEditor {
                             return sflow::ParameterEditorInteractionController::Line;
                         case PianoRollPanelInterface::PitchBrushTool:
                             return sflow::ParameterEditorInteractionController::Brush;
+                        case PianoRollPanelInterface::PitchTransformTool:
+                            return sflow::ParameterEditorInteractionController::Transform;
                         case PianoRollPanelInterface::PitchEraserTool:
                             return sflow::ParameterEditorInteractionController::Eraser;
                         case PianoRollPanelInterface::PitchRangeSelectTool:
@@ -209,6 +211,8 @@ namespace VisualEditor {
                             return sflow::ParameterEditorInteractionController::Eraser;
                         case sflow::ParameterEditorInteractionController::Eraser:
                             return sflow::ParameterEditorInteractionController::Pencil;
+                        case sflow::ParameterEditorInteractionController::FreeRangeSelect:
+                            return sflow::ParameterEditorInteractionController::Transform;
                         case sflow::ParameterEditorInteractionController::Pointer:
                         case sflow::ParameterEditorInteractionController::Pen:
                             return sflow::ParameterEditorInteractionController::ConvertAnchor;
@@ -222,6 +226,7 @@ namespace VisualEditor {
                     case sflow::ParameterEditorInteractionController::Pencil:
                     case sflow::ParameterEditorInteractionController::Line:
                     case sflow::ParameterEditorInteractionController::Brush:
+                    case sflow::ParameterEditorInteractionController::Transform:
                     case sflow::ParameterEditorInteractionController::Eraser:
                     case sflow::ParameterEditorInteractionController::FreeRangeSelect:
                         ProjectViewModelContext::of(windowHandle)->parameterEditorContext()
@@ -231,7 +236,10 @@ namespace VisualEditor {
                         pitchController->setPrimarySelectInteraction(sflow::ParameterEditorInteractionController::FreeRangeSelect);
                         pitchController->setSecondaryItemInteraction(alternateInteraction);
                         pitchController->setSecondarySceneInteraction(alternateInteraction);
-                        pitchController->setSecondarySelectInteraction(sflow::ParameterEditorInteractionController::FreeRangeSelect);
+                        pitchController->setSecondarySelectInteraction(
+                            interaction == sflow::ParameterEditorInteractionController::Transform
+                                ? sflow::ParameterEditorInteractionController::FreeRangeSelect
+                                : sflow::ParameterEditorInteractionController::Transform);
                         break;
                     case sflow::ParameterEditorInteractionController::Pointer:
                     case sflow::ParameterEditorInteractionController::Pen:

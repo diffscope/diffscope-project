@@ -181,6 +181,8 @@ QtObject {
                 return ParameterEditorInteractionController.Eraser
             case ParameterEditorInteractionController.Eraser:
                 return ParameterEditorInteractionController.Pencil
+            case ParameterEditorInteractionController.FreeRangeSelect:
+                return ParameterEditorInteractionController.Transform
             case ParameterEditorInteractionController.Pointer:
             case ParameterEditorInteractionController.Pen:
                 return ParameterEditorInteractionController.ConvertAnchor
@@ -197,6 +199,7 @@ QtObject {
             case ParameterEditorInteractionController.Pencil:
             case ParameterEditorInteractionController.Line:
             case ParameterEditorInteractionController.Brush:
+            case ParameterEditorInteractionController.Transform:
             case ParameterEditorInteractionController.Eraser:
             case ParameterEditorInteractionController.FreeRangeSelect:
                 if (transformEditing)
@@ -230,6 +233,7 @@ QtObject {
             case ParameterEditorInteractionController.Pencil:
             case ParameterEditorInteractionController.Line:
             case ParameterEditorInteractionController.Brush:
+            case ParameterEditorInteractionController.Transform:
             case ParameterEditorInteractionController.Eraser:
             case ParameterEditorInteractionController.FreeRangeSelect:
                 controller.primaryItemInteraction = tool
@@ -237,7 +241,8 @@ QtObject {
                 controller.primarySelectInteraction = ParameterEditorInteractionController.FreeRangeSelect
                 controller.secondaryItemInteraction = alternate
                 controller.secondarySceneInteraction = alternate
-                controller.secondarySelectInteraction = ParameterEditorInteractionController.FreeRangeSelect
+                controller.secondarySelectInteraction = tool === ParameterEditorInteractionController.Transform
+                    ? ParameterEditorInteractionController.FreeRangeSelect : ParameterEditorInteractionController.Transform
                 break
             case ParameterEditorInteractionController.Pointer:
             case ParameterEditorInteractionController.Pen:
@@ -414,6 +419,7 @@ QtObject {
                     { text: qsTr("Pencil"), icon: "edit", tool: ParameterEditorInteractionController.Pencil },
                     { text: qsTr("Line"), icon: "line", tool: ParameterEditorInteractionController.Line },
                     { text: qsTr("Fixing"), icon: "paint_brush_arrow_down", tool: ParameterEditorInteractionController.Brush },
+                    { text: qsTr("Transform Tool"), icon: "pitch_transform", tool: ParameterEditorInteractionController.Transform },
                     { text: qsTr("Eraser"), icon: "eraser", tool: ParameterEditorInteractionController.Eraser },
                     { text: qsTr("Range Select"), icon: "cursor_text", tool: ParameterEditorInteractionController.FreeRangeSelect },
                     { text: qsTr("Pointer"), icon: "cursor", tool: ParameterEditorInteractionController.Pointer },

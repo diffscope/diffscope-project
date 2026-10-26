@@ -59,12 +59,13 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPencilTool" category="Piano Roll Panel" icon="pitch_pencil" shortcut="1" description="Draw pitch changes freehand." />
         <action id="org.diffscope.visualeditor.pianoRollPanel.pitchLineTool" category="Piano Roll Panel" icon="line" shortcut="2" description="Drag to draw a straight segment of the pitch curve." />
         <action id="org.diffscope.visualeditor.pianoRollPanel.pitchFixingTool" category="Piano Roll Panel" icon="paint_brush_arrow_down" shortcut="3" description="Freeze the original pitch over the dragged time range." />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool" category="Piano Roll Panel" icon="pitch_erase" shortcut="4" description="Erase drawn pitch edits over the dragged time range." />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchRangeSelectTool" category="Piano Roll Panel" icon="pitch_cursor_text" shortcut="5" description="Select a time range of the drawn pitch curve." />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPointerTool" category="Piano Roll Panel" icon="pitch_cursor" shortcut="6" description="Select and move pitch anchors." />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPenTool" category="Piano Roll Panel" icon="calligraphy_pen" shortcut="7" description="Add, move, or delete pitch anchors." />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchConvertTool" category="Piano Roll Panel" icon="arrow_bidirectional_left_right" shortcut="8" description="Change how the curve connects neighboring pitch anchors." />
-        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchAnchorSelectTool" category="Piano Roll Panel" icon="pitch_rectangle_landscape_dash" shortcut="9" description="Select pitch anchors by area or time range." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchTransformTool" category="Piano Roll Panel" text="Pitch Transform Tool" icon="pitch_transform" shortcut="4" description="Drag vertically to shift the pitch curve; drag horizontally to scale the pitch curve." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool" category="Piano Roll Panel" icon="pitch_erase" shortcut="5" description="Erase drawn pitch edits over the dragged time range." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchRangeSelectTool" category="Piano Roll Panel" icon="pitch_cursor_text" shortcut="6" description="Select a time range of the drawn pitch curve." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPointerTool" category="Piano Roll Panel" icon="pitch_cursor" shortcut="7" description="Select and move pitch anchors." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPenTool" category="Piano Roll Panel" icon="calligraphy_pen" shortcut="8" description="Add, move, or delete pitch anchors." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchConvertTool" category="Piano Roll Panel" icon="arrow_bidirectional_left_right" shortcut="9" description="Change how the curve connects neighboring pitch anchors." />
+        <action id="org.diffscope.visualeditor.pianoRollPanel.pitchAnchorSelectTool" category="Piano Roll Panel" icon="pitch_rectangle_landscape_dash" shortcut="0" description="Select pitch anchors by area or time range." />
         <action id="org.diffscope.visualeditor.pianoRollPanel.additionalTracks" category="Piano Roll Panel" icon="more_vertical" triggerable="false" diffscope:componentType="menu" description="Choose which additional lanes to display in the piano roll." />
         <action id="org.diffscope.visualeditor.pianoRollPanel.bottomAdditionalTracks" category="Piano Roll Panel" text="Bottom Panels" icon="layout_row_two_focus_bottom" triggerable="false" diffscope:componentType="menu" description="Choose which editing panels to display below the piano roll." />
         <action id="org.diffscope.visualeditor.arrangementPanel.snap" category="Arrangement Panel" triggerable="false" diffscope:componentType="widget" />
@@ -189,6 +190,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPencilTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pitchLineTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pitchFixingTool" />
+                <action id="org.diffscope.visualeditor.pianoRollPanel.pitchTransformTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pitchEraserTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pitchRangeSelectTool" />
                 <action id="org.diffscope.visualeditor.pianoRollPanel.pitchPointerTool" />
