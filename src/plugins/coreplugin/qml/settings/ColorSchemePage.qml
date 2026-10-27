@@ -556,10 +556,6 @@ Item {
             text: qsTr("Solo button color")
         }
         ListElement {
-            name: "recordColor"
-            text: qsTr("Record button color")
-        }
-        ListElement {
             name: "routeColor"
             text: qsTr("Multi-channel output button color")
         }

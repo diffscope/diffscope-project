@@ -71,10 +71,6 @@ namespace VisualEditor {
         QState *soloEditingState;
         QState *soloFinishingState;
 
-        QState *recordPendingState;
-        QState *recordEditingState;
-        QState *recordFinishingState;
-
         QState *namePendingState;
         QState *nameProgressingState;
         QState *nameCommittingState;
@@ -97,7 +93,6 @@ namespace VisualEditor {
         Core::TransactionController::TransactionId moveTransactionId{};
         Core::TransactionController::TransactionId muteTransactionId{};
         Core::TransactionController::TransactionId soloTransactionId{};
-        Core::TransactionController::TransactionId recordTransactionId{};
         Core::TransactionController::TransactionId nameTransactionId{};
         Core::TransactionController::TransactionId gainTransactionId{};
         Core::TransactionController::TransactionId panTransactionId{};
@@ -131,9 +126,6 @@ namespace VisualEditor {
 
         void onSoloPendingStateEntered();
         void onSoloFinishingStateEntered();
-
-        void onRecordPendingStateEntered();
-        void onRecordFinishingStateEntered();
 
         void onNamePendingStateEntered();
         void onNameCommittingStateEntered();
@@ -169,11 +161,6 @@ namespace VisualEditor {
         void soloTransactionStarted();
         void soloTransactionNotStarted();
         void soloTransactionWillFinish();
-
-        void recordTransactionWillStart();
-        void recordTransactionStarted();
-        void recordTransactionNotStarted();
-        void recordTransactionWillFinish();
 
         void nameTransactionWillStart();
         void nameTransactionStarted();

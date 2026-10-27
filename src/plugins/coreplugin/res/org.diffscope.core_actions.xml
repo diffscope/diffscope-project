@@ -58,7 +58,6 @@ SPDX-License-Identifier: Apache-2.0
         <action id="org.diffscope.core.edit.shiftCursorRight" category="Edit" shortcut="L" description="Move the editing cursor to the next item without changing selection." />
         <action id="org.diffscope.core.edit.mute" category="Edit" shortcut="M" description="Mute or unmute the selected tracks or clips." />
         <action id="org.diffscope.core.edit.solo" category="Edit" shortcut="S" description="Play only the tracks marked as solo." />
-        <action id="org.diffscope.core.edit.record" category="Edit" shortcut="R" description="Arm or disarm the selected tracks for recording." />
         <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" category="Edit" shortcut="=" />
         <action id="org.diffscope.core.edit.shiftUpByASemitone" category="Edit" shortcut="Alt+Up" description="Raise the selected notes by a semitone." />
         <action id="org.diffscope.core.edit.shiftDownByASemitone" category="Edit" shortcut="Alt+Down" description="Lower the selected notes by a semitone." />
@@ -170,7 +169,7 @@ SPDX-License-Identifier: Apache-2.0
         <group id="org.diffscope.core.edit.selectAllActions" />
         <group id="org.diffscope.core.edit.selectCurrentActions" />
         <group id="org.diffscope.core.edit.shiftCursorActions" />
-        <menu id="org.diffscope.core.edit.msr" text="MSR" />
+        <menu id="org.diffscope.core.edit.control" text="Control" />
         <group id="org.diffscope.core.edit.trackSelectActions" />
         <menu id="org.diffscope.core.edit.transpose" />
         <group id="org.diffscope.core.edit.fillLyricsActions" />
@@ -198,7 +197,7 @@ SPDX-License-Identifier: Apache-2.0
         <menu id="org.diffscope.core.homeView" text="&amp;View" />
         <group id="org.diffscope.core.genericItemContextMenuActions" />
         <group id="org.diffscope.core.genericSceneContextMenuActions" />
-        <group id="org.diffscope.core.clipMsrActions" />
+        <group id="org.diffscope.core.clipControlActions" />
     </items>
 
     <layouts>
@@ -251,10 +250,9 @@ SPDX-License-Identifier: Apache-2.0
                 </menu>
                 <action id="org.diffscope.core.edit.itemSelector" />
                 <separator />
-                <menu id="org.diffscope.core.edit.msr">
+                <menu id="org.diffscope.core.edit.control">
                     <action id="org.diffscope.core.edit.mute" />
                     <action id="org.diffscope.core.edit.solo" />
-                    <action id="org.diffscope.core.edit.record" />
                 </menu>
                 <group id="org.diffscope.core.edit.trackSelectActions">
                     <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" />
@@ -430,7 +428,7 @@ SPDX-License-Identifier: Apache-2.0
         </group>
 
         <menu id="org.diffscope.core.clipItemContextMenu">
-            <group id="org.diffscope.core.clipMsrActions">
+            <group id="org.diffscope.core.clipControlActions">
                 <action id="org.diffscope.core.edit.mute" />
             </group>
             <group id="org.diffscope.core.edit.bounceActions" />
@@ -470,7 +468,7 @@ SPDX-License-Identifier: Apache-2.0
         </menu>
 
         <menu id="org.diffscope.core.trackItemContextMenu">
-            <group id="org.diffscope.core.edit.msr" />
+            <group id="org.diffscope.core.edit.control" />
             <action id="org.diffscope.core.edit.selectAllClipsOnCurrentTrack" />
             <group id="org.diffscope.core.genericItemContextMenuActions" />
         </menu>

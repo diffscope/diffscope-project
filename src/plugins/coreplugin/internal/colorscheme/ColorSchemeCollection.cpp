@@ -92,7 +92,6 @@ namespace Core::Internal {
             {"levelHighColor", QVariant::fromValue(QColor(0xff2c00))},
             {"muteColor", QVariant::fromValue(QColor(0xe67700))},
             {"soloColor", QVariant::fromValue(QColor(0x2b8a3e))},
-            {"recordColor", QVariant::fromValue(QColor(0xc92a2a))},
             {"routeColor", QVariant::fromValue(QColor(0x5f3dc4))},
             {"clipMuteColor", QVariant::fromValue(QColor(0x7c7c7c))},
             {"whiteKeyColor", QVariant::fromValue(QColor(0xf8f9fa))},
@@ -166,7 +165,6 @@ namespace Core::Internal {
             {"levelHighColor", QVariant::fromValue(QColor::fromRgb(0xff2c00))},
             {"muteColor", QVariant::fromValue(QColor::fromRgb(0xe67700))},
             {"soloColor", QVariant::fromValue(QColor::fromRgb(0x2b8a3e))},
-            {"recordColor", QVariant::fromValue(QColor::fromRgb(0xc92a2a))},
             {"routeColor", QVariant::fromValue(QColor::fromRgb(0x5f3dc4))},
             {"clipMuteColor", QVariant::fromValue(QColor::fromRgb(0x7c7c7c))},
             {"whiteKeyColor", QVariant::fromValue(QColor::fromRgb(0xffffff))},
@@ -240,7 +238,6 @@ namespace Core::Internal {
             {"levelHighColor", QVariant::fromValue(QColor::fromRgb(0xff2c00))},
             {"muteColor", QVariant::fromValue(QColor::fromRgb(0xe67700))},
             {"soloColor", QVariant::fromValue(QColor::fromRgb(0x2b8a3e))},
-            {"recordColor", QVariant::fromValue(QColor::fromRgb(0xc92a2a))},
             {"routeColor", QVariant::fromValue(QColor::fromRgb(0x5f3dc4))},
             {"clipMuteColor", QVariant::fromValue(QColor::fromRgb(0x6d6d6d))},
             {"whiteKeyColor", QVariant::fromValue(QColor::fromRgb(0x6699cc))},
@@ -528,7 +525,6 @@ namespace Core::Internal {
             palette->setProperty("levelHighColor", m_unsavedPreset.value("levelHighColor"));
             palette->setProperty("muteColor", m_unsavedPreset.value("muteColor"));
             palette->setProperty("soloColor", m_unsavedPreset.value("soloColor"));
-            palette->setProperty("recordColor", m_unsavedPreset.value("recordColor"));
             palette->setProperty("routeColor", m_unsavedPreset.value("routeColor"));
             palette->setProperty("clipMuteColor", m_unsavedPreset.value("clipMuteColor"));
             palette->setProperty("whiteKeyColor", m_unsavedPreset.value("whiteKeyColor"));

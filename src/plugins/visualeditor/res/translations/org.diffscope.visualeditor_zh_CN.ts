@@ -1820,11 +1820,6 @@
         <translation>编辑轨道独奏</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="813"/>
-        <source>Editing track record</source>
-        <translation>编辑轨道录制</translation>
-    </message>
-    <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="839"/>
         <source>Renaming track</source>
         <translation>重命名轨道</translation>

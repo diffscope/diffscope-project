@@ -67,10 +67,6 @@ namespace VisualEditor {
         soloEditingState = new QState;
         soloFinishingState = new QState;
 
-        recordPendingState = new QState;
-        recordEditingState = new QState;
-        recordFinishingState = new QState;
-
         namePendingState = new QState;
         nameProgressingState = new QState;
         nameCommittingState = new QState;
@@ -105,10 +101,6 @@ namespace VisualEditor {
         stateMachine->addState(soloPendingState);
         stateMachine->addState(soloEditingState);
         stateMachine->addState(soloFinishingState);
-
-        stateMachine->addState(recordPendingState);
-        stateMachine->addState(recordEditingState);
-        stateMachine->addState(recordFinishingState);
 
         stateMachine->addState(namePendingState);
         stateMachine->addState(nameProgressingState);
@@ -154,12 +146,6 @@ namespace VisualEditor {
         soloPendingState->addTransition(this, &TrackViewModelContextData::soloTransactionNotStarted, idleState);
         soloEditingState->addTransition(this, &TrackViewModelContextData::soloTransactionWillFinish, soloFinishingState);
         soloFinishingState->addTransition(idleState);
-
-        idleState->addTransition(this, &TrackViewModelContextData::recordTransactionWillStart, recordPendingState);
-        recordPendingState->addTransition(this, &TrackViewModelContextData::recordTransactionStarted, recordEditingState);
-        recordPendingState->addTransition(this, &TrackViewModelContextData::recordTransactionNotStarted, idleState);
-        recordEditingState->addTransition(this, &TrackViewModelContextData::recordTransactionWillFinish, recordFinishingState);
-        recordFinishingState->addTransition(idleState);
 
         idleState->addTransition(this, &TrackViewModelContextData::nameTransactionWillStart, namePendingState);
         namePendingState->addTransition(this, &TrackViewModelContextData::nameTransactionStarted, nameProgressingState);
@@ -275,27 +261,6 @@ namespace VisualEditor {
         });
         connect(soloFinishingState, &QState::exited, this, [=] {
             logExited("Solo finishing state");
-        });
-
-        connect(recordPendingState, &QState::entered, this, [=, this] {
-            logEntered("Record pending state");
-            onRecordPendingStateEntered();
-        });
-        connect(recordPendingState, &QState::exited, this, [=] {
-            logExited("Record pending state");
-        });
-        connect(recordEditingState, &QState::entered, this, [=] {
-            logEntered("Record editing state");
-        });
-        connect(recordEditingState, &QState::exited, this, [=] {
-            logExited("Record editing state");
-        });
-        connect(recordFinishingState, &QState::entered, this, [=, this] {
-            logEntered("Record finishing state");
-            onRecordFinishingStateEntered();
-        });
-        connect(recordFinishingState, &QState::exited, this, [=] {
-            logExited("Record finishing state");
         });
 
         connect(namePendingState, &QState::entered, this, [=, this] {
@@ -503,12 +468,6 @@ namespace VisualEditor {
             }
             viewItem->setSolo(solo);
         });
-        connect(item, &dspx::Track::recordChanged, viewItem, [=](bool record) {
-            if (viewItem->isRecord() == record) {
-                return;
-            }
-            viewItem->setRecord(record);
-        });
         connect(item, &dspx::Track::gainChanged, viewItem, [=](double gain) {
             const double db = toDecibel(gain);
             if (viewItem->gain() == db) {
@@ -541,12 +500,6 @@ namespace VisualEditor {
                 return;
             }
         });
-        connect(viewItem, &sflow::TrackViewModel::recordChanged, item, [=] {
-            if (!stateMachine->configuration().contains(recordEditingState)) {
-                viewItem->setRecord(item->record());
-                return;
-            }
-        });
         connect(viewItem, &sflow::TrackViewModel::gainChanged, item, [=] {
             if (!stateMachine->configuration().contains(gainProgressingState)) {
                 viewItem->setGain(toDecibel(item->gain()));
@@ -574,7 +527,6 @@ namespace VisualEditor {
         viewItem->setRowHeight(getClampedHeight(item));
         viewItem->setMute(item->mute());
         viewItem->setSolo(item->solo());
-        viewItem->setRecord(item->record());
         viewItem->setGain(toDecibel(item->gain()));
         viewItem->setPan(item->pan());
         viewItem->setColor(trackColorForId(item->colorId()));
@@ -606,7 +558,7 @@ namespace VisualEditor {
         controller->setSecondarySelectInteraction(sflow::TrackListInteractionController::RubberBandSelect);
         controller->setPrimaryItemInteraction(sflow::TrackListInteractionController::DragMove);
         controller->setSecondaryItemInteraction(sflow::TrackListInteractionController::DragCopy);
-        controller->setItemAction(sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditSolo | sflow::TrackListInteractionController::EditRecord | sflow::TrackListInteractionController::EditName | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan | sflow::TrackListInteractionController::AdjustHeight);
+        controller->setItemAction(sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditSolo | sflow::TrackListInteractionController::EditName | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan | sflow::TrackListInteractionController::AdjustHeight);
 
         connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();
@@ -643,14 +595,6 @@ namespace VisualEditor {
         });
         connect(controller, &sflow::TrackListInteractionController::soloEditingFinished, this, [=](QQuickItem *, int) {
             Q_EMIT soloTransactionWillFinish();
-        });
-
-        connect(controller, &sflow::TrackListInteractionController::recordEditingStarted, this, [=](QQuickItem *, int index) {
-            targetTrack = trackList->item(index);
-            Q_EMIT recordTransactionWillStart();
-        });
-        connect(controller, &sflow::TrackListInteractionController::recordEditingFinished, this, [=](QQuickItem *, int) {
-            Q_EMIT recordTransactionWillFinish();
         });
 
         connect(controller, &sflow::TrackListInteractionController::nameEditingStarted, this, [=](QQuickItem *, int index) {
@@ -786,33 +730,6 @@ namespace VisualEditor {
             document->transactionController()->commitTransaction(soloTransactionId, tr("Editing track solo"));
         }
         soloTransactionId = {};
-        targetTrack = {};
-    }
-
-    void TrackViewModelContextData::onRecordPendingStateEntered() {
-        recordTransactionId = document->transactionController()->beginTransaction();
-        if (recordTransactionId != Core::TransactionController::TransactionId::Invalid) {
-            Q_EMIT recordTransactionStarted();
-        } else {
-            Q_EMIT recordTransactionNotStarted();
-        }
-    }
-
-    void TrackViewModelContextData::onRecordFinishingStateEntered() {
-        if (!targetTrack || recordTransactionId == Core::TransactionController::TransactionId::Invalid) {
-            targetTrack = {};
-            return;
-        }
-        auto viewItem = trackViewItemMap.value(targetTrack);
-        Q_ASSERT(viewItem);
-        const bool newValue = viewItem->isRecord();
-        if (newValue == targetTrack->record()) {
-            document->transactionController()->abortTransaction(recordTransactionId);
-        } else {
-            targetTrack->setRecord(newValue);
-            document->transactionController()->commitTransaction(recordTransactionId, tr("Editing track record"));
-        }
-        recordTransactionId = {};
         targetTrack = {};
     }
 

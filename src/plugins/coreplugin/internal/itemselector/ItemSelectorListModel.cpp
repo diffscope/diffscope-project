@@ -625,13 +625,13 @@ namespace Core::Internal {
             switch (entry.kind) {
                 case NodeKind::Track: {
                     const auto *track = static_cast<dspx::Track *>(entry.object.data());
-                    return tr("Clip Count: %L1\nColor: %L2\nView Height: %L3\nGain: %L4 dB\nPan: %L5\nMute: %6\nSolo: %7\nRecord: %8")
+                    return tr("Clip Count: %L1\nColor: %L2\nView Height: %L3\nGain: %L4 dB\nPan: %L5\nMute: %6\nSolo: %7")
                         .arg(track->clips()->size())
                         .arg(track->colorId() + 1)
                         .arg(track->height(), 0, 'f', 2)
                         .arg(SVS::DecibelLinearizer::gainToDecibels(track->gain()), 0, 'f', 1)
                         .arg(track->pan(), 0, 'f', 2)
-                        .arg(yesNo(track->mute()), yesNo(track->solo()), yesNo(track->record()));
+                        .arg(yesNo(track->mute()), yesNo(track->solo()));
                 }
                 case NodeKind::Clip: {
                     const auto *clip = static_cast<dspx::Clip *>(entry.object.data());
@@ -1081,7 +1081,6 @@ namespace Core::Internal {
                     connections.append(connect(track, &dspx::Track::panChanged, this, refresh));
                     connections.append(connect(track, &dspx::Track::muteChanged, this, refresh));
                     connections.append(connect(track, &dspx::Track::soloChanged, this, refresh));
-                    connections.append(connect(track, &dspx::Track::recordChanged, this, refresh));
                     connections.append(connect(track->clips(), &dspx::ClipSequence::sizeChanged, this, refresh));
                     break;
                 }

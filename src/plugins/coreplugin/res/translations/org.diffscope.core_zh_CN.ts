@@ -532,11 +532,6 @@
         <translation type="unfinished">仅播放标记为独奏的轨道。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6887"/>
-        <source>Arm or disarm the selected tracks for recording.</source>
-        <translation type="unfinished">将选中轨道设为录音待命或取消录音待命。</translation>
-    </message>
-    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6888"/>
         <source>Raise the selected notes by a semitone.</source>
         <translation type="unfinished">将选中音符升高半音。</translation>
@@ -1048,10 +1043,6 @@
         <translation>移动光标动作</translation>
     </message>
     <message>
-        <source>Msr Actions</source>
-        <translation type="vanished">MSR 操作</translation>
-    </message>
-    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6824"/>
         <source>Track Select Actions</source>
         <translation>轨道选择操作</translation>
@@ -1138,11 +1129,6 @@
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6720"/>
         <source>Solo</source>
         <translation>独奏</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6721"/>
-        <source>Record</source>
-        <translation>录制</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6722"/>
@@ -1246,8 +1232,8 @@
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6823"/>
-        <source>MSR</source>
-        <translation type="unfinished">MSR</translation>
+        <source>Control</source>
+        <translation type="unfinished">Control</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6825"/>
@@ -1281,8 +1267,8 @@
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6849"/>
-        <source>Clip Msr Actions</source>
-        <translation>剪辑 MSR 操作</translation>
+        <source>Clip Control Actions</source>
+        <translation>剪辑 Control 操作</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6781"/>
@@ -2159,11 +2145,6 @@
         <translation>独奏按钮颜色</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ColorSchemePage.qml" line="560"/>
-        <source>Record button color</source>
-        <translation>录制按钮颜色</translation>
-    </message>
-    <message>
         <location filename="../../qml/settings/ColorSchemePage.qml" line="564"/>
         <source>Multi-channel output button color</source>
         <translation>多声道输出按钮颜色</translation>
@@ -2309,16 +2290,6 @@
         <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="35"/>
         <source>Toggling solo</source>
         <translation>切换独奏</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="42"/>
-        <source>Record</source>
-        <translation>录制</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="43"/>
-        <source>Toggling record</source>
-        <translation>切换录制</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="49"/>
@@ -3722,16 +3693,14 @@ View Height: %L3
 Gain: %L4 dB
 Pan: %L5
 Mute: %6
-Solo: %7
-Record: %8</source>
+Solo: %7</source>
         <translation type="unfinished">剪辑数量：%L1
 颜色：%L2
 视图高度：%L3
 增益：%L4 dB
 声像：%L5
 静音：%6
-独奏：%7
-录音：%8</translation>
+独奏：%7</translation>
     </message>
     <message>
         <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="638"/>
@@ -4941,11 +4910,6 @@ Do you want to save as a new file or overwrite it?</source>
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="209"/>
         <source>Toggling solo</source>
         <translation type="unfinished">切换独奏</translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="220"/>
-        <source>Toggling record</source>
-        <translation type="unfinished">切换录制</translation>
     </message>
     <message>
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="279"/>

@@ -532,11 +532,6 @@
         <translation type="unfinished">Play only the tracks marked as solo.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6887"/>
-        <source>Arm or disarm the selected tracks for recording.</source>
-        <translation type="unfinished">Arm or disarm the selected tracks for recording.</translation>
-    </message>
-    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6888"/>
         <source>Raise the selected notes by a semitone.</source>
         <translation type="unfinished">Raise the selected notes by a semitone.</translation>
@@ -1048,10 +1043,6 @@
         <translation type="unfinished">Shift Cursor Actions</translation>
     </message>
     <message>
-        <source>Msr Actions</source>
-        <translation type="obsolete">Msr Actions</translation>
-    </message>
-    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6824"/>
         <source>Track Select Actions</source>
         <translation type="unfinished">Track Select Actions</translation>
@@ -1138,11 +1129,6 @@
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6720"/>
         <source>Solo</source>
         <translation type="unfinished">Solo</translation>
-    </message>
-    <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6721"/>
-        <source>Record</source>
-        <translation type="unfinished">Record</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6722"/>
@@ -1246,8 +1232,8 @@
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6823"/>
-        <source>MSR</source>
-        <translation type="unfinished">MSR</translation>
+        <source>Control</source>
+        <translation type="unfinished">Control</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6825"/>
@@ -1281,8 +1267,8 @@
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6849"/>
-        <source>Clip Msr Actions</source>
-        <translation type="unfinished">Clip Msr Actions</translation>
+        <source>Clip Control Actions</source>
+        <translation type="unfinished">Clip Control Actions</translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6781"/>
@@ -2159,11 +2145,6 @@
         <translation type="unfinished">Solo button color</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/ColorSchemePage.qml" line="560"/>
-        <source>Record button color</source>
-        <translation type="unfinished">Record button color</translation>
-    </message>
-    <message>
         <location filename="../../qml/settings/ColorSchemePage.qml" line="564"/>
         <source>Multi-channel output button color</source>
         <translation type="unfinished">Multi-channel output button color</translation>
@@ -2309,16 +2290,6 @@
         <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="35"/>
         <source>Toggling solo</source>
         <translation type="unfinished">Toggling solo</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="42"/>
-        <source>Record</source>
-        <translation type="unfinished">Record</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="43"/>
-        <source>Toggling record</source>
-        <translation type="unfinished">Toggling record</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/ControlPropertyEditor.qml" line="49"/>
@@ -3722,16 +3693,14 @@ View Height: %L3
 Gain: %L4 dB
 Pan: %L5
 Mute: %6
-Solo: %7
-Record: %8</source>
+Solo: %7</source>
         <translation type="unfinished">Clip Count: %L1
 Color: %L2
 View Height: %L3
 Gain: %L4 dB
 Pan: %L5
 Mute: %6
-Solo: %7
-Record: %8</translation>
+Solo: %7</translation>
     </message>
     <message>
         <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="638"/>
@@ -4952,11 +4921,6 @@ Do you want to save as a new file or overwrite it?</translation>
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="209"/>
         <source>Toggling solo</source>
         <translation type="unfinished">Toggling solo</translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="220"/>
-        <source>Toggling record</source>
-        <translation type="unfinished">Toggling record</translation>
     </message>
     <message>
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="279"/>

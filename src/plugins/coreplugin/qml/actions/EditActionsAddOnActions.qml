@@ -211,17 +211,6 @@ ActionCollection {
         }
     }
     ActionItem {
-        actionId: "org.diffscope.core.edit.record"
-        Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Track
-            checkable: true
-            checked: Boolean(trackPropertyMapper.record)
-            onTriggered: () => {
-                d.setPropertyInTransaction(trackPropertyMapper, "record", checked, qsTr("Toggling record"))
-            }
-        }
-    }
-    ActionItem {
         actionId: "org.diffscope.core.edit.selectAllClipsOnCurrentTrack"
         Action {
             enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Track

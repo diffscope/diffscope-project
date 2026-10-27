@@ -1744,11 +1744,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="813"/>
-        <source>Editing track record</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="839"/>
         <source>Renaming track</source>
         <translation type="unfinished"></translation>

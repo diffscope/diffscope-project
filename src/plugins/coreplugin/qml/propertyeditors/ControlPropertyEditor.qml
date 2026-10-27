@@ -34,14 +34,6 @@ PropertyEditorGroupBox {
             label: qsTr("Solo")
             transactionName: qsTr("Toggling solo")
         }
-        BooleanPropertyEditorField {
-            windowHandle: groupBox.windowHandle
-            propertyMapper: groupBox.propertyMapper
-            visible: groupBox.propertyMapper && ("record" in groupBox.propertyMapper)
-            key: "record"
-            label: qsTr("Record")
-            transactionName: qsTr("Toggling record")
-        }
         DoublePropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
