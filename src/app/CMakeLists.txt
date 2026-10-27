@@ -1,39 +1,51 @@
 # SPDX-FileCopyrightText: Team OpenVPI
 # SPDX-License-Identifier: Apache-2.0
 
-add_subdirectory(icons)
-
+# The icons of the application and of the project files, written at build time from the images in
+# icons/<name>. The installer of Windows takes the icon of the project files from the resources of
+# the executable, and the bundle of macOS from its resources. Linux uses the images directly.
 set(_ico_args)
 set(_icns_args)
+set(_icons)
 
-if(WIN32)
-    list(APPEND _ico_path
-        ${CMAKE_CURRENT_BINARY_DIR}/icons/app.ico
-        ${CMAKE_CURRENT_BINARY_DIR}/icons/dspx.ico
-    )
-    set(_filtered_ico_path "")
-    foreach(_file IN LISTS _ico_path)
-        if(EXISTS ${_file})
-            list(APPEND _filtered_ico_path ${_file})
-        endif()
+if(WIN32 OR APPLE)
+    find_package(qiconmaker CONFIG REQUIRED)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/AddIcon.cmake)
+
+    if(WIN32)
+        set(_suffix .ico)
+    else()
+        set(_suffix .icns)
+    endif()
+
+    foreach(_name IN ITEMS app dspx)
+        set(_icon ${CMAKE_CURRENT_BINARY_DIR}/icons/${_name}${_suffix})
+        add_icon(${_icon} ${CMAKE_CURRENT_SOURCE_DIR}/icons/${_name})
+        list(APPEND _icons ${_icon})
     endforeach()
-    set(_ico_args ICO ${_filtered_ico_path})
-endif()
 
-if(APPLE)
-    set(_icns_path ${CMAKE_CURRENT_BINARY_DIR}/icons/app.icns)
-    if(EXISTS ${_icns_path})
-        set(_icns_args ICNS ${_icns_path})
+    if(WIN32)
+        set(_ico_args ICO ${_icons})
+    else()
+        set(_icns_args ICNS ${CMAKE_CURRENT_BINARY_DIR}/icons/app.icns)
     endif()
 endif()
-
-
 
 ck_configure_application(
     ${_ico_args}
     ${_icns_args}
     INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/info.plist.in
 )
+
+if(_icons)
+    target_sources(${PROJECT_NAME} PRIVATE ${_icons})
+endif()
+
+if(APPLE)
+    set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/icons/dspx.icns PROPERTIES
+        MACOSX_PACKAGE_LOCATION Resources
+    )
+endif()
 
 qm_configure_target(${PROJECT_NAME}
     SOURCES main.cpp
@@ -75,19 +87,12 @@ ck_add_shared_files(
     # SRC conf/${CK_PLATFORM_LOWER}/qtmediate.json DEST ${CK_BUILD_QT_CONF_DIR}   # qtmediate.json
 )
 
-if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/icons/dspx.icns)
-    ck_add_shared_files(
-        SRC ${CMAKE_CURRENT_BINARY_DIR}/icons/dspx.icns DEST ${CK_BUILD_DATA_DIR}
-    )
-endif()
-
-file(GLOB _icons icons/*)
-list(FILTER _icons EXCLUDE REGEX CMakeLists.txt)
+file(GLOB _icon_images icons/*)
 
 qt_add_resources(${PROJECT_NAME} icons
     PREFIX /diffscope/icons
     BASE icons
-    FILES ${_icons}
+    FILES ${_icon_images}
 )
 
 if(LINUX)
