@@ -427,6 +427,10 @@ namespace Core {
 
     bool ProjectDocumentContext::save() {
         Q_D(ProjectDocumentContext);
+        if (d->document && d->document->transactionController()->isExclusiveToTransaction()) {
+            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during an active transaction.";
+            return false;
+        }
         if (!d->fileLocker || d->fileLocker->path().isEmpty())
             return false;
         bool hasError;
@@ -450,6 +454,10 @@ namespace Core {
 
     bool ProjectDocumentContext::saveAs(const QString &filePath) {
         Q_D(ProjectDocumentContext);
+        if (d->document && d->document->transactionController()->isExclusiveToTransaction()) {
+            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during an active transaction.";
+            return false;
+        }
         if (!d->fileLocker)
             return false;
         bool hasError;
@@ -478,6 +486,10 @@ namespace Core {
 
     bool ProjectDocumentContext::saveCopy(const QString &filePath) {
         Q_D(ProjectDocumentContext);
+        if (d->document && d->document->transactionController()->isExclusiveToTransaction()) {
+            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during an active transaction.";
+            return false;
+        }
         FileLocker copyFileLocker;
         bool hasError;
         auto data = d->serializeDocument(&hasError);
