@@ -28,6 +28,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/EffectsUnitCollection.h>
+#include <audio/MidiInputContext.h>
 #include <audio/internal/AudioAndMidiPage.h>
 #include <audio/internal/AudioClipAddOn.h>
 #include <audio/internal/AudioExporterPresets.h>
@@ -39,6 +40,7 @@
 #include <audio/internal/EffectsPresets.h>
 #include <audio/internal/ExportAudioAddOn.h>
 #include <audio/internal/ExportPage.h>
+#include <audio/internal/MidiPage.h>
 #include <audio/internal/OutputSystem.h>
 #include <audio/internal/PlaybackAddOn.h>
 #include <audio/internal/PlaybackPage.h>
@@ -54,7 +56,9 @@ namespace Audio::Internal {
 
     AudioPlugin::AudioPlugin() {
     }
-    AudioPlugin::~AudioPlugin() = default;
+    AudioPlugin::~AudioPlugin() {
+        delete m_midiInputContext;
+    }
 
     bool AudioPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
@@ -64,8 +68,8 @@ namespace Audio::Internal {
         initializeAudioPreference();
         initializeAudioExporterPresets();
         initializeEffects();
-        initializeSettings();
         initializeAudioSystem();
+        initializeSettings();
         initializePropertyEditors();
         initializeHelpContents();
         initializeWindows();
@@ -74,6 +78,7 @@ namespace Audio::Internal {
     }
     void AudioPlugin::extensionsInitialized() {
         initializeAudioOutput();
+        m_midiInputContext->initialize();
         connect(AudioSystem::outputSystem()->outputContext(), &talcs::OutputContext::deviceHotPlugged, this, [this] {
             auto message = new Core::NotificationMessage(this);
             message->setIcon(SVS::SVSCraft::Information);
@@ -124,6 +129,8 @@ namespace Audio::Internal {
         AudioSystem::outputSystem()->outputContext()->driverManager()->loadBuiltInDriverLibraries(directory);
 #endif
         GlobalAudioContextPrivate::create(this);
+        m_midiInputContext = new MidiInputContext(this);
+        Core::RuntimeInterface::instance()->addObject(m_midiInputContext);
     }
 
     void AudioPlugin::initializeAudioOutput() {
@@ -143,6 +150,7 @@ namespace Audio::Internal {
         auto audioAndMidiPage = new AudioAndMidiPage;
         audioAndMidiPage->addPage(new AudioOutputPage);
         audioAndMidiPage->addPage(new PlaybackPage);
+        audioAndMidiPage->addPage(new MidiPage);
         audioAndMidiPage->addPage(new ExportPage);
         sc->addPage(audioAndMidiPage);
     }

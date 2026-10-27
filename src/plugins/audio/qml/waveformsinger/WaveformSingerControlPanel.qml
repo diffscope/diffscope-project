@@ -10,7 +10,7 @@ import DiffScope.Audio
 Item {
     id: control
 
-    readonly property var singerTypes: WaveformSingerTypeCatalog.entries
+    readonly property var singerTypes: WaveformTypeCatalog.entries
 
     signal extraEdited()
 

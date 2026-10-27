@@ -17,6 +17,9 @@
 #include <QPointF>
 #include <QVariant>
 
+#include <opendspx/controlpoint.h>
+#include <opendspx/vibrato.h>
+
 #include <SVSCraftCore/MusicTimeline.h>
 
 #include <TalcsCore/MixerAudioSource.h>
@@ -44,21 +47,18 @@
 #include <dspxmodelORM/TrackList.h>
 #include <dspxmodelORM/VibratoPointDataArray.h>
 
-#include <opendspx/controlpoint.h>
-#include <opendspx/vibrato.h>
+#include <coreplugin/ArchitectureInfo.h>
+#include <coreplugin/DspxDocument.h>
+#include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/ProjectTimeline.h>
+#include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/GlobalAudioContext.h>
 #include <audio/ProjectAudioContext.h>
 #include <audio/TrackAudioContext.h>
 #include <audio/internal/WaveformSingerAudioSource.h>
 #include <audio/internal/WaveformSingerMetadata.h>
-#include <audio/internal/WaveformSingerTypeCatalog.h>
-
-#include <coreplugin/ArchitectureInfo.h>
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
-#include <coreplugin/ProjectWindowInterface.h>
+#include <audio/internal/WaveformTypeCatalog.h>
 
 namespace Audio::Internal {
 
@@ -165,15 +165,15 @@ namespace Audio::Internal {
 
         QString singerType(const dspx::Singer *singer) {
             if (!singer->extra().isObject()) {
-                return WaveformSingerTypeCatalog::fallbackType();
+                return WaveformTypeCatalog::fallbackType();
             }
             const auto object = singer->extra().toObject();
             const auto value = object.value(QStringLiteral("type"));
-            return WaveformSingerTypeCatalog::normalizedType(value.isString() ? value.toString() : QString());
+            return WaveformTypeCatalog::normalizedType(value.isString() ? value.toString() : QString());
         }
 
         void flattenSinger(const dspx::Singer *singer, double weight,
-                           std::array<double, waveformSingerTypeCount> &result,
+                           std::array<double, waveformTypeCount> &result,
                            bool &valid, int &leafCount) {
             if (singer->kind() == dspx::Singer::Single) {
                 const auto single = static_cast<const dspx::SingleSinger *>(singer);
@@ -182,7 +182,7 @@ namespace Audio::Internal {
                     return;
                 }
                 ++leafCount;
-                const auto index = WaveformSingerTypeCatalog::indexOf(singerType(singer));
+                const auto index = WaveformTypeCatalog::indexOf(singerType(singer));
                 result[static_cast<std::size_t>(index)] += weight;
                 return;
             }
@@ -546,7 +546,7 @@ namespace Audio::Internal {
                 const auto rootSingers = sources->singers()->items();
                 voices->roots.reserve(static_cast<std::size_t>(rootSingers.size()));
                 for (const auto singer : rootSingers) {
-                    std::array<double, waveformSingerTypeCount> root{};
+                    std::array<double, waveformTypeCount> root{};
                     flattenSinger(singer, 1.0, root, valid, leafCount);
                     voices->roots.push_back(root);
                 }

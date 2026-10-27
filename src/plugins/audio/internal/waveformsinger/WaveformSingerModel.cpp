@@ -160,7 +160,7 @@ namespace Audio::Internal {
         return std::clamp(*base * (transform ? *transform * 2.0 : 1.0), 0.0, 1.0);
     }
 
-    void WaveformSingerVoiceSnapshot::evaluate(double tick, std::array<double, waveformSingerTypeCount> &result) const {
+    void WaveformSingerVoiceSnapshot::evaluate(double tick, std::array<double, waveformTypeCount> &result) const {
         result.fill(0.0);
         if (roots.empty()) {
             return;
@@ -196,7 +196,7 @@ namespace Audio::Internal {
                 const auto rightWeight = completeWeight(right->weights, rootIndex);
                 rootWeight = leftWeight + (rightWeight - leftWeight) * factor;
             }
-            for (int typeIndex = 0; typeIndex < waveformSingerTypeCount; ++typeIndex) {
+            for (int typeIndex = 0; typeIndex < waveformTypeCount; ++typeIndex) {
                 result[static_cast<std::size_t>(typeIndex)] +=
                     rootWeight * roots[rootIndex][static_cast<std::size_t>(typeIndex)];
             }

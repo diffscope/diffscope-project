@@ -1,17 +1,17 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_AUDIO_WAVEFORMSINGERSYNTHESIZER_H
-#define DIFFSCOPE_AUDIO_WAVEFORMSINGERSYNTHESIZER_H
+#ifndef DIFFSCOPE_AUDIO_WAVEFORMSYNTHESIZER_H
+#define DIFFSCOPE_AUDIO_WAVEFORMSYNTHESIZER_H
 
 #include <array>
 #include <cstdint>
 
-#include <audio/internal/WaveformSingerModel.h>
-
 namespace Audio::Internal {
 
-    class WaveformSingerSynthesizer {
+    inline constexpr int waveformTypeCount = 3;
+
+    class WaveformSynthesizer {
     public:
         static constexpr double maximumReleaseSeconds() {
             return 0.55;
@@ -19,7 +19,7 @@ namespace Audio::Internal {
 
         static float render(double baseCycles, double frequency, double noteTime,
                             double noteOffTime, std::uint64_t seed,
-                            const std::array<double, waveformSingerTypeCount> &weights,
+                            const std::array<double, waveformTypeCount> &weights,
                             double sampleRate);
 
     private:
@@ -35,4 +35,4 @@ namespace Audio::Internal {
 
 }
 
-#endif // DIFFSCOPE_AUDIO_WAVEFORMSINGERSYNTHESIZER_H
+#endif // DIFFSCOPE_AUDIO_WAVEFORMSYNTHESIZER_H

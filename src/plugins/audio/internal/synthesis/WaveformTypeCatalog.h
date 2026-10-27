@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_AUDIO_WAVEFORMSINGERTYPECATALOG_H
-#define DIFFSCOPE_AUDIO_WAVEFORMSINGERTYPECATALOG_H
+#ifndef DIFFSCOPE_AUDIO_WAVEFORMTYPECATALOG_H
+#define DIFFSCOPE_AUDIO_WAVEFORMTYPECATALOG_H
 
 #include <QList>
 #include <QObject>
@@ -10,9 +10,12 @@
 #include <QVariantList>
 #include <qqmlintegration.h>
 
+class QQmlEngine;
+class QJSEngine;
+
 namespace Audio::Internal {
 
-    class WaveformSingerTypeCatalog : public QObject {
+    class WaveformTypeCatalog : public QObject {
         Q_OBJECT
         QML_ELEMENT
         QML_SINGLETON
@@ -24,8 +27,12 @@ namespace Audio::Internal {
             QString name;
         };
 
-        explicit WaveformSingerTypeCatalog(QObject *parent = nullptr);
-        ~WaveformSingerTypeCatalog() override;
+        explicit WaveformTypeCatalog(QObject *parent = nullptr);
+        ~WaveformTypeCatalog() override;
+
+        static WaveformTypeCatalog *create(QQmlEngine *, QJSEngine *) {
+            return new WaveformTypeCatalog;
+        }
 
         QVariantList entries() const;
 
@@ -37,4 +44,4 @@ namespace Audio::Internal {
 
 }
 
-#endif // DIFFSCOPE_AUDIO_WAVEFORMSINGERTYPECATALOG_H
+#endif // DIFFSCOPE_AUDIO_WAVEFORMTYPECATALOG_H

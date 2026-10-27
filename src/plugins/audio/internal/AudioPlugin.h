@@ -6,6 +6,10 @@
 
 #include <extensionsystem/iplugin.h>
 
+namespace Audio {
+    class MidiInputContext;
+}
+
 namespace Audio::Internal {
 
     class AudioPlugin : public ExtensionSystem::IPlugin {
@@ -31,6 +35,8 @@ namespace Audio::Internal {
         void initializePropertyEditors();
         void initializeHelpContents();
         static void initializeWindows();
+
+        MidiInputContext *m_midiInputContext{};
     };
 
 }

@@ -15,9 +15,9 @@
 #include <opendspx/interpolator/vibratocurve.h>
 #include <opendspx/vibrato.h>
 
-namespace Audio::Internal {
+#include <audio/internal/WaveformSynthesizer.h>
 
-    inline constexpr int waveformSingerTypeCount = 3;
+namespace Audio::Internal {
 
     struct WaveformSingerTempoSegment {
         double tick{};
@@ -84,10 +84,10 @@ namespace Audio::Internal {
     };
 
     struct WaveformSingerVoiceSnapshot {
-        std::vector<std::array<double, waveformSingerTypeCount>> roots;
+        std::vector<std::array<double, waveformTypeCount>> roots;
         std::vector<WaveformSingerMixAnchor> anchors;
 
-        void evaluate(double tick, std::array<double, waveformSingerTypeCount> &result) const;
+        void evaluate(double tick, std::array<double, waveformTypeCount> &result) const;
     };
 
     struct WaveformSingerClipSnapshot {

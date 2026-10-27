@@ -12,9 +12,9 @@
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <audio/internal/WaveformSingerTypeCatalog.h>
-
 #include <coreplugin/SingerRegistry.h>
+
+#include <audio/internal/WaveformTypeCatalog.h>
 
 namespace Audio::Internal {
 
@@ -59,7 +59,7 @@ namespace Audio::Internal {
         info.setAvatarUrl(QUrl(QStringLiteral("qrc:/diffscope/audio/singeravatar/waveform.svg")));
         info.setBackgroundUrl(QUrl(QStringLiteral("qrc:/diffscope/audio/singeravatar/waveform_portrait.svg")));
         info.setDefaultExtra(QJsonObject{
-            {QStringLiteral("type"), WaveformSingerTypeCatalog::fallbackType()},
+            {QStringLiteral("type"), WaveformTypeCatalog::fallbackType()},
         });
         return info;
     }

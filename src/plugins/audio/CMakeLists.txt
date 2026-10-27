@@ -31,6 +31,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         opendspx::interpolator
         opendspx::model
         talcs::Core
+        talcs::Midi
         talcs::Device
         talcs::Dspx
         talcs::Format

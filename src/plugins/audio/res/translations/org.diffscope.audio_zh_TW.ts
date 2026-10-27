@@ -968,19 +968,19 @@ To: %3</source>
     </message>
 </context>
 <context>
-    <name>Audio::Internal::WaveformSingerTypeCatalog</name>
+    <name>Audio::Internal::WaveformTypeCatalog</name>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerTypeCatalog.cpp" line="30"/>
+        <location filename="../../internal/synthesis/WaveformTypeCatalog.cpp" line="30"/>
         <source>Electric Piano</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerTypeCatalog.cpp" line="31"/>
+        <location filename="../../internal/synthesis/WaveformTypeCatalog.cpp" line="31"/>
         <source>Sine Wave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/waveformsinger/WaveformSingerTypeCatalog.cpp" line="32"/>
+        <location filename="../../internal/synthesis/WaveformTypeCatalog.cpp" line="32"/>
         <source>Choir</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1908,6 +1908,131 @@ Estimated size of each file: %3</source>
     <message>
         <location filename="../../qml/waveformsinger/WaveformSingerControlPanel.qml" line="45"/>
         <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Audio::Internal::MidiPage</name>
+    <message>
+        <location filename="../../internal/settings/MidiPage.cpp" line="19"/>
+        <source>MIDI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/MidiPage.cpp" line="20"/>
+        <source>Configure MIDI input, preview sounds, and playback control</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Audio::MidiInputContext</name>
+    <message>
+        <location filename="../../midi/MidiInputContext.cpp" line="169"/>
+        <source>The MIDI input device is unavailable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../midi/MidiInputContext.cpp" line="264"/>
+        <source>%1 (Port %L2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Audio::Internal::MidiInputSettingsHelper</name>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="56"/>
+        <source>MIDI device %1 is not available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="57"/>
+        <source>Cannot open MIDI device %1.
+
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="172"/>
+        <source>Why did you play ...?!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="172"/>
+        <source>I&apos;ll put an end to it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="180"/>
+        <source>(None)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="188"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="196"/>
+        <source>%1 (Not working)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MidiPage</name>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="27"/>
+        <source>MIDI Device Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="39"/>
+        <source>MIDI Input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="47"/>
+        <source>Input device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="60"/>
+        <source>MIDI Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="67"/>
+        <source>Enable MIDI Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="78"/>
+        <source>Sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="90"/>
+        <source>Preview volume (dB)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="121"/>
+        <source>Test</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="143"/>
+        <source>Interrupt All Notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="151"/>
+        <source>MIDI Machine Control</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="157"/>
+        <source>Enable MMC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="160"/>
+        <source>Allow the MIDI input device to play, pause, and stop the active project.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

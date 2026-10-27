@@ -33,6 +33,7 @@ set(QAK_AEC_EXECUTABLE "$<TARGET_FILE:qak_aec>")
 include("${CMAKE_CURRENT_LIST_DIR}/qactionkit/src/QActionKitMacros.cmake")
 
 set(TALCS_DSPX ON)
+set(TALCS_MIDI ON)
 set(TALCS_WIDGETS ON)
 set(TALCS_ASIO ${WIN32})
 add_subdirectory(talcs)

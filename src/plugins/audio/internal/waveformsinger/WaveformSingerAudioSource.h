@@ -43,7 +43,7 @@ namespace Audio::Internal {
         struct ControlValue {
             double frequency{};
             double energyGain{1.0};
-            std::array<double, waveformSingerTypeCount> weights{};
+            std::array<double, waveformTypeCount> weights{};
             double noteTime{};
             double noteOffTime{};
         };

@@ -9,7 +9,7 @@
 
 #include <TalcsCore/IAudioSampleContainer.h>
 
-#include <audio/internal/WaveformSingerSynthesizer.h>
+#include <audio/internal/WaveformSynthesizer.h>
 
 namespace Audio::Internal {
 
@@ -139,7 +139,7 @@ namespace Audio::Internal {
             }
             const auto control = controlAt(m_position, m_tempoSegment, evaluation, *tempo, *clip, *note);
             if (readData.silentFlags != -1) {
-                const auto sample = WaveformSingerSynthesizer::render(
+                const auto sample = WaveformSynthesizer::render(
                     m_cycles, control.frequency, control.noteTime, control.noteOffTime,
                     note->seed, control.weights, sampleRate()) * static_cast<float>(control.energyGain);
                 for (int channel = 0; channel < readData.buffer->channelCount(); ++channel) {
@@ -258,7 +258,7 @@ namespace Audio::Internal {
         }
         const auto start = tempo->tickToSeconds(clip->startTick + note->positionTick);
         const auto end = tempo->tickToSeconds(clip->startTick + note->positionTick + note->lengthTick);
-        return std::max<qint64>(1, sampleAt(end - start + WaveformSingerSynthesizer::maximumReleaseSeconds(), targetSampleRate));
+        return std::max<qint64>(1, sampleAt(end - start + WaveformSynthesizer::maximumReleaseSeconds(), targetSampleRate));
     }
 
     WaveformSingerClipAudioSource::WaveformSingerClipAudioSource(
@@ -325,7 +325,7 @@ namespace Audio::Internal {
             view->second,
             sampleAt(noteStartSeconds - contentOriginSeconds, targetSampleRate),
             std::max<qint64>(1, sampleAt(noteEndSeconds - noteStartSeconds +
-                                        WaveformSingerSynthesizer::maximumReleaseSeconds(), targetSampleRate)));
+                                        WaveformSynthesizer::maximumReleaseSeconds(), targetSampleRate)));
     }
 
     void WaveformSingerClipAudioSource::refreshRanges(

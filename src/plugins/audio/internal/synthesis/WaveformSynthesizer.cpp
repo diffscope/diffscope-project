@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-#include "WaveformSingerSynthesizer.h"
+#include "WaveformSynthesizer.h"
 
 #include <algorithm>
 #include <array>
@@ -36,20 +36,20 @@ namespace Audio::Internal {
 
     }
 
-    float WaveformSingerSynthesizer::render(
+    float WaveformSynthesizer::render(
         double baseCycles, double frequency, double noteTime, double noteOffTime,
-        std::uint64_t seed, const std::array<double, waveformSingerTypeCount> &weights,
+        std::uint64_t seed, const std::array<double, waveformTypeCount> &weights,
         double sampleRate) {
-        const auto piano = renderPiano(baseCycles, frequency, noteTime, noteOffTime, sampleRate);
-        const auto sine = renderSine(baseCycles, noteTime, noteOffTime);
-        const auto choir = renderChoir(baseCycles, frequency, noteTime, noteOffTime, seed, sampleRate);
+        const auto piano = weights[0] != 0.0 ? renderPiano(baseCycles, frequency, noteTime, noteOffTime, sampleRate) : 0.0;
+        const auto sine = weights[1] != 0.0 ? renderSine(baseCycles, noteTime, noteOffTime) : 0.0;
+        const auto choir = weights[2] != 0.0 ? renderChoir(baseCycles, frequency, noteTime, noteOffTime, seed, sampleRate) : 0.0;
         return static_cast<float>(
             weights[0] * pianoGain * piano +
             weights[1] * sineGain * sine +
             weights[2] * choirGain * choir);
     }
 
-    double WaveformSingerSynthesizer::envelope(
+    double WaveformSynthesizer::envelope(
         double time, double noteOff, double attack, double decay, double sustain, double release) {
         attack = std::max(attack, 1.0e-9);
         decay = std::max(decay, 1.0e-9);
@@ -72,7 +72,7 @@ namespace Audio::Internal {
         return levelBeforeRelease(noteOff) * std::max(0.0, 1.0 - (time - noteOff) / release);
     }
 
-    double WaveformSingerSynthesizer::phaseOffset(std::uint64_t seed, int voice, int harmonic) {
+    double WaveformSynthesizer::phaseOffset(std::uint64_t seed, int voice, int harmonic) {
         auto value = seed ^ (static_cast<std::uint64_t>(voice + 1) * 0x9e3779b97f4a7c15ULL);
         value ^= static_cast<std::uint64_t>(harmonic + 1) * 0xbf58476d1ce4e5b9ULL;
         value ^= value >> 30;
@@ -83,7 +83,7 @@ namespace Audio::Internal {
         return twoPi * static_cast<double>(value >> 11) / static_cast<double>(std::uint64_t{1} << 53);
     }
 
-    double WaveformSingerSynthesizer::renderPiano(
+    double WaveformSynthesizer::renderPiano(
         double baseCycles, double frequency, double noteTime, double noteOffTime, double sampleRate) {
         double sample = 0.0;
         for (const auto &harmonic : pianoHarmonics) {
@@ -105,12 +105,12 @@ namespace Audio::Internal {
         return sample;
     }
 
-    double WaveformSingerSynthesizer::renderSine(double baseCycles, double noteTime, double noteOffTime) {
+    double WaveformSynthesizer::renderSine(double baseCycles, double noteTime, double noteOffTime) {
         return envelope(noteTime, noteOffTime, 0.010, 1.0e-9, 1.0, 0.120) *
                std::sin(twoPi * baseCycles);
     }
 
-    double WaveformSingerSynthesizer::renderChoir(
+    double WaveformSynthesizer::renderChoir(
         double baseCycles, double frequency, double noteTime, double noteOffTime,
         std::uint64_t seed, double sampleRate) {
         double sample = 0.0;
