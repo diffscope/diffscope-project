@@ -44,6 +44,7 @@ namespace Synth::Internal {
         void remove(SynthesisPiece *piece);
         void discard(SynthesisPiece *piece);
         void detachSeries(QPointer<Audio::TrackAudioContext> &trackContext, talcs::FutureAudioSourceClipSeries *&series);
+        bool setPlaybackEnabled(Audio::TrackAudioContext *trackContext, talcs::FutureAudioSourceClipSeries *series, bool enabled);
         void rebindClip(dspx::SingingClip *clip, SynthesisPiece *piece);
 
         bool hasBinding(SynthesisPiece *piece) const;

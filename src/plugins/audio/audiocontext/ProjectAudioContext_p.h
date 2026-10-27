@@ -6,7 +6,11 @@
 
 #include <audio/ProjectAudioContext.h>
 
+#include <functional>
 #include <memory>
+
+#include <QMetaObject>
+#include <QPointer>
 
 namespace talcs {
     class DspxProjectContext;
@@ -20,6 +24,10 @@ namespace Audio {
         ProjectAudioContext *q_ptr{};
         Core::ProjectWindowInterface *windowHandle{};
         ProjectAudioContext::PlaybackStatus status{ProjectAudioContext::Stopped};
+        // A true return value consumes the request before the playback status changes.
+        std::function<bool(ProjectAudioContext::PlaybackStatus)> playbackStatusChangeHandler;
+        QPointer<dspx::SingingClip> playbackSuppressedClip;
+        QMetaObject::Connection suppressedClipDestroyedConnection;
         std::unique_ptr<talcs::DspxProjectContext> projectContext;
         talcs::MixerAudioSource *metronomeControlMixer{};
 

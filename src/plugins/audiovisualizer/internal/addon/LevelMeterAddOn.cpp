@@ -146,12 +146,12 @@ namespace AudioVisualizer::Internal {
         }
 
         connect(m_audioContext, &Audio::ProjectAudioContext::statusChanged, this,
-                [this](Audio::ProjectAudioContext::PlaybackStatus status) {
-                    if (status == Audio::ProjectAudioContext::Playing) {
+                [this] {
+                    if (m_audioContext->isRunning()) {
                         startLevelMeterTimer();
                     }
                 });
-        if (m_audioContext->status() == Audio::ProjectAudioContext::Playing) {
+        if (m_audioContext->isRunning()) {
             startLevelMeterTimer();
         }
     }
@@ -201,7 +201,7 @@ namespace AudioVisualizer::Internal {
 
                     updateSmoothedValue(state->left, static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(left)));
                     updateSmoothedValue(state->right, static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(right)));
-                    if (m_audioContext->status() == Audio::ProjectAudioContext::Playing) {
+                    if (m_audioContext->isRunning()) {
                         startLevelMeterTimer();
                     }
                 });
@@ -232,7 +232,7 @@ namespace AudioVisualizer::Internal {
                                         static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(0, 0.0f))));
                     updateSmoothedValue(m_metronomeMeter->right,
                                         static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(1, 0.0f))));
-                    if (m_audioContext->status() == Audio::ProjectAudioContext::Playing) {
+                    if (m_audioContext->isRunning()) {
                         startLevelMeterTimer();
                     }
                 });
@@ -296,7 +296,7 @@ namespace AudioVisualizer::Internal {
                                         static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(0, 0.0f))));
                     updateSmoothedValue(m_masterMeter->right,
                                         static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(1, 0.0f))));
-                    if (m_audioContext->status() == Audio::ProjectAudioContext::Playing) {
+                    if (m_audioContext->isRunning()) {
                         startLevelMeterTimer();
                     }
                 });
@@ -312,7 +312,7 @@ namespace AudioVisualizer::Internal {
     }
 
     void LevelMeterAddOn::tickLevelMeters() {
-        const bool notPlaying = m_audioContext->status() != Audio::ProjectAudioContext::Playing;
+        const bool notPlaying = !m_audioContext->isRunning();
         bool allAtFloor = true;
 
         const auto updateViewModel = [notPlaying, &allAtFloor](MeterState *state) {

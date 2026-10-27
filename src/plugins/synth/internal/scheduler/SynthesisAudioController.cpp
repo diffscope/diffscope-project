@@ -130,7 +130,7 @@ namespace Synth::Internal {
             series = new talcs::FutureAudioSourceClipSeries(this);
             series->setBufferingTarget(projectAudioContext->transport());
             series->setReadMode(talcs::FutureAudioSourceClipSeries::Notify);
-            if (!currentTrackContext->trackMixer()->addSource(series)) {
+            if (projectAudioContext->playbackSuppressedClip() != clip && !currentTrackContext->trackMixer()->addSource(series)) {
                 delete series;
                 series = nullptr;
                 if (errorMessage) {
@@ -334,6 +334,20 @@ namespace Synth::Internal {
         delete series;
         series = nullptr;
         trackContext = nullptr;
+    }
+
+    bool SynthesisAudioController::setPlaybackEnabled(Audio::TrackAudioContext *trackContext, talcs::FutureAudioSourceClipSeries *series, bool enabled) {
+        if (!trackContext || !series)
+            return true;
+        const auto mixer = trackContext->trackMixer();
+        const auto attached = mixer->findSource(series) != mixer->nullIterator();
+        if (enabled && !attached)
+            return mixer->addSource(series);
+        if (!enabled && attached) {
+            mixer->removeSource(series);
+            series->close();
+        }
+        return true;
     }
 
     void SynthesisAudioController::rebindClip(dspx::SingingClip *clip, SynthesisPiece *piece) {

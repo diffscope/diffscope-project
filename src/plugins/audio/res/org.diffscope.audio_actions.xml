@@ -26,10 +26,12 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <action id="org.diffscope.audio.playback.&amp;play" category="Playback" icon="play" />
         <action id="org.diffscope.audio.playback.p&amp;ause" category="Playback" icon="pause" />
         <action id="org.diffscope.audio.playback.&amp;stop" category="Playback" icon="stop" />
+        <action id="org.diffscope.audio.playback.record" category="Playback" text="Record" icon="record" description="Record MIDI notes into the current singing clip." />
         <action id="org.diffscope.audio.playback.toggle" category="Playback" text="Toggle Playback" shortcut="Space" description="Start playback, or pause or stop it according to playback settings." />
         <action id="org.diffscope.audio.playback.&amp;metronome" category="Playback" icon="metronome" />
         <action id="org.diffscope.audio.playback.playButton" category="Playback" triggerable="false" diffscope:componentType="widget" />
         <action id="org.diffscope.audio.playback.pauseButton" category="Playback" triggerable="false" diffscope:componentType="widget" />
+        <action id="org.diffscope.audio.playback.recordButton" category="Playback" triggerable="false" diffscope:componentType="widget" />
         <action id="org.diffscope.audio.insert.insertAudioClip^" category="Insert" icon="sound_wave_circle" description="Choose an audio file and its position in the project." />
         <action id="org.diffscope.audio.edit.replaceAudioClip^" category="Edit" icon="sound_wave_circle" description="Choose a different audio file for the current audio clip." />
         <action id="org.diffscope.audio.export.exportAudio^" category="Export" icon="sound_wave_circle_arrow_right" description="Render the project mix or separate tracks to audio files." />
@@ -58,6 +60,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
             <action id="org.diffscope.audio.playback.play" />
             <action id="org.diffscope.audio.playback.pause" />
             <action id="org.diffscope.audio.playback.stop" />
+            <action id="org.diffscope.audio.playback.record" />
             <action id="org.diffscope.audio.playback.toggle" />
         </group>
         <group id="org.diffscope.audio.metronomeActions">
@@ -77,6 +80,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
             <action id="org.diffscope.audio.playback.playButton" />
             <action id="org.diffscope.audio.playback.pauseButton" />
             <action id="org.diffscope.audio.playback.stop" />
+            <action id="org.diffscope.audio.playback.recordButton" />
         </insertion>
         <insertion target="org.diffscope.core.toolBarTimelineNavigationActions" anchor="last">
             <action id="org.diffscope.audio.playback.metronome" />

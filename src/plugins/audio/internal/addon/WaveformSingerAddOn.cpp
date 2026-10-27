@@ -349,6 +349,7 @@ namespace Audio::Internal {
             connect(clip, &dspx::Clip::gainChanged, this, [this] { syncControl(); });
             connect(clip, &dspx::Clip::panChanged, this, [this] { syncControl(); });
             connect(clip, &dspx::Clip::muteChanged, this, [this] { syncControl(); });
+            connect(m_addOn->m_audioContext, &ProjectAudioContext::playbackSuppressedClipChanged, this, [this] { syncControl(); });
             connect(clip, &dspx::SingingClip::sourcesChanged, this, [this] { syncSources(); });
 
             syncGeometry();
@@ -413,7 +414,7 @@ namespace Audio::Internal {
             }
             m_backend->controlMixer()->setGain(static_cast<float>(m_clip->gain()));
             m_backend->controlMixer()->setPan(static_cast<float>(m_clip->pan()));
-            m_backend->controlMixer()->setSilentFlags(m_clip->mute() ? -1 : 0);
+            m_backend->controlMixer()->setSilentFlags(m_clip->mute() || m_addOn->m_audioContext->playbackSuppressedClip() == m_clip ? -1 : 0);
         }
 
         void syncParameters() {

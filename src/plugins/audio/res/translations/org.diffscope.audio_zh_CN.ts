@@ -71,6 +71,11 @@
         <source>Render the project mix or separate tracks to audio files.</source>
         <translation type="unfinished">将工程混音或各个轨道渲染为音频文件。</translation>
     </message>
+    <message>
+        <location filename="../org.diffscope.audio_actions.xml" line="29"/>
+        <source>Record MIDI notes into the current singing clip.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application::ActionText</name>
@@ -158,6 +163,11 @@
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="974"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished">工作区面板小部件</translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.audio_actions.xml" line="29"/>
+        <source>Record</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2062,6 +2072,102 @@ Estimated size of each file: %3</source>
     <message>
         <location filename="../../qml/settings/MidiPage.qml" line="160"/>
         <source>Allow the MIDI input device to play, pause, and stop the active project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Audio::Internal::MidiRecordingAddOn</name>
+    <message>
+        <location filename="../../internal/addon/MidiRecordingAddOn.cpp" line="728"/>
+        <source>Recording MIDI</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MidiRecordingDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="23"/>
+        <source>Quantize MIDI Recording</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="37"/>
+        <source>Quantization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="47"/>
+        <source>Whole note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="48"/>
+        <source>Half note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="49"/>
+        <source>Quarter note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="50"/>
+        <source>8th note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="51"/>
+        <source>16th note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="52"/>
+        <source>32nd note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="53"/>
+        <source>64th note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="54"/>
+        <source>128th note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="60"/>
+        <source>Triplet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="65"/>
+        <source>Quintuplet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="73"/>
+        <source>Remove overlaps between recorded notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="75"/>
+        <source>Shorten earlier notes to the start of the next note. If notes start together, keep the last recorded note.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="89"/>
+        <source>Discard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="97"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="102"/>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

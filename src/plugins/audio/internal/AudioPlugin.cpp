@@ -41,6 +41,7 @@
 #include <audio/internal/ExportAudioAddOn.h>
 #include <audio/internal/ExportPage.h>
 #include <audio/internal/MidiPage.h>
+#include <audio/internal/MidiRecordingAddOn.h>
 #include <audio/internal/OutputSystem.h>
 #include <audio/internal/PlaybackAddOn.h>
 #include <audio/internal/PlaybackPage.h>
@@ -180,5 +181,6 @@ namespace Audio::Internal {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioClipAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<ExportAudioAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<PlaybackAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<MidiRecordingAddOn>();
     }
 }

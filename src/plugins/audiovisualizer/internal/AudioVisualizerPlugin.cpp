@@ -3,21 +3,22 @@
 
 #include "AudioVisualizerPlugin.h"
 
-#include <audiovisualizer/internal/AudioMipmapAddOn.h>
-#include <audiovisualizer/internal/LevelMeterAddOn.h>
-#include <audiovisualizer/internal/MasterTrackAddOn.h>
-
 #include <QQmlComponent>
 
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/translationmanager.h>
+
+#include <extensionsystem/pluginspec.h>
 
 #include <QAKCore/actionregistry.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
-#include <extensionsystem/pluginspec.h>
+#include <audiovisualizer/internal/AudioMipmapAddOn.h>
+#include <audiovisualizer/internal/LevelMeterAddOn.h>
+#include <audiovisualizer/internal/MasterTrackAddOn.h>
+#include <audiovisualizer/internal/MidiRecordingQuantizationAddOn.h>
 
 #include <org.diffscope.audiovisualizer_actions.qak.h>
 
@@ -39,6 +40,7 @@ namespace AudioVisualizer::Internal {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioMipmapAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MasterTrackAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<LevelMeterAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<MidiRecordingQuantizationAddOn>();
 
         return true;
     }

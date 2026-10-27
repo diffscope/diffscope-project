@@ -305,6 +305,12 @@ namespace Synth::Internal {
         connect(window->projectTimeline(), &Core::ProjectTimeline::positionChanged, this, &SynthesisProjectAddOn::updatePriorities);
         if (auto audioContext = Audio::ProjectAudioContext::of(window)) {
             connect(audioContext, &Audio::ProjectAudioContext::statusChanged, this, &SynthesisProjectAddOn::updatePriorities);
+            connect(audioContext, &Audio::ProjectAudioContext::playbackSuppressedClipChanged, this, [this](dspx::SingingClip *clip) {
+                for (auto runtime : m_clips) {
+                    if (runtime && !m_audioController->setPlaybackEnabled(runtime->audioTrackContext, runtime->audioSeries, !clip || runtime->clip != clip))
+                        qCCritical(lcSynthesisScheduler) << "Synthesized audio could not be restored to the track.";
+                }
+            });
         }
         synchronizeDocument();
         QTimer::singleShot(0, this, [this] {

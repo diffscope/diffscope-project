@@ -60,7 +60,7 @@ ActionCollection {
         ToolButton {
             action: d.addOn?.getPlayAction() ?? null
             display: AbstractButton.IconOnly
-            highlighted: d.addOn?.projectAudioContext.status === 1
+            highlighted: d.addOn?.projectAudioContext.status === ProjectAudioContext.Playing
             ThemedItem.controlType: SVS.CT_Accent
         }
     }
@@ -70,7 +70,7 @@ ActionCollection {
         ToolButton {
             action: d.addOn?.getPauseAction() ?? null
             display: AbstractButton.IconOnly
-            highlighted: d.addOn?.projectAudioContext.status === 2
+            highlighted: d.addOn?.projectAudioContext.paused ?? false
             ThemedItem.controlType: SVS.CT_Warning
         }
     }

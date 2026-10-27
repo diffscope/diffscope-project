@@ -21,6 +21,8 @@ namespace dspx {
 
 namespace Audio::Internal {
 
+    class MidiRecordingAddOn;
+
     class PlaybackAddOn : public Core::WindowInterfaceAddOn {
         Q_OBJECT
         QML_ELEMENT
@@ -51,18 +53,24 @@ namespace Audio::Internal {
         void metronomeEnabledChanged(bool enabled);
 
     private:
+        friend class MidiRecordingAddOn;
+
         qint64 tickToSample(int tick) const;
         int sampleToTick(qint64 sample) const;
 
         void syncLoopingRange();
         void handlePlaybackStatusChanged(Audio::ProjectAudioContext::PlaybackStatus status);
         void handlePlaybackPositionChanged(int positionTick);
+        void cancelPendingPlayback();
+        void playAfterRecording(quint64 serial);
+        void finishRecordingPlayback(bool stopRequested);
 
         ProjectAudioContext *m_context{};
         Core::ProjectTimeline *m_projectTimeline{};
         dspx::Model *m_documentModel{};
         bool m_transportPositionFlag{true};
         Audio::ProjectAudioContext::PlaybackStatus m_lastStatus{};
+        quint64 m_playRequestSerial{};
     };
 
 }

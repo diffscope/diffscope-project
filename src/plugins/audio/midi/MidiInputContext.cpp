@@ -26,6 +26,7 @@
 
 #include <audio/GlobalAudioContext.h>
 #include <audio/internal/AudioSystem.h>
+#include <audio/internal/MidiRecordingAddOn.h>
 #include <audio/internal/OutputSystem.h>
 #include <audio/internal/WaveformTypeCatalog.h>
 
@@ -324,6 +325,14 @@ namespace Audio {
         case talcs::MidiMessage::mmc_stop:
             action = QStringLiteral("org.diffscope.audio.playback.stop");
             break;
+        case talcs::MidiMessage::mmc_recordStart:
+            if (auto recorder = Internal::MidiRecordingAddOn::of(window))
+                recorder->startRecording();
+            return;
+        case talcs::MidiMessage::mmc_recordStop:
+            if (auto recorder = Internal::MidiRecordingAddOn::of(window))
+                recorder->stopRecording();
+            return;
         default:
             return;
         }

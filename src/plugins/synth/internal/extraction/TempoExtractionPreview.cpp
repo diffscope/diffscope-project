@@ -371,7 +371,7 @@ namespace Synth::Internal {
         }
         if (!valid())
             return;
-        if (auto context = Audio::ProjectAudioContext::of(m_window); context && context->status() == Audio::ProjectAudioContext::Playing)
+        if (auto context = Audio::ProjectAudioContext::of(m_window); context && context->isRunning())
             context->setStatus(Audio::ProjectAudioContext::Paused);
         auto mixer = Audio::GlobalAudioContext::preMixer();
         if (!mixer || !mixer->isOpen() || Audio::GlobalAudioContext::sampleRate() <= 0) {
