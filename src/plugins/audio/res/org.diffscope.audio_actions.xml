@@ -26,7 +26,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <action id="org.diffscope.audio.playback.&amp;play" category="Playback" icon="play" />
         <action id="org.diffscope.audio.playback.p&amp;ause" category="Playback" icon="pause" />
         <action id="org.diffscope.audio.playback.&amp;stop" category="Playback" icon="stop" />
-        <action id="org.diffscope.audio.playback.record" category="Playback" text="Record" icon="record" description="Record MIDI notes into the current singing clip." />
+        <action id="org.diffscope.audio.playback.record" category="Playback" text="Record" icon="circle" description="Record MIDI notes into the current singing clip." />
         <action id="org.diffscope.audio.playback.toggle" category="Playback" text="Toggle Playback" shortcut="Space" description="Start playback, or pause or stop it according to playback settings." />
         <action id="org.diffscope.audio.playback.&amp;metronome" category="Playback" icon="metronome" />
         <action id="org.diffscope.audio.playback.playButton" category="Playback" triggerable="false" diffscope:componentType="widget" />

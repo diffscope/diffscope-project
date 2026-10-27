@@ -20,13 +20,7 @@ ActionCollection {
         actionId: "org.diffscope.audio.playback.record"
         Action {
             enabled: (collection.addOn?.recording ?? false) || (collection.addOn?.canRecord ?? false)
-            checkable: true
-            checked: (collection.addOn?.recording ?? false) && !(collection.addOn?.paused ?? false)
-            onTriggered: {
-                // The checked state must follow active capture during deferred commands.
-                checked = Qt.binding(() => (collection.addOn?.recording ?? false) && !(collection.addOn?.paused ?? false))
-                Qt.callLater(() => collection.addOn.startRecording())
-            }
+            onTriggered: Qt.callLater(() => collection.addOn.startRecording())
         }
     }
 
