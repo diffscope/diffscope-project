@@ -80,22 +80,22 @@ namespace Audio::Internal {
     void AudioPlugin::extensionsInitialized() {
         initializeAudioOutput();
         m_midiInputContext->initialize();
-        connect(AudioSystem::outputSystem()->outputContext(), &talcs::OutputContext::deviceHotPlugged, this, [this] {
-            auto message = new Core::NotificationMessage(this);
-            message->setIcon(SVS::SVSCraft::Information);
-            message->setTitle(tr("Audio Device Changed"));
-            message->setText(tr("A change in audio devices has been detected. You can check or adjust the current device in the audio settings."));
-            message->setButtons({tr("Open Audio Output Settings")});
-            message->setPrimaryButton(0);
-            connect(message, &Core::NotificationMessage::closed, message, &QObject::deleteLater);
-            connect(message, &Core::NotificationMessage::buttonClicked, message, [message = QPointer<Core::NotificationMessage>(message)](int index) {
-                if (index == 0) {
-                    Core::CoreInterface::execSettingsDialog(QStringLiteral("audio.AudioOutput"), QApplication::focusWindow());
-                    if (message) {
-                        message->close();
-                    }
+        auto message = new Core::NotificationMessage(this);
+        message->setIcon(SVS::SVSCraft::Information);
+        message->setTitle(tr("Audio Device Changed"));
+        message->setText(tr("A change in audio devices has been detected. You can check or adjust the current device in the audio settings."));
+        message->setButtons({tr("Open Audio Output Settings")});
+        message->setPrimaryButton(0);
+        connect(message, &Core::NotificationMessage::buttonClicked, message, [message = QPointer<Core::NotificationMessage>(message)](int index) {
+            if (index == 0) {
+                Core::CoreInterface::execSettingsDialog(QStringLiteral("audio.AudioOutput"), QApplication::focusWindow());
+                if (message) {
+                    message->close();
                 }
-            }, Qt::QueuedConnection);
+            }
+        }, Qt::QueuedConnection);
+        connect(AudioSystem::outputSystem()->outputContext(), &talcs::OutputContext::deviceHotPlugged, this, [message] {
+            message->close();
             Core::CoreInterface::sendNotification(message, Core::CoreInterface::AutoHide);
         });
     }
