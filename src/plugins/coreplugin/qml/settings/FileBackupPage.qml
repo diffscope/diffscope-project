@@ -89,6 +89,12 @@ ScrollView {
                         checked: page.documentLogEnabled
                         onClicked: page.documentLogEnabled = checked
                     }
+                    Label {
+                        ThemedItem.foregroundLevel: SVS.FL_Secondary
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                        text: qsTr("The document log records edits in real time to help recover unsaved work after an unexpected exit. View and restore unsaved work in Recovery Files.")
+                    }
                 }
             }
         }

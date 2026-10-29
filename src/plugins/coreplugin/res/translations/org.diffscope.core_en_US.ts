@@ -5304,6 +5304,11 @@ Continue to bounce?</translation>
         <source>Enable document log</source>
         <translation type="unfinished">Enable document log</translation>
     </message>
+    <message>
+        <location filename="../../qml/settings/FileBackupPage.qml" line="99"/>
+        <source>Records edits in real time to help recover unsaved work after an unexpected exit. View and restore unsaved work in Recovery Files.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FillLyricsDialog</name>
