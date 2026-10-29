@@ -36,6 +36,13 @@ ActionCollection {
         }
     }
     ActionItem {
+        actionId: "org.diffscope.synth.extract.pitch"
+        Action {
+            enabled: d.audioClipSelected
+            onTriggered: Qt.callLater(() => d.addOn.extractPitch(d.selection.currentItem))
+        }
+    }
+    ActionItem {
         actionId: "org.diffscope.synth.extract.separation"
         Action {
             enabled: d.audioClipSelected

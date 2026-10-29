@@ -12,6 +12,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QList>
 #include <QLoggingCategory>
 #include <QMap>
 #include <QQmlComponent>
@@ -21,6 +22,7 @@
 #include <QSaveFile>
 #include <QSet>
 #include <QTemporaryDir>
+#include <QVariant>
 
 #include <CoreApi/filelocker.h>
 #include <CoreApi/runtimeinterface.h>
@@ -36,9 +38,12 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <dspxmodelORM/ClipSequence.h>
+#include <dspxmodelORM/FreeValueDataArray.h>
 #include <dspxmodelORM/Model.h>
 #include <dspxmodelORM/Note.h>
 #include <dspxmodelORM/NoteSequence.h>
+#include <dspxmodelORM/Parameter.h>
+#include <dspxmodelORM/ParameterMap.h>
 #include <dspxmodelORM/SingingClip.h>
 #include <dspxmodelORM/Tempo.h>
 #include <dspxmodelORM/TempoSequence.h>
@@ -46,6 +51,7 @@
 #include <dspxmodelORM/TrackList.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
+#include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/DspxDocument.h>
@@ -93,6 +99,36 @@ namespace Synth::Internal {
                     return false;
             }
             return output.commit();
+        }
+
+        QList<QVariant> resamplePitch(const AudioExtractionResult &result, SVS::MusicTimeline *timeline, int position, int length) {
+            const int step = dspx::FreeValueDataArray::step();
+            const int count = length / step + (length % step != 0);
+            const double startMsec = timeline->create(0, 0, position).millisecond();
+            QList<QVariant> values;
+            values.reserve(count);
+            auto segment = result.pitch.cbegin();
+            for (int index = 0; index < count; ++index) {
+                const double seconds = (timeline->create(0, 0, position + index * step).millisecond() - startMsec) / 1000;
+                while (segment != result.pitch.cend() && seconds >= segment->startSeconds + segment->cents.size() / result.pitchSampleRate)
+                    ++segment;
+                if (segment == result.pitch.cend() || seconds < segment->startSeconds || segment->cents.isEmpty()) {
+                    values.append(QVariant());
+                    continue;
+                }
+                const double samplePosition = (seconds - segment->startSeconds) * result.pitchSampleRate;
+                const auto left = std::min(static_cast<qsizetype>(std::floor(samplePosition)), segment->cents.size() - 1);
+                const auto right = std::min(left + 1, segment->cents.size() - 1);
+                double rightCent = segment->cents.at(right);
+                const auto next = segment + 1;
+                if (left == right && next != result.pitch.cend() && !next->cents.isEmpty()
+                    && qFuzzyCompare(next->startSeconds, segment->startSeconds + segment->cents.size() / result.pitchSampleRate)) {
+                    rightCent = next->cents.first();
+                }
+                const double cent = std::lerp(segment->cents.at(left), rightCent, samplePosition - left);
+                values.append(Core::ParameterInfo::toDspxModelValue(cent / 12800.0));
+            }
+            return values;
         }
 
     }
@@ -145,6 +181,7 @@ namespace Synth::Internal {
 
     void AudioExtractionAddOn::extractNotes(dspx::AudioClip *clip) { open(clip, AudioExtractionTask::Notes); }
     void AudioExtractionAddOn::extractTempo(dspx::AudioClip *clip) { open(clip, AudioExtractionTask::Tempo); }
+    void AudioExtractionAddOn::extractPitch(dspx::AudioClip *clip) { open(clip, AudioExtractionTask::Pitch); }
     void AudioExtractionAddOn::separateAudio(dspx::AudioClip *clip) { open(clip, AudioExtractionTask::Separation); }
 
     QString AudioExtractionAddOn::chooseDirectory(const QString &directory) {
@@ -191,6 +228,8 @@ namespace Synth::Internal {
             qFatal() << component.errorString();
         if (type == AudioExtractionTask::Tempo)
             m_dialog->setProperty("title", tr("Extract Tempo"));
+        else if (type == AudioExtractionTask::Pitch)
+            m_dialog->setProperty("title", tr("Extract Pitch"));
         m_task->setParent(m_dialog);
         m_dialog->setProperty("x", (window->width() - m_dialog->property("width").toDouble()) / 2);
         m_dialog->setProperty("y", window->property("popupTopMarginHint").isValid()
@@ -498,13 +537,16 @@ namespace Synth::Internal {
         }
 
         dspx::Clip *firstClip = nullptr;
-        const auto count = operation.type == AudioExtractionTask::Notes ? 1 : result.stems.size();
+        const bool singingExtraction = operation.type == AudioExtractionTask::Notes || operation.type == AudioExtractionTask::Pitch;
+        const auto count = singingExtraction ? 1 : result.stems.size();
         int insertionIndex = tracks->items().indexOf(operation.track) + 1;
         const auto startMsec = timeline->create(0, 0, operation.position).millisecond();
         for (qsizetype index = 0; index < count; ++index) {
             const auto name = operation.type == AudioExtractionTask::Notes
                 ? tr("%1 (Extracted notes)").arg(operation.name)
-                : tr("%1 (%2)").arg(operation.name, result.stems.at(index).name);
+                : operation.type == AudioExtractionTask::Pitch
+                    ? tr("%1 (Extracted pitch)").arg(operation.name)
+                    : tr("%1 (%2)").arg(operation.name, result.stems.at(index).name);
             auto track = model->createTrack();
             track->fromOpenDSPX(opendspx::Track{});
             track->setName(name);
@@ -514,28 +556,37 @@ namespace Synth::Internal {
                 return;
             }
             dspx::Clip *clip;
-            if (operation.type == AudioExtractionTask::Notes) {
+            if (singingExtraction) {
                 auto singing = model->createSingingClip();
                 clip = singing;
-                auto lyrics = Core::CoreInterface::defaultLyricManager();
-                const auto lyric = lyrics->getDefaultLyricForSingingClip(singing);
-                for (const auto &extracted : result.notes) {
-                    const double startSeconds = std::clamp(extracted.startSeconds, 0.0, operation.input.durationSeconds);
-                    const double endSeconds = std::clamp(extracted.startSeconds + extracted.durationSeconds, 0.0, operation.input.durationSeconds);
-                    const int start = std::clamp(timeline->create(startMsec + startSeconds * 1000).totalTick() - operation.position, 0, operation.clipLength);
-                    const int end = std::clamp(timeline->create(startMsec + endSeconds * 1000).totalTick() - operation.position, 0, operation.clipLength);
-                    if (end <= start)
-                        continue;
-                    auto note = model->createNote();
-                    const int key = std::clamp(qRound(extracted.cent / 100.0), 0, 127);
-                    note->setKeyNumber(key);
-                    note->setCentShift(std::clamp(extracted.cent - key * 100, -50, 50));
-                    note->setPosition(start);
-                    note->setLength(end - start);
-                    note->setLyric(lyric);
-                    if (!singing->notes()->insertItem(note)) {
-                        abort(tr("Could not insert the extracted notes."));
+                if (operation.type == AudioExtractionTask::Pitch) {
+                    auto parameter = model->createParameter();
+                    if (!singing->parameters()->insertItem(QStringLiteral("pitch"), parameter)
+                        || !parameter->freeEdited()->splice(0, 0, resamplePitch(result, timeline, operation.position, operation.clipLength))) {
+                        abort(tr("Could not insert the extracted pitch."));
                         return;
+                    }
+                } else {
+                    auto lyrics = Core::CoreInterface::defaultLyricManager();
+                    const auto lyric = lyrics->getDefaultLyricForSingingClip(singing);
+                    for (const auto &extracted : result.notes) {
+                        const double startSeconds = std::clamp(extracted.startSeconds, 0.0, operation.input.durationSeconds);
+                        const double endSeconds = std::clamp(extracted.startSeconds + extracted.durationSeconds, 0.0, operation.input.durationSeconds);
+                        const int start = std::clamp(timeline->create(startMsec + startSeconds * 1000).totalTick() - operation.position, 0, operation.clipLength);
+                        const int end = std::clamp(timeline->create(startMsec + endSeconds * 1000).totalTick() - operation.position, 0, operation.clipLength);
+                        if (end <= start)
+                            continue;
+                        auto note = model->createNote();
+                        const int key = std::clamp(qRound(extracted.cent / 100.0), 0, 127);
+                        note->setKeyNumber(key);
+                        note->setCentShift(std::clamp(extracted.cent - key * 100, -50, 50));
+                        note->setPosition(start);
+                        note->setLength(end - start);
+                        note->setLyric(lyric);
+                        if (!singing->notes()->insertItem(note)) {
+                            abort(tr("Could not insert the extracted notes."));
+                            return;
+                        }
                     }
                 }
             } else {
@@ -556,7 +607,10 @@ namespace Synth::Internal {
             if (!firstClip)
                 firstClip = clip;
         }
-        if (!controller->commitTransaction(transaction, operation.type == AudioExtractionTask::Notes ? tr("Extracting notes") : tr("Separating audio"))) {
+        const auto description = operation.type == AudioExtractionTask::Notes ? tr("Extracting notes")
+            : operation.type == AudioExtractionTask::Pitch ? tr("Extracting pitch")
+            : tr("Separating audio");
+        if (!controller->commitTransaction(transaction, description)) {
             abort(tr("Could not commit the extracted tracks."));
             return;
         }

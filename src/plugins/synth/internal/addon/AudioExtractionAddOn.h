@@ -31,6 +31,7 @@ namespace Synth::Internal {
 
         Q_INVOKABLE void extractNotes(dspx::AudioClip *clip);
         Q_INVOKABLE void extractTempo(dspx::AudioClip *clip);
+        Q_INVOKABLE void extractPitch(dspx::AudioClip *clip);
         Q_INVOKABLE void separateAudio(dspx::AudioClip *clip);
         Q_INVOKABLE QString chooseDirectory(const QString &directory);
         Q_INVOKABLE QString normalizedPath(const QString &path) const;

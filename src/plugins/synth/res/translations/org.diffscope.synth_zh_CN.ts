@@ -76,6 +76,10 @@
         <source>Choose which synthesis stages to rerun for the selected clips or notes.</source>
         <translation type="unfinished">选择对选中剪辑或音符重新执行的合成阶段。</translation>
     </message>
+    <message>
+        <source>Create a singing clip with an editable pitch curve from the current audio clip.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application::ActionText</name>
@@ -173,6 +177,10 @@
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1027"/>
         <source>Package Manager</source>
         <translation type="unfinished">包管理器</translation>
+    </message>
+    <message>
+        <source>Extract Pitch...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1591,6 +1599,22 @@ Some files could not be restored. Backups are in %2.
         <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="193"/>
         <source>Extract Tempo</source>
         <translation type="unfinished">提取曲速</translation>
+    </message>
+    <message>
+        <source>Extract Pitch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 (Extracted pitch)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not insert the extracted pitch.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extracting pitch</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
