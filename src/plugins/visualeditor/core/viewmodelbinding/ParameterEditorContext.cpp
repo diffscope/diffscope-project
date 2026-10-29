@@ -41,6 +41,7 @@
 #include <coreplugin/SingerRegistry.h>
 
 #include <visualeditor/ProjectViewModelContext.h>
+#include <visualeditor/internal/EditorPreference.h>
 
 namespace VisualEditor {
 
@@ -535,6 +536,11 @@ namespace VisualEditor {
     void ParameterViewModelBindingPrivate::initializeController() {
         if (!editable)
             return;
+        auto *preference = Internal::EditorPreference::instance();
+        connect(preference, &Internal::EditorPreference::preferredParameterShiftModeChanged,
+                this, &ParameterViewModelBindingPrivate::updateControllerDefinition);
+        connect(preference, &Internal::EditorPreference::preferredParameterScaleModeChanged,
+                this, &ParameterViewModelBindingPrivate::updateControllerDefinition);
         const auto connectController = [this](sflow::ParameterEditorInteractionController *controller,
                                               bool transform) {
             auto *viewSelection = transform ? transformFreeSelection : freeSelection;
@@ -683,6 +689,21 @@ namespace VisualEditor {
     }
 
     void ParameterViewModelBindingPrivate::updateControllerDefinition() {
+        using Controller = sflow::ParameterEditorInteractionController;
+        const bool pitch = parameterId == QStringLiteral("pitch");
+        const auto shiftMode = pitch ? Controller::TranslateValues : Internal::EditorPreference::preferredParameterShiftMode();
+        const auto alternativeShiftMode = pitch || shiftMode == Controller::ScaleAbsoluteValues
+            ? Controller::TranslateValues : Controller::ScaleAbsoluteValues;
+        const auto scaleMode = Internal::EditorPreference::preferredParameterScaleMode();
+        const auto alternativeScaleMode = scaleMode == Controller::ScaleToEndpoints
+            ? Controller::ScaleToMean : Controller::ScaleToEndpoints;
+        for (auto *controller : {interactionController, transformInteractionController}) {
+            controller->setTransformShiftMode(shiftMode);
+            controller->setAlternativeTransformShiftMode(alternativeShiftMode);
+            controller->setTransformScaleMode(scaleMode);
+            controller->setAlternativeTransformScaleMode(alternativeScaleMode);
+        }
+
         const double defaultValue = canonicalValue(parameterInfo.defaultValue);
         interactionController->setDefaultValue(defaultValue);
         interactionController->setFillBaseline(canonicalValue(parameterInfo.baselineValue));

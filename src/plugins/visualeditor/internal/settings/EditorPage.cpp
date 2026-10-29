@@ -60,6 +60,8 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("usePageModifierAsAlternateAxisZoom");
         m_widget->setProperty("middleButtonAutoScroll", EditorPreference::instance()->property("middleButtonAutoScroll"));
         qCDebug(lcEditorPage) << m_widget->property("middleButtonAutoScroll");
+        m_widget->setProperty("preferredParameterShiftMode", EditorPreference::instance()->property("preferredParameterShiftMode"));
+        m_widget->setProperty("preferredParameterScaleMode", EditorPreference::instance()->property("preferredParameterScaleMode"));
         m_widget->setProperty("autoDurationPositionAlignment", EditorPreference::instance()->property("autoDurationPositionAlignment"));
         qCDebug(lcEditorPage) << m_widget->property("autoDurationPositionAlignment");
         m_widget->setProperty("enableTemporarySnapOff", EditorPreference::instance()->property("enableTemporarySnapOff"));
@@ -122,6 +124,8 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("usePageModifierAsAlternateAxisZoom", m_widget->property("usePageModifierAsAlternateAxisZoom"));
         qCDebug(lcEditorPage) << "middleButtonAutoScroll" << m_widget->property("middleButtonAutoScroll");
         EditorPreference::instance()->setProperty("middleButtonAutoScroll", m_widget->property("middleButtonAutoScroll"));
+        EditorPreference::instance()->setProperty("preferredParameterShiftMode", m_widget->property("preferredParameterShiftMode"));
+        EditorPreference::instance()->setProperty("preferredParameterScaleMode", m_widget->property("preferredParameterScaleMode"));
         qCDebug(lcEditorPage) << "autoDurationPositionAlignment" << m_widget->property("autoDurationPositionAlignment");
         EditorPreference::instance()->setProperty("autoDurationPositionAlignment", m_widget->property("autoDurationPositionAlignment"));
         qCDebug(lcEditorPage) << "enableTemporarySnapOff" << m_widget->property("enableTemporarySnapOff");

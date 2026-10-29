@@ -762,6 +762,46 @@
 <context>
     <name>EditorPage</name>
     <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="172"/>
+        <source>Parameter Transforms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="182"/>
+        <source>Preferred shift operation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="187"/>
+        <source>Translate values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="187"/>
+        <source>Scale absolute values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="194"/>
+        <source>Preferred scale operation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="199"/>
+        <source>Endpoint line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="199"/>
+        <source>Arithmetic mean</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="207"/>
+        <source>The alternative tool uses the other operations. Pitch always uses translation for shift operations.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/settings/EditorPage.qml" line="94"/>
         <source>Move and Zoom</source>
         <translation type="unfinished">Move and Zoom</translation>

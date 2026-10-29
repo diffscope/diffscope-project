@@ -6,6 +6,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import dev.sjimo.ScopicFlow
+
 import SVSCraft
 import SVSCraft.UIComponents
 
@@ -21,6 +23,8 @@ ScrollView {
     property int pageModifier: 0
     property bool usePageModifierAsAlternateAxisZoom: false
     property bool middleButtonAutoScroll: false
+    property int preferredParameterShiftMode: ParameterEditorInteractionController.TranslateValues
+    property int preferredParameterScaleMode: ParameterEditorInteractionController.ScaleToEndpoints
     property double autoDurationPositionAlignment: 32
     property bool enableTemporarySnapOff: false
     property bool trackListOnRight: false
@@ -50,6 +54,8 @@ ScrollView {
     onPageModifierChanged: if (started) pageHandle.markDirty()
     onUsePageModifierAsAlternateAxisZoomChanged: if (started) pageHandle.markDirty()
     onMiddleButtonAutoScrollChanged: if (started) pageHandle.markDirty()
+    onPreferredParameterShiftModeChanged: if (started) pageHandle.markDirty()
+    onPreferredParameterScaleModeChanged: if (started) pageHandle.markDirty()
     onAutoDurationPositionAlignmentChanged: if (started) pageHandle.markDirty()
     onEnableTemporarySnapOffChanged: if (started) pageHandle.markDirty()
     onTrackListOnRightChanged: if (started) pageHandle.markDirty()
@@ -630,6 +636,42 @@ ScrollView {
                         valueFromText: function(text, locale) {
                             return parseInt(text.replace("%", ""))
                         }
+                    }
+                }
+            }
+
+            GroupBox {
+                title: qsTr("Parameter Transforms")
+                TextMatcherItem on title { matcher: page.matcher }
+                Layout.fillWidth: true
+
+                GridLayout {
+                    anchors.fill: parent
+                    columns: 2
+
+                    Label {
+                        id: preferredShiftLabel
+                        text: qsTr("Preferred shift operation")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    ComboBox {
+                        Layout.fillWidth: true
+                        model: [qsTr("Translate values"), qsTr("Scale absolute values")]
+                        currentIndex: page.preferredParameterShiftMode
+                        onActivated: index => page.preferredParameterShiftMode = index
+                        Accessible.name: preferredShiftLabel.text
+                    }
+                    Label {
+                        id: preferredScaleLabel
+                        text: qsTr("Preferred scale operation")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    ComboBox {
+                        Layout.fillWidth: true
+                        model: [qsTr("Endpoint line"), qsTr("Arithmetic mean")]
+                        currentIndex: page.preferredParameterScaleMode
+                        onActivated: index => page.preferredParameterScaleMode = index
+                        Accessible.name: preferredScaleLabel.text
                     }
                 }
             }

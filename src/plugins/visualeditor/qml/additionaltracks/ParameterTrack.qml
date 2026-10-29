@@ -183,6 +183,8 @@ QtObject {
                 return ParameterEditorInteractionController.Pencil
             case ParameterEditorInteractionController.FreeRangeSelect:
                 return ParameterEditorInteractionController.Transform
+            case ParameterEditorInteractionController.Transform:
+                return ParameterEditorInteractionController.AlternativeTransform
             case ParameterEditorInteractionController.Pointer:
             case ParameterEditorInteractionController.Pen:
                 return ParameterEditorInteractionController.ConvertAnchor

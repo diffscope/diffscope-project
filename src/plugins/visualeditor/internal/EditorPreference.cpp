@@ -22,6 +22,8 @@ namespace VisualEditor::Internal {
         EditorPreference::ScrollModifier pageModifier{};
         bool usePageModifierAsAlternateAxisZoom{};
         bool middleButtonAutoScroll{};
+        EditorPreference::ParameterShiftMode preferredParameterShiftMode{sflow::ParameterEditorInteractionController::TranslateValues};
+        EditorPreference::ParameterScaleMode preferredParameterScaleMode{sflow::ParameterEditorInteractionController::ScaleToEndpoints};
         int autoDurationPositionAlignment{24};
         bool enableTemporarySnapOff{true};
         bool trackListOnRight{};
@@ -76,6 +78,8 @@ namespace VisualEditor::Internal {
         emit usePageModifierAsAlternateAxisZoomChanged();
         d->middleButtonAutoScroll = settings->value("middleButtonAutoScroll", false).toBool();
         emit middleButtonAutoScrollChanged();
+        setPreferredParameterShiftMode(static_cast<ParameterShiftMode>(settings->value("preferredParameterShiftMode", static_cast<int>(sflow::ParameterEditorInteractionController::TranslateValues)).toInt()));
+        setPreferredParameterScaleMode(static_cast<ParameterScaleMode>(settings->value("preferredParameterScaleMode", static_cast<int>(sflow::ParameterEditorInteractionController::ScaleToEndpoints)).toInt()));
         d->autoDurationPositionAlignment = settings->value("autoDurationPositionAlignment", 24).toInt();
         emit autoDurationPositionAlignmentChanged();
         d->enableTemporarySnapOff = settings->value("enableTemporarySnapOff", true).toBool();
@@ -136,6 +140,8 @@ namespace VisualEditor::Internal {
         settings->setValue("pageModifier", static_cast<int>(d->pageModifier));
         settings->setValue("usePageModifierAsAlternateAxisZoom", d->usePageModifierAsAlternateAxisZoom);
         settings->setValue("middleButtonAutoScroll", d->middleButtonAutoScroll);
+        settings->setValue("preferredParameterShiftMode", static_cast<int>(d->preferredParameterShiftMode));
+        settings->setValue("preferredParameterScaleMode", static_cast<int>(d->preferredParameterScaleMode));
         settings->setValue("autoDurationPositionAlignment", d->autoDurationPositionAlignment);
         settings->setValue("enableTemporarySnapOff", d->enableTemporarySnapOff);
         settings->setValue("trackListOnRight", d->trackListOnRight);
@@ -165,6 +171,36 @@ namespace VisualEditor::Internal {
 #define M_INSTANCE_D      \
     Q_ASSERT(m_instance); \
     auto d = m_instance->d_func()
+
+    EditorPreference::ParameterShiftMode EditorPreference::preferredParameterShiftMode() {
+        M_INSTANCE_D;
+        return d->preferredParameterShiftMode;
+    }
+
+    void EditorPreference::setPreferredParameterShiftMode(ParameterShiftMode mode) {
+        M_INSTANCE_D;
+        if (mode < sflow::ParameterEditorInteractionController::TranslateValues
+            || mode > sflow::ParameterEditorInteractionController::ScaleAbsoluteValues || d->preferredParameterShiftMode == mode) {
+            return;
+        }
+        d->preferredParameterShiftMode = mode;
+        Q_EMIT m_instance->preferredParameterShiftModeChanged();
+    }
+
+    EditorPreference::ParameterScaleMode EditorPreference::preferredParameterScaleMode() {
+        M_INSTANCE_D;
+        return d->preferredParameterScaleMode;
+    }
+
+    void EditorPreference::setPreferredParameterScaleMode(ParameterScaleMode mode) {
+        M_INSTANCE_D;
+        if (mode < sflow::ParameterEditorInteractionController::ScaleToEndpoints
+            || mode > sflow::ParameterEditorInteractionController::ScaleToMean || d->preferredParameterScaleMode == mode) {
+            return;
+        }
+        d->preferredParameterScaleMode = mode;
+        Q_EMIT m_instance->preferredParameterScaleModeChanged();
+    }
 
     EditorPreference::ScrollModifier EditorPreference::alternateAxisModifier() {
         M_INSTANCE_D;

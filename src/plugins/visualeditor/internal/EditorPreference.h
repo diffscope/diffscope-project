@@ -8,6 +8,8 @@
 
 #include <QObject>
 
+#include <ScopicFlowCore/ParameterEditorInteractionController.h>
+
 class QQmlEngine;
 class QJSEngine;
 
@@ -27,6 +29,8 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(EditorPreference::ScrollModifier pageModifier READ pageModifier WRITE setPageModifier NOTIFY pageModifierChanged)
         Q_PROPERTY(bool usePageModifierAsAlternateAxisZoom READ usePageModifierAsAlternateAxisZoom WRITE setUsePageModifierAsAlternateAxisZoom NOTIFY usePageModifierAsAlternateAxisZoomChanged)
         Q_PROPERTY(bool middleButtonAutoScroll READ middleButtonAutoScroll WRITE setMiddleButtonAutoScroll NOTIFY middleButtonAutoScrollChanged)
+        Q_PROPERTY(sflow::ParameterEditorInteractionController::ShiftMode preferredParameterShiftMode READ preferredParameterShiftMode WRITE setPreferredParameterShiftMode NOTIFY preferredParameterShiftModeChanged)
+        Q_PROPERTY(sflow::ParameterEditorInteractionController::ScaleMode preferredParameterScaleMode READ preferredParameterScaleMode WRITE setPreferredParameterScaleMode NOTIFY preferredParameterScaleModeChanged)
         Q_PROPERTY(int autoDurationPositionAlignment READ autoDurationPositionAlignment WRITE setAutoDurationPositionAlignment NOTIFY autoDurationPositionAlignmentChanged)
         Q_PROPERTY(bool enableTemporarySnapOff READ enableTemporarySnapOff WRITE setEnableTemporarySnapOff NOTIFY enableTemporarySnapOffChanged)
         Q_PROPERTY(bool trackListOnRight READ trackListOnRight WRITE setTrackListOnRight NOTIFY trackListOnRightChanged)
@@ -52,6 +56,9 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(double bottomPanelOpacity READ bottomPanelOpacity WRITE setBottomPanelOpacity NOTIFY bottomPanelOpacityChanged)
 
     public:
+        using ParameterShiftMode = sflow::ParameterEditorInteractionController::ShiftMode;
+        using ParameterScaleMode = sflow::ParameterEditorInteractionController::ScaleMode;
+
         ~EditorPreference() override;
 
         static EditorPreference *instance();
@@ -113,6 +120,12 @@ namespace VisualEditor::Internal {
 
         static bool middleButtonAutoScroll();
         static void setMiddleButtonAutoScroll(bool middleButtonAutoScroll);
+
+        static ParameterShiftMode preferredParameterShiftMode();
+        static void setPreferredParameterShiftMode(ParameterShiftMode mode);
+
+        static ParameterScaleMode preferredParameterScaleMode();
+        static void setPreferredParameterScaleMode(ParameterScaleMode mode);
 
         static int autoDurationPositionAlignment();
         static void setAutoDurationPositionAlignment(int autoDurationPositionAlignment);
@@ -189,6 +202,8 @@ namespace VisualEditor::Internal {
         void pageModifierChanged();
         void usePageModifierAsAlternateAxisZoomChanged();
         void middleButtonAutoScrollChanged();
+        void preferredParameterShiftModeChanged();
+        void preferredParameterScaleModeChanged();
         void autoDurationPositionAlignmentChanged();
         void enableTemporarySnapOffChanged();
         void trackListOnRightChanged();

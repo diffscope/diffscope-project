@@ -213,6 +213,8 @@ namespace VisualEditor {
                             return sflow::ParameterEditorInteractionController::Pencil;
                         case sflow::ParameterEditorInteractionController::FreeRangeSelect:
                             return sflow::ParameterEditorInteractionController::Transform;
+                        case sflow::ParameterEditorInteractionController::Transform:
+                            return sflow::ParameterEditorInteractionController::AlternativeTransform;
                         case sflow::ParameterEditorInteractionController::Pointer:
                         case sflow::ParameterEditorInteractionController::Pen:
                             return sflow::ParameterEditorInteractionController::ConvertAnchor;
