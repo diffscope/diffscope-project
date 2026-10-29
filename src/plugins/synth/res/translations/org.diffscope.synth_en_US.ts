@@ -24,22 +24,22 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1046"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1047"/>
         <source>Extract</source>
         <translation type="unfinished">Extract</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1047"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1048"/>
         <source>Panel</source>
         <translation type="unfinished">Panel</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1044"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1045"/>
         <source>Synth</source>
         <translation type="unfinished">Synth</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1045"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1046"/>
         <source>Preferences</source>
         <translation type="unfinished">Preferences</translation>
     </message>
@@ -47,140 +47,142 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1050"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1051"/>
         <source>Control the local DiffSinger Synthesis Program service.</source>
         <translation type="unfinished">Control the local DiffSinger Synthesis Program service.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1051"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1052"/>
         <source>Choose an extraction task for the current audio clip.</source>
         <translation type="unfinished">Choose an extraction task for the current audio clip.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1052"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1053"/>
         <source>Create an editable singing clip from the current audio clip.</source>
         <translation type="unfinished">Create an editable singing clip from the current audio clip.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1053"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1054"/>
         <source>Apply the tempo of the current audio clip to the project.</source>
         <translation type="unfinished">Apply the tempo of the current audio clip to the project.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1054"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1056"/>
         <source>Split the current audio clip into separate audio tracks.</source>
         <translation type="unfinished">Split the current audio clip into separate audio tracks.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1055"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1057"/>
         <source>Choose which synthesis stages to rerun for the selected clips or notes.</source>
         <translation type="unfinished">Choose which synthesis stages to rerun for the selected clips or notes.</translation>
     </message>
     <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1055"/>
         <source>Create a singing clip with an editable pitch curve from the current audio clip.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Create a singing clip with an editable pitch curve from the current audio clip.</translation>
     </message>
 </context>
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1033"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1035"/>
         <source>Synthesis Services</source>
         <translation type="unfinished">Synthesis Services</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1035"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1036"/>
         <source>Synthesis Status</source>
         <translation type="unfinished">Synthesis Status</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1036"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1037"/>
         <source>&amp;Resynthesize...</source>
         <translation type="unfinished">&amp;Resynthesize...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1038"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1039"/>
         <source>Synthesis Actions</source>
         <translation type="unfinished">Synthesis Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1029"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1030"/>
         <source>Audio Extraction</source>
         <translation type="unfinished">Audio Extraction</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1018"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1019"/>
         <source>Main Menu</source>
         <translation type="unfinished">Main Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1030"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1031"/>
         <source>Extract Notes...</source>
         <translation type="unfinished">Extract Notes...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1031"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1032"/>
         <source>Extract Tempo...</source>
         <translation type="unfinished">Extract Tempo...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1032"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1034"/>
         <source>Separate Audio...</source>
         <translation type="unfinished">Separate Audio...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1039"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1040"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished">Workspace Panel Widgets</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1021"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1022"/>
         <source>DiffSinger Synthesis Program</source>
         <translation type="unfinished">DiffSinger Synthesis Program</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1028"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1029"/>
         <source>DiffSinger Synthesis Program Status</source>
         <translation type="unfinished">DiffSinger Synthesis Program Status</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1025"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1026"/>
         <source>Restart</source>
         <translation type="unfinished">Restart</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1023"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1024"/>
         <source>Start</source>
         <translation type="unfinished">Start</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1024"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1025"/>
         <source>Stop</source>
         <translation type="unfinished">Stop</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1022"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1023"/>
         <source>DiffSinger Synthesis Program Status Menu Item</source>
         <translation type="unfinished">DiffSinger Synthesis Program Status Menu Item</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1026"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1027"/>
         <source>Settings...</source>
         <translation type="unfinished">Settings...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1037"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1038"/>
         <source>Synthesis Status Indicators</source>
         <translation type="unfinished">Synthesis Status Indicators</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1027"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1028"/>
         <source>Package Manager</source>
         <translation type="unfinished">Package Manager</translation>
     </message>
     <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1033"/>
         <source>Extract Pitch...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Extract Pitch...</translation>
     </message>
 </context>
 <context>
@@ -808,7 +810,7 @@
     <name>PackageManagerWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/PackageManagerWelcomeWizardPage.qml" line="18"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1020"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1021"/>
         <source>Package Manager</source>
         <translation type="unfinished">Package Manager</translation>
     </message>
@@ -1157,7 +1159,7 @@ X-Custom-Header-2: bar</translation>
 <context>
     <name>Synth::Internal::Api::ApiClient</name>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="924"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="918"/>
         <source>The synthesis service returned data that does not match the DSSP schema: %1</source>
         <translation type="unfinished">The synthesis service returned data that does not match the DSSP schema: %1</translation>
     </message>
@@ -1370,52 +1372,52 @@ X-Custom-Header-2: bar</translation>
 <context>
     <name>Synth::Internal::Api::NetworkWorker</name>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="588"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="591"/>
         <source>The request timed out</source>
         <translation type="unfinished">The request timed out</translation>
     </message>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="621"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="624"/>
         <source>The synthesis service returned HTTP status %1</source>
         <translation type="unfinished">The synthesis service returned HTTP status %1</translation>
     </message>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="622"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="625"/>
         <source>The synthesis service returned HTTP status %1: %2</source>
         <translation type="unfinished">The synthesis service returned HTTP status %1: %2</translation>
     </message>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="640"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="646"/>
         <source>The synthesis service returned an incomplete HTTP response: %1</source>
         <translation type="unfinished">The synthesis service returned an incomplete HTTP response: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="650"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="656"/>
         <source>The synthesis service request failed: %1</source>
         <translation type="unfinished">The synthesis service request failed: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="657"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="663"/>
         <source>The synthesis service response did not contain an HTTP status code</source>
         <translation type="unfinished">The synthesis service response did not contain an HTTP status code</translation>
     </message>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="682"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="685"/>
         <source>The synthesis service returned invalid JSON: %1</source>
         <translation type="unfinished">The synthesis service returned invalid JSON: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="488"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="491"/>
         <source>The synthesis service returned an invalid streaming response</source>
         <translation type="unfinished">The synthesis service returned an invalid streaming response</translation>
     </message>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="556"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="559"/>
         <source>The synthesis service returned a streaming error</source>
         <translation type="unfinished">The synthesis service returned a streaming error</translation>
     </message>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="669"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="672"/>
         <source>The synthesis service closed the stream before returning a result</source>
         <translation type="unfinished">The synthesis service closed the stream before returning a result</translation>
     </message>
@@ -1454,7 +1456,7 @@ X-Custom-Header-2: bar</translation>
 <context>
     <name>Synth::Internal::AudioExtractionAddOn</name>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="152"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="189"/>
         <source>Choose Separated Audio Directory</source>
         <translation type="unfinished">Choose Separated Audio Directory</translation>
     </message>
@@ -1463,46 +1465,46 @@ X-Custom-Header-2: bar</translation>
         <translation type="obsolete">Audio Extraction</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="218"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="258"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="376"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="257"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="297"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="415"/>
         <source>The original audio clip is no longer available.</source>
         <translation type="unfinished">The original audio clip is no longer available.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="227"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="266"/>
         <source>The audio file for the selected clip is unavailable.</source>
         <translation type="unfinished">The audio file for the selected clip is unavailable.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="236"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="275"/>
         <source>Choose a writable directory for the separated audio.</source>
         <translation type="unfinished">Choose a writable directory for the separated audio.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="252"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="291"/>
         <source>Overwrite Separated Audio</source>
         <translation type="unfinished">Overwrite Separated Audio</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="253"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="292"/>
         <source>The following files may be replaced by the separated tracks. Overwrite matching files?
 %1</source>
         <translation type="unfinished">The following files may be replaced by the separated tracks. Overwrite matching files?
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="386"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="425"/>
         <source>The original audio clip or project tempo changed during extraction. Try again.</source>
         <translation type="unfinished">The original audio clip or project tempo changed during extraction. Try again.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="424"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="463"/>
         <source>The extracted tracks could not be inserted while another edit is in progress.</source>
         <translation type="unfinished">The extracted tracks could not be inserted while another edit is in progress.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="442"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="481"/>
         <source>%1
 Some files could not be restored. Backups are in %2.
 %3</source>
@@ -1511,111 +1513,115 @@ Some files could not be restored. Backups are in %2.
 %3</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="455"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="494"/>
         <source>The separated track names produce duplicate file names.</source>
         <translation type="unfinished">The separated track names produce duplicate file names.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="465"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="504"/>
         <source>An output file appeared or changed during extraction. Start again to confirm overwriting it.</source>
         <translation type="unfinished">An output file appeared or changed during extraction. Start again to confirm overwriting it.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="470"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="509"/>
         <source>Could not back up an existing output file.</source>
         <translation type="unfinished">Could not back up an existing output file.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="480"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="519"/>
         <source>Could not save the separated audio files.</source>
         <translation type="unfinished">Could not save the separated audio files.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="506"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="546"/>
         <source>%1 (Extracted notes)</source>
         <translation type="unfinished">%1 (Extracted notes)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="507"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="549"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="513"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="555"/>
         <source>Could not insert the extracted tracks.</source>
         <translation type="unfinished">Could not insert the extracted tracks.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="537"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="587"/>
         <source>Could not insert the extracted notes.</source>
         <translation type="unfinished">Could not insert the extracted notes.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="553"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="604"/>
         <source>Could not insert the extracted clips.</source>
         <translation type="unfinished">Could not insert the extracted clips.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="559"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="610"/>
         <source>Extracting notes</source>
         <translation type="unfinished">Extracting notes</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="559"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="612"/>
         <source>Separating audio</source>
         <translation type="unfinished">Separating audio</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="560"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="614"/>
         <source>Could not commit the extracted tracks.</source>
         <translation type="unfinished">Could not commit the extracted tracks.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="281"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="320"/>
         <source>The audio region exceeds the supported time range.</source>
         <translation type="unfinished">The audio region exceeds the supported time range.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="313"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="392"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="352"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="431"/>
         <source>The audio clip or project timeline changed. Extract the tempo again.</source>
         <translation type="unfinished">The audio clip or project timeline changed. Extract the tempo again.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="330"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="369"/>
         <source>The tempo could not be applied while another edit is in progress.</source>
         <translation type="unfinished">The tempo could not be applied while another edit is in progress.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="337"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="376"/>
         <source>The extracted tempo could not be applied.</source>
         <translation type="unfinished">The extracted tempo could not be applied.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="366"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="405"/>
         <source>Extracting tempo</source>
         <translation type="unfinished">Extracting tempo</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="193"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="230"/>
         <source>Extract Tempo</source>
         <translation type="unfinished">Extract Tempo</translation>
     </message>
     <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="232"/>
         <source>Extract Pitch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Extract Pitch</translation>
     </message>
     <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="548"/>
         <source>%1 (Extracted pitch)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (Extracted pitch)</translation>
     </message>
     <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="566"/>
         <source>Could not insert the extracted pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Could not insert the extracted pitch.</translation>
     </message>
     <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="611"/>
         <source>Extracting pitch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Extracting pitch</translation>
     </message>
 </context>
 <context>
@@ -2408,21 +2414,21 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">Singers</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="513"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="517"/>
         <source>Failed to get package information for %1:
 %2</source>
         <translation type="unfinished">Failed to get package information for %1:
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="561"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="565"/>
         <source>Package Manager</source>
         <translation type="unfinished">Package Manager</translation>
     </message>
     <message>
         <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="276"/>
         <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="449"/>
-        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="476"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="480"/>
         <source>Failed to refresh packages:
 
 %1</source>
@@ -2436,9 +2442,9 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">Other Contributions</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="492"/>
-        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="501"/>
-        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="524"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="496"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="505"/>
+        <location filename="../../internal/packagemanager/PackageManagerController.cpp" line="528"/>
         <source>The command returned invalid package data.</source>
         <translation type="unfinished">The command returned invalid package data.</translation>
     </message>
@@ -2615,7 +2621,7 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::SynthPlugin</name>
     <message>
-        <location filename="../../internal/SynthPlugin.cpp" line="53"/>
+        <location filename="../../internal/SynthPlugin.cpp" line="55"/>
         <source>Initializing synthesis plugin...</source>
         <translation type="unfinished">Initializing synthesis plugin...</translation>
     </message>
@@ -2657,27 +2663,27 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::SynthesisEnvironmentWelcomeWizardPageHelper</name>
     <message>
-        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="113"/>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="94"/>
         <source>Service disabled</source>
         <translation type="unfinished">Service disabled</translation>
     </message>
     <message>
-        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="114"/>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="95"/>
         <source>Connected</source>
         <translation type="unfinished">Connected</translation>
     </message>
     <message>
-        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="115"/>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="96"/>
         <source>Connection failed</source>
         <translation type="unfinished">Connection failed</translation>
     </message>
     <message>
-        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="116"/>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="97"/>
         <source>Connecting...</source>
         <translation type="unfinished">Connecting...</translation>
     </message>
     <message>
-        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="159"/>
+        <location filename="../../internal/welcomewizard/SynthesisEnvironmentWelcomeWizardPageHelper.cpp" line="139"/>
         <source>Service %L1: %2</source>
         <translation type="unfinished">Service %L1: %2</translation>
     </message>
@@ -2720,8 +2726,8 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
     <message>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="111"/>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="248"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="831"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="854"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="837"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="860"/>
         <source>The synthesis piece is no longer available</source>
         <translation type="unfinished">The synthesis piece is no longer available</translation>
     </message>
@@ -2767,96 +2773,96 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">Synthesized audio for the synthesis piece could not be repositioned</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="897"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="904"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="903"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="910"/>
         <source>Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="922"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="928"/>
         <source>Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="942"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="948"/>
         <source>Audio synthesis could not be started for clip &quot;%1&quot;</source>
         <translation type="unfinished">Audio synthesis could not be started for clip &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="957"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="963"/>
         <source>Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</source>
         <translation type="unfinished">Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="963"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="969"/>
         <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</source>
         <translation type="unfinished">Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="975"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="981"/>
         <source>Unknown synthesis error</source>
         <translation type="unfinished">Unknown synthesis error</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="977"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="983"/>
         <source>Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</source>
         <translation type="unfinished">Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1015"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1021"/>
         <source>Synthesis failed</source>
         <translation type="unfinished">Synthesis failed</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1184"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1190"/>
         <source>The clip has no valid singer source</source>
         <translation type="unfinished">The clip has no valid singer source</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1277"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1384"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1283"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1390"/>
         <source>The synthesis task could not be queued</source>
         <translation type="unfinished">The synthesis task could not be queued</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1358"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1364"/>
         <source>No healthy service can synthesize this synthesis piece</source>
         <translation type="unfinished">No healthy service can synthesize this synthesis piece</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1601"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1607"/>
         <source>Resynthesize</source>
         <translation type="unfinished">Resynthesize</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1602"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1608"/>
         <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</source>
         <translation type="unfinished">The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1853"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1859"/>
         <source>The pronunciation result does not match the requested score</source>
         <translation type="unfinished">The pronunciation result does not match the requested score</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1855"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1861"/>
         <source>The phoneme result does not match the requested score</source>
         <translation type="unfinished">The phoneme result does not match the requested score</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1857"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1863"/>
         <source>The duration result does not match the score for the requested synthesis piece</source>
         <translation type="unfinished">The duration result does not match the score for the requested synthesis piece</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2058"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2064"/>
         <source>Synthesis was canceled</source>
         <translation type="unfinished">Synthesis was canceled</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1190"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1196"/>
         <source>No healthy service supports the singers selected for this clip</source>
         <translation type="unfinished">No healthy service supports the singers selected for this clip</translation>
     </message>
@@ -3237,7 +3243,7 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
     <name>SynthesisEnvironmentWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/SynthesisEnvironmentWelcomeWizardPage.qml" line="20"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1019"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/synth/res/qak_org.diffscope.synth_actions.cpp" line="1020"/>
         <source>Synthesis Environment</source>
         <translation type="unfinished">Synthesis Environment</translation>
     </message>

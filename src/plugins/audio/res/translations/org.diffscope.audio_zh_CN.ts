@@ -24,27 +24,27 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="979"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1021"/>
         <source>Playback</source>
         <translation type="unfinished">播放</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="980"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1022"/>
         <source>Insert</source>
         <translation type="unfinished">插入</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="981"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1023"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="982"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1024"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="983"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1025"/>
         <source>Panel</source>
         <translation type="unfinished">面板</translation>
     </message>
@@ -52,122 +52,127 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="986"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1029"/>
         <source>Start playback, or pause or stop it according to playback settings.</source>
         <translation type="unfinished">开始播放，或根据播放设置暂停或停止播放。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="987"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1030"/>
         <source>Choose an audio file and its position in the project.</source>
         <translation type="unfinished">选择音频文件及其在工程中的位置。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="988"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1031"/>
         <source>Choose a different audio file for the current audio clip.</source>
         <translation type="unfinished">为当前音频剪辑选择其他音频文件。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="989"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1032"/>
         <source>Render the project mix or separate tracks to audio files.</source>
         <translation type="unfinished">将工程混音或各个轨道渲染为音频文件。</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.audio_actions.xml" line="29"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1028"/>
         <source>Record MIDI notes into the current singing clip.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将 MIDI 音符录制到当前歌声剪辑中。</translation>
     </message>
 </context>
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="956"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="997"/>
         <source>Main Menu</source>
         <translation>主菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="958"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="999"/>
         <source>&amp;Play</source>
         <translation type="unfinished">播放(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="959"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1000"/>
         <source>P&amp;ause</source>
         <translation type="unfinished">暂停(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="960"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1001"/>
         <source>&amp;Stop</source>
         <translation type="unfinished">停止(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="961"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1003"/>
         <source>Toggle Playback</source>
         <translation type="unfinished">切换播放状态</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="962"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1004"/>
         <source>&amp;Metronome</source>
         <translation type="unfinished">节拍器(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="963"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1005"/>
         <source>Play Button</source>
         <translation type="unfinished">播放按钮</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="964"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1006"/>
         <source>Pause Button</source>
         <translation type="unfinished">暂停按钮</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="965"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1007"/>
+        <source>Record Button</source>
+        <translation type="unfinished">录制按钮</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1008"/>
         <source>Insert Audio Clip...</source>
         <translation type="unfinished">插入音频剪辑...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="966"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1009"/>
         <source>Replace Audio Clip...</source>
         <translation type="unfinished">替换音频剪辑...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="967"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1010"/>
         <source>Export Audio...</source>
         <translation type="unfinished">导出音频...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="968"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1011"/>
         <source>Effects (Experimental)</source>
         <translation type="unfinished">效果器（实验性）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="970"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1012"/>
         <source>Export Audio Actions</source>
         <translation type="unfinished">音频导出操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="971"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1013"/>
         <source>Playback Actions</source>
         <translation type="unfinished">播放操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="972"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1014"/>
         <source>Metronome Actions</source>
         <translation type="unfinished">节拍器操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="973"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1015"/>
         <source>Audio Processing Actions</source>
         <translation type="unfinished">音频处理操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="974"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1016"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished">工作区面板小部件</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.audio_actions.xml" line="29"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1002"/>
         <source>Record</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">录制</translation>
     </message>
 </context>
 <context>
@@ -432,30 +437,30 @@
 <context>
     <name>Audio::Internal::AudioOutputSettingsHelper</name>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="25"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="28"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="40"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="29"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="33"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="41"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="44"/>
         <source>(Not working)</source>
         <translation>（不工作）</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="161"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="169"/>
         <source>Cannot initialize %1 driver</source>
         <translation>无法初始化 %1 驱动</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="303"/>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="304"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="259"/>
         <source>Audio device %1 is not available</source>
         <translation>音频设备 %1 不可用</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="448"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="404"/>
         <source>Cannot set sample rate to %1</source>
         <translation>无法设置采样率为 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="479"/>
+        <location filename="../../internal/utils/AudioOutputSettingsHelper.cpp" line="435"/>
         <source>Cannot set buffer size to %1</source>
         <translation>无法设置缓冲区大小为 %1</translation>
     </message>
@@ -463,32 +468,32 @@
 <context>
     <name>Audio::Internal::AudioPlugin</name>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="59"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="67"/>
         <source>Initializing audio plugin...</source>
         <translation>正在初始化音频插件...</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="76"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="85"/>
         <source>Audio Device Changed</source>
         <translation type="unfinished">音频设备已变更</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="77"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="86"/>
         <source>A change in audio devices has been detected. You can check or adjust the current device in the audio settings.</source>
         <translation type="unfinished">检测到音频设备发生变化。你可以在音频设置中检查或调整当前使用的设备。</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="78"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="87"/>
         <source>Open Audio Output Settings</source>
         <translation type="unfinished">打开音频输出设置</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="121"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="143"/>
         <source>Failed to initialize audio output system</source>
         <translation>初始化音频输出系统失败</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="122"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="144"/>
         <source>%1 will not play sound because no available audio output device found.
 
 Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device status.</source>
@@ -678,48 +683,48 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
         <translation type="obsolete">音频导出完成</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="255"/>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="288"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="256"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="289"/>
         <source>WAV (*.wav)</source>
         <translation type="unfinished">WAV (*.wav)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="256"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="257"/>
         <source>FLAC (*.flac)</source>
         <translation type="unfinished">FLAC (*.flac)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="257"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="258"/>
         <source>Ogg Container (*.ogg *.opus)</source>
         <translation type="unfinished">Ogg 容器（*.ogg *.opus）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="289"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="290"/>
         <source>Ogg Vorbis (*.ogg)</source>
         <translation type="unfinished">Ogg Vorbis (*.ogg)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="428"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="429"/>
         <source>Audio exported to %1</source>
         <translation type="unfinished">音频已导出到 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="431"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="432"/>
         <source>Audio export completed, no files exported</source>
         <translation type="unfinished">音频导出已完成，未导出任何文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="434"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="435"/>
         <source>Audio exported to multiple files</source>
         <translation type="unfinished">音频已导出到多个文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="446"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="447"/>
         <source>Reveal in %1</source>
         <translation type="unfinished">在 %1 中显示</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="258"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="259"/>
         <source>MP3 (*.mp3)</source>
         <translation type="unfinished">MP3 (*.mp3)</translation>
     </message>
@@ -808,6 +813,65 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="299"/>
         <source>%1 cannot open the control panel on your system. Please open it manually</source>
         <translation type="unfinished">%1 无法在当前系统中打开控制面板。请手动打开</translation>
+    </message>
+</context>
+<context>
+    <name>Audio::Internal::MidiInputSettingsHelper</name>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="56"/>
+        <source>MIDI device %1 is not available.</source>
+        <translation type="unfinished">MIDI 设备 %1 不可用。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="57"/>
+        <source>Cannot open MIDI device %1.
+
+%2</source>
+        <translation type="unfinished">无法打开 MIDI 设备 %1。
+
+%2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="172"/>
+        <source>Why did you play ...?!</source>
+        <translation>为什么要演奏………？！</translation>
+    </message>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="172"/>
+        <source>I&apos;ll put an end to it.</source>
+        <translation>我来将它结束掉。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="180"/>
+        <source>(None)</source>
+        <translation type="unfinished">（无）</translation>
+    </message>
+    <message>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="188"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="196"/>
+        <source>%1 (Not working)</source>
+        <translation type="unfinished">%1（不工作）</translation>
+    </message>
+</context>
+<context>
+    <name>Audio::Internal::MidiPage</name>
+    <message>
+        <location filename="../../internal/settings/MidiPage.cpp" line="19"/>
+        <source>MIDI</source>
+        <translation type="unfinished">MIDI</translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/MidiPage.cpp" line="20"/>
+        <source>Configure MIDI input, preview sounds, and playback control</source>
+        <translation type="unfinished">配置 MIDI 输入、预览音色和播放控制</translation>
+    </message>
+</context>
+<context>
+    <name>Audio::Internal::MidiRecordingAddOn</name>
+    <message>
+        <location filename="../../internal/addon/MidiRecordingAddOn.cpp" line="725"/>
+        <source>Recording MIDI</source>
+        <translation type="unfinished">录制 MIDI</translation>
     </message>
 </context>
 <context>
@@ -1038,6 +1102,19 @@ To: %3</source>
         <location filename="../../internal/dialogs/AudioTroubleshootingDialog.cpp" line="40"/>
         <source>&amp;Continue</source>
         <translation type="unfinished">继续(&amp;C)</translation>
+    </message>
+</context>
+<context>
+    <name>Audio::MidiInputContext</name>
+    <message>
+        <location filename="../../midi/MidiInputContext.cpp" line="170"/>
+        <source>The MIDI input device is unavailable.</source>
+        <translation type="unfinished">MIDI 输入设备不可用。</translation>
+    </message>
+    <message>
+        <location filename="../../midi/MidiInputContext.cpp" line="265"/>
+        <source>%1 (Port %L2)</source>
+        <translation type="unfinished">%1（端口 %L2）</translation>
     </message>
 </context>
 <context>
@@ -1570,7 +1647,7 @@ Estimated size of each file: %3</source>
     <name>AudioOutputWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="17"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="957"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="998"/>
         <source>Audio Output</source>
         <translation>音频输出</translation>
     </message>
@@ -1880,6 +1957,157 @@ Estimated size of each file: %3</source>
     </message>
 </context>
 <context>
+    <name>MidiPage</name>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="27"/>
+        <source>MIDI Device Error</source>
+        <translation type="unfinished">MIDI 设备错误</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="39"/>
+        <source>MIDI Input</source>
+        <translation type="unfinished">MIDI 输入</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="47"/>
+        <source>Input device</source>
+        <translation type="unfinished">输入设备</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="60"/>
+        <source>MIDI Preview</source>
+        <translation type="unfinished">MIDI 预览</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="67"/>
+        <source>Enable MIDI Preview</source>
+        <translation type="unfinished">启用 MIDI 预览</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="78"/>
+        <source>Sound</source>
+        <translation type="unfinished">音色</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="90"/>
+        <source>Preview volume (dB)</source>
+        <translation type="unfinished">预览音量（dB）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="121"/>
+        <source>Test</source>
+        <translation type="unfinished">测试</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="143"/>
+        <source>Interrupt All Notes</source>
+        <translation type="unfinished">中断所有音符</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="151"/>
+        <source>MIDI Machine Control</source>
+        <translation type="unfinished">MIDI 机器控制</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="157"/>
+        <source>Enable MMC</source>
+        <translation type="unfinished">启用 MMC</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/MidiPage.qml" line="160"/>
+        <source>Allow the MIDI input device to play, pause, and stop the active project.</source>
+        <translation type="unfinished">允许 MIDI 输入设备播放、暂停和停止当前工程。</translation>
+    </message>
+</context>
+<context>
+    <name>MidiRecordingDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="24"/>
+        <source>Quantize MIDI Recording</source>
+        <translation type="unfinished">量化 MIDI 录制</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="38"/>
+        <source>Quantization</source>
+        <translation type="unfinished">量化</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="48"/>
+        <source>Whole note</source>
+        <translation type="unfinished">全音符</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="49"/>
+        <source>Half note</source>
+        <translation type="unfinished">二分音符</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="50"/>
+        <source>Quarter note</source>
+        <translation type="unfinished">四分音符</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="51"/>
+        <source>8th note</source>
+        <translation type="unfinished">八分音符</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="52"/>
+        <source>16th note</source>
+        <translation type="unfinished">16 分音符</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="53"/>
+        <source>32nd note</source>
+        <translation type="unfinished">32 分音符</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="54"/>
+        <source>64th note</source>
+        <translation type="unfinished">64 分音符</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="55"/>
+        <source>128th note</source>
+        <translation type="unfinished">128 分音符</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="61"/>
+        <source>Triplet</source>
+        <translation type="unfinished">三连音</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="66"/>
+        <source>Quintuplet</source>
+        <translation type="unfinished">五连音</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="74"/>
+        <source>Remove overlaps between recorded notes</source>
+        <translation type="unfinished">移除录制音符之间的重叠</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="76"/>
+        <source>Shorten earlier notes to the start of the next note. If notes start together, keep the last recorded note.</source>
+        <translation type="unfinished">将较早的音符缩短至下一音符的起点。如果音符同时开始，则保留最后录制的音符。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="90"/>
+        <source>Discard</source>
+        <translation type="unfinished">放弃</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="98"/>
+        <source>OK</source>
+        <translation type="unfinished">确定</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="103"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+</context>
+<context>
     <name>PlaybackPage</name>
     <message>
         <location filename="../../qml/settings/PlaybackPage.qml" line="24"/>
@@ -1948,227 +2176,6 @@ Estimated size of each file: %3</source>
         <location filename="../../qml/waveformsinger/WaveformSingerControlPanel.qml" line="45"/>
         <source>Type</source>
         <translation type="unfinished">类型</translation>
-    </message>
-</context>
-<context>
-    <name>Audio::Internal::MidiPage</name>
-    <message>
-        <location filename="../../internal/settings/MidiPage.cpp" line="19"/>
-        <source>MIDI</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/settings/MidiPage.cpp" line="20"/>
-        <source>Configure MIDI input, preview sounds, and playback control</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Audio::MidiInputContext</name>
-    <message>
-        <location filename="../../midi/MidiInputContext.cpp" line="169"/>
-        <source>The MIDI input device is unavailable.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../midi/MidiInputContext.cpp" line="264"/>
-        <source>%1 (Port %L2)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Audio::Internal::MidiInputSettingsHelper</name>
-    <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="56"/>
-        <source>MIDI device %1 is not available.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="57"/>
-        <source>Cannot open MIDI device %1.
-
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="172"/>
-        <source>Why did you play ...?!</source>
-        <translation>为什么要演奏………？！</translation>
-    </message>
-    <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="172"/>
-        <source>I&apos;ll put an end to it.</source>
-        <translation>我来将它结束掉。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="180"/>
-        <source>(None)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="188"/>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="196"/>
-        <source>%1 (Not working)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MidiPage</name>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="27"/>
-        <source>MIDI Device Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="39"/>
-        <source>MIDI Input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="47"/>
-        <source>Input device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="60"/>
-        <source>MIDI Preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="67"/>
-        <source>Enable MIDI Preview</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="78"/>
-        <source>Sound</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="90"/>
-        <source>Preview volume (dB)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="121"/>
-        <source>Test</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="143"/>
-        <source>Interrupt All Notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="151"/>
-        <source>MIDI Machine Control</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="157"/>
-        <source>Enable MMC</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/MidiPage.qml" line="160"/>
-        <source>Allow the MIDI input device to play, pause, and stop the active project.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Audio::Internal::MidiRecordingAddOn</name>
-    <message>
-        <location filename="../../internal/addon/MidiRecordingAddOn.cpp" line="728"/>
-        <source>Recording MIDI</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MidiRecordingDialog</name>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="23"/>
-        <source>Quantize MIDI Recording</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="37"/>
-        <source>Quantization</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="47"/>
-        <source>Whole note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="48"/>
-        <source>Half note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="49"/>
-        <source>Quarter note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="50"/>
-        <source>8th note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="51"/>
-        <source>16th note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="52"/>
-        <source>32nd note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="53"/>
-        <source>64th note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="54"/>
-        <source>128th note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="60"/>
-        <source>Triplet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="65"/>
-        <source>Quintuplet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="73"/>
-        <source>Remove overlaps between recorded notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="75"/>
-        <source>Shorten earlier notes to the start of the next note. If notes start together, keep the last recorded note.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="89"/>
-        <source>Discard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="97"/>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/MidiRecordingDialog.qml" line="102"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

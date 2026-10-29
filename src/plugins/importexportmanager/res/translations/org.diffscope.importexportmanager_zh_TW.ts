@@ -24,22 +24,22 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="643"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="604"/>
         <source>File</source>
         <translation type="unfinished">File</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="644"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="605"/>
         <source>Project</source>
         <translation type="unfinished">Project</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="645"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="606"/>
         <source>Edit</source>
         <translation type="unfinished">Edit</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="646"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="607"/>
         <source>Panel</source>
         <translation type="unfinished">Panel</translation>
     </message>
@@ -47,17 +47,17 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="649"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="610"/>
         <source>Choose a file format to import as a new project.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="650"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="611"/>
         <source>Choose a file format for exporting the current project.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="651"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="612"/>
         <source>Choose a file format to add tracks to the current project.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -65,12 +65,12 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="628"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="590"/>
         <source>&amp;Import</source>
         <translation type="unfinished">&amp;Import</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="629"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="591"/>
         <source>&amp;Export</source>
         <translation type="unfinished">&amp;Export</translation>
     </message>
@@ -79,47 +79,47 @@
         <translation type="obsolete">Import as Tracks...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="627"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="589"/>
         <source>Main Menu</source>
         <translation type="unfinished">Main Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="630"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="592"/>
         <source>Import Tracks from File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="631"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="593"/>
         <source>Copy Special...</source>
         <translation type="unfinished">Copy Special...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="632"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="594"/>
         <source>Paste Special...</source>
         <translation type="unfinished">Paste Special...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="633"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="595"/>
         <source>Import</source>
         <translation type="unfinished">Import</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="635"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="596"/>
         <source>Import Export Actions</source>
         <translation type="unfinished">Import Export Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="636"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="597"/>
         <source>Import Actions</source>
         <translation type="unfinished">Import Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="637"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="598"/>
         <source>Import Tracks Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="638"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="599"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished"></translation>
     </message>

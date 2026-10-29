@@ -632,7 +632,7 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
         <translation>Empty</translation>
     </message>
     <message>
-        <location filename="../../src/qml/ProjectWindow.qml" line="264"/>
+        <location filename="../../src/qml/ProjectWindow.qml" line="271"/>
         <source>&amp;Main Menu</source>
         <translation type="unfinished">&amp;Main Menu</translation>
     </message>

@@ -42,32 +42,32 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4057"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3981"/>
         <source>View</source>
         <translation>视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4058"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3982"/>
         <source>Arrangement Panel</source>
         <translation>编曲面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4059"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3983"/>
         <source>Mixer Panel</source>
         <translation>混音器面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4060"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3984"/>
         <source>Piano Roll Panel</source>
         <translation>钢琴卷帘面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4061"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3985"/>
         <source>Panel</source>
         <translation>面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4062"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3986"/>
         <source>Additional Tracks</source>
         <translation type="unfinished">附加轨道</translation>
     </message>
@@ -83,157 +83,157 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../org.diffscope.visualeditor_actions.xml" line="62"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4004"/>
         <source>Drag vertically to shift the pitch curve; drag horizontally to scale the pitch curve.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">垂直拖动以平移音高曲线；水平拖动以缩放音高曲线。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4065"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3989"/>
         <source>Select, move, or resize clips.</source>
         <translation type="unfinished">选择、移动剪辑或调整其长度。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4066"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3990"/>
         <source>Draw singing clips, or move and resize existing clips.</source>
         <translation type="unfinished">绘制歌声剪辑，或移动现有剪辑并调整其长度。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4067"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3991"/>
         <source>Split selected clips at the pointer position.</source>
         <translation type="unfinished">在指针位置拆分选中的剪辑。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4068"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3992"/>
         <source>Select clips by area or time range.</source>
         <translation type="unfinished">按区域或时间范围选择剪辑。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4069"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3993"/>
         <source>Drag the arrangement view to scroll.</source>
         <translation type="unfinished">拖动编排视图以滚动。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4070"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3994"/>
         <source>Select tracks and adjust volume and pan.</source>
         <translation type="unfinished">选择轨道并调整音量和声像。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4071"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3995"/>
         <source>Drag the mixer view to scroll.</source>
         <translation type="unfinished">拖动混音器视图以滚动。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4072"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3996"/>
         <source>Select, move, or resize notes.</source>
         <translation type="unfinished">选择、移动音符或调整其长度。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4073"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3997"/>
         <source>Draw notes, or move and resize existing notes.</source>
         <translation type="unfinished">绘制音符，或移动现有音符并调整其长度。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4074"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3998"/>
         <source>Split selected notes at the pointer position.</source>
         <translation type="unfinished">在指针位置拆分选中的音符。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4075"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3999"/>
         <source>Select notes by area or time range.</source>
         <translation type="unfinished">按区域或时间范围选择音符。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4076"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4000"/>
         <source>Drag the piano roll view to scroll.</source>
         <translation type="unfinished">拖动钢琴卷帘视图以滚动。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4077"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4001"/>
         <source>Draw pitch changes freehand.</source>
         <translation type="unfinished">自由绘制音高变化。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4078"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4002"/>
         <source>Drag to draw a straight segment of the pitch curve.</source>
         <translation type="unfinished">拖动以绘制音高曲线的直线段。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4079"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4003"/>
         <source>Freeze the original pitch over the dragged time range.</source>
         <translation type="unfinished">冻结拖动时间范围内的原始音高。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4080"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4005"/>
         <source>Erase drawn pitch edits over the dragged time range.</source>
         <translation type="unfinished">擦除拖动时间范围内绘制的音高编辑。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4081"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4006"/>
         <source>Select a time range of the drawn pitch curve.</source>
         <translation type="unfinished">选择已绘制音高曲线的时间范围。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4082"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4007"/>
         <source>Select and move pitch anchors.</source>
         <translation type="unfinished">选择并移动音高锚点。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4083"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4008"/>
         <source>Add, move, or delete pitch anchors.</source>
         <translation type="unfinished">添加、移动或删除音高锚点。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4084"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4009"/>
         <source>Change how the curve connects neighboring pitch anchors.</source>
         <translation type="unfinished">更改相邻音高锚点之间的曲线连接方式。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4085"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4010"/>
         <source>Select pitch anchors by area or time range.</source>
         <translation type="unfinished">按区域或时间范围选择音高锚点。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4086"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4011"/>
         <source>Choose which additional lanes to display in the piano roll.</source>
         <translation type="unfinished">选择钢琴卷帘中显示的附加轨道。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4087"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4012"/>
         <source>Choose which editing panels to display below the piano roll.</source>
         <translation type="unfinished">选择钢琴卷帘下方显示的编辑面板。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4088"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4013"/>
         <source>Choose the time grid used to align clip edits.</source>
         <translation type="unfinished">选择用于对齐剪辑编辑的时间网格。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4089"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4014"/>
         <source>Choose a tuplet subdivision for the snap grid.</source>
         <translation type="unfinished">选择对齐网格的连音细分。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4090"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4015"/>
         <source>Scroll the arrangement by pages to follow the playhead.</source>
         <translation type="unfinished">使编排视图逐页滚动以跟随播放头。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4091"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4016"/>
         <source>Choose which additional lanes to display in the arrangement.</source>
         <translation type="unfinished">选择编排视图中显示的附加轨道。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4092"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4017"/>
         <source>Choose the time grid used to align note edits.</source>
         <translation type="unfinished">选择用于对齐音符编辑的时间网格。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4093"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4018"/>
         <source>Scroll the piano roll by pages to follow the playhead.</source>
         <translation type="unfinished">使钢琴卷帘视图逐页滚动以跟随播放头。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4094"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4019"/>
         <source>Highlight scale tones according to the project&apos;s key signatures.</source>
         <translation type="unfinished">根据工程调号突出显示音阶音。</translation>
     </message>
@@ -241,352 +241,352 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../org.diffscope.visualeditor_actions.xml" line="62"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3930"/>
         <source>Pitch Transform Tool</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音高变换工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3996"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3922"/>
         <source>Pointer Tool</source>
         <translation>指针工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3997"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3923"/>
         <source>Pencil Tool</source>
         <translation>铅笔工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4000"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3926"/>
         <source>Hand Tool</source>
         <translation>手型工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4012"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3939"/>
         <source>Snap</source>
         <translation>对齐</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4013"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3940"/>
         <source>Snap Duration</source>
         <translation>对齐时长</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4014"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3941"/>
         <source>Snap Tuplet</source>
         <translation>对齐连音</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4015"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3942"/>
         <source>Auto Page Scrolling</source>
         <translation>自动页面滚动</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4010"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3937"/>
         <source>Additional Tracks</source>
         <translation>附加轨道</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3974"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3900"/>
         <source>Main Menu</source>
         <translation type="unfinished">主菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3976"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3902"/>
         <source>Scroll Up</source>
         <translation>向上滚动</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3977"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3903"/>
         <source>Scroll Down</source>
         <translation>向下滚动</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3978"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3904"/>
         <source>Scroll Left</source>
         <translation>向左滚动</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3979"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3905"/>
         <source>Scroll Right</source>
         <translation>向右滚动</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3980"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3906"/>
         <source>Scroll up Page</source>
         <translation>向上滚动页面</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3981"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3907"/>
         <source>Scroll down Page</source>
         <translation>向下滚动页面</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3982"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3908"/>
         <source>Scroll Left Page</source>
         <translation>向左滚动页面</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3983"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3909"/>
         <source>Scroll Right Page</source>
         <translation>向右滚动页面</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3984"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3910"/>
         <source>Scroll to Top</source>
         <translation>滚动到顶部</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3985"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3911"/>
         <source>Scroll to Bottom</source>
         <translation>滚动到底部</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3986"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3912"/>
         <source>Scroll to Leftmost</source>
         <translation>滚动到最左</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3987"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3913"/>
         <source>Scroll to Rightmost</source>
         <translation>滚动到最右</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3988"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3914"/>
         <source>Scroll to Playback Position</source>
         <translation>滚动到回放位置</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3989"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3915"/>
         <source>Scroll to Current Item</source>
         <translation>滚动到当前项目</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3990"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3916"/>
         <source>Vertical Zoom In</source>
         <translation>垂直放大</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3991"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3917"/>
         <source>Vertical Zoom Out</source>
         <translation>垂直缩小</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3992"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3918"/>
         <source>Horizontal Zoom In</source>
         <translation>水平放大</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3993"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3919"/>
         <source>Horizontal Zoom Out</source>
         <translation>水平缩小</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3994"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3920"/>
         <source>Reset Vertical Scale</source>
         <translation>重置垂直缩放</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3995"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3921"/>
         <source>Reset Horizontal Scale</source>
         <translation>重置水平缩放</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3998"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3924"/>
         <source>Scissor Tool</source>
         <translation>剪刀工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3999"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3925"/>
         <source>Select Tool</source>
         <translation>选择工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4001"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3927"/>
         <source>Pitch Pencil Tool</source>
         <translation type="unfinished">音高铅笔工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4002"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3928"/>
         <source>Pitch Line Tool</source>
         <translation type="unfinished">音高直线工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4003"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3929"/>
         <source>Pitch Fixing Tool</source>
         <translation type="unfinished">音高固定工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4004"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3931"/>
         <source>Pitch Eraser Tool</source>
         <translation type="unfinished">音高橡皮工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4005"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3932"/>
         <source>Pitch Range Select Tool</source>
         <translation type="unfinished">音高范围选择工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4006"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3933"/>
         <source>Pitch Pointer Tool</source>
         <translation type="unfinished">音高指针工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4007"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3934"/>
         <source>Pitch Pen Tool</source>
         <translation type="unfinished">音高钢笔工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4008"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3935"/>
         <source>Pitch Convert Tool</source>
         <translation type="unfinished">音高转换工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4009"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3936"/>
         <source>Pitch Anchor Select Tool</source>
         <translation type="unfinished">音高锚点选择工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4011"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3938"/>
         <source>Bottom Panels</source>
         <translation>底部面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4016"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3943"/>
         <source>Editing Clip</source>
         <translation>编辑剪辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4017"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3944"/>
         <source>Highlight Scale</source>
         <translation>高亮音阶</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4018"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3945"/>
         <source>Show Track Selector</source>
         <translation>显示轨道选择器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4023"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3950"/>
         <source>Arrangement</source>
         <translation>编曲</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4025"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3951"/>
         <source>Mixer</source>
         <translation>混音器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4027"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3952"/>
         <source>Piano Roll</source>
         <translation>钢琴卷帘</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4029"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3953"/>
         <source>Additional Track Widgets</source>
         <translation>附加轨道小组件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4030"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3954"/>
         <source>Bottom Additional Track Widgets</source>
         <translation>底部附加轨道控件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4031"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3955"/>
         <source>Label</source>
         <translation>标签</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4032"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3956"/>
         <source>Tempo</source>
         <translation>曲速</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4033"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3957"/>
         <source>Key Signature</source>
         <translation>调号</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4034"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3958"/>
         <source>Clip</source>
         <translation>剪辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4035"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3959"/>
         <source>Phoneme</source>
         <translation>音素</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4036"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3960"/>
         <source>Parameter</source>
         <translation>参数</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4037"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3961"/>
         <source>Voice blending</source>
         <translation type="unfinished">声线融合</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4039"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3963"/>
         <source>Scroll</source>
         <translation>滚动</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4040"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3964"/>
         <source>Scroll Actions</source>
         <translation>滚动操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4041"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3965"/>
         <source>Scroll Page Actions</source>
         <translation>滚动页面操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4042"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3966"/>
         <source>Scroll to Actions</source>
         <translation>滚动到操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4043"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3967"/>
         <source>Zoom</source>
         <translation>缩放</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4044"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3968"/>
         <source>Arrangement Panel Tool Bar</source>
         <translation>编曲面板工具栏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4045"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3969"/>
         <source>Tool Actions</source>
         <translation>工具操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4046"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3970"/>
         <source>Snap Actions</source>
         <translation>对齐操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4047"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3971"/>
         <source>Piano Roll Panel Tool Bar</source>
         <translation>钢琴卷帘面板工具栏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4048"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3972"/>
         <source>Editing Clip Actions</source>
         <translation>剪辑编辑操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4049"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3973"/>
         <source>Mixer Panel Tool Bar</source>
         <translation>混音器面板工具栏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4050"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3974"/>
         <source>Arrangement Panel Timeline Tool Bar</source>
         <translation>编曲面板时间轴工具栏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4052"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3976"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished">工作区面板小部件</translation>
     </message>
@@ -595,7 +595,7 @@
         <translation type="vanished">添加轨道</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4051"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3975"/>
         <source>Piano Roll Panel Timeline Tool Bar</source>
         <translation>钢琴卷帘面板时间轴工具栏</translation>
     </message>
@@ -604,27 +604,27 @@
         <translation type="vanished">新建</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4019"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3946"/>
         <source>Edit Previous Track</source>
         <translation type="unfinished">编辑上一轨道</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4020"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3947"/>
         <source>Edit Next Track</source>
         <translation type="unfinished">编辑下一轨道</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4021"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3948"/>
         <source>Edit Previous Clip</source>
         <translation type="unfinished">编辑上一剪辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4022"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3949"/>
         <source>Edit Next Clip</source>
         <translation type="unfinished">编辑下一剪辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="4038"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3962"/>
         <source>Editing Target</source>
         <translation type="unfinished">编辑目标</translation>
     </message>
@@ -800,180 +800,175 @@
 <context>
     <name>EditorPage</name>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="172"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="644"/>
         <source>Parameter Transforms</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">参数变换</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="182"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="654"/>
         <source>Preferred shift operation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">首选平移操作</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="187"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="659"/>
         <source>Translate values</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">平移数值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="187"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="659"/>
         <source>Scale absolute values</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">缩放绝对值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="194"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="666"/>
         <source>Preferred scale operation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">首选缩放操作</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="199"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="671"/>
         <source>Endpoint line</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">端点连线</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="199"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="671"/>
         <source>Arithmetic mean</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">算术平均值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="207"/>
-        <source>The alternative tool uses the other operations. Pitch always uses translation for shift operations.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="94"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="100"/>
         <source>Move and Zoom</source>
         <translation>移动和缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="103"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="109"/>
         <source>Horizontal scroll</source>
         <translation>水平滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="116"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="122"/>
         <source>Zoom</source>
         <translation>缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="130"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="136"/>
         <source>Scroll by page</source>
         <translation>按页滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="136"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="142"/>
         <source>Horizontal zoom</source>
         <translation>水平缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="151"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="157"/>
         <source>Middle button/hand tool scroll mode</source>
         <translation>中键/手型工具滚动模式</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="158"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="164"/>
         <source>Dragging</source>
         <translation>拖动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="158"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="164"/>
         <source>Auto scrolling</source>
         <translation>自动滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="166"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="172"/>
         <source>Snap</source>
         <translation>对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="177"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="183"/>
         <source>Auto-snap length</source>
         <translation>自动对齐长度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="186"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="192"/>
         <source>More compact</source>
         <translation>更紧凑</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="199"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="205"/>
         <source>More spacious</source>
         <translation>更宽敞</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="205"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="211"/>
         <source>Temporarily disable snap when pressing %1</source>
         <translation>当按下 %1 时临时禁用对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="215"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="221"/>
         <source>Arrangement</source>
         <translation>编曲</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="226"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="232"/>
         <source>Track list position</source>
         <translation>轨道列表位置</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="233"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="451"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="239"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="457"/>
         <source>Left</source>
         <translation>左侧</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="233"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="451"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="239"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="457"/>
         <source>Right</source>
         <translation>右侧</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="239"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="245"/>
         <source>Center piano roll when double-clicking a singing clip</source>
         <translation type="unfinished">双击歌声剪辑时使钢琴卷帘居中</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="249"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="255"/>
         <source>Piano Roll</source>
         <translation>钢琴卷帘</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="260"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="266"/>
         <source>Adjust vertical view during automatic page scrolling</source>
         <translation type="unfinished">自动逐页滚动期间调整垂直视图</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="275"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="281"/>
         <source>If notes exceed the view height</source>
         <translation type="unfinished">音符超出视图高度时</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="283"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="289"/>
         <source>Align Top</source>
         <translation type="unfinished">顶部对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="283"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="289"/>
         <source>Align Bottom</source>
         <translation type="unfinished">底部对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="283"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="451"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="289"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="457"/>
         <source>Center</source>
         <translation type="unfinished">居中</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="283"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="289"/>
         <source>Zoom to Fit</source>
         <translation type="unfinished">缩放至适合</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="291"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="297"/>
         <source>Black key width</source>
         <translation type="unfinished">黑键宽度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="318"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="324"/>
         <source>Pronunciation display position</source>
         <translation type="unfinished">发音显示位置</translation>
     </message>
@@ -990,22 +985,22 @@
         <translation type="vanished">简单</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="305"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="311"/>
         <source>Display piano key label on</source>
         <translation>在钢琴键上显示标签</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="312"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="318"/>
         <source>All keys</source>
         <translation>所有琴键</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="312"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="318"/>
         <source>C keys only</source>
         <translation>仅 C 键</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="312"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="318"/>
         <source>None</source>
         <translation>无</translation>
     </message>
@@ -1014,102 +1009,102 @@
         <translation type="vanished">发音位置</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="325"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="331"/>
         <source>Above note</source>
         <translation>音符上方</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="325"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="331"/>
         <source>Below note</source>
         <translation>音符下方</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="331"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="337"/>
         <source>Pitch curve display in note edit mode</source>
         <translation type="unfinished">音符编辑模式下的音高曲线显示</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="338"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="344"/>
         <source>Automatic</source>
         <translation type="unfinished">自动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="338"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="344"/>
         <source>Always show</source>
         <translation type="unfinished">总是显示</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="338"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="344"/>
         <source>Always hide</source>
         <translation type="unfinished">总是隐藏</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="350"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="356"/>
         <source>Automatic display zoom threshold</source>
         <translation type="unfinished">自动显示的缩放阈值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="366"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="372"/>
         <source>Short note threshold</source>
         <translation>短音符阈值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="380"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="386"/>
         <source>Warn of overlapping notes</source>
         <translation type="unfinished">音符重叠时发出警告</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="388"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="394"/>
         <source>Show singer background</source>
         <translation type="unfinished">显示歌手背景</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="404"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="410"/>
         <source>Singer background opacity</source>
         <translation type="unfinished">歌手背景不透明度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="443"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="449"/>
         <source>Background alignment</source>
         <translation type="unfinished">背景对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="469"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="475"/>
         <source>Horizontal margin</source>
         <translation type="unfinished">水平边距</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="504"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="510"/>
         <source>Horizontal offset</source>
         <translation type="unfinished">水平偏移</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="537"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="543"/>
         <source>Vertical margin</source>
         <translation type="unfinished">垂直边距</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="564"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="570"/>
         <source>Show all singer backgrounds when blending voices</source>
         <translation type="unfinished">混合声线时显示所有歌手背景</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="583"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="589"/>
         <source>Singer background spacing</source>
         <translation type="unfinished">歌手背景间距</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="609"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="615"/>
         <source>Bottom panel opacity</source>
         <translation type="unfinished">底部面板不透明度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="638"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="680"/>
         <source>Miscellaneous</source>
         <translation>杂项</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="649"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="691"/>
         <source>Track cursor position</source>
         <translation>跟踪光标位置</translation>
     </message>
@@ -1126,7 +1121,7 @@
     <name>MoveAndZoomWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="20"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3975"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3901"/>
         <source>Move and Zoom</source>
         <translation type="unfinished">移动和缩放</translation>
     </message>
@@ -1186,93 +1181,93 @@
 <context>
     <name>ParameterTrack</name>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="422"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="424"/>
         <source>Transform Tool</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">变换工具</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="267"/>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="268"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="278"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="279"/>
         <source>None</source>
         <translation type="unfinished">无</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="356"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="367"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="361"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="372"/>
         <source>Editing parameter</source>
         <translation type="unfinished">编辑参数</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="368"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="379"/>
         <source>Swap</source>
         <translation type="unfinished">交换</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="378"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="389"/>
         <source>Ref</source>
         <translation type="unfinished">参考</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="383"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="394"/>
         <source>Reference parameter</source>
         <translation type="unfinished">参考参数</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="394"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="405"/>
         <source>Transform</source>
         <translation type="unfinished">变换</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="410"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="421"/>
         <source>Pencil</source>
         <translation type="unfinished">铅笔</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="411"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="422"/>
         <source>Line</source>
         <translation type="unfinished">直线</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="412"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="423"/>
         <source>Fixing</source>
         <translation type="unfinished">固定</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="413"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="425"/>
         <source>Eraser</source>
         <translation type="unfinished">橡皮</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="414"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="426"/>
         <source>Range Select</source>
         <translation type="unfinished">范围选择</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="415"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="427"/>
         <source>Pointer</source>
         <translation type="unfinished">指针</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="416"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="428"/>
         <source>Pen</source>
         <translation type="unfinished">钢笔</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="417"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="429"/>
         <source>Convert</source>
         <translation type="unfinished">转换</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="418"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="430"/>
         <source>Anchors Select</source>
         <translation type="unfinished">锚点选择</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="440"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="452"/>
         <source>Unsupported parameter</source>
         <translation type="unfinished">不支持的参数</translation>
     </message>
@@ -1302,68 +1297,68 @@
 <context>
     <name>PianoRollAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="149"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="156"/>
         <source>Auto</source>
         <translation>自动</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="150"/>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="188"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="157"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="195"/>
         <source>None</source>
         <translation>无</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="151"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="158"/>
         <source>Whole note</source>
         <translation>全音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="152"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="159"/>
         <source>Half note</source>
         <translation>二分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="153"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="160"/>
         <source>Quarter note</source>
         <translation>四分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="154"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="161"/>
         <source>8th note</source>
         <translation>八分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="155"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="162"/>
         <source>16th note</source>
         <translation>16 分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="156"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="163"/>
         <source>32nd note</source>
         <translation>32 分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="157"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="164"/>
         <source>64th note</source>
         <translation>64 分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="158"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="165"/>
         <source>128th note</source>
         <translation>128 分音符</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="189"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="196"/>
         <source>Triplet</source>
         <translation>三连音</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="190"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="197"/>
         <source>Quintuplet</source>
         <translation>五连音</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="230"/>
+        <location filename="../../qml/actions/PianoRollAddOnActions.qml" line="237"/>
         <source>Edit clip</source>
         <translation>编辑剪辑</translation>
     </message>
@@ -1780,8 +1775,8 @@
 <context>
     <name>VisualEditor::ParameterEditorContext</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1402"/>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1522"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1423"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1543"/>
         <source>None</source>
         <translation type="unfinished">无</translation>
     </message>
@@ -1789,7 +1784,7 @@
 <context>
     <name>VisualEditor::ParameterViewModelBinding</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1252"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1273"/>
         <source>%1 Transform</source>
         <translation type="unfinished">%1 变换</translation>
     </message>
@@ -1797,18 +1792,18 @@
 <context>
     <name>VisualEditor::ParameterViewModelBindingPrivate</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="591"/>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="600"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="597"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="606"/>
         <source>%1 Transform</source>
         <translation type="unfinished">%1 变换</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="979"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1000"/>
         <source>Editing parameter transform</source>
         <translation type="unfinished">编辑参数变换</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="980"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1001"/>
         <source>Editing parameter</source>
         <translation type="unfinished">编辑参数</translation>
     </message>
@@ -1845,37 +1840,37 @@
 <context>
     <name>VisualEditor::TrackViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="724"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="668"/>
         <source>Moving track</source>
         <translation>移动轨道</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="759"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="703"/>
         <source>Editing track mute</source>
         <translation>编辑轨道静音</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="786"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="730"/>
         <source>Editing track solo</source>
         <translation>编辑轨道独奏</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="839"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="756"/>
         <source>Renaming track</source>
         <translation>重命名轨道</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="872"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="789"/>
         <source>Adjusting track gain</source>
         <translation>调整轨道增益</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="906"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="823"/>
         <source>Adjusting track pan</source>
         <translation>调整轨道声像</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="940"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="857"/>
         <source>Resizing track</source>
         <translation>调整轨道大小</translation>
     </message>
