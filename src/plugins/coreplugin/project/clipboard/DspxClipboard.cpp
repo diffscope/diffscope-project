@@ -24,7 +24,9 @@ namespace Core {
             DspxClipboardData::Track,
             DspxClipboardData::Clip,
             DspxClipboardData::Note,
-            DspxClipboardData::DynamicMixingAnchor
+            DspxClipboardData::DynamicMixingAnchor,
+            DspxClipboardData::AnchorNode,
+            DspxClipboardData::FreeParameter,
         };
         return types;
     }

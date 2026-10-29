@@ -51,6 +51,7 @@
 #include <coreplugin/internal/CloseSaveCheckAddOn.h>
 #include <coreplugin/internal/ColorSchemeCollection.h>
 #include <coreplugin/internal/ColorSchemePage.h>
+#include <coreplugin/internal/DocumentPage.h>
 #include <coreplugin/internal/EditActionsAddOn.h>
 #include <coreplugin/internal/FileBackupPage.h>
 #include <coreplugin/internal/FileDropAddOn.h>
@@ -290,6 +291,7 @@ namespace Core::Internal {
         generalPage->addPage(new LogPage);
         generalPage->addPage(new FileBackupPage);
         sc->addPage(generalPage);
+        sc->addPage(new DocumentPage);
         auto appearancePage = new AppearancePage;
         appearancePage->addPage(new ColorSchemePage);
         sc->addPage(appearancePage);

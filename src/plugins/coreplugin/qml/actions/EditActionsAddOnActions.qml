@@ -28,6 +28,10 @@ ActionCollection {
     }
     readonly property SourcesPickerModel sourcesPickerModel: SourcesPickerModel {
     }
+    readonly property ParameterResamplingScenario parameterResamplingScenario: ParameterResamplingScenario {
+        window: d.windowHandle?.window ?? null
+        document: d.windowHandle?.projectDocumentContext.document ?? null
+    }
 
     function selectedSingingClips() {
         const selectedItems = d.windowHandle?.projectDocumentContext.document
@@ -92,7 +96,7 @@ ActionCollection {
         actionId: "org.diffscope.core.edit.paste"
         Action {
             enabled: d.windowHandle?.projectDocumentContext.document.pasteAvailable ?? false
-            onTriggered: d.windowHandle.projectDocumentContext.document.paste(d.windowHandle.projectTimeline.position)
+            onTriggered: Qt.callLater(() => d.windowHandle.projectDocumentContext.document.paste(d.windowHandle.projectTimeline.position, DspxDocument.CurrentPosition))
         }
     }
 
@@ -321,11 +325,8 @@ ActionCollection {
                         return
                     }
                 }
-                if (!d.windowHandle.projectDocumentContext.document.canSafelyBounce()) {
-                    if (d.windowHandle.window.contentItem.MessageBox.warning(qsTr("Warning"), qsTr("Some notes or curves cross clip boundaries, free parameters require resampling, or data points overlap after merging. Bouncing may trim, resample, or overwrite this data.\n\nContinue to bounce?"), SVS.Yes | SVS.No, SVS.No) === SVS.No) {
-                        return
-                    }
-                }
+                if (!d.parameterResamplingScenario.confirmBounce())
+                    return
                 d.windowHandle.projectDocumentContext.document.bounceToClip()
             })
         }

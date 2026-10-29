@@ -18,6 +18,7 @@ namespace Core::Internal {
         bool useSystemLanguage{};
         QString localeName{};
         QString fallbackLyricText{};
+        bool skipParameterResamplingCheck{};
         bool hasNotificationSoundAlert{};
         int notificationAutoHideTimeout{};
         int commandPaletteHistoryCount{};
@@ -72,6 +73,8 @@ namespace Core::Internal {
         emit localeNameChanged();
         d->fallbackLyricText = settings->value("fallbackLyricText", QStringLiteral("a")).toString();
         Q_EMIT fallbackLyricTextChanged();
+        d->skipParameterResamplingCheck = settings->value("skipParameterResamplingCheck", false).toBool();
+        Q_EMIT skipParameterResamplingCheckChanged();
         d->hasNotificationSoundAlert = settings->value("hasNotificationSoundAlert", false).toBool();
         emit hasNotificationSoundAlertChanged();
         d->notificationAutoHideTimeout = settings->value("notificationAutoHideTimeout", 5000).toInt();
@@ -142,6 +145,7 @@ namespace Core::Internal {
         settings->setValue("useSystemLanguage", d->useSystemLanguage);
         settings->setValue("localeName", d->localeName);
         settings->setValue("fallbackLyricText", d->fallbackLyricText);
+        settings->setValue("skipParameterResamplingCheck", d->skipParameterResamplingCheck);
         settings->setValue("hasNotificationSoundAlert", d->hasNotificationSoundAlert);
         settings->setValue("notificationAutoHideTimeout", d->notificationAutoHideTimeout);
         settings->setValue("commandPaletteHistoryCount", d->commandPaletteHistoryCount);
@@ -218,6 +222,17 @@ namespace Core::Internal {
             return;
         d->fallbackLyricText = fallbackLyricText;
         Q_EMIT m_instance->fallbackLyricTextChanged();
+    }
+    bool BehaviorPreference::skipParameterResamplingCheck() {
+        M_INSTANCE_D;
+        return d->skipParameterResamplingCheck;
+    }
+    void BehaviorPreference::setSkipParameterResamplingCheck(bool skipParameterResamplingCheck) {
+        M_INSTANCE_D;
+        if (d->skipParameterResamplingCheck == skipParameterResamplingCheck)
+            return;
+        d->skipParameterResamplingCheck = skipParameterResamplingCheck;
+        Q_EMIT m_instance->skipParameterResamplingCheckChanged();
     }
     bool BehaviorPreference::hasNotificationSoundAlert() {
         M_INSTANCE_D;

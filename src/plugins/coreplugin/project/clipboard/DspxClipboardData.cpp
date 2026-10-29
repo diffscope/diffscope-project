@@ -3,12 +3,17 @@
 
 #include "DspxClipboardData.h"
 
+#include <limits>
+#include <type_traits>
+
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
 
-#include <opendspx/serializer/serializer.h>
 #include <opendspx/serializer/jsonconverterv1.h>
+#include <opendspx/serializer/serializer.h>
+
+#include <dspxmodelORM/FreeValueDataArray.h>
 
 #include <coreplugin/internal/jsonutils.h>
 
@@ -30,34 +35,23 @@ namespace Core {
                 return "application/x.diffscope.clipboard.note+json";
             case DynamicMixingAnchor:
                 return "application/x.diffscope.clipboard.dynamicmixinganchor+json";
+            case AnchorNode:
+                return "application/x.diffscope.clipboard.anchornode+json";
+            case FreeParameter:
+                return "application/x.diffscope.clipboard.freeparameter+json";
             default:
                 return {};
         }
     }
 
     DspxClipboardData::Type DspxClipboardData::typeFromMimeType(const QString &mimeType, bool *ok) {
-        if (ok)
-            *ok = true;
-        if (mimeType == "application/x.diffscope.clipboard.tempo+json") {
-            return Tempo;
-        }
-        if (mimeType == "application/x.diffscope.clipboard.label+json") {
-            return Label;
-        }
-        if (mimeType == "application/x.diffscope.clipboard.keysignature+json") {
-            return KeySignature;
-        }
-        if (mimeType == "application/x.diffscope.clipboard.track+json") {
-            return Track;
-        }
-        if (mimeType == "application/x.diffscope.clipboard.clip+json") {
-            return Clip;
-        }
-        if (mimeType == "application/x.diffscope.clipboard.note+json") {
-            return Note;
-        }
-        if (mimeType == "application/x.diffscope.clipboard.dynamicmixinganchor+json") {
-            return DynamicMixingAnchor;
+        for (int index = Tempo; index <= FreeParameter; ++index) {
+            const auto type = static_cast<Type>(index);
+            if (mimeType == DspxClipboardData::mimeType(type)) {
+                if (ok)
+                    *ok = true;
+                return type;
+            }
         }
         if (ok)
             *ok = false;
@@ -72,48 +66,37 @@ namespace Core {
         json.insert("track", m_track);
         QJsonArray dataArray;
         opendspx::SerializationErrorList errors;
-        auto toJsonArray = [&]<Type t> {
-            for (const auto &item : std::get<t>(m_data)) {
-                dataArray.append(Internal::JsonUtils::toQJsonValue(opendspx::JsonConverterV1::toJson(item, errors, {})));
+        std::visit([&](const auto &payload) {
+            if constexpr (std::is_same_v<std::decay_t<decltype(payload)>, FreeParameterClipboardData>) {
+                QJsonArray values;
+                for (const auto &value : payload.values)
+                    values.append(value.isValid() ? QJsonValue(value.toInt()) : QJsonValue(QJsonValue::Null));
+                dataArray.append(QJsonObject {
+                    {"length", payload.length},
+                    {"offset", payload.offset},
+                    {"values", values},
+                });
+            } else {
+                for (const auto &item : payload)
+                    dataArray.append(Internal::JsonUtils::toQJsonValue(opendspx::JsonConverterV1::toJson(item, errors, {})));
             }
-        };
-        switch (type()) {
-            case Tempo:
-                toJsonArray.operator()<Tempo>();
-                break;
-            case Label:
-                toJsonArray.operator()<Label>();
-                break;
-            case KeySignature:
-                toJsonArray.operator()<KeySignature>();
-                break;
-            case Track:
-                toJsonArray.operator()<Track>();
-                break;
-            case Clip:
-                toJsonArray.operator()<Clip>();
-                break;
-            case Note:
-                toJsonArray.operator()<Note>();
-                break;
-            case DynamicMixingAnchor:
-                toJsonArray.operator()<DynamicMixingAnchor>();
-                break;
-        }
+        }, m_data);
         json.insert("data", dataArray);
         return QJsonDocument(json).toJson(QJsonDocument::Compact);
     }
 
     DspxClipboardData DspxClipboardData::fromData(const QByteArray &data, Type type, bool *ok) {
+        if (ok)
+            *ok = false;
         QJsonParseError jsonError;
-        auto json = QJsonDocument::fromJson(data, &jsonError).object();
-        if (jsonError.error != QJsonParseError::NoError) {
-            if (ok)
-                *ok = false;
+        const auto document = QJsonDocument::fromJson(data, &jsonError);
+        if (jsonError.error != QJsonParseError::NoError || !document.isObject()) {
             return {};
         }
-        auto version = opendspx::Serializer::versionFromText(json.value("version").toString().toStdString(), ok);
-        if (ok && !*ok) {
+        const auto json = document.object();
+        bool versionOk = false;
+        const auto version = opendspx::Serializer::versionFromText(json.value("version").toString().toStdString(), &versionOk);
+        if (!versionOk) {
             return {};
         }
         DspxClipboardData result;
@@ -159,6 +142,39 @@ namespace Core {
                     case DynamicMixingAnchor:
                         fromJsonArrayV1.operator()<DynamicMixingAnchor>();
                         break;
+                    case AnchorNode:
+                        fromJsonArrayV1.operator()<AnchorNode>();
+                        break;
+                    case FreeParameter: {
+                        if (dataArray.size() != 1 || !dataArray.first().isObject())
+                            return {};
+                        const auto object = dataArray.first().toObject();
+                        FreeParameterClipboardData parameter;
+                        parameter.length = object.value("length").toInt(-1);
+                        parameter.offset = object.value("offset").toInt(1);
+                        const int step = dspx::FreeValueDataArray::step();
+                        if (parameter.length <= 0 || parameter.length > std::numeric_limits<int>::max() - 2 * step ||
+                            parameter.offset <= -step || parameter.offset > 0 || !object.value("values").isArray()) {
+                            return {};
+                        }
+                        const auto values = object.value("values").toArray();
+                        if (values.size() > (parameter.length - parameter.offset + step - 1) / step + 1)
+                            return {};
+                        parameter.values.reserve(values.size());
+                        for (const auto &value : values) {
+                            if (value.isNull()) {
+                                parameter.values.append(QVariant());
+                            } else if (value.isDouble() && value.toDouble() == value.toInt()) {
+                                parameter.values.append(value.toInt());
+                            } else {
+                                return {};
+                            }
+                        }
+                        result.m_data = std::move(parameter);
+                        break;
+                    }
+                    default:
+                        return {};
                 }
                 break;
             }

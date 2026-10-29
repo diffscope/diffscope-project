@@ -19,7 +19,6 @@ ScrollView {
     property int startupBehavior
     property bool useSystemLanguage
     property string localeName
-    property string fallbackLyricText
     property bool hasNotificationSoundAlert
     property int notificationAutoHideTimeout
     property int commandPaletteHistoryCount
@@ -41,7 +40,6 @@ ScrollView {
     onStartupBehaviorChanged: if (started) pageHandle.markDirty()
     onUseSystemLanguageChanged: if (started) pageHandle.markDirty()
     onLocaleNameChanged: if (started) pageHandle.markDirty()
-    onFallbackLyricTextChanged: if (started) pageHandle.markDirty()
     onHasNotificationSoundAlertChanged: if (started) pageHandle.markDirty()
     onNotificationAutoHideTimeoutChanged: if (started) pageHandle.markDirty()
     onProxyOptionChanged: if (started) pageHandle.markDirty()
@@ -180,19 +178,6 @@ ScrollView {
                             ThemedItem.foregroundLevel: SVS.FL_Secondary
                             text: qsTr("(Restart required)")
                             visible: page.selectedLocaleName !== page.pageHandle.currentLocaleName
-                        }
-                    }
-                    GridLayout {
-                        Layout.fillWidth: true
-                        columns: 2
-                        Label {
-                            text: qsTr("Fallback lyric text")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        TextField {
-                            Layout.fillWidth: true
-                            text: page.fallbackLyricText
-                            onTextEdited: page.fallbackLyricText = text
                         }
                     }
                 }

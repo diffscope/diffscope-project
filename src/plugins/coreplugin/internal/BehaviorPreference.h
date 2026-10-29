@@ -26,6 +26,7 @@ namespace Core::Internal {
         Q_PROPERTY(bool useSystemLanguage READ useSystemLanguage WRITE setUseSystemLanguage NOTIFY useSystemLanguageChanged)
         Q_PROPERTY(QString localeName READ localeName WRITE setLocaleName NOTIFY localeNameChanged)
         Q_PROPERTY(QString fallbackLyricText READ fallbackLyricText WRITE setFallbackLyricText NOTIFY fallbackLyricTextChanged)
+        Q_PROPERTY(bool skipParameterResamplingCheck READ skipParameterResamplingCheck WRITE setSkipParameterResamplingCheck NOTIFY skipParameterResamplingCheckChanged)
         Q_PROPERTY(bool hasNotificationSoundAlert READ hasNotificationSoundAlert WRITE setHasNotificationSoundAlert NOTIFY hasNotificationSoundAlertChanged)
         Q_PROPERTY(int notificationAutoHideTimeout READ notificationAutoHideTimeout WRITE setNotificationAutoHideTimeout NOTIFY notificationAutoHideTimeoutChanged)
         Q_PROPERTY(int commandPaletteHistoryCount READ commandPaletteHistoryCount WRITE setCommandPaletteHistoryCount NOTIFY commandPaletteHistoryCountChanged)
@@ -84,6 +85,9 @@ namespace Core::Internal {
 
         static QString fallbackLyricText();
         static void setFallbackLyricText(const QString &fallbackLyricText);
+
+        static bool skipParameterResamplingCheck();
+        static void setSkipParameterResamplingCheck(bool skipParameterResamplingCheck);
 
         static bool hasNotificationSoundAlert();
         static void setHasNotificationSoundAlert(bool hasNotificationSoundAlert);
@@ -225,6 +229,7 @@ namespace Core::Internal {
         void useSystemLanguageChanged();
         void localeNameChanged();
         void fallbackLyricTextChanged();
+        void skipParameterResamplingCheckChanged();
         void hasNotificationSoundAlertChanged();
         void notificationAutoHideTimeoutChanged();
         void commandPaletteHistoryCountChanged();

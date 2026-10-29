@@ -10,15 +10,10 @@
 
 #include <QList>
 
-#include <stdcorelib/support/json.h>
-
 #include <coreplugin/DspxClipboardData.h>
 
-namespace opendspx {
-    struct DynamicMixingAnchor;
-    struct Tempo;
-    struct Label;
-    struct Track;
+namespace dspx {
+    class SingingClip;
 }
 
 namespace Core {
@@ -32,33 +27,42 @@ namespace Core {
         bool updatePasteAvailable();
 
         std::optional<DspxClipboardData::Type> currentClipboardType() const;
+        dspx::SingingClip *clipboardSingingClip() const;
         int currentTrackIndex() const;
 
         std::optional<DspxClipboardData> buildClipboardData(int playheadPosition) const;
+        bool copySelection(int playheadPosition);
         std::optional<DspxClipboardData> buildTempoClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildLabelClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildKeySignatureClipboardData(int playheadPosition) const;
-        std::optional<DspxClipboardData> buildTrackClipboardData() const;
+        std::optional<DspxClipboardData> buildTrackClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildClipClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildNoteClipboardData(int playheadPosition) const;
         std::optional<DspxClipboardData> buildDynamicMixingAnchorClipboardData(int playheadPosition) const;
-        bool copyAnchorNodeSelection(int playheadPosition) const;
-        bool copyFreeParameterSelection(int playheadPosition) const;
-        bool pasteAnchorNodeSelection(int playheadPosition);
-        bool pasteFreeParameterSelection(int playheadPosition);
+        std::optional<DspxClipboardData> buildAnchorNodeClipboardData(int playheadPosition) const;
+        std::optional<DspxClipboardData> buildFreeParameterClipboardData(int playheadPosition) const;
 
-        bool pasteClipboardData(const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteTempos(const QList<opendspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteLabels(const QList<opendspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteKeySignatures(const QList<stdc::json::Value> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteTracks(const QList<opendspx::Track> &tracks, QList<QObject *> &pastedItems);
-        bool pasteClips(const QList<std::vector<opendspx::ClipRef>> &clips, const DspxClipboardData &data,
-                        int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteNotes(const QList<opendspx::Note> &notes, const DspxClipboardData &data,
-                        int playheadPosition, QList<QObject *> &pastedItems);
-        bool pasteDynamicMixingAnchors(const QList<opendspx::DynamicMixingAnchor> &anchors,
-                                       const DspxClipboardData &data, int playheadPosition,
-                                       QList<QObject *> &pastedItems);
+        struct PasteContext {
+            int position{};
+            DspxDocument::PasteMode mode{DspxDocument::CurrentPosition};
+            QList<QObject *> items;
+            int rangeStart{};
+            int rangeEnd{};
+        };
+
+        int pastePosition(const DspxClipboardData &data, int playheadPosition, DspxDocument::PasteMode mode) const;
+        bool pasteTempos(const DspxClipboardData &data, PasteContext &context);
+        bool pasteLabels(const DspxClipboardData &data, PasteContext &context);
+        bool pasteKeySignatures(const DspxClipboardData &data, PasteContext &context);
+        bool pasteTracks(const DspxClipboardData &data, PasteContext &context);
+        bool pasteClips(const DspxClipboardData &data, PasteContext &context);
+        bool pasteNotes(const DspxClipboardData &data, PasteContext &context);
+        bool pasteDynamicMixingAnchors(const DspxClipboardData &data, PasteContext &context);
+        bool pasteAnchorNodes(const DspxClipboardData &data, PasteContext &context);
+        bool pasteFreeParameter(const DspxClipboardData &data, PasteContext &context);
+
+        bool canSafelyBounceIgnoringResampling() const;
+        bool bounceRequiresResampling() const;
 
         bool deleteSelection();
         int deleteTempos();

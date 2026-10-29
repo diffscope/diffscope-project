@@ -5,8 +5,12 @@
 #define DIFFSCOPE_COREPLUGIN_DSPXCLIPBOARDDATA_H
 
 #include <variant>
+#include <vector>
 
+#include <QByteArray>
 #include <QList>
+#include <QString>
+#include <QVariant>
 
 #include <stdcorelib/support/json.h>
 
@@ -15,6 +19,15 @@
 #include <coreplugin/coreglobal.h>
 
 namespace Core {
+
+    struct CORE_EXPORT FreeParameterClipboardData {
+        // The copied interval is [0, length).
+        int length{};
+        // The first sample position is relative to the selection start and may be negative.
+        int offset{};
+        // Boundary neighbors retain the source sampling grid. Invalid variants represent gaps.
+        QList<QVariant> values;
+    };
 
     struct CORE_EXPORT DspxClipboardData {
 
@@ -26,7 +39,8 @@ namespace Core {
             Clip,
             Note,
             DynamicMixingAnchor,
-            // TODO param
+            AnchorNode,
+            FreeParameter,
         };
 
         Type type() const {
@@ -89,6 +103,22 @@ namespace Core {
             return std::get<DynamicMixingAnchor>(m_data);
         }
 
+        void setAnchorNodes(const QList<opendspx::AnchorNode> &nodes) {
+            m_data = nodes;
+        }
+
+        QList<opendspx::AnchorNode> anchorNodes() const {
+            return std::get<AnchorNode>(m_data);
+        }
+
+        void setFreeParameter(const FreeParameterClipboardData &parameter) {
+            m_data = parameter;
+        }
+
+        FreeParameterClipboardData freeParameter() const {
+            return std::get<FreeParameter>(m_data);
+        }
+
         int playhead() const {
             return m_playhead;
         }
@@ -126,7 +156,9 @@ namespace Core {
             QList<opendspx::Track>,
             QList<std::vector<opendspx::ClipRef>>,
             QList<opendspx::Note>,
-            QList<opendspx::DynamicMixingAnchor>
+            QList<opendspx::DynamicMixingAnchor>,
+            QList<opendspx::AnchorNode>,
+            FreeParameterClipboardData
         > m_data;
         int m_playhead{};
         int m_absolute{};

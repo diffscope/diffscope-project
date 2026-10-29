@@ -2353,119 +2353,125 @@
 <context>
     <name>Core::DspxDocument</name>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1990"/>
-        <source>Paste failed</source>
-        <translation>粘贴失败</translation>
+        <location filename="../../project/document/DspxDocument.cpp" line="1568"/>
+        <source>Paste Failed</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1990"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1568"/>
         <source>Cannot paste data from the clipboard.</source>
         <translation>无法从剪贴板粘贴数据。</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1999"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="122"/>
         <source>Pasting tempo</source>
         <translation>粘贴曲速</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2001"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="123"/>
         <source>Pasting label</source>
         <translation>粘贴标签</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2003"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="124"/>
         <source>Pasting key signature</source>
         <translation>粘贴调号</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2005"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="125"/>
         <source>Pasting track</source>
         <translation>粘贴轨道</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2007"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="126"/>
         <source>Pasting clip</source>
         <translation>粘贴剪辑</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2009"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="127"/>
         <source>Pasting note</source>
         <translation>粘贴音符</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2011"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="128"/>
         <source>Pasting voice blending anchor</source>
         <translation type="unfinished">粘贴声线融合锚点</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2013"/>
-        <source>Pasting selection</source>
-        <translation>粘贴选区</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2049"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1622"/>
         <source>Deleting parameter data</source>
         <translation type="unfinished">删除参数数据</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2052"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1625"/>
         <source>Deleting tempo</source>
         <translation>删除曲速</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2054"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1627"/>
         <source>Deleting label</source>
         <translation>删除标签</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2056"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1629"/>
         <source>Deleting key signature</source>
         <translation>删除调号</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2058"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1631"/>
         <source>Deleting track</source>
         <translation>删除轨道</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2060"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1633"/>
         <source>Deleting clip</source>
         <translation>删除剪辑</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2062"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1635"/>
         <source>Deleting note</source>
         <translation>删除音符</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2064"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1637"/>
         <source>Deleting anchor node</source>
         <translation>删除锚点</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2066"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1639"/>
         <source>Deleting voice blending anchor</source>
         <translation type="unfinished">删除声线融合锚点</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2069"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1642"/>
         <source>Deleting selection</source>
         <translation>删除选区</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2144"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1717"/>
         <source>Splitting clip</source>
         <translation>分割剪辑</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2144"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1717"/>
         <source>Splitting note</source>
         <translation>分割音符</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="2299"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1815"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1821"/>
         <source>Bouncing to clip</source>
         <translation>合并到剪辑</translation>
+    </message>
+    <message>
+        <location filename="../../project/document/DspxDocument.cpp" line="129"/>
+        <source>Pasting anchor node</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/document/DspxDocument.cpp" line="130"/>
+        <source>Pasting parameter data</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3233,6 +3239,19 @@ Please go to Plugins to see more details.</source>
     </message>
 </context>
 <context>
+    <name>Core::Internal::DocumentPage</name>
+    <message>
+        <location filename="../../internal/settings/DocumentPage.cpp" line="16"/>
+        <source>Document</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/settings/DocumentPage.cpp" line="17"/>
+        <source>Configure note and parameter editing behaviors</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Core::Internal::EditActionsAddOn</name>
     <message>
         <location filename="../../internal/addon/EditActionsAddOn.cpp" line="93"/>
@@ -3320,6 +3339,7 @@ Please go to Plugins to see more details.</source>
     <name>Core::Internal::GeneralPage</name>
     <message>
         <location filename="../../internal/settings/GeneralPage.cpp" line="27"/>
+        <location filename="../../internal/settings/GeneralPage.cpp" line="37"/>
         <source>General</source>
         <translation>通用</translation>
     </message>
@@ -3329,11 +3349,13 @@ Please go to Plugins to see more details.</source>
         <translation>配置 %1 的通用行为</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/GeneralPage.cpp" line="184"/>
+        <location filename="../../internal/settings/GeneralPage.cpp" line="180"/>
+        <location filename="../../internal/settings/GeneralPage.cpp" line="183"/>
         <source>Restart %1</source>
         <translation>重新启动 %1</translation>
     </message>
     <message>
+        <location filename="../../internal/settings/GeneralPage.cpp" line="180"/>
         <location filename="../../internal/settings/GeneralPage.cpp" line="184"/>
         <source>Restart %1 to apply language changes?</source>
         <translation>重新启动 %1 以应用语言更改？</translation>
@@ -4672,6 +4694,51 @@ Do you want to continue?</source>
     </message>
 </context>
 <context>
+    <name>Core::ParameterResamplingScenario</name>
+    <message>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="35"/>
+        <source>Pasting at this position requires resampling the parameter curve. Linear interpolation may change its shape.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="44"/>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="45"/>
+        <source>Some notes or curves cross clip boundaries, or data points overlap after merging. Bouncing may trim or overwrite this data.
+
+Continue to bounce?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="55"/>
+        <source>Bouncing these clips requires resampling parameter curves. Linear interpolation may change their shape.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="70"/>
+        <source>Resample Parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="73"/>
+        <source>Always Resample</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="74"/>
+        <source>Resample Once</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="75"/>
+        <source>Do Not Resample</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Core::PickTrackColorScenario</name>
     <message>
         <location filename="../../project/scenarios/PickTrackColorScenario.cpp" line="54"/>
@@ -4861,6 +4928,34 @@ Do you want to save as a new file or overwrite it?</source>
     </message>
 </context>
 <context>
+    <name>DocumentPage</name>
+    <message>
+        <location filename="../../qml/settings/DocumentPage.qml" line="35"/>
+        <source>Notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DocumentPage.qml" line="43"/>
+        <source>Fallback lyric text</source>
+        <translation type="unfinished">后备歌词文本</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DocumentPage.qml" line="55"/>
+        <source>Parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DocumentPage.qml" line="61"/>
+        <source>Skip parameter resampling checks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DocumentPage.qml" line="70"/>
+        <source>Parameter curves are resampled automatically when pasting or bouncing clips.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DynamicMixingAnchorPropertyEditor</name>
     <message>
         <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="26"/>
@@ -4901,23 +4996,23 @@ Do you want to save as a new file or overwrite it?</source>
         <translation type="obsolete">%1 [%2, %3)</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="195"/>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="197"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="199"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="201"/>
         <source>Toggling mute</source>
         <translation type="unfinished">切换静音</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="209"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="213"/>
         <source>Toggling solo</source>
         <translation type="unfinished">切换独奏</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="279"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="272"/>
         <source>%1 (%2 - %3)</source>
         <translation type="unfinished">%1（%2 - %3）</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="286"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="279"/>
         <source>No selection</source>
         <translation>未选择</translation>
     </message>
@@ -4985,26 +5080,16 @@ Do you want to save as a new file or overwrite it?</source>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="331"/>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="336"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="324"/>
         <source>Warning</source>
         <translation type="unfinished">警告</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="331"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="324"/>
         <source>The selected clips use different source singer layouts. Bouncing will keep one source singer layout and discard all voice blending anchors.
 
 Continue to bounce?</source>
         <translation type="unfinished">所选剪辑使用了不同的声源歌手布局。合并将保留一个声源歌手布局并丢弃所有声线融合锚点。
-
-继续合并吗？</translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="336"/>
-        <source>Some notes or curves cross clip boundaries, free parameters require resampling, or data points overlap after merging. Bouncing may trim, resample, or overwrite this data.
-
-Continue to bounce?</source>
-        <translation type="unfinished">部分音符或曲线跨越剪辑边界、自由参数需要重新采样，或数据点在合并后重叠。合并可能裁剪、重新采样或覆盖这些数据。
 
 继续合并吗？</translation>
     </message>
@@ -5259,22 +5344,22 @@ Continue to bounce?</source>
 <context>
     <name>GeneralPage</name>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="68"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="66"/>
         <source>Startup</source>
         <translation>启动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="76"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="74"/>
         <source>When starting %1</source>
         <translation>启动 %1 时</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="80"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="78"/>
         <source>Open the home window</source>
         <translation>打开主窗口</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="93"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="91"/>
         <source>Create a new project</source>
         <translation>创建新工程</translation>
     </message>
@@ -5283,53 +5368,49 @@ Continue to bounce?</source>
         <translation type="vanished">自动打开之前的工程</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="106"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="104"/>
         <source>Close the home window after opening a project</source>
         <translation>打开工程后关闭主窗口</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="119"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="117"/>
         <source>Reopen the home window when the last project window closes</source>
         <translation>关闭最后一个工程窗口时重新打开主窗口</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="134"/>
-        <location filename="../../qml/settings/GeneralPage.qml" line="154"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="132"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="152"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="153"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="140"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="138"/>
         <source>Use system language</source>
         <translation>使用系统语言</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="181"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="179"/>
         <source>(Restart required)</source>
         <translation>（需要重启）</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="189"/>
-        <source>Fallback lyric text</source>
-        <translation type="unfinished">后备歌词文本</translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="201"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="186"/>
         <source>Notification</source>
         <translation>通知</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="207"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="192"/>
         <source>Play sound alert when a notification bubble is sent</source>
         <translation>发送通知气泡时播放提示音</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="214"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="199"/>
         <source>Timeout for auto hiding notification bubbles</source>
         <translation>通知气泡自动隐藏超时时间</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="224"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="209"/>
         <source>milliseconds</source>
         <translation>毫秒</translation>
     </message>
@@ -5339,17 +5420,17 @@ Continue to bounce?</source>
         <translation>重置所有“不再显示”</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="235"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="220"/>
         <source>Window</source>
         <translation>窗口</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="241"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="226"/>
         <source>Memorize window position and size</source>
         <translation>记住窗口的位置和大小</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="249"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="234"/>
         <source>Find Actions</source>
         <translation>查找操作</translation>
     </message>
@@ -5359,72 +5440,72 @@ Continue to bounce?</source>
         <translation>“最近使用”记录数量</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="268"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="253"/>
         <source>Clear History</source>
         <translation>清除历史</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="277"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="262"/>
         <source>History cleared</source>
         <translation>历史已清除</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="291"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="276"/>
         <source>Network Proxy</source>
         <translation>网络代理</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="297"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="282"/>
         <source>No proxy</source>
         <translation>无代理</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="303"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="288"/>
         <source>Use system proxy</source>
         <translation>使用系统代理</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="309"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="294"/>
         <source>Manually configure proxy</source>
         <translation>手动配置代理</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="322"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="307"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="330"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="315"/>
         <source>SOCK5</source>
         <translation>SOCK5</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="331"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="316"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="337"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="322"/>
         <source>Hostname</source>
         <translation>主机名</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="346"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="331"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="358"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="343"/>
         <source>Authentication</source>
         <translation>认证</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="369"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="354"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="378"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="363"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>

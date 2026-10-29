@@ -5,6 +5,7 @@
 #define DIFFSCOPE_COREPLUGIN_DSPXDOCUMENT_H
 
 #include <QObject>
+#include <QScopedPointer>
 #include <qqmlintegration.h>
 
 #include <coreplugin/coreglobal.h>
@@ -24,8 +25,6 @@ namespace Core {
     class FreeParameterSelectionModel;
     class TransactionController;
 
-    struct DspxClipboardData;
-
     class DspxDocumentPrivate;
 
     class CORE_EXPORT DspxDocument : public QObject {
@@ -40,6 +39,14 @@ namespace Core {
         Q_PROPERTY(bool editScopeFocused READ isEditScopeFocused NOTIFY editScopeFocusedChanged)
         Q_PROPERTY(bool pasteAvailable READ pasteAvailable NOTIFY pasteAvailableChanged)
     public:
+        enum PasteMode {
+            CurrentPosition,
+            RelativeToCopiedPlayhead,
+            // Clip data retains the original track.
+            OriginalPosition,
+        };
+        Q_ENUM(PasteMode)
+
         explicit DspxDocument(QObject *parent = nullptr);
         ~DspxDocument() override;
 
@@ -54,7 +61,7 @@ namespace Core {
 
         Q_INVOKABLE void cutSelection(int playheadPosition = 0);
         Q_INVOKABLE void copySelection(int playheadPosition = 0);
-        Q_INVOKABLE void paste(int playheadPosition = 0);
+        Q_INVOKABLE void paste(int playheadPosition = 0, PasteMode pasteMode = CurrentPosition);
         Q_INVOKABLE void deleteSelection();
         Q_INVOKABLE void selectAll();
         Q_INVOKABLE void deselectAll();
@@ -71,6 +78,7 @@ namespace Core {
         void pasteAvailableChanged();
 
     private:
+        friend class ParameterResamplingScenario;
         QScopedPointer<DspxDocumentPrivate> d_ptr;
     };
 

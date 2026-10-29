@@ -5,17 +5,22 @@
 #include "DspxDocument_p.h"
 
 #include <algorithm>
-#include <cmath>
+#include <array>
 #include <functional>
 #include <limits>
 #include <optional>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
+#include <QGuiApplication>
 #include <QHash>
 #include <QLoggingCategory>
 #include <QMap>
+#include <QPointer>
+#include <QQuickWindow>
 #include <QSet>
+#include <QVariant>
 
 #include <CoreApi/runtimeinterface.h>
 
@@ -31,9 +36,9 @@
 #include <dini/transaction.h>
 
 #include <dspxmodelCore/Document.h>
-#include <dspxmodelORM/AudioClip.h>
 #include <dspxmodelORM/AnchorNode.h>
 #include <dspxmodelORM/AnchorNodeSequence.h>
+#include <dspxmodelORM/AudioClip.h>
 #include <dspxmodelORM/Clip.h>
 #include <dspxmodelORM/ClipSequence.h>
 #include <dspxmodelORM/DynamicMixingAnchor.h>
@@ -48,8 +53,8 @@
 #include <dspxmodelORM/NoteSequence.h>
 #include <dspxmodelORM/Parameter.h>
 #include <dspxmodelORM/ParameterMap.h>
-#include <dspxmodelORM/SingingClip.h>
 #include <dspxmodelORM/SingerList.h>
+#include <dspxmodelORM/SingingClip.h>
 #include <dspxmodelORM/Sources.h>
 #include <dspxmodelORM/Tempo.h>
 #include <dspxmodelORM/TempoSequence.h>
@@ -68,33 +73,16 @@
 #include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/DspxClipboard.h>
 #include <coreplugin/FreeParameterSelectionModel.h>
+#include <coreplugin/ParameterResamplingScenario.h>
+#include <coreplugin/internal/FreeParameterResampling.h>
 
+#include <stdcorelib/support/json.h>
 #include <transactional/TransactionController.h>
 #include <transactional/TransactionalStrategy.h>
 
 namespace Core {
 
     Q_STATIC_LOGGING_CATEGORY(lcDspxDocument, "diffscope.core.dspxdocument")
-
-    static const char *clipboardTypeName(DspxClipboardData::Type type) {
-        switch (type) {
-            case DspxClipboardData::Tempo:
-                return "Tempo";
-            case DspxClipboardData::Label:
-                return "Label";
-            case DspxClipboardData::KeySignature:
-                return "KeySignature";
-            case DspxClipboardData::Track:
-                return "Track";
-            case DspxClipboardData::Clip:
-                return "Clip";
-            case DspxClipboardData::Note:
-                return "Note";
-            case DspxClipboardData::DynamicMixingAnchor:
-                return "DynamicMixingAnchor";
-        }
-        return "Unknown";
-    }
 
     static const char *selectionTypeName(dspx::SelectionModel::SelectionType type) {
         switch (type) {
@@ -121,6 +109,126 @@ namespace Core {
     }
 
     namespace {
+
+        struct ClipboardHandler {
+            DspxClipboardData::Type type;
+            std::optional<DspxClipboardData> (DspxDocumentPrivate::*copy)(int) const;
+            bool (DspxDocumentPrivate::*paste)(const DspxClipboardData &, DspxDocumentPrivate::PasteContext &);
+            const char *transactionName;
+        };
+
+        const ClipboardHandler *clipboardHandler(DspxClipboardData::Type type) {
+            static const auto handlers = std::to_array<ClipboardHandler>({
+                {DspxClipboardData::Tempo, &DspxDocumentPrivate::buildTempoClipboardData, &DspxDocumentPrivate::pasteTempos, QT_TRANSLATE_NOOP("Core::DspxDocument", "Pasting tempo")},
+                {DspxClipboardData::Label, &DspxDocumentPrivate::buildLabelClipboardData, &DspxDocumentPrivate::pasteLabels, QT_TRANSLATE_NOOP("Core::DspxDocument", "Pasting label")},
+                {DspxClipboardData::KeySignature, &DspxDocumentPrivate::buildKeySignatureClipboardData, &DspxDocumentPrivate::pasteKeySignatures, QT_TRANSLATE_NOOP("Core::DspxDocument", "Pasting key signature")},
+                {DspxClipboardData::Track, &DspxDocumentPrivate::buildTrackClipboardData, &DspxDocumentPrivate::pasteTracks, QT_TRANSLATE_NOOP("Core::DspxDocument", "Pasting track")},
+                {DspxClipboardData::Clip, &DspxDocumentPrivate::buildClipClipboardData, &DspxDocumentPrivate::pasteClips, QT_TRANSLATE_NOOP("Core::DspxDocument", "Pasting clip")},
+                {DspxClipboardData::Note, &DspxDocumentPrivate::buildNoteClipboardData, &DspxDocumentPrivate::pasteNotes, QT_TRANSLATE_NOOP("Core::DspxDocument", "Pasting note")},
+                {DspxClipboardData::DynamicMixingAnchor, &DspxDocumentPrivate::buildDynamicMixingAnchorClipboardData, &DspxDocumentPrivate::pasteDynamicMixingAnchors, QT_TRANSLATE_NOOP("Core::DspxDocument", "Pasting voice blending anchor")},
+                {DspxClipboardData::AnchorNode, &DspxDocumentPrivate::buildAnchorNodeClipboardData, &DspxDocumentPrivate::pasteAnchorNodes, QT_TRANSLATE_NOOP("Core::DspxDocument", "Pasting anchor node")},
+                {DspxClipboardData::FreeParameter, &DspxDocumentPrivate::buildFreeParameterClipboardData, &DspxDocumentPrivate::pasteFreeParameter, QT_TRANSLATE_NOOP("Core::DspxDocument", "Pasting parameter data")},
+            });
+            const auto it = std::ranges::find(handlers, type, &ClipboardHandler::type);
+            return it == handlers.end() ? nullptr : &*it;
+        }
+
+        template<typename T>
+        int itemPosition(const T &item) {
+            if constexpr (requires { item.pos; })
+                return item.pos;
+            else
+                return item.x;
+        }
+
+        int itemPosition(const stdc::json::Value &item) {
+            return static_cast<int>(item["pos"].toInt());
+        }
+
+        template<typename T>
+        void setItemPosition(T &item, int position) {
+            if constexpr (requires { item.pos; })
+                item.pos = position;
+            else
+                item.x = position;
+        }
+
+        void setItemPosition(stdc::json::Value &item, int position) {
+            auto object = item.toObject();
+            object["pos"] = position;
+            item = std::move(object);
+        }
+
+        template<typename T>
+        bool itemPrecedes(const T &left, const T &right) {
+            if (itemPosition(left) != itemPosition(right))
+                return itemPosition(left) < itemPosition(right);
+            if constexpr (std::is_same_v<T, opendspx::Note>) {
+                if (left.keyNum != right.keyNum)
+                    return left.keyNum < right.keyNum;
+                return left.length < right.length;
+            }
+            return false;
+        }
+
+        template<typename Item, typename Setter>
+        std::optional<DspxClipboardData> buildSequenceData(const QList<Item *> &items, int playhead, Setter setter) {
+            if (items.isEmpty())
+                return std::nullopt;
+            using Data = decltype(items.first()->toOpenDSPX());
+            QList<Data> values;
+            values.reserve(items.size());
+            for (const auto *item : items)
+                values.append(item->toOpenDSPX());
+            std::stable_sort(values.begin(), values.end(), itemPrecedes<Data>);
+            const int absolute = itemPosition(values.first());
+            for (auto &value : values)
+                setItemPosition(value, itemPosition(value) - absolute);
+            DspxClipboardData data;
+            (data.*setter)(values);
+            data.setAbsolute(absolute);
+            data.setPlayhead(playhead - absolute);
+            return data;
+        }
+
+        template<typename Data, typename Sequence, typename Factory>
+        bool pasteSequenceData(QList<Data> values, Sequence *sequence, dspx::Model *model,
+                               DspxDocumentPrivate::PasteContext &context, Factory createItem, bool replaceOverlaps) {
+            if (!sequence || values.isEmpty())
+                return false;
+            int minimumPosition = std::numeric_limits<int>::max();
+            for (const auto &value : std::as_const(values))
+                minimumPosition = std::min(minimumPosition, itemPosition(value));
+            const qint64 offset = std::max<qint64>(context.position, -static_cast<qint64>(minimumPosition));
+            for (auto &value : values) {
+                const qint64 position = itemPosition(value) + offset;
+                if (position > std::numeric_limits<int>::max())
+                    return false;
+                setItemPosition(value, static_cast<int>(position));
+            }
+            std::stable_sort(values.begin(), values.end(), itemPrecedes<Data>);
+            bool inserted = false;
+            for (qsizetype index = 0; index < values.size(); ++index) {
+                const auto &value = values.at(index);
+                if (replaceOverlaps) {
+                    if (index + 1 < values.size() && itemPosition(values.at(index + 1)) == itemPosition(value))
+                        continue;
+                    for (auto *overlap : sequence->slice(itemPosition(value), 1)) {
+                        sequence->removeItem(overlap);
+                        model->destroyItem(overlap);
+                    }
+                }
+                auto *item = createItem();
+                item->fromOpenDSPX(value);
+                if (!sequence->insertItem(item)) {
+                    model->destroyItem(item);
+                    return false;
+                }
+                context.items.append(item);
+                inserted = true;
+            }
+            return inserted;
+        }
 
         struct BounceInfo {
             dspx::SingingClip *pivotClip{};
@@ -306,10 +414,12 @@ namespace Core {
                                        int clipEnd,
                                        int deltaPosition,
                                        QHash<QString, QSet<int>> &occupied) {
+            const auto data = Internal::captureFreeParameter(array, clipStart, clipEnd);
+            if (std::ranges::none_of(data.values, [](const auto &value) { return value.isValid(); }))
+                return true;
             const int step = dspx::FreeValueDataArray::step();
             const int firstIndex = clipStart / step;
-            const int lastSegmentIndex = (clipEnd + step - 1) / step - 1;
-            const auto values = array->slice(firstIndex, lastSegmentIndex - firstIndex + 2);
+            const auto &values = data.values;
             for (int offset = 0; offset < values.size(); ++offset) {
                 const int index = firstIndex + offset;
                 const int position = index * step;
@@ -318,11 +428,11 @@ namespace Core {
                     segmentIsClipped(position, position + step, clipStart, clipEnd)) {
                     return false;
                 }
-                if (!values.at(offset).isValid() || position < clipStart || position >= clipEnd)
-                    continue;
-                const int targetPosition = position + deltaPosition;
-                if (targetPosition % step != 0 ||
-                    !occupyPoint(occupied, parameterId, targetPosition)) {
+            }
+            const auto sampled = Internal::resampleFreeParameter(data, clipStart + deltaPosition);
+            for (int offset = 0; offset < sampled.values.size(); ++offset) {
+                if (sampled.values.at(offset).isValid() &&
+                    !occupyPoint(occupied, parameterId, (sampled.firstIndex + offset) * step)) {
                     return false;
                 }
             }
@@ -363,57 +473,18 @@ namespace Core {
 
         using MergedParameterMap = QHash<QString, MergedParameterData>;
 
-        int ceilToFreeValueIndex(int position) {
-            const int step = dspx::FreeValueDataArray::step();
-            return (position + step - 1) / step;
-        }
-
-        std::optional<double> interpolatedFreeValue(const QList<QVariant> &values, int position) {
-            const int step = dspx::FreeValueDataArray::step();
-            const int leftIndex = position / step;
-            if (leftIndex < 0 || leftIndex >= values.size())
-                return std::nullopt;
-            const auto &leftValue = values.at(leftIndex);
-            if (!leftValue.isValid())
-                return std::nullopt;
-            if (position % step == 0)
-                return ParameterInfo::fromDspxModelValue(leftValue.toInt());
-
-            const int rightIndex = leftIndex + 1;
-            if (rightIndex >= values.size() || !values.at(rightIndex).isValid())
-                return std::nullopt;
-            const double fraction = static_cast<double>(position - leftIndex * step) / step;
-            const double left = ParameterInfo::fromDspxModelValue(leftValue.toInt());
-            const double right = ParameterInfo::fromDspxModelValue(values.at(rightIndex).toInt());
-            return left + (right - left) * fraction;
-        }
-
         void mergeFreeValues(const dspx::FreeValueDataArray *array,
                              int clipStart,
                              int clipEnd,
                              int deltaPosition,
                              QMap<int, double> &target) {
-            const int step = dspx::FreeValueDataArray::step();
-            const auto values = array->items();
-            if (deltaPosition % step == 0) {
-                const int firstIndex = ceilToFreeValueIndex(clipStart);
-                const int endIndex = ceilToFreeValueIndex(clipEnd);
-                for (int index = firstIndex; index < endIndex && index < values.size(); ++index) {
-                    if (values.at(index).isValid())
-                        target.insert(index + deltaPosition / step,
-                                      ParameterInfo::fromDspxModelValue(values.at(index).toInt()));
+            const auto data = Internal::captureFreeParameter(array, clipStart, clipEnd);
+            const auto sampled = Internal::resampleFreeParameter(data, clipStart + deltaPosition);
+            for (int index = 0; index < sampled.values.size(); ++index) {
+                if (sampled.values.at(index).isValid()) {
+                    target.insert(sampled.firstIndex + index,
+                                  ParameterInfo::fromDspxModelValue(sampled.values.at(index).toInt()));
                 }
-                return;
-            }
-
-            const int targetStart = clipStart + deltaPosition;
-            const int targetEnd = clipEnd + deltaPosition;
-            const int firstTargetIndex = ceilToFreeValueIndex(targetStart);
-            const int endTargetIndex = ceilToFreeValueIndex(targetEnd);
-            for (int targetIndex = firstTargetIndex; targetIndex < endTargetIndex; ++targetIndex) {
-                const int sourcePosition = targetIndex * step - deltaPosition;
-                if (const auto value = interpolatedFreeValue(values, sourcePosition))
-                    target.insert(targetIndex, *value);
             }
         }
 
@@ -626,6 +697,11 @@ namespace Core {
                          q_ptr, [this] {
             updatePasteAvailable();
         });
+        QObject::connect(selectionModel->anchorNodeSelectionModel(),
+                         &dspx::AnchorNodeSelectionModel::anchorNodeSequenceWithSelectedItemsChanged,
+                         q_ptr, [this] {
+            updatePasteAvailable();
+        });
         QObject::connect(selectionModel->dynamicMixingAnchorSelectionModel(),
                          &dspx::DynamicMixingAnchorSelectionModel::dynamicMixingAnchorSequenceWithSelectedItemsChanged,
                          q_ptr, [this] {
@@ -638,6 +714,10 @@ namespace Core {
         QObject::connect(freeParameterSelectionModel, &FreeParameterSelectionModel::activeChanged,
                          q_ptr, [this] {
             updateEditScopeFocused();
+            updatePasteAvailable();
+        });
+        QObject::connect(freeParameterSelectionModel, &FreeParameterSelectionModel::contextChanged,
+                         q_ptr, [this] {
             updatePasteAvailable();
         });
 
@@ -658,43 +738,6 @@ namespace Core {
         const bool value = (selectionModel && selectionModel->selectionType() != dspx::SelectionModel::ST_None) ||
                            (freeParameterSelectionModel && freeParameterSelectionModel->isActive());
         return emitOnChange(value, editScopeFocused, &DspxDocument::editScopeFocusedChanged);
-    }
-
-    std::optional<DspxClipboardData::Type> DspxDocumentPrivate::currentClipboardType() const {
-        if (freeParameterSelectionModel && freeParameterSelectionModel->isActive()) {
-            // TODO(parameter clipboard format): return the free-parameter clipboard type.
-            return std::nullopt;
-        }
-        if (!selectionModel)
-            return std::nullopt;
-
-        switch (selectionModel->selectionType()) {
-            case dspx::SelectionModel::ST_Tempo:
-                return DspxClipboardData::Tempo;
-            case dspx::SelectionModel::ST_Label:
-                return DspxClipboardData::Label;
-            case dspx::SelectionModel::ST_KeySignature:
-                return DspxClipboardData::KeySignature;
-            case dspx::SelectionModel::ST_Track:
-                return DspxClipboardData::Track;
-            case dspx::SelectionModel::ST_Clip:
-                return DspxClipboardData::Clip;
-            case dspx::SelectionModel::ST_Note:
-                return selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems()
-                           ? std::optional(DspxClipboardData::Note)
-                           : std::nullopt;
-            case dspx::SelectionModel::ST_AnchorNode:
-                // TODO(parameter clipboard format): return the anchor-node clipboard type.
-                return std::nullopt;
-            case dspx::SelectionModel::ST_DynamicMixingAnchor:
-                return selectionModel->dynamicMixingAnchorSelectionModel()
-                               ->dynamicMixingAnchorSequenceWithSelectedItems()
-                           ? std::optional(DspxClipboardData::DynamicMixingAnchor)
-                           : std::nullopt;
-            case dspx::SelectionModel::ST_None:
-            default:
-                return std::nullopt;
-        }
     }
 
     int DspxDocumentPrivate::currentTrackIndex() const {
@@ -768,731 +811,284 @@ namespace Core {
         return emitOnChange(value, pasteAvailable, &DspxDocument::pasteAvailableChanged);
     }
 
-    std::optional<DspxClipboardData> DspxDocumentPrivate::buildClipboardData(int playheadPosition) const {
-        if (freeParameterSelectionModel && freeParameterSelectionModel->isActive()) {
-            copyFreeParameterSelection(playheadPosition);
-            return std::nullopt;
-        }
-        if (!selectionModel)
-            return std::nullopt;
-
+    std::optional<DspxClipboardData::Type> DspxDocumentPrivate::currentClipboardType() const {
+        if (freeParameterSelectionModel->isActive())
+            return DspxClipboardData::FreeParameter;
         switch (selectionModel->selectionType()) {
             case dspx::SelectionModel::ST_Tempo:
-                return buildTempoClipboardData(playheadPosition);
+                return DspxClipboardData::Tempo;
             case dspx::SelectionModel::ST_Label:
-                return buildLabelClipboardData(playheadPosition);
+                return DspxClipboardData::Label;
             case dspx::SelectionModel::ST_KeySignature:
-                return buildKeySignatureClipboardData(playheadPosition);
+                return DspxClipboardData::KeySignature;
             case dspx::SelectionModel::ST_Track:
-                return buildTrackClipboardData();
+                return DspxClipboardData::Track;
             case dspx::SelectionModel::ST_Clip:
-                return buildClipClipboardData(playheadPosition);
+                return DspxClipboardData::Clip;
             case dspx::SelectionModel::ST_Note:
-                return buildNoteClipboardData(playheadPosition);
+                return clipboardSingingClip() ? std::optional(DspxClipboardData::Note) : std::nullopt;
             case dspx::SelectionModel::ST_AnchorNode:
-                copyAnchorNodeSelection(playheadPosition);
-                return std::nullopt;
+                return clipboardSingingClip() ? std::optional(DspxClipboardData::AnchorNode) : std::nullopt;
             case dspx::SelectionModel::ST_DynamicMixingAnchor:
-                return buildDynamicMixingAnchorClipboardData(playheadPosition);
+                return clipboardSingingClip() ? std::optional(DspxClipboardData::DynamicMixingAnchor) : std::nullopt;
             case dspx::SelectionModel::ST_None:
-            default:
                 return std::nullopt;
+        }
+        return std::nullopt;
+    }
+
+    dspx::SingingClip *DspxDocumentPrivate::clipboardSingingClip() const {
+        if (freeParameterSelectionModel->isActive())
+            return freeParameterSelectionModel->singingClip();
+        switch (selectionModel->selectionType()) {
+            case dspx::SelectionModel::ST_Note: {
+                auto *sequence = selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems();
+                return sequence ? sequence->singingClip() : nullptr;
+            }
+            case dspx::SelectionModel::ST_AnchorNode: {
+                auto *sequence = selectionModel->anchorNodeSelectionModel()->anchorNodeSequenceWithSelectedItems();
+                auto *parameter = sequence ? sequence->parameter() : nullptr;
+                auto *map = parameter ? parameter->parameterMap() : nullptr;
+                return map ? map->singingClip() : nullptr;
+            }
+            case dspx::SelectionModel::ST_DynamicMixingAnchor: {
+                auto *sequence = selectionModel->dynamicMixingAnchorSelectionModel()->dynamicMixingAnchorSequenceWithSelectedItems();
+                auto *sources = sequence ? sequence->sources() : nullptr;
+                return sources ? sources->singingClip() : nullptr;
+            }
+            default:
+                return nullptr;
         }
     }
 
-    bool DspxDocumentPrivate::copyAnchorNodeSelection(int) const {
-        // TODO(parameter clipboard format): serialize the selected anchor nodes.
-        return false;
+    std::optional<DspxClipboardData> DspxDocumentPrivate::buildClipboardData(int playheadPosition) const {
+        const auto type = currentClipboardType();
+        const auto *handler = type ? clipboardHandler(*type) : nullptr;
+        return handler ? (this->*handler->copy)(playheadPosition) : std::nullopt;
     }
 
-    bool DspxDocumentPrivate::copyFreeParameterSelection(int) const {
-        // TODO(parameter clipboard format): serialize the selected free-parameter range.
-        return false;
-    }
-
-    bool DspxDocumentPrivate::pasteAnchorNodeSelection(int) {
-        // TODO(parameter clipboard format): paste anchor nodes into the active parameter.
-        return false;
-    }
-
-    bool DspxDocumentPrivate::pasteFreeParameterSelection(int) {
-        // TODO(parameter clipboard format): paste free values into the active parameter range.
-        return false;
+    bool DspxDocumentPrivate::copySelection(int playheadPosition) {
+        auto *clipboard = DspxClipboard::instance();
+        if (!clipboard)
+            return false;
+        const auto data = buildClipboardData(playheadPosition);
+        if (!data)
+            return false;
+        clipboard->copy({*data}, nullptr);
+        qCInfo(lcDspxDocument) << "The selection was copied. Type:" << data->type();
+        updatePasteAvailable();
+        return true;
     }
 
     std::optional<DspxClipboardData> DspxDocumentPrivate::buildTempoClipboardData(int playheadPosition) const {
-        if (!model || !selectionModel)
-            return std::nullopt;
-
-        const auto selectedItems = selectionModel->tempoSelectionModel()->selectedItems();
-        if (selectedItems.isEmpty())
-            return std::nullopt;
-
-        QList<opendspx::Tempo> tempos;
-        tempos.reserve(selectedItems.size());
-        for (const auto *item : selectedItems) {
-            tempos.append(item->toOpenDSPX());
-        }
-        if (tempos.isEmpty())
-            return std::nullopt;
-
-        std::sort(tempos.begin(), tempos.end(), [](const opendspx::Tempo &lhs, const opendspx::Tempo &rhs) {
-            return lhs.pos < rhs.pos;
-        });
-
-        const int absolute = tempos.first().pos;
-        for (auto &tempo : tempos)
-            tempo.pos -= absolute;
-
-        DspxClipboardData data;
-        data.setTempos(tempos);
-        data.setAbsolute(absolute);
-        data.setPlayhead(playheadPosition - absolute);
-        return data;
+        return buildSequenceData(selectionModel->tempoSelectionModel()->selectedItems(), playheadPosition, &DspxClipboardData::setTempos);
     }
 
     std::optional<DspxClipboardData> DspxDocumentPrivate::buildLabelClipboardData(int playheadPosition) const {
-        if (!model || !selectionModel)
-            return std::nullopt;
-
-        const auto selectedItems = selectionModel->labelSelectionModel()->selectedItems();
-        if (selectedItems.isEmpty())
-            return std::nullopt;
-
-        QList<opendspx::Label> labels;
-        labels.reserve(selectedItems.size());
-        for (const auto *item : selectedItems) {
-            labels.append(item->toOpenDSPX());
-        }
-        if (labels.isEmpty())
-            return std::nullopt;
-
-        std::sort(labels.begin(), labels.end(), [](const opendspx::Label &lhs, const opendspx::Label &rhs) {
-            return lhs.pos < rhs.pos;
-        });
-
-        const int absolute = labels.first().pos;
-        for (auto &label : labels)
-            label.pos -= absolute;
-
-        DspxClipboardData data;
-        data.setLabels(labels);
-        data.setAbsolute(absolute);
-        data.setPlayhead(playheadPosition - absolute);
-        return data;
-    }
-
-    std::optional<DspxClipboardData> DspxDocumentPrivate::buildDynamicMixingAnchorClipboardData(
-        int playheadPosition) const {
-        if (!model || !selectionModel)
-            return std::nullopt;
-
-        auto *dynamicSelection = selectionModel->dynamicMixingAnchorSelectionModel();
-        auto *sequence = dynamicSelection->dynamicMixingAnchorSequenceWithSelectedItems();
-        const auto selectedItems = dynamicSelection->selectedItems();
-        if (!sequence || selectedItems.isEmpty())
-            return std::nullopt;
-
-        QList<opendspx::DynamicMixingAnchor> anchors;
-        anchors.reserve(selectedItems.size());
-        for (const auto *item : selectedItems) {
-            if (item->dynamicMixingAnchorSequence() == sequence)
-                anchors.append(item->toOpenDSPX());
-        }
-        if (anchors.isEmpty())
-            return std::nullopt;
-
-        std::sort(anchors.begin(), anchors.end(), [](const auto &left, const auto &right) {
-            return left.pos < right.pos;
-        });
-        const int absolute = anchors.first().pos;
-        for (auto &anchor : anchors)
-            anchor.pos -= absolute;
-
-        auto *clip = sequence->sources()->singingClip();
-        const int localPlayhead = clip
-                                      ? playheadPosition - clip->position() + clip->clipStart()
-                                      : playheadPosition;
-        DspxClipboardData data;
-        data.setDynamicMixingAnchors(anchors);
-        data.setAbsolute(absolute);
-        data.setPlayhead(localPlayhead - absolute);
-        return data;
+        return buildSequenceData(selectionModel->labelSelectionModel()->selectedItems(), playheadPosition, &DspxClipboardData::setLabels);
     }
 
     std::optional<DspxClipboardData> DspxDocumentPrivate::buildKeySignatureClipboardData(int playheadPosition) const {
-        if (!model || !selectionModel)
-            return std::nullopt;
+        return buildSequenceData(selectionModel->keySignatureSelectionModel()->selectedItems(), playheadPosition, &DspxClipboardData::setKeySignatures);
+    }
 
-        const auto selectedItems = selectionModel->keySignatureSelectionModel()->selectedItems();
-        if (selectedItems.isEmpty())
+    std::optional<DspxClipboardData> DspxDocumentPrivate::buildNoteClipboardData(int playheadPosition) const {
+        auto *clip = clipboardSingingClip();
+        if (!clip)
             return std::nullopt;
+        return buildSequenceData(selectionModel->noteSelectionModel()->selectedItems(), playheadPosition - clip->start(), &DspxClipboardData::setNotes);
+    }
 
-        QList<stdc::json::Value> keySignatures;
-        keySignatures.reserve(selectedItems.size());
-        for (const auto *item : selectedItems) {
-            keySignatures.append(item->toOpenDSPX());
+    std::optional<DspxClipboardData> DspxDocumentPrivate::buildDynamicMixingAnchorClipboardData(int playheadPosition) const {
+        auto *clip = clipboardSingingClip();
+        if (!clip)
+            return std::nullopt;
+        return buildSequenceData(selectionModel->dynamicMixingAnchorSelectionModel()->selectedItems(), playheadPosition - clip->start(), &DspxClipboardData::setDynamicMixingAnchors);
+    }
+
+    std::optional<DspxClipboardData> DspxDocumentPrivate::buildAnchorNodeClipboardData(int playheadPosition) const {
+        auto *clip = clipboardSingingClip();
+        if (!clip)
+            return std::nullopt;
+        return buildSequenceData(selectionModel->anchorNodeSelectionModel()->selectedItems(), playheadPosition - clip->start(), &DspxClipboardData::setAnchorNodes);
+    }
+
+    std::optional<DspxClipboardData> DspxDocumentPrivate::buildFreeParameterClipboardData(int playheadPosition) const {
+        if (!freeParameterSelectionModel->hasSelection())
+            return std::nullopt;
+        auto *clip = freeParameterSelectionModel->singingClip();
+        auto *parameter = clip->parameters()->item(freeParameterSelectionModel->parameterId());
+        const int start = freeParameterSelectionModel->start();
+        const int end = freeParameterSelectionModel->end();
+        FreeParameterClipboardData range {.length = end - start, .offset = -(start % dspx::FreeValueDataArray::step())};
+        if (parameter) {
+            auto *array = freeParameterSelectionModel->layer() == FreeParameterSelectionModel::TransformLayer
+                ? parameter->freeTransform() : parameter->freeEdited();
+            range = Internal::captureFreeParameter(array, start, end);
         }
-        if (keySignatures.isEmpty())
-            return std::nullopt;
-
-        std::sort(keySignatures.begin(), keySignatures.end(), [](const stdc::json::Value &lhs, const stdc::json::Value &rhs) {
-            return lhs["pos"].toInt() < rhs["pos"].toInt();
-        });
-
-        const int absolute = static_cast<int>(keySignatures.first()["pos"].toInt());
-        for (auto &keySignature : keySignatures) {
-            stdc::json::Object object = keySignature.toObject();
-            object["pos"] = static_cast<int>(object["pos"].toInt()) - absolute;
-            keySignature = std::move(object);
-        }
-
         DspxClipboardData data;
-        data.setKeySignatures(keySignatures);
-        data.setAbsolute(absolute);
-        data.setPlayhead(playheadPosition - absolute);
+        data.setFreeParameter(range);
+        data.setAbsolute(start);
+        data.setPlayhead(playheadPosition - clip->start() - start);
         return data;
     }
 
-    std::optional<DspxClipboardData> DspxDocumentPrivate::buildTrackClipboardData() const {
-        if (!model || !selectionModel)
-            return std::nullopt;
-
+    std::optional<DspxClipboardData> DspxDocumentPrivate::buildTrackClipboardData(int) const {
         auto selectedItems = selectionModel->trackSelectionModel()->selectedItems();
         if (selectedItems.isEmpty())
             return std::nullopt;
-
         const auto orderedTracks = model->tracks()->items();
-        std::sort(selectedItems.begin(), selectedItems.end(), [&orderedTracks](dspx::Track *lhs, dspx::Track *rhs) {
-            return orderedTracks.indexOf(lhs) < orderedTracks.indexOf(rhs);
+        std::sort(selectedItems.begin(), selectedItems.end(), [&orderedTracks](auto *left, auto *right) {
+            return orderedTracks.indexOf(left) < orderedTracks.indexOf(right);
         });
-
         QList<opendspx::Track> tracks;
         tracks.reserve(selectedItems.size());
-        for (const auto *item : selectedItems) {
-            tracks.append(item->toOpenDSPX());
-        }
-
-        if (tracks.isEmpty())
-            return std::nullopt;
-
+        for (const auto *track : std::as_const(selectedItems))
+            tracks.append(track->toOpenDSPX());
         DspxClipboardData data;
         data.setTracks(tracks);
         return data;
     }
 
     std::optional<DspxClipboardData> DspxDocumentPrivate::buildClipClipboardData(int playheadPosition) const {
-        if (!model || !selectionModel)
-            return std::nullopt;
-
         const auto selectedItems = selectionModel->clipSelectionModel()->selectedItems();
         if (selectedItems.isEmpty())
             return std::nullopt;
-
-        struct SelectedClip {
-            dspx::Clip *clip;
-            int trackIndex;
-        };
-
         const auto tracks = model->tracks()->items();
-        QList<SelectedClip> orderedClips;
-        orderedClips.reserve(selectedItems.size());
-        int firstTrackIndex = static_cast<int>(tracks.size());
-        int lastTrackIndex = -1;
+        int firstTrack = static_cast<int>(tracks.size());
+        int lastTrack = -1;
         int absolute = std::numeric_limits<int>::max();
         for (auto *clip : selectedItems) {
-            auto *clipSequence = clip ? clip->clipSequence() : nullptr;
-            auto *track = clipSequence ? clipSequence->track() : nullptr;
-            const int trackIndex = tracks.indexOf(track);
-            if (!clip || trackIndex < 0)
-                continue;
-            orderedClips.append({clip, trackIndex});
-            firstTrackIndex = std::min(firstTrackIndex, trackIndex);
-            lastTrackIndex = std::max(lastTrackIndex, trackIndex);
+            const int track = tracks.indexOf(clip->clipSequence()->track());
+            firstTrack = std::min(firstTrack, track);
+            lastTrack = std::max(lastTrack, track);
             absolute = std::min(absolute, clip->position());
         }
-        if (orderedClips.isEmpty())
+        if (firstTrack < 0 || lastTrack < firstTrack)
             return std::nullopt;
-
-        std::sort(orderedClips.begin(), orderedClips.end(), [](const SelectedClip &left, const SelectedClip &right) {
-            if (left.trackIndex != right.trackIndex)
-                return left.trackIndex < right.trackIndex;
-            if (left.clip->position() != right.clip->position())
-                return left.clip->position() < right.clip->position();
-            return left.clip->clipLength() < right.clip->clipLength();
-        });
-
-        QList<std::vector<opendspx::ClipRef>> clips;
-        clips.resize(lastTrackIndex - firstTrackIndex + 1);
-        int copiedCount = 0;
-        for (const auto &selectedClip : std::as_const(orderedClips)) {
-            auto clip = selectedClip.clip->toOpenDSPX();
-            if (!clip)
-                continue;
-            clip->time.pos -= absolute;
-            clips[selectedClip.trackIndex - firstTrackIndex].push_back(std::move(clip));
-            ++copiedCount;
+        QList<std::vector<opendspx::ClipRef>> clips(lastTrack - firstTrack + 1);
+        for (auto *clip : selectedItems) {
+            auto value = clip->toOpenDSPX();
+            value->time.pos -= absolute;
+            clips[tracks.indexOf(clip->clipSequence()->track()) - firstTrack].push_back(std::move(value));
         }
-        if (copiedCount == 0)
-            return std::nullopt;
-
+        for (auto &trackClips : clips) {
+            std::stable_sort(trackClips.begin(), trackClips.end(), [](const auto &left, const auto &right) {
+                if (left->time.pos != right->time.pos)
+                    return left->time.pos < right->time.pos;
+                return left->time.clipLen < right->time.clipLen;
+            });
+        }
         DspxClipboardData data;
         data.setClips(clips);
+        data.setAbsolute(absolute);
         data.setPlayhead(playheadPosition - absolute);
-        data.setAbsolute(absolute);
-        data.setTrack(firstTrackIndex);
+        data.setTrack(firstTrack);
         return data;
     }
 
-    std::optional<DspxClipboardData> DspxDocumentPrivate::buildNoteClipboardData(int playheadPosition) const {
-        if (!model || !selectionModel)
-            return std::nullopt;
-
-        auto *noteSelection = selectionModel->noteSelectionModel();
-        auto *noteSequence = noteSelection->noteSequenceWithSelectedItems();
-        auto *clip = noteSequence ? noteSequence->singingClip() : nullptr;
-        const auto selectedItems = noteSelection->selectedItems();
-        if (!clip || selectedItems.isEmpty())
-            return std::nullopt;
-
-        QList<opendspx::Note> notes;
-        notes.reserve(selectedItems.size());
-        for (const auto *item : selectedItems) {
-            if (item && item->noteSequence() == noteSequence)
-                notes.append(item->toOpenDSPX());
+    int DspxDocumentPrivate::pastePosition(const DspxClipboardData &data, int playheadPosition, DspxDocument::PasteMode mode) const {
+        const auto *clip = clipboardSingingClip();
+        const qint64 playhead = static_cast<qint64>(playheadPosition) - (clip ? clip->start() : 0);
+        qint64 position = playhead;
+        switch (mode) {
+            case DspxDocument::CurrentPosition:
+                break;
+            case DspxDocument::RelativeToCopiedPlayhead:
+                position -= data.playhead();
+                break;
+            case DspxDocument::OriginalPosition:
+                position = data.absolute();
+                break;
         }
-        if (notes.isEmpty())
-            return std::nullopt;
-
-        std::sort(notes.begin(), notes.end(), [](const opendspx::Note &left, const opendspx::Note &right) {
-            if (left.pos != right.pos)
-                return left.pos < right.pos;
-            if (left.keyNum != right.keyNum)
-                return left.keyNum < right.keyNum;
-            return left.length < right.length;
-        });
-
-        const int absolute = notes.first().pos;
-        for (auto &note : notes)
-            note.pos -= absolute;
-
-        const int localPlayhead = playheadPosition - clip->position() + clip->clipStart();
-        DspxClipboardData data;
-        data.setNotes(notes);
-        data.setPlayhead(localPlayhead - absolute);
-        data.setAbsolute(absolute);
-        return data;
+        return static_cast<int>(std::clamp<qint64>(position, 0, std::numeric_limits<int>::max()));
     }
 
-    bool DspxDocumentPrivate::pasteClipboardData(const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
-        switch (data.type()) {
-            case DspxClipboardData::Tempo:
-                return pasteTempos(data.tempos(), data, playheadPosition, pastedItems);
-            case DspxClipboardData::Label:
-                return pasteLabels(data.labels(), data, playheadPosition, pastedItems);
-            case DspxClipboardData::KeySignature:
-                return pasteKeySignatures(data.keySignatures(), data, playheadPosition, pastedItems);
-            case DspxClipboardData::Track:
-                return pasteTracks(data.tracks(), pastedItems);
-            case DspxClipboardData::Clip:
-                return pasteClips(data.clips(), data, playheadPosition, pastedItems);
-            case DspxClipboardData::Note:
-                return pasteNotes(data.notes(), data, playheadPosition, pastedItems);
-            case DspxClipboardData::DynamicMixingAnchor:
-                return pasteDynamicMixingAnchors(data.dynamicMixingAnchors(), data,
-                                                 playheadPosition, pastedItems);
-        }
-        return false;
+    bool DspxDocumentPrivate::pasteTempos(const DspxClipboardData &data, PasteContext &context) {
+        return pasteSequenceData(data.tempos(), model->tempos(), model, context, [this] { return model->createTempo(); }, true);
     }
 
-    bool DspxDocumentPrivate::pasteTempos(const QList<opendspx::Tempo> &tempos, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
-        if (!model || tempos.isEmpty())
-            return false;
-
-        enum class PasteMode {
-            CurrentPosition,
-            RelativeToCopiedPlayhead,
-            OriginalPosition,
-        };
-
-        // TODO allow selecting paste mode from user settings
-        const auto pasteMode = PasteMode::CurrentPosition;
-
-        const auto baseOffset = [pasteMode, &data, playheadPosition] {
-            switch (pasteMode) {
-                case PasteMode::CurrentPosition:
-                    return playheadPosition;
-                case PasteMode::RelativeToCopiedPlayhead:
-                    return playheadPosition - data.playhead();
-                case PasteMode::OriginalPosition:
-                    return data.absolute();
-            }
-            return playheadPosition;
-        }();
-
-        QList<opendspx::Tempo> adjusted = tempos;
-        int minPos = adjusted.isEmpty() ? 0 : std::numeric_limits<int>::max();
-        for (auto &tempo : adjusted) {
-            tempo.pos += baseOffset;
-            minPos = std::min(minPos, tempo.pos);
-        }
-        if (minPos < 0) {
-            const int shift = -minPos;
-            for (auto &tempo : adjusted)
-                tempo.pos += shift;
-        }
-
-        std::sort(adjusted.begin(), adjusted.end(), [](const opendspx::Tempo &lhs, const opendspx::Tempo &rhs) {
-            return lhs.pos < rhs.pos;
-        });
-
-        bool inserted = false;
-        int removedOverlaps = 0;
-        auto tempoSequence = model->tempos();
-        for (const auto &tempoData : adjusted) {
-            const auto overlappingItems = tempoSequence->slice(tempoData.pos, 1);
-            for (auto *overlappingItem : overlappingItems) {
-                tempoSequence->removeItem(overlappingItem);
-                model->destroyItem(overlappingItem);
-                ++removedOverlaps;
-            }
-
-            auto *tempo = model->createTempo();
-            tempo->fromOpenDSPX(tempoData);
-            if (!tempoSequence->insertItem(tempo)) {
-                model->destroyItem(tempo);
-                continue;
-            }
-
-            inserted = true;
-            pastedItems.append(tempo);
-        }
-
-        if (inserted)
-            qCInfo(lcDspxDocument) << "Pasted tempos" << adjusted.size() << "removed overlaps" << removedOverlaps;
-        else
-            qCDebug(lcDspxDocument) << "No tempo pasted";
-
-        return inserted;
+    bool DspxDocumentPrivate::pasteLabels(const DspxClipboardData &data, PasteContext &context) {
+        return pasteSequenceData(data.labels(), model->labels(), model, context, [this] { return model->createLabel(); }, false);
     }
 
-    bool DspxDocumentPrivate::pasteLabels(const QList<opendspx::Label> &labels, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
-        if (!model || labels.isEmpty())
-            return false;
-
-        enum class PasteMode {
-            CurrentPosition,
-            RelativeToCopiedPlayhead,
-            OriginalPosition,
-        };
-
-        // TODO allow selecting paste mode from user settings
-        const auto pasteMode = PasteMode::CurrentPosition;
-
-        const auto baseOffset = [pasteMode, &data, playheadPosition] {
-            switch (pasteMode) {
-                case PasteMode::CurrentPosition:
-                    return playheadPosition;
-                case PasteMode::RelativeToCopiedPlayhead:
-                    return playheadPosition - data.playhead();
-                case PasteMode::OriginalPosition:
-                    return data.absolute();
-            }
-            return playheadPosition;
-        }();
-
-        QList<opendspx::Label> adjusted = labels;
-        int minPos = adjusted.isEmpty() ? 0 : std::numeric_limits<int>::max();
-        for (auto &label : adjusted) {
-            label.pos += baseOffset;
-            minPos = std::min(minPos, label.pos);
-        }
-        if (minPos < 0) {
-            const int shift = -minPos;
-            for (auto &label : adjusted)
-                label.pos += shift;
-        }
-
-        std::sort(adjusted.begin(), adjusted.end(), [](const opendspx::Label &lhs, const opendspx::Label &rhs) {
-            return lhs.pos < rhs.pos;
-        });
-
-        bool inserted = false;
-        auto labelSequence = model->labels();
-        for (const auto &labelData : adjusted) {
-            auto *label = model->createLabel();
-            label->fromOpenDSPX(labelData);
-            if (!labelSequence->insertItem(label)) {
-                model->destroyItem(label);
-                continue;
-            }
-            inserted = true;
-            pastedItems.append(label);
-        }
-
-        if (inserted)
-            qCInfo(lcDspxDocument) << "Pasted labels" << adjusted.size();
-        else
-            qCDebug(lcDspxDocument) << "No label pasted";
-
-        return inserted;
+    bool DspxDocumentPrivate::pasteKeySignatures(const DspxClipboardData &data, PasteContext &context) {
+        return pasteSequenceData(data.keySignatures(), model->keySignatures(), model, context, [this] { return model->createKeySignature(); }, true);
     }
 
-    bool DspxDocumentPrivate::pasteDynamicMixingAnchors(
-        const QList<opendspx::DynamicMixingAnchor> &anchors, const DspxClipboardData &data,
-        int playheadPosition, QList<QObject *> &pastedItems) {
-        Q_UNUSED(data)
-        if (!model || !selectionModel || anchors.isEmpty())
-            return false;
+    bool DspxDocumentPrivate::pasteNotes(const DspxClipboardData &data, PasteContext &context) {
+        auto *sequence = selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems();
+        return pasteSequenceData(data.notes(), sequence, model, context, [this] { return model->createNote(); }, false);
+    }
 
-        auto *sequence = selectionModel->dynamicMixingAnchorSelectionModel()
-                             ->dynamicMixingAnchorSequenceWithSelectedItems();
-        if (!sequence || !sequence->sources() || !sequence->sources()->singingClip())
+    bool DspxDocumentPrivate::pasteDynamicMixingAnchors(const DspxClipboardData &data, PasteContext &context) {
+        auto *sequence = selectionModel->dynamicMixingAnchorSelectionModel()->dynamicMixingAnchorSequenceWithSelectedItems();
+        if (!sequence || !sequence->sources())
             return false;
         const int singerCount = sequence->sources()->singers()->size();
         if (singerCount <= 0)
             return false;
-
-        auto *clip = sequence->sources()->singingClip();
-        const int localPlayhead = playheadPosition - clip->position() + clip->clipStart();
-        QList<opendspx::DynamicMixingAnchor> adjusted = anchors;
-        int minimumPosition = std::numeric_limits<int>::max();
-        for (auto &anchor : adjusted) {
-            anchor.pos += localPlayhead;
-            minimumPosition = std::min(minimumPosition, anchor.pos);
-            anchor.ratio.resize(static_cast<std::size_t>(std::max(0, singerCount - 1)), 0.0);
-        }
-        if (minimumPosition < 0) {
-            for (auto &anchor : adjusted)
-                anchor.pos -= minimumPosition;
-        }
-        std::sort(adjusted.begin(), adjusted.end(), [](const auto &left, const auto &right) {
-            return left.pos < right.pos;
-        });
-
-        QList<opendspx::DynamicMixingAnchor> uniqueAnchors;
-        uniqueAnchors.reserve(adjusted.size());
-        for (const auto &anchor : std::as_const(adjusted)) {
-            if (!uniqueAnchors.isEmpty() && uniqueAnchors.last().pos == anchor.pos)
-                uniqueAnchors.last() = anchor;
-            else
-                uniqueAnchors.append(anchor);
-        }
-
-        bool inserted = false;
-        int removedOverlaps = 0;
-        for (const auto &anchorData : std::as_const(uniqueAnchors)) {
-            for (auto *overlap : sequence->slice(anchorData.pos, 1)) {
-                sequence->removeItem(overlap);
-                model->destroyItem(overlap);
-                ++removedOverlaps;
-            }
-            auto *anchor = model->createDynamicMixingAnchor();
-            anchor->fromOpenDSPX(anchorData);
-            if (!sequence->insertItem(anchor)) {
-                model->destroyItem(anchor);
-                continue;
-            }
-            inserted = true;
-            pastedItems.append(anchor);
-        }
-
-        if (inserted) {
-            qCInfo(lcDspxDocument) << "Pasted voice blending anchors" << uniqueAnchors.size()
-                                   << "removed overlaps" << removedOverlaps;
-        } else {
-            qCDebug(lcDspxDocument) << "No voice blending anchor pasted";
-        }
-        return inserted;
+        auto anchors = data.dynamicMixingAnchors();
+        for (auto &anchor : anchors)
+            anchor.ratio.resize(static_cast<std::size_t>(singerCount - 1), 0.0);
+        return pasteSequenceData(std::move(anchors), sequence, model, context, [this] { return model->createDynamicMixingAnchor(); }, true);
     }
 
-    bool DspxDocumentPrivate::pasteKeySignatures(const QList<stdc::json::Value> &keySignatures, const DspxClipboardData &data, int playheadPosition, QList<QObject *> &pastedItems) {
-        if (!model || keySignatures.isEmpty())
-            return false;
-
-        enum class PasteMode {
-            CurrentPosition,
-            RelativeToCopiedPlayhead,
-            OriginalPosition,
-        };
-
-        // TODO allow selecting paste mode from user settings
-        const auto pasteMode = PasteMode::CurrentPosition;
-
-        const auto baseOffset = [pasteMode, &data, playheadPosition] {
-            switch (pasteMode) {
-                case PasteMode::CurrentPosition:
-                    return playheadPosition;
-                case PasteMode::RelativeToCopiedPlayhead:
-                    return playheadPosition - data.playhead();
-                case PasteMode::OriginalPosition:
-                    return data.absolute();
-            }
-            return playheadPosition;
-        }();
-
-        QList<stdc::json::Value> adjusted = keySignatures;
-        int minPos = adjusted.isEmpty() ? 0 : std::numeric_limits<int>::max();
-        for (auto &keySignature : adjusted) {
-            stdc::json::Object object = keySignature.toObject();
-            const int pos = keySignature.isObject() && keySignature["pos"].isNumber() ? static_cast<int>(keySignature["pos"].toInt()) + baseOffset : baseOffset;
-            object["pos"] = pos;
-            keySignature = std::move(object);
-            minPos = std::min(minPos, pos);
-        }
-        if (minPos < 0) {
-            const int shift = -minPos;
-            for (auto &keySignature : adjusted) {
-                stdc::json::Object object = keySignature.toObject();
-                object["pos"] = static_cast<int>(object["pos"].toInt()) + shift;
-                keySignature = std::move(object);
-            }
-        }
-
-        std::sort(adjusted.begin(), adjusted.end(), [](const stdc::json::Value &lhs, const stdc::json::Value &rhs) {
-            return lhs["pos"].toInt() < rhs["pos"].toInt();
-        });
-
-        bool inserted = false;
-        int removedOverlaps = 0;
-        auto keySignatureSequence = model->keySignatures();
-        for (const auto &keySignatureData : adjusted) {
-            const auto pos = static_cast<int>(keySignatureData["pos"].toInt());
-            const auto overlappingItems = keySignatureSequence->slice(pos, 1);
-            for (auto *overlappingItem : overlappingItems) {
-                keySignatureSequence->removeItem(overlappingItem);
-                model->destroyItem(overlappingItem);
-                ++removedOverlaps;
-            }
-
-            auto *keySignature = model->createKeySignature();
-            keySignature->fromOpenDSPX(keySignatureData);
-            if (!keySignatureSequence->insertItem(keySignature)) {
-                model->destroyItem(keySignature);
-                continue;
-            }
-
-            inserted = true;
-            pastedItems.append(keySignature);
-        }
-
-        if (inserted)
-            qCInfo(lcDspxDocument) << "Pasted key signatures" << adjusted.size() << "removed overlaps" << removedOverlaps;
-        else
-            qCDebug(lcDspxDocument) << "No key signature pasted";
-
-        return inserted;
+    bool DspxDocumentPrivate::pasteAnchorNodes(const DspxClipboardData &data, PasteContext &context) {
+        auto *sequence = selectionModel->anchorNodeSelectionModel()->anchorNodeSequenceWithSelectedItems();
+        return pasteSequenceData(data.anchorNodes(), sequence, model, context, [this] { return model->createAnchorNode(); }, true);
     }
 
-    bool DspxDocumentPrivate::pasteTracks(const QList<opendspx::Track> &tracks, QList<QObject *> &pastedItems) {
-        if (!model || tracks.isEmpty())
-            return false;
-
-        bool inserted = false;
-        auto *trackList = model->tracks();
-        auto insertionIndex = trackList->size();
-        do {
-            auto currentTrack = qobject_cast<dspx::Track *>(selectionModel->currentItem());
-            if (!currentTrack) {
-                break;
-            }
-            auto index = trackList->items().indexOf(currentTrack);
-            if (index == -1) {
-                break;
-            }
-            insertionIndex = index + 1;
-        } while (false);
-        for (const auto &trackData : tracks) {
+    bool DspxDocumentPrivate::pasteTracks(const DspxClipboardData &data, PasteContext &context) {
+        auto *list = model->tracks();
+        int insertionIndex = list->size();
+        if (auto *current = selectionModel->trackSelectionModel()->currentItem()) {
+            const int index = list->items().indexOf(current);
+            if (index >= 0)
+                insertionIndex = index + 1;
+        }
+        for (const auto &value : data.tracks()) {
             auto *track = model->createTrack();
-            track->fromOpenDSPX(trackData);
-            if (!trackList->insertItem(insertionIndex, track)) {
+            track->fromOpenDSPX(value);
+            if (!list->insertItem(insertionIndex++, track)) {
                 model->destroyItem(track);
-                continue;
+                return false;
             }
-            insertionIndex++;
-            inserted = true;
-            pastedItems.append(track);
+            context.items.append(track);
         }
-
-        if (inserted)
-            qCInfo(lcDspxDocument) << "Pasted tracks" << tracks.size();
-        else
-            qCDebug(lcDspxDocument) << "No track pasted";
-
-        return inserted;
+        return !context.items.isEmpty();
     }
 
-    bool DspxDocumentPrivate::pasteClips(const QList<std::vector<opendspx::ClipRef>> &clips,
-                                         const DspxClipboardData &data, int playheadPosition,
-                                         QList<QObject *> &pastedItems) {
-        if (!model || !selectionModel || clips.isEmpty())
+    bool DspxDocumentPrivate::pasteClips(const DspxClipboardData &data, PasteContext &context) {
+        const auto clips = data.clips();
+        const bool hasClip = std::ranges::any_of(clips, [](const auto &trackClips) {
+            return std::ranges::any_of(trackClips, [](const auto &clip) { return bool(clip); });
+        });
+        if (!hasClip)
             return false;
-
-        enum class PasteMode {
-            CurrentPositionAndCurrentTrack,
-            RelativeToCopiedPlayheadAndCurrentTrack,
-            OriginalPositionAndOriginalTrack,
-        };
-
-        // TODO allow selecting paste mode from user settings
-        const auto pasteMode = PasteMode::CurrentPositionAndCurrentTrack;
-
-        const int baseOffset = [pasteMode, &data, playheadPosition] {
-            switch (pasteMode) {
-                case PasteMode::CurrentPositionAndCurrentTrack:
-                    return playheadPosition;
-                case PasteMode::RelativeToCopiedPlayheadAndCurrentTrack:
-                    return playheadPosition - data.playhead();
-                case PasteMode::OriginalPositionAndOriginalTrack:
-                    return data.absolute();
-            }
-            return playheadPosition;
-        }();
-
-        bool hasValidClip = false;
-        int minimumPosition = std::numeric_limits<int>::max();
-        for (const auto &trackClips : clips) {
-            for (const auto &clip : trackClips) {
-                if (!clip)
-                    continue;
-                hasValidClip = true;
-                minimumPosition = std::min(minimumPosition, clip->time.pos + baseOffset);
-            }
-        }
-        if (!hasValidClip)
+        const int firstTrack = std::max(0, context.mode == DspxDocument::OriginalPosition ? data.track() : currentTrackIndex());
+        auto *tracks = model->tracks();
+        if (clips.size() > std::numeric_limits<int>::max() - firstTrack)
             return false;
-        const int nonNegativeShift = minimumPosition < 0 ? -minimumPosition : 0;
-
-        auto *trackList = model->tracks();
-        int targetTrackIndex = pasteMode == PasteMode::OriginalPositionAndOriginalTrack
-                                   ? data.track()
-                                   : currentTrackIndex();
-        targetTrackIndex = std::max(targetTrackIndex, 0);
-
-        const int trackSpan = static_cast<int>(clips.size());
-        const int requiredTrackCount = targetTrackIndex + trackSpan;
-        while (trackList->size() < requiredTrackCount) {
+        const int requiredTrackCount = firstTrack + static_cast<int>(clips.size());
+        while (tracks->size() < requiredTrackCount) {
             auto *track = model->createTrack();
             track->fromOpenDSPX(opendspx::Track {});
-            if (!trackList->insertItem(trackList->size(), track)) {
+            if (!tracks->insertItem(tracks->size(), track)) {
                 model->destroyItem(track);
                 return false;
             }
         }
-
-        bool inserted = false;
-        for (int relativeTrackIndex = 0; relativeTrackIndex < trackSpan; ++relativeTrackIndex) {
-            auto *targetTrack = trackList->item(targetTrackIndex + relativeTrackIndex);
-            auto *targetSequence = targetTrack ? targetTrack->clips() : nullptr;
-            if (!targetSequence)
-                continue;
-
-            for (const auto &clipData : clips.at(relativeTrackIndex)) {
-                if (!clipData)
+        for (int index = 0; index < clips.size(); ++index) {
+            auto *sequence = tracks->item(firstTrack + index)->clips();
+            for (const auto &value : clips.at(index)) {
+                if (!value)
                     continue;
-
+                const qint64 position = static_cast<qint64>(value->time.pos) + context.position;
+                if (position > std::numeric_limits<int>::max())
+                    return false;
                 dspx::Clip *clip = nullptr;
-                switch (clipData->type) {
+                switch (value->type) {
                     case opendspx::Clip::Type::Audio:
                         clip = model->createAudioClip();
                         break;
@@ -1501,93 +1097,130 @@ namespace Core {
                         break;
                 }
                 if (!clip)
-                    continue;
-
-                clip->fromOpenDSPX(clipData);
-                clip->setPosition(clipData->time.pos + baseOffset + nonNegativeShift);
-                if (!targetSequence->insertItem(clip)) {
+                    return false;
+                clip->fromOpenDSPX(value);
+                clip->setPosition(static_cast<int>(position));
+                if (!sequence->insertItem(clip)) {
                     model->destroyItem(clip);
-                    continue;
+                    return false;
                 }
-                inserted = true;
-                pastedItems.append(clip);
+                context.items.append(clip);
             }
         }
-
-        if (inserted)
-            qCInfo(lcDspxDocument) << "Pasted clips" << pastedItems.size();
-        else
-            qCDebug(lcDspxDocument) << "No clip pasted";
-        return inserted;
+        return !context.items.isEmpty();
     }
 
-    bool DspxDocumentPrivate::pasteNotes(const QList<opendspx::Note> &notes,
-                                         const DspxClipboardData &data, int playheadPosition,
-                                         QList<QObject *> &pastedItems) {
-        if (!model || !selectionModel || notes.isEmpty())
+    bool DspxDocumentPrivate::pasteFreeParameter(const DspxClipboardData &data, PasteContext &context) {
+        const auto range = data.freeParameter();
+        if (range.length > std::numeric_limits<int>::max() - context.position)
+            return false;
+        const auto sampled = Internal::resampleFreeParameter(range, context.position);
+        if (sampled.values.isEmpty())
+            return false;
+        auto *clip = freeParameterSelectionModel->singingClip();
+        auto *parameters = clip->parameters();
+        const auto id = freeParameterSelectionModel->parameterId();
+        auto *parameter = parameters->item(id);
+        const bool hasValues = std::ranges::any_of(sampled.values, [](const auto &value) { return value.isValid(); });
+        if (!parameter && !hasValues)
+            return false;
+        if (!parameter) {
+            parameter = model->createParameter();
+            if (!parameters->insertItem(id, parameter)) {
+                model->destroyItem(parameter);
+                return false;
+            }
+        }
+        auto *array = freeParameterSelectionModel->layer() == FreeParameterSelectionModel::TransformLayer
+            ? parameter->freeTransform() : parameter->freeEdited();
+        auto current = array->slice(sampled.firstIndex, sampled.values.size());
+        current.resize(sampled.values.size());
+        if (current == sampled.values)
+            return false;
+        const int endIndex = sampled.firstIndex + static_cast<int>(sampled.values.size());
+        if (array->size() < endIndex && !array->splice(array->size(), 0, QList<QVariant>(endIndex - array->size())))
+            return false;
+        if (!array->splice(sampled.firstIndex, sampled.values.size(), sampled.values))
+            return false;
+        context.rangeStart = context.position;
+        context.rangeEnd = context.position + range.length;
+        return true;
+    }
+
+    bool DspxDocumentPrivate::canSafelyBounceIgnoringResampling() const {
+        const auto trackBounceInfoMap = buildTrackBounceInfoMap(selectionModel);
+        if (trackBounceInfoMap.isEmpty())
             return false;
 
-        auto *noteSequence = selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems();
-        auto *clip = noteSequence ? noteSequence->singingClip() : nullptr;
-        if (!clip)
-            return false;
+        for (const auto &info : trackBounceInfoMap) {
+            ParameterPointOccupancy occupiedParameters;
+            QSet<int> occupiedDynamicMixingAnchors;
+            const bool singerLayoutIdentical = bounceInfoSingerLayoutIdentical(info);
+            for (auto *clip : info.clips) {
+                const int clipStart = clip->clipStart();
+                const int clipEnd = clipStart + clip->clipLength();
+                const int deltaPosition = clip->start() - info.bouncedClipTime.pos;
 
-        enum class PasteMode {
-            CurrentPosition,
-            RelativeToCopiedPlayhead,
-            OriginalPosition,
-        };
+                const int noteSliceLength = std::max(1, clip->clipLength());
+                for (auto *note : clip->notes()->slice(clipStart, noteSliceLength)) {
+                    const int noteStart = note->position();
+                    const int noteEnd = noteStart + note->length();
+                    if (noteEnd <= clipStart || noteStart >= clipEnd)
+                        continue;
+                    if (noteStart < clipStart || noteEnd > clipEnd)
+                        return false;
+                }
 
-        // TODO allow selecting paste mode from user settings
-        const auto pasteMode = PasteMode::CurrentPosition;
-        const int localPlayhead = playheadPosition - clip->position() + clip->clipStart();
-        const int baseOffset = [pasteMode, &data, localPlayhead] {
-            switch (pasteMode) {
-                case PasteMode::CurrentPosition:
-                    return localPlayhead;
-                case PasteMode::RelativeToCopiedPlayhead:
-                    return localPlayhead - data.playhead();
-                case PasteMode::OriginalPosition:
-                    return data.absolute();
+                for (const auto &parameterId : clip->parameters()->keys()) {
+                    auto *parameter = clip->parameters()->item(parameterId);
+                    if (!parameter)
+                        continue;
+                    if (!freeValuesCanSafelyBounce(parameter->freeTransform(), parameterId,
+                                                   clipStart, clipEnd, deltaPosition,
+                                                   occupiedParameters.freeTransform) ||
+                        !freeValuesCanSafelyBounce(parameter->freeEdited(), parameterId,
+                                                   clipStart, clipEnd, deltaPosition,
+                                                   occupiedParameters.freeEdited) ||
+                        !anchorSequenceCanSafelyBounce(parameter->anchorTransform(), parameterId,
+                                                       clipStart, clipEnd, deltaPosition,
+                                                       occupiedParameters.anchorTransform) ||
+                        !anchorSequenceCanSafelyBounce(parameter->anchorEdited(), parameterId,
+                                                       clipStart, clipEnd, deltaPosition,
+                                                       occupiedParameters.anchorEdited)) {
+                        return false;
+                    }
+                }
+
+                if (singerLayoutIdentical && clip->sources() &&
+                    !dynamicMixingCanSafelyBounce(clip->sources()->dynamicMixingAnchors(),
+                                                  clipStart, clipEnd, deltaPosition,
+                                                  occupiedDynamicMixingAnchors)) {
+                    return false;
+                }
             }
-            return localPlayhead;
-        }();
-
-        QList<opendspx::Note> adjusted = notes;
-        int minimumPosition = std::numeric_limits<int>::max();
-        for (auto &note : adjusted) {
-            note.pos += baseOffset;
-            minimumPosition = std::min(minimumPosition, note.pos);
         }
-        if (minimumPosition < 0) {
-            for (auto &note : adjusted)
-                note.pos -= minimumPosition;
-        }
-        std::sort(adjusted.begin(), adjusted.end(), [](const opendspx::Note &left, const opendspx::Note &right) {
-            if (left.pos != right.pos)
-                return left.pos < right.pos;
-            if (left.keyNum != right.keyNum)
-                return left.keyNum < right.keyNum;
-            return left.length < right.length;
-        });
+        return true;
+    }
 
-        bool inserted = false;
-        for (const auto &noteData : std::as_const(adjusted)) {
-            auto *note = model->createNote();
-            note->fromOpenDSPX(noteData);
-            if (!noteSequence->insertItem(note)) {
-                model->destroyItem(note);
-                continue;
+    bool DspxDocumentPrivate::bounceRequiresResampling() const {
+        const auto trackBounceInfoMap = buildTrackBounceInfoMap(selectionModel);
+        for (const auto &info : trackBounceInfoMap) {
+            for (auto *clip : info.clips) {
+                const int start = clip->clipStart();
+                const int end = start + clip->clipLength();
+                const int targetStart = clip->position() - info.bouncedClipTime.pos;
+                for (const auto &id : clip->parameters()->keys()) {
+                    auto *parameter = clip->parameters()->item(id);
+                    if (!parameter)
+                        continue;
+                    if (Internal::freeParameterRequiresResampling(Internal::captureFreeParameter(parameter->freeTransform(), start, end), targetStart) ||
+                        Internal::freeParameterRequiresResampling(Internal::captureFreeParameter(parameter->freeEdited(), start, end), targetStart)) {
+                        return true;
+                    }
+                }
             }
-            inserted = true;
-            pastedItems.append(note);
         }
-
-        if (inserted)
-            qCInfo(lcDspxDocument) << "Pasted notes" << adjusted.size();
-        else
-            qCDebug(lcDspxDocument) << "No note pasted";
-        return inserted;
+        return false;
     }
 
     bool DspxDocumentPrivate::deleteSelection() {
@@ -1911,131 +1544,71 @@ namespace Core {
     }
 
     void DspxDocument::cutSelection(int playheadPosition) {
-        if (!anyItemsSelected())
-            return;
         Q_D(DspxDocument);
-        if ((d->freeParameterSelectionModel && d->freeParameterSelectionModel->isActive()) ||
-            (d->selectionModel && d->selectionModel->selectionType() == dspx::SelectionModel::ST_AnchorNode)) {
-            // Clipboard serialization is deliberately deferred. Never delete when copying did not succeed.
-            copySelection(playheadPosition);
-            return;
-        }
-        copySelection(playheadPosition);
-        deleteSelection();
+        if (anyItemsSelected() && d->copySelection(playheadPosition))
+            deleteSelection();
     }
 
     void DspxDocument::copySelection(int playheadPosition) {
         Q_D(DspxDocument);
-        if (!anyItemsSelected())
-            return;
-        qCInfo(lcDspxDocument) << "Copy selection";
-        const auto clipboardData = d->buildClipboardData(playheadPosition);
-        if (!clipboardData.has_value())
-            return;
-
-        if (auto *clipboard = DspxClipboard::instance())
-            clipboard->copy({clipboardData.value()}, nullptr);
-
-        auto copiedType = clipboardData->type();
-        int copiedCount = 0;
-        switch (copiedType) {
-            case DspxClipboardData::Tempo:
-                copiedCount = clipboardData->tempos().size();
-                break;
-            case DspxClipboardData::Label:
-                copiedCount = clipboardData->labels().size();
-                break;
-            case DspxClipboardData::KeySignature:
-                copiedCount = clipboardData->keySignatures().size();
-                break;
-            case DspxClipboardData::Track:
-                copiedCount = clipboardData->tracks().size();
-                break;
-            case DspxClipboardData::Clip:
-                for (const auto &clips : clipboardData->clips())
-                    copiedCount += static_cast<int>(clips.size());
-                break;
-            case DspxClipboardData::Note:
-                copiedCount = clipboardData->notes().size();
-                break;
-            case DspxClipboardData::DynamicMixingAnchor:
-                copiedCount = clipboardData->dynamicMixingAnchors().size();
-                break;
-        }
-        qCInfo(lcDspxDocument) << "Copied selection" << clipboardTypeName(copiedType) << "count" << copiedCount;
-
-        d->updatePasteAvailable();
+        if (anyItemsSelected())
+            d->copySelection(playheadPosition);
     }
 
-    void DspxDocument::paste(int playheadPosition) {
+    void DspxDocument::paste(int playheadPosition, PasteMode pasteMode) {
         Q_D(DspxDocument);
-        if (d->freeParameterSelectionModel && d->freeParameterSelectionModel->isActive()) {
-            d->pasteFreeParameterSelection(playheadPosition);
-            return;
-        }
-        if (d->selectionModel && d->selectionModel->selectionType() == dspx::SelectionModel::ST_AnchorNode) {
-            d->pasteAnchorNodeSelection(playheadPosition);
-            return;
-        }
-        if (!pasteAvailable())
-            return;
         const auto type = d->currentClipboardType();
         auto *clipboard = DspxClipboard::instance();
-        if (!clipboard || !type.has_value())
+        const auto *handler = type ? clipboardHandler(*type) : nullptr;
+        if (!clipboard || !handler || !pasteAvailable())
             return;
-
         bool ok = false;
-        const auto data = clipboard->paste(type.value(), &ok);
+        const auto data = clipboard->paste(*type, &ok);
         if (!ok) {
-            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), nullptr, tr("Paste failed"), tr("Cannot paste data from the clipboard."));
+            SVS::MessageBox::critical(RuntimeInterface::qmlEngine(), nullptr, tr("Paste Failed"), tr("Cannot paste data from the clipboard."));
             return;
         }
-
-        qCInfo(lcDspxDocument) << "Pasting" << clipboardTypeName(data.type()) << "playhead" << playheadPosition;
-
-        const QString transactionName = [this, &data] {
-            switch (data.type()) {
-                case DspxClipboardData::Tempo:
-                    return tr("Pasting tempo");
-                case DspxClipboardData::Label:
-                    return tr("Pasting label");
-                case DspxClipboardData::KeySignature:
-                    return tr("Pasting key signature");
-                case DspxClipboardData::Track:
-                    return tr("Pasting track");
-                case DspxClipboardData::Clip:
-                    return tr("Pasting clip");
-                case DspxClipboardData::Note:
-                    return tr("Pasting note");
-                case DspxClipboardData::DynamicMixingAnchor:
-                    return tr("Pasting voice blending anchor");
+        DspxDocumentPrivate::PasteContext context {
+            .position = d->pastePosition(data, playheadPosition, pasteMode),
+            .mode = pasteMode,
+        };
+        if (data.type() == DspxClipboardData::FreeParameter) {
+            const QPointer<DspxDocument> documentGuard(this);
+            const QPointer<dspx::SingingClip> targetClip(d->freeParameterSelectionModel->singingClip());
+            const auto parameterId = d->freeParameterSelectionModel->parameterId();
+            const auto layer = d->freeParameterSelectionModel->layer();
+            ParameterResamplingScenario scenario;
+            scenario.setWindow(qobject_cast<QQuickWindow *>(QGuiApplication::focusWindow()));
+            if (!scenario.confirmPaste(data.freeParameter(), context.position))
+                return;
+            if (!documentGuard || !targetClip || d->freeParameterSelectionModel->singingClip() != targetClip ||
+                d->freeParameterSelectionModel->parameterId() != parameterId ||
+                d->freeParameterSelectionModel->layer() != layer) {
+                return;
             }
-            return tr("Pasting selection");
-        }();
-
-        QList<QObject *> pastedItems;
+        }
         bool pasted = false;
-        transactionController()->beginScopedTransaction(transactionName, [=, &pasted, &data, &pastedItems] {
-            pasted = d->pasteClipboardData(data, playheadPosition, pastedItems);
+        const bool started = transactionController()->beginScopedTransaction(tr(handler->transactionName), [&] {
+            pasted = (d->*handler->paste)(data, context);
             return pasted;
         }, [] {
-            qCCritical(lcDspxDocument) << "Failed to paste in scoped transaction";
+            qCCritical(lcDspxDocument) << "The paste transaction could not be started.";
         });
-
-        if (pasted && d->selectionModel) {
+        if (!started || !pasted)
+            return;
+        if (data.type() == DspxClipboardData::FreeParameter) {
+            d->freeParameterSelectionModel->setRange(context.rangeStart, context.rangeEnd);
+        } else {
             bool first = true;
-            for (auto *item : std::as_const(pastedItems)) {
-                if (!item)
-                    continue;
-                const auto command = first
-                    ? dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection
-                    : dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem;
+            for (auto *item : std::as_const(context.items)) {
+                auto command = dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem;
+                if (first)
+                    command |= dspx::SelectionModel::ClearPreviousSelection;
                 d->selectionModel->select(item, command, dspx::SelectionModel::selectionTypeFromItem(item));
                 first = false;
             }
         }
-
-        qCInfo(lcDspxDocument) << "Paste result" << clipboardTypeName(data.type()) << (pasted ? "succeeded" : "no changes");
+        qCInfo(lcDspxDocument) << "The selection was pasted. Type:" << data.type() << "Mode:" << pasteMode;
     }
 
     void DspxDocument::deleteSelection() {
@@ -2234,58 +1807,7 @@ namespace Core {
 
     bool DspxDocument::canSafelyBounce() const {
         Q_D(const DspxDocument);
-        const auto trackBounceInfoMap = buildTrackBounceInfoMap(d->selectionModel);
-        if (trackBounceInfoMap.isEmpty())
-            return false;
-
-        for (const auto &info : trackBounceInfoMap) {
-            ParameterPointOccupancy occupiedParameters;
-            QSet<int> occupiedDynamicMixingAnchors;
-            const bool singerLayoutIdentical = bounceInfoSingerLayoutIdentical(info);
-            for (auto *clip : info.clips) {
-                const int clipStart = clip->clipStart();
-                const int clipEnd = clipStart + clip->clipLength();
-                const int deltaPosition = clip->start() - info.bouncedClipTime.pos;
-
-                const int noteSliceLength = std::max(1, clip->clipLength());
-                for (auto *note : clip->notes()->slice(clipStart, noteSliceLength)) {
-                    const int noteStart = note->position();
-                    const int noteEnd = noteStart + note->length();
-                    if (noteEnd <= clipStart || noteStart >= clipEnd)
-                        continue;
-                    if (noteStart < clipStart || noteEnd > clipEnd)
-                        return false;
-                }
-
-                for (const auto &parameterId : clip->parameters()->keys()) {
-                    auto *parameter = clip->parameters()->item(parameterId);
-                    if (!parameter)
-                        continue;
-                    if (!freeValuesCanSafelyBounce(parameter->freeTransform(), parameterId,
-                                                   clipStart, clipEnd, deltaPosition,
-                                                   occupiedParameters.freeTransform) ||
-                        !freeValuesCanSafelyBounce(parameter->freeEdited(), parameterId,
-                                                   clipStart, clipEnd, deltaPosition,
-                                                   occupiedParameters.freeEdited) ||
-                        !anchorSequenceCanSafelyBounce(parameter->anchorTransform(), parameterId,
-                                                       clipStart, clipEnd, deltaPosition,
-                                                       occupiedParameters.anchorTransform) ||
-                        !anchorSequenceCanSafelyBounce(parameter->anchorEdited(), parameterId,
-                                                       clipStart, clipEnd, deltaPosition,
-                                                       occupiedParameters.anchorEdited)) {
-                        return false;
-                    }
-                }
-
-                if (singerLayoutIdentical && clip->sources() &&
-                    !dynamicMixingCanSafelyBounce(clip->sources()->dynamicMixingAnchors(),
-                                                  clipStart, clipEnd, deltaPosition,
-                                                  occupiedDynamicMixingAnchors)) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return d->canSafelyBounceIgnoringResampling() && !d->bounceRequiresResampling();
     }
 
     void DspxDocument::bounceToClip() {
