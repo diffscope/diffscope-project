@@ -338,6 +338,14 @@ namespace Core {
         return d->defaultDocumentName;
     }
 
+    void ProjectDocumentContext::setDefaultDocumentName(const QString &name) {
+        Q_D(ProjectDocumentContext);
+        if (d->defaultDocumentName == name) return;
+        d->defaultDocumentName = name;
+        d->writeRecoveryNameFile();
+        Q_EMIT defaultDocumentNameChanged();
+    }
+
     bool ProjectDocumentContext::openFile(const QString &filePath) {
         Q_D(ProjectDocumentContext);
         if (d->document) {

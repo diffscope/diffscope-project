@@ -40,6 +40,7 @@ namespace Core {
         OpenSaveProjectFileScenario *openSaveProjectFileScenario() const;
 
         QString defaultDocumentName() const;
+        void setDefaultDocumentName(const QString &name);
 
         bool openFile(const QString &filePath);
         bool newFile(const opendspx::Model &templateModel, const QString &defaultDocumentName, bool isNonFileDocument);
