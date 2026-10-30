@@ -242,6 +242,18 @@ Item {
                     id: clipViewContainer
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    // Drop components set cursorPositionActive while controlling the time cursor.
+                    property Item dropArea: null
+
+                    Component.onCompleted: {
+                        const component = view.addOn?.dropAreaComponent
+                        if (component) {
+                            dropArea = component.createObject(clipViewContainer, {
+                                "contextObject": view.arrangementPanelInterface
+                            })
+                        }
+                    }
+
                     ClipPane {
                         id: clipPane
                         anchors.fill: parent
@@ -381,15 +393,17 @@ Item {
                     timeLayoutViewModel: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
                 }
                 onHoveredChanged: () => {
-                    if (!hovered) {
+                    if (!hovered && !clipViewContainer.dropArea?.cursorPositionActive) {
                         view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = -1
                     }
                 }
                 onPointChanged: () => {
+                    if (clipViewContainer.dropArea?.cursorPositionActive)
+                        return
                     view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = timeManipulator.alignPosition(timeManipulator.mapToPosition(point.position.x), ScopicFlow.AO_Visible)
                 }
                 onEnabledChanged: {
-                    if (!enabled) {
+                    if (!enabled && !clipViewContainer.dropArea?.cursorPositionActive) {
                         view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = -1
                     }
                 }

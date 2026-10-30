@@ -84,6 +84,10 @@ namespace VisualEditor::Internal {
         return qobject_cast<QQmlComponent *>(Core::RuntimeInterface::instance()->getFirstObject("org.diffscope.visualeditor.audiothumbnailcomponent"));
     }
 
+    QQmlComponent *ArrangementAddOn::dropAreaComponent() {
+        return qobject_cast<QQmlComponent *>(Core::RuntimeInterface::instance()->getFirstObject("org.diffscope.visualeditor.arrangementdropareacomponent"));
+    }
+
     bool ArrangementAddOn::eventFilter(QObject *watched, QEvent *event) {
         if (watched == windowHandle()->window()) {
             switch (event->type()) {

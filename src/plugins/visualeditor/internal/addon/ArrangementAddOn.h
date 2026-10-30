@@ -24,6 +24,7 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(AdditionalTrackLoader *additionalTrackLoader READ additionalTrackLoader CONSTANT)
         Q_PROPERTY(bool altPressed READ altPressed NOTIFY altPressedChanged)
         Q_PROPERTY(QQmlComponent *audioThumbnailComponent READ audioThumbnailComponent CONSTANT)
+        Q_PROPERTY(QQmlComponent *dropAreaComponent READ dropAreaComponent CONSTANT)
     public:
         explicit ArrangementAddOn(QObject *parent = nullptr);
         ~ArrangementAddOn() override;
@@ -43,6 +44,7 @@ namespace VisualEditor::Internal {
         bool altPressed() const;
 
         static QQmlComponent *audioThumbnailComponent();
+        static QQmlComponent *dropAreaComponent();
 
     Q_SIGNALS:
         void altPressedChanged();
