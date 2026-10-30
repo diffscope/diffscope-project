@@ -23,6 +23,8 @@ Dialog {
     readonly property bool refreshing: task?.refreshing ?? false
     readonly property var extractors: task?.extractors ?? []
     readonly property var extractor: extractors[extractorBox.currentIndex] ?? null
+    readonly property real labelColumnWidth: Math.max(extractorLabel.implicitWidth,
+                                                     separation ? separationOptions.directoryLabelImplicitWidth : 0)
 
     width: Math.min(520, (parent?.width ?? 552) - 32)
     modal: true
@@ -74,6 +76,8 @@ Dialog {
 
                 Label {
                     id: extractorLabel
+                    Layout.minimumWidth: dialog.labelColumnWidth
+                    Layout.maximumWidth: dialog.labelColumnWidth
                     text: qsTr("Extractor")
                 }
                 RowLayout {
@@ -104,6 +108,7 @@ Dialog {
                 enabled: dialog.task !== null && !dialog.busy && !dialog.refreshing
                 addOn: dialog.addOn
                 trackNames: dialog.extractor?.trackNames ?? []
+                labelColumnWidth: dialog.labelColumnWidth
                 onControlFocused: control => {
                     const top = control.mapToItem(content, 0, 0).y
                     if (top < scrollView.contentItem.contentY)

@@ -15,10 +15,12 @@ ColumnLayout {
 
     required property AudioExtractionAddOn addOn
     required property var trackNames
+    required property real labelColumnWidth
     property string directory
     property var outputRoutes: []
     property var previousTrackNames: []
     property bool completed: false
+    readonly property real directoryLabelImplicitWidth: directoryLabel.implicitWidth
     readonly property int outputTrackCount: trackCountBox.value
     readonly property bool routingValid: {
         if (trackNames.length === 0 || outputRoutes.length !== trackNames.length)
@@ -67,6 +69,8 @@ ColumnLayout {
 
         Label {
             id: directoryLabel
+            Layout.minimumWidth: options.labelColumnWidth
+            Layout.maximumWidth: options.labelColumnWidth
             text: qsTr("Output directory")
         }
         RowLayout {
