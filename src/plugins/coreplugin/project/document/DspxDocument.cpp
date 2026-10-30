@@ -1882,7 +1882,7 @@ namespace Core {
         auto transaction = d->dspxDocument->engine()->beginTransaction({.undoable = false});
         d->dspxDocument->setTransaction(&transaction);
         try {
-            d->model->fromOpenDspx(model);
+            d->model->fromOpenDSPX(model);
             transaction.commit();
             d->dspxDocument->setTransaction(nullptr);
         } catch (...) {

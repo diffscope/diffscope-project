@@ -283,7 +283,7 @@ namespace BatchProcess::Internal {
             const auto converted = opendspx::JsonConverterV1::fromJson<opendspx::Model>(source, errors, options);
             if (errors.containsFatal() || (checked && errors.containsError())) return false;
             prepareReplacement(value);
-            value->fromOpenDspx(converted);
+            value->fromOpenDSPX(converted);
             return true;
         }
         if (auto *value = qobject_cast<dspx::Track *>(object)) {
