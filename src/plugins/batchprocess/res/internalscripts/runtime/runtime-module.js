@@ -6,6 +6,15 @@
 
     const freeze = Object.freeze;
 
+    const environment = freeze({
+        get locale() {
+            return bridge.currentLocale();
+        },
+        get platform() {
+            return bridge.currentPlatform();
+        },
+    });
+
     function currentRuntime() {
         const runtime = bridge.currentScriptRuntime();
         const actions = runtime.metadata.actions;
@@ -18,7 +27,7 @@
     }
 
     const script = {};
-    for (const property of ["metadata", "isBuiltin", "scriptPath", "scriptRoot", "locale", "platform", "kind", "action", "actionIndex"]) {
+    for (const property of ["metadata", "isBuiltin", "scriptPath", "scriptRoot", "kind", "action", "actionIndex"]) {
         Object.defineProperty(script, property, {
             configurable: false,
             enumerable: true,
@@ -35,6 +44,7 @@
     }
 
     return freeze({
+        environment,
         script,
         abort,
     });

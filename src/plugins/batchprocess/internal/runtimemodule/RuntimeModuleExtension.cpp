@@ -57,6 +57,14 @@ namespace BatchProcess::Internal {
             : QObject(parent), m_extension(extension), m_context(context), m_engine(engine) {
         }
 
+        Q_INVOKABLE QString currentLocale() const {
+            return QLocale().bcp47Name();
+        }
+
+        Q_INVOKABLE QString currentPlatform() const {
+            return platformName();
+        }
+
         Q_INVOKABLE QJSValue currentScriptRuntime() const {
             if (!m_extension) {
                 m_engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("The runtime module is no longer available."));
@@ -171,8 +179,6 @@ namespace BatchProcess::Internal {
         runtime.setProperty(QStringLiteral("isBuiltin"), script->isBuiltin());
         runtime.setProperty(QStringLiteral("scriptPath"), script->filePath());
         runtime.setProperty(QStringLiteral("scriptRoot"), script->d_func()->rootPath);
-        runtime.setProperty(QStringLiteral("locale"), QLocale().bcp47Name());
-        runtime.setProperty(QStringLiteral("platform"), platformName());
         runtime.setProperty(QStringLiteral("kind"), QStringLiteral("action"));
         runtime.setProperty(QStringLiteral("action"), currentActionMetadata);
         runtime.setProperty(QStringLiteral("actionIndex"), static_cast<int>(actionIndex));

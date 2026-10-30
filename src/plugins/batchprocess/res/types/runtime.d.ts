@@ -73,6 +73,20 @@ declare function defineScript<const T extends ScriptDefinition>(definition: T): 
 declare module "diffscope:runtime" {
     export type Platform = "windows" | "macos" | "linux";
 
+    export interface Environment {
+        /** The current application locale as a BCP 47 language tag. */
+        readonly locale: string;
+
+        readonly platform: Platform;
+    }
+
+    /**
+     * Provides a fixed, frozen facade for global application information.
+     * Properties return current values when read and are available during script
+     * registration and action execution without an active script context.
+     */
+    export const environment: Environment;
+
     export type ScriptActionMetadata = Omit<ScriptAction, "execute">;
 
     export type ScriptMetadata = Omit<ScriptDefinition, "actions"> & {
@@ -106,11 +120,6 @@ declare module "diffscope:runtime" {
          * multi-file scripts.
          */
         readonly scriptRoot: string;
-
-        /** The current application locale as a BCP 47 language tag. */
-        readonly locale: string;
-
-        readonly platform: Platform;
     }
 
     export interface ActionScriptRuntime extends ScriptRuntimeBase {
