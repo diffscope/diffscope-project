@@ -15,6 +15,7 @@
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <audiovisualizer/internal/AudioFileDropAddOn.h>
 #include <audiovisualizer/internal/AudioMipmapAddOn.h>
 #include <audiovisualizer/internal/LevelMeterAddOn.h>
 #include <audiovisualizer/internal/MasterTrackAddOn.h>
@@ -37,6 +38,12 @@ namespace AudioVisualizer::Internal {
             qFatal() << audioThumbnailComponent->errorString();
         }
         Core::RuntimeInterface::instance()->addObject("org.diffscope.visualeditor.audiothumbnailcomponent", audioThumbnailComponent);
+        auto audioFileDropComponent = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.AudioVisualizer", "AudioFileDropArea", this);
+        if (audioFileDropComponent->isError()) {
+            qFatal() << audioFileDropComponent->errorString();
+        }
+        Core::RuntimeInterface::instance()->addObject("org.diffscope.visualeditor.arrangementdropareacomponent", audioFileDropComponent);
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioFileDropAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioMipmapAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MasterTrackAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<LevelMeterAddOn>();

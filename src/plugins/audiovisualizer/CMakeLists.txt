@@ -13,6 +13,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     QML_MODULE_NAME AudioVisualizer
     QT_LINKS
         Core
+        Gui
         Qml
         Quick
     LINKS
@@ -20,6 +21,10 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         ChorusKit::AppCore
         QAKCore
         coreplugin
+        dspxmodelORM
+        dspxmodelSelectionModel
+        opendspx::model
+        transactional
         audio
         talcs::Core
         talcs::Format

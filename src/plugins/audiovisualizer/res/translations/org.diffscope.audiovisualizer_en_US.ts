@@ -42,4 +42,38 @@
         <translation type="unfinished">Device Output</translation>
     </message>
 </context>
+<context>
+    <name>AudioVisualizer::Internal::AudioFileDropAddOn</name>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
+        <source>Audio import failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
+        <source>Audio files cannot be imported while another edit is active.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
+        <source>The audio clips could not be inserted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
+        <source>Importing audio files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
+        <source>Audio files skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
+        <source>The following audio files could not be imported:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>
