@@ -19,7 +19,6 @@ Dialog {
     property var resultValues: []
 
     width: 560
-    height: Math.max(320, Math.min(640, parent ? parent.height - 24 : 640))
     modal: true
     closePolicy: Popup.CloseOnEscape
 
