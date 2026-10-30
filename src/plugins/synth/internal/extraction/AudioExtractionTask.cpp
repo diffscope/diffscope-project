@@ -13,6 +13,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QSet>
 #include <QSslConfiguration>
 #include <QSslSocket>
 #include <QVariantMap>
@@ -56,7 +57,7 @@ namespace Synth::Internal {
         for (const auto &extractor : m_extractors) {
             result.append(QVariantMap{
                 {QStringLiteral("name"), tr("%1 — %2").arg(extractor.info.name, extractor.service.name())},
-                {QStringLiteral("trackLayout"), extractor.trackNames.join(tr(", "))},
+                {QStringLiteral("trackNames"), extractor.trackNames},
             });
         }
         return result;
@@ -133,9 +134,28 @@ namespace Synth::Internal {
         Q_EMIT changed();
     }
 
-    void AudioExtractionTask::start(int extractorIndex, const ExtractionAudioCodec::Input &input) {
+    void AudioExtractionTask::start(int extractorIndex, const ExtractionAudioCodec::Input &input, int outputTrackCount, const QList<int> &outputRoutes) {
         if (m_busy || refreshing() || extractorIndex < 0 || extractorIndex >= m_extractors.size())
             return;
+        const auto &trackNames = m_extractors.at(extractorIndex).trackNames;
+        if (m_type == Separation) {
+            const QSet<QString> uniqueNames(trackNames.cbegin(), trackNames.cend());
+            if (trackNames.isEmpty() || uniqueNames.size() != trackNames.size() || trackNames.contains(QString())) {
+                fail(tr("The extractor has an invalid track layout."));
+                return;
+            }
+            if (outputTrackCount < 1 || outputTrackCount > trackNames.size() || outputRoutes.size() != trackNames.size()
+                || std::ranges::any_of(outputRoutes, [outputTrackCount](int route) { return route < -1 || route >= outputTrackCount; })) {
+                fail(tr("The output routing is invalid."));
+                return;
+            }
+            for (int output = 0; output < outputTrackCount; ++output) {
+                if (!outputRoutes.contains(output)) {
+                    fail(tr("Assign at least one extractor track to each output track."));
+                    return;
+                }
+            }
+        }
         m_conversion.waitForFinished();
         ++m_generation;
         m_cancelled = std::make_shared<std::atomic_bool>(false);
@@ -143,7 +163,10 @@ namespace Synth::Internal {
         m_progress = 0;
         m_error.clear();
         m_result = {};
+        m_decodedStems.clear();
         m_stems.clear();
+        m_outputTrackCount = outputTrackCount;
+        m_outputRoutes = outputRoutes;
         m_activeExtractor = m_extractors.at(extractorIndex);
         Q_EMIT changed();
         qCDebug(lcAudioExtractionTask) << "Entered negotiating state";
@@ -163,7 +186,18 @@ namespace Synth::Internal {
             prepare(m_activeExtractor, input);
         };
         if (m_type == Separation) {
-            watch(m_client.getSeparationExtractor(service, id, language), handleMetadata);
+            watch(m_client.getSeparationExtractor(service, id, language), [this, handleMetadata](const auto &result) {
+                if (!result.hasError()) {
+                    QStringList trackNames;
+                    for (const auto &track : result.value().tracks)
+                        trackNames.append(track.name);
+                    if (trackNames != m_activeExtractor.trackNames) {
+                        fail(tr("The extractor track layout changed. Refresh the extractors and configure the output routing again."));
+                        return;
+                    }
+                }
+                handleMetadata(result);
+            });
         } else {
             auto future = m_type == Notes ? m_client.getNoteExtractor(service, id, language)
                 : m_type == Tempo ? m_client.getTempoExtractor(service, id, language)
@@ -273,10 +307,25 @@ namespace Synth::Internal {
                     fail(result.error().message);
                     return;
                 }
-                m_stems = result.value().output.tracks;
-                if (m_stems.isEmpty() || !m_temporaryDirectory.isValid()) {
+                auto tracks = result.value().output.tracks;
+                if (tracks.isEmpty() || !m_temporaryDirectory.isValid()) {
                     fail(tr("The extractor returned no separated audio tracks."));
                     return;
+                }
+                if (tracks.size() != m_activeExtractor.trackNames.size()) {
+                    fail(tr("The separated tracks do not match the extractor track layout."));
+                    return;
+                }
+                for (qsizetype index = 0; index < m_activeExtractor.trackNames.size(); ++index) {
+                    const auto &name = m_activeExtractor.trackNames.at(index);
+                    const auto it = std::ranges::find(tracks, name, &Api::V1::SeparationTrack::name);
+                    if (it == tracks.end()) {
+                        fail(tr("The separated tracks do not match the extractor track layout."));
+                        return;
+                    }
+                    if (m_outputRoutes.at(index) >= 0)
+                        m_stems.append(*it);
+                    tracks.erase(it);
                 }
                 downloadNextStem();
             });
@@ -285,7 +334,7 @@ namespace Synth::Internal {
 
     void AudioExtractionTask::downloadNextStem() {
         if (m_stems.isEmpty()) {
-            complete();
+            mixNextOutput();
             return;
         }
         qCDebug(lcAudioExtractionTask) << "Entered receiving state";
@@ -377,7 +426,7 @@ namespace Synth::Internal {
                 fail(result.error);
                 return;
             }
-            const auto path = m_temporaryDirectory.filePath(QString::number(m_result.stems.size()) + QStringLiteral(".wav"));
+            const auto path = m_temporaryDirectory.filePath(QStringLiteral("stem_%1.wav").arg(m_decodedStems.size()));
             QFile file(path);
             if (!file.open(QIODevice::WriteOnly) || file.write(result.bytes) != result.bytes.size() || !file.flush()) {
                 fail(tr("Could not store separated audio."));
@@ -385,12 +434,69 @@ namespace Synth::Internal {
             }
             file.close();
             const auto digest = XXH3_128bits(result.bytes.constData(), static_cast<size_t>(result.bytes.size()));
-            m_result.stems.append({m_stems.takeFirst().name, path,
-                QString::fromLatin1(QByteArray(reinterpret_cast<const char *>(&digest), sizeof(digest)).toBase64(QByteArray::Base64UrlEncoding))});
+            const auto name = m_stems.takeFirst().name;
+            m_decodedStems.append({name, path,
+                QString::fromLatin1(QByteArray(reinterpret_cast<const char *>(&digest), sizeof(digest)).toBase64(QByteArray::Base64UrlEncoding)), name});
             downloadNextStem();
         });
         m_conversion = QtConcurrent::run([bytes, cancelled = m_cancelled] { return ExtractionAudioCodec::decode(bytes, cancelled); });
         watcher->setFuture(m_conversion);
+    }
+
+    void AudioExtractionTask::mixNextOutput() {
+        while (m_result.stems.size() < m_outputTrackCount) {
+            const auto output = m_result.stems.size();
+            QStringList names;
+            QStringList paths;
+            qsizetype sourceIndex = -1;
+            for (qsizetype index = 0; index < m_decodedStems.size(); ++index) {
+                const auto &stem = m_decodedStems.at(index);
+                if (m_outputRoutes.at(m_activeExtractor.trackNames.indexOf(stem.name)) != output)
+                    continue;
+                names.append(stem.name);
+                paths.append(stem.filePath);
+                sourceIndex = index;
+            }
+            if (paths.size() == 1) {
+                m_result.stems.append(m_decodedStems.at(sourceIndex));
+                continue;
+            }
+            qCDebug(lcAudioExtractionTask) << "Entered mixing state";
+            const auto name = names.join(tr(", "));
+            const auto suffix = names.join(u'_');
+            auto watcher = new QFutureWatcher<ExtractionAudioCodec::Result>(this);
+            const auto generation = m_generation;
+            connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher, generation, name, suffix] {
+                watcher->deleteLater();
+                if (generation != m_generation)
+                    return;
+                storeOutput(watcher->result(), name, suffix);
+            });
+            m_conversion = QtConcurrent::run([paths, cancelled = m_cancelled] {
+                return ExtractionAudioCodec::mix(paths, cancelled);
+            });
+            watcher->setFuture(m_conversion);
+            return;
+        }
+        complete();
+    }
+
+    void AudioExtractionTask::storeOutput(const ExtractionAudioCodec::Result &result, const QString &name, const QString &fileNameSuffix) {
+        if (result.bytes.isEmpty()) {
+            fail(result.error);
+            return;
+        }
+        const auto path = m_temporaryDirectory.filePath(QStringLiteral("output_%1.wav").arg(m_result.stems.size()));
+        QFile file(path);
+        if (!file.open(QIODevice::WriteOnly) || file.write(result.bytes) != result.bytes.size() || !file.flush()) {
+            fail(tr("Could not store separated audio."));
+            return;
+        }
+        file.close();
+        const auto digest = XXH3_128bits(result.bytes.constData(), static_cast<size_t>(result.bytes.size()));
+        m_result.stems.append({name, path,
+            QString::fromLatin1(QByteArray(reinterpret_cast<const char *>(&digest), sizeof(digest)).toBase64(QByteArray::Base64UrlEncoding)), fileNameSuffix});
+        mixNextOutput();
     }
 
     void AudioExtractionTask::complete() {

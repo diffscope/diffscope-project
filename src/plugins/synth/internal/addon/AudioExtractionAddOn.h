@@ -6,6 +6,7 @@
 
 #include <memory>
 
+#include <QList>
 #include <QPointer>
 #include <qqmlintegration.h>
 
@@ -35,7 +36,7 @@ namespace Synth::Internal {
         Q_INVOKABLE void separateAudio(dspx::AudioClip *clip);
         Q_INVOKABLE QString chooseDirectory(const QString &directory);
         Q_INVOKABLE QString normalizedPath(const QString &path) const;
-        Q_INVOKABLE void start(int extractorIndex, const QString &directory);
+        Q_INVOKABLE void start(int extractorIndex, const QString &directory, int outputTrackCount, const QList<int> &outputRoutes);
         Q_INVOKABLE void closeDialog();
         Q_INVOKABLE void applyTempo();
 

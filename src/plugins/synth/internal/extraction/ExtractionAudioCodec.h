@@ -9,6 +9,7 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
 #include <QVariant>
 
 #include <synth/internal/Dtos.h>
@@ -32,6 +33,7 @@ namespace Synth::Internal::ExtractionAudioCodec {
     Result encode(const Input &input, const Api::V1::ExtractorInfo &extractor,
                   const std::shared_ptr<std::atomic_bool> &cancelled);
     Result decode(const QByteArray &bytes, const std::shared_ptr<std::atomic_bool> &cancelled);
+    Result mix(const QStringList &filePaths, const std::shared_ptr<std::atomic_bool> &cancelled);
 
 }
 

@@ -17,14 +17,14 @@ Dialog {
     required property AudioExtractionAddOn addOn
     required property AudioExtractionTask task
     required property bool separation
-    property string directory
+    property alias directory: separationOptions.directory
     property string scenarioError
     readonly property bool busy: task?.busy ?? false
     readonly property bool refreshing: task?.refreshing ?? false
     readonly property var extractors: task?.extractors ?? []
     readonly property var extractor: extractors[extractorBox.currentIndex] ?? null
 
-    width: 520
+    width: Math.min(520, (parent?.width ?? 552) - 32)
     modal: true
     closePolicy: Popup.NoAutoClose
     title: separation ? qsTr("Separate Audio") : qsTr("Extract Notes")
@@ -36,9 +36,10 @@ Dialog {
         Button {
             text: qsTr("Start")
             enabled: dialog.task !== null && !dialog.busy && !dialog.refreshing && dialog.extractor !== null
-                     && (!dialog.separation || dialog.directory.length > 0)
+                     && (!dialog.separation || (dialog.directory.length > 0 && separationOptions.routingValid))
             DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
-            onClicked: dialog.addOn.start(extractorBox.currentIndex, dialog.directory)
+            onClicked: dialog.addOn.start(extractorBox.currentIndex, dialog.directory,
+                                         separationOptions.outputTrackCount, separationOptions.outputRoutes)
         }
         Button {
             text: qsTr("Cancel")
@@ -47,101 +48,90 @@ Dialog {
         onRejected: dialog.reject()
     }
 
-    ColumnLayout {
-        anchors.fill: parent
-        spacing: 12
+    contentItem: ScrollView {
+        id: scrollView
+        implicitHeight: Math.max(0, Math.min(content.implicitHeight,
+                                             (dialog.parent?.height ?? 900) - 32 - dialog.topPadding - dialog.bottomPadding
+                                             - (dialog.header?.height ?? 0) - (dialog.footer?.height ?? 0) - 2 * dialog.spacing))
+        leftPadding: mirrored ? effectiveScrollBarWidth : 0
+        rightPadding: mirrored ? 0 : effectiveScrollBarWidth
+        contentWidth: availableWidth
+        contentHeight: content.implicitHeight
+        clip: true
 
-        GridLayout {
-            Layout.fillWidth: true
-            enabled: dialog.task !== null && !dialog.busy
-            columns: 2
-            columnSpacing: 12
-            rowSpacing: 8
+        ColumnLayout {
+            id: content
+            width: scrollView.availableWidth
+            height: implicitHeight
+            spacing: 12
 
-            Label {
-                id: extractorLabel
-                text: qsTr("Extractor")
-            }
-            RowLayout {
+            GridLayout {
                 Layout.fillWidth: true
-                ComboBox {
-                    id: extractorBox
+                enabled: dialog.task !== null && !dialog.busy
+                columns: 2
+                columnSpacing: 12
+                rowSpacing: 8
+
+                Label {
+                    id: extractorLabel
+                    text: qsTr("Extractor")
+                }
+                RowLayout {
                     Layout.fillWidth: true
-                    enabled: !dialog.refreshing
-                    model: dialog.extractors
-                    textRole: "name"
-                    Accessible.name: extractorLabel.text
-                    Accessible.labelledBy: extractorLabel
-                }
-                ToolButton {
-                    text: qsTr("Refresh")
-                    display: AbstractButton.IconOnly
-                    icon.source: "image://fluent-system-icons/arrow_sync"
-                    enabled: !dialog.refreshing
-                    onClicked: dialog.task?.refresh()
-                }
-            }
-
-            Item {
-                visible: trackLayoutLabel.visible
-            }
-            Label {
-                id: trackLayoutLabel
-                Layout.fillWidth: true
-                visible: dialog.separation && text.length > 0
-                text: qsTr("Track layout: ") + (dialog.extractor?.trackLayout ?? "")
-                textFormat: Text.PlainText
-                wrapMode: Text.Wrap
-            }
-
-            Label {
-                id: directoryLabel
-                visible: dialog.separation
-                text: qsTr("Output directory")
-            }
-            RowLayout {
-                Layout.fillWidth: true
-                visible: dialog.separation
-                TextField {
-                    Layout.fillWidth: true
-                    text: dialog.directory
-                    selectByMouse: true
-                    Accessible.name: directoryLabel.text
-                    Accessible.labelledBy: directoryLabel
-                    onTextEdited: dialog.directory = text
-                    onEditingFinished: dialog.directory = dialog.addOn.normalizedPath(text)
-                }
-                ToolButton {
-                    text: qsTr("Browse...")
-                    display: AbstractButton.IconOnly
-                    icon.source: "image://fluent-system-icons/folder_open"
-                    onClicked: {
-                        const directory = dialog.addOn.chooseDirectory(dialog.directory)
-                        if (directory.length > 0)
-                            dialog.directory = directory
+                    ComboBox {
+                        id: extractorBox
+                        Layout.fillWidth: true
+                        enabled: !dialog.refreshing
+                        model: dialog.extractors
+                        textRole: "name"
+                        Accessible.name: extractorLabel.text
+                        Accessible.labelledBy: extractorLabel
+                    }
+                    ToolButton {
+                        text: qsTr("Refresh")
+                        display: AbstractButton.IconOnly
+                        icon.source: "image://fluent-system-icons/arrow_sync"
+                        enabled: !dialog.refreshing
+                        onClicked: dialog.task?.refresh()
                     }
                 }
             }
-        }
 
-        Label {
-            Layout.fillWidth: true
-            visible: dialog.busy || dialog.refreshing
-            text: dialog.busy ? qsTr("Extracting audio…") : qsTr("Updating extractors…")
-            wrapMode: Text.Wrap
-        }
-        ProgressBar {
-            Layout.fillWidth: true
-            visible: dialog.busy || dialog.refreshing
-            value: dialog.task?.progress ?? 0
-            indeterminate: dialog.refreshing || value === 0
-            Accessible.name: qsTr("Extraction status")
-        }
-        Label {
-            Layout.fillWidth: true
-            visible: text.length > 0
-            text: dialog.scenarioError.length > 0 ? dialog.scenarioError : (dialog.task?.error ?? "")
-            wrapMode: Text.Wrap
+            AudioSeparationOptions {
+                id: separationOptions
+                Layout.fillWidth: true
+                visible: dialog.separation
+                enabled: dialog.task !== null && !dialog.busy && !dialog.refreshing
+                addOn: dialog.addOn
+                trackNames: dialog.extractor?.trackNames ?? []
+                onControlFocused: control => {
+                    const top = control.mapToItem(content, 0, 0).y
+                    if (top < scrollView.contentItem.contentY)
+                        scrollView.contentItem.contentY = top
+                    else if (top + control.height > scrollView.contentItem.contentY + scrollView.availableHeight)
+                        scrollView.contentItem.contentY = top + control.height - scrollView.availableHeight
+                }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                visible: dialog.busy || dialog.refreshing
+                text: dialog.busy ? qsTr("Extracting audio…") : qsTr("Updating extractors…")
+                wrapMode: Text.Wrap
+            }
+            ProgressBar {
+                Layout.fillWidth: true
+                visible: dialog.busy || dialog.refreshing
+                value: dialog.task?.progress ?? 0
+                indeterminate: dialog.refreshing || value === 0
+                Accessible.name: qsTr("Extraction status")
+            }
+            Label {
+                Layout.fillWidth: true
+                visible: text.length > 0
+                text: dialog.scenarioError.length > 0 ? dialog.scenarioError : (dialog.task?.error ?? "")
+                wrapMode: Text.Wrap
+            }
         }
     }
 }

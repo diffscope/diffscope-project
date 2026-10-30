@@ -273,49 +273,87 @@
         <translation type="unfinished">开始</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="44"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="45"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="63"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="77"/>
         <source>Extractor</source>
         <translation type="unfinished">提取器</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="77"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="91"/>
         <source>Refresh</source>
         <translation type="unfinished">刷新</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="92"/>
-        <source>Track layout: </source>
-        <translation type="unfinished">轨道布局： </translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="100"/>
-        <source>Output directory</source>
-        <translation type="unfinished">输出目录</translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="115"/>
-        <source>Browse...</source>
-        <translation type="unfinished">浏览...</translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="130"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="119"/>
         <source>Extracting audio…</source>
         <translation type="unfinished">正在提取音频…</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="130"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="119"/>
         <source>Updating extractors…</source>
         <translation type="unfinished">正在更新提取器…</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="138"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="127"/>
         <source>Extraction status</source>
         <translation type="unfinished">提取状态</translation>
+    </message>
+</context>
+<context>
+    <name>AudioSeparationOptions</name>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="37"/>
+        <source>Output %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="70"/>
+        <source>Output directory</source>
+        <translation type="unfinished">输出目录</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="85"/>
+        <source>Browse...</source>
+        <translation type="unfinished">浏览...</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="100"/>
+        <source>Output Routing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="110"/>
+        <source>Output track count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="134"/>
+        <source>Extractor track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="140"/>
+        <source>Output track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="169"/>
+        <source>Output track for %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="35"/>
+        <source>Do Not Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="185"/>
+        <source>Assign at least one extractor track to each output track.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1626,91 +1664,118 @@ Some files could not be restored. Backups are in %2.
 <context>
     <name>Synth::Internal::AudioExtractionTask</name>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="59"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="465"/>
         <source>, </source>
         <translation type="unfinished">， </translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.h" line="108"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.h" line="109"/>
         <source>The extraction request did not return a result.</source>
         <translation type="unfinished">提取请求未返回结果。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="58"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="59"/>
         <source>%1 — %2</source>
         <translation type="unfinished">%1：%2</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="83"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="84"/>
         <source>%1: %2</source>
         <translation type="unfinished">%1：%2</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="107"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="108"/>
         <source>No extractors are available. Check your synthesis services.</source>
         <translation type="unfinished">没有可用的提取器。请检查合成服务。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="112"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="113"/>
         <source>No enabled synthesis services are available.</source>
         <translation type="unfinished">没有已启用的可用合成服务。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="132"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="133"/>
         <source>The extraction request failed.</source>
         <translation type="unfinished">提取请求失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="159"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="182"/>
         <source>The service returned inconsistent extractor metadata.</source>
         <translation type="unfinished">服务返回的提取器元数据不一致。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="217"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="251"/>
         <source>The extractor returned invalid note data.</source>
         <translation type="unfinished">提取器返回的音符数据无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="233"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="267"/>
         <source>The extractor returned invalid beat data.</source>
         <translation type="unfinished">提取器返回的节拍数据无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="249"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="256"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="283"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="290"/>
         <source>The extractor returned invalid pitch data.</source>
         <translation type="unfinished">提取器返回的音高数据无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="278"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="312"/>
         <source>The extractor returned no separated audio tracks.</source>
         <translation type="unfinished">提取器未返回分离后的音频轨道。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="296"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="304"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="345"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="353"/>
         <source>The extractor returned an invalid audio data URL.</source>
         <translation type="unfinished">提取器返回的音频数据 URL 无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="318"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="367"/>
         <source>The extractor returned an unsupported audio URL.</source>
         <translation type="unfinished">提取器返回了不受支持的音频 URL。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="352"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="401"/>
         <source>The audio download redirected to an insecure URL.</source>
         <translation type="unfinished">音频下载重定向到了不安全的 URL。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="360"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="409"/>
         <source>Could not download separated audio: %1</source>
         <translation type="unfinished">无法下载分离后的音频：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="383"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="432"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="492"/>
         <source>Could not store separated audio.</source>
         <translation type="unfinished">无法存储分离后的音频。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="144"/>
+        <source>The extractor has an invalid track layout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="149"/>
+        <source>The output routing is invalid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="195"/>
+        <source>The extractor track layout changed. Refresh the extractors and configure the output routing again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="316"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="323"/>
+        <source>The separated tracks do not match the extractor track layout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="154"/>
+        <source>Assign at least one extractor track to each output track.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2116,41 +2181,57 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::ExtractionAudioCodec</name>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="36"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="85"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="69"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="91"/>
         <source>Could not open the source audio.</source>
         <translation type="unfinished">无法打开源音频。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="41"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="87"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="74"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="93"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="188"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="201"/>
         <source>The audio has invalid format information.</source>
         <translation type="unfinished">音频的格式信息无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="56"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="79"/>
         <source>Could not prepare the audio for extraction.</source>
         <translation type="unfinished">无法准备待提取的音频。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="71"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="58"/>
         <source>Could not convert the audio format.</source>
         <translation type="unfinished">无法转换音频格式。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="93"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="99"/>
         <source>The extractor does not accept audio data URLs.</source>
         <translation type="unfinished">提取器不接受音频数据 URL。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="138"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="144"/>
         <source>Could not encode an audio format accepted by the extractor.</source>
         <translation type="unfinished">无法编码为提取器支持的音频格式。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="166"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="172"/>
         <source>Could not decode the separated audio.</source>
         <translation type="unfinished">无法解码分离后的音频。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="180"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="183"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="197"/>
+        <source>Could not open the separated audio for mixing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="177"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="207"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="211"/>
+        <source>Could not mix the separated audio.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

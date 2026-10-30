@@ -15,6 +15,7 @@
 #include <QTemporaryDir>
 
 #include <TalcsCore/AudioBuffer.h>
+#include <TalcsCore/MixerAudioSource.h>
 #include <TalcsFormat/AudioFormatIO.h>
 #include <TalcsFormat/AudioFormatInputSource.h>
 #include <TalcsFormat/FormatManager.h>
@@ -29,6 +30,38 @@ namespace Synth::Internal::ExtractionAudioCodec {
             return QCoreApplication::translate("Synth::Internal::ExtractionAudioCodec", text);
         }
 
+        constexpr qint64 blockSize = 4096;
+
+        Result writeAudio(talcs::AudioSource &source, int channelCount, double sampleRate, qint64 length,
+                          int format, const QString &mime, const std::shared_ptr<std::atomic_bool> &cancelled) {
+            QBuffer output;
+            output.open(QIODevice::ReadWrite);
+            talcs::AudioFormatIO writer(&output);
+            writer.setFormat(format);
+            writer.setChannelCount(channelCount);
+            writer.setSampleRate(sampleRate);
+            if (!writer.open(talcs::AbstractAudioFormatIO::Write))
+                return {{}, {}, writer.errorString()};
+
+            talcs::AudioBuffer buffer(channelCount, blockSize);
+            std::vector<float> interleaved(static_cast<size_t>(blockSize) * channelCount);
+            for (qint64 position = 0; position < length;) {
+                if (cancelled->load())
+                    return {};
+                const auto count = std::min(blockSize, length - position);
+                source.read({&buffer, 0, count});
+                for (qint64 frame = 0; frame < count; ++frame) {
+                    for (int channel = 0; channel < channelCount; ++channel)
+                        interleaved[frame * channelCount + channel] = buffer.sample(channel, frame);
+                }
+                if (writer.write(interleaved.data(), count) != count)
+                    return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "Could not convert the audio format."))};
+                position += count;
+            }
+            writer.close();
+            return {output.data(), mime, {}};
+        }
+
         Result transcode(talcs::AbstractAudioFormatIO &input, int format, const QString &mime,
                          double sampleRate, double offset, double duration,
                          const std::shared_ptr<std::atomic_bool> &cancelled) {
@@ -40,39 +73,12 @@ namespace Synth::Internal::ExtractionAudioCodec {
                 || (offset + duration) * sampleRate >= static_cast<double>(std::numeric_limits<qint64>::max())) {
                 return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "The audio has invalid format information."))};
             }
-            QBuffer output;
-            output.open(QIODevice::ReadWrite);
-            talcs::AudioFormatIO writer(&output);
-            writer.setFormat(format);
-            writer.setChannelCount(input.channelCount());
-            writer.setSampleRate(sampleRate);
-            if (!writer.open(talcs::AbstractAudioFormatIO::Write))
-                return {{}, {}, writer.errorString()};
-
-            constexpr qint64 blockSize = 4096;
             talcs::AudioFormatInputSource source(&input);
             source.setStereoize(false);
             if (!source.open(blockSize, sampleRate))
                 return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "Could not prepare the audio for extraction."))};
             source.setNextReadPosition(std::llround(offset * sampleRate));
-            const auto length = std::llround(duration * sampleRate);
-            talcs::AudioBuffer buffer(input.channelCount(), blockSize);
-            std::vector<float> interleaved(static_cast<size_t>(blockSize) * input.channelCount());
-            for (qint64 position = 0; position < length;) {
-                if (cancelled->load())
-                    return {};
-                const auto count = std::min(blockSize, length - position);
-                source.read({&buffer, 0, count});
-                for (qint64 frame = 0; frame < count; ++frame) {
-                    for (int channel = 0; channel < input.channelCount(); ++channel)
-                        interleaved[frame * input.channelCount() + channel] = buffer.sample(channel, frame);
-                }
-                if (writer.write(interleaved.data(), count) != count)
-                    return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "Could not convert the audio format."))};
-                position += count;
-            }
-            writer.close();
-            return {output.data(), mime, {}};
+            return writeAudio(source, input.channelCount(), sampleRate, std::llround(duration * sampleRate), format, mime, cancelled);
         }
 
     }
@@ -164,6 +170,49 @@ namespace Synth::Internal::ExtractionAudioCodec {
             }
         }
         return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "Could not decode the separated audio."))};
+    }
+
+    Result mix(const QStringList &filePaths, const std::shared_ptr<std::atomic_bool> &cancelled) {
+        if (filePaths.isEmpty())
+            return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "Could not mix the separated audio."))};
+        QFile referenceFile(filePaths.first());
+        if (!referenceFile.open(QIODevice::ReadOnly))
+            return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "Could not open the separated audio for mixing."))};
+        talcs::AudioFormatIO reference(&referenceFile);
+        if (!reference.open(talcs::AbstractAudioFormatIO::Read))
+            return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "Could not open the separated audio for mixing."))};
+        const auto sampleRate = reference.sampleRate();
+        int channelCount = reference.channelCount();
+        qint64 length = reference.length();
+        if (!std::isfinite(sampleRate) || sampleRate <= 0 || channelCount < 1 || channelCount > 256 || length <= 0)
+            return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "The audio has invalid format information."))};
+
+        talcs::MixerAudioSource mixer;
+        for (const auto &path : filePaths) {
+            if (cancelled->load())
+                return {};
+            auto file = new QFile(path, &mixer);
+            auto reader = std::make_unique<talcs::AudioFormatIO>(file);
+            if (!file->open(QIODevice::ReadOnly) || !reader->open(talcs::AbstractAudioFormatIO::Read))
+                return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "Could not open the separated audio for mixing."))};
+            if (!std::isfinite(reader->sampleRate()) || reader->sampleRate() <= 0 || reader->channelCount() < 1
+                || reader->channelCount() > 256 || reader->length() <= 0
+                || reader->length() * (sampleRate / reader->sampleRate()) >= static_cast<double>(std::numeric_limits<qint64>::max())) {
+                return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "The audio has invalid format information."))};
+            }
+            channelCount = std::max(channelCount, reader->channelCount());
+            auto source = std::make_unique<talcs::AudioFormatInputSource>(reader.release(), true);
+            source->setStereoize(true);
+            if (!mixer.addSource(source.get(), true))
+                return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "Could not mix the separated audio."))};
+            source.release();
+        }
+        if (!mixer.open(blockSize, sampleRate))
+            return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "Could not mix the separated audio."))};
+        for (const auto source : mixer.sources())
+            length = std::max(length, static_cast<talcs::AudioFormatInputSource *>(source)->length());
+        return writeAudio(mixer, channelCount, sampleRate, length, talcs::AudioFormatIO::WAV | talcs::AudioFormatIO::FLOAT,
+                          QStringLiteral("audio/wav"), cancelled);
     }
 
 }

@@ -47,6 +47,7 @@ namespace Synth::Internal {
         QString name;
         QString filePath;
         QString digest;
+        QString fileNameSuffix;
     };
 
     struct AudioExtractionResult {
@@ -79,7 +80,7 @@ namespace Synth::Internal {
         QVariantList extractors() const;
         QString error() const;
         const AudioExtractionResult &result() const;
-        void start(int extractorIndex, const ExtractionAudioCodec::Input &input);
+        void start(int extractorIndex, const ExtractionAudioCodec::Input &input, int outputTrackCount, const QList<int> &outputRoutes);
 
         Q_INVOKABLE void refresh();
         Q_INVOKABLE void cancel();
@@ -119,6 +120,8 @@ namespace Synth::Internal {
         void downloadNextStem();
         void download(const QUrl &url, int redirects = 0);
         void convertStem(const QByteArray &bytes);
+        void mixNextOutput();
+        void storeOutput(const ExtractionAudioCodec::Result &result, const QString &name, const QString &fileNameSuffix);
         void complete();
 
         Type m_type;
@@ -131,7 +134,10 @@ namespace Synth::Internal {
         QList<Extractor> m_extractors;
         Extractor m_activeExtractor;
         AudioExtractionResult m_result;
+        QList<ExtractionStem> m_decodedStems;
         QList<Api::V1::SeparationTrack> m_stems;
+        QList<int> m_outputRoutes;
+        int m_outputTrackCount{};
         QString m_error;
         QStringList m_refreshErrors;
         int m_pendingMetadata{};

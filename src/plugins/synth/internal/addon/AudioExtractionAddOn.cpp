@@ -250,7 +250,7 @@ namespace Synth::Internal {
             && m_operation->document->model()->tracks()->items().contains(clip->clipSequence()->track());
     }
 
-    void AudioExtractionAddOn::start(int extractorIndex, const QString &directory) {
+    void AudioExtractionAddOn::start(int extractorIndex, const QString &directory, int outputTrackCount, const QList<int> &outputRoutes) {
         if (!m_task || m_task->busy() || m_task->refreshing())
             return;
         if (!sourceAvailable()) {
@@ -321,7 +321,7 @@ namespace Synth::Internal {
             return;
         }
         qCDebug(lcAudioExtractionScenario) << "Entered progressing state";
-        m_task->start(extractorIndex, operation.input);
+        m_task->start(extractorIndex, operation.input, outputTrackCount, outputRoutes);
     }
 
     void AudioExtractionAddOn::showError(const QString &message) {
@@ -489,7 +489,7 @@ namespace Synth::Internal {
             QSet<QString> names;
             QStringList destinations;
             for (const auto &stem : result.stems) {
-                const auto name = safeName(operation.name) + u'_' + safeName(stem.name) + QStringLiteral(".wav");
+                const auto name = safeName(operation.name) + u'_' + safeName(stem.fileNameSuffix) + QStringLiteral(".wav");
                 if (names.contains(name.toCaseFolded())) {
                     abort(tr("The separated track names produce duplicate file names."));
                     return;
