@@ -93,7 +93,9 @@ namespace Synth {
             void processPendingWork();
             void queueFinalizer(std::function<void()> finalizer);
             void queueTaskWriteback(TaskWriteback *writeback);
+            void discardTaskWriteback(TaskWriteback *writeback);
             void discardTaskWritebacks(SynthesisTask *task);
+            void pruneDiscardedWritebacks();
             bool hasUnprocessedWriteback(SynthesisTask *task) const;
             bool validateTaskWriteback(const TaskWriteback *writeback) const;
             void processTaskWriteback(TaskWriteback *writeback);
@@ -131,7 +133,7 @@ namespace Synth {
             QHash<SynthesisPiece *, QPointer<SynthesisTask>> m_pieceTasks;
             QList<ClipRuntime *> m_retiredClips;
             QSet<TaskWriteback *> m_taskWritebacks;
-            QList<TaskWriteback *> m_pendingTaskWritebacks;
+            QList<QPointer<TaskWriteback>> m_pendingTaskWritebacks;
             QList<ManualRequest *> m_pendingManualRequests;
             QList<std::function<void()>> m_pendingFinalizers;
             dini::Subscription m_subscription;
@@ -142,6 +144,7 @@ namespace Synth {
             bool m_globalCentShiftPending{};
             bool m_pendingWorkScheduled{};
             bool m_processingPendingWork{};
+            bool m_closing{};
             bool m_retryFailedPiecesPending{};
             QHash<QString, QDateTime> m_lastNotifications;
         };

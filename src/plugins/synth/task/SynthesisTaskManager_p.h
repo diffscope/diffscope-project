@@ -7,6 +7,7 @@
 #include <synth/SynthesisTaskManager.h>
 
 #include <functional>
+#include <memory>
 #include <optional>
 #include <utility>
 
@@ -25,6 +26,7 @@
 #include <synth/internal/ApiClient.h>
 #include <synth/internal/SynthesisPipeline.h>
 #include <synth/internal/SynthesisTaskCache.h>
+#include <synth/private/SynthesisTask_p.h>
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -54,6 +56,7 @@ namespace Synth {
 
         struct PendingEnvironmentTag {
             QList<QPointer<SynthesisTask>> tasks;
+            QList<std::shared_ptr<void>> resources;
         };
 
         explicit SynthesisTaskManagerPrivate(SynthesisTaskManager *q);
@@ -86,12 +89,15 @@ namespace Synth {
         void persistDiagnostics(SynthesisTask *task, const QString &message);
         void trimDiagnostics();
         void reloadDiagnosticsSettings();
+        void scheduleCollection(SynthesisTask *task);
+        void collect(SynthesisTask *task);
 
         template <typename T, typename Callback>
         void watch(SynthesisTask *task, QFuture<Internal::Api::ApiResult<T>> future, Callback callback) {
             auto watcher = new QFutureWatcher<Internal::Api::ApiResult<T>>(q_ptr);
             cancelFunctions.insert(task, [future]() mutable { future.cancel(); });
-            QObject::connect(watcher, &QFutureWatcherBase::finished, q_ptr, [this, watcher, task = QPointer<SynthesisTask>(task), callback = std::move(callback)]() mutable {
+            QObject::connect(watcher, &QFutureWatcherBase::finished, q_ptr, [this, watcher, task = QPointer<SynthesisTask>(task), resources = SynthesisTaskPrivate::retainResources(task), callback = std::move(callback)]() mutable {
+                Q_UNUSED(resources);
                 watcher->deleteLater();
                 if (!task || task->isFinished())
                     return;

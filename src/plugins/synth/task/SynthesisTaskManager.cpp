@@ -45,6 +45,44 @@ namespace Synth {
 
     using namespace Internal::TaskCodec;
 
+    void SynthesisTaskPrivate::scheduleCollection() {
+        if (manager && q_ptr->isFinished())
+            manager->d_func()->scheduleCollection(q_ptr);
+    }
+
+    void SynthesisTaskManagerPrivate::scheduleCollection(SynthesisTask *task) {
+        auto taskPrivate = SynthesisTaskPrivate::get(task);
+        if (taskPrivate->collectionScheduled || taskPrivate->deletionScheduled)
+            return;
+        taskPrivate->collectionScheduled = true;
+        QTimer::singleShot(0, q_ptr, [this, task = QPointer<SynthesisTask>(task)] {
+            if (!task)
+                return;
+            SynthesisTaskPrivate::get(task)->collectionScheduled = false;
+            collect(task);
+        });
+    }
+
+    void SynthesisTaskManagerPrivate::collect(SynthesisTask *task) {
+        auto taskPrivate = SynthesisTaskPrivate::get(task);
+        if (!task->isFinished() || taskPrivate->resourceUsers != 0 || taskPrivate->deletionScheduled)
+            return;
+        if (!taskPrivate->resourcesReleased) {
+            taskPrivate->request = {};
+            taskPrivate->result = {};
+            taskPrivate->resourcesReleased = true;
+            diagnosticExchanges.remove(task);
+            cancelFunctions.remove(task);
+        }
+        if (task->state() == SynthesisTask::Failed && !taskPrivate->removalRequested)
+            return;
+        taskPrivate->deletionScheduled = true;
+        taskPrivate->manager = nullptr;
+        if (tasks.removeOne(task))
+            Q_EMIT q_ptr->taskRemoved(task);
+        task->deleteLater();
+    }
+
     namespace {
 
         bool parametersAreValid(const QMap<QString, SynthesisParameter> &parameters) {
@@ -183,6 +221,7 @@ namespace Synth {
     }
 
     void SynthesisTaskManagerPrivate::setState(SynthesisTask *task, SynthesisTask::State state, const QString &error) {
+        const auto resources = SynthesisTaskPrivate::retainResources(task);
         auto d = SynthesisTaskPrivate::get(task);
         if (d->state == state && d->errorMessage == error) {
             return;
@@ -204,6 +243,7 @@ namespace Synth {
         }
         if (task->isFinished()) {
             Q_EMIT task->finished();
+            d->scheduleCollection();
         }
     }
 
@@ -244,6 +284,7 @@ namespace Synth {
         });
         for (qsizetype index = 0; index < queue.size();) {
             auto task = queue.at(index);
+            const auto resources = SynthesisTaskPrivate::retainResources(task);
             const auto resolution = resolveService(task->request().context);
             if (resolution.service) {
                 setService(task, *resolution.service);
@@ -420,6 +461,7 @@ namespace Synth {
         trimDiagnostics();
         if (QFileInfo::exists(path)) {
             taskPrivate->diagnosticFilePath = path;
+            taskPrivate->diagnostics.clear();
             Q_EMIT task->diagnosticsChanged();
         }
     }
@@ -505,9 +547,10 @@ namespace Synth {
         auto pending = pendingEnvironmentTags.find(key);
         if (pending != pendingEnvironmentTags.end()) {
             pending->tasks.append(task);
+            pending->resources.append(SynthesisTaskPrivate::retainResources(task));
             return;
         }
-        pendingEnvironmentTags.insert(key, {{task}});
+        pendingEnvironmentTags.insert(key, {{task}, {SynthesisTaskPrivate::retainResources(task)}});
         requestEnvironmentTag(key, service, task->request().context);
     }
 
@@ -975,7 +1018,11 @@ namespace Synth {
 #endif
         auto reply = networkManager->get(request);
         cancelFunctions.insert(task, [reply] { reply->abort(); });
-        QObject::connect(reply, &QNetworkReply::downloadProgress, q_ptr, [this, task, reply](qint64 received, qint64 total) {
+        const auto resources = SynthesisTaskPrivate::retainResources(task);
+        QObject::connect(reply, &QNetworkReply::downloadProgress, q_ptr, [this, task = QPointer<SynthesisTask>(task), reply, resources](qint64 received, qint64 total) {
+            Q_UNUSED(resources);
+            if (!task || !task->isActive())
+                return;
             if (received > cache.maximumDownloadBytes() || total > cache.maximumDownloadBytes()) {
                 cancelFunctions.remove(task);
                 reply->setProperty("synthDownloadTooLarge", true);
@@ -983,7 +1030,12 @@ namespace Synth {
             }
         });
         const auto startedAt = QDateTime::currentDateTimeUtc();
-        QObject::connect(reply, &QNetworkReply::finished, q_ptr, [this, task, service, key, redirectCount, reply, startedAt] {
+        QObject::connect(reply, &QNetworkReply::finished, q_ptr, [this, task = QPointer<SynthesisTask>(task), service, key, redirectCount, reply, startedAt, resources] {
+            Q_UNUSED(resources);
+            if (!task) {
+                reply->deleteLater();
+                return;
+            }
             cancelFunctions.remove(task);
             if (task->state() == SynthesisTask::Canceled) {
                 reply->deleteLater();
@@ -1032,14 +1084,23 @@ namespace Synth {
 
     SynthesisTaskManager::~SynthesisTaskManager() {
         shutdown();
+        for (auto task : findChildren<SynthesisTask *>(Qt::FindDirectChildrenOnly))
+            SynthesisTaskPrivate::get(task)->manager = nullptr;
     }
 
-    SynthesisTask *SynthesisTaskManager::enqueue(const SynthesisTaskRequest &request, const SynthesisTaskOptions &options) {
+    SynthesisTask *SynthesisTaskManager::enqueue(const SynthesisTaskRequest &request, const SynthesisTaskOptions &options, QObject *resultConsumer) {
         Q_D(SynthesisTaskManager);
         if (d->shuttingDown) {
             return nullptr;
         }
         auto task = new SynthesisTask(request, options, this);
+        SynthesisTaskPrivate::get(task)->manager = this;
+        const auto resources = SynthesisTaskPrivate::retainResources(task);
+        if (resultConsumer) {
+            connect(resultConsumer, &QObject::destroyed, this, [resources = SynthesisTaskPrivate::retainResources(task)]() mutable {
+                resources.reset();
+            });
+        }
         d->tasks.append(task);
         d->queue.append(task);
         const auto resolution = d->resolveService(request.context);
@@ -1118,6 +1179,7 @@ namespace Synth {
         if (!task || task->parent() != this || task->isFinished()) {
             return false;
         }
+        const auto resources = SynthesisTaskPrivate::retainResources(task);
         if (task->state() == SynthesisTask::Queued) {
             d->queue.removeAll(task);
             d->diagnosticExchanges.remove(task);
@@ -1143,11 +1205,10 @@ namespace Synth {
         if (index < 0) {
             return false;
         }
-        d->diagnosticExchanges.remove(task);
-        d->cancelFunctions.remove(task);
+        SynthesisTaskPrivate::get(task)->removalRequested = true;
         d->tasks.removeAt(index);
         Q_EMIT taskRemoved(task);
-        task->deleteLater();
+        d->scheduleCollection(task);
         return true;
     }
 
@@ -1212,12 +1273,19 @@ namespace Synth {
             return;
         }
         d->shuttingDown = true;
-        const auto queued = std::exchange(d->queue, {});
+        QList<QPointer<SynthesisTask>> queued;
+        for (auto task : std::exchange(d->queue, {}))
+            queued.append(task);
         for (auto task : queued) {
-            d->setState(task, SynthesisTask::Canceled);
+            if (task && !task->isFinished())
+                d->setState(task, SynthesisTask::Canceled);
         }
-        for (auto it = d->cancelFunctions.cbegin(); it != d->cancelFunctions.cend(); ++it) {
-            it.value()();
+        QList<QPointer<SynthesisTask>> activeTasks;
+        for (auto task : d->cancelFunctions.keys())
+            activeTasks.append(task);
+        for (auto task : activeTasks) {
+            if (task)
+                cancel(task);
         }
         d->cancelFunctions.clear();
         d->diagnosticExchanges.clear();

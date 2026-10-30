@@ -10,6 +10,7 @@
 
 #include <QHash>
 #include <QList>
+#include <QObject>
 #include <QPointer>
 #include <QString>
 #include <QStringList>
@@ -62,7 +63,9 @@ namespace Synth::Internal {
         bool rebound{};
     };
 
-    struct SynthesisProjectAddOn::TaskWriteback {
+    struct SynthesisProjectAddOn::TaskWriteback : QObject {
+        explicit TaskWriteback(QObject *parent) : QObject(parent) {}
+
         enum Scope {
             Language,
             Piece,

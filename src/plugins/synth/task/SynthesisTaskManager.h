@@ -21,6 +21,7 @@ namespace Synth {
 
     class SynthesisTask;
     class SynthesisTaskManagerPrivate;
+    class SynthesisTaskPrivate;
 
     class SYNTH_EXPORT SynthesisTaskManager : public QObject {
         Q_OBJECT
@@ -31,7 +32,8 @@ namespace Synth {
     public:
         ~SynthesisTaskManager() override;
 
-        SynthesisTask *enqueue(const SynthesisTaskRequest &request, const SynthesisTaskOptions &options = {});
+        /// Returns a queued task, or nullptr after shutdown. A non-null resultConsumer retains execution data until its destruction.
+        SynthesisTask *enqueue(const SynthesisTaskRequest &request, const SynthesisTaskOptions &options = {}, QObject *resultConsumer = nullptr);
         QList<SynthesisTask *> tasks() const;
         QList<SynthesisTask *> tasksForService(const QUuid &serviceInstanceId) const;
         int runningTaskCount() const;
@@ -64,6 +66,7 @@ namespace Synth {
         QScopedPointer<SynthesisTaskManagerPrivate> d_ptr;
 
         friend class Internal::SynthService;
+        friend class SynthesisTaskPrivate;
     };
 
 }

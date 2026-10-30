@@ -209,6 +209,7 @@ namespace Synth::Internal {
     }
 
     SynthesisProjectAddOn::~SynthesisProjectAddOn() {
+        m_closing = true;
         m_subscription.disconnect();
         auto window = windowHandle() ? windowHandle()->cast<Core::ProjectWindowInterface>() : nullptr;
         SynthesisExportListener::instance().detach(window, this);
@@ -495,6 +496,10 @@ namespace Synth::Internal {
             if (runtime->clip && runtime->clip != watchedClip)
                 return;
             runtime->clip = nullptr;
+            for (auto writeback : std::as_const(m_taskWritebacks)) {
+                if (writeback->clipHandle == runtime->clipHandle)
+                    discardTaskWriteback(writeback);
+            }
             m_documentSyncPending = true;
             schedulePendingWork();
         });
@@ -505,6 +510,10 @@ namespace Synth::Internal {
         if (!runtime)
             return;
         runtime->clip = nullptr;
+        for (auto writeback : std::as_const(m_taskWritebacks)) {
+            if (writeback->clipHandle == clipHandle)
+                discardTaskWriteback(writeback);
+        }
         for (auto piece : runtime->pieces) {
             if (!piece) {
                 continue;
@@ -664,6 +673,8 @@ namespace Synth::Internal {
         ++d->revision;
         const quint64 revision = d->revision;
         const bool running = task && task->isActive() && !task->isQueued();
+        if (task && task->type() > SynthesisTaskType::Phoneme)
+            discardTaskWritebacks(task);
         if (task && task->isQueued()) {
             discardTaskWritebacks(task);
             m_taskManager->cancel(task);
@@ -704,7 +715,7 @@ namespace Synth::Internal {
     }
 
     void SynthesisProjectAddOn::schedulePendingWork() {
-        if (m_pendingWorkScheduled)
+        if (m_closing || m_pendingWorkScheduled)
             return;
         m_pendingWorkScheduled = true;
         QMetaObject::invokeMethod(this, [this] {
@@ -713,7 +724,10 @@ namespace Synth::Internal {
     }
 
     void SynthesisProjectAddOn::processPendingWork() {
-        if (m_processingPendingWork || documentTransactionActive())
+        if (m_closing || m_processingPendingWork)
+            return;
+        pruneDiscardedWritebacks();
+        if (documentTransactionActive())
             return;
         m_processingPendingWork = true;
         while (!documentTransactionActive()) {
@@ -750,12 +764,14 @@ namespace Synth::Internal {
                 processed = true;
             }
             if (!m_pendingTaskWritebacks.isEmpty()) {
-                const auto writebacks = std::exchange(m_pendingTaskWritebacks, QList<TaskWriteback *>{});
+                const auto writebacks = std::exchange(m_pendingTaskWritebacks, QList<QPointer<TaskWriteback>>{});
                 for (auto writeback : writebacks) {
-                    auto runtime = writeback ? m_clips.value(writeback->clipHandle) : nullptr;
+                    if (!writeback)
+                        continue;
+                    auto runtime = m_clips.value(writeback->clipHandle);
                     m_taskWritebacks.remove(writeback);
                     processTaskWriteback(writeback);
-                    delete writeback;
+                    delete writeback.data();
                     finalizeLanguageWave(runtime);
                 }
                 processed = true;
@@ -777,6 +793,8 @@ namespace Synth::Internal {
     }
 
     void SynthesisProjectAddOn::queueFinalizer(std::function<void()> finalizer) {
+        if (m_closing)
+            return;
         m_pendingFinalizers.append(std::move(finalizer));
         schedulePendingWork();
     }
@@ -1168,7 +1186,7 @@ namespace Synth::Internal {
     }
 
     void SynthesisProjectAddOn::scheduleLanguageRange(ClipRuntime *runtime, double position, double length, SynthesisTaskType fromType, const SynthesisTaskOptions &options) {
-        if (!runtime || !runtime->clip || !runtime->divider || length <= 0.0 || documentTransactionActive())
+        if (m_closing || !runtime || !runtime->clip || !runtime->divider || length <= 0.0 || documentTransactionActive())
             return;
         if (!isManagedClip(runtime->clip)) {
             removeClip(runtime->clipHandle);
@@ -1234,7 +1252,7 @@ namespace Synth::Internal {
                 if (!existing || oldWriteback->type < existing->type)
                     deferredLanguagePieces.insert(piece, oldWriteback);
             }
-            oldWriteback->discarded = true;
+            discardTaskWriteback(oldWriteback);
             if (oldWriteback->task && oldWriteback->task->isQueued())
                 m_taskManager->cancel(oldWriteback->task);
         }
@@ -1277,8 +1295,10 @@ namespace Synth::Internal {
                 }
             }
         }
-        auto task = m_taskManager->enqueue(built.request, options);
+        auto writeback = new TaskWriteback(this);
+        auto task = m_taskManager->enqueue(built.request, options, writeback);
         if (!task) {
+            delete writeback;
             for (auto piece : affectedPieces)
                 notifyFailure(piece, tr("The synthesis task could not be queued"));
             return;
@@ -1293,7 +1313,6 @@ namespace Synth::Internal {
             m_pieceTasks.insert(piece, task);
             publishPieceState(piece);
         }
-        auto writeback = new TaskWriteback;
         writeback->scope = TaskWriteback::Language;
         writeback->task = task;
         writeback->clipHandle = runtime->clipHandle;
@@ -1328,8 +1347,9 @@ namespace Synth::Internal {
         };
         connect(task, &SynthesisTask::stateChanged, this, updateTask);
         connect(task, &SynthesisTask::progressChanged, this, updateTask);
-        connect(task, &SynthesisTask::finished, this, [this, writeback] {
-            queueTaskWriteback(writeback);
+        connect(task, &SynthesisTask::finished, writeback, [this, writeback = QPointer<TaskWriteback>(writeback)] {
+            if (writeback)
+                queueTaskWriteback(writeback);
         });
         if (task->isFinished())
             queueTaskWriteback(writeback);
@@ -1338,7 +1358,7 @@ namespace Synth::Internal {
     }
 
     void SynthesisProjectAddOn::schedulePieceStage(ClipRuntime *runtime, SynthesisPiece *piece, SynthesisTaskType type, const SynthesisTaskOptions &options, const std::optional<QStringList> &requestedParameters) {
-        if (!runtime || !runtime->clip || !piece || piece->singingClip() != runtime->clip)
+        if (m_closing || !runtime || !runtime->clip || !piece || piece->singingClip() != runtime->clip)
             return;
         if (documentTransactionActive())
             return;
@@ -1385,14 +1405,17 @@ namespace Synth::Internal {
         request.score = built.score;
         request.displayName = runtime->clip->name();
         const quint64 revision = SynthesisPiecePrivate::get(piece)->revision;
-        auto task = m_taskManager->enqueue(request, options);
+        if (auto old = m_pieceTasks.value(piece); old && old->type() > SynthesisTaskType::Phoneme)
+            discardTaskWritebacks(old);
+        auto writeback = new TaskWriteback(this);
+        auto task = m_taskManager->enqueue(request, options, writeback);
         if (!task) {
+            delete writeback;
             notifyFailure(piece, tr("The synthesis task could not be queued"));
             return;
         }
         m_pieceTasks.insert(piece, task);
         bindPieceTask(runtime, piece, task, revision, options);
-        auto writeback = new TaskWriteback;
         writeback->scope = TaskWriteback::Piece;
         writeback->task = task;
         writeback->clipHandle = runtime->clipHandle;
@@ -1407,8 +1430,9 @@ namespace Synth::Internal {
         writeback->piecePosition = piece->position();
         writeback->pieceLength = piece->length();
         m_taskWritebacks.insert(writeback);
-        connect(task, &SynthesisTask::finished, this, [this, writeback] {
-            queueTaskWriteback(writeback);
+        connect(task, &SynthesisTask::finished, writeback, [this, writeback = QPointer<TaskWriteback>(writeback)] {
+            if (writeback)
+                queueTaskWriteback(writeback);
         });
         if (task->isFinished())
             queueTaskWriteback(writeback);
@@ -1717,7 +1741,7 @@ namespace Synth::Internal {
                     false,
                     {},
                 });
-                writeback->discarded = true;
+                discardTaskWriteback(writeback);
                 tasks.insert(writeback->task);
             }
         }
@@ -1725,7 +1749,7 @@ namespace Synth::Internal {
             return false;
         for (auto writeback : m_taskWritebacks) {
             if (writeback && tasks.contains(writeback->task))
-                writeback->discarded = true;
+                discardTaskWriteback(writeback);
         }
         QSet<SynthesisPiece *> affectedPieces{piece};
         for (auto writeback : m_taskWritebacks) {
@@ -1781,7 +1805,7 @@ namespace Synth::Internal {
         for (auto writeback : m_taskWritebacks) {
             if (!writeback || writeback->discarded || !writeback->task)
                 continue;
-            writeback->discarded = true;
+            discardTaskWriteback(writeback);
             if (!writeback->task->isFinished())
                 m_taskManager->cancel(writeback->task);
         }
@@ -1848,7 +1872,7 @@ namespace Synth::Internal {
     using namespace ProjectInput;
 
     void SynthesisProjectAddOn::queueTaskWriteback(TaskWriteback *writeback) {
-        if (!writeback || writeback->queued)
+        if (m_closing || !writeback || writeback->queued || writeback->discarded)
             return;
         writeback->queued = true;
         if (writeback->task && writeback->task->state() == SynthesisTask::Succeeded) {
@@ -1867,12 +1891,37 @@ namespace Synth::Internal {
         schedulePendingWork();
     }
 
+    void SynthesisProjectAddOn::discardTaskWriteback(TaskWriteback *writeback) {
+        if (!writeback || writeback->discarded)
+            return;
+        writeback->discarded = true;
+        schedulePendingWork();
+    }
+
+    void SynthesisProjectAddOn::pruneDiscardedWritebacks() {
+        QList<TaskWriteback *> discarded;
+        QSet<ClipRuntime *> runtimes;
+        for (auto writeback : std::as_const(m_taskWritebacks)) {
+            if (writeback->discarded)
+                discarded.append(writeback);
+        }
+        for (auto writeback : discarded) {
+            if (auto runtime = m_clips.value(writeback->clipHandle))
+                runtimes.insert(runtime);
+            m_taskWritebacks.remove(writeback);
+            m_pendingTaskWritebacks.removeAll(QPointer<TaskWriteback>(writeback));
+            delete writeback;
+        }
+        for (auto runtime : runtimes)
+            queueFinalizer([this, runtime] { finalizeLanguageWave(runtime); });
+    }
+
     void SynthesisProjectAddOn::discardTaskWritebacks(SynthesisTask *task) {
         if (!task)
             return;
         for (auto writeback : m_taskWritebacks) {
             if (writeback && writeback->task == task)
-                writeback->discarded = true;
+                discardTaskWriteback(writeback);
         }
     }
 
@@ -2047,7 +2096,7 @@ namespace Synth::Internal {
                                 candidate->type,
                             });
                         }
-                        candidate->discarded = true;
+                        discardTaskWriteback(candidate);
                         if (candidate->task && candidate->task->isQueued())
                             m_taskManager->cancel(candidate->task);
                     }

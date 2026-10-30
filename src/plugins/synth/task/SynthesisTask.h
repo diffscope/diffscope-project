@@ -70,8 +70,10 @@ namespace Synth {
         QString errorMessage() const;
         QVariantList diagnostics() const;
         QString diagnosticFilePath() const;
+        /// Returns the request while execution data is retained, or an empty request after release.
         SynthesisTaskRequest request() const;
         SynthesisTaskOptions options() const;
+        /// Returns the result while execution data is retained, or an empty result after release.
         SynthesisTaskResult result() const;
         bool isFinished() const;
 

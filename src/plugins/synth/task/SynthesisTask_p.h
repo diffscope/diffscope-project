@@ -6,6 +6,8 @@
 
 #include <synth/SynthesisTask.h>
 
+#include <memory>
+
 namespace Synth {
 
     class SynthesisTaskPrivate {
@@ -15,9 +17,16 @@ namespace Synth {
         explicit SynthesisTaskPrivate(SynthesisTask *q) : q_ptr(q) {}
 
         static SynthesisTaskPrivate *get(SynthesisTask *task) { return task->d_func(); }
+        /// Retains execution data without changing QObject ownership.
+        static std::shared_ptr<void> retainResources(SynthesisTask *task);
+
+        void scheduleCollection();
 
         SynthesisTask *q_ptr{};
+        SynthesisTaskManager *manager{};
         QUuid id{QUuid::createUuid()};
+        SynthesisTaskType type{SynthesisTaskType::Pronunciation};
+        QString displayName;
         SynthesisTaskRequest request;
         SynthesisTaskOptions options;
         SynthesisTaskResult result;
@@ -31,6 +40,11 @@ namespace Synth {
         QString errorMessage;
         QVariantList diagnostics;
         QString diagnosticFilePath;
+        int resourceUsers{};
+        bool collectionScheduled{};
+        bool resourcesReleased{};
+        bool removalRequested{};
+        bool deletionScheduled{};
     };
 
 }
