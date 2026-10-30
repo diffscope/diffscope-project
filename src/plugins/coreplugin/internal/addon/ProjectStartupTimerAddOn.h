@@ -20,13 +20,10 @@ namespace Core::Internal {
 
         void initialize() override;
         void extensionsInitialized() override;
-        bool delayedInitialize() override;
 
         static void startTimer();
         static void startTimerIfNotStarted();
         static qint64 stopTimerAndGetElapsedTime();
-
-        bool eventFilter(QObject *watched, QEvent *event) override;
 
     private:
         NotificationMessage *m_initializingMessage{};

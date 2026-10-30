@@ -8,6 +8,7 @@
 
 #include <QDebug>
 #include <QQmlComponent>
+#include <QQuickWindow>
 #include <QSet>
 #include <QSignalBlocker>
 #include <QStandardItemModel>
@@ -92,14 +93,23 @@ namespace Core::Internal {
         });
         connect(m_session, &WorkspaceSession::restored, this, &WorkspaceAddOn::panelEntriesChanged);
         connect(m_workspaceManager, &ProjectWindowWorkspaceManager::currentLayoutChanged, this, [this] {
-            m_session->apply(m_workspaceManager->currentLayout());
+            if (!m_initialLayoutPending)
+                m_session->apply(m_workspaceManager->currentLayout());
         });
     }
 
     void WorkspaceAddOn::extensionsInitialized() {
         m_session->initialize();
         Q_EMIT panelEntriesChanged();
-        m_session->apply(m_workspaceManager->currentLayout());
+
+        auto window = qobject_cast<QQuickWindow *>(windowHandle()->window());
+        Q_ASSERT(window);
+        connect(window, &QQuickWindow::frameSwapped, this, [this] {
+            if (m_session->isShuttingDown())
+                return;
+            m_initialLayoutPending = false;
+            m_session->apply(m_workspaceManager->currentLayout());
+        }, Qt::ConnectionType(Qt::QueuedConnection | Qt::SingleShotConnection));
 
         windowHandle()->addCloseCallback([this] {
             if (m_session->isBusy())
@@ -111,7 +121,7 @@ namespace Core::Internal {
     }
 
     void WorkspaceAddOn::saveCurrentLayout() {
-        if (!m_session || m_session->isShuttingDown())
+        if (!m_session || !m_session->isReady() || m_session->isShuttingDown())
             return;
         auto layout = m_session->snapshot(m_workspaceManager->currentLayout().name());
         QSignalBlocker blocker(m_workspaceManager);

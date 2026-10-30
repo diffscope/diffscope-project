@@ -45,6 +45,7 @@ namespace Core::Internal {
         WorkspaceSession *m_session = nullptr;
         QPointer<QObject> m_helper;
         QPointer<QObject> m_actions;
+        bool m_initialLayoutPending = true;
     };
 }
 

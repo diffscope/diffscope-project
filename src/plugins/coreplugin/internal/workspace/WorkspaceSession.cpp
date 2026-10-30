@@ -45,6 +45,10 @@ namespace Core::Internal {
 
         connect(m_context, &SVS::DockingContext::placementRequested, this, [this](SVS::DockingRequest *request) {
             QPointer<SVS::DockingRequest> guard(request);
+            if (!m_ready) {
+                request->reject("workspaceNotReady");
+                return;
+            }
             if (m_busy || m_shuttingDown) {
                 request->reject("workspaceBusy");
                 return;
@@ -410,6 +414,10 @@ namespace Core::Internal {
 
     void WorkspaceSession::floatRequest(SVS::DockingRequest *request) {
         QPointer<SVS::DockingRequest> guard(request);
+        if (!m_ready) {
+            request->reject("workspaceNotReady");
+            return;
+        }
         if (m_busy || m_shuttingDown) {
             request->reject("workspaceBusy");
             return;
