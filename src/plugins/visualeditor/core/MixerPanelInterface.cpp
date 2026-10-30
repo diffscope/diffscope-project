@@ -82,8 +82,8 @@ namespace VisualEditor {
         d->trackListLayoutViewModel = new sflow::TrackListLayoutViewModel(this);
         d->masterTrackListLayoutViewModel = new sflow::TrackListLayoutViewModel(this);
         d->scrollBehaviorViewModel = new sflow::ScrollBehaviorViewModel(this);
-        d->trackListInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTrackListInteractionController();
-        d->masterTrackListInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTrackListInteractionControllerOfMaster();
+        d->trackListInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTrackListInteractionController(this);
+        d->masterTrackListInteractionController = ProjectViewModelContext::of(d->windowHandle)->createAndBindTrackListInteractionControllerOfMaster(this);
 
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "MixerView");
         if (component.isError()) {
