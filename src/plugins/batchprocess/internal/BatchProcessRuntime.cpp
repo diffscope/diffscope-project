@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <exception>
 #include <utility>
+#include <variant>
 
 #include <QDir>
 #include <QFile>
@@ -197,7 +198,7 @@ namespace BatchProcess::Internal {
 
     struct BatchProcessRuntime::BuiltinScriptRegistration {
         QPointer<QObject> owner;
-        BatchProcessInterface::BuiltinScriptFactory factory;
+        std::variant<BatchProcessInterface::BuiltinScriptFactory, QString> source;
     };
 
     struct BatchProcessRuntime::ModuleRegistration {
@@ -249,6 +250,8 @@ namespace BatchProcess::Internal {
         QString entryPath;
         QString sortName;
         bool singleFile{};
+        bool builtin{};
+        QPointer<QObject> owner;
     };
 
     struct BatchProcessRuntime::ErrorInfo {
@@ -325,7 +328,7 @@ namespace BatchProcess::Internal {
         QList<ScriptAction *> builtinActions;
         QList<ScriptAction *> userActions;
         for (const auto script : scripts) {
-            if (script->filePath().isEmpty()) {
+            if (script->isBuiltin()) {
                 builtinActions.append(script->actions());
             } else {
                 userActions.append(script->actions());
@@ -345,7 +348,7 @@ namespace BatchProcess::Internal {
     BatchProcessRuntime::BatchProcessRuntime(BatchProcessInterfacePrivate *interfacePrivate) : m_interfacePrivate(interfacePrivate) {
         m_builtinScriptRegistrations.reserve(interfacePrivate->builtinScriptRegistrations.size());
         for (const auto &registration : interfacePrivate->builtinScriptRegistrations) {
-            m_builtinScriptRegistrations.append({registration.owner, registration.factory});
+            m_builtinScriptRegistrations.append({registration.owner, registration.source});
         }
         m_moduleRegistrations.reserve(interfacePrivate->moduleRegistrations.size());
         for (const auto &registration : interfacePrivate->moduleRegistrations) {
@@ -440,32 +443,17 @@ namespace BatchProcess::Internal {
         QVector<ScriptCandidate> candidates;
         const auto entries = directory.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
         for (const auto &entry : entries) {
-            if (entry.isFile() && entry.suffix().compare(QStringLiteral("js"), Qt::CaseInsensitive) == 0) {
-                const auto entryPath = entry.canonicalFilePath();
-                if (entryPath.isEmpty() || !isWithinDirectory(rootCanonicalPath, entryPath)) {
-                    qCWarning(lcBatchProcessRuntime) << "Ignoring unresolved script candidate" << entry.absoluteFilePath();
-                    continue;
-                }
-                candidates.append({entryPath, rootCanonicalPath, entryPath, entry.fileName(), true});
-                qCDebug(lcBatchProcessRuntime) << "Discovered single-file script" << entryPath;
+            if (!entry.isDir() && (!entry.isFile() || entry.suffix().compare(QStringLiteral("js"), Qt::CaseInsensitive) != 0)) {
                 continue;
             }
-
-            if (entry.isDir()) {
-                const QFileInfo indexFile(QDir(entry.absoluteFilePath()).filePath(QStringLiteral("index.js")));
-                if (!indexFile.isFile()) {
-                    qCWarning(lcBatchProcessRuntime) << "Ignoring script directory without a regular index.js" << entry.absoluteFilePath();
-                    continue;
-                }
-                const auto packagePath = entry.canonicalFilePath();
-                const auto entryPath = indexFile.canonicalFilePath();
-                if (packagePath.isEmpty() || entryPath.isEmpty() || !isWithinDirectory(packagePath, entryPath) || !isWithinDirectory(rootCanonicalPath, packagePath)) {
-                    qCWarning(lcBatchProcessRuntime) << "Ignoring unresolved script package" << entry.absoluteFilePath();
-                    continue;
-                }
-                candidates.append({packagePath, packagePath, entryPath, entry.fileName(), false});
-                qCDebug(lcBatchProcessRuntime) << "Discovered multi-file script" << packagePath;
+            ScriptCandidate candidate;
+            ErrorInfo error;
+            if (!resolveCandidate(entry.absoluteFilePath(), rootCanonicalPath, &candidate, &error)) {
+                qCWarning(lcBatchProcessRuntime) << "Ignoring script candidate" << entry.absoluteFilePath() << error.diagnosticText;
+                continue;
             }
+            qCDebug(lcBatchProcessRuntime) << "Discovered script" << candidate.scriptPath << "singleFile" << candidate.singleFile;
+            candidates.append(std::move(candidate));
         }
 
         std::ranges::stable_sort(candidates, [](const ScriptCandidate &left, const ScriptCandidate &right) {
@@ -477,7 +465,7 @@ namespace BatchProcess::Internal {
         auto failedBuiltinCount = 0;
         const auto builtinScriptRegistrations = m_builtinScriptRegistrations;
         for (const auto &registration : builtinScriptRegistrations) {
-            if (registration.owner && registration.factory && !loadBuiltinScript(registration, &loadedIds)) {
+            if (registration.owner && !loadBuiltinScript(registration, &loadedIds)) {
                 ++failedBuiltinCount;
             }
         }
@@ -611,12 +599,12 @@ namespace BatchProcess::Internal {
 
     QJSValue BatchProcessRuntime::requireBuiltin(const QString &specifier) {
         const auto script = currentScript();
-        if (!script || !script->filePath().isEmpty()) {
+        if (!script || !script->isBuiltin()) {
             m_engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("The global require() function is only available while a built-in script is loading or executing."));
             return QJSValue(QJSValue::UndefinedValue);
         }
         if (isFileSpecifier(specifier)) {
-            m_engine->throwError(QJSValue::TypeError, BatchProcessInterface::tr("Built-in scripts may only require registered modules: %1.").arg(quoted(specifier)));
+            m_engine->throwError(QJSValue::TypeError, BatchProcessInterface::tr("The global require() function may only load registered modules: %1.").arg(quoted(specifier)));
             return QJSValue(QJSValue::UndefinedValue);
         }
 
@@ -874,8 +862,44 @@ namespace BatchProcess::Internal {
         return definition;
     }
 
+    bool BatchProcessRuntime::resolveCandidate(const QString &path, const QString &scriptDirectory, ScriptCandidate *candidate, ErrorInfo *error) const {
+        const QFileInfo pathInfo(path);
+        const auto scriptPath = pathInfo.canonicalFilePath();
+        if (scriptPath.isEmpty() || (!scriptDirectory.isEmpty() && !isWithinDirectory(scriptDirectory, scriptPath))) {
+            *error = BatchProcessInterface::tr("The script path cannot be resolved within its root directory:\n%1").arg(nativeAbsolutePath(path));
+            return false;
+        }
+
+        if (pathInfo.isFile() && pathInfo.suffix().compare(QStringLiteral("js"), Qt::CaseInsensitive) == 0) {
+            candidate->scriptPath = scriptPath;
+            candidate->rootPath = scriptDirectory.isEmpty() ? QFileInfo(scriptPath).absolutePath() : scriptDirectory;
+            candidate->entryPath = scriptPath;
+            candidate->singleFile = true;
+        } else if (pathInfo.isDir()) {
+            const QFileInfo indexFile(QDir(pathInfo.absoluteFilePath()).filePath(QStringLiteral("index.js")));
+            if (!indexFile.isFile()) {
+                *error = BatchProcessInterface::tr("The script directory does not contain a regular index.js:\n%1").arg(nativeAbsolutePath(path));
+                return false;
+            }
+            const auto entryPath = indexFile.canonicalFilePath();
+            if (entryPath.isEmpty() || !isWithinDirectory(scriptPath, entryPath)) {
+                *error = BatchProcessInterface::tr("Module %1 resolves outside the script package.").arg(quoted(nativeAbsolutePath(indexFile.absoluteFilePath())));
+                return false;
+            }
+            candidate->scriptPath = scriptPath;
+            candidate->rootPath = scriptPath;
+            candidate->entryPath = entryPath;
+            candidate->singleFile = false;
+        } else {
+            *error = BatchProcessInterface::tr("The script path is not a JavaScript file or a script package directory:\n%1").arg(nativeAbsolutePath(path));
+            return false;
+        }
+        candidate->sortName = pathInfo.fileName();
+        return true;
+    }
+
     bool BatchProcessRuntime::loadCandidate(const ScriptCandidate &candidate, QSet<QString> *loadedIds) {
-        std::unique_ptr<Script> script(new Script(nativeAbsolutePath(candidate.scriptPath), nativeAbsolutePath(candidate.rootPath)));
+        std::unique_ptr<Script> script(new Script(nativeAbsolutePath(candidate.scriptPath), nativeAbsolutePath(candidate.rootPath), candidate.builtin));
         setCurrentScript(script.get());
 
         ErrorInfo error;
@@ -908,6 +932,9 @@ namespace BatchProcess::Internal {
             }
         }
 
+        if (error.isEmpty() && candidate.builtin && !candidate.owner) {
+            error = BatchProcessInterface::tr("The owner was destroyed while the built-in script was loading.");
+        }
         if (error.isEmpty() && selected == definitions.end()) {
             error = BatchProcessInterface::tr("The entry module must export the object returned by defineScript(), either directly or as module.exports.default.");
         }
@@ -920,13 +947,26 @@ namespace BatchProcess::Internal {
     }
 
     bool BatchProcessRuntime::loadBuiltinScript(const BuiltinScriptRegistration &registration, QSet<QString> *loadedIds) {
-        std::unique_ptr<Script> script(new Script(QString(), QString()));
+        if (const auto path = std::get_if<QString>(&registration.source)) {
+            ScriptCandidate candidate;
+            ErrorInfo error;
+            if (!resolveCandidate(*path, {}, &candidate, &error)) {
+                qCCritical(lcBatchProcessRuntime) << "Rejected built-in script path" << *path << error.diagnosticText;
+                reportLoadError(*path, error, true);
+                return false;
+            }
+            candidate.builtin = true;
+            candidate.owner = registration.owner;
+            return loadCandidate(candidate, loadedIds);
+        }
+
+        std::unique_ptr<Script> script(new Script(QString(), QString(), true));
         setCurrentScript(script.get());
 
         ErrorInfo error;
         QJSValue definition;
         const auto owner = registration.owner;
-        const auto factory = registration.factory;
+        const auto factory = std::get<BatchProcessInterface::BuiltinScriptFactory>(registration.source);
         try {
             definition = factory(m_context.get());
             if (m_engine->hasError()) {
@@ -1020,8 +1060,8 @@ namespace BatchProcess::Internal {
     }
 
     void BatchProcessRuntime::rejectScript(Script *script, const ErrorInfo &error) {
-        qCCritical(lcBatchProcessRuntime) << (script->filePath().isEmpty() ? "Rejected built-in script" : "Rejected script candidate") << script->filePath() << error.diagnosticText;
-        reportLoadError(script->filePath(), error);
+        qCCritical(lcBatchProcessRuntime) << (script->isBuiltin() ? "Rejected built-in script" : "Rejected script candidate") << script->filePath() << error.diagnosticText;
+        reportLoadError(script->filePath(), error, script->isBuiltin());
         purgeScriptModules(script);
         m_definitions.remove(script);
         clearExecutionContext();
@@ -1173,9 +1213,9 @@ namespace BatchProcess::Internal {
         return m_context.get();
     }
 
-    void BatchProcessRuntime::reportLoadError(const QString &scriptPath, const ErrorInfo &error) const {
+    void BatchProcessRuntime::reportLoadError(const QString &scriptPath, const ErrorInfo &error, bool builtin) const {
         appendConsoleError(error.message, error.stackTrace);
-        if (scriptPath.isEmpty()) {
+        if (builtin) {
             Core::CoreInterface::sendNotification(
                 SVS::SVSCraft::Critical,
                 BatchProcessInterface::tr("Batch Process"),

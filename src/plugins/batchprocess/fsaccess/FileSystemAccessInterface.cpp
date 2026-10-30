@@ -651,7 +651,7 @@ namespace BatchProcess {
         }
         const auto packagePath = context->script()->filePath();
         if (packagePath.isEmpty()) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::NotSupported, QStringLiteral("scriptPackage"), {}, tr("Built-in scripts do not have a file-system package."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::NotSupported, QStringLiteral("scriptPackage"), {}, tr("The script does not have a file-system package."));
             return {};
         }
         QFileInfo packageInfo(packagePath);

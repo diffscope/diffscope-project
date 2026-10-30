@@ -9,14 +9,20 @@ namespace BatchProcess {
     ScriptPrivate::ScriptPrivate(Script *q) : q_ptr(q) {
     }
 
-    Script::Script(const QString &filePath, const QString &rootPath, QObject *parent)
+    Script::Script(const QString &filePath, const QString &rootPath, bool builtin, QObject *parent)
         : QObject(parent), d_ptr(new ScriptPrivate(this)) {
         Q_D(Script);
+        d->builtin = builtin;
         d->filePath = filePath;
         d->rootPath = rootPath;
     }
 
     Script::~Script() = default;
+
+    bool Script::isBuiltin() const {
+        Q_D(const Script);
+        return d->builtin;
+    }
 
     QString Script::filePath() const {
         Q_D(const Script);

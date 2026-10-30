@@ -92,6 +92,7 @@ namespace BatchProcess {
             QJSValue loadFileModule(Script *script, const QString &rootPath, const QString &entryPath, const QString &filePath, bool singleFile, ErrorInfo *errorInfo);
             QJSValue loadRegisteredModule(const QString &name, QString *errorMessage);
 
+            bool resolveCandidate(const QString &path, const QString &scriptDirectory, ScriptCandidate *candidate, ErrorInfo *errorInfo) const;
             bool loadCandidate(const ScriptCandidate &candidate, QSet<QString> *loadedIds);
             bool loadBuiltinScript(const BuiltinScriptRegistration &registration, QSet<QString> *loadedIds);
             bool commitScript(std::unique_ptr<Script> script, const DefinitionRecord &definition, QSet<QString> *loadedIds);
@@ -101,7 +102,7 @@ namespace BatchProcess {
             void setCurrentScript(Script *script);
             void rejectScript(Script *script, const ErrorInfo &errorInfo);
             void purgeScriptModules(Script *script);
-            void reportLoadError(const QString &scriptPath, const ErrorInfo &errorInfo) const;
+            void reportLoadError(const QString &scriptPath, const ErrorInfo &errorInfo, bool builtin = false) const;
             void reportRuntimeError(const QString &component, const ErrorInfo &errorInfo) const;
             void reportExecutionError(ScriptAction *action, Core::ActionWindowInterfaceBase *windowInterface, const ErrorInfo &errorInfo) const;
             ErrorInfo errorInfo(const QJSValue &error, const QString &moduleId = {}) const;

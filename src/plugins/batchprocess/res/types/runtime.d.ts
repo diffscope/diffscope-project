@@ -87,17 +87,23 @@ declare module "diffscope:runtime" {
          */
         readonly metadata: Readonly<ScriptMetadata>;
 
+        /** Indicates whether the script is registered as a built-in script. */
+        readonly isBuiltin: boolean;
+
         /**
          * The native absolute entry-file path for a single-file script, the native
          * absolute package-directory path for a multi-file script, or an empty
-         * string for a built-in script.
+         * string for a script registered with a factory.
          */
         readonly scriptPath: string;
 
         /**
-         * The configured Scripts directory for a single-file script, the package
-         * directory for a multi-file script, or an empty string for a built-in
-         * script. This is the package-root boundary used for file resolution.
+         * The configured Scripts directory for a user single-file script, the
+         * containing directory for a built-in single-file script, the package
+         * directory for a multi-file script, or an empty string for a script
+         * registered with a factory. File module resolution is restricted to the
+         * entry file for single-file scripts and to this root directory for
+         * multi-file scripts.
          */
         readonly scriptRoot: string;
 

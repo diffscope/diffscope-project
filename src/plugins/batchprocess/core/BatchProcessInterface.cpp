@@ -8,6 +8,7 @@
 #include <utility>
 
 #include <QDir>
+#include <QFileInfo>
 #include <QJSEngine>
 #include <QLoggingCategory>
 #include <QMutexLocker>
@@ -128,6 +129,22 @@ namespace BatchProcess {
         d->builtinScriptRegistrations.append({owner, std::move(factory)});
         d->watchOwner(owner);
         qCDebug(lcBatchProcessInterface) << "Registered built-in script";
+        return true;
+    }
+
+    bool BatchProcessInterface::registerBuiltinScriptPath(QObject *owner, const QString &path) {
+        Q_D(BatchProcessInterface);
+        const QFileInfo pathInfo(path);
+        const auto singleFile = pathInfo.isFile() && pathInfo.suffix().compare(QStringLiteral("js"), Qt::CaseInsensitive) == 0;
+        const auto package = pathInfo.isDir() && QFileInfo(QDir(pathInfo.absoluteFilePath()).filePath(QStringLiteral("index.js"))).isFile();
+        if (!owner || path.isEmpty() || (!singleFile && !package)) {
+            qCWarning(lcBatchProcessInterface) << "Rejected built-in script path registration" << path;
+            return false;
+        }
+        const auto absolutePath = pathInfo.absoluteFilePath();
+        d->builtinScriptRegistrations.append({owner, absolutePath});
+        d->watchOwner(owner);
+        qCDebug(lcBatchProcessInterface) << "Registered built-in script path" << absolutePath;
         return true;
     }
 

@@ -28,7 +28,9 @@ namespace BatchProcess {
     public:
         ~Script() override;
 
-        /** Empty for a built-in script; otherwise the physical entry file or package directory. */
+        /** Returns whether the script is registered as a built-in script. */
+        bool isBuiltin() const;
+        /** Returns the physical entry file or package directory, or an empty string for a script registered with a factory. */
         QString filePath() const;
         ScriptMetadata metadata() const;
         QList<ScriptAction *> actions() const;
@@ -38,7 +40,7 @@ namespace BatchProcess {
         friend class Internal::RuntimeModuleExtension;
         friend class FileSystemAccessInterface;
         friend class FileSystemAccessInterfacePrivate;
-        explicit Script(const QString &filePath, const QString &rootPath, QObject *parent = nullptr);
+        explicit Script(const QString &filePath, const QString &rootPath, bool builtin, QObject *parent = nullptr);
 
         QScopedPointer<ScriptPrivate> d_ptr;
     };

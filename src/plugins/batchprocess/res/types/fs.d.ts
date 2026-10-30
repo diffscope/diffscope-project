@@ -284,8 +284,9 @@ declare module "diffscope:fs" {
     export function getDirectory(path: string, options?: DirectoryHandleOptions): DirectoryHandle;
 
     /**
-     * Returns a read-only capability for the current user script package without requesting
-     * permission. A built-in script has no package and receives a `notSupported` error.
+     * Returns a read-only capability for the current script package without requesting
+     * permission. A script registered with a factory has no package and receives a
+     * `notSupported` error.
      */
     export function scriptPackage(): ScriptPackageHandle;
 
@@ -333,7 +334,7 @@ declare module "diffscope:fs" {
 
     /**
      * Resolves path parts without accessing the file system. If no part is absolute, the current
-     * user script root is used. Built-in scripts must provide an absolute component.
+     * script root is used. Scripts registered with a factory must provide an absolute component.
      */
     export function resolve(...parts: readonly string[]): string;
 

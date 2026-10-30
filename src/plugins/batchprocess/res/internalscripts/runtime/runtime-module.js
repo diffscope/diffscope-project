@@ -18,7 +18,7 @@
     }
 
     const script = {};
-    for (const property of ["metadata", "scriptPath", "scriptRoot", "locale", "platform", "kind", "action", "actionIndex"]) {
+    for (const property of ["metadata", "isBuiltin", "scriptPath", "scriptRoot", "locale", "platform", "kind", "action", "actionIndex"]) {
         Object.defineProperty(script, property, {
             configurable: false,
             enumerable: true,

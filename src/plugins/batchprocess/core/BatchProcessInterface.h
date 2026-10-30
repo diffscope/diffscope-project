@@ -48,6 +48,12 @@ namespace BatchProcess {
 
         /** Creates a built-in script in each newly created engine. The factory returns an object from that engine which is accepted by defineScript(). */
         bool registerBuiltinScript(QObject *owner, BuiltinScriptFactory factory);
+        /**
+         * Registers a JavaScript file or a directory containing index.js as a built-in script.
+         * Relative paths are resolved at registration. Loading occurs in each newly created engine while owner exists.
+         * Returns true if registration succeeds, or false if owner is null or the path is invalid.
+         */
+        bool registerBuiltinScriptPath(QObject *owner, const QString &path);
         /** Registrations are replayed when the next engine is created. File-like and operating-system absolute names are rejected. */
         bool registerModule(const QString &name, QObject *owner, ModuleFactory factory);
         /** Installs a read-only property on each newly created engine global object. */

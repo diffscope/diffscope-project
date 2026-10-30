@@ -14,6 +14,7 @@ namespace BatchProcess {
         explicit ScriptPrivate(Script *q);
 
         Script *q_ptr;
+        bool builtin{};
         QString filePath;
         QString rootPath;
         ScriptMetadata metadata;

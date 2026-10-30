@@ -168,6 +168,7 @@ namespace BatchProcess::Internal {
 
         auto runtime = engine->newObject();
         runtime.setProperty(QStringLiteral("metadata"), metadata);
+        runtime.setProperty(QStringLiteral("isBuiltin"), script->isBuiltin());
         runtime.setProperty(QStringLiteral("scriptPath"), script->filePath());
         runtime.setProperty(QStringLiteral("scriptRoot"), script->d_func()->rootPath);
         runtime.setProperty(QStringLiteral("locale"), QLocale().bcp47Name());

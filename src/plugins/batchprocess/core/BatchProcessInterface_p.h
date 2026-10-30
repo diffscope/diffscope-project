@@ -7,6 +7,7 @@
 #include <batchprocess/BatchProcessInterface.h>
 
 #include <memory>
+#include <variant>
 
 #include <QMutex>
 #include <QPointer>
@@ -25,7 +26,7 @@ namespace BatchProcess {
     public:
         struct BuiltinScriptRegistration {
             QPointer<QObject> owner;
-            BatchProcessInterface::BuiltinScriptFactory factory;
+            std::variant<BatchProcessInterface::BuiltinScriptFactory, QString> source;
         };
 
         struct ModuleRegistration {
