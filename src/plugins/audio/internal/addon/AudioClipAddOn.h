@@ -42,8 +42,6 @@ namespace Audio::Internal {
 
     private:
         talcs::AbstractAudioFormatIO *openAudioFile(QString *fileName, QVariant *userData, QString *entryClassName);
-        dspx::AudioPathInfo audioPathFromFile(const QString &filePath, const QVariant &userData, const QString &entryClassName) const;
-        void updateAudioPathLocation(dspx::AudioPathInfo *path, const QString &filePath) const;
     };
 
 }
