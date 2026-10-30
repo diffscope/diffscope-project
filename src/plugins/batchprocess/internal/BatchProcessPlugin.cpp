@@ -3,6 +3,7 @@
 
 #include "BatchProcessPlugin.h"
 
+#include <QDir>
 #include <QLoggingCategory>
 
 #include <CoreApi/runtimeinterface.h>
@@ -18,6 +19,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <batchprocess/BatchProcessInterface.h>
+#include <batchprocess/DocumentInterface.h>
 #include <batchprocess/FileSystemAccessInterface.h>
 #include <batchprocess/JavaScriptConsoleInterface.h>
 #include <batchprocess/ShellInterface.h>
@@ -25,6 +27,7 @@
 #include <batchprocess/internal/BatchProcessAddOn.h>
 #include <batchprocess/internal/BatchProcessPage.h>
 #include <batchprocess/internal/BatchProcessSettings.h>
+#include <batchprocess/internal/CoreModuleExtension.h>
 #include <batchprocess/internal/FileSystemModuleExtension.h>
 #include <batchprocess/internal/JavaScriptConsoleAddOn.h>
 #include <batchprocess/internal/JavaScriptConsoleExtension.h>
@@ -55,11 +58,19 @@ namespace BatchProcess::Internal {
         auto fileSystemAccessInterface = new FileSystemAccessInterface(this);
         auto shellInterface = new ShellInterface(this);
         auto storageInterface = new StorageInterface(this);
+        auto documentInterface = new DocumentInterface(this);
         new JavaScriptConsoleExtension(batchProcessInterface, consoleInterface, this);
         new FileSystemModuleExtension(batchProcessInterface, fileSystemAccessInterface, this);
         new ShellModuleExtension(batchProcessInterface, shellInterface, fileSystemAccessInterface, this);
         new StorageModuleExtension(batchProcessInterface, storageInterface, this);
+        new CoreModuleExtension(batchProcessInterface, documentInterface, this);
         new RuntimeModuleExtension(batchProcessInterface, this);
+
+        const QDir builtinDirectory(QStringLiteral(":/diffscope/batchprocess/builtin"));
+        const auto builtinProjects = builtinDirectory.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+        for (const auto &builtinProject : builtinProjects) {
+            batchProcessInterface->registerBuiltinScriptPath(this, builtinProject.absoluteFilePath());
+        }
 
         Core::CoreInterface::actionRegistry()->addExtension(::batchprocessActionExtension());
         Core::HomeWindowInterfaceRegistry::instance()->attach<BatchProcessAddOn>();

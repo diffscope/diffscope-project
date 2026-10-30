@@ -27,6 +27,12 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QAKCore
         QAKQuick
         coreplugin
+        dspxmodelCore
+        dspxmodelORM
+        dspxmodelSelectionModel
+        opendspx::model
+        opendspx::serializer
+        transactional
         svscraft::Gui
         svscraft::Quick
         svscraft::FluentSystemIcons
@@ -35,9 +41,16 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
 )
 
 file(GLOB_RECURSE _internal_scripts "${CMAKE_CURRENT_SOURCE_DIR}/res/internalscripts/*")
+file(GLOB_RECURSE _builtin_scripts "${CMAKE_CURRENT_SOURCE_DIR}/res/builtin/*")
 
 qt_add_resources(${PROJECT_NAME} batchprocess_runtime
     PREFIX "/diffscope/batchprocess/internalscripts"
     BASE "${CMAKE_CURRENT_SOURCE_DIR}/res/internalscripts"
     FILES ${_internal_scripts}
+)
+
+qt_add_resources(${PROJECT_NAME} batchprocess_builtin
+    PREFIX "/diffscope/batchprocess/builtin"
+    BASE "${CMAKE_CURRENT_SOURCE_DIR}/res/builtin"
+    FILES ${_builtin_scripts}
 )
