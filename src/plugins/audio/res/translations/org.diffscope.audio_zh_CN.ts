@@ -340,37 +340,37 @@
 <context>
     <name>Audio::Internal::AudioClipAddOn</name>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="155"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="149"/>
         <source>Open Audio File</source>
         <translation type="unfinished">打开音频文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="167"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="161"/>
         <source>Failed to open audio file</source>
         <translation type="unfinished">打开音频文件失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="168"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="162"/>
         <source>Unable to open &quot;%1&quot; as an audio file.</source>
         <translation type="unfinished">无法将“%1”作为音频文件打开。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="279"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="238"/>
         <source>Inserting audio clip</source>
         <translation type="unfinished">插入音频剪辑</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="323"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="262"/>
         <source>Updating audio clip path</source>
         <translation type="unfinished">更新音频剪辑路径</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="350"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="289"/>
         <source>Updating audio clip digest</source>
         <translation type="unfinished">更新音频剪辑摘要</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="379"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="318"/>
         <source>Replacing audio clip</source>
         <translation type="unfinished">替换音频剪辑</translation>
     </message>

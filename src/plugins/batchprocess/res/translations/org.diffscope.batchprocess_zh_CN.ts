@@ -165,8 +165,8 @@
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="654"/>
-        <source>Built-in scripts do not have a file-system package.</source>
-        <translation type="unfinished">内置脚本没有文件系统包。</translation>
+        <source>The script does not have a file-system package.</source>
+        <translation type="unfinished">脚本没有文件系统包。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="665"/>
@@ -783,226 +783,253 @@
 <context>
     <name>BatchProcessInterface</name>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="62"/>
         <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="70"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="78"/>
         <source>The runtime module is no longer available.</source>
         <translation type="unfinished">运行时模块已不可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="131"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="139"/>
         <source>Runtime script information is only available while a script action is executing.</source>
         <translation type="unfinished">运行时脚本信息仅在脚本操作执行期间可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="140"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="148"/>
         <source>The current script action is not part of the current script.</source>
         <translation type="unfinished">当前脚本操作不属于当前脚本。</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="183"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="190"/>
         <source>No script action is currently executing.</source>
         <translation type="unfinished">当前没有正在执行的脚本操作。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="52"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="53"/>
         <source>A registered callback threw an unknown C++ exception.</source>
         <translation type="unfinished">已注册的回调抛出未知的 C++ 异常。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="56"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="57"/>
         <source>A built-in script factory threw an unknown C++ exception.</source>
         <translation type="unfinished">内置脚本工厂抛出未知的 C++ 异常。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="426"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="429"/>
         <source>Failed to create the script directory:
 %1</source>
         <translation type="unfinished">无法创建脚本目录：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="434"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="437"/>
         <source>The script directory cannot be resolved:
 %1</source>
         <translation type="unfinished">无法解析脚本目录：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="527"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="515"/>
         <source>The owner was destroyed while the global object factory was running.</source>
         <translation type="unfinished">全局对象工厂运行期间，所有者已被销毁。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="561"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="568"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="572"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="549"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="556"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="560"/>
         <source>Engine extension</source>
         <translation type="unfinished">引擎扩展</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="580"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="568"/>
         <source>The script package that created this require() function is no longer active.</source>
         <translation type="unfinished">创建此 require() 函数的脚本包已不再处于活动状态。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="615"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="603"/>
         <source>The global require() function is only available while a built-in script is loading or executing.</source>
         <translation type="unfinished">全局 require() 函数仅在内置脚本加载或执行期间可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="619"/>
-        <source>Built-in scripts may only require registered modules: %1.</source>
-        <translation type="unfinished">内置脚本仅可通过 require 加载已注册的模块：%1。</translation>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="607"/>
+        <source>The global require() function may only load registered modules: %1.</source>
+        <translation type="unfinished">全局 require() 函数仅可加载已注册的模块：%1。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="643"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="631"/>
         <source>Unknown registered module %1.</source>
         <translation type="unfinished">未知的已注册模块 %1。</translation>
     </message>
     <message>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="641"/>
         <location filename="../../internal/BatchProcessRuntime.cpp" line="653"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="665"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="667"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="655"/>
         <source>Factory for module %1 failed:
 %2</source>
         <translation type="unfinished">模块 %1 的工厂执行失败：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="658"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="646"/>
         <source>The owner of module %1 was destroyed while its factory was running.</source>
         <translation type="unfinished">模块 %1 的工厂运行期间，其所有者已被销毁。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="680"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="668"/>
         <source>Invalid file module specifier %1.</source>
         <translation type="unfinished">文件模块说明符 %1 无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="692"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="680"/>
         <source>Unsupported module extension in %1.</source>
         <translation type="unfinished">%1 中的模块扩展名不受支持。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="706"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="694"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="886"/>
         <source>Module %1 resolves outside the script package.</source>
         <translation type="unfinished">模块 %1 解析后的路径超出脚本包范围。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="714"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="702"/>
         <source>Cannot find module %1.</source>
         <translation type="unfinished">找不到模块 %1。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="742"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="730"/>
         <source>Failed to read module %1.</source>
         <translation type="unfinished">无法读取模块 %1。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="747"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="735"/>
         <source>Failed to parse JSON module %1 at offset %L2: %3</source>
         <translation type="unfinished">无法解析 JSON 模块 %1，偏移量为 %L2：%3</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="795"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="783"/>
         <source>The script package that created this defineScript() function is no longer active.</source>
         <translation type="unfinished">创建此 defineScript() 函数的脚本包已不再处于活动状态。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="800"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="788"/>
         <source>Script property %1 must be a string.</source>
         <translation type="unfinished">脚本属性 %1 必须是字符串。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="804"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="792"/>
         <source>Script property %1 must be a non-empty string.</source>
         <translation type="unfinished">脚本属性 %1 必须是非空字符串。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="812"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="800"/>
         <source>defineScript() requires an object.</source>
         <translation type="unfinished">defineScript() 需要一个对象。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="828"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="816"/>
         <source>Script property %1 must be a string when provided.</source>
         <translation type="unfinished">脚本属性 %1 在提供时必须是字符串。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="835"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="823"/>
         <source>Script property %1 must be an array.</source>
         <translation type="unfinished">脚本属性 %1 必须是数组。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="844"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="832"/>
         <source>Script action %L1 must be an object.</source>
         <translation type="unfinished">脚本操作 %L1 必须是对象。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="853"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="841"/>
         <source>Script action name %1 is duplicated.</source>
         <translation type="unfinished">脚本操作名称 %1 重复。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="859"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="847"/>
         <source>Action property %1 must be a boolean when provided.</source>
         <translation type="unfinished">操作属性 %1 在提供时必须是布尔值。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="864"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="852"/>
         <source>Action property %1 must be a function.</source>
         <translation type="unfinished">操作属性 %1 必须是函数。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="890"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="869"/>
+        <source>The script path cannot be resolved within its root directory:
+%1</source>
+        <translation type="unfinished">无法在脚本的根目录内解析脚本路径：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="881"/>
+        <source>The script directory does not contain a regular index.js:
+%1</source>
+        <translation type="unfinished">脚本目录中没有普通文件 index.js：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="894"/>
+        <source>The script path is not a JavaScript file or a script package directory:
+%1</source>
+        <translation type="unfinished">脚本路径不是 JavaScript 文件或脚本包目录：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="914"/>
         <source>The entry module did not call defineScript().</source>
         <translation type="unfinished">入口模块未调用 defineScript()。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="912"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="936"/>
+        <source>The owner was destroyed while the built-in script was loading.</source>
+        <translation type="unfinished">内置脚本加载期间，所有者已被销毁。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="939"/>
         <source>The entry module must export the object returned by defineScript(), either directly or as module.exports.default.</source>
         <translation type="unfinished">入口模块必须直接导出 defineScript() 返回的对象，或将其作为 module.exports.default 导出。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="937"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="977"/>
         <source>The owner was destroyed while the built-in script factory was running.</source>
         <translation type="unfinished">内置脚本工厂运行期间，所有者已被销毁。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="979"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1019"/>
         <source>The built-in script factory did not return a valid script definition.</source>
         <translation type="unfinished">内置脚本工厂未返回有效的脚本定义。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="991"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1031"/>
         <source>Script ID %1 is already loaded.</source>
         <translation type="unfinished">脚本 ID %1 已加载。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1052"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1092"/>
         <source>Project Required</source>
         <translation type="unfinished">需要工程</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1053"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1093"/>
         <source>The action %1 requires an open project.</source>
         <translation type="unfinished">操作 %1 需要已打开的工程。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1106"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1146"/>
         <source>The action returned a Promise or another thenable. Batch Process actions must complete synchronously.</source>
         <translation type="unfinished">操作返回了 Promise 或其他 thenable 对象。批处理操作必须同步完成。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1181"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1188"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1197"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1207"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1221"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1228"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1237"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1247"/>
         <source>Batch Process</source>
         <translation type="unfinished">批处理</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1182"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1222"/>
         <source>Failed to load a built-in script:
 
 %1</source>
@@ -1011,7 +1038,7 @@
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1189"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1229"/>
         <source>Failed to load script %1:
 
 %2</source>
@@ -1020,7 +1047,7 @@
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1198"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1238"/>
         <source>Failed to initialize %1:
 
 %2</source>
@@ -1029,7 +1056,7 @@
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1208"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1248"/>
         <source>Script %1, action %2 failed:
 
 %3</source>
@@ -1038,22 +1065,22 @@
 %3</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1236"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1276"/>
         <source>The script threw a function value.</source>
         <translation type="unfinished">脚本抛出了函数值。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1238"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1278"/>
         <source>The script threw a non-Error object.</source>
         <translation type="unfinished">脚本抛出了非 Error 对象。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1243"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1283"/>
         <source>The script threw an unidentified value.</source>
         <translation type="unfinished">脚本抛出了无法识别的值。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1258"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1298"/>
         <source>Location: %1</source>
         <translation type="unfinished">位置：%1</translation>
     </message>
@@ -1116,6 +1143,28 @@
         <location filename="../../qml/settings/BatchProcessPage.qml" line="137"/>
         <source>Maximum Retained Messages</source>
         <translation type="unfinished">保留消息数量上限</translation>
+    </message>
+</context>
+<context>
+    <name>Core::CoreInterface</name>
+    <message>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="707"/>
+        <source>Untitled</source>
+        <translation type="unfinished">无标题</translation>
+    </message>
+</context>
+<context>
+    <name>DocumentInterface</name>
+    <message>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="160"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="561"/>
+        <source>The script document operation is not available in the current state.</source>
+        <translation type="unfinished">脚本文档操作在当前状态下不可用。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="322"/>
+        <source>Cleaning up script objects</source>
+        <translation type="unfinished">清理脚本对象</translation>
     </message>
 </context>
 <context>
@@ -1206,22 +1255,22 @@
 <context>
     <name>ShellFormDialog</name>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="130"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="129"/>
         <source>A value is required.</source>
         <translation type="unfinished">必须输入一个值。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="132"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="131"/>
         <source>Enter at least %1 characters.</source>
         <translation type="unfinished">请至少输入 %1 个字符。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="134"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="133"/>
         <source>Enter no more than %1 characters.</source>
         <translation type="unfinished">请输入不超过 %1 个字符。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="136"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="135"/>
         <source>The value does not match the required format.</source>
         <translation type="unfinished">该值不符合所需格式。</translation>
     </message>

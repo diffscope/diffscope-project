@@ -308,7 +308,7 @@
     <message>
         <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="37"/>
         <source>Output %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Output %1</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="70"/>
@@ -323,37 +323,37 @@
     <message>
         <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="100"/>
         <source>Output Routing</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Output Routing</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="110"/>
         <source>Output track count</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Output track count</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="134"/>
         <source>Extractor track</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Extractor track</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="140"/>
         <source>Output track</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Output track</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="169"/>
         <source>Output track for %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Output track for %1</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="35"/>
         <source>Do Not Output</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Do Not Output</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="185"/>
         <source>Assign at least one extractor track to each output track.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Assign at least one extractor track to each output track.</translation>
     </message>
 </context>
 <context>
@@ -1755,28 +1755,28 @@ Some files could not be restored. Backups are in %2.
     <message>
         <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="144"/>
         <source>The extractor has an invalid track layout.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The extractor has an invalid track layout.</translation>
     </message>
     <message>
         <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="149"/>
         <source>The output routing is invalid.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The output routing is invalid.</translation>
     </message>
     <message>
         <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="195"/>
         <source>The extractor track layout changed. Refresh the extractors and configure the output routing again.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The extractor track layout changed. Refresh the extractors and configure the output routing again.</translation>
     </message>
     <message>
         <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="316"/>
         <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="323"/>
         <source>The separated tracks do not match the extractor track layout.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The separated tracks do not match the extractor track layout.</translation>
     </message>
     <message>
         <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="154"/>
         <source>Assign at least one extractor track to each output track.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Assign at least one extractor track to each output track.</translation>
     </message>
 </context>
 <context>
@@ -2225,14 +2225,14 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="183"/>
         <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="197"/>
         <source>Could not open the separated audio for mixing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Could not open the separated audio for mixing.</translation>
     </message>
     <message>
         <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="177"/>
         <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="207"/>
         <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="211"/>
         <source>Could not mix the separated audio.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Could not mix the separated audio.</translation>
     </message>
 </context>
 <context>

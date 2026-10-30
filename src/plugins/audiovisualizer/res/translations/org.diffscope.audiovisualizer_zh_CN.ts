@@ -30,6 +30,42 @@
     </message>
 </context>
 <context>
+    <name>AudioVisualizer::Internal::AudioFileDropAddOn</name>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="163"/>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="200"/>
+        <source>Audio import failed</source>
+        <translation type="unfinished">音频导入失败</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="163"/>
+        <source>Audio files cannot be imported while another edit is active.</source>
+        <translation type="unfinished">其他编辑操作正在进行时，无法导入音频文件。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="200"/>
+        <source>The audio clips could not be inserted.</source>
+        <translation type="unfinished">无法插入音频剪辑。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="203"/>
+        <source>Importing audio files</source>
+        <translation type="unfinished">导入音频文件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="216"/>
+        <source>Audio files skipped</source>
+        <translation type="unfinished">已跳过音频文件</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="216"/>
+        <source>The following audio files could not be imported:
+%1</source>
+        <translation type="unfinished">以下音频文件无法导入：
+%1</translation>
+    </message>
+</context>
+<context>
     <name>AudioVisualizer::Internal::MasterTrackAddOn</name>
     <message>
         <location filename="../../internal/addon/MasterTrackAddOn.cpp" line="71"/>
@@ -40,40 +76,6 @@
         <location filename="../../internal/addon/MasterTrackAddOn.cpp" line="113"/>
         <source>Device Output</source>
         <translation type="unfinished">设备输出</translation>
-    </message>
-</context>
-<context>
-    <name>AudioVisualizer::Internal::AudioFileDropAddOn</name>
-    <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
-        <source>Audio import failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
-        <source>Audio files cannot be imported while another edit is active.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
-        <source>The audio clips could not be inserted.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
-        <source>Importing audio files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
-        <source>Audio files skipped</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp"/>
-        <source>The following audio files could not be imported:
-%1</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
