@@ -40,8 +40,8 @@ Item {
     property bool noteDrawing: false
     property bool noteStartCursorActive: false
     property bool noteEndCursorActive: false
-    property Item noteSelectionLayer: null
-    property int noteSelectionTimeCursorPosition: -1
+    property Item selectionLayer: null
+    property int selectionTimeCursorPosition: -1
     property ParameterAnchorViewModel pitchAnchorBeingEdited: null
     property bool pitchAnchorMoving: false
     property bool pitchFreeEditing: false
@@ -56,7 +56,7 @@ Item {
     readonly property bool unalignedCursorToolActive:
         (pianoRollPanelInterface?.pitchToolActive ?? false)
         || pianoRollPanelInterface?.tool === PianoRollPanelInterface.SelectTool
-        || noteSelectionLayer !== null
+        || selectionLayer !== null
     readonly property bool pitchHoverCursorActive:
         pitchEditor.enabled && pitchHovered
         && !(pianoRollPanelInterface?.mouseTrackingDisabled ?? true)
@@ -73,12 +73,12 @@ Item {
         return hoveredSource
     }
     readonly property bool timeCursorBoundByEdit:
-        noteSelectionLayer !== null || noteStartCursorActive || noteEndCursorActive
+        selectionLayer !== null || noteStartCursorActive || noteEndCursorActive
         || pitchAnchorMoving || pitchFreeEditing || pitchHoverCursorActive
         || activeTimeCursorSource !== null
     readonly property int editTimeCursorPosition: {
-        if (noteSelectionLayer)
-            return noteSelectionTimeCursorPosition
+        if (selectionLayer)
+            return selectionTimeCursorPosition
         if (noteStartCursorActive || noteEndCursorActive) {
             return mapClipPositionToTimeline(
                 (noteBeingEdited?.position ?? 0)
@@ -99,7 +99,7 @@ Item {
     }
 
     onActiveTimeCursorSourceChanged: refreshCursorPositions()
-    onNoteSelectionLayerChanged: refreshCursorPositions()
+    onSelectionLayerChanged: refreshCursorPositions()
 
     readonly property var singerBackgroundIds:
         flattenUniqueSingerIds(singerBackgroundIdProvider.singerTree)
@@ -170,7 +170,7 @@ Item {
     }
 
     function clearHoverCursorPositions() {
-        if (view.noteSelectionLayer)
+        if (view.selectionLayer)
             return
         if (!view.timeCursorBoundByEdit && !view.cursorPositionsHiddenBySelection
                 && view.pianoRollPanelInterface?.timeLayoutViewModel) {
@@ -186,8 +186,8 @@ Item {
     }
 
     function updateCursorPositionsFromHover(point) {
-        if (view.noteSelectionLayer) {
-            view.updateNoteSelectionCursorPositions()
+        if (view.selectionLayer) {
+            view.updateSelectionCursorPositions()
             return
         }
         if (view.cursorPositionsHiddenBySelection) {
@@ -226,8 +226,8 @@ Item {
     function refreshCursorPositions() {
         if (view.cursorPositionsHiddenBySelection) {
             view.hideCursorPositionsForSelection()
-        } else if (view.noteSelectionLayer) {
-            view.updateNoteSelectionCursorPositions()
+        } else if (view.selectionLayer) {
+            view.updateSelectionCursorPositions()
         } else if (pianoRollHoverHandler.enabled && pianoRollHoverHandler.hovered) {
             view.updateCursorPositionsFromHover(pianoRollHoverHandler.point.position)
         } else {
@@ -235,22 +235,22 @@ Item {
         }
     }
 
-    function updateNoteSelectionCursorPositions() {
-        if (!view.noteSelectionLayer || !noteSelectionPointerHandler.active)
+    function updateSelectionCursorPositions() {
+        if (!view.selectionLayer || !selectionPointerHandler.active)
             return
-        const p = noteSelectionPointerTracker.mapToItem(
-            pianoRollViewContainer, noteSelectionPointerHandler.point.position)
-        view.noteSelectionTimeCursorPosition = Math.max(0,
+        const p = selectionPointerTracker.mapToItem(
+            pianoRollViewContainer, selectionPointerHandler.point.position)
+        view.selectionTimeCursorPosition = Math.max(0,
             cursorTimeManipulator.mapToPosition(p.x))
         view.unalignedClavierCursorPosition = Math.max(0.0, Math.min(128.0,
             cursorClavierManipulator.mapToPosition(p.y) - 0.5))
     }
 
-    function endNoteSelection(noteEditLayer) {
-        if (view.noteSelectionLayer !== noteEditLayer)
+    function endSelection(layer) {
+        if (view.selectionLayer !== layer)
             return
-        view.noteSelectionLayer = null
-        view.noteSelectionTimeCursorPosition = -1
+        view.selectionLayer = null
+        view.selectionTimeCursorPosition = -1
     }
 
     function beginPitchHover(editor) {
@@ -440,15 +440,15 @@ Item {
         }
 
         function onRubberBandDraggingStarted(noteEditLayer) {
-            view.noteSelectionLayer = noteEditLayer
+            view.selectionLayer = noteEditLayer
         }
 
         function onRubberBandDraggingCommitted(noteEditLayer) {
-            view.endNoteSelection(noteEditLayer)
+            view.endSelection(noteEditLayer)
         }
 
         function onRubberBandDraggingAborted(noteEditLayer) {
-            view.endNoteSelection(noteEditLayer)
+            view.endSelection(noteEditLayer)
         }
 
         function onContextMenuRequested() {
@@ -499,18 +499,18 @@ Item {
         function onFreeRangeSelectingStarted(editor) {
             if (editor === pitchEditor) {
                 view.pitchHovered = false
-                view.beginCursorPositionHidingSelection(editor)
+                view.selectionLayer = editor
             }
         }
 
         function onFreeRangeSelectingCommitted(editor) {
             if (editor === pitchEditor)
-                view.endCursorPositionHidingSelection(editor)
+                view.endSelection(editor)
         }
 
         function onFreeRangeSelectingAborted(editor) {
             if (editor === pitchEditor)
-                view.endCursorPositionHidingSelection(editor)
+                view.endSelection(editor)
         }
 
         function onAnchorRubberBandDraggingStarted(editor) {
@@ -590,28 +590,28 @@ Item {
 
     Connections {
         target: view.pianoRollPanelInterface?.timeViewModel ?? null
-        enabled: view.noteSelectionLayer !== null
+        enabled: view.selectionLayer !== null
         function onStartChanged() {
-            view.updateNoteSelectionCursorPositions()
+            view.updateSelectionCursorPositions()
         }
     }
 
     Connections {
         target: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
-        enabled: view.noteSelectionLayer !== null
+        enabled: view.selectionLayer !== null
         function onPixelDensityChanged() {
-            view.updateNoteSelectionCursorPositions()
+            view.updateSelectionCursorPositions()
         }
     }
 
     Connections {
         target: view.pianoRollPanelInterface?.clavierViewModel ?? null
-        enabled: view.noteSelectionLayer !== null
+        enabled: view.selectionLayer !== null
         function onStartChanged() {
-            view.updateNoteSelectionCursorPositions()
+            view.updateSelectionCursorPositions()
         }
         function onPixelDensityChanged() {
-            view.updateNoteSelectionCursorPositions()
+            view.updateSelectionCursorPositions()
         }
     }
 
@@ -1073,16 +1073,16 @@ Item {
                             }
                         }
                         Item {
-                            id: noteSelectionPointerTracker
+                            id: selectionPointerTracker
                             anchors.fill: parent
                             z: 1
 
                             // A passive grab preserves pointer tracking during the selection mouse grab.
                             PointHandler {
-                                id: noteSelectionPointerHandler
+                                id: selectionPointerHandler
                                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                                 cursorShape: undefined
-                                onPointChanged: view.updateNoteSelectionCursorPositions()
+                                onPointChanged: view.updateSelectionCursorPositions()
                             }
                         }
                     }
