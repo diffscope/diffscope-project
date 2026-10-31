@@ -33,6 +33,7 @@ QtObject {
         readonly property int hoverCursorPosition:
             sequencePositionToTimeline(pointerTimePosition)
         readonly property bool timeCursorEditing: itemBeingDragged !== null
+        readonly property bool timeCursorUnaligned: true
         readonly property bool timeCursorActive:
             timeCursorEditing
             || (phonemeHovered

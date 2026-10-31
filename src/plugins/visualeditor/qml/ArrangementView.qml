@@ -29,6 +29,87 @@ Item {
     readonly property Timeline timeline: timeline
     readonly property Item centerEditArea: clipViewContainer
 
+    property Item selectionLayer: null
+    property int selectionTimeCursorPosition: -1
+    readonly property bool timeCursorBoundByEdit:
+        selectionLayer !== null || clipStartBinding.when || clipEndBinding.when
+        || timeline.dragging || timeline.adjustingLoop
+        || (clipViewContainer.dropArea?.cursorPositionActive ?? false)
+
+    onTimeCursorBoundByEditChanged: refreshCursorPosition()
+
+    function updateSelectionCursorPosition() {
+        if (!view.selectionLayer || !selectionPointerHandler.active)
+            return
+        const point = selectionPointerTracker.mapToItem(
+            clipArea, selectionPointerHandler.point.position)
+        view.selectionTimeCursorPosition = Math.max(0,
+            timeManipulator.mapToPosition(point.x))
+    }
+
+    function beginSelection(layer: Item) {
+        if (!layer)
+            return
+        view.selectionLayer = layer
+        view.updateSelectionCursorPosition()
+    }
+
+    function endSelection(layer) {
+        if (view.selectionLayer !== layer)
+            return
+        view.selectionLayer = null
+        view.selectionTimeCursorPosition = -1
+    }
+
+    function refreshCursorPosition() {
+        if (view.selectionLayer) {
+            view.updateSelectionCursorPosition()
+            return
+        }
+        if (view.timeCursorBoundByEdit || !view.arrangementPanelInterface?.timeLayoutViewModel)
+            return
+        if (!arrangementHoverHandler.enabled || !arrangementHoverHandler.hovered) {
+            view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = -1
+            return
+        }
+        const position = timeManipulator.mapToPosition(arrangementHoverHandler.point.position.x)
+        view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition =
+            view.arrangementPanelInterface.tool === ArrangementPanelInterface.SelectTool
+                ? Math.max(0, position)
+                : timeManipulator.alignPosition(position, ScopicFlow.AO_Visible)
+    }
+
+    Binding {
+        target: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
+        property: "cursorPosition"
+        value: view.selectionTimeCursorPosition
+        when: view.selectionLayer !== null
+        restoreMode: Binding.RestoreNone
+    }
+
+    Connections {
+        target: view.arrangementPanelInterface
+        function onToolChanged() {
+            view.refreshCursorPosition()
+        }
+    }
+
+    Connections {
+        target: view.arrangementPanelInterface?.timeViewModel ?? null
+        enabled: view.selectionLayer !== null
+        function onStartChanged() {
+            view.updateSelectionCursorPosition()
+        }
+    }
+
+    Connections {
+        target: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
+        enabled: view.selectionLayer !== null
+        function onPixelDensityChanged() {
+            view.updateSelectionCursorPosition()
+        }
+    }
+
     TimelineContextMenuHelper {
         timeline: view.timeline
         window: view.Window.window
@@ -219,8 +300,19 @@ Item {
                             }
                         }
 
-                        function onRubberBandDraggingStarted() {
-                            timeline.timeLayoutViewModel.cursorPosition = -1
+                        function onRubberBandDraggingStarted(timeline_) {
+                            if (timeline_ === timeline)
+                                view.beginSelection(timeline)
+                        }
+
+                        function onRubberBandDraggingCommitted(timeline_) {
+                            if (timeline_ === timeline)
+                                view.endSelection(timeline)
+                        }
+
+                        function onRubberBandDraggingAborted(timeline_) {
+                            if (timeline_ === timeline)
+                                view.endSelection(timeline)
                         }
 
                         function onLoopRangeAdjustingStarted(_, adjustmentOperation) {
@@ -278,12 +370,14 @@ Item {
                         Binding {
                             id: clipStartBinding
                             when: false
+                            restoreMode: Binding.RestoreNone
                             clipPane.timeLayoutViewModel.cursorPosition: clipPane.activeClip.position
                         }
 
                         Binding {
                             id: clipEndBinding
                             when: false
+                            restoreMode: Binding.RestoreNone
                             clipPane.timeLayoutViewModel.cursorPosition: clipPane.activeClip.position + clipPane.activeClip.length
                         }
 
@@ -367,9 +461,16 @@ Item {
                                 }
                             }
                             function onRubberBandDraggingStarted(clipPane_) {
-                                if (clipPane_ === clipPane) {
-                                    clipPane.timeLayoutViewModel.cursorPosition = -1
-                                }
+                                if (clipPane_ === clipPane)
+                                    view.beginSelection(clipPane)
+                            }
+                            function onRubberBandDraggingCommitted(clipPane_) {
+                                if (clipPane_ === clipPane)
+                                    view.endSelection(clipPane)
+                            }
+                            function onRubberBandDraggingAborted(clipPane_) {
+                                if (clipPane_ === clipPane)
+                                    view.endSelection(clipPane)
                             }
                         }
                     }
@@ -383,7 +484,21 @@ Item {
                 playbackViewModel: view.projectViewModelContext?.playbackViewModel ?? null
                 timeLayoutViewModel: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
             }
+            Item {
+                id: selectionPointerTracker
+                anchors.fill: parent
+                z: 1
+
+                // A passive grab preserves pointer tracking during selection without taking the editor mouse grab.
+                PointHandler {
+                    id: selectionPointerHandler
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                    cursorShape: undefined
+                    onPointChanged: view.updateSelectionCursorPosition()
+                }
+            }
             HoverHandler {
+                id: arrangementHoverHandler
                 enabled: !(view.arrangementPanelInterface?.mouseTrackingDisabled)
                 cursorShape: undefined
                 readonly property TimeManipulator timeManipulator: TimeManipulator {
@@ -392,21 +507,9 @@ Item {
                     timeViewModel: view.arrangementPanelInterface?.timeViewModel ?? null
                     timeLayoutViewModel: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
                 }
-                onHoveredChanged: () => {
-                    if (!hovered && !clipViewContainer.dropArea?.cursorPositionActive) {
-                        view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = -1
-                    }
-                }
-                onPointChanged: () => {
-                    if (clipViewContainer.dropArea?.cursorPositionActive)
-                        return
-                    view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = timeManipulator.alignPosition(timeManipulator.mapToPosition(point.position.x), ScopicFlow.AO_Visible)
-                }
-                onEnabledChanged: {
-                    if (!enabled && !clipViewContainer.dropArea?.cursorPositionActive) {
-                        view.arrangementPanelInterface.timeLayoutViewModel.cursorPosition = -1
-                    }
-                }
+                onHoveredChanged: view.refreshCursorPosition()
+                onPointChanged: view.refreshCursorPosition()
+                onEnabledChanged: view.refreshCursorPosition()
             }
         }
 

@@ -37,20 +37,17 @@ QtObject {
 
         property LabelViewModel itemBeingDragged: null
 
-        function beginCursorPositionHidingSelection() {
-            const pianoRollView = contextObject?.pianoRollView
-            if (pianoRollView) {
-                pianoRollView.beginCursorPositionHidingSelection(control)
-            } else {
-                timeLayoutViewModel.cursorPosition = -1
-                if (contextObject?.clavierViewModel)
-                    contextObject.clavierViewModel.cursorPosition = -1
-            }
+        function beginSelection() {
+            const editorView = contextObject?.pianoRollView ?? contextObject?.arrangementView
+            editorView?.beginSelection(control)
         }
 
-        function endCursorPositionHidingSelection() {
-            contextObject?.pianoRollView?.endCursorPositionHidingSelection(control)
+        function endSelection() {
+            const editorView = contextObject?.pianoRollView ?? contextObject?.arrangementView
+            editorView?.endSelection(control)
         }
+
+        Component.onDestruction: endSelection()
 
         // TODO move this to C++ code
         Connections {
@@ -81,17 +78,17 @@ QtObject {
 
             function onRubberBandDraggingStarted(labelSequence) {
                 if (labelSequence === control)
-                    control.beginCursorPositionHidingSelection()
+                    control.beginSelection()
             }
 
             function onRubberBandDraggingCommitted(labelSequence) {
                 if (labelSequence === control)
-                    control.endCursorPositionHidingSelection()
+                    control.endSelection()
             }
 
             function onRubberBandDraggingAborted(labelSequence) {
                 if (labelSequence === control)
-                    control.endCursorPositionHidingSelection()
+                    control.endSelection()
             }
 
         }

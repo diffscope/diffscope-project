@@ -34,6 +34,14 @@ QtObject {
 
         property int currentTool: DynamicMixingEditorInteractionController.Pointer
         property DynamicMixingAnchorViewModel anchorBeingEdited: null
+        readonly property bool timeCursorEditing: anchorBeingEdited !== null
+        readonly property bool timeCursorActive: timeCursorEditing
+        readonly property bool timeCursorUnaligned:
+            currentTool === DynamicMixingEditorInteractionController.RubberBandSelect
+        readonly property int timeCursorPosition:
+            (anchorBeingEdited?.position ?? 0)
+            + (proxyTimeViewModel.clipViewModel?.position ?? 0)
+            - (proxyTimeViewModel.clipViewModel?.clipStart ?? 0)
         readonly property DynamicMixingEditorContext dynamicMixingContext:
             d.projectViewModelContext?.dynamicMixingEditorContext ?? null
         readonly property var singers:
@@ -85,20 +93,12 @@ QtObject {
             controller.clickSelectable = true
         }
 
-        function beginCursorPositionHidingSelection(editor) {
-            const pianoRollView = contextObject?.pianoRollView
-            if (pianoRollView) {
-                pianoRollView.beginCursorPositionHidingSelection(editor)
-            } else {
-                if (contextObject?.timeLayoutViewModel)
-                    contextObject.timeLayoutViewModel.cursorPosition = -1
-                if (contextObject?.clavierViewModel)
-                    contextObject.clavierViewModel.cursorPosition = -1
-            }
+        function beginSelection(editor) {
+            contextObject?.pianoRollView?.beginSelection(editor)
         }
 
-        function endCursorPositionHidingSelection(editor) {
-            contextObject?.pianoRollView?.endCursorPositionHidingSelection(editor)
+        function endSelection(editor) {
+            contextObject?.pianoRollView?.endSelection(editor)
         }
 
         readonly property Item toolBar: RowLayout {
@@ -199,16 +199,6 @@ QtObject {
                 control.contextObject?.editingClip ?? null) ?? null
         }
 
-        Binding {
-            id: anchorCursorBinding
-            target: control.contextObject?.timeLayoutViewModel ?? null
-            property: "cursorPosition"
-            value: (control.anchorBeingEdited?.position ?? 0)
-                + (proxyTimeViewModel.clipViewModel?.position ?? 0)
-                - (proxyTimeViewModel.clipViewModel?.clipStart ?? 0)
-            when: false
-        }
-
         MouseArea {
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton | Qt.rightButton
@@ -235,48 +225,55 @@ QtObject {
             text: qsTr("Voice blending is unavailable for this clip.")
         }
 
-        Component.onCompleted: setTool(currentTool)
+        Component.onCompleted: {
+            setTool(currentTool)
+            contextObject?.pianoRollView?.registerTimeCursorSource(control)
+        }
+        Component.onDestruction: {
+            endSelection(dynamicMixingEditor)
+            contextObject?.pianoRollView?.unregisterTimeCursorSource(control)
+        }
         onDynamicMixingContextChanged: setTool(currentTool)
         Connections {
             target: control.dynamicMixingContext
-            function onSingingClipChanged() { control.setTool(control.currentTool) }
+            function onSingingClipChanged() {
+                control.endSelection(dynamicMixingEditor)
+                control.setTool(control.currentTool)
+            }
         }
         Connections {
             target: control.dynamicMixingContext?.interactionController ?? null
 
             function onRubberBandDraggingStarted(editor) {
                 if (editor === dynamicMixingEditor)
-                    control.beginCursorPositionHidingSelection(editor)
+                    control.beginSelection(editor)
             }
 
             function onRubberBandDraggingCommitted(editor) {
                 if (editor === dynamicMixingEditor)
-                    control.endCursorPositionHidingSelection(editor)
+                    control.endSelection(editor)
             }
 
             function onRubberBandDraggingAborted(editor) {
                 if (editor === dynamicMixingEditor)
-                    control.endCursorPositionHidingSelection(editor)
+                    control.endSelection(editor)
             }
 
             function onAnchorMovingStarted(editor, item) {
                 if (editor !== dynamicMixingEditor)
                     return
                 control.anchorBeingEdited = item
-                anchorCursorBinding.when = true
             }
 
             function onAnchorMovingCommitted(editor) {
                 if (editor !== dynamicMixingEditor)
                     return
-                anchorCursorBinding.when = false
                 control.anchorBeingEdited = null
             }
 
             function onAnchorMovingAborted(editor) {
                 if (editor !== dynamicMixingEditor)
                     return
-                anchorCursorBinding.when = false
                 control.anchorBeingEdited = null
             }
         }

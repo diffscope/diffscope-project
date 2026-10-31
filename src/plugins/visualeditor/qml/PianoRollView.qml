@@ -41,6 +41,7 @@ Item {
     property bool noteStartCursorActive: false
     property bool noteEndCursorActive: false
     property Item selectionLayer: null
+    property bool selectionUsesClavier: false
     property int selectionTimeCursorPosition: -1
     property ParameterAnchorViewModel pitchAnchorBeingEdited: null
     property bool pitchAnchorMoving: false
@@ -48,15 +49,12 @@ Item {
     property bool pitchHovered: false
     readonly property int pitchHoverPosition: pitchEditor.pointerTimePosition
     property double unalignedClavierCursorPosition: -1.0
-    property var cursorPositionSelectionOwners: []
     property var timeCursorSources: []
 
-    readonly property bool cursorPositionsHiddenBySelection:
-        cursorPositionSelectionOwners.length > 0
     readonly property bool unalignedCursorToolActive:
         (pianoRollPanelInterface?.pitchToolActive ?? false)
         || pianoRollPanelInterface?.tool === PianoRollPanelInterface.SelectTool
-        || selectionLayer !== null
+        || (selectionLayer !== null && selectionUsesClavier)
     readonly property bool pitchHoverCursorActive:
         pitchEditor.enabled && pitchHovered
         && !(pianoRollPanelInterface?.mouseTrackingDisabled ?? true)
@@ -141,9 +139,8 @@ Item {
     }
 
     function updateUnalignedClavierCursorPosition(point) {
-        if (view.cursorPositionsHiddenBySelection
-                || ((view.pianoRollPanelInterface?.pitchToolActive ?? false)
-                    && (!pitchEditor.visible || pitchEditor.height <= 0))
+        if (((view.pianoRollPanelInterface?.pitchToolActive ?? false)
+                && (!pitchEditor.visible || pitchEditor.height <= 0))
                 || !view.itemContainsPoint(pianoRollViewContainerSplitViewport, point)) {
             view.unalignedClavierCursorPosition = -1.0
             return
@@ -161,18 +158,10 @@ Item {
             && localPoint.y >= 0 && localPoint.y < item.height
     }
 
-    function hideCursorPositionsForSelection() {
-        view.unalignedClavierCursorPosition = -1.0
-        if (!view.unalignedCursorToolActive
-                && view.pianoRollPanelInterface?.clavierViewModel) {
-            view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
-        }
-    }
-
     function clearHoverCursorPositions() {
         if (view.selectionLayer)
             return
-        if (!view.timeCursorBoundByEdit && !view.cursorPositionsHiddenBySelection
+        if (!view.timeCursorBoundByEdit
                 && view.pianoRollPanelInterface?.timeLayoutViewModel) {
             view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
         }
@@ -190,11 +179,6 @@ Item {
             view.updateSelectionCursorPositions()
             return
         }
-        if (view.cursorPositionsHiddenBySelection) {
-            view.hideCursorPositionsForSelection()
-            return
-        }
-
         const p = noteArea.mapToItem(pianoRollViewContainer, point)
         if (!view.timeCursorBoundByEdit) {
             if (p.x < 0) {
@@ -224,9 +208,7 @@ Item {
     }
 
     function refreshCursorPositions() {
-        if (view.cursorPositionsHiddenBySelection) {
-            view.hideCursorPositionsForSelection()
-        } else if (view.selectionLayer) {
+        if (view.selectionLayer) {
             view.updateSelectionCursorPositions()
         } else if (pianoRollHoverHandler.enabled && pianoRollHoverHandler.hovered) {
             view.updateCursorPositionsFromHover(pianoRollHoverHandler.point.position)
@@ -242,8 +224,29 @@ Item {
             pianoRollViewContainer, selectionPointerHandler.point.position)
         view.selectionTimeCursorPosition = Math.max(0,
             cursorTimeManipulator.mapToPosition(p.x))
-        view.unalignedClavierCursorPosition = Math.max(0.0, Math.min(128.0,
-            cursorClavierManipulator.mapToPosition(p.y) - 0.5))
+        view.unalignedClavierCursorPosition = view.selectionUsesClavier
+            ? Math.max(0.0, Math.min(128.0,
+                cursorClavierManipulator.mapToPosition(p.y) - 0.5))
+            : -1.0
+        if (!view.unalignedCursorToolActive
+                && view.pianoRollPanelInterface?.clavierViewModel) {
+            view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
+        }
+    }
+
+    function beginSelection(layer: Item) {
+        if (!layer)
+            return
+        let usesClavier = false
+        for (let item = layer; item; item = item.parent) {
+            if (item === pianoRollViewContainerSplitViewport) {
+                usesClavier = true
+                break
+            }
+        }
+        view.selectionUsesClavier = usesClavier
+        view.selectionLayer = layer
+        view.updateSelectionCursorPositions()
     }
 
     function endSelection(layer) {
@@ -251,6 +254,7 @@ Item {
             return
         view.selectionLayer = null
         view.selectionTimeCursorPosition = -1
+        view.selectionUsesClavier = false
     }
 
     function beginPitchHover(editor) {
@@ -268,26 +272,7 @@ Item {
         view.refreshCursorPositions()
     }
 
-    function beginCursorPositionHidingSelection(owner) {
-        if (!owner || view.cursorPositionSelectionOwners.indexOf(owner) >= 0)
-            return
-        const owners = view.cursorPositionSelectionOwners.slice()
-        owners.push(owner)
-        view.cursorPositionSelectionOwners = owners
-        view.hideCursorPositionsForSelection()
-    }
-
-    function endCursorPositionHidingSelection(owner) {
-        const index = view.cursorPositionSelectionOwners.indexOf(owner)
-        if (index >= 0) {
-            const owners = view.cursorPositionSelectionOwners.slice()
-            owners.splice(index, 1)
-            view.cursorPositionSelectionOwners = owners
-        }
-        view.refreshCursorPositions()
-    }
-
-    // Registers a surface that provides timeCursorActive, timeCursorEditing, and timeCursorPosition. Positions use timeline ticks.
+    // Registers a surface with cursor activity, edit state, alignment policy, and a position in timeline ticks.
     function registerTimeCursorSource(source) {
         if (!source || view.timeCursorSources.indexOf(source) >= 0)
             return
@@ -311,7 +296,8 @@ Item {
         if (view.unalignedCursorToolActive)
             return true
         for (const source of view.timeCursorSources) {
-            if (source?.enabled && view.itemContainsPoint(source, point))
+            if (source?.enabled && source.timeCursorUnaligned
+                    && view.itemContainsPoint(source, point))
                 return true
         }
         return false
@@ -332,8 +318,8 @@ Item {
     Binding {
         target: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
         property: "cursorPosition"
-        value: view.cursorPositionsHiddenBySelection ? -1 : view.editTimeCursorPosition
-        when: view.cursorPositionsHiddenBySelection || view.timeCursorBoundByEdit
+        value: view.editTimeCursorPosition
+        when: view.timeCursorBoundByEdit
         restoreMode: Binding.RestoreNone
     }
 
@@ -349,15 +335,13 @@ Item {
     Binding {
         target: view.pianoRollPanelInterface?.clavierViewModel ?? null
         property: "cursorPosition"
-        value: view.cursorPositionsHiddenBySelection
-            ? -1.0
-            : view.pitchAnchorMoving
+        value: view.pitchAnchorMoving
+            ? view.pitchPositionFromNormalizedValue(
+                  view.pitchAnchorBeingEdited?.value ?? 0.0)
+            : view.pitchFreeEditing
                 ? view.pitchPositionFromNormalizedValue(
-                      view.pitchAnchorBeingEdited?.value ?? 0.0)
-                : view.pitchFreeEditing
-                    ? view.pitchPositionFromNormalizedValue(
-                          pitchEditor.freeEditPointerValue)
-                    : view.unalignedClavierCursorPosition
+                      pitchEditor.freeEditPointerValue)
+                : view.unalignedClavierCursorPosition
         when: view.unalignedCursorToolActive
         restoreMode: Binding.RestoreNone
     }
@@ -440,7 +424,7 @@ Item {
         }
 
         function onRubberBandDraggingStarted(noteEditLayer) {
-            view.selectionLayer = noteEditLayer
+            view.beginSelection(noteEditLayer)
         }
 
         function onRubberBandDraggingCommitted(noteEditLayer) {
@@ -499,7 +483,7 @@ Item {
         function onFreeRangeSelectingStarted(editor) {
             if (editor === pitchEditor) {
                 view.pitchHovered = false
-                view.selectionLayer = editor
+                view.beginSelection(editor)
             }
         }
 
@@ -516,18 +500,18 @@ Item {
         function onAnchorRubberBandDraggingStarted(editor) {
             if (editor === pitchEditor) {
                 view.pitchHovered = false
-                view.beginCursorPositionHidingSelection(editor)
+                view.beginSelection(editor)
             }
         }
 
         function onAnchorRubberBandDraggingCommitted(editor) {
             if (editor === pitchEditor)
-                view.endCursorPositionHidingSelection(editor)
+                view.endSelection(editor)
         }
 
         function onAnchorRubberBandDraggingAborted(editor) {
             if (editor === pitchEditor)
-                view.endCursorPositionHidingSelection(editor)
+                view.endSelection(editor)
         }
 
         function onAnchorMovingStarted(editor, item) {
@@ -732,11 +716,8 @@ Item {
                         function onHoverEntered(clavier_, key) {
                             if (clavier_ === clavier
                                     && !view.unalignedCursorToolActive
-                                    && !view.cursorPositionsHiddenBySelection) {
+                                    && !view.selectionLayer) {
                                 clavier.clavierViewModel.cursorPosition = key
-                            } else if (clavier_ === clavier
-                                    && view.cursorPositionsHiddenBySelection) {
-                                view.hideCursorPositionsForSelection()
                             }
                         }
 
@@ -813,17 +794,17 @@ Item {
 
                         function onRubberBandDraggingStarted(timeline_) {
                             if (timeline_ === timeline)
-                                view.beginCursorPositionHidingSelection(timeline)
+                                view.beginSelection(timeline)
                         }
 
                         function onRubberBandDraggingCommitted(timeline_) {
                             if (timeline_ === timeline)
-                                view.endCursorPositionHidingSelection(timeline)
+                                view.endSelection(timeline)
                         }
 
                         function onRubberBandDraggingAborted(timeline_) {
                             if (timeline_ === timeline)
-                                view.endCursorPositionHidingSelection(timeline)
+                                view.endSelection(timeline)
                         }
 
                         function onLoopRangeAdjustingStarted(_, adjustmentOperation) {
@@ -1072,19 +1053,6 @@ Item {
                                 bottomExpansion: view.bottomExpansion
                             }
                         }
-                        Item {
-                            id: selectionPointerTracker
-                            anchors.fill: parent
-                            z: 1
-
-                            // A passive grab preserves pointer tracking during the selection mouse grab.
-                            PointHandler {
-                                id: selectionPointerHandler
-                                acceptedButtons: Qt.LeftButton | Qt.RightButton
-                                cursorShape: undefined
-                                onPointChanged: view.updateSelectionCursorPositions()
-                            }
-                        }
                     }
                     Instantiator {
                         id: bottomAdditionalTrackRepeater
@@ -1205,6 +1173,19 @@ Item {
                 timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
                 playbackViewModel: view.projectViewModelContext?.playbackViewModel ?? null
                 timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+            }
+            Item {
+                id: selectionPointerTracker
+                anchors.fill: parent
+                z: 1
+
+                // A passive grab preserves pointer tracking during selection without taking the editor mouse grab.
+                PointHandler {
+                    id: selectionPointerHandler
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                    cursorShape: undefined
+                    onPointChanged: view.updateSelectionCursorPositions()
+                }
             }
             HoverHandler {
                 id: pianoRollHoverHandler

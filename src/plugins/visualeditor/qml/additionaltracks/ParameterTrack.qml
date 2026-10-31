@@ -39,16 +39,14 @@ QtObject {
         property ParameterAnchorViewModel anchorBeingEdited: null
         property bool anchorMoving: false
         property bool freeEditing: false
-        property ParameterEditor freeRangeSelectionEditor: null
-        property int freeRangeSelectionPosition: 0
         property ParameterEditor hoveredParameterEditor: null
         property bool parameterHovered: false
         readonly property int hoveredParameterPosition:
             hoveredParameterEditor?.pointerTimePosition ?? 0
         readonly property double hoveredParameterValue:
             hoveredParameterEditor?.pointerTransformedValue ?? 0.0
-        readonly property bool timeCursorEditing:
-            anchorMoving || freeEditing || freeRangeSelectionEditor !== null
+        readonly property bool timeCursorEditing: anchorMoving || freeEditing
+        readonly property bool timeCursorUnaligned: true
         readonly property bool timeCursorActive:
             timeCursorEditing
             || (parameterHovered
@@ -56,7 +54,6 @@ QtObject {
         readonly property int timeCursorPosition:
             (anchorMoving ? (anchorBeingEdited?.position ?? 0)
                 : freeEditing ? activeParameterEditor.freeEditPointerPosition
-                : freeRangeSelectionEditor ? freeRangeSelectionPosition
                 : hoveredParameterPosition)
             + (proxyTimeViewModel.clipViewModel?.position ?? 0)
             - (proxyTimeViewModel.clipViewModel?.clipStart ?? 0)
@@ -135,45 +132,15 @@ QtObject {
             freeEditing = false
         }
 
-        function beginFreeRangeSelection(editor) {
+        function beginSelection(editor) {
             if (editor !== editingEditor && editor !== transformEditor)
                 return
             clearParameterHover()
-            freeRangeSelectionPosition = Math.max(0, editor.pointerTimePosition)
-            freeRangeSelectionEditor = editor
-            updateFreeRangeSelectionCursorPosition()
+            contextObject?.pianoRollView?.beginSelection(editor)
         }
 
-        function endFreeRangeSelection(editor) {
-            if (editor !== freeRangeSelectionEditor)
-                return
-            freeRangeSelectionEditor = null
-        }
-
-        function updateFreeRangeSelectionCursorPosition() {
-            if (!freeRangeSelectionEditor || !freeRangeSelectionPointerHandler.active)
-                return
-            const p = freeRangeSelectionPointerTracker.mapToItem(
-                freeRangeSelectionEditor, freeRangeSelectionPointerHandler.point.position)
-            freeRangeSelectionPosition = Math.max(0,
-                freeRangeSelectionTimeManipulator.mapToPosition(p.x))
-        }
-
-        function beginCursorPositionHidingSelection(editor) {
-            clearParameterHover()
-            const pianoRollView = contextObject?.pianoRollView
-            if (pianoRollView) {
-                pianoRollView.beginCursorPositionHidingSelection(editor)
-            } else {
-                if (contextObject?.timeLayoutViewModel)
-                    contextObject.timeLayoutViewModel.cursorPosition = -1
-                if (contextObject?.clavierViewModel)
-                    contextObject.clavierViewModel.cursorPosition = -1
-            }
-        }
-
-        function endCursorPositionHidingSelection(editor) {
-            contextObject?.pianoRollView?.endCursorPositionHidingSelection(editor)
+        function endSelection(editor) {
+            contextObject?.pianoRollView?.endSelection(editor)
         }
 
         function isActiveParameterEditor(editor): bool {
@@ -659,42 +626,6 @@ QtObject {
         }
 
         Item {
-            id: freeRangeSelectionPointerTracker
-            anchors.fill: parent
-            z: 4
-
-            TimeManipulator {
-                id: freeRangeSelectionTimeManipulator
-                target: control.freeRangeSelectionEditor
-                timeViewModel: proxyTimeViewModel
-                timeLayoutViewModel: control.contextObject?.timeLayoutViewModel ?? null
-            }
-
-            // A passive grab preserves pointer tracking during range selection.
-            PointHandler {
-                id: freeRangeSelectionPointerHandler
-                cursorShape: undefined
-                onPointChanged: control.updateFreeRangeSelectionCursorPosition()
-            }
-        }
-
-        Connections {
-            target: proxyTimeViewModel
-            enabled: control.freeRangeSelectionEditor !== null
-            function onStartChanged() {
-                control.updateFreeRangeSelectionCursorPosition()
-            }
-        }
-
-        Connections {
-            target: control.contextObject?.timeLayoutViewModel ?? null
-            enabled: control.freeRangeSelectionEditor !== null
-            function onPixelDensityChanged() {
-                control.updateFreeRangeSelectionCursorPosition()
-            }
-        }
-
-        Item {
             id: scale
             width: 64
             height: parent.height
@@ -775,14 +706,15 @@ QtObject {
             contextObject?.pianoRollView?.registerTimeCursorSource(control)
         }
         Component.onDestruction: {
-            endCursorPositionHidingSelection(editingEditor)
-            endCursorPositionHidingSelection(transformEditor)
+            endSelection(editingEditor)
+            endSelection(transformEditor)
             contextObject?.pianoRollView?.unregisterTimeCursorSource(control)
         }
         Connections {
             target: control.editingBinding
             function onTargetChanged() {
-                control.freeRangeSelectionEditor = null
+                control.endSelection(editingEditor)
+                control.endSelection(transformEditor)
                 control.clearParameterHover()
                 control.updateTool(control.currentTool)
             }
@@ -800,27 +732,27 @@ QtObject {
             }
             function onFreeRangeSelectingStarted(editor) {
                 if (editor === editingEditor)
-                    control.beginFreeRangeSelection(editor)
+                    control.beginSelection(editor)
             }
             function onFreeRangeSelectingCommitted(editor) {
                 if (editor === editingEditor)
-                    control.endFreeRangeSelection(editor)
+                    control.endSelection(editor)
             }
             function onFreeRangeSelectingAborted(editor) {
                 if (editor === editingEditor)
-                    control.endFreeRangeSelection(editor)
+                    control.endSelection(editor)
             }
             function onAnchorRubberBandDraggingStarted(editor) {
                 if (editor === editingEditor)
-                    control.beginCursorPositionHidingSelection(editor)
+                    control.beginSelection(editor)
             }
             function onAnchorRubberBandDraggingCommitted(editor) {
                 if (editor === editingEditor)
-                    control.endCursorPositionHidingSelection(editor)
+                    control.endSelection(editor)
             }
             function onAnchorRubberBandDraggingAborted(editor) {
                 if (editor === editingEditor)
-                    control.endCursorPositionHidingSelection(editor)
+                    control.endSelection(editor)
             }
             function onAnchorMovingStarted(editor, item) {
                 control.beginAnchorMove(editor, item)
@@ -860,27 +792,27 @@ QtObject {
             }
             function onFreeRangeSelectingStarted(editor) {
                 if (editor === transformEditor)
-                    control.beginFreeRangeSelection(editor)
+                    control.beginSelection(editor)
             }
             function onFreeRangeSelectingCommitted(editor) {
                 if (editor === transformEditor)
-                    control.endFreeRangeSelection(editor)
+                    control.endSelection(editor)
             }
             function onFreeRangeSelectingAborted(editor) {
                 if (editor === transformEditor)
-                    control.endFreeRangeSelection(editor)
+                    control.endSelection(editor)
             }
             function onAnchorRubberBandDraggingStarted(editor) {
                 if (editor === transformEditor)
-                    control.beginCursorPositionHidingSelection(editor)
+                    control.beginSelection(editor)
             }
             function onAnchorRubberBandDraggingCommitted(editor) {
                 if (editor === transformEditor)
-                    control.endCursorPositionHidingSelection(editor)
+                    control.endSelection(editor)
             }
             function onAnchorRubberBandDraggingAborted(editor) {
                 if (editor === transformEditor)
-                    control.endCursorPositionHidingSelection(editor)
+                    control.endSelection(editor)
             }
             function onAnchorMovingStarted(editor, item) {
                 control.beginAnchorMove(editor, item)
@@ -910,7 +842,8 @@ QtObject {
         Connections {
             target: control.parameterContext
             function onTransformEditingChanged() {
-                control.freeRangeSelectionEditor = null
+                control.endSelection(editingEditor)
+                control.endSelection(transformEditor)
                 control.clearParameterHover()
                 control.setTool(control.currentTool)
             }
