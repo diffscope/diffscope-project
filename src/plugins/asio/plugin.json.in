@@ -11,7 +11,7 @@
         "GPL-3.0-only"
     ],
     "Arguments": [],
-    "Category": "Application",
+    "Category": "Audio",
     "Description": "The ASIO audio driver plugin for @APPLICATION_DISPLAY_NAME@.",
     "Url": "@APPLICATION_URL@",
     "Dependencies": [
