@@ -534,13 +534,33 @@ namespace BatchProcess::Internal {
         return false;
     }
 
-    bool transferEntity(QObject *container, dspx::EntityObject *entity, int index) {
+    bool transferEntity(QObject *container, dspx::EntityObject *entity, int index, const QString &key) {
         auto *owner = modelOwner(entity);
         if (!owner || owner == container || owningModel(container) != entity->model()) return false;
         if (auto *value = qobject_cast<dspx::ClipSequence *>(container)) { auto *source = qobject_cast<dspx::ClipSequence *>(owner); auto *item = qobject_cast<dspx::Clip *>(entity); return source && item && source->moveItem(item, value); }
         if (auto *value = qobject_cast<dspx::NoteSequence *>(container)) { auto *source = qobject_cast<dspx::NoteSequence *>(owner); auto *item = qobject_cast<dspx::Note *>(entity); return source && item && source->moveItem(item, value); }
+        if (auto *value = qobject_cast<dspx::PhonemeSequence *>(container)) {
+            auto *source = qobject_cast<dspx::PhonemeSequence *>(owner);
+            auto *item = qobject_cast<dspx::Phoneme *>(entity);
+            if (!source || !item || value->role() != dspx::PhonemeSequence::Edited || source->role() != dspx::PhonemeSequence::Edited || item->role() != dspx::Phoneme::Edited) return false;
+            return source->moveItem(item, value);
+        }
         if (auto *value = qobject_cast<dspx::AnchorNodeSequence *>(container)) { auto *source = qobject_cast<dspx::AnchorNodeSequence *>(owner); auto *item = qobject_cast<dspx::AnchorNode *>(entity); return source && item && source->moveItem(item, value); }
         if (auto *value = qobject_cast<dspx::DynamicMixingAnchorSequence *>(container)) { auto *source = qobject_cast<dspx::DynamicMixingAnchorSequence *>(owner); auto *item = qobject_cast<dspx::DynamicMixingAnchor *>(entity); return source && item && source->moveItem(item, value); }
+        if (auto *value = qobject_cast<dspx::ParameterMap *>(container)) {
+            auto *source = qobject_cast<dspx::ParameterMap *>(owner);
+            auto *item = qobject_cast<dspx::Parameter *>(entity);
+            if (!source || !item || key.isEmpty() || QString::fromUtf8(key.toUtf8()) != key || value->containsKey(key)) return false;
+            for (const auto &sourceKey : source->keys()) if (source->item(sourceKey) == item) return source->moveItem(sourceKey, value, key);
+            return false;
+        }
+        if (auto *value = qobject_cast<dspx::SingingClip *>(container)) {
+            auto *source = qobject_cast<dspx::SingingClip *>(owner);
+            auto *item = qobject_cast<dspx::Sources *>(entity);
+            if (!source || !item) return false;
+            value->setSources(item);
+            return value->sources() == item;
+        }
         const auto sourceIndex = modelItems(owner).indexOf(entity);
         if (auto *value = qobject_cast<dspx::SingerList *>(container)) {
             auto *source = qobject_cast<dspx::SingerList *>(owner);

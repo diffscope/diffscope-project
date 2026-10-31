@@ -15,6 +15,7 @@
     const pow = Math.pow;
     const floor = Math.floor;
     const sort = Function.prototype.call.bind(Array.prototype.sort);
+    const charCodeAt = Function.prototype.call.bind(String.prototype.charCodeAt);
     const own = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
     const max = 2147483647;
     const put = (target, name, value) => define(target, name, { value, writable: true, enumerable: true, configurable: true });
@@ -37,6 +38,19 @@
     };
     const boolean = value => { if (typeof value !== "boolean") throw new Type("A Boolean is required."); return value; };
     const nonempty = value => { string(value); if (!value.length) throw new Type("A non-empty string is required."); return value; };
+    const parameterId = value => {
+        nonempty(value);
+        for (let i = 0; i < value.length; ++i) {
+            const unit = charCodeAt(value, i);
+            if (unit < 0xd800 || unit > 0xdfff) continue;
+            if (unit <= 0xdbff && i + 1 < value.length) {
+                const next = charCodeAt(value, i + 1);
+                if (next >= 0xdc00 && next <= 0xdfff) { ++i; continue; }
+            }
+            throw new Type("The parameter ID must not contain unpaired surrogates.");
+        }
+        return value;
+    };
     const oneOf = (value, choices) => {
         for (let i = 0; i < choices.length; ++i) if (value === choices[i]) return value;
         throw new Type("The value is not a supported enumeration value.");
@@ -157,7 +171,7 @@
             });
         });
     };
-    schema.ParameterMap = value => { object(value); const names = keys(value); for (let i = 0; i < names.length; ++i) { nonempty(names[i]); validate("Parameter", value[names[i]]); } };
+    schema.ParameterMap = value => { object(value); const names = keys(value); for (let i = 0; i < names.length; ++i) { parameterId(names[i]); validate("Parameter", value[names[i]]); } };
     schema.Note = value => {
         fields(value, ["pos", "length", "keyNum", "centShift", "language", "lyric", "pronunciation", "phonemes", "vibrato", "workspace"]);
         int(value.pos); int(value.length); int(value.pos + value.length); int(value.keyNum, 0, 127); int(value.centShift, -50, 50); string(value.language); string(value.lyric);
@@ -219,5 +233,5 @@
         const info = containers[name];
         schema[name] = (value, incomplete) => list(info[0], value, incomplete, info[1]);
     }
-    return { number, int, string, handle, boolean, nonempty, oneOf, signature, object, array, copy, validate, unique, ratio, each, keys, own, max, pow, floor, sort, put };
+    return { number, int, string, handle, boolean, nonempty, parameterId, oneOf, signature, object, array, copy, validate, unique, ratio, each, keys, own, max, pow, floor, sort, put };
 })()

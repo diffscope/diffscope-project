@@ -56,7 +56,7 @@ namespace BatchProcess::Internal {
     bool importDSPX(QObject *object, const QJsonValue &data, bool checked = true);
     dspx::EntityObject *allocateEntity(dspx::Model *model, const QString &kind, bool original = false);
     bool attachEntity(QObject *container, dspx::EntityObject *entity, int index, const QString &key);
-    bool transferEntity(QObject *container, dspx::EntityObject *entity, int index);
+    bool transferEntity(QObject *container, dspx::EntityObject *entity, int index, const QString &key);
     bool rotateContainer(QObject *container, int leftIndex, int middleIndex, int rightIndex);
 }
 

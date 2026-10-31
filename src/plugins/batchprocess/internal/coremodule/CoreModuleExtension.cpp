@@ -82,14 +82,16 @@ namespace BatchProcess::Internal {
         Q_INVOKABLE QJSValue read(QObject *object, const QString &property);
         Q_INVOKABLE QJSValue write(QObject *object, const QString &property, const QJSValue &value);
         Q_INVOKABLE QJSValue items(QObject *container);
+        Q_INVOKABLE QJSValue effectiveItems(QObject *container, int position, int length);
         Q_INVOKABLE QJSValue findEntity(QObject *object, const QString &handle);
         Q_INVOKABLE QJSValue allocate(QObject *container, const QString &kind, bool original);
         Q_INVOKABLE QJSValue attach(QObject *container, QObject *entity, int index, const QString &key);
-        Q_INVOKABLE QJSValue transfer(QObject *container, QObject *entity, int index);
+        Q_INVOKABLE QJSValue transfer(QObject *container, QObject *entity, int index, const QString &key);
         Q_INVOKABLE QJSValue rotate(QObject *container, int leftIndex, int middleIndex, int rightIndex);
         Q_INVOKABLE QJSValue destroy(QObject *entity);
         Q_INVOKABLE QJSValue replace(QObject *object, const QJSValue &data, bool initializing);
         Q_INVOKABLE QJSValue snapshot(QObject *object);
+        Q_INVOKABLE QJSValue slice(QObject *object, int index, int length);
         Q_INVOKABLE QJSValue splice(QObject *array, int index, int count, const QJSValue &values);
         Q_INVOKABLE QJSValue begin(QObject *object);
         Q_INVOKABLE QJSValue transaction(const QString &token, const QString &operation, const QString &name);
@@ -419,6 +421,19 @@ namespace BatchProcess::Internal {
         });
     }
 
+    QJSValue CoreModuleBridge::effectiveItems(QObject *container, int position, int length) {
+        return guarded(container, QStringLiteral("effectiveInRange"), false, [&] {
+            if (position < 0 || length < 0) return failure(QStringLiteral("invalidData"), QStringLiteral("effectiveInRange"));
+            QList<QObject *> items;
+            if (auto *nodes = qobject_cast<dspx::AnchorNodeSequence *>(container)) {
+                for (auto *node : nodes->sliceEffective(position, length)) items.append(node);
+            } else if (auto *anchors = qobject_cast<dspx::DynamicMixingAnchorSequence *>(container)) {
+                for (auto *anchor : anchors->sliceEffective(position, length)) items.append(anchor);
+            } else return failure(QStringLiteral("unsupportedOperation"), QStringLiteral("effectiveInRange"));
+            return success(values(items));
+        });
+    }
+
     QJSValue CoreModuleBridge::allocate(QObject *container, const QString &type, bool original) {
         return guarded(container, QStringLiteral("create"), true, [&] {
             return success(raw(allocateEntity(document(container)->model(), type, original)));
@@ -432,9 +447,10 @@ namespace BatchProcess::Internal {
         });
     }
 
-    QJSValue CoreModuleBridge::transfer(QObject *container, QObject *object, int index) {
-        return guarded(container, QStringLiteral("moveHere"), true, [&] {
-            return transferEntity(container, qobject_cast<dspx::EntityObject *>(object), index) ? success() : failure(QStringLiteral("invalidData"), QStringLiteral("moveHere"));
+    QJSValue CoreModuleBridge::transfer(QObject *container, QObject *object, int index, const QString &key) {
+        const auto operation = qobject_cast<dspx::SingingClip *>(container) ? QStringLiteral("moveSourcesHere") : QStringLiteral("moveHere");
+        return guarded(container, operation, true, [&] {
+            return transferEntity(container, qobject_cast<dspx::EntityObject *>(object), index, key) ? success() : failure(QStringLiteral("invalidData"), operation);
         });
     }
 
@@ -531,6 +547,15 @@ namespace BatchProcess::Internal {
             } else converted = value.isQObject() ? QVariant::fromValue(value.toQObject()) : value.toVariant();
             if (converted.metaType() != meta.metaType() && !converted.convert(meta.metaType())) return failure(QStringLiteral("invalidData"), property);
             return meta.isWritable() && meta.write(object, converted) ? success() : failure(QStringLiteral("invalidData"), property);
+        });
+    }
+
+    QJSValue CoreModuleBridge::slice(QObject *object, int index, int length) {
+        return guarded(object, QStringLiteral("slice"), false, [&] {
+            if (index < 0 || length < 0) return failure(QStringLiteral("invalidData"), QStringLiteral("slice"));
+            if (auto *samples = qobject_cast<dspx::FreeValueDataArray *>(object)) return success(propertyValue(QVariant::fromValue(samples->slice(index, length))));
+            if (auto *points = qobject_cast<dspx::VibratoPointDataArray *>(object)) return success(propertyValue(QVariant::fromValue(points->slice(index, length))));
+            return failure(QStringLiteral("unsupportedOperation"), QStringLiteral("slice"));
         });
     }
 

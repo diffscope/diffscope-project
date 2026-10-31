@@ -644,6 +644,7 @@ declare module "diffscope:core" {
     }
 
     export interface TrackList extends EntityCollection<Track>, OpenDSPXEditable<DSPX.Track[]> {
+        readonly model: DspxModel;
         /** Returns null for an index outside the list. */
         at(index: number): Track | null;
         /** Creates and inserts a track. The index defaults to length. */
@@ -732,6 +733,12 @@ declare module "diffscope:core" {
         setSourcesFromOpenDSPX(data: DSPX.Sources): Sources;
         /** Removes sources and invalidates the configuration and its descendants. */
         clearSources(): void;
+        /**
+         * Moves sources from another singing clip in the same document. Requires a transaction.
+         * Clears the source clip and destroys the destination's previous configuration and descendants.
+         * Preserves the incoming configuration's attributes, descendant entities, and JavaScript identity.
+         */
+        moveSourcesHere(sources: Sources): void;
     }
 
     /** Clips are ordered by visible position. Overlap is permitted. */
@@ -777,10 +784,17 @@ declare module "diffscope:core" {
     }
 
     export interface VibratoPointArray extends Iterable<Point>, OpenDSPXEditable<DSPX.ControlPoint[]> {
+        readonly note: Note;
         readonly role: "amplitude" | "frequency";
         readonly length: number;
         /** Returns independent point values. */
         toArray(): readonly Point[];
+        /**
+         * Returns an independent snapshot of at most length elements starting at index.
+         * Returns an empty array if index is at or past the end. Requires no transaction.
+         * The index and element count must be non-negative 32-bit integers.
+         */
+        slice(index: number, length: number): readonly Point[];
         /** Replaces a bounded index range. Requires a transaction. */
         splice(index: number, deleteCount: number, values?: readonly Point[]): void;
         /** Rotates adjacent ranges. Requires a transaction. */
@@ -835,10 +849,12 @@ declare module "diffscope:core" {
         readonly onset: boolean;
         readonly previous: Phoneme | null;
         readonly next: Phoneme | null;
+        readonly phonemeSequence: ReadonlyPhonemeSequence | EditablePhonemeSequence | null;
     }
 
     export interface EditablePhoneme extends Phoneme {
         readonly role: "edited";
+        readonly phonemeSequence: EditablePhonemeSequence | null;
         language: string;
         start: number;
         token: string;
@@ -863,6 +879,12 @@ declare module "diffscope:core" {
         createFromOpenDSPX(data: DSPX.Phoneme): EditablePhoneme;
         /** Destroys a contained phoneme. Returns false if not contained. */
         delete(phoneme: EditablePhoneme): boolean;
+        /**
+         * Moves a phoneme from another edited sequence in the same document.
+         * Preserves its handle and attributes. The start remains relative to the destination note onset.
+         * Requires a script transaction and a unique start in the destination sequence.
+         */
+        moveHere(phoneme: EditablePhoneme): void;
     }
 
     /** Uses signed DSPX integer values. Null marks an undefined sample. */
@@ -873,6 +895,12 @@ declare module "diffscope:core" {
         readonly length: number;
         /** Returns a snapshot. Index i corresponds to content tick i * 5. */
         toArray(): readonly (number | null)[];
+        /**
+         * Returns a snapshot of at most length samples starting at index, preserving null gaps.
+         * Returns an empty array if index is at or past the end. Requires no transaction.
+         * The index and sample count must be non-negative 32-bit integers.
+         */
+        slice(index: number, length: number): readonly (number | null)[];
         /** Returns undefined outside the array, or null for an undefined sample. */
         at(index: number): number | null | undefined;
     }
@@ -905,7 +933,7 @@ declare module "diffscope:core" {
         readonly parameter: Parameter;
         /** Returns nodes whose x coordinates fall in the half-open content range. */
         inRange(start: Tick, length: Tick): readonly AnchorNode[];
-        /** Returns nodes contributing to interpolation, including required neighboring nodes. */
+        /** Returns nodes contributing to interpolation, including outer reference nodes required by Hermite segments. */
         effectiveInRange(start: Tick, length: Tick): readonly AnchorNode[];
         /** Creates and inserts a node. Its x must be unique. */
         create(initial: AnchorNodeInit): AnchorNode;
@@ -936,6 +964,7 @@ declare module "diffscope:core" {
         readonly parameterMap: ParameterMap | null;
     }
 
+    /** Uses non-empty parameter IDs without unpaired UTF-16 surrogates. */
     export interface ParameterMap extends Iterable<readonly [string, Parameter]>, OpenDSPXEditable<DSPX.Params> {
         readonly clip: SingingClip;
         readonly size: number;
@@ -954,6 +983,12 @@ declare module "diffscope:core" {
         delete(parameterId: string): boolean;
         /** Renames an existing key to an unused non-empty key. Requires a transaction. */
         rename(oldId: string, newId: string): void;
+        /**
+         * Moves a parameter from another map in the same document. Requires a transaction.
+         * Uses the existing parameter ID if newId is omitted. Requires an unused destination key.
+         * Preserves attributes, sample arrays, anchor entities, and JavaScript identity.
+         */
+        moveHere(parameter: Parameter, newId?: string): void;
     }
 
     export interface Sources extends Entity<DSPX.Sources> {
@@ -1057,9 +1092,11 @@ declare module "diffscope:core" {
         value: number;
         readonly previous: Tempo | null;
         readonly next: Tempo | null;
+        readonly tempoSequence: TempoSequence | null;
     }
 
     export interface TempoSequence extends EntityCollection<Tempo>, OpenDSPXEditable<DSPX.Tempo[]> {
+        readonly model: DspxModel;
         /** Returns tempo points within the half-open project range. */
         inRange(start: Tick, length: Tick): readonly Tempo[];
         /** Creates and inserts a tempo point with a unique position. */
@@ -1079,9 +1116,11 @@ declare module "diffscope:core" {
         denominator: DSPX.TimeSignatureDenominator;
         readonly previous: TimeSignature | null;
         readonly next: TimeSignature | null;
+        readonly timeSignatureSequence: TimeSignatureSequence | null;
     }
 
     export interface TimeSignatureSequence extends EntityCollection<TimeSignature>, OpenDSPXEditable<DSPX.TimeSignature[]> {
+        readonly model: DspxModel;
         /** Returns points whose measure indices fall in the half-open measure range. */
         inMeasureRange(startMeasure: MeasureIndex, measureCount: number): readonly TimeSignature[];
         /** Creates and inserts a point with a unique measure index. */
@@ -1099,9 +1138,11 @@ declare module "diffscope:core" {
         text: string;
         readonly previous: Label | null;
         readonly next: Label | null;
+        readonly labelSequence: LabelSequence | null;
     }
 
     export interface LabelSequence extends EntityCollection<Label>, OpenDSPXEditable<DSPX.Label[]> {
+        readonly model: DspxModel;
         /** Returns labels within the half-open project range. */
         inRange(start: Tick, length: Tick): readonly Label[];
         /** Creates and inserts a label. */
@@ -1125,9 +1166,11 @@ declare module "diffscope:core" {
         accidentalType: AccidentalType;
         readonly previous: KeySignature | null;
         readonly next: KeySignature | null;
+        readonly keySignatureSequence: KeySignatureSequence | null;
     }
 
     export interface KeySignatureSequence extends EntityCollection<KeySignature>, OpenDSPXEditable<DSPX.KeySignature[]> {
+        readonly model: DspxModel;
         /** Returns points within the half-open project range. */
         inRange(start: Tick, length: Tick): readonly KeySignature[];
         /** Creates and inserts a key signature with a unique position. */

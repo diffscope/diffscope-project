@@ -55,9 +55,9 @@
         DspxModel: ["labels", "keySignatures", "tempos", "timeSignatures", "tracks", "audioDSPs"], Track: ["clips", "audioDSPs", "trackList"],
         AudioClip: ["previous", "next", "clipSequence"], SingingClip: ["previous", "next", "clipSequence", "notes", "parameters", "sources"],
         Note: ["previous", "next", "noteSequence", "editedPhonemes", "originalPhonemes", "vibratoAmplitudeControlPoints", "vibratoFrequencyControlPoints"],
-        Phoneme: ["previous", "next"], AnchorNode: ["previous", "next", "sequence"], Parameter: ["original", "freeTransform", "freeEdited", "anchorTransform", "anchorEdited", "parameterMap"],
+        Phoneme: ["previous", "next", "phonemeSequence"], AnchorNode: ["previous", "next", "sequence"], Parameter: ["original", "freeTransform", "freeEdited", "anchorTransform", "anchorEdited", "parameterMap"],
         Sources: ["singers", "dynamicMixingAnchors", "clip"], SingleSinger: ["singerList"], MixedSinger: ["singerList", "singers"],
-        DynamicMixingAnchor: ["previous", "next", "sequence"], Tempo: ["previous", "next"], TimeSignature: ["previous", "next"], Label: ["previous", "next"], KeySignature: ["previous", "next"], AudioDSP: ["audioDSPList"],
+        DynamicMixingAnchor: ["previous", "next", "sequence"], Tempo: ["previous", "next", "tempoSequence"], TimeSignature: ["previous", "next", "timeSignatureSequence"], Label: ["previous", "next", "labelSequence"], KeySignature: ["previous", "next", "keySignatureSequence"], AudioDSP: ["audioDSPList"],
     };
     const collections = {
         TrackList: ["Track", "trackList"], ClipSequence: ["Clip", "clipSequence"], NoteSequence: ["Note", "noteSequence"], PhonemeSequence: ["Phoneme", "phonemeSequence", "start"],
@@ -347,7 +347,7 @@
         const target = index === undefined ? count : V.int(index, 0, count);
         const info = collections[entry.kind];
         if (info && info[2]) uniqueness(entry, info[2], data[info[2] === "position" ? "pos" : info[2]]);
-        if (entry.kind === "ParameterMap") { V.nonempty(key); if (parameterRaw(entry, key)) throw new Range("The parameter key already exists."); }
+        if (entry.kind === "ParameterMap") { V.parameterId(key); if (parameterRaw(entry, key)) throw new Range("The parameter key already exists."); }
         return mutation(entry, () => {
             const original = entry.kind === "PhonemeSequence" && readRaw(entry, "role") === 0;
             const raw = result(bridge.allocate(entry.raw, kind, original));
@@ -406,32 +406,32 @@
             return createItem(this, type, copied, index, "", true);
         });
         method(prototype, "at", function (index) { V.int(index); const items = rawItems(state(this)); return index < items.length ? wrap(items[index]) : null; });
-        const range = function (start, length, effective = false) {
+        const range = function (start, length) {
             V.int(start, kind === "PhonemeSequence" ? -2147483648 : 0); V.int(length); V.int(start + length, kind === "PhonemeSequence" ? -2147483648 : 0);
             const entry = state(this); const items = rawItems(entry); const resultItems = [];
             if (!length) return freeze(resultItems);
-            let previous = null; let following = null;
             for (let j = 0; j < items.length; ++j) {
                 const item = items[j]; const key = kind === "AnchorNodeSequence" ? "x" : kind === "PhonemeSequence" ? "start" : kind === "TimeSignatureSequence" ? "index" : "position";
                 const position = result(bridge.read(item, key));
                 const interval = kind === "NoteSequence" || kind === "ClipSequence";
                 const end = interval ? position + result(bridge.read(item, kind === "ClipSequence" ? "clipLength" : "length")) : position;
                 if ((interval ? end > start : position >= start) && position < start + length) resultItems[resultItems.length] = wrap(item);
-                if (position < start) previous = item;
-                else if (position >= start + length && following === null) following = item;
             }
-            if (effective) { if (previous) { const withPrevious = [wrap(previous)]; append(withPrevious, resultItems); resultItems.length = 0; append(resultItems, withPrevious); } if (following) resultItems[resultItems.length] = wrap(following); }
             return freeze(resultItems);
         };
         method(prototype, kind === "TimeSignatureSequence" ? "inMeasureRange" : "inRange", range);
-        if (kind === "AnchorNodeSequence" || kind === "DynamicMixingAnchorSequence") method(prototype, "effectiveInRange", function (start, length) { return range.call(this, start, length, true); });
-        if (kind === "ClipSequence" || kind === "NoteSequence" || kind === "AnchorNodeSequence" || kind === "DynamicMixingAnchorSequence" || kind === "SingerList" || kind === "AudioDSPList") {
+        if (kind === "AnchorNodeSequence" || kind === "DynamicMixingAnchorSequence") method(prototype, "effectiveInRange", function (start, length) {
+            const entry = requireKind(this, kind); V.int(start); V.int(length); V.int(start + length);
+            return freeze(mapped(result(bridge.effectiveItems(entry.raw, start, length)), wrap));
+        });
+        if (kind === "ClipSequence" || kind === "NoteSequence" || kind === "PhonemeSequence" || kind === "AnchorNodeSequence" || kind === "DynamicMixingAnchorSequence" || kind === "SingerList" || kind === "AudioDSPList") {
             method(prototype, "moveHere", function (item, index) {
                 const target = requireKind(this, kind); const source = state(item); active();
                 if (!bridge.sameDocument(target.raw, source.raw)) throw new Type("Entities must belong to the same document.");
                 const sourceOwner = ownerOf(source);
                 if (!sourceOwner || sourceOwner.kind !== target.kind) throw new Type("The entity has an incompatible owner.");
                 if (sourceOwner.raw === target.raw) throw new Type("A different source container is required.");
+                if (kind === "PhonemeSequence" && (source.kind !== "Phoneme" || readRaw(target, "role") !== 1 || readRaw(sourceOwner, "role") !== 1 || readRaw(source, "role") !== 1)) throw new Type("Only edited phonemes can be moved between edited sequences.");
                 const length = rawItems(target).length;
                 const targetIndex = index === undefined ? length : V.int(index, 0, length);
                 if (info[2]) uniqueness(target, info[2], readRaw(source, info[2]), source.raw);
@@ -443,7 +443,7 @@
                         const list = result(bridge.read(ancestor, "singerList")); ancestor = list ? result(bridge.read(list, "mixedSinger")) : null;
                     }
                 }
-                mutation(target, () => result(bridge.transfer(target.raw, source.raw, targetIndex)));
+                mutation(target, () => result(bridge.transfer(target.raw, source.raw, targetIndex, "")));
             });
         }
         if (kind === "TrackList" || kind === "SingerList" || kind === "AudioDSPList") {
@@ -459,7 +459,9 @@
     for (let i = 0, names = keys(collectionOwners); i < names.length; ++i) {
         const info = collectionOwners[names[i]]; property(prototypes[names[i]], info[0], function () { return wrap(readRaw(state(this), info[1])); });
     }
-    property(prototypes.AudioDSPList, "model", function () { return wrap(result(bridge.model(state(this).raw))); });
+    for (let i = 0, names = ["TrackList", "TempoSequence", "TimeSignatureSequence", "LabelSequence", "KeySignatureSequence", "AudioDSPList"]; i < names.length; ++i) {
+        property(prototypes[names[i]], "model", function () { return wrap(result(bridge.model(state(this).raw))); });
+    }
     property(prototypes.ClipSequence, "audioClipCount", function () { return readRaw(state(this), "audioClipCount"); });
     property(prototypes.ClipSequence, "singingClipCount", function () { return readRaw(state(this), "singingClipCount"); });
     property(prototypes.PhonemeSequence, "role", function () { return readRaw(state(this), "role") === 0 ? "original" : "edited"; });
@@ -467,6 +469,12 @@
     method(prototypes.SingingClip, "setSources", function (input) { return createItem(this, "Sources", input); });
     method(prototypes.SingingClip, "setSourcesFromOpenDSPX", function (input) { return createItem(this, "Sources", input, undefined, "", true); });
     method(prototypes.SingingClip, "clearSources", function () { const entry = state(this); mutation(entry, () => result(bridge.write(entry.raw, "sources", null))); });
+    method(prototypes.SingingClip, "moveSourcesHere", function (sources) {
+        const target = requireKind(this, "SingingClip"); const source = requireKind(sources, "Sources"); active();
+        if (!bridge.sameDocument(target.raw, source.raw)) throw new Type("Entities must belong to the same document.");
+        if (readRaw(source, "singingClip") === target.raw) throw new Type("A different source clip is required.");
+        mutation(target, () => result(bridge.transfer(target.raw, source.raw, 0, "")));
+    });
 
     const mapPrototype = prototypes.ParameterMap = create(null);
     property(mapPrototype, "clip", function () { return wrap(readRaw(state(this), "singingClip")); });
@@ -474,27 +482,41 @@
     property(mapPrototype, "keys", function () { return freeze(mapped(readRaw(state(this), "keys"), value => value)); });
     method(mapPrototype, "get", function (id) { V.string(id); return wrap(parameterRaw(state(this), id)); });
     method(mapPrototype, "has", function (id) { return this.get(id) !== null; });
-    method(mapPrototype, "ensure", function (id) { V.nonempty(id); return this.get(id) || createItem(this, "Parameter", {}, undefined, id); });
-    method(mapPrototype, "create", function (id, input) { return createItem(this, "Parameter", input, undefined, V.nonempty(id)); });
-    method(mapPrototype, "createFromOpenDSPX", function (id, input) { return createItem(this, "Parameter", input, undefined, V.nonempty(id), true); });
+    method(mapPrototype, "ensure", function (id) { V.parameterId(id); return this.get(id) || createItem(this, "Parameter", {}, undefined, id); });
+    method(mapPrototype, "create", function (id, input) { return createItem(this, "Parameter", input, undefined, V.parameterId(id)); });
+    method(mapPrototype, "createFromOpenDSPX", function (id, input) { return createItem(this, "Parameter", input, undefined, V.parameterId(id), true); });
     method(mapPrototype, "delete", function (id) { V.string(id); const item = this.get(id); if (!item) return false; const entry = state(this); return mutation(entry, () => { result(bridge.destroy(state(item).raw)); return true; }); });
-    method(mapPrototype, "rename", function (oldId, newId) { V.nonempty(oldId); V.nonempty(newId); if (!this.has(oldId) || this.has(newId)) throw new Range("The parameter keys are not available for renaming."); command(this, "renameParameter", [oldId, newId]); });
+    method(mapPrototype, "rename", function (oldId, newId) { V.parameterId(oldId); V.parameterId(newId); if (!this.has(oldId) || this.has(newId)) throw new Range("The parameter keys are not available for renaming."); command(this, "renameParameter", [oldId, newId]); });
+    method(mapPrototype, "moveHere", function (parameter, newId) {
+        const target = requireKind(this, "ParameterMap"); const source = requireKind(parameter, "Parameter"); active();
+        if (!bridge.sameDocument(target.raw, source.raw)) throw new Type("Entities must belong to the same document.");
+        if (readRaw(source, "parameterMap") === target.raw) throw new Type("A different source map is required.");
+        const id = V.parameterId(newId === undefined ? readRaw(source, "parameterId") : newId);
+        if (parameterRaw(target, id)) throw new Range("The parameter key already exists.");
+        mutation(target, () => result(bridge.transfer(target.raw, source.raw, 0, id)));
+    });
     method(mapPrototype, "toOpenDSPX", function () { return toDSPX(this); });
     method(mapPrototype, "fromOpenDSPX", function (input) { fromDSPX(this, input); });
     method(mapPrototype, Symbol.iterator, function () { const ids = this.keys; const values = mapped(ids, id => freeze([id, this.get(id)])); let index = 0; return { next: () => index < values.length ? { value: values[index++], done: false } : { done: true } }; });
 
     for (let i = 0, names = ["FreeValueDataArray", "VibratoPointDataArray"]; i < names.length; ++i) {
         const kind = names[i]; const prototype = prototypes[kind] = create(null);
+        const snapshot = values => freeze(mapped(values, value => value === undefined ? null : kind === "FreeValueDataArray" ? value : freeze({ x: value.x, y: value.y })));
         property(prototype, "length", function () { return readRaw(state(this), "size"); });
         property(prototype, "role", function () { const role = readRaw(state(this), "role"); return kind === "FreeValueDataArray" ? ["original", "transform", "edited"][role] : ["amplitude", "frequency"][role]; });
         if (kind === "FreeValueDataArray") {
             property(prototype, "parameter", function () { return wrap(readRaw(state(this), "parameter")); });
             property(prototype, "step", () => 5);
-            method(prototype, "at", function (index) { V.int(index); const values = this.toArray(); return index < values.length ? values[index] : undefined; });
+            method(prototype, "at", function (index) { requireKind(this, kind); const values = this.slice(index, 1); return values.length ? values[0] : undefined; });
         } else {
+            property(prototype, "note", function () { return wrap(readRaw(state(this), "note")); });
             method(prototype, "toOpenDSPX", function () { return toDSPX(this); }); method(prototype, "fromOpenDSPX", function (input) { fromDSPX(this, input); });
         }
-        method(prototype, "toArray", function () { const values = readRaw(state(this), "items"); return freeze(mapped(values, value => value === undefined ? null : kind === "FreeValueDataArray" ? value : freeze({ x: value.x, y: value.y }))); });
+        method(prototype, "toArray", function () { return snapshot(readRaw(state(this), "items")); });
+        method(prototype, "slice", function (index, length) {
+            const entry = requireKind(this, kind); V.int(index); V.int(length);
+            return snapshot(result(bridge.slice(entry.raw, index, length)));
+        });
         method(prototype, Symbol.iterator, function () { const values = this.toArray(); let index = 0; return { next: () => index < values.length ? { value: values[index++], done: false } : { done: true } }; });
         method(prototype, "splice", function (index, count, input = []) {
             const values = V.copy(input); V.array(values);
