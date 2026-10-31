@@ -25,14 +25,14 @@ ActionCollection {
         actionId: "org.diffscope.synth.dssp.statusMenuItem"
         MenuItem {
             enabled: false
-            text: root.server.statusMenuText
+            text: root.server?.statusMenuText ?? ""
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.synth.dssp.start"
         Action {
-            enabled: root.server.canStart
+            enabled: root.server?.canStart ?? false
             onTriggered: root.server.start()
         }
     }
@@ -40,7 +40,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.synth.dssp.stop"
         Action {
-            enabled: root.server.canStop
+            enabled: root.server?.canStop ?? false
             onTriggered: root.server.stop()
         }
     }
@@ -48,7 +48,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.synth.dssp.restart"
         Action {
-            enabled: root.server.canRestart
+            enabled: root.server?.canRestart ?? false
             onTriggered: root.server.restart()
         }
     }
@@ -64,7 +64,7 @@ ActionCollection {
         actionId: "org.diffscope.synth.dssp.status"
         ToolButton {
             id: statusButton
-            text: root.server.statusText
+            text: root.server?.statusText ?? ""
             icon.source: "image://fluent-system-icons/" + root.server.statusIcon
             icon.color: {
                 if (root.server.statusIcon === "dssp_error")
