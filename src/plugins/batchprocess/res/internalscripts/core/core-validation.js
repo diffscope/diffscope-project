@@ -26,6 +26,15 @@
     };
     const int = (value, min = 0, upper = max) => number(value, min, upper, true);
     const string = value => { if (typeof value !== "string") throw new Type("A string is required."); return value; };
+    const handle = value => {
+        string(value);
+        const upper = "18446744073709551615";
+        const invalid = () => { throw new Range("The handle must contain a canonical unsigned 64-bit decimal integer."); };
+        if (!value.length || value.length > upper.length || (value.length > 1 && value[0] === "0")) invalid();
+        for (let i = 0; i < value.length; ++i) if (value[i] < "0" || value[i] > "9") invalid();
+        if (value.length === upper.length && value > upper) invalid();
+        return value;
+    };
     const boolean = value => { if (typeof value !== "boolean") throw new Type("A Boolean is required."); return value; };
     const nonempty = value => { string(value); if (!value.length) throw new Type("A non-empty string is required."); return value; };
     const oneOf = (value, choices) => {
@@ -210,5 +219,5 @@
         const info = containers[name];
         schema[name] = (value, incomplete) => list(info[0], value, incomplete, info[1]);
     }
-    return { number, int, string, boolean, nonempty, oneOf, signature, object, array, copy, validate, unique, ratio, each, keys, own, max, pow, floor, sort, put };
+    return { number, int, string, handle, boolean, nonempty, oneOf, signature, object, array, copy, validate, unique, ratio, each, keys, own, max, pow, floor, sort, put };
 })()

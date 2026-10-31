@@ -51,8 +51,14 @@ declare module "diffscope:core" {
     export type Tick = number;
     /** Represents a non-negative, zero-based measure index. */
     export type MeasureIndex = number;
-    /** Preserves the full native entity ID as an opaque string valid within its document. */
-    export type Handle = string;
+    const handleBrand: unique symbol;
+
+    /** Represents an opaque entity ID scoped to one document. Runtime values use strings. */
+    type Handle = {
+        readonly [handleBrand]: unique symbol;
+    };
+    // An explicit export declaration keeps the brand symbol private to this ambient module.
+    export type { Handle };
 
     export type CoreErrorCode = "invalidState" | "invalidObject" | "transactionConflict" | "invalidData" | "unsupportedOperation" | "unknown";
 
@@ -549,13 +555,37 @@ declare module "diffscope:core" {
 
     export type EntityData = DSPX.Track | DSPX.Clip | DSPX.Note | DSPX.Phoneme | DSPX.Param | DSPX.AnchorNode | DSPX.Sources | DSPX.Singer | DSPX.DynamicMixingAnchor | DSPX.Tempo | DSPX.TimeSignature | DSPX.Label | DSPX.KeySignature | DSPX.AudioDSP;
 
+    /** Maps entity type identifiers to their corresponding document entity interfaces. */
+    export interface EntityTypeMap {
+        track: Track;
+        clip: Clip;
+        note: Note;
+        phoneme: Phoneme;
+        parameter: Parameter;
+        anchorNode: AnchorNode;
+        sources: Sources;
+        singer: Singer;
+        dynamicMixingAnchor: DynamicMixingAnchor;
+        tempo: Tempo;
+        timeSignature: TimeSignature;
+        label: Label;
+        keySignature: KeySignature;
+        audioDSP: AudioDSP;
+    }
+
+    export type EntityType = keyof EntityTypeMap;
+    /** Represents all document entities as a union discriminated by entityType. */
+    export type AnyEntity = EntityTypeMap[EntityType];
+
     export interface Entity<T extends EntityData = EntityData> extends OpenDSPXEditable<T> {
+        /** Identifies the entity type. Remains readable after invalidation. Clip and singer subtypes use kind. */
+        readonly entityType: EntityType;
         /** Remains readable after invalidation. Does not identify an entity across documents or application runs. */
         readonly handle: Handle;
         readonly model: DspxModel;
         /**
          * Remains readable after deletion or project closure. Members other than
-         * valid and handle then throw CoreError with code invalidObject. Undo
+         * entityType, valid, and handle then throw CoreError with code invalidObject. Undo
          * restoration does not make an invalidated wrapper usable again.
          * Reacquire restored entities.
          */
@@ -580,6 +610,16 @@ declare module "diffscope:core" {
     /** All writable properties require the document's script transaction. */
     export interface DspxModel extends OpenDSPXEditable<DSPX.Model> {
         readonly document: Document;
+        /**
+         * Returns an attached entity from this document, or null if the handle is
+         * absent, deleted, detached, or does not identify a supported entity.
+         * Reuses the existing JavaScript wrapper for the same live native object
+         * in this engine and document registration. Undo restoration may produce
+         * a new wrapper. Requires an executing handler without requiring a transaction.
+         * Runtime arguments must contain a canonical unsigned 64-bit decimal string.
+         * Invalid argument types cause TypeError. Invalid representations cause RangeError.
+         */
+        findEntity(handle: Handle): AnyEntity | null;
         projectName: string;
         projectAuthor: string;
         /** The global shift is an integer from -50 through 50, in cents. */
@@ -617,6 +657,7 @@ declare module "diffscope:core" {
     }
 
     export interface Track extends Entity<DSPX.Track> {
+        readonly entityType: "track";
         name: string;
         /** The palette ID is an integer. Unavailable IDs use the application's display fallback. */
         colorId: number;
@@ -636,6 +677,7 @@ declare module "diffscope:core" {
     export type Clip = AudioClip | SingingClip;
 
     export interface ClipBase<T extends DSPX.Clip = DSPX.Clip> extends Entity<T> {
+        readonly entityType: "clip";
         readonly kind: ClipKind;
         name: string;
         /** The linear amplitude gain must be non-negative. */
@@ -746,6 +788,7 @@ declare module "diffscope:core" {
     }
 
     export interface Note extends Entity<DSPX.Note> {
+        readonly entityType: "note";
         /** The pitch shift is an integer from -50 through 50. */
         centShift: number;
         /** The MIDI key number is an integer from 0 through 127. */
@@ -783,6 +826,7 @@ declare module "diffscope:core" {
 
     /** Original fields are read-only except through explicit whole-object DSPX replacement. */
     export interface Phoneme extends Entity<DSPX.Phoneme> {
+        readonly entityType: "phoneme";
         readonly role: "original" | "edited";
         readonly language: string;
         /** The start is an integer millisecond offset from note onset. Negative values are permitted. */
@@ -844,6 +888,7 @@ declare module "diffscope:core" {
     export type AnchorInterpolation = DSPX.AnchorInterpolation;
 
     export interface AnchorNode extends Entity<DSPX.AnchorNode> {
+        readonly entityType: "anchorNode";
         interpolationMode: AnchorInterpolation;
         /** The content tick must be non-negative and unique within this sequence. */
         x: Tick;
@@ -881,6 +926,7 @@ declare module "diffscope:core" {
      * Original anchor coordinates must not exceed 2147483643 during native resampling.
      */
     export interface Parameter extends Entity<DSPX.Param> {
+        readonly entityType: "parameter";
         readonly parameterId: string | null;
         readonly original: ReadonlyParameterSamples;
         readonly freeTransform: ParameterSamples;
@@ -911,6 +957,7 @@ declare module "diffscope:core" {
     }
 
     export interface Sources extends Entity<DSPX.Sources> {
+        readonly entityType: "sources";
         /** The category identifies the architecture. Unknown identifiers may be preserved in document data. */
         category: string;
         readonly singers: SingerList;
@@ -922,6 +969,7 @@ declare module "diffscope:core" {
     export type Singer = SingleSinger | MixedSinger;
 
     export interface SingerBase<T extends DSPX.Singer = DSPX.Singer> extends Entity<T> {
+        readonly entityType: "singer";
         readonly kind: SingerKind;
         /** Returns a copy. Assignment replaces the complete value and requires a transaction. */
         extra: JsonValue;
@@ -975,6 +1023,7 @@ declare module "diffscope:core" {
     }
 
     export interface DynamicMixingAnchor extends Entity<DSPX.DynamicMixingAnchor> {
+        readonly entityType: "dynamicMixingAnchor";
         /** The content tick must be non-negative and unique within this sequence. */
         position: Tick;
         /** The array contains weights for all top-level singers except the last. Assignment copies it. */
@@ -1001,6 +1050,7 @@ declare module "diffscope:core" {
     }
 
     export interface Tempo extends Entity<DSPX.Tempo> {
+        readonly entityType: "tempo";
         /** The project tick must be non-negative and unique within the tempo sequence. */
         position: Tick;
         /** The tempo is from 10 through 1000 quarter notes per minute. */
@@ -1021,6 +1071,7 @@ declare module "diffscope:core" {
     }
 
     export interface TimeSignature extends Entity<DSPX.TimeSignature> {
+        readonly entityType: "timeSignature";
         /** The measure index must be non-negative and unique within the time-signature sequence. */
         index: MeasureIndex;
         /** The numerator must be an integer from 1 through 1118481. */
@@ -1042,6 +1093,7 @@ declare module "diffscope:core" {
     }
 
     export interface Label extends Entity<DSPX.Label> {
+        readonly entityType: "label";
         /** The position is a non-negative project tick. Duplicate positions are permitted. */
         position: Tick;
         text: string;
@@ -1063,6 +1115,7 @@ declare module "diffscope:core" {
     export type AccidentalType = "flat" | "sharp";
 
     export interface KeySignature extends Entity<DSPX.KeySignature> {
+        readonly entityType: "keySignature";
         /** The project tick must be non-negative and unique within the key-signature sequence. */
         position: Tick;
         /** The mode is a 12-bit pitch-class mask relative to the tonic. */
@@ -1086,6 +1139,7 @@ declare module "diffscope:core" {
     }
 
     export interface AudioDSP extends Entity<DSPX.AudioDSP> {
+        readonly entityType: "audioDSP";
         id: string;
         /** Returns a copy. Assignment replaces the complete effect configuration. */
         data: JsonValue;

@@ -34,6 +34,12 @@
         extra: value => value, data: value => value,
     };
     const enumeration = { interpolationMode: ["none", "linear", "hermite"], accidentalType: ["flat", "sharp"] };
+    const entityTypes = {
+        Track: "track", AudioClip: "clip", SingingClip: "clip", Note: "note", Phoneme: "phoneme",
+        Parameter: "parameter", AnchorNode: "anchorNode", Sources: "sources", SingleSinger: "singer", MixedSinger: "singer",
+        DynamicMixingAnchor: "dynamicMixingAnchor", Tempo: "tempo", TimeSignature: "timeSignature", Label: "label",
+        KeySignature: "keySignature", AudioDSP: "audioDSP",
+    };
     const entityFields = {
         Track: ["name", "colorId", "height", "gain", "pan", "mute", "solo"],
         AudioClip: ["name", "gain", "pan", "mute", "position", "length", "clipStart", "clipLength", "path"],
@@ -169,6 +175,7 @@
     for (let i = 0, names = keys(entityFields); i < names.length; ++i) {
         const name = names[i];
         const prototype = prototypes[name] = create(entityPrototype);
+        if (own(entityTypes, name)) property(prototype, "entityType", function () { return entityTypes[state(this, false).kind]; });
         const properties = entityFields[name];
         for (let j = 0; j < properties.length; ++j) { const key = properties[j]; property(prototype, key, function () { return get(this, key); }, function (value) { set(this, key, value); }); }
         const references = objectFields[name] || [];
@@ -546,6 +553,11 @@
     method(documentPrototype, "bounceSelectionToClip", function () { command(this, "bounceSelectionToClip"); });
     method(documentPrototype, "toOpenDSPX", function () { return toDSPX(this); });
     property(prototypes.DspxModel, "document", function () { return wrap(readRaw(state(this), "document")); });
+    method(prototypes.DspxModel, "findEntity", function (handle) {
+        const entry = requireKind(this, "DspxModel");
+        V.handle(handle);
+        return wrap(result(bridge.findEntity(entry.raw, handle))) || null;
+    });
 
     const projectPrototype = prototypes.Project = create(null);
     property(projectPrototype, "closed", function () { const entry = state(this, false); return !bridge.valid(entry.raw, entry.generation); });

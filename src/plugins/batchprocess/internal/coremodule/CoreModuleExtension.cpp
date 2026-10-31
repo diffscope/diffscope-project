@@ -35,6 +35,7 @@
 #include <SVSCraftCore/MusicTimeSignature.h>
 #include <SVSCraftCore/MusicTimeline.h>
 
+#include <dspxmodelORM/Handle.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/ArchitectureInfo.h>
@@ -81,6 +82,7 @@ namespace BatchProcess::Internal {
         Q_INVOKABLE QJSValue read(QObject *object, const QString &property);
         Q_INVOKABLE QJSValue write(QObject *object, const QString &property, const QJSValue &value);
         Q_INVOKABLE QJSValue items(QObject *container);
+        Q_INVOKABLE QJSValue findEntity(QObject *object, const QString &handle);
         Q_INVOKABLE QJSValue allocate(QObject *container, const QString &kind, bool original);
         Q_INVOKABLE QJSValue attach(QObject *container, QObject *entity, int index, const QString &key);
         Q_INVOKABLE QJSValue transfer(QObject *container, QObject *entity, int index);
@@ -403,6 +405,18 @@ namespace BatchProcess::Internal {
 
     QJSValue CoreModuleBridge::items(QObject *container) {
         return guarded(container, QStringLiteral("items"), false, [&] { return success(values(modelItems(container))); });
+    }
+
+    QJSValue CoreModuleBridge::findEntity(QObject *object, const QString &handle) {
+        return guarded(object, QStringLiteral("findEntity"), false, [&] {
+            auto *model = qobject_cast<dspx::Model *>(object);
+            bool ok = false;
+            const auto id = handle.toULongLong(&ok, 10);
+            if (!model || !ok || QString::number(id) != handle) return failure(QStringLiteral("invalidData"), QStringLiteral("findEntity"));
+            auto *entity = model->find(dspx::Handle{id});
+            if (!entity || entity == model || !attachedObject(entity)) return success(QJSValue(QJSValue::NullValue));
+            return success(raw(entity));
+        });
     }
 
     QJSValue CoreModuleBridge::allocate(QObject *container, const QString &type, bool original) {
