@@ -15,6 +15,7 @@
 #include <batchprocess/Script.h>
 #include <batchprocess/ScriptAction.h>
 #include <batchprocess/ScriptExecutionContext.h>
+#include <batchprocess/ScriptMethod.h>
 #include <batchprocess/private/Script_p.h>
 
 namespace BatchProcess::Internal {
@@ -135,8 +136,8 @@ namespace BatchProcess::Internal {
     }
 
     QJSValue RuntimeModuleExtension::createScriptRuntime(ScriptExecutionContext *context, QJSEngine *engine) const {
-        if (!context || context->engine() != engine || !context->script() || !context->action()) {
-            engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("Runtime script information is only available while a script action is executing."));
+        if (!context || context->engine() != engine || !context->script() || !context->isExecuting()) {
+            engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("Runtime script information is only available while a script is executing."));
             return QJSValue(QJSValue::UndefinedValue);
         }
 
@@ -144,8 +145,11 @@ namespace BatchProcess::Internal {
         const auto action = context->action();
         const auto actions = script->actions();
         const auto actionIndex = actions.indexOf(action);
-        if (actionIndex < 0) {
-            engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("The current script action is not part of the current script."));
+        const auto method = context->method();
+        const auto methods = script->methods();
+        const auto methodIndex = methods.indexOf(method);
+        if ((action && actionIndex < 0) || (method && methodIndex < 0)) {
+            engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("The current action or method is not part of the current script."));
             return QJSValue(QJSValue::UndefinedValue);
         }
 
@@ -174,20 +178,37 @@ namespace BatchProcess::Internal {
         }
         metadata.setProperty(QStringLiteral("actions"), actionMetadataArray);
 
+        auto methodMetadataArray = engine->newArray(static_cast<quint32>(methods.size()));
+        QJSValue currentMethodMetadata;
+        for (qsizetype index = 0; index < methods.size(); ++index) {
+            const auto methodMetadata = engine->toScriptValue(methods.at(index)->metadata().toVariantMap());
+            methodMetadataArray.setProperty(static_cast<quint32>(index), methodMetadata);
+            if (index == methodIndex) {
+                currentMethodMetadata = methodMetadata;
+            }
+        }
+        metadata.setProperty(QStringLiteral("methods"), methodMetadataArray);
+
         auto runtime = engine->newObject();
         runtime.setProperty(QStringLiteral("metadata"), metadata);
         runtime.setProperty(QStringLiteral("isBuiltin"), script->isBuiltin());
         runtime.setProperty(QStringLiteral("scriptPath"), script->filePath());
         runtime.setProperty(QStringLiteral("scriptRoot"), script->d_func()->rootPath);
-        runtime.setProperty(QStringLiteral("kind"), QStringLiteral("action"));
-        runtime.setProperty(QStringLiteral("action"), currentActionMetadata);
-        runtime.setProperty(QStringLiteral("actionIndex"), static_cast<int>(actionIndex));
+        if (action) {
+            runtime.setProperty(QStringLiteral("kind"), QStringLiteral("action"));
+            runtime.setProperty(QStringLiteral("action"), currentActionMetadata);
+            runtime.setProperty(QStringLiteral("actionIndex"), static_cast<int>(actionIndex));
+        } else {
+            runtime.setProperty(QStringLiteral("kind"), QStringLiteral("method"));
+            runtime.setProperty(QStringLiteral("method"), currentMethodMetadata);
+            runtime.setProperty(QStringLiteral("methodIndex"), static_cast<int>(methodIndex));
+        }
         return runtime;
     }
 
     void RuntimeModuleExtension::abort(ScriptExecutionContext *context, QJSEngine *engine) const {
-        if (!context || context->engine() != engine || !context->script() || !context->action()) {
-            engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("No script action is currently executing."));
+        if (!context || context->engine() != engine || !context->script() || !context->isExecuting()) {
+            engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("No script is currently executing."));
             return;
         }
         m_batchProcessInterface->interruptCurrentExecution();

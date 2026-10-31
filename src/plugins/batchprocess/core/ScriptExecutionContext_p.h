@@ -19,6 +19,7 @@ namespace BatchProcess {
         QJSEngine *engine{};
         Script *script{};
         ScriptAction *action{};
+        ScriptMethod *method{};
         QPointer<Core::ActionWindowInterfaceBase> windowInterface;
         QPointer<Core::ProjectWindowInterface> projectWindowInterface;
         QPointer<Core::ProjectDocumentContext> projectDocumentContext;

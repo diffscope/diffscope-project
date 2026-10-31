@@ -7,10 +7,12 @@
 #include <functional>
 
 #include <QJSValue>
+#include <QJsonObject>
 #include <QList>
 #include <QObject>
 #include <QString>
 
+#include <batchprocess/ScriptMethodResult.h>
 #include <batchprocess/batchprocessglobal.h>
 
 class QJSEngine;
@@ -31,6 +33,7 @@ namespace BatchProcess {
     class Script;
     class ScriptAction;
     class ScriptExecutionContext;
+    class ScriptMethod;
 
     class BATCH_PROCESS_EXPORT BatchProcessInterface : public QObject {
         Q_OBJECT
@@ -40,7 +43,7 @@ namespace BatchProcess {
         using ModuleFactory = std::function<QJSValue(ScriptExecutionContext *context)>;
         using GlobalObjectFactory = std::function<QJSValue(ScriptExecutionContext *context)>;
         using EngineExtension = std::function<void(QJSEngine *engine, ScriptExecutionContext *context)>;
-        using ActionCallback = std::function<void(ScriptExecutionContext *context)>;
+        using ExecutionCallback = std::function<void(ScriptExecutionContext *context)>;
 
         ~BatchProcessInterface() override;
 
@@ -59,18 +62,26 @@ namespace BatchProcess {
         /** Installs a read-only property on each newly created engine global object. */
         bool registerGlobalObject(const QString &name, QObject *owner, GlobalObjectFactory factory);
         bool registerEngineExtension(QObject *owner, EngineExtension extension);
-        bool registerActionStartedCallback(QObject *owner, ActionCallback callback);
-        bool registerActionFinishedCallback(QObject *owner, ActionCallback callback);
+        /** Registers a callback for action and method execution. Registrations apply to newly created engines. */
+        bool registerExecutionStartedCallback(QObject *owner, ExecutionCallback callback);
+        /** Registers a cleanup callback for action and method execution, including failed calls. */
+        bool registerExecutionFinishedCallback(QObject *owner, ExecutionCallback callback);
 
         /** Returned objects remain valid only until the next successful reload. */
         QList<Script *> scripts() const;
-        /** Returns the built-in or user script while it is loading or while one of its actions is executing. */
+        /** Returns the built-in or user script while it is loading or while an action or method is executing. */
         Script *currentScript() const;
         ScriptExecutionContext *executionContext() const;
 
         bool reloadScripts();
         bool executeAction(ScriptAction *action, Core::ActionWindowInterfaceBase *windowInterface = nullptr);
-        /** Requests a one-shot interruption of the currently executing script action. This method may be called from another thread. */
+        /**
+         * Executes a method synchronously on the interface thread and returns its result or error without displaying a dialog.
+         * Passes params directly as a named parameter object without schema validation.
+         * Returns an internal error if execution cannot start.
+         */
+        ScriptMethodResult executeMethod(ScriptMethod *method, const QJsonObject &params, Core::ActionWindowInterfaceBase *windowInterface = nullptr);
+        /** Requests a one-shot interruption of the currently executing script. This method may be called from another thread. */
         void interruptCurrentExecution();
 
     private:

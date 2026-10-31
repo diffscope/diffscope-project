@@ -12,6 +12,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QJSEngine>
+#include <QJsonObject>
 #include <QJsonParseError>
 #include <QJsonValue>
 #include <QLoggingCategory>
@@ -33,11 +34,13 @@
 #include <batchprocess/Script.h>
 #include <batchprocess/ScriptAction.h>
 #include <batchprocess/ScriptExecutionContext.h>
+#include <batchprocess/ScriptMethod.h>
 #include <batchprocess/internal/JavaScriptEngineHelper.h>
 #include <batchprocess/private/BatchProcessInterface_p.h>
-#include <batchprocess/private/Script_p.h>
 #include <batchprocess/private/ScriptAction_p.h>
 #include <batchprocess/private/ScriptExecutionContext_p.h>
+#include <batchprocess/private/ScriptMethod_p.h>
+#include <batchprocess/private/Script_p.h>
 
 namespace BatchProcess::Internal {
 
@@ -50,7 +53,7 @@ namespace BatchProcess::Internal {
         }
 
         QString callbackExceptionText() {
-            return BatchProcessInterface::tr("A registered callback threw an unknown C++ exception.");
+            return QStringLiteral("A registered callback threw an unknown C++ exception.");
         }
 
         QString builtinScriptFactoryExceptionText() {
@@ -218,9 +221,9 @@ namespace BatchProcess::Internal {
         BatchProcessInterface::EngineExtension extension;
     };
 
-    struct BatchProcessRuntime::ActionCallbackRegistration {
+    struct BatchProcessRuntime::ExecutionCallbackRegistration {
         QPointer<QObject> owner;
-        BatchProcessInterface::ActionCallback callback;
+        BatchProcessInterface::ExecutionCallback callback;
     };
 
     struct BatchProcessRuntime::DefinitionRecord {
@@ -231,9 +234,15 @@ namespace BatchProcess::Internal {
             QJSValue execute;
         };
 
+        struct MethodDefinition {
+            QJsonObject metadata;
+            QJSValue execute;
+        };
+
         QJSValue definition;
         ScriptMetadata metadata;
         QVector<ActionDefinition> actions;
+        QVector<MethodDefinition> methods;
     };
 
     struct BatchProcessRuntime::ModuleRecord {
@@ -362,13 +371,13 @@ namespace BatchProcess::Internal {
         for (const auto &registration : interfacePrivate->engineExtensionRegistrations) {
             m_engineExtensionRegistrations.append({registration.owner, registration.extension});
         }
-        m_actionStartedCallbacks.reserve(interfacePrivate->actionStartedCallbacks.size());
-        for (const auto &registration : interfacePrivate->actionStartedCallbacks) {
-            m_actionStartedCallbacks.append({registration.owner, registration.callback});
+        m_executionStartedCallbacks.reserve(interfacePrivate->executionStartedCallbacks.size());
+        for (const auto &registration : interfacePrivate->executionStartedCallbacks) {
+            m_executionStartedCallbacks.append({registration.owner, registration.callback});
         }
-        m_actionFinishedCallbacks.reserve(interfacePrivate->actionFinishedCallbacks.size());
-        for (const auto &registration : interfacePrivate->actionFinishedCallbacks) {
-            m_actionFinishedCallbacks.append({registration.owner, registration.callback});
+        m_executionFinishedCallbacks.reserve(interfacePrivate->executionFinishedCallbacks.size());
+        for (const auto &registration : interfacePrivate->executionFinishedCallbacks) {
+            m_executionFinishedCallbacks.append({registration.owner, registration.callback});
         }
     }
 
@@ -377,6 +386,9 @@ namespace BatchProcess::Internal {
         for (const auto script : std::as_const(m_scripts)) {
             for (const auto action : script->actions()) {
                 action->d_func()->executeFunction = {};
+            }
+            for (const auto method : script->methods()) {
+                method->d_func()->executeFunction = {};
             }
         }
         m_definitions.clear();
@@ -409,10 +421,12 @@ namespace BatchProcess::Internal {
         static const QStringList requiredHelpers{
             QStringLiteral("defineReadOnlyGlobal"),
             QStringLiteral("invokeAction"),
+            QStringLiteral("invokeMethod"),
             QStringLiteral("invokeModule"),
             QStringLiteral("makeDefineScript"),
             QStringLiteral("makeModule"),
             QStringLiteral("makeRequire"),
+            QStringLiteral("methodDefinitions"),
         };
         for (const auto &helper : requiredHelpers) {
             if (!m_runtimeHelpers.property(helper).isCallable()) {
@@ -628,7 +642,7 @@ namespace BatchProcess::Internal {
             return item.owner && item.name == name;
         });
         if (registration == m_moduleRegistrations.end()) {
-            *errorMessage = BatchProcessInterface::tr("Unknown registered module %1.").arg(quoted(name));
+            *errorMessage = QStringLiteral("Unknown registered module %1.").arg(quoted(name));
             return {};
         }
 
@@ -638,21 +652,21 @@ namespace BatchProcess::Internal {
             const auto value = factory(m_context.get());
             if (m_engine->hasError()) {
                 const auto error = m_engine->catchError();
-                *errorMessage = BatchProcessInterface::tr("Factory for module %1 failed:\n%2").arg(quoted(name), errorText(error));
-                qCCritical(lcBatchProcessRuntime) << "Registered module factory failed" << name << *errorMessage;
+                *errorMessage = QStringLiteral("Factory for module %1 failed:\n%2").arg(quoted(name), error.toString());
+                qCCritical(lcBatchProcessRuntime) << "Registered module factory failed" << name << errorText(error);
                 return {};
             }
             if (!owner) {
-                *errorMessage = BatchProcessInterface::tr("The owner of module %1 was destroyed while its factory was running.").arg(quoted(name));
+                *errorMessage = QStringLiteral("The owner of module %1 was destroyed while its factory was running.").arg(quoted(name));
                 return {};
             }
             m_registeredModules.insert(name, value);
             qCDebug(lcBatchProcessRuntime) << "Created registered module" << name;
             return value;
         } catch (const std::exception &error) {
-            *errorMessage = BatchProcessInterface::tr("Factory for module %1 failed:\n%2").arg(quoted(name), QString::fromLocal8Bit(error.what()));
+            *errorMessage = QStringLiteral("Factory for module %1 failed:\n%2").arg(quoted(name), QString::fromLocal8Bit(error.what()));
         } catch (...) {
-            *errorMessage = BatchProcessInterface::tr("Factory for module %1 failed:\n%2").arg(quoted(name), callbackExceptionText());
+            *errorMessage = QStringLiteral("Factory for module %1 failed:\n%2").arg(quoted(name), callbackExceptionText());
         }
         qCCritical(lcBatchProcessRuntime) << "Registered module factory threw" << name << *errorMessage;
         return {};
@@ -854,6 +868,36 @@ namespace BatchProcess::Internal {
             record.actions.append(std::move(actionDefinition));
         }
 
+        const auto methodDefinitions = m_runtimeHelpers.property(QStringLiteral("methodDefinitions")).call({definition});
+        if (m_engine->hasError()) {
+            const auto error = m_engine->catchError();
+            m_engine->throwError(error);
+            return QJSValue(QJSValue::UndefinedValue);
+        }
+        if (methodDefinitions.isError()) {
+            m_engine->throwError(methodDefinitions);
+            return QJSValue(QJSValue::UndefinedValue);
+        }
+        if (!methodDefinitions.property(QStringLiteral("ok")).toBool()) {
+            m_engine->throwError(methodDefinitions.property(QStringLiteral("error")));
+            return QJSValue(QJSValue::UndefinedValue);
+        }
+        const auto methods = methodDefinitions.property(QStringLiteral("value"));
+        const auto methodCount = methods.property(QStringLiteral("length")).toUInt();
+        record.methods.reserve(static_cast<qsizetype>(methodCount));
+        for (quint32 index = 0; index < methodCount; ++index) {
+            const auto method = methods.property(index);
+            DefinitionRecord::MethodDefinition methodDefinition;
+            QJsonParseError parseError{};
+            const auto metadata = QJsonValue::fromJson(method.property(QStringLiteral("metadata")).toString().toUtf8(), &parseError);
+            if (parseError.error != QJsonParseError::NoError || !metadata.isObject()) {
+                return throwDefinitionError(BatchProcessInterface::tr("Method metadata cannot be represented as JSON."));
+            }
+            methodDefinition.metadata = metadata.toObject();
+            methodDefinition.execute = method.property(QStringLiteral("execute"));
+            record.methods.append(std::move(methodDefinition));
+        }
+
         if (!script->d_func()->metadata.isValid()) {
             script->d_func()->metadata = record.metadata;
         }
@@ -1042,8 +1086,15 @@ namespace BatchProcess::Internal {
             script->d_func()->actions.append(action);
         }
 
+        for (const auto &methodDefinition : definition.methods) {
+            auto method = new ScriptMethod(script.get(), script.get());
+            method->d_func()->metadata = methodDefinition.metadata;
+            method->d_func()->executeFunction = methodDefinition.execute;
+            script->d_func()->methods.append(method);
+        }
+
         loadedIds->insert(definition.metadata.id());
-        qCInfo(lcBatchProcessRuntime) << "Loaded script" << definition.metadata.id() << script->filePath() << "actions" << script->actions().size();
+        qCInfo(lcBatchProcessRuntime) << "Loaded script" << definition.metadata.id() << script->filePath() << "actions" << script->actions().size() << "methods" << script->methods().size();
         m_definitions.remove(script.get());
         m_scripts.append(script.release());
         clearExecutionContext();
@@ -1054,6 +1105,7 @@ namespace BatchProcess::Internal {
         auto contextPrivate = m_context->d_func();
         contextPrivate->script = script;
         contextPrivate->action = nullptr;
+        contextPrivate->method = nullptr;
         contextPrivate->windowInterface = nullptr;
         contextPrivate->projectWindowInterface = nullptr;
         contextPrivate->projectDocumentContext = nullptr;
@@ -1100,28 +1152,13 @@ namespace BatchProcess::Internal {
         auto contextPrivate = m_context->d_func();
         contextPrivate->script = script;
         contextPrivate->action = action;
+        contextPrivate->method = nullptr;
         contextPrivate->windowInterface = windowInterface;
         contextPrivate->projectWindowInterface = projectWindowInterface;
         contextPrivate->projectDocumentContext = projectWindowInterface ? projectWindowInterface->projectDocumentContext() : nullptr;
 
         qCInfo(lcBatchProcessRuntime) << "Starting script action" << script->metadata().id() << action->name();
-        const auto actionStartedCallbacks = m_actionStartedCallbacks;
-        for (const auto &registration : actionStartedCallbacks) {
-            if (!registration.owner || !registration.callback) {
-                continue;
-            }
-            try {
-                registration.callback(m_context.get());
-                if (m_engine->hasError()) {
-                    const auto message = errorText(m_engine->catchError());
-                    qCCritical(lcBatchProcessRuntime) << "Action-start callback failed" << message;
-                }
-            } catch (const std::exception &error) {
-                qCCritical(lcBatchProcessRuntime) << "Action-start callback threw" << error.what();
-            } catch (...) {
-                qCCritical(lcBatchProcessRuntime) << "Action-start callback threw" << callbackExceptionText();
-            }
-        }
+        runExecutionCallbacks(true);
 
         bool succeeded = true;
         ErrorInfo error;
@@ -1148,23 +1185,7 @@ namespace BatchProcess::Internal {
             }
         }
 
-        const auto actionFinishedCallbacks = m_actionFinishedCallbacks;
-        for (const auto &registration : actionFinishedCallbacks) {
-            if (!registration.owner || !registration.callback) {
-                continue;
-            }
-            try {
-                registration.callback(m_context.get());
-                if (m_engine->hasError()) {
-                    const auto message = errorText(m_engine->catchError());
-                    qCCritical(lcBatchProcessRuntime) << "Action-finished callback failed" << message;
-                }
-            } catch (const std::exception &error) {
-                qCCritical(lcBatchProcessRuntime) << "Action-finished callback threw" << error.what();
-            } catch (...) {
-                qCCritical(lcBatchProcessRuntime) << "Action-finished callback threw" << callbackExceptionText();
-            }
-        }
+        runExecutionCallbacks(false);
 
         if (!succeeded) {
             qCCritical(lcBatchProcessRuntime) << "Script action failed" << script->metadata().id() << action->name() << error.diagnosticText;
@@ -1178,6 +1199,99 @@ namespace BatchProcess::Internal {
         return succeeded;
     }
 
+    ScriptMethodResult BatchProcessRuntime::executeMethod(ScriptMethod *method, const QJsonObject &params, Core::ActionWindowInterfaceBase *windowInterface) {
+        if (m_executing || currentScript()) {
+            return ScriptMethodResult::internalError(QStringLiteral("Error"), QStringLiteral("A script is already loading or executing."));
+        }
+        Script *script{};
+        for (const auto candidate : std::as_const(m_scripts)) {
+            if (candidate->methods().contains(method)) {
+                script = candidate;
+                break;
+            }
+        }
+        if (!script) {
+            return ScriptMethodResult::internalError(QStringLiteral("TypeError"), QStringLiteral("The method does not belong to the active runtime."));
+        }
+
+        QString moduleError;
+        const auto runtimeModule = loadRegisteredModule(QStringLiteral("diffscope:runtime"), &moduleError);
+        if (!moduleError.isEmpty()) {
+            return ScriptMethodResult::internalError(QStringLiteral("Error"), moduleError);
+        }
+
+        m_engine->setInterrupted(false);
+        m_executing = true;
+        setCurrentScript(script);
+        auto contextPrivate = m_context->d_func();
+        contextPrivate->method = method;
+        contextPrivate->windowInterface = windowInterface;
+        contextPrivate->projectWindowInterface = qobject_cast<Core::ProjectWindowInterface *>(windowInterface);
+        contextPrivate->projectDocumentContext = contextPrivate->projectWindowInterface ? contextPrivate->projectWindowInterface->projectDocumentContext() : nullptr;
+
+        qCInfo(lcBatchProcessRuntime) << "Starting script method" << script->metadata().id() << method->name();
+        runExecutionCallbacks(true);
+
+        m_interfacePrivate->beginExecution(m_engine.get());
+        const auto invocation = m_runtimeHelpers.property(QStringLiteral("invokeMethod")).call({
+            method->executeFunction(),
+            m_engine->toScriptValue(params.toVariantMap()),
+            runtimeModule.property(QStringLiteral("MethodLogicError")),
+        });
+        m_interfacePrivate->endExecution(m_engine.get());
+
+        ScriptMethodResult result;
+        if (m_engine->hasError() || invocation.isError()) {
+            const auto error = m_engine->hasError() ? m_engine->catchError() : invocation;
+            const auto name = error.property(QStringLiteral("name")).toString();
+            const auto message = error.property(QStringLiteral("message")).toString();
+            result = ScriptMethodResult::internalError(name, message);
+        } else if (invocation.property(QStringLiteral("ok")).toBool()) {
+            const auto value = invocation.property(QStringLiteral("value"));
+            QJsonParseError parseError{};
+            const auto jsonValue = value.isUndefined() ? QJsonValue(QJsonValue::Undefined) : QJsonValue::fromJson(value.toString().toUtf8(), &parseError);
+            result = parseError.error == QJsonParseError::NoError
+                         ? ScriptMethodResult::success(jsonValue)
+                         : ScriptMethodResult::internalError(QStringLiteral("TypeError"), QStringLiteral("Failed to parse the method result as JSON (error %1 at offset %2).").arg(static_cast<int>(parseError.error)).arg(parseError.offset));
+        } else {
+            const auto name = invocation.property(QStringLiteral("name")).toString();
+            const auto message = invocation.property(QStringLiteral("message")).toString();
+            if (invocation.property(QStringLiteral("logicError")).toBool()) {
+                const auto data = invocation.property(QStringLiteral("data"));
+                result = ScriptMethodResult::logicError(name, message, data.isUndefined() ? QJsonValue(QJsonValue::Undefined) : QJsonValue::fromJson(data.toString().toUtf8()));
+            } else {
+                result = ScriptMethodResult::internalError(name, message);
+            }
+        }
+
+        JavaScriptEngineHelper::takeExceptionStackTrace(m_engine.get());
+        runExecutionCallbacks(false);
+        qCInfo(lcBatchProcessRuntime) << "Finished script method" << script->metadata().id() << method->name() << "status" << result.status();
+        m_engine->setInterrupted(false);
+        clearExecutionContext();
+        m_executing = false;
+        return result;
+    }
+
+    void BatchProcessRuntime::runExecutionCallbacks(bool starting) {
+        const auto callbacks = starting ? m_executionStartedCallbacks : m_executionFinishedCallbacks;
+        for (const auto &registration : callbacks) {
+            if (!registration.owner || !registration.callback) {
+                continue;
+            }
+            try {
+                registration.callback(m_context.get());
+                if (m_engine->hasError()) {
+                    qCCritical(lcBatchProcessRuntime) << "Execution callback failed" << "starting" << starting << errorText(m_engine->catchError());
+                }
+            } catch (const std::exception &error) {
+                qCCritical(lcBatchProcessRuntime) << "Execution callback threw" << "starting" << starting << error.what();
+            } catch (...) {
+                qCCritical(lcBatchProcessRuntime) << "Execution callback threw" << "starting" << starting << callbackExceptionText();
+            }
+        }
+    }
+
     void BatchProcessRuntime::removeOwner(QObject *owner) {
         auto belongsToOwner = [owner](const auto &registration) {
             return !registration.owner || registration.owner.data() == owner;
@@ -1186,8 +1300,8 @@ namespace BatchProcess::Internal {
         erase_if(m_moduleRegistrations, belongsToOwner);
         erase_if(m_globalObjectRegistrations, belongsToOwner);
         erase_if(m_engineExtensionRegistrations, belongsToOwner);
-        erase_if(m_actionStartedCallbacks, belongsToOwner);
-        erase_if(m_actionFinishedCallbacks, belongsToOwner);
+        erase_if(m_executionStartedCallbacks, belongsToOwner);
+        erase_if(m_executionFinishedCallbacks, belongsToOwner);
 
         for (auto it = m_registeredModules.begin(); it != m_registeredModules.end();) {
             const auto stillRegistered = std::ranges::any_of(m_moduleRegistrations, [&it](const ModuleRegistration &registration) {
@@ -1342,6 +1456,7 @@ namespace BatchProcess::Internal {
         auto contextPrivate = m_context->d_func();
         contextPrivate->script = nullptr;
         contextPrivate->action = nullptr;
+        contextPrivate->method = nullptr;
         contextPrivate->windowInterface = nullptr;
         contextPrivate->projectWindowInterface = nullptr;
         contextPrivate->projectDocumentContext = nullptr;

@@ -23,7 +23,6 @@
 #include <coreplugin/ActionWindowInterfaceBase.h>
 
 #include <batchprocess/Script.h>
-#include <batchprocess/ScriptAction.h>
 #include <batchprocess/ScriptExecutionContext.h>
 #include <batchprocess/internal/BatchProcessSettings.h>
 #include <batchprocess/internal/FileSystemModuleExtension.h>
@@ -281,7 +280,7 @@ namespace BatchProcess {
         if (currentExecution) {
             finalizeExecution(currentExecution->token->serial);
         }
-        if (!context || !context->engine() || !context->script() || !context->action()) {
+        if (!context || !context->engine() || !context->script() || !context->isExecuting()) {
             return;
         }
         auto execution = std::make_shared<ExecutionState>();
@@ -290,7 +289,6 @@ namespace BatchProcess {
         execution->token->serial = ++nextExecutionSerial;
         execution->token->engine = context->engine();
         execution->token->context = context;
-        execution->token->action = context->action();
         execution->scriptId = context->script()->metadata().id();
         execution->scriptRoot = context->script()->d_func()->rootPath;
         currentExecution = std::move(execution);
@@ -309,7 +307,7 @@ namespace BatchProcess {
                 return;
             }
             const auto context = currentExecution->token->context.data();
-            if (context && context->action()) {
+            if (context && context->isExecuting()) {
                 return;
             }
             finalizeExecution(serial);
@@ -334,7 +332,7 @@ namespace BatchProcess {
     }
 
     std::shared_ptr<FileSystemAccessInterfacePrivate::ExecutionState> FileSystemAccessInterfacePrivate::executionForContext(ScriptExecutionContext *context) const {
-        if (!currentExecution || !currentExecution->token || !currentExecution->token->active || !context || currentExecution->token->context != context || currentExecution->token->engine != context->engine() || currentExecution->token->action != context->action() || !context->action()) {
+        if (!currentExecution || !currentExecution->token || !currentExecution->token->active || !context || currentExecution->token->context != context || currentExecution->token->engine != context->engine() || !context->isExecuting()) {
             return {};
         }
         return currentExecution;
@@ -500,7 +498,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("permission"), {}, tr("File-system permissions can only be requested while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("permission"), {}, tr("File-system permissions can only be requested while a script is executing."));
             return FileSystemPermissionDecision::Failed;
         }
         if (request.reason.trimmed().isEmpty()) {
@@ -572,7 +570,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("getFile"), path, tr("File handles can only be created while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("getFile"), path, tr("File handles can only be created while a script is executing."));
             return {};
         }
         QString resolvedPath;
@@ -603,7 +601,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("getDirectory"), path, tr("Directory handles can only be created while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("getDirectory"), path, tr("Directory handles can only be created while a script is executing."));
             return {};
         }
         QString resolvedPath;
@@ -646,7 +644,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution || !context->script()) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("scriptPackage"), {}, tr("The script package is only available while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("scriptPackage"), {}, tr("The script package is only available while a script is executing."));
             return {};
         }
         const auto packagePath = context->script()->filePath();
@@ -673,7 +671,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("dataDirectory"), {}, tr("The script data directory is only available while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("dataDirectory"), {}, tr("The script data directory is only available while a script is executing."));
             return {};
         }
         const auto path = QDir(Internal::BatchProcessSettings::scriptDataDirectory()).filePath(Internal::safeScriptDirectoryName(execution->scriptId));
@@ -696,7 +694,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("temporaryDirectory"), {}, tr("The temporary directory is only available while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("temporaryDirectory"), {}, tr("The temporary directory is only available while a script is executing."));
             return {};
         }
         if (!execution->temporaryDirectory) {
@@ -710,10 +708,10 @@ namespace BatchProcess {
                 FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::Io, QStringLiteral("temporaryDirectory"), nativePath(rootPath), tr("Failed to create the script temporary-directory root."));
                 return {};
             }
-            execution->temporaryDirectory = std::make_unique<QTemporaryDir>(QDir(rootPath).filePath(QStringLiteral("action-XXXXXX")));
+            execution->temporaryDirectory = std::make_unique<QTemporaryDir>(QDir(rootPath).filePath(QStringLiteral("execution-XXXXXX")));
             if (!execution->temporaryDirectory->isValid()) {
                 execution->temporaryDirectory.reset();
-                FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::Io, QStringLiteral("temporaryDirectory"), nativePath(rootPath), tr("Failed to create a temporary directory for the current action."));
+                FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::Io, QStringLiteral("temporaryDirectory"), nativePath(rootPath), tr("Failed to create a temporary directory for the current script execution."));
                 return {};
             }
             execution->temporaryDirectory->setAutoRemove(false);
@@ -721,7 +719,7 @@ namespace BatchProcess {
             if (execution->temporaryDirectoryPath.isEmpty()) {
                 execution->temporaryDirectory->remove();
                 execution->temporaryDirectory.reset();
-                FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::Io, QStringLiteral("temporaryDirectory"), nativePath(rootPath), tr("The action temporary directory could not be resolved."));
+                FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::Io, QStringLiteral("temporaryDirectory"), nativePath(rootPath), tr("The script temporary directory could not be resolved."));
                 return {};
             }
             qCDebug(lcFileSystemAccess) << "Created script temporary directory" << execution->temporaryDirectoryPath;
@@ -736,7 +734,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("authorizeFile"), path, tr("Authorized handles can only be created while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("authorizeFile"), path, tr("Authorized handles can only be created while a script is executing."));
             return {};
         }
         QString resolvedPath;
@@ -763,7 +761,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("authorizeDirectory"), path, tr("Authorized handles can only be created while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("authorizeDirectory"), path, tr("Authorized handles can only be created while a script is executing."));
             return {};
         }
         QString resolvedPath;
@@ -789,7 +787,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution || !handle.d || handle.d->token != execution->token || !handle.isValid()) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("handle"), handle.path(), tr("The file-system handle is no longer valid for the current script action."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("handle"), handle.path(), tr("The file-system handle is no longer valid for the current script execution."));
             return false;
         }
         if (expectedKind != FileSystemHandle::Invalid && handle.d->kind != expectedKind) {
@@ -839,7 +837,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("stat"), path, tr("File status can only be queried while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("stat"), path, tr("File status can only be queried while a script is executing."));
             return false;
         }
         QString resolvedPath;
@@ -1252,7 +1250,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("mkdir"), path, tr("Directories can only be created while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("mkdir"), path, tr("Directories can only be created while a script is executing."));
             return false;
         }
         QString resolvedPath;
@@ -1318,7 +1316,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("copy"), source, tr("File-system entries can only be copied while a script action is executing."), destination);
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("copy"), source, tr("File-system entries can only be copied while a script is executing."), destination);
             return false;
         }
         QString sourcePath;
@@ -1406,7 +1404,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("move"), source, tr("File-system entries can only be moved while a script action is executing."), destination);
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("move"), source, tr("File-system entries can only be moved while a script is executing."), destination);
             return false;
         }
         QString sourcePath;
@@ -1487,7 +1485,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("remove"), path, tr("File-system entries can only be removed while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("remove"), path, tr("File-system entries can only be removed while a script is executing."));
             return false;
         }
         QString resolvedPath;
@@ -1555,7 +1553,7 @@ namespace BatchProcess {
         }
         const auto execution = d->executionForContext(context);
         if (!execution) {
-            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("realpath"), path, tr("Paths can only be resolved while a script action is executing."));
+            FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("realpath"), path, tr("Paths can only be resolved while a script is executing."));
             return false;
         }
         QString resolvedPath;

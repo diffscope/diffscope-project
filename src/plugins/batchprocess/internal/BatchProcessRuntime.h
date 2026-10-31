@@ -29,6 +29,7 @@ namespace BatchProcess {
     class Script;
     class ScriptAction;
     class ScriptExecutionContext;
+    class ScriptMethod;
 
     namespace Internal {
 
@@ -65,6 +66,7 @@ namespace BatchProcess {
 
             bool initialize(const QString &scriptDirectory);
             bool executeAction(ScriptAction *action, Core::ActionWindowInterfaceBase *windowInterface);
+            ScriptMethodResult executeMethod(ScriptMethod *method, const QJsonObject &params, Core::ActionWindowInterfaceBase *windowInterface);
             void removeOwner(QObject *owner);
 
             QList<Script *> scripts() const;
@@ -76,7 +78,7 @@ namespace BatchProcess {
             struct ModuleRegistration;
             struct GlobalObjectRegistration;
             struct EngineExtensionRegistration;
-            struct ActionCallbackRegistration;
+            struct ExecutionCallbackRegistration;
             struct DefinitionRecord;
             struct ModuleRecord;
             struct ScriptCandidate;
@@ -108,6 +110,7 @@ namespace BatchProcess {
             ErrorInfo errorInfo(const QJSValue &error, const QString &moduleId = {}) const;
             QString errorText(const QJSValue &error, const QString &moduleId = {}) const;
             void clearExecutionContext();
+            void runExecutionCallbacks(bool starting);
 
             BatchProcessInterfacePrivate *m_interfacePrivate;
             std::unique_ptr<QJSEngine> m_engine;
@@ -117,8 +120,8 @@ namespace BatchProcess {
             QVector<ModuleRegistration> m_moduleRegistrations;
             QVector<GlobalObjectRegistration> m_globalObjectRegistrations;
             QVector<EngineExtensionRegistration> m_engineExtensionRegistrations;
-            QVector<ActionCallbackRegistration> m_actionStartedCallbacks;
-            QVector<ActionCallbackRegistration> m_actionFinishedCallbacks;
+            QVector<ExecutionCallbackRegistration> m_executionStartedCallbacks;
+            QVector<ExecutionCallbackRegistration> m_executionFinishedCallbacks;
             QHash<QString, QJSValue> m_registeredModules;
             QHash<Script *, QHash<QString, std::shared_ptr<ModuleRecord>>> m_fileModules;
             QHash<Script *, QVector<DefinitionRecord>> m_definitions;

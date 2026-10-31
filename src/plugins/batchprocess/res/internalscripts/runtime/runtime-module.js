@@ -6,6 +6,25 @@
 
     const freeze = Object.freeze;
 
+    class MethodLogicError extends Error {
+        constructor(message, data) {
+            super(message);
+            this.name = "MethodLogicError";
+            this.data = data;
+        }
+    }
+
+    function freezeTree(value) {
+        if (value === null || typeof value !== "object" || Object.isFrozen(value)) {
+            return value;
+        }
+        freeze(value);
+        for (const key of Object.keys(value)) {
+            freezeTree(value[key]);
+        }
+        return value;
+    }
+
     const environment = freeze({
         get locale() {
             return bridge.currentLocale();
@@ -17,17 +36,11 @@
 
     function currentRuntime() {
         const runtime = bridge.currentScriptRuntime();
-        const actions = runtime.metadata.actions;
-        for (let index = 0; index < actions.length; ++index) {
-            freeze(actions[index]);
-        }
-        freeze(actions);
-        freeze(runtime.metadata);
-        return freeze(runtime);
+        return freezeTree(runtime);
     }
 
     const script = {};
-    for (const property of ["metadata", "isBuiltin", "scriptPath", "scriptRoot", "kind", "action", "actionIndex"]) {
+    for (const property of ["metadata", "isBuiltin", "scriptPath", "scriptRoot", "kind", "action", "actionIndex", "method", "methodIndex"]) {
         Object.defineProperty(script, property, {
             configurable: false,
             enumerable: true,
@@ -45,6 +58,7 @@
 
     return freeze({
         environment,
+        MethodLogicError,
         script,
         abort,
     });

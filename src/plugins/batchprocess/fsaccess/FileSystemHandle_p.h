@@ -13,7 +13,6 @@
 
 namespace BatchProcess {
 
-    class ScriptAction;
     class ScriptExecutionContext;
 
     namespace Internal {
@@ -23,7 +22,6 @@ namespace BatchProcess {
             quint64 serial{};
             QPointer<QJSEngine> engine;
             QPointer<ScriptExecutionContext> context;
-            QPointer<ScriptAction> action;
         };
 
     }

@@ -4,14 +4,14 @@
 /// <reference lib="es2015.iterable" />
 
 /**
- * Synchronous application, document, and model access for batch script actions.
+ * Synchronous application, document, and model access for batch script handlers.
  *
  * Service properties and host-owned objects are accessible only in the synchronous
- * call chain of an executing action. Importing a service facade is permitted during
- * entry-script evaluation. The associated project is resolved for each action.
+ * call chain of an executing action or method. Importing a service facade is permitted during
+ * entry-script evaluation. The associated project is resolved for each execution.
  *
  * Host-owned objects cannot be constructed by scripts. Every document mutation
- * requires an active transaction owned by the executing action for that document.
+ * requires an active transaction owned by the executing handler for that document.
  * Selection and playhead changes do not require a transaction and are not undoable.
  * Methods documented as creating their own undo step require no active transaction.
  * Writes are visible immediately, before commit. A failed individual mutation must
@@ -39,7 +39,7 @@
  * on failure. Omitted insertion indices append to ordered lists.
  * Creation initializes and attaches the complete entity tree within one call.
  * Deletion destroys the entity tree. Detached entities are not exposed to scripts.
- * Uncommitted script transactions are aborted when an action ends.
+ * Uncommitted script transactions are aborted when a handler ends.
  */
 declare module "diffscope:core" {
     import type * as DSPX from "diffscope:dspx";
@@ -84,7 +84,7 @@ declare module "diffscope:core" {
     export interface OpenDSPXEditable<T> extends OpenDSPXConvertible<T> {
         /**
          * Replaces the complete contents through the native OpenDSPX conversion
-         * mechanism. Requires the executing action's transaction for this document.
+         * mechanism. Requires the executing handler's transaction for this document.
          * Validates the entire input before mutation. Failure leaves the target unchanged.
          * Retains the target identity and parent membership. Sequence order follows
          * imported time coordinates. Replaced child entities become invalid and are
@@ -219,9 +219,9 @@ declare module "diffscope:core" {
 
     export interface Application {
         /**
-         * The project associated with the executing action, or null for a home-window
-         * action. Fixed for that invocation, even if another project becomes active.
-         * The reference may become closed during the action. requiresProject ensures
+         * The project associated with the executing handler, or null without a project
+         * window. Fixed for that invocation, even if another project becomes active.
+         * The reference may become closed during execution. An action's requiresProject ensures
          * an open associated project when invocation begins.
          */
         readonly project: Project | null;
@@ -527,7 +527,7 @@ declare module "diffscope:core" {
          * Begins an exclusive transaction. An existing exclusive transaction causes
          * CoreError with code transactionConflict. A pending non-exclusive host
          * transaction is committed first through TransactionController.
-         * Any script transaction still active when the action returns, throws, or
+         * Any script transaction still active when the handler returns, throws, or
          * is interrupted is aborted. Previously committed steps remain committed.
          */
         beginTransaction(): Transaction;

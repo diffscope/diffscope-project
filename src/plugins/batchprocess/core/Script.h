@@ -18,6 +18,7 @@ namespace BatchProcess {
     }
 
     class ScriptAction;
+    class ScriptMethod;
     class FileSystemAccessInterface;
     class FileSystemAccessInterfacePrivate;
     class ScriptPrivate;
@@ -34,6 +35,7 @@ namespace BatchProcess {
         QString filePath() const;
         ScriptMetadata metadata() const;
         QList<ScriptAction *> actions() const;
+        QList<ScriptMethod *> methods() const;
 
     private:
         friend class Internal::BatchProcessRuntime;

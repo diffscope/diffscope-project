@@ -6,7 +6,6 @@
 
 #include <QDir>
 
-#include <batchprocess/ScriptAction.h>
 #include <batchprocess/ScriptExecutionContext.h>
 
 namespace BatchProcess {
@@ -27,7 +26,7 @@ namespace BatchProcess {
     FileSystemHandle &FileSystemHandle::operator=(FileSystemHandle &&other) noexcept = default;
 
     bool FileSystemHandle::isValid() const {
-        return d && d->kind != Invalid && d->token && d->token->active && d->token->engine && d->token->context && d->token->action && d->token->context->engine() == d->token->engine && d->token->context->action() == d->token->action;
+        return d && d->kind != Invalid && d->token && d->token->active && d->token->engine && d->token->context && d->token->context->engine() == d->token->engine && d->token->context->isExecuting();
     }
 
     FileSystemHandle::Kind FileSystemHandle::kind() const {

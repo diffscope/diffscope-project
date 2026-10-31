@@ -34,6 +34,16 @@ namespace BatchProcess {
         return d->action;
     }
 
+    ScriptMethod *ScriptExecutionContext::method() const {
+        Q_D(const ScriptExecutionContext);
+        return d->method;
+    }
+
+    bool ScriptExecutionContext::isExecuting() const {
+        Q_D(const ScriptExecutionContext);
+        return d->action || d->method;
+    }
+
     Core::ActionWindowInterfaceBase *ScriptExecutionContext::windowInterface() const {
         Q_D(const ScriptExecutionContext);
         return d->windowInterface;

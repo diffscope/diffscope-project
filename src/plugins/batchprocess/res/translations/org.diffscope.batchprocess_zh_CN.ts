@@ -103,19 +103,9 @@
         <translation type="unfinished">解析后的路径超出已授予脚本的文件系统权限范围。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="503"/>
-        <source>File-system permissions can only be requested while a script action is executing.</source>
-        <translation type="unfinished">仅可在脚本操作执行期间请求文件系统权限。</translation>
-    </message>
-    <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="507"/>
         <source>A file-system permission request must include a non-empty reason.</source>
         <translation type="unfinished">文件系统权限请求必须包含非空的原因说明。</translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="575"/>
-        <source>File handles can only be created while a script action is executing.</source>
-        <translation type="unfinished">仅可在脚本操作执行期间创建文件句柄。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="584"/>
@@ -131,11 +121,6 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="592"/>
         <source>The requested file does not exist.</source>
         <translation type="unfinished">请求的文件不存在。</translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="606"/>
-        <source>Directory handles can only be created while a script action is executing.</source>
-        <translation type="unfinished">仅可在脚本操作执行期间创建目录句柄。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="616"/>
@@ -159,11 +144,6 @@
         <translation type="unfinished">脚本没有解析后目录的递归访问权限。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="649"/>
-        <source>The script package is only available while a script action is executing.</source>
-        <translation type="unfinished">脚本包仅在脚本操作执行期间可用。</translation>
-    </message>
-    <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="654"/>
         <source>The script does not have a file-system package.</source>
         <translation type="unfinished">脚本没有文件系统包。</translation>
@@ -172,11 +152,6 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="665"/>
         <source>The script package no longer exists.</source>
         <translation type="unfinished">脚本包已不存在。</translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="676"/>
-        <source>The script data directory is only available while a script action is executing.</source>
-        <translation type="unfinished">脚本数据目录仅在脚本操作执行期间可用。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="681"/>
@@ -189,11 +164,6 @@
         <translation type="unfinished">无法解析脚本数据目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="699"/>
-        <source>The temporary directory is only available while a script action is executing.</source>
-        <translation type="unfinished">临时目录仅在脚本操作执行期间可用。</translation>
-    </message>
-    <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="705"/>
         <source>The application temporary directory is unavailable.</source>
         <translation type="unfinished">应用程序临时目录不可用。</translation>
@@ -202,22 +172,6 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="710"/>
         <source>Failed to create the script temporary-directory root.</source>
         <translation type="unfinished">无法创建脚本临时目录的根目录。</translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="716"/>
-        <source>Failed to create a temporary directory for the current action.</source>
-        <translation type="unfinished">无法为当前操作创建临时目录。</translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="724"/>
-        <source>The action temporary directory could not be resolved.</source>
-        <translation type="unfinished">无法解析操作的临时目录。</translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="739"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="766"/>
-        <source>Authorized handles can only be created while a script action is executing.</source>
-        <translation type="unfinished">仅可在脚本操作执行期间创建授权句柄。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="748"/>
@@ -238,11 +192,6 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="779"/>
         <source>The authorized path is not a directory.</source>
         <translation type="unfinished">已授权的路径不是目录。</translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="792"/>
-        <source>The file-system handle is no longer valid for the current script action.</source>
-        <translation type="unfinished">文件系统句柄对当前脚本操作已无效。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="796"/>
@@ -284,11 +233,6 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="907"/>
         <source>No destination was provided for the file status.</source>
         <translation type="unfinished">未提供文件状态的接收目标。</translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="842"/>
-        <source>File status can only be queried while a script action is executing.</source>
-        <translation type="unfinished">仅可在脚本操作执行期间查询文件状态。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="852"/>
@@ -416,11 +360,6 @@
         <translation type="unfinished">子目录解析后的路径超出目录句柄的范围。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1255"/>
-        <source>Directories can only be created while a script action is executing.</source>
-        <translation type="unfinished">仅可在脚本操作执行期间创建目录。</translation>
-    </message>
-    <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1268"/>
         <source>The directory already exists.</source>
         <translation type="unfinished">目录已存在。</translation>
@@ -444,11 +383,6 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1308"/>
         <source>Failed to create the directory tree.</source>
         <translation type="unfinished">无法创建目录树。</translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1321"/>
-        <source>File-system entries can only be copied while a script action is executing.</source>
-        <translation type="unfinished">仅可在脚本操作执行期间复制文件系统条目。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1339"/>
@@ -490,11 +424,6 @@
         <translation type="unfinished">替换此目录需要具有其完整目录树的写入权限。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1409"/>
-        <source>File-system entries can only be moved while a script action is executing.</source>
-        <translation type="unfinished">仅可在脚本操作执行期间移动文件系统条目。</translation>
-    </message>
-    <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1433"/>
         <source>Moving a directory requires write permission for the complete source and destination directory trees.</source>
         <translation type="unfinished">移动目录需要具有完整源目录树和目标目录树的写入权限。</translation>
@@ -503,11 +432,6 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1437"/>
         <source>A directory cannot be moved into itself.</source>
         <translation type="unfinished">不能将目录移动到其自身内部。</translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1490"/>
-        <source>File-system entries can only be removed while a script action is executing.</source>
-        <translation type="unfinished">仅可在脚本操作执行期间删除文件系统条目。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1506"/>
@@ -529,11 +453,6 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1583"/>
         <source>No destination was provided for the resolved path.</source>
         <translation type="unfinished">未提供解析后路径的接收目标。</translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1558"/>
-        <source>Paths can only be resolved while a script action is executing.</source>
-        <translation type="unfinished">仅可在脚本操作执行期间解析路径。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1567"/>
@@ -575,6 +494,87 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1738"/>
         <source>The JavaScript file-system module is not available.</source>
         <translation type="unfinished">JavaScript 文件系统模块不可用。</translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="501"/>
+        <source>File-system permissions can only be requested while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="573"/>
+        <source>File handles can only be created while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="604"/>
+        <source>Directory handles can only be created while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="647"/>
+        <source>The script package is only available while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="674"/>
+        <source>The script data directory is only available while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="697"/>
+        <source>The temporary directory is only available while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="737"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="764"/>
+        <source>Authorized handles can only be created while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="790"/>
+        <source>The file-system handle is no longer valid for the current script execution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="840"/>
+        <source>File status can only be queried while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1253"/>
+        <source>Directories can only be created while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1319"/>
+        <source>File-system entries can only be copied while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1407"/>
+        <source>File-system entries can only be moved while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1488"/>
+        <source>File-system entries can only be removed while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1556"/>
+        <source>Paths can only be resolved while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="714"/>
+        <source>Failed to create a temporary directory for the current script execution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="722"/>
+        <source>The script temporary directory could not be resolved.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -789,26 +789,6 @@
         <translation type="unfinished">运行时模块已不可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="139"/>
-        <source>Runtime script information is only available while a script action is executing.</source>
-        <translation type="unfinished">运行时脚本信息仅在脚本操作执行期间可用。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="148"/>
-        <source>The current script action is not part of the current script.</source>
-        <translation type="unfinished">当前脚本操作不属于当前脚本。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="190"/>
-        <source>No script action is currently executing.</source>
-        <translation type="unfinished">当前没有正在执行的脚本操作。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="53"/>
-        <source>A registered callback threw an unknown C++ exception.</source>
-        <translation type="unfinished">已注册的回调抛出未知的 C++ 异常。</translation>
-    </message>
-    <message>
         <location filename="../../internal/BatchProcessRuntime.cpp" line="57"/>
         <source>A built-in script factory threw an unknown C++ exception.</source>
         <translation type="unfinished">内置脚本工厂抛出未知的 C++ 异常。</translation>
@@ -853,25 +833,6 @@
         <location filename="../../internal/BatchProcessRuntime.cpp" line="607"/>
         <source>The global require() function may only load registered modules: %1.</source>
         <translation type="unfinished">全局 require() 函数仅可加载已注册的模块：%1。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="631"/>
-        <source>Unknown registered module %1.</source>
-        <translation type="unfinished">未知的已注册模块 %1。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="641"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="653"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="655"/>
-        <source>Factory for module %1 failed:
-%2</source>
-        <translation type="unfinished">模块 %1 的工厂执行失败：
-%2</translation>
-    </message>
-    <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="646"/>
-        <source>The owner of module %1 was destroyed while its factory was running.</source>
-        <translation type="unfinished">模块 %1 的工厂运行期间，其所有者已被销毁。</translation>
     </message>
     <message>
         <location filename="../../internal/BatchProcessRuntime.cpp" line="668"/>
@@ -1084,6 +1045,26 @@
         <source>Location: %1</source>
         <translation type="unfinished">位置：%1</translation>
     </message>
+    <message>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="894"/>
+        <source>Method metadata cannot be represented as JSON.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="140"/>
+        <source>Runtime script information is only available while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="152"/>
+        <source>The current action or method is not part of the current script.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="211"/>
+        <source>No script is currently executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>BatchProcessPage</name>
@@ -1278,13 +1259,6 @@
 <context>
     <name>ShellInterface</name>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="294"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="330"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="661"/>
-        <source>Shell operations are only available while a script action is executing.</source>
-        <translation type="unfinished">Shell 操作仅在脚本操作执行期间可用。</translation>
-    </message>
-    <message>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="301"/>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="333"/>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="671"/>
@@ -1343,6 +1317,13 @@ A value is required.</source>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="675"/>
         <source>This application window does not support window notifications.</source>
         <translation type="unfinished">此应用程序窗口不支持窗口通知。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="294"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="330"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="661"/>
+        <source>Shell operations are only available while a script is executing.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

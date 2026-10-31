@@ -19,6 +19,7 @@ namespace BatchProcess {
         QString rootPath;
         ScriptMetadata metadata;
         QList<ScriptAction *> actions;
+        QList<ScriptMethod *> methods;
     };
 
 }

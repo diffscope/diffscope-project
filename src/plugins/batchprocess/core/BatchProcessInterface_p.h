@@ -46,9 +46,9 @@ namespace BatchProcess {
             BatchProcessInterface::EngineExtension extension;
         };
 
-        struct ActionCallbackRegistration {
+        struct ExecutionCallbackRegistration {
             QPointer<QObject> owner;
-            BatchProcessInterface::ActionCallback callback;
+            BatchProcessInterface::ExecutionCallback callback;
         };
 
         explicit BatchProcessInterfacePrivate(BatchProcessInterface *q);
@@ -66,8 +66,8 @@ namespace BatchProcess {
         QVector<ModuleRegistration> moduleRegistrations;
         QVector<GlobalObjectRegistration> globalObjectRegistrations;
         QVector<EngineExtensionRegistration> engineExtensionRegistrations;
-        QVector<ActionCallbackRegistration> actionStartedCallbacks;
-        QVector<ActionCallbackRegistration> actionFinishedCallbacks;
+        QVector<ExecutionCallbackRegistration> executionStartedCallbacks;
+        QVector<ExecutionCallbackRegistration> executionFinishedCallbacks;
         QList<QPointer<QObject>> watchedOwners;
         QMutex interruptionMutex;
         QJSEngine *executingEngine{};

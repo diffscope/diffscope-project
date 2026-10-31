@@ -47,23 +47,105 @@ interface ScriptAction extends ScriptActionMetadata {
     readonly execute: ScriptActionHandler;
 }
 
+interface ScriptMethodParameterDescriptor {
+    readonly name: string;
+
+    /** Provides a brief summary, typically a single sentence. */
+    readonly summary?: string;
+
+    /** Supports GitHub Flavored Markdown. */
+    readonly description?: string;
+
+    readonly schema: import("./json-schema-2020-12").JSONSchema;
+
+    /** Defaults to `false`. */
+    readonly required?: boolean;
+}
+
+interface ScriptMethodResultDescriptor {
+    readonly name: string;
+
+    /** Provides a brief summary, typically a single sentence. */
+    readonly summary?: string;
+
+    /** Supports GitHub Flavored Markdown. */
+    readonly description?: string;
+
+    readonly schema: import("./json-schema-2020-12").JSONSchema;
+}
+
+interface ScriptMethodAnnotations {
+    /** Indicates whether the operation is read-only. Defaults to `false`. */
+    readonly readOnlyHint?: boolean;
+
+    /** Indicates whether the operation may make destructive changes. Defaults to `true`. */
+    readonly destructiveHint?: boolean;
+
+    /** Indicates whether repeated calls with the same parameters are idempotent. Defaults to `false`. */
+    readonly idempotentHint?: boolean;
+
+    /** Indicates whether the operation may interact with the external world. Defaults to `true`. */
+    readonly openWorldHint?: boolean;
+}
+
+interface ScriptMethodMetadata {
+    /**
+     * Must consist of one or more JavaScript IdentifierName segments separated by
+     * dots and be unique within the containing script's methods.
+     */
+    readonly name: string;
+
+    /** Provides a brief summary, typically a single sentence. */
+    readonly summary?: string;
+
+    /** Supports GitHub Flavored Markdown. */
+    readonly description?: string;
+
+    /** Must be present and may be empty. */
+    readonly params: readonly ScriptMethodParameterDescriptor[];
+
+    /** If omitted, the method may only be invoked as an RPC notification. */
+    readonly result?: ScriptMethodResultDescriptor;
+
+    readonly annotations?: ScriptMethodAnnotations;
+}
+
+/**
+ * Runs synchronously on the GUI thread with an object keyed by the declared
+ * parameter names without schema validation. Returns the execution result.
+ * Results and logic error data use JSON serialization without schema validation.
+ * A handler must not return a Promise or another thenable, which the host treats
+ * as a contract violation.
+ */
+type ScriptMethodHandler = (params: Record<string, unknown>) => unknown;
+
+interface ScriptMethod extends ScriptMethodMetadata {
+    readonly execute: ScriptMethodHandler;
+}
+
 interface ScriptDefinition extends ScriptMetadata {
     /**
      * The host preserves declaration order and freezes this array and each of its
      * elements after validation.
      */
     readonly actions: readonly ScriptAction[];
+
+    /**
+     * The host preserves declaration order and freezes this array and each of its
+     * elements after validation.
+     */
+    readonly methods?: readonly ScriptMethod[];
 }
 
 /**
  * Validates and registers a script definition during entry-script evaluation.
- * On success, the host freezes the definition, its actions array, and every
- * action, then returns the original object. The entry script must export that
- * returned object.
+ * On success, the host freezes the definition, its actions array, its methods
+ * array if present, and every action and method, then returns the original
+ * object. The entry script must export that returned object.
  *
  * Invalid definitions cause a `TypeError` and are not registered. Top-level code
  * must not perform user interaction, modify documents, or access files; such work
- * belongs in an action handler.
+ * belongs in an action or method handler.
  *
  * @param definition The complete definition to validate and register.
  * @returns The validated and frozen input object.
@@ -83,21 +165,39 @@ declare module "diffscope:runtime" {
     /**
      * Provides a fixed, frozen facade for global application information.
      * Properties return current values when read and are available during script
-     * registration and action execution without an active script context.
+     * registration and execution without an active script context.
      */
     export const environment: Environment;
 
     export type ScriptActionMetadata = Omit<ScriptAction, "execute">;
 
-    export type ScriptMetadata = Omit<ScriptDefinition, "actions"> & {
+    export type ScriptMethodMetadata = Omit<ScriptMethod, "execute">;
+
+    export type ScriptMetadata = Omit<ScriptDefinition, "actions" | "methods"> & {
         /** Preserves declaration order. */
         readonly actions: readonly ScriptActionMetadata[];
+
+        /** Preserves declaration order. */
+        readonly methods: readonly ScriptMethodMetadata[];
     };
+
+    /**
+     * Represents a business logic error during RPC execution. Errors of this
+     * class or its subclasses are reported as business logic errors rather than
+     * internal errors.
+     */
+    export class MethodLogicError extends Error {
+        /** Creates an error with a message and optional arbitrary data. */
+        constructor(message: string, data?: unknown);
+
+        /** RPC errors omit data if JSON serialization fails. */
+        readonly data?: unknown;
+    }
 
     export interface ScriptRuntimeBase {
         /**
-         * A frozen snapshot. Its actions array and action metadata objects are
-         * frozen as well.
+         * A frozen snapshot. Its action and method arrays and their metadata
+         * objects are frozen as well.
          */
         readonly metadata: Readonly<ScriptMetadata>;
 
@@ -132,7 +232,17 @@ declare module "diffscope:runtime" {
         readonly actionIndex: number;
     }
 
-    export type ScriptRuntime = ActionScriptRuntime;
+    export interface MethodScriptRuntime extends ScriptRuntimeBase {
+        readonly kind: "method";
+
+        /** A frozen snapshot. */
+        readonly method: Readonly<ScriptMethodMetadata>;
+
+        /** The zero-based index of `method` in `metadata.methods`. */
+        readonly methodIndex: number;
+    }
+
+    export type ScriptRuntime = ActionScriptRuntime | MethodScriptRuntime;
 
     /**
      * A fixed, frozen facade whose identity remains stable for the lifetime of an
@@ -141,20 +251,19 @@ declare module "diffscope:runtime" {
      *
      * The facade itself may be captured during entry-script evaluation, but its
      * properties may only be read in the synchronous call chain of an executing
-     * action. Reading a property at any other time throws an exception.
+     * action or method. Reading a property at any other time throws an exception.
      */
     export const script: ScriptRuntime;
 
     /**
-     * Immediately interrupts the currently executing action.
+     * Immediately interrupts the currently executing script.
      *
-     * An action must be executing when this function is called; otherwise it
-     * throws. A successful call never returns to JavaScript, and statements after
-     * it in the action are not executed. The host reports the action as failed and
-     * clears the interruption state when execution finishes, so later actions are
-     * unaffected.
+     * Requires an executing action or method. Throws if no handler is executing.
+     * A successful call never returns to JavaScript. The host reports an action
+     * failure or an internal method error and clears the interruption state when
+     * execution finishes.
      *
-     * @throws If no action is currently executing.
+     * @throws If no action or method is currently executing.
      */
     export function abort(): never;
 }

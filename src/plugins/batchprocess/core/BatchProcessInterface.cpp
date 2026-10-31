@@ -12,6 +12,7 @@
 #include <QJSEngine>
 #include <QLoggingCategory>
 #include <QMutexLocker>
+#include <QThread>
 
 #include <batchprocess/Script.h>
 #include <batchprocess/ScriptExecutionContext.h>
@@ -65,8 +66,8 @@ namespace BatchProcess {
         erase_if(moduleRegistrations, belongsToOwner);
         erase_if(globalObjectRegistrations, belongsToOwner);
         erase_if(engineExtensionRegistrations, belongsToOwner);
-        erase_if(actionStartedCallbacks, belongsToOwner);
-        erase_if(actionFinishedCallbacks, belongsToOwner);
+        erase_if(executionStartedCallbacks, belongsToOwner);
+        erase_if(executionFinishedCallbacks, belongsToOwner);
         erase_if(watchedOwners, [owner](const QPointer<QObject> &item) {
             return !item || item.data() == owner;
         });
@@ -99,7 +100,7 @@ namespace BatchProcess {
             executingEngine->setInterrupted(true);
             qCInfo(lcBatchProcessInterface) << "Requested interruption of the current script execution";
         } else {
-            qCDebug(lcBatchProcessInterface) << "Ignored script interruption request because no script action is executing";
+            qCDebug(lcBatchProcessInterface) << "Ignored script interruption request because no script is executing";
         }
     }
 
@@ -196,27 +197,27 @@ namespace BatchProcess {
         return true;
     }
 
-    bool BatchProcessInterface::registerActionStartedCallback(QObject *owner, ActionCallback callback) {
+    bool BatchProcessInterface::registerExecutionStartedCallback(QObject *owner, ExecutionCallback callback) {
         Q_D(BatchProcessInterface);
         if (!owner || !callback) {
-            qCWarning(lcBatchProcessInterface) << "Rejected action-start callback registration";
+            qCWarning(lcBatchProcessInterface) << "Rejected execution-start callback registration";
             return false;
         }
-        d->actionStartedCallbacks.append({owner, std::move(callback)});
+        d->executionStartedCallbacks.append({owner, std::move(callback)});
         d->watchOwner(owner);
-        qCDebug(lcBatchProcessInterface) << "Registered action-start callback";
+        qCDebug(lcBatchProcessInterface) << "Registered execution-start callback";
         return true;
     }
 
-    bool BatchProcessInterface::registerActionFinishedCallback(QObject *owner, ActionCallback callback) {
+    bool BatchProcessInterface::registerExecutionFinishedCallback(QObject *owner, ExecutionCallback callback) {
         Q_D(BatchProcessInterface);
         if (!owner || !callback) {
-            qCWarning(lcBatchProcessInterface) << "Rejected action-finished callback registration";
+            qCWarning(lcBatchProcessInterface) << "Rejected execution-finished callback registration";
             return false;
         }
-        d->actionFinishedCallbacks.append({owner, std::move(callback)});
+        d->executionFinishedCallbacks.append({owner, std::move(callback)});
         d->watchOwner(owner);
-        qCDebug(lcBatchProcessInterface) << "Registered action-finished callback";
+        qCDebug(lcBatchProcessInterface) << "Registered execution-finished callback";
         return true;
     }
 
@@ -279,6 +280,17 @@ namespace BatchProcess {
     void BatchProcessInterface::interruptCurrentExecution() {
         Q_D(BatchProcessInterface);
         d->interruptCurrentExecution();
+    }
+
+    ScriptMethodResult BatchProcessInterface::executeMethod(ScriptMethod *method, const QJsonObject &params, Core::ActionWindowInterfaceBase *windowInterface) {
+        Q_D(BatchProcessInterface);
+        if (QThread::currentThread() != thread()) {
+            return ScriptMethodResult::internalError(QStringLiteral("Error"), QStringLiteral("Script methods must be called on the interface thread."));
+        }
+        if (d->reloading || !d->runtime) {
+            return ScriptMethodResult::internalError(QStringLiteral("Error"), QStringLiteral("No script runtime is available."));
+        }
+        return d->runtime->executeMethod(method, params, windowInterface);
     }
 
 }

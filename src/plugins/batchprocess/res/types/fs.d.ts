@@ -100,9 +100,9 @@ declare module "diffscope:fs" {
     /**
      * A capability for one file path.
      *
-     * A handle is bound to the engine, script action, and execution that created it. It becomes
-     * invalid as soon as that action finishes, and it cannot be persisted or reused by another
-     * action. Moving, removing, or changing its path to an incompatible entry kind also invalidates
+     * A handle is bound to the engine and script execution that created it. It becomes
+     * invalid as soon as that execution finishes, and it cannot be persisted or reused by another
+     * execution. Moving, removing, or changing its path to an incompatible entry kind also invalidates
      * older handles.
      */
     export interface FileHandle {
@@ -167,7 +167,7 @@ declare module "diffscope:fs" {
      * A capability for a directory and, when `recursive` is true, its descendants.
      *
      * Relative child paths cannot escape through `..`, symbolic links, or junctions. Like file
-     * handles, directory handles expire when the creating action finishes.
+     * handles, directory handles expire when the creating execution finishes.
      */
     export interface DirectoryHandle {
         readonly kind: "directory";
@@ -292,14 +292,14 @@ declare module "diffscope:fs" {
 
     /**
      * Returns a recursive read-write capability for this script's persistent data directory.
-     * Scripts with the same ID share this directory across actions and application sessions.
+     * Scripts with the same ID share this directory across executions and application sessions.
      */
     export function dataDirectory(): DirectoryHandle;
 
     /**
      * Returns a recursive read-write capability for a unique directory owned by the current
-     * action. Repeated calls in one action return the same location. Cleanup is attempted after
-     * the action finishes.
+     * execution. Repeated calls in an execution return the same location. Cleanup is attempted after
+     * the execution finishes.
      */
     export function temporaryDirectory(): DirectoryHandle;
 

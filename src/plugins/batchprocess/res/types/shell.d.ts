@@ -431,7 +431,7 @@ declare module "diffscope:shell" {
          *
          * @returns Action-scoped read capabilities, or `null` when canceled.
          * @throws {WindowError} If the selected window is invalid or no application window is available.
-         * @post Each returned handle is authorized only for the current action execution.
+         * @post Each returned handle is authorized only for the current script execution.
          */
         openFile(options?: OpenFileDialogOptions & { readonly multiple?: false }): FileHandle | null;
         openFile(options: OpenFileDialogOptions & { readonly multiple: true }): readonly FileHandle[] | null;
@@ -439,18 +439,18 @@ declare module "diffscope:shell" {
         /**
          * Lets the user select a destination file, which need not exist yet.
          *
-         * @returns An action-scoped write capability, or `null` when canceled.
+         * @returns A write capability for the current script execution, or `null` when canceled.
          * @throws {WindowError} If the selected window is invalid or no application window is available.
-         * @post The returned handle is authorized only for the current action execution.
+         * @post The returned handle is authorized only for the current script execution.
          */
         saveFile(options?: SaveFileDialogOptions): FileHandle | null;
 
         /**
          * Lets the user select an existing directory.
          *
-         * @returns An action-scoped directory capability, or `null` when canceled.
+         * @returns A directory capability for the current script execution, or `null` when canceled.
          * @throws {WindowError} If the selected window is invalid or no application window is available.
-         * @post The returned handle is authorized only for the current action execution.
+         * @post The returned handle is authorized only for the current script execution.
          */
         selectDirectory(options?: SelectDirectoryDialogOptions): DirectoryHandle | null;
     }

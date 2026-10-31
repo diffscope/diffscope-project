@@ -285,13 +285,13 @@ namespace BatchProcess::Internal {
             return result;
         }
 
-        bool actionIsExecuting() const {
-            return m_context && m_context->engine() == m_engine && m_context->script() && m_context->action();
+        bool executionIsActive() const {
+            return m_context && m_context->engine() == m_engine && m_context->script() && m_context->isExecuting();
         }
 
         Core::ActionWindowInterfaceBase *resolveWindow(const QJSValue &parentValue, QJSValue *error) const {
-            if (!actionIsExecuting()) {
-                *error = windowFailure(QStringLiteral("unsupportedOperation"), ShellInterface::tr("Shell operations are only available while a script action is executing."));
+            if (!executionIsActive()) {
+                *error = windowFailure(QStringLiteral("unsupportedOperation"), ShellInterface::tr("Shell operations are only available while a script is executing."));
                 return nullptr;
             }
             if (!parentValue.isNull() && !parentValue.isUndefined()) {
@@ -326,8 +326,8 @@ namespace BatchProcess::Internal {
         }
 
         QJSValue raiseWindow(Core::ActionWindowInterfaceBase *windowInterface) const {
-            if (!actionIsExecuting()) {
-                return windowFailure(QStringLiteral("unsupportedOperation"), ShellInterface::tr("Shell operations are only available while a script action is executing."));
+            if (!executionIsActive()) {
+                return windowFailure(QStringLiteral("unsupportedOperation"), ShellInterface::tr("Shell operations are only available while a script is executing."));
             }
             if (!isUsableWindow(windowInterface)) {
                 return windowFailure(QStringLiteral("invalidWindow"), ShellInterface::tr("The application window handle is no longer valid."));
@@ -657,8 +657,8 @@ namespace BatchProcess::Internal {
         }
 
         Q_INVOKABLE QJSValue postNotification(const QString &title, const QString &message, const QString &severity, const QString &bubble, const QJSValue &windowValue, bool hasWindow) const {
-            if (!actionIsExecuting()) {
-                return windowFailure(QStringLiteral("unsupportedOperation"), ShellInterface::tr("Shell operations are only available while a script action is executing."));
+            if (!executionIsActive()) {
+                return windowFailure(QStringLiteral("unsupportedOperation"), ShellInterface::tr("Shell operations are only available while a script is executing."));
             }
             const auto icon = messageIcon(severity);
             if (!hasWindow) {

@@ -103,18 +103,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="503"/>
-        <source>File-system permissions can only be requested while a script action is executing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="507"/>
         <source>A file-system permission request must include a non-empty reason.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="575"/>
-        <source>File handles can only be created while a script action is executing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -130,11 +120,6 @@
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="592"/>
         <source>The requested file does not exist.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="606"/>
-        <source>Directory handles can only be created while a script action is executing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -159,11 +144,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="649"/>
-        <source>The script package is only available while a script action is executing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="654"/>
         <source>The script does not have a file-system package.</source>
         <translation type="unfinished"></translation>
@@ -171,11 +151,6 @@
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="665"/>
         <source>The script package no longer exists.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="676"/>
-        <source>The script data directory is only available while a script action is executing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -189,11 +164,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="699"/>
-        <source>The temporary directory is only available while a script action is executing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="705"/>
         <source>The application temporary directory is unavailable.</source>
         <translation type="unfinished"></translation>
@@ -201,22 +171,6 @@
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="710"/>
         <source>Failed to create the script temporary-directory root.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="716"/>
-        <source>Failed to create a temporary directory for the current action.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="724"/>
-        <source>The action temporary directory could not be resolved.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="739"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="766"/>
-        <source>Authorized handles can only be created while a script action is executing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -237,11 +191,6 @@
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="779"/>
         <source>The authorized path is not a directory.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="792"/>
-        <source>The file-system handle is no longer valid for the current script action.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -283,11 +232,6 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="837"/>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="907"/>
         <source>No destination was provided for the file status.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="842"/>
-        <source>File status can only be queried while a script action is executing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -416,11 +360,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1255"/>
-        <source>Directories can only be created while a script action is executing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1268"/>
         <source>The directory already exists.</source>
         <translation type="unfinished"></translation>
@@ -443,11 +382,6 @@
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1308"/>
         <source>Failed to create the directory tree.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1321"/>
-        <source>File-system entries can only be copied while a script action is executing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -490,11 +424,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1409"/>
-        <source>File-system entries can only be moved while a script action is executing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1433"/>
         <source>Moving a directory requires write permission for the complete source and destination directory trees.</source>
         <translation type="unfinished"></translation>
@@ -502,11 +431,6 @@
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1437"/>
         <source>A directory cannot be moved into itself.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1490"/>
-        <source>File-system entries can only be removed while a script action is executing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -528,11 +452,6 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1553"/>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1583"/>
         <source>No destination was provided for the resolved path.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1558"/>
-        <source>Paths can only be resolved while a script action is executing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -574,6 +493,87 @@
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1725"/>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1738"/>
         <source>The JavaScript file-system module is not available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="501"/>
+        <source>File-system permissions can only be requested while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="573"/>
+        <source>File handles can only be created while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="604"/>
+        <source>Directory handles can only be created while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="647"/>
+        <source>The script package is only available while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="674"/>
+        <source>The script data directory is only available while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="697"/>
+        <source>The temporary directory is only available while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="737"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="764"/>
+        <source>Authorized handles can only be created while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="790"/>
+        <source>The file-system handle is no longer valid for the current script execution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="840"/>
+        <source>File status can only be queried while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1253"/>
+        <source>Directories can only be created while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1319"/>
+        <source>File-system entries can only be copied while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1407"/>
+        <source>File-system entries can only be moved while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1488"/>
+        <source>File-system entries can only be removed while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1556"/>
+        <source>Paths can only be resolved while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="714"/>
+        <source>Failed to create a temporary directory for the current script execution.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="722"/>
+        <source>The script temporary directory could not be resolved.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -789,26 +789,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="139"/>
-        <source>Runtime script information is only available while a script action is executing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="148"/>
-        <source>The current script action is not part of the current script.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="190"/>
-        <source>No script action is currently executing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="53"/>
-        <source>A registered callback threw an unknown C++ exception.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../internal/BatchProcessRuntime.cpp" line="57"/>
         <source>A built-in script factory threw an unknown C++ exception.</source>
         <translation type="unfinished"></translation>
@@ -850,24 +830,6 @@
     <message>
         <location filename="../../internal/BatchProcessRuntime.cpp" line="607"/>
         <source>The global require() function may only load registered modules: %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="631"/>
-        <source>Unknown registered module %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="641"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="653"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="655"/>
-        <source>Factory for module %1 failed:
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="646"/>
-        <source>The owner of module %1 was destroyed while its factory was running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1070,6 +1032,26 @@
         <source>Location: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="894"/>
+        <source>Method metadata cannot be represented as JSON.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="140"/>
+        <source>Runtime script information is only available while a script is executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="152"/>
+        <source>The current action or method is not part of the current script.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="211"/>
+        <source>No script is currently executing.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>BatchProcessPage</name>
@@ -1264,13 +1246,6 @@
 <context>
     <name>ShellInterface</name>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="294"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="330"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="661"/>
-        <source>Shell operations are only available while a script action is executing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="301"/>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="333"/>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="671"/>
@@ -1327,6 +1302,13 @@ A value is required.</source>
     <message>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="675"/>
         <source>This application window does not support window notifications.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="294"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="330"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="661"/>
+        <source>Shell operations are only available while a script is executing.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

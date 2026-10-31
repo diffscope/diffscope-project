@@ -258,7 +258,7 @@ namespace BatchProcess::Internal {
     }
 
     QJSValue CoreModuleBridge::guarded(QObject *object, const QString &operation, bool mutation, const std::function<QJSValue()> &callback) {
-        if (!m_context || !m_context->action()) return failure(QStringLiteral("invalidState"), operation);
+        if (!m_context || !m_context->isExecuting()) return failure(QStringLiteral("invalidState"), operation);
         if (object && !document(object)) return failure(QStringLiteral("invalidObject"), operation);
         if (auto *entity = qobject_cast<dspx::EntityObject *>(object); entity && !liveEntity(entity)) return failure(QStringLiteral("invalidObject"), operation);
         if (mutation && !edit(object)) return failure(QStringLiteral("transactionConflict"), operation);
@@ -835,10 +835,10 @@ namespace BatchProcess::Internal {
         documents->d_func()->extension = this;
         const auto installed = runtime->registerEngineExtension(this, [this](QJSEngine *engine, ScriptExecutionContext *context) { install(engine, context); });
         const auto registered = runtime->registerModule(QStringLiteral("diffscope:core"), this, [this](ScriptExecutionContext *context) { return m_bundles.value(context->engine()).property(QStringLiteral("exports")); });
-        const auto started = runtime->registerActionStartedCallback(this, [this](ScriptExecutionContext *context) {
+        const auto started = runtime->registerExecutionStartedCallback(this, [this](ScriptExecutionContext *context) {
             if (auto bridge = m_bridges.value(context->engine())) bridge->start(m_bundles.value(context->engine()).property(QStringLiteral("wrap")));
         });
-        const auto finished = runtime->registerActionFinishedCallback(this, [this](ScriptExecutionContext *context) {
+        const auto finished = runtime->registerExecutionFinishedCallback(this, [this](ScriptExecutionContext *context) {
             if (auto bridge = m_bridges.value(context->engine())) bridge->finish();
         });
         if (!installed || !registered || !started || !finished) qFatal("Failed to register the Batch Process core module");

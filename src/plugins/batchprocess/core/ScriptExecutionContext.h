@@ -24,6 +24,7 @@ namespace BatchProcess {
 
     class Script;
     class ScriptAction;
+    class ScriptMethod;
     class ScriptExecutionContextPrivate;
 
     class BATCH_PROCESS_EXPORT ScriptExecutionContext : public QObject {
@@ -35,6 +36,9 @@ namespace BatchProcess {
         QJSEngine *engine() const;
         Script *script() const;
         ScriptAction *action() const;
+        ScriptMethod *method() const;
+        /** Returns whether an action or method is executing, including lifecycle callbacks. */
+        bool isExecuting() const;
         Core::ActionWindowInterfaceBase *windowInterface() const;
         Core::ProjectWindowInterface *projectWindowInterface() const;
         Core::ProjectDocumentContext *projectDocumentContext() const;

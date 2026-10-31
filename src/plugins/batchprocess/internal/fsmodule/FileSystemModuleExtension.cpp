@@ -599,10 +599,10 @@ namespace BatchProcess::Internal {
         const auto moduleRegistered = m_batchProcessInterface->registerModule(QString::fromLatin1(ModuleName), this, [this](ScriptExecutionContext *context) {
             return createModule(context);
         });
-        const auto startRegistered = m_batchProcessInterface->registerActionStartedCallback(this, [this](ScriptExecutionContext *context) {
+        const auto startRegistered = m_batchProcessInterface->registerExecutionStartedCallback(this, [this](ScriptExecutionContext *context) {
             m_fileSystemAccessInterface->d_func()->beginExecution(context);
         });
-        const auto finishRegistered = m_batchProcessInterface->registerActionFinishedCallback(this, [this](ScriptExecutionContext *context) {
+        const auto finishRegistered = m_batchProcessInterface->registerExecutionFinishedCallback(this, [this](ScriptExecutionContext *context) {
             m_fileSystemAccessInterface->d_func()->scheduleEndExecution(context);
         });
         if (!extensionRegistered || !moduleRegistered || !startRegistered || !finishRegistered) {
