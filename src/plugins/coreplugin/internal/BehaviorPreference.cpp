@@ -95,7 +95,7 @@ namespace Core::Internal {
         emit proxyUsernameChanged();
         d->proxyPassword = settings->value("proxyPassword").toString();
         emit proxyPasswordChanged();
-        d->fileOption = settings->value("fileOption", QVariant::fromValue(FO_LockOpenedFiles | FO_CheckForExternalChangedOnSave)).value<FileOption>();
+        d->fileOption = settings->value("fileOption", QVariant::fromValue(FO_LockOpenedFiles | FO_CheckForExternalChangedOnSave | FO_Compress)).value<FileOption>();
         emit fileOptionChanged();
         d->documentLogEnabled = settings->value("documentLogEnabled", true).toBool();
         emit documentLogEnabledChanged();
