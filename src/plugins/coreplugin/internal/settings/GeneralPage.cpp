@@ -60,6 +60,8 @@ namespace Core::Internal {
         qCDebug(lcGeneralPage) << "useSystemLanguage" << m_widget->property("useSystemLanguage");
         m_widget->setProperty("localeName", BehaviorPreference::instance()->property("localeName"));
         qCDebug(lcGeneralPage) << "localeName" << m_widget->property("localeName");
+        m_widget->setProperty("centralCName", BehaviorPreference::instance()->property("centralCName"));
+        qCDebug(lcGeneralPage) << "centralCName" << m_widget->property("centralCName");
         m_widget->setProperty("hasNotificationSoundAlert", BehaviorPreference::instance()->property("hasNotificationSoundAlert"));
         qCDebug(lcGeneralPage) << "hasNotificationSoundAlert" << m_widget->property("hasNotificationSoundAlert");
         m_widget->setProperty("notificationAutoHideTimeout", BehaviorPreference::instance()->property("notificationAutoHideTimeout"));
@@ -98,6 +100,8 @@ namespace Core::Internal {
         BehaviorPreference::instance()->setProperty("useSystemLanguage", m_widget->property("useSystemLanguage"));
         qCDebug(lcGeneralPage) << "localeName" << m_widget->property("localeName");
         BehaviorPreference::instance()->setProperty("localeName", m_widget->property("localeName"));
+        qCDebug(lcGeneralPage) << "centralCName" << m_widget->property("centralCName");
+        BehaviorPreference::instance()->setProperty("centralCName", m_widget->property("centralCName"));
         qCDebug(lcGeneralPage) << "hasNotificationSoundAlert" << m_widget->property("hasNotificationSoundAlert");
         BehaviorPreference::instance()->setProperty("hasNotificationSoundAlert", m_widget->property("hasNotificationSoundAlert"));
         qCDebug(lcGeneralPage) << "notificationAutoHideTimeout" << m_widget->property("notificationAutoHideTimeout");

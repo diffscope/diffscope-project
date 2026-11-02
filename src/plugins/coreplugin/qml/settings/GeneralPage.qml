@@ -19,6 +19,7 @@ ScrollView {
     property int startupBehavior
     property bool useSystemLanguage
     property string localeName
+    property int centralCName
     property bool hasNotificationSoundAlert
     property int notificationAutoHideTimeout
     property int commandPaletteHistoryCount
@@ -40,6 +41,7 @@ ScrollView {
     onStartupBehaviorChanged: if (started) pageHandle.markDirty()
     onUseSystemLanguageChanged: if (started) pageHandle.markDirty()
     onLocaleNameChanged: if (started) pageHandle.markDirty()
+    onCentralCNameChanged: if (started) pageHandle.markDirty()
     onHasNotificationSoundAlertChanged: if (started) pageHandle.markDirty()
     onNotificationAutoHideTimeoutChanged: if (started) pageHandle.markDirty()
     onProxyOptionChanged: if (started) pageHandle.markDirty()
@@ -178,6 +180,37 @@ ScrollView {
                             ThemedItem.foregroundLevel: SVS.FL_Secondary
                             text: qsTr("(Restart required)")
                             visible: page.selectedLocaleName !== page.pageHandle.currentLocaleName
+                        }
+                    }
+                }
+            }
+            GroupBox {
+                title: qsTr("Notation")
+                TextMatcherItem on title { matcher: page.matcher }
+                Layout.fillWidth: true
+                ColumnLayout {
+                    anchors.fill: parent
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: qsTr("Middle C note name")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        ComboBox {
+                            Layout.fillWidth: true
+                            textRole: "text"
+                            valueRole: "value"
+                            model: [
+                                { text: qsTr("C3"), value: BehaviorPreference.CCN_C3 },
+                                { text: qsTr("C4"), value: BehaviorPreference.CCN_C4 },
+                                { text: qsTr("C5"), value: BehaviorPreference.CCN_C5 },
+                            ]
+                            Component.onCompleted: currentIndex = Qt.binding(() => indexOfValue(page.centralCName))
+                            onActivated: (index) => page.centralCName = valueAt(index)
+                        }
+                        Label {
+                            ThemedItem.foregroundLevel: SVS.FL_Secondary
+                            text: qsTr("(Restart required)")
                         }
                     }
                 }

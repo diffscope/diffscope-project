@@ -124,8 +124,7 @@ namespace Core::Internal {
             return modeName;
         }
         auto keyName = SVS::MusicPitch(static_cast<qint8>(keySignature->tonality()))
-                           .toString(static_cast<SVS::MusicPitch::Accidental>(keySignature->accidentalType()));
-        keyName.chop(1);
+                           .keyName(static_cast<SVS::MusicPitch::Accidental>(keySignature->accidentalType()));
         return QStringLiteral("%1 %2").arg(keyName, modeName);
     }
 
@@ -702,8 +701,7 @@ namespace Core::Internal {
                 case NodeKind::KeySignature: {
                     const auto *keySignature = static_cast<dspx::KeySignature *>(entry.object.data());
                     auto tonality = SVS::MusicPitch(static_cast<qint8>(keySignature->tonality()))
-                                        .toString(static_cast<SVS::MusicPitch::Accidental>(keySignature->accidentalType()));
-                    tonality.chop(1);
+                                        .keyName(static_cast<SVS::MusicPitch::Accidental>(keySignature->accidentalType()));
                     const auto accidental = keySignature->accidentalType() == dspx::KeySignature::Flat
                                                 ? tr("Flat")
                                                 : tr("Sharp");

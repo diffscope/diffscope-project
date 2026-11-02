@@ -50,8 +50,7 @@ namespace Core::Internal {
         if (mode == 0) { // Atonal
             return modeName;
         }
-        auto keyName = SVS::MusicPitch(tonality).toString(static_cast<SVS::MusicPitch::Accidental>(accidentalType));
-        keyName = keyName.slice(0, keyName.length() - 1);
+        auto keyName = SVS::MusicPitch(tonality).keyName(static_cast<SVS::MusicPitch::Accidental>(accidentalType));
         return QString("%1 %2").arg(keyName, modeName);
     }
 

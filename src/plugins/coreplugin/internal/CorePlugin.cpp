@@ -34,6 +34,7 @@
 #include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
 
+#include <SVSCraftCore/MusicPitch.h>
 #include <SVSCraftFluentSystemIcons/FluentSystemIcons.h>
 #include <SVSCraftQuick/MessageBox.h>
 #include <SVSCraftQuick/Theme.h>
@@ -410,6 +411,17 @@ namespace Core::Internal {
             settings->endGroup();
         });
         behaviorPreference->load();
+        switch (BehaviorPreference::centralCName()) {
+            case BehaviorPreference::CCN_C3:
+                SVS::MusicPitch::setDisplayOctaveBase(-2);
+                break;
+            case BehaviorPreference::CCN_C4:
+                SVS::MusicPitch::setDisplayOctaveBase(-1);
+                break;
+            case BehaviorPreference::CCN_C5:
+                SVS::MusicPitch::setDisplayOctaveBase(0);
+                break;
+        }
         updateProxy();
         if (!(behaviorPreference->graphicsBehavior() & BehaviorPreference::GB_Hardware)) {
             QQuickWindow::setGraphicsApi(QSGRendererInterface::Software);

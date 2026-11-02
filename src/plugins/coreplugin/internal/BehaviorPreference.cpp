@@ -17,6 +17,7 @@ namespace Core::Internal {
         BehaviorPreference::StartupBehavior startupBehavior{};
         bool useSystemLanguage{};
         QString localeName{};
+        BehaviorPreference::CentralCName centralCName{};
         QString fallbackLyricText{};
         bool skipParameterResamplingCheck{};
         bool hasNotificationSoundAlert{};
@@ -71,6 +72,8 @@ namespace Core::Internal {
         emit useSystemLanguageChanged();
         d->localeName = settings->value("localeName", QLocale().name()).toString();
         emit localeNameChanged();
+        d->centralCName = settings->value("centralCName", QVariant::fromValue(CCN_C4)).value<CentralCName>();
+        emit centralCNameChanged();
         d->fallbackLyricText = settings->value("fallbackLyricText", QStringLiteral("a")).toString();
         Q_EMIT fallbackLyricTextChanged();
         d->skipParameterResamplingCheck = settings->value("skipParameterResamplingCheck", false).toBool();
@@ -144,6 +147,7 @@ namespace Core::Internal {
         settings->setValue("startupBehavior", static_cast<int>(d->startupBehavior));
         settings->setValue("useSystemLanguage", d->useSystemLanguage);
         settings->setValue("localeName", d->localeName);
+        settings->setValue("centralCName", static_cast<int>(d->centralCName));
         settings->setValue("fallbackLyricText", d->fallbackLyricText);
         settings->setValue("skipParameterResamplingCheck", d->skipParameterResamplingCheck);
         settings->setValue("hasNotificationSoundAlert", d->hasNotificationSoundAlert);
@@ -211,6 +215,17 @@ namespace Core::Internal {
             return;
         d->localeName = localeName;
         emit m_instance->localeNameChanged();
+    }
+    BehaviorPreference::CentralCName BehaviorPreference::centralCName() {
+        M_INSTANCE_D;
+        return d->centralCName;
+    }
+    void BehaviorPreference::setCentralCName(CentralCName centralCName) {
+        M_INSTANCE_D;
+        if (d->centralCName == centralCName)
+            return;
+        d->centralCName = centralCName;
+        Q_EMIT m_instance->centralCNameChanged();
     }
     QString BehaviorPreference::fallbackLyricText() {
         M_INSTANCE_D;
