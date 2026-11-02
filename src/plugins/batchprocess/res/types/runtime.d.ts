@@ -144,8 +144,9 @@ interface ScriptDefinition extends ScriptMetadata {
  * object. The entry script must export that returned object.
  *
  * Invalid definitions cause a `TypeError` and are not registered. Top-level code
- * must not perform user interaction, modify documents, or access files; such work
- * belongs in an action or method handler.
+ * must not perform user interaction, modify documents, or access files other
+ * than the script's translation files through `loadI18n`; such work belongs in
+ * an action or method handler.
  *
  * @param definition The complete definition to validate and register.
  * @returns The validated and frozen input object.
@@ -254,6 +255,45 @@ declare module "diffscope:runtime" {
      * action or method. Reading a property at any other time throws an exception.
      */
     export const script: ScriptRuntime;
+
+    /** Options accepted by the underlying i18next translate function. */
+    export type TranslateOptions = Record<string, unknown>;
+
+    /**
+     * Translates a message key with the current script's loaded translation
+     * resources. The function delegates to the i18next `t` function when a
+     * translation file is loaded. Otherwise, or when the key is missing, it
+     * returns the key.
+     */
+    export interface TranslateFunction {
+        (key: string | readonly string[], options?: TranslateOptions): string;
+        (key: string | readonly string[], defaultValue: string, options?: TranslateOptions): string;
+    }
+
+    /** The translate function for the current script's loaded resources. */
+    export const t: TranslateFunction;
+
+    /**
+     * Loads translation resources for the current script from a directory of
+     * JSON files named with BCP 47 language tags.
+     *
+     * The directory is resolved against `scriptRoot` and must remain within
+     * `scriptRoot` after canonicalization. Each JSON file must contain a
+     * translation object. The application locale selects the file first using
+     * its preferred language list, which includes likely subtags and subtag
+     * truncations. If no file matches, `fallbackLanguage` selects the file with
+     * the same matching rules. If no file matches either, `t` returns message
+     * keys directly.
+     *
+     * Only the selected language file is read. Resources belong to the current
+     * script and are replaced when this function is called again for that script.
+     *
+     * @param directory A directory within `scriptRoot`.
+     * @param fallbackLanguage A BCP 47 language tag. Defaults to `en`.
+     * @throws If the directory is outside `scriptRoot`, is not a directory,
+     * or the selected file is not a valid translation object.
+     */
+    export function loadI18n(directory: string, fallbackLanguage?: string): void;
 
     /**
      * Immediately interrupts the currently executing script.

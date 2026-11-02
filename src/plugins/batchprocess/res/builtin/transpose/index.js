@@ -1,17 +1,20 @@
 const { application } = require("diffscope:core");
 const { dialogs } = require("diffscope:shell");
+const { loadI18n, t } = require("diffscope:runtime");
+
+loadI18n("i18n");
 
 function showSelectionWarning(project) {
-    dialogs.alert("Select one or more singing clips or one or more notes.", {
-        title: "Transpose",
+    dialogs.alert(t("transpose.selectionWarning"), {
+        title: t("transpose.title"),
         severity: "warning",
         parent: project.window
     });
 }
 
 function showRangeWarning(project) {
-    dialogs.alert("At least one note would be outside the valid key range from 0 through 127 after transportation.", {
-        title: "Transposition Failed",
+    dialogs.alert(t("transpose.rangeWarning"), {
+        title: t("transpose.rangeWarningTitle"),
         severity: "warning",
         parent: project.window
     });
@@ -19,13 +22,13 @@ function showRangeWarning(project) {
 
 module.exports = defineScript({
     id: "org.diffscope.transpose",
-    name: "Transpose",
+    name: t("transpose.title"),
     version: "1.0.0",
-    description: "Transposes notes in the selected singing clips or the selected notes by a number of semitones.",
+    description: t("transpose.description"),
     actions: [
         {
-            name: "Transpose",
-            description: "Transposes notes in the selected singing clips or the selected notes by a number of semitones.",
+            name: t("transpose.title"),
+            description: t("transpose.description"),
             requiresProject: true,
             execute() {
                 const project = application.project;
@@ -59,13 +62,13 @@ module.exports = defineScript({
                 }
 
                 const result = dialogs.form({
-                    title: "Transpose",
-                    description: "Enter the number of semitones to shift each note. Use a negative value to transpose down.",
+                    title: t("transpose.title"),
+                    description: t("transpose.formDescription"),
                     fields: [
                         {
                             type: "integer",
                             name: "semitone",
-                            label: "Semitone",
+                            label: t("transpose.semitoneLabel"),
                             value: 0,
                             minimum: -127,
                             maximum: 127,
@@ -101,7 +104,7 @@ module.exports = defineScript({
                         note.keyNumber = note.keyNumber + semitone;
                     }
 
-                    transaction.commit("Transpose");
+                    transaction.commit(t("transpose.title"));
                 } catch (error) {
                     if (transaction.active) {
                         transaction.abort();

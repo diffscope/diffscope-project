@@ -61,10 +61,12 @@
         {
             "name": "qiconmaker",
             "platform": "windows | osx"
-        }
+        },
+        "i18next"
     ],
     "vcpkg-configuration": {
         "overlay-ports": [
+            "../vcpkg-overrides",
             "../vcpkg/ports"
         ],
         "overlay-triplets": [

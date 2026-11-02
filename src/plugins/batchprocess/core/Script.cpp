@@ -29,6 +29,11 @@ namespace BatchProcess {
         return d->filePath;
     }
 
+    QString Script::rootPath() const {
+        Q_D(const Script);
+        return d->rootPath;
+    }
+
     ScriptMetadata Script::metadata() const {
         Q_D(const Script);
         return d->metadata;

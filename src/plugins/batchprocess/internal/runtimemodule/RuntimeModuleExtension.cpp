@@ -3,12 +3,19 @@
 
 #include "RuntimeModuleExtension.h"
 
+#include <QDir>
 #include <QFile>
+#include <QFileInfo>
+#include <QHash>
 #include <QJSEngine>
 #include <QJSValue>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
 #include <QLocale>
 #include <QLoggingCategory>
 #include <QPointer>
+#include <QStringList>
 #include <QtGlobal>
 
 #include <batchprocess/BatchProcessInterface.h>
@@ -16,6 +23,7 @@
 #include <batchprocess/ScriptAction.h>
 #include <batchprocess/ScriptExecutionContext.h>
 #include <batchprocess/ScriptMethod.h>
+#include <batchprocess/internal/FileSystemPathUtils.h>
 #include <batchprocess/private/Script_p.h>
 
 namespace BatchProcess::Internal {
@@ -26,6 +34,7 @@ namespace BatchProcess::Internal {
 
         constexpr auto RuntimeModuleName = "diffscope:runtime";
         constexpr auto RuntimeModuleResourcePath = ":/diffscope/batchprocess/internalscripts/runtime/runtime-module.js";
+        constexpr auto I18nextModuleResourcePath = ":/diffscope/batchprocess/i18next/i18next.mjs";
 
         QString javaScriptErrorText(const QJSValue &error) {
             auto text = error.toString();
@@ -35,6 +44,28 @@ namespace BatchProcess::Internal {
                 text.append(stack);
             }
             return text;
+        }
+
+        QString normalizedLanguageCode(QString code) {
+            return code.trimmed().replace(QLatin1Char('_'), QLatin1Char('-')).toLower();
+        }
+
+        QString bestLanguageMatch(const QHash<QString, QString> &languages, const QString &requestedCode) {
+            if (requestedCode.trimmed().isEmpty()) {
+                return {};
+            }
+            QStringList preferences{requestedCode};
+            const QLocale requestedLocale(requestedCode);
+            for (const auto &language : requestedLocale.uiLanguages()) {
+                preferences.append(language);
+            }
+            for (const auto &preference : preferences) {
+                const auto key = normalizedLanguageCode(preference);
+                if (const auto it = languages.constFind(key); it != languages.cend()) {
+                    return it.value();
+                }
+            }
+            return {};
         }
 
         QString platformName() {
@@ -66,6 +97,19 @@ namespace BatchProcess::Internal {
             return platformName();
         }
 
+        Q_INVOKABLE QString currentScriptIdentity() const {
+            const auto script = m_context ? m_context->script() : nullptr;
+            if (!script) {
+                return {};
+            }
+            const auto filePath = script->filePath();
+            return filePath.isEmpty() ? script->metadata().id() : filePath;
+        }
+
+        Q_INVOKABLE QJSValue prepareI18n(const QString &directory, const QString &fallbackLanguage) const;
+        Q_INVOKABLE QJSValue readI18nResource(const QString &directory, const QString &language) const;
+        Q_INVOKABLE QJSValue createI18nextInstance();
+
         Q_INVOKABLE QJSValue currentScriptRuntime() const {
             if (!m_extension) {
                 m_engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("The runtime module is no longer available."));
@@ -87,6 +131,162 @@ namespace BatchProcess::Internal {
         QPointer<ScriptExecutionContext> m_context;
         QJSEngine *m_engine;
     };
+
+    QJSValue RuntimeModuleBridge::prepareI18n(const QString &directory, const QString &fallbackLanguage) const {
+        const auto fail = [this](const QString &message) {
+            m_engine->throwError(QJSValue::TypeError, message);
+            return QJSValue(QJSValue::UndefinedValue);
+        };
+        const auto script = m_context ? m_context->script() : nullptr;
+        if (!script) {
+            return fail(BatchProcessInterface::tr("Translation resources are only available while a script is active."));
+        }
+        const auto rootPath = script->rootPath();
+        if (rootPath.isEmpty()) {
+            return fail(BatchProcessInterface::tr("The current script has no file-system package."));
+        }
+
+        QString resolvedPath;
+        QString resolveError;
+        if (!resolveFileSystemPath(directory, rootPath, &resolvedPath, &resolveError)) {
+            return fail(resolveError);
+        }
+        const QFileInfo directoryInfo(resolvedPath);
+        if (!directoryInfo.exists()) {
+            return fail(BatchProcessInterface::tr("The translation directory does not exist:\n%1").arg(QDir::toNativeSeparators(resolvedPath)));
+        }
+        if (!directoryInfo.isDir()) {
+            return fail(BatchProcessInterface::tr("The translation path is not a directory:\n%1").arg(QDir::toNativeSeparators(resolvedPath)));
+        }
+        const auto canonicalDirectory = normalizedFileSystemPath(directoryInfo.canonicalFilePath());
+        if (canonicalDirectory.isEmpty()) {
+            return fail(BatchProcessInterface::tr("The translation directory cannot be resolved:\n%1").arg(QDir::toNativeSeparators(resolvedPath)));
+        }
+        if (!isPathWithin(rootPath, canonicalDirectory)) {
+            return fail(BatchProcessInterface::tr("The translation directory resolves outside the script package:\n%1").arg(QDir::toNativeSeparators(canonicalDirectory)));
+        }
+
+        QHash<QString, QString> languages;
+        const auto entries = QDir(canonicalDirectory).entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name);
+        for (const auto &entry : entries) {
+            if (entry.suffix().compare(QStringLiteral("json"), Qt::CaseInsensitive) != 0) {
+                continue;
+            }
+            const auto canonicalFile = normalizedFileSystemPath(entry.canonicalFilePath());
+            if (canonicalFile.isEmpty() || !isPathWithin(rootPath, canonicalFile)) {
+                continue;
+            }
+            const auto languageCode = entry.completeBaseName();
+            const auto key = normalizedLanguageCode(languageCode);
+            if (!key.isEmpty() && !languages.contains(key)) {
+                languages.insert(key, languageCode);
+            }
+        }
+
+        QString language = bestLanguageMatch(languages, QLocale().bcp47Name());
+        if (language.isEmpty()) {
+            language = bestLanguageMatch(languages, fallbackLanguage);
+        }
+
+        auto result = m_engine->newObject();
+        result.setProperty(QStringLiteral("directory"), canonicalDirectory);
+        result.setProperty(QStringLiteral("language"), language);
+        return result;
+    }
+
+    QJSValue RuntimeModuleBridge::readI18nResource(const QString &directory, const QString &language) const {
+        const auto fail = [this](const QString &message) {
+            m_engine->throwError(QJSValue::TypeError, message);
+            return QJSValue(QJSValue::UndefinedValue);
+        };
+        const auto script = m_context ? m_context->script() : nullptr;
+        if (!script) {
+            return fail(BatchProcessInterface::tr("Translation resources are only available while a script is active."));
+        }
+        const auto rootPath = script->rootPath();
+        if (rootPath.isEmpty()) {
+            return fail(BatchProcessInterface::tr("The current script has no file-system package."));
+        }
+
+        const auto canonicalDirectory = normalizedFileSystemPath(QFileInfo(directory).canonicalFilePath());
+        if (canonicalDirectory.isEmpty()) {
+            return fail(BatchProcessInterface::tr("The translation directory cannot be resolved:\n%1").arg(QDir::toNativeSeparators(directory)));
+        }
+        if (!isPathWithin(rootPath, canonicalDirectory)) {
+            return fail(BatchProcessInterface::tr("The translation directory resolves outside the script package:\n%1").arg(QDir::toNativeSeparators(canonicalDirectory)));
+        }
+
+        const auto key = normalizedLanguageCode(language);
+        if (key.isEmpty()) {
+            return QJSValue(QJSValue::UndefinedValue);
+        }
+
+        QString filePath;
+        const auto entries = QDir(canonicalDirectory).entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name);
+        for (const auto &entry : entries) {
+            if (entry.suffix().compare(QStringLiteral("json"), Qt::CaseInsensitive) != 0 || normalizedLanguageCode(entry.completeBaseName()) != key) {
+                continue;
+            }
+            const auto canonicalFile = normalizedFileSystemPath(entry.canonicalFilePath());
+            if (!canonicalFile.isEmpty() && isPathWithin(rootPath, canonicalFile)) {
+                filePath = canonicalFile;
+            }
+            break;
+        }
+        if (filePath.isEmpty()) {
+            return QJSValue(QJSValue::UndefinedValue);
+        }
+
+        QFile file(filePath);
+        if (!file.open(QIODevice::ReadOnly)) {
+            return fail(BatchProcessInterface::tr("Failed to read the translation file %1.").arg(QDir::toNativeSeparators(filePath)));
+        }
+        QJsonParseError parseError;
+        const auto document = QJsonDocument::fromJson(file.readAll(), &parseError);
+        if (parseError.error != QJsonParseError::NoError) {
+            return fail(BatchProcessInterface::tr("Failed to parse the translation file %1 at offset %L2: %3").arg(QDir::toNativeSeparators(filePath)).arg(parseError.offset).arg(parseError.errorString()));
+        }
+        if (!document.isObject()) {
+            return fail(BatchProcessInterface::tr("The translation file %1 does not contain a JSON object.").arg(QDir::toNativeSeparators(filePath)));
+        }
+        return m_engine->toScriptValue(document.toVariant());
+    }
+
+    QJSValue RuntimeModuleBridge::createI18nextInstance() {
+        const auto fail = [this](const QString &message) {
+            m_engine->throwError(QJSValue::TypeError, message);
+            return QJSValue(QJSValue::UndefinedValue);
+        };
+        const auto module = m_engine->importModule(QString::fromLatin1(I18nextModuleResourcePath));
+        if (m_engine->hasError()) {
+            m_engine->throwError(m_engine->catchError());
+            return QJSValue(QJSValue::UndefinedValue);
+        }
+        if (module.isError()) {
+            m_engine->throwError(module);
+            return QJSValue(QJSValue::UndefinedValue);
+        }
+        if (!module.isObject()) {
+            return fail(BatchProcessInterface::tr("The embedded i18next module did not return a module namespace."));
+        }
+        const auto createInstance = module.property(QStringLiteral("createInstance"));
+        if (!createInstance.isCallable()) {
+            return fail(BatchProcessInterface::tr("The embedded i18next module does not export createInstance()."));
+        }
+        const auto instance = createInstance.call();
+        if (m_engine->hasError()) {
+            m_engine->throwError(m_engine->catchError());
+            return QJSValue(QJSValue::UndefinedValue);
+        }
+        if (instance.isError()) {
+            m_engine->throwError(instance);
+            return QJSValue(QJSValue::UndefinedValue);
+        }
+        if (!instance.isObject()) {
+            return fail(BatchProcessInterface::tr("i18next createInstance() did not return an object."));
+        }
+        return instance;
+    }
 
     RuntimeModuleExtension::RuntimeModuleExtension(BatchProcessInterface *batchProcessInterface, QObject *parent)
         : QObject(parent), m_batchProcessInterface(batchProcessInterface) {
@@ -193,7 +393,7 @@ namespace BatchProcess::Internal {
         runtime.setProperty(QStringLiteral("metadata"), metadata);
         runtime.setProperty(QStringLiteral("isBuiltin"), script->isBuiltin());
         runtime.setProperty(QStringLiteral("scriptPath"), script->filePath());
-        runtime.setProperty(QStringLiteral("scriptRoot"), script->d_func()->rootPath);
+        runtime.setProperty(QStringLiteral("scriptRoot"), script->rootPath());
         if (action) {
             runtime.setProperty(QStringLiteral("kind"), QStringLiteral("action"));
             runtime.setProperty(QStringLiteral("action"), currentActionMetadata);

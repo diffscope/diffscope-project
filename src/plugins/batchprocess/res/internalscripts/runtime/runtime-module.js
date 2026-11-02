@@ -4,7 +4,9 @@
 (bridge => {
     "use strict";
 
+    const arrayIsArray = Array.isArray;
     const freeze = Object.freeze;
+    const string = String;
 
     class MethodLogicError extends Error {
         constructor(message, data) {
@@ -56,10 +58,78 @@
         throw new Error("Script execution interruption did not stop execution.");
     }
 
+    const translationInstances = new Map();
+
+    function normalizedLanguageCode(value) {
+        return string(value).trim().replace(/_/g, "-").toLowerCase();
+    }
+
+    function currentScriptKey() {
+        const key = bridge.currentScriptIdentity();
+        if (!key) {
+            throw new Error("The current script is no longer active.");
+        }
+        return key;
+    }
+
+    function loadI18n(directory, fallbackLanguage) {
+        const fallback = fallbackLanguage === undefined || fallbackLanguage === null ? "en" : string(fallbackLanguage);
+        const directoryInfo = bridge.prepareI18n(string(directory), fallback);
+        const scriptKey = currentScriptKey();
+        if (!directoryInfo.language) {
+            translationInstances.set(scriptKey, null);
+            return;
+        }
+
+        const instance = bridge.createI18nextInstance();
+        const selectedLanguage = normalizedLanguageCode(directoryInfo.language);
+        instance.use({
+            type: "backend",
+            callbackApi: false,
+            init() {
+            },
+            read(language, namespace) {
+                if (namespace !== "translation" || normalizedLanguageCode(language) !== selectedLanguage) {
+                    return undefined;
+                }
+                return bridge.readI18nResource(directoryInfo.directory, language);
+            },
+        });
+
+        let initError;
+        instance.init({
+            lng: directoryInfo.language,
+            fallbackLng: false,
+            load: "currentOnly",
+            initAsync: false,
+            ns: ["translation"],
+            defaultNS: "translation",
+        }, error => {
+            initError = error;
+        });
+        if (initError) {
+            translationInstances.delete(scriptKey);
+            const error = arrayIsArray(initError) ? initError[0] : initError;
+            throw error instanceof Error ? error : new Error(string(error));
+        }
+        translationInstances.set(scriptKey, instance);
+    }
+
+    function t(...args) {
+        const instance = translationInstances.get(currentScriptKey());
+        if (instance) {
+            return instance.t(...args);
+        }
+        const key = args[0];
+        return typeof key === "string" ? key : "";
+    }
+
     return freeze({
         environment,
         MethodLogicError,
         script,
         abort,
+        loadI18n,
+        t,
     });
 })

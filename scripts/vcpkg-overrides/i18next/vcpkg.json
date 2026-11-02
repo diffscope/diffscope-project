@@ -1,0 +1,13 @@
+{
+  "name": "i18next",
+  "version-semver": "26.7.1",
+  "description": "Bundles the i18next internationalization framework as a single-file ES module for Chrome 49.",
+  "homepage": "https://www.i18next.com",
+  "license": "MIT",
+  "dependencies": [
+    {
+      "name": "vcpkg-tool-nodejs",
+      "host": true
+    }
+  ]
+}

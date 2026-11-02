@@ -14,13 +14,10 @@ namespace BatchProcess {
 
     namespace Internal {
         class BatchProcessRuntime;
-        class RuntimeModuleExtension;
     }
 
     class ScriptAction;
     class ScriptMethod;
-    class FileSystemAccessInterface;
-    class FileSystemAccessInterfacePrivate;
     class ScriptPrivate;
 
     class BATCH_PROCESS_EXPORT Script : public QObject {
@@ -33,15 +30,14 @@ namespace BatchProcess {
         bool isBuiltin() const;
         /** Returns the physical entry file or package directory, or an empty string for a script registered with a factory. */
         QString filePath() const;
+        /** Returns the sandbox root directory used for module and file-system path resolution, or an empty string for a script registered with a factory. */
+        QString rootPath() const;
         ScriptMetadata metadata() const;
         QList<ScriptAction *> actions() const;
         QList<ScriptMethod *> methods() const;
 
     private:
         friend class Internal::BatchProcessRuntime;
-        friend class Internal::RuntimeModuleExtension;
-        friend class FileSystemAccessInterface;
-        friend class FileSystemAccessInterfacePrivate;
         explicit Script(const QString &filePath, const QString &rootPath, bool builtin, QObject *parent = nullptr);
 
         QScopedPointer<ScriptPrivate> d_ptr;

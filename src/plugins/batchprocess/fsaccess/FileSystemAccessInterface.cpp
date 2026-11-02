@@ -290,7 +290,7 @@ namespace BatchProcess {
         execution->token->engine = context->engine();
         execution->token->context = context;
         execution->scriptId = context->script()->metadata().id();
-        execution->scriptRoot = context->script()->d_func()->rootPath;
+        execution->scriptRoot = context->script()->rootPath();
         currentExecution = std::move(execution);
         qCDebug(lcFileSystemAccess) << "Started file-system execution scope" << currentExecution->scriptId << currentExecution->token->serial;
     }
@@ -366,7 +366,7 @@ namespace BatchProcess {
 
     bool FileSystemAccessInterfacePrivate::resolvePath(ScriptExecutionContext *context, const QString &path, QString *result, FileSystemError *error, const QString &operation) const {
         const auto script = context ? context->script() : nullptr;
-        const auto rootPath = script ? script->d_func()->rootPath : QString();
+        const auto rootPath = script ? script->rootPath() : QString();
         QString errorMessage;
         if (!Internal::resolveFileSystemPath(path, rootPath, result, &errorMessage)) {
             setFileSystemError(error, FileSystemErrorCode::InvalidPath, operation, path, errorMessage);
@@ -377,7 +377,7 @@ namespace BatchProcess {
 
     bool FileSystemAccessInterfacePrivate::normalizePattern(ScriptExecutionContext *context, const QString &pattern, QString *result, FileSystemError *error) const {
         const auto script = context ? context->script() : nullptr;
-        const auto rootPath = script ? script->d_func()->rootPath : QString();
+        const auto rootPath = script ? script->rootPath() : QString();
         QString errorMessage;
         if (!Internal::normalizeFileSystemPattern(pattern, rootPath, result, &errorMessage)) {
             setFileSystemError(error, FileSystemErrorCode::InvalidPath, QStringLiteral("permission"), pattern, errorMessage);
@@ -1581,7 +1581,7 @@ namespace BatchProcess {
             FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidState, QStringLiteral("resolve"), {}, tr("No destination was provided for the resolved path."));
             return false;
         }
-        QString currentPath = context && context->script() ? context->script()->d_func()->rootPath : QString();
+        QString currentPath = context && context->script() ? context->script()->rootPath() : QString();
         for (const auto &part : parts) {
             if (part.contains(QChar::Null)) {
                 FileSystemAccessInterfacePrivate::setFileSystemError(error, FileSystemErrorCode::InvalidPath, QStringLiteral("resolve"), part, tr("A path part contains an invalid null character."));

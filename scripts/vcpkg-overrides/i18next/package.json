@@ -1,0 +1,12 @@
+{
+  "name": "i18next-bundle",
+  "version": "26.7.1",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@babel/core": "7.29.0",
+    "@babel/preset-env": "7.29.0",
+    "@rollup/plugin-babel": "7.1.0",
+    "rollup": "4.62.4"
+  }
+}
