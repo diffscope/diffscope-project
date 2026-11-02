@@ -33,3 +33,7 @@
 [submodule "dspxmodel"]
 	path = src/libs/3rdparty/dspxmodel
 	url = ../../diffscope/dspxmodel.git
+
+[submodule "qjsengine-polyfills"]
+	path = src/libs/3rdparty/qjsengine-polyfills
+	url = ../../CrSjimo/qjsengine-polyfills.git

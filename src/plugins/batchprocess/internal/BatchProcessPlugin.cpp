@@ -29,6 +29,7 @@
 #include <batchprocess/internal/BatchProcessSettings.h>
 #include <batchprocess/internal/CoreModuleExtension.h>
 #include <batchprocess/internal/FileSystemModuleExtension.h>
+#include <batchprocess/internal/IntlExtension.h>
 #include <batchprocess/internal/JavaScriptConsoleAddOn.h>
 #include <batchprocess/internal/JavaScriptConsoleExtension.h>
 #include <batchprocess/internal/RuntimeModuleExtension.h>
@@ -60,6 +61,7 @@ namespace BatchProcess::Internal {
         auto storageInterface = new StorageInterface(this);
         auto documentInterface = new DocumentInterface(this);
         new JavaScriptConsoleExtension(batchProcessInterface, consoleInterface, this);
+        new IntlExtension(batchProcessInterface, this);
         new FileSystemModuleExtension(batchProcessInterface, fileSystemAccessInterface, this);
         new ShellModuleExtension(batchProcessInterface, shellInterface, fileSystemAccessInterface, this);
         new StorageModuleExtension(batchProcessInterface, storageInterface, this);

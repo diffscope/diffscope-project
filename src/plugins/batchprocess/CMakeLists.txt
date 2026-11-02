@@ -32,6 +32,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         dspxmodelSelectionModel
         opendspx::model
         opendspx::serializer
+        QJSEnginePolyfills::Intl
         transactional
         svscraft::Gui
         svscraft::Quick
