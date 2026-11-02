@@ -389,8 +389,8 @@ Window {
                                     label: qsTr("Directory")
                                     columnItem: TextField {
                                         placeholderText: qsTr("(Project directory)")
-                                        text: AudioExporterPresets.currentConfig.fileDirectory
-                                        onTextEdited: AudioExporterPresets.currentConfig.fileDirectory = text
+                                        text: AudioQmlHelper.getNativeSeparatorPath(AudioExporterPresets.currentConfig.fileDirectory)
+                                        onTextEdited: AudioExporterPresets.currentConfig.fileDirectory = AudioQmlHelper.getNativeSeparatorPath(text)
                                     }
                                     Layout.fillWidth: true
                                 }

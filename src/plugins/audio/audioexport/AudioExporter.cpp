@@ -576,7 +576,7 @@ namespace Audio {
 
                 auto file = new QFile(fileName, &fileOwner);
                 if (!file->open(QIODevice::WriteOnly)) {
-                    d->setError(CannotOpenFile, tr("Cannot open file for writing: %1").arg(fileName));
+                    d->setError(CannotOpenFile, tr("Cannot open file for writing: %1").arg(QDir::toNativeSeparators(fileName)));
                     return R_Fail;
                 }
 
@@ -683,7 +683,7 @@ namespace Audio {
                 QFile::remove(fileName);
                 QFile temporaryFile(temporaryFiles.value(fileName));
                 if (!temporaryFile.rename(fileName)) {
-                    temporaryFileErrorString += QStringLiteral("\n") + fileName;
+                    temporaryFileErrorString += QStringLiteral("\n") + QDir::toNativeSeparators(fileName);
                     failed = true;
                     d->temporaryFileList.append(temporaryFile.fileName());
                 }
