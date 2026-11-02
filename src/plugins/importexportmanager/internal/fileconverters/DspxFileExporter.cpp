@@ -25,8 +25,6 @@
 
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 
-#include <importexportmanager/internal/DsEditorLiteParameterMapper.h>
-
 namespace ImportExportManager::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcDspxFileExporter, "diffscope.importexportmanager.dspxfileexporter");
@@ -57,9 +55,6 @@ namespace ImportExportManager::Internal {
         auto workspaceInstruction = new QLabel(tr("Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues."));
         workspaceInstruction->setWordWrap(true);
         formLayout->addRow(workspaceInstruction);
-        auto mapDsEditorLiteParametersCheckBox = new QCheckBox(tr("Map DS Editor Lite DiffSinger parameters"));
-        mapDsEditorLiteParametersCheckBox->setChecked(false);
-        formLayout->addRow(mapDsEditorLiteParametersCheckBox);
         auto compressCheckbox = new QCheckBox(tr("Compress"));
         compressCheckbox->setChecked(true);
         formLayout->addRow(compressCheckbox);
@@ -79,10 +74,6 @@ namespace ImportExportManager::Internal {
         }
         auto model = model_;
         model.version = versionComboBox->currentData().value<opendspx::Model::Version>();
-        qCDebug(lcDspxFileExporter) << "Map DS Editor Lite DiffSinger parameters:" << mapDsEditorLiteParametersCheckBox->isChecked();
-        if (mapDsEditorLiteParametersCheckBox->isChecked()) {
-            DsEditorLiteParameterMapper::mapModel(model, DsEditorLiteParameterMapper::Direction::ToDsEditorLite);
-        }
         qCDebug(lcDspxFileExporter) << "Keep Workspace data:" << keepWorkspaceDataCheckBox->isChecked();
         if (!keepWorkspaceDataCheckBox->isChecked()) {
             model.content.workspace.clear();

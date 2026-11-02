@@ -127,11 +127,6 @@
 <context>
     <name>ImportExportManager::Internal::DspxFileExporter</name>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="60"/>
-        <source>Map DS Editor Lite DiffSinger parameters</source>
-        <translation type="unfinished">Map DS Editor Lite DiffSinger parameters</translation>
-    </message>
-    <message>
         <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="35"/>
         <source>DSPX</source>
         <translation type="unfinished">DSPX</translation>
@@ -179,11 +174,6 @@
 </context>
 <context>
     <name>ImportExportManager::Internal::DspxFileImporter</name>
-    <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="68"/>
-        <source>Map DS Editor Lite DiffSinger parameters</source>
-        <translation type="unfinished">Map DS Editor Lite DiffSinger parameters</translation>
-    </message>
     <message>
         <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="32"/>
         <source>DSPX</source>

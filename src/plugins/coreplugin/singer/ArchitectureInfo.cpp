@@ -11,6 +11,8 @@
 
 namespace Core {
 
+    // Note: The coefficient `8064000` is opaque. All conversions should be done by calling `fromDspxModelValue` and `toDspxModelValue`.
+
     double ParameterInfo::fromDspxModelValue(int value) {
         return std::clamp(static_cast<double>(value) / 8064000.0, 0.0, 1.0);
     }

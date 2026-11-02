@@ -132,10 +132,10 @@ declare module "diffscope:core" {
         readonly fillMode: ParameterFillMode;
         readonly showDefaultValue: boolean;
 
-        /** Returns clamp(value / 8064000, 0, 1), or null for an undefined sample. */
+        /** Converts DSPX value to normalized value, or null for an undefined sample. */
         fromDSPXValue(value: number | null): number | null;
         /**
-         * Returns round(clamp(value, 0, 1) * 8064000).
+         * Converts normalized value to DSPX value.
          * Non-finite inputs use the normalized defaultValue.
          */
         toDSPXValue(value: number): number;
