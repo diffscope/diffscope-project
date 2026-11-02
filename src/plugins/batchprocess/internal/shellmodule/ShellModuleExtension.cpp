@@ -725,6 +725,7 @@ namespace BatchProcess::Internal {
                     value.insert(QStringLiteral("maximum"), field.property(QStringLiteral("maximum")).toNumber());
                     value.insert(QStringLiteral("step"), field.property(QStringLiteral("step")).toNumber());
                     value.insert(QStringLiteral("decimals"), type == QStringLiteral("integer") ? 0 : field.property(QStringLiteral("decimals")).toInt());
+                    value.insert(QStringLiteral("control"), field.property(QStringLiteral("control")).toString());
                 } else if (type == QStringLiteral("boolean")) {
                     value.insert(QStringLiteral("value"), field.property(QStringLiteral("value")).toBool());
                 } else if (type == QStringLiteral("choice")) {

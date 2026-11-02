@@ -11,6 +11,7 @@
     const buttonRoles = Object.freeze(["accept", "reject", "destructive", "help", "action"]);
     const accessModes = Object.freeze(["read", "write", "readWrite"]);
     const bubbleModes = Object.freeze(["normal", "hidden", "autoHide"]);
+    const numberControls = Object.freeze(["both", "slider", "spinBox"]);
 
     class WindowError extends Error {
         constructor(message, code, window) {
@@ -265,7 +266,13 @@
             if (initialValue < minimum || initialValue > maximum) {
                 throw new TypeError(`fields[${index}].value is outside its allowed range.`);
             }
-            return createFormField(base, type, { value: initialValue, minimum, maximum, step });
+            return createFormField(base, type, {
+                value: initialValue,
+                minimum,
+                maximum,
+                step,
+                control: enumValue(value.control, numberControls, `fields[${index}].control`, "both"),
+            });
         }
         if (type === "number") {
             const minimum = value.minimum === undefined ? 0 : finiteNumber(value.minimum, `fields[${index}].minimum`);
@@ -281,7 +288,14 @@
             if (initialValue < minimum || initialValue > maximum) {
                 throw new TypeError(`fields[${index}].value is outside its allowed range.`);
             }
-            return createFormField(base, type, { value: initialValue, minimum, maximum, step, decimals });
+            return createFormField(base, type, {
+                value: initialValue,
+                minimum,
+                maximum,
+                step,
+                decimals,
+                control: enumValue(value.control, numberControls, `fields[${index}].control`, "both"),
+            });
         }
         if (type === "boolean") {
             return createFormField(base, type, {

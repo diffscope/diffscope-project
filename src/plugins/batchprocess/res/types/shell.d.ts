@@ -183,6 +183,9 @@ declare module "diffscope:shell" {
         readonly required?: boolean;
     }
 
+    /** Determines which numeric inputs a number field displays. */
+    export type NumberFormFieldControl = "both" | "slider" | "spinBox";
+
     export interface TextFormField extends FormFieldBase {
         readonly type: "text";
         readonly value?: string;
@@ -215,6 +218,9 @@ declare module "diffscope:shell" {
 
         /** A positive safe integer. Defaults to `1`. */
         readonly step?: number;
+
+        /** Determines which inputs are displayed. Defaults to `both`. */
+        readonly control?: NumberFormFieldControl;
     }
 
     export interface NumberFormField extends FormFieldBase {
@@ -234,6 +240,9 @@ declare module "diffscope:shell" {
 
         /** A safe integer from 0 through 15. Defaults to `2`. */
         readonly decimals?: number;
+
+        /** Determines which inputs are displayed. Defaults to `both`. */
+        readonly control?: NumberFormFieldControl;
     }
 
     export interface BooleanFormField extends FormFieldBase {

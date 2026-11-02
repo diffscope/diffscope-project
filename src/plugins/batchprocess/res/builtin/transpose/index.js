@@ -73,6 +73,7 @@ module.exports = defineScript({
                             minimum: -127,
                             maximum: 127,
                             step: 1,
+                            control: "spinBox",
                             required: true
                         }
                     ],

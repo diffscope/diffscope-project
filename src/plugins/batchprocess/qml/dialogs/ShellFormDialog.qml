@@ -226,6 +226,9 @@ Dialog {
             id: numberEditorRoot
             property var field
             readonly property real initialValue: field ? field.value : 0
+            readonly property string control: field ? field.control : "both"
+            readonly property bool showSlider: control !== "spinBox"
+            readonly property bool showSpinBox: control !== "slider"
             property real currentValue: initialValue
 
             Layout.fillWidth: true
@@ -240,7 +243,10 @@ Dialog {
             }
 
             function focusEditor() {
-                spinBox.forceActiveFocus()
+                if (numberEditorRoot.showSpinBox)
+                    spinBox.forceActiveFocus()
+                else
+                    slider.forceActiveFocus()
             }
 
             Label {
@@ -254,7 +260,9 @@ Dialog {
                 spacing: 8
 
                 Slider {
+                    id: slider
                     Layout.fillWidth: true
+                    visible: numberEditorRoot.showSlider
                     from: numberEditorRoot.field ? numberEditorRoot.field.minimum : 0
                     to: numberEditorRoot.field ? numberEditorRoot.field.maximum : 100
                     stepSize: numberEditorRoot.field ? numberEditorRoot.field.step : 1
@@ -266,7 +274,9 @@ Dialog {
 
                 DoubleSpinBox {
                     id: spinBox
+                    Layout.fillWidth: !numberEditorRoot.showSlider
                     Layout.preferredWidth: 140
+                    visible: numberEditorRoot.showSpinBox
                     from: numberEditorRoot.field ? numberEditorRoot.field.minimum : 0
                     to: numberEditorRoot.field ? numberEditorRoot.field.maximum : 100
                     stepSize: numberEditorRoot.field ? numberEditorRoot.field.step : 1
