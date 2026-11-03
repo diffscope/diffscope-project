@@ -769,7 +769,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="235"/>
+        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="225"/>
         <source>Voice blending is unavailable for this clip.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1142,93 +1142,93 @@
 <context>
     <name>ParameterTrack</name>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="424"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="419"/>
         <source>Transform Tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="278"/>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="279"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="273"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="274"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="367"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="362"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="372"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="367"/>
         <source>Editing parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="379"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="374"/>
         <source>Swap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="389"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="384"/>
         <source>Ref</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="394"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="389"/>
         <source>Reference parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="405"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="400"/>
         <source>Transform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="421"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="416"/>
         <source>Pencil</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="422"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="417"/>
         <source>Line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="423"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="418"/>
         <source>Fixing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="425"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="420"/>
         <source>Eraser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="426"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="421"/>
         <source>Range Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="427"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="422"/>
         <source>Pointer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="428"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="423"/>
         <source>Pen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="429"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="424"/>
         <source>Convert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="430"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="425"/>
         <source>Anchors Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="452"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="447"/>
         <source>Unsupported parameter</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1328,32 +1328,32 @@
 <context>
     <name>PianoRollView</name>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="658"/>
+        <location filename="../../qml/PianoRollView.qml" line="642"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1052"/>
+        <location filename="../../qml/PianoRollView.qml" line="1033"/>
         <source>No clip selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1058"/>
+        <location filename="../../qml/PianoRollView.qml" line="1039"/>
         <source>Activate a clip to edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1104"/>
+        <location filename="../../qml/PianoRollView.qml" line="1072"/>
         <source>Move Up</source>
         <translation type="unfinished">Move Up</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1111"/>
+        <location filename="../../qml/PianoRollView.qml" line="1079"/>
         <source>Move Down</source>
         <translation type="unfinished">Move Down</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1117"/>
+        <location filename="../../qml/PianoRollView.qml" line="1085"/>
         <source>Remove</source>
         <translation type="unfinished">Remove</translation>
     </message>
@@ -1606,7 +1606,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/KeySignatureViewModelContextData.cpp" line="353"/>
+        <location filename="../../core/viewmodelbinding/KeySignatureViewModelContextData.cpp" line="352"/>
         <source>Moving key signature</source>
         <translation type="unfinished"></translation>
     </message>

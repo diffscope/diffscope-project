@@ -127,47 +127,47 @@
 <context>
     <name>ImportExportManager::Internal::DspxFileExporter</name>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="35"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="33"/>
         <source>DSPX</source>
         <translation>DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="36"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="34"/>
         <source>Export as DSPX file compatible with older versions of DiffScope and other editors</source>
         <translation>导出为与旧版 DiffScope 和其他编辑器兼容的 DSPX 文件</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="37"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="35"/>
         <source>DiffScope Project Exchange Format (*.dspx)</source>
         <translation>DiffScope 工程交换格式 (*.dspx)</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="48"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="46"/>
         <source>Export DSPX</source>
         <translation>导出 DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="53"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="51"/>
         <source>Format version</source>
         <translation>格式版本</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="54"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="52"/>
         <source>Keep Workspace data</source>
         <translation>保留“Workspace”数据</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="57"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="55"/>
         <source>Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues.</source>
         <translation>“Workspace”数据不是 DSPX 标准的一部分，而特定于编辑器。不同的编辑器可能使用不同的方式解读同一字段，这会导致潜在的意外行为或兼容性问题。</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="63"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="58"/>
         <source>Compress</source>
         <translation type="unfinished">压缩</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="70"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="65"/>
         <source>Export</source>
         <translation>导出</translation>
     </message>
@@ -175,37 +175,37 @@
 <context>
     <name>ImportExportManager::Internal::DspxFileImporter</name>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="32"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="30"/>
         <source>DSPX</source>
         <translation>DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="33"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="31"/>
         <source>Import DSPX file compatible with DiffScope</source>
         <translation>导入适用于 DiffScope 的 DSPX 文件</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="34"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="32"/>
         <source>DiffScope Project Exchange Format (*.dspx)</source>
         <translation>DiffScope 工程交换格式 (*.dspx)</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="60"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="58"/>
         <source>Import DSPX</source>
         <translation>导入 DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="62"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="60"/>
         <source>Keep Workspace data</source>
         <translation>保留“Workspace”数据</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="65"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="63"/>
         <source>Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues.</source>
         <translation>“Workspace”数据不是 DSPX 标准的一部分，而特定于编辑器。不同的编辑器可能使用不同的方式解读同一字段，这会导致潜在的意外行为或兼容性问题。</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="74"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="69"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>

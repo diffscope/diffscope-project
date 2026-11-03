@@ -71,510 +71,510 @@
 <context>
     <name>BatchProcess::FileSystemAccessInterface</name>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="196"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="195"/>
         <source>The maximum byte count must not be negative.</source>
         <translation type="unfinished">最大字节数不得为负数。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="200"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="210"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="199"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="209"/>
         <source>The file is larger than the requested maximum byte count.</source>
         <translation type="unfinished">文件大小超过请求的最大字节数。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="220"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="982"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="219"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="980"/>
         <source>Unsupported text encoding: %1</source>
         <translation type="unfinished">不支持的文本编码：%1</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="225"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="224"/>
         <source>The text could not be encoded as %1.</source>
         <translation type="unfinished">无法将文本编码为 %1。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="433"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="431"/>
         <source>The script does not have permission to access this path.</source>
         <translation type="unfinished">脚本没有访问此路径的权限。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="441"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="439"/>
         <source>The resolved path is outside the script&apos;s granted file-system permissions.</source>
         <translation type="unfinished">解析后的路径超出已授予脚本的文件系统权限范围。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="507"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="505"/>
         <source>A file-system permission request must include a non-empty reason.</source>
         <translation type="unfinished">文件系统权限请求必须包含非空的原因说明。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="584"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="582"/>
         <source>The symbolic link target does not exist.</source>
         <translation type="unfinished">符号链接的目标不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="588"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="586"/>
         <source>The requested path is not a regular file.</source>
         <translation type="unfinished">请求的路径不是常规文件。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="592"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="590"/>
         <source>The requested file does not exist.</source>
         <translation type="unfinished">请求的文件不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="616"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="614"/>
         <source>The script does not have recursive permission for this directory.</source>
         <translation type="unfinished">脚本没有此目录的递归访问权限。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="624"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="622"/>
         <source>The requested directory does not exist.</source>
         <translation type="unfinished">请求的目录不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="628"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1268"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="626"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1266"/>
         <source>The requested path is not a directory.</source>
         <translation type="unfinished">请求的路径不是目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="636"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="634"/>
         <source>The script does not have recursive permission for the resolved directory.</source>
         <translation type="unfinished">脚本没有解析后目录的递归访问权限。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="654"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="652"/>
         <source>The script does not have a file-system package.</source>
         <translation type="unfinished">脚本没有文件系统包。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="665"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="663"/>
         <source>The script package no longer exists.</source>
         <translation type="unfinished">脚本包已不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="681"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="679"/>
         <source>Failed to create the script data directory.</source>
         <translation type="unfinished">无法创建脚本数据目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="686"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="684"/>
         <source>The script data directory could not be resolved.</source>
         <translation type="unfinished">无法解析脚本数据目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="705"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="703"/>
         <source>The application temporary directory is unavailable.</source>
         <translation type="unfinished">应用程序临时目录不可用。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="710"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="708"/>
         <source>Failed to create the script temporary-directory root.</source>
         <translation type="unfinished">无法创建脚本临时目录的根目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="748"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="746"/>
         <source>The authorized path is not a regular file.</source>
         <translation type="unfinished">已授权的路径不是常规文件。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="752"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="750"/>
         <source>The authorized file does not exist.</source>
         <translation type="unfinished">已授权的文件不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="775"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="773"/>
         <source>The authorized directory does not exist.</source>
         <translation type="unfinished">已授权的目录不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="779"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="777"/>
         <source>The authorized path is not a directory.</source>
         <translation type="unfinished">已授权的路径不是目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="796"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="794"/>
         <source>The file-system handle has the wrong kind for this operation.</source>
         <translation type="unfinished">文件系统句柄类型不适用于此操作。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="800"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="798"/>
         <source>The file-system handle does not provide the requested access mode.</source>
         <translation type="unfinished">文件系统句柄未提供请求的访问模式。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="804"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="802"/>
         <source>The file-system handle refers to an entry that was moved, removed, or replaced.</source>
         <translation type="unfinished">文件系统句柄所引用的条目已被移动、删除或替换。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="809"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="807"/>
         <source>The file-system handle now resolves outside its authorized capability scope.</source>
         <translation type="unfinished">文件系统句柄当前解析后的路径超出其授权范围。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="814"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="812"/>
         <source>The directory represented by this handle no longer exists.</source>
         <translation type="unfinished">此句柄所代表的目录已不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="818"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="816"/>
         <source>The path represented by this handle is no longer a regular file.</source>
         <translation type="unfinished">此句柄所代表的路径已不再是常规文件。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="824"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="822"/>
         <source>The path represented by this handle now resolves to a different entry.</source>
         <translation type="unfinished">此句柄所代表的路径当前解析为其他条目。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="837"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="907"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="835"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="905"/>
         <source>No destination was provided for the file status.</source>
         <translation type="unfinished">未提供文件状态的接收目标。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="852"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="850"/>
         <source>The script does not have permission to query this path.</source>
         <translation type="unfinished">脚本没有查询此路径的权限。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="954"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="952"/>
         <source>No destination was provided for the file contents.</source>
         <translation type="unfinished">未提供文件内容的接收目标。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="973"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="971"/>
         <source>No destination was provided for the decoded text.</source>
         <translation type="unfinished">未提供解码后文本的接收目标。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="987"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="985"/>
         <source>The file contains invalid %1 text.</source>
         <translation type="unfinished">文件包含无效的 %1 文本。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1004"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1002"/>
         <source>Atomic writing is only available with replace disposition.</source>
         <translation type="unfinished">仅替换模式支持原子写入。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1010"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1008"/>
         <source>The destination file already exists.</source>
         <translation type="unfinished">目标文件已存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1014"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1012"/>
         <source>The destination path is not a regular file.</source>
         <translation type="unfinished">目标路径不是常规文件。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1021"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1019"/>
         <source>The destination parent directory does not exist.</source>
         <translation type="unfinished">目标的父目录不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1025"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1023"/>
         <source>The file handle does not authorize creating the destination parent directories.</source>
         <translation type="unfinished">文件句柄未授权创建目标的父目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1029"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1027"/>
         <source>Failed to create the destination parent directories.</source>
         <translation type="unfinished">无法创建目标的父目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1038"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1036"/>
         <source>Failed to write all requested bytes.</source>
         <translation type="unfinished">无法写入全部请求的字节。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1100"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1098"/>
         <source>No destination was provided for the directory entries.</source>
         <translation type="unfinished">未提供目录条目的接收目标。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1107"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1105"/>
         <source>This directory handle does not allow recursive enumeration.</source>
         <translation type="unfinished">此目录句柄不允许递归枚举。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1174"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1172"/>
         <source>A child file path must be a non-empty relative path.</source>
         <translation type="unfinished">子文件路径必须是非空的相对路径。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1179"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1177"/>
         <source>The child file path escapes the directory handle.</source>
         <translation type="unfinished">子文件路径超出目录句柄的范围。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1183"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1181"/>
         <source>This directory handle only allows direct child files.</source>
         <translation type="unfinished">此目录句柄仅允许访问直接子文件。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1189"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1187"/>
         <source>The child file resolves outside the directory handle.</source>
         <translation type="unfinished">子文件解析后的路径超出目录句柄的范围。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1194"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1192"/>
         <source>The requested child is not a regular file.</source>
         <translation type="unfinished">请求的子条目不是常规文件。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1198"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1196"/>
         <source>The requested child file does not exist.</source>
         <translation type="unfinished">请求的子文件不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1217"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1215"/>
         <source>This directory handle does not allow access to child directories.</source>
         <translation type="unfinished">此目录句柄不允许访问子目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1221"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1219"/>
         <source>A child directory path must be relative.</source>
         <translation type="unfinished">子目录路径必须是相对路径。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1226"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1224"/>
         <source>The child directory path escapes the directory handle.</source>
         <translation type="unfinished">子目录路径超出目录句柄的范围。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1232"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1230"/>
         <source>The requested child directory does not exist.</source>
         <translation type="unfinished">请求的子目录不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1236"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1234"/>
         <source>The requested child is not a directory.</source>
         <translation type="unfinished">请求的子条目不是目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1241"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1239"/>
         <source>The child directory resolves outside the directory handle.</source>
         <translation type="unfinished">子目录解析后的路径超出目录句柄的范围。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1268"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1266"/>
         <source>The directory already exists.</source>
         <translation type="unfinished">目录已存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1278"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1276"/>
         <source>The parent directory does not exist.</source>
         <translation type="unfinished">父目录不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1282"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1280"/>
         <source>Failed to create the directory.</source>
         <translation type="unfinished">无法创建目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1293"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1291"/>
         <source>A parent path is not a directory.</source>
         <translation type="unfinished">父路径不是目录。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1308"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1306"/>
         <source>Failed to create the directory tree.</source>
         <translation type="unfinished">无法创建目录树。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1339"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1426"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1337"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1424"/>
         <source>The source path does not exist.</source>
         <translation type="unfinished">源路径不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1344"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1342"/>
         <source>Copying a directory requires recursive mode.</source>
         <translation type="unfinished">复制目录需要使用递归模式。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1351"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1349"/>
         <source>Recursive copy requires permission for the complete source and destination directory trees.</source>
         <translation type="unfinished">递归复制需要具有完整源目录树和目标目录树的访问权限。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1355"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1353"/>
         <source>A directory cannot be copied into itself.</source>
         <translation type="unfinished">不能将目录复制到其自身内部。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1363"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1445"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1361"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1443"/>
         <source>The destination path already exists.</source>
         <translation type="unfinished">目标路径已存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1368"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1450"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1366"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1448"/>
         <source>Replacing this destination would remove the source.</source>
         <translation type="unfinished">替换此目标将删除源条目。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1374"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1456"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1372"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1454"/>
         <source>Replacing this directory requires write permission for its complete directory tree.</source>
         <translation type="unfinished">替换此目录需要具有其完整目录树的写入权限。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1433"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1431"/>
         <source>Moving a directory requires write permission for the complete source and destination directory trees.</source>
         <translation type="unfinished">移动目录需要具有完整源目录树和目标目录树的写入权限。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1437"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1435"/>
         <source>A directory cannot be moved into itself.</source>
         <translation type="unfinished">不能将目录移动到其自身内部。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1506"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1504"/>
         <source>The requested path does not exist.</source>
         <translation type="unfinished">请求的路径不存在。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1512"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1510"/>
         <source>Removing this directory requires write permission for its complete directory tree.</source>
         <translation type="unfinished">删除此目录需要具有其完整目录树的写入权限。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1523"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1521"/>
         <source>The operating system could not move this entry to the trash.</source>
         <translation type="unfinished">操作系统无法将此条目移至回收站。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1553"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1583"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1551"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1581"/>
         <source>No destination was provided for the resolved path.</source>
         <translation type="unfinished">未提供解析后路径的接收目标。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1567"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1565"/>
         <source>The requested path does not exist or could not be resolved.</source>
         <translation type="unfinished">请求的路径不存在或无法解析。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1589"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1587"/>
         <source>A path part contains an invalid null character.</source>
         <translation type="unfinished">路径部分包含无效的空字符。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1598"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1596"/>
         <source>The path cannot be resolved without an absolute path or a script root.</source>
         <translation type="unfinished">没有绝对路径或脚本根目录时无法解析路径。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1610"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1608"/>
         <source>No destination was provided for the relative path.</source>
         <translation type="unfinished">未提供相对路径的接收目标。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1620"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1618"/>
         <source>A relative path cannot be formed between these path roots.</source>
         <translation type="unfinished">无法在这些路径根目录之间构造相对路径。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1682"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1680"/>
         <source>The path components are inconsistent.</source>
         <translation type="unfinished">路径组成部分不一致。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1701"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1699"/>
         <source>No destination was provided for the pattern result.</source>
         <translation type="unfinished">未提供模式匹配结果的接收目标。</translation>
     </message>
     <message>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1725"/>
-        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1738"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1723"/>
+        <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1736"/>
         <source>The JavaScript file-system module is not available.</source>
         <translation type="unfinished">JavaScript 文件系统模块不可用。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="501"/>
         <source>File-system permissions can only be requested while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅可在脚本执行期间请求文件系统权限。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="573"/>
         <source>File handles can only be created while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅可在脚本执行期间创建文件句柄。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="604"/>
         <source>Directory handles can only be created while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅可在脚本执行期间创建目录句柄。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="647"/>
         <source>The script package is only available while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">脚本包仅在脚本执行期间可用。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="674"/>
         <source>The script data directory is only available while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">脚本数据目录仅在脚本执行期间可用。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="697"/>
         <source>The temporary directory is only available while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">临时目录仅在脚本执行期间可用。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="737"/>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="764"/>
         <source>Authorized handles can only be created while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅可在脚本执行期间创建已授权句柄。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="790"/>
         <source>The file-system handle is no longer valid for the current script execution.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">文件系统句柄已不再适用于当前脚本执行。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="840"/>
         <source>File status can only be queried while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅可在脚本执行期间查询文件状态。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1253"/>
         <source>Directories can only be created while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅可在脚本执行期间创建目录。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1319"/>
         <source>File-system entries can only be copied while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅可在脚本执行期间复制文件系统条目。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1407"/>
         <source>File-system entries can only be moved while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅可在脚本执行期间移动文件系统条目。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1488"/>
         <source>File-system entries can only be removed while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅可在脚本执行期间移除文件系统条目。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="1556"/>
         <source>Paths can only be resolved while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">仅可在脚本执行期间解析路径。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="714"/>
         <source>Failed to create a temporary directory for the current script execution.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法为当前脚本执行创建临时目录。</translation>
     </message>
     <message>
         <location filename="../../fsaccess/FileSystemAccessInterface.cpp" line="722"/>
         <source>The script temporary directory could not be resolved.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法解析脚本临时目录。</translation>
     </message>
 </context>
 <context>
@@ -783,214 +783,214 @@
 <context>
     <name>BatchProcessInterface</name>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="70"/>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="78"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="115"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="123"/>
         <source>The runtime module is no longer available.</source>
         <translation type="unfinished">运行时模块已不可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="57"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="60"/>
         <source>A built-in script factory threw an unknown C++ exception.</source>
         <translation type="unfinished">内置脚本工厂抛出未知的 C++ 异常。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="429"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="443"/>
         <source>Failed to create the script directory:
 %1</source>
         <translation type="unfinished">无法创建脚本目录：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="437"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="451"/>
         <source>The script directory cannot be resolved:
 %1</source>
         <translation type="unfinished">无法解析脚本目录：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="515"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="529"/>
         <source>The owner was destroyed while the global object factory was running.</source>
         <translation type="unfinished">全局对象工厂运行期间，所有者已被销毁。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="549"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="556"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="560"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="563"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="570"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="574"/>
         <source>Engine extension</source>
         <translation type="unfinished">引擎扩展</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="568"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="582"/>
         <source>The script package that created this require() function is no longer active.</source>
         <translation type="unfinished">创建此 require() 函数的脚本包已不再处于活动状态。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="603"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="617"/>
         <source>The global require() function is only available while a built-in script is loading or executing.</source>
         <translation type="unfinished">全局 require() 函数仅在内置脚本加载或执行期间可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="607"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="621"/>
         <source>The global require() function may only load registered modules: %1.</source>
         <translation type="unfinished">全局 require() 函数仅可加载已注册的模块：%1。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="668"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="682"/>
         <source>Invalid file module specifier %1.</source>
         <translation type="unfinished">文件模块说明符 %1 无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="680"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="694"/>
         <source>Unsupported module extension in %1.</source>
         <translation type="unfinished">%1 中的模块扩展名不受支持。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="694"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="886"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="708"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="930"/>
         <source>Module %1 resolves outside the script package.</source>
         <translation type="unfinished">模块 %1 解析后的路径超出脚本包范围。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="702"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="716"/>
         <source>Cannot find module %1.</source>
         <translation type="unfinished">找不到模块 %1。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="730"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="744"/>
         <source>Failed to read module %1.</source>
         <translation type="unfinished">无法读取模块 %1。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="735"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="749"/>
         <source>Failed to parse JSON module %1 at offset %L2: %3</source>
         <translation type="unfinished">无法解析 JSON 模块 %1，偏移量为 %L2：%3</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="783"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="797"/>
         <source>The script package that created this defineScript() function is no longer active.</source>
         <translation type="unfinished">创建此 defineScript() 函数的脚本包已不再处于活动状态。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="788"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="802"/>
         <source>Script property %1 must be a string.</source>
         <translation type="unfinished">脚本属性 %1 必须是字符串。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="792"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="806"/>
         <source>Script property %1 must be a non-empty string.</source>
         <translation type="unfinished">脚本属性 %1 必须是非空字符串。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="800"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="814"/>
         <source>defineScript() requires an object.</source>
         <translation type="unfinished">defineScript() 需要一个对象。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="816"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="830"/>
         <source>Script property %1 must be a string when provided.</source>
         <translation type="unfinished">脚本属性 %1 在提供时必须是字符串。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="823"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="837"/>
         <source>Script property %1 must be an array.</source>
         <translation type="unfinished">脚本属性 %1 必须是数组。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="832"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="846"/>
         <source>Script action %L1 must be an object.</source>
         <translation type="unfinished">脚本操作 %L1 必须是对象。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="841"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="855"/>
         <source>Script action name %1 is duplicated.</source>
         <translation type="unfinished">脚本操作名称 %1 重复。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="847"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="861"/>
         <source>Action property %1 must be a boolean when provided.</source>
         <translation type="unfinished">操作属性 %1 在提供时必须是布尔值。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="852"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="866"/>
         <source>Action property %1 must be a function.</source>
         <translation type="unfinished">操作属性 %1 必须是函数。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="869"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="913"/>
         <source>The script path cannot be resolved within its root directory:
 %1</source>
         <translation type="unfinished">无法在脚本的根目录内解析脚本路径：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="881"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="925"/>
         <source>The script directory does not contain a regular index.js:
 %1</source>
         <translation type="unfinished">脚本目录中没有普通文件 index.js：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="894"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="938"/>
         <source>The script path is not a JavaScript file or a script package directory:
 %1</source>
         <translation type="unfinished">脚本路径不是 JavaScript 文件或脚本包目录：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="914"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="958"/>
         <source>The entry module did not call defineScript().</source>
         <translation type="unfinished">入口模块未调用 defineScript()。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="936"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="980"/>
         <source>The owner was destroyed while the built-in script was loading.</source>
         <translation type="unfinished">内置脚本加载期间，所有者已被销毁。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="939"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="983"/>
         <source>The entry module must export the object returned by defineScript(), either directly or as module.exports.default.</source>
         <translation type="unfinished">入口模块必须直接导出 defineScript() 返回的对象，或将其作为 module.exports.default 导出。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="977"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1021"/>
         <source>The owner was destroyed while the built-in script factory was running.</source>
         <translation type="unfinished">内置脚本工厂运行期间，所有者已被销毁。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1019"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1063"/>
         <source>The built-in script factory did not return a valid script definition.</source>
         <translation type="unfinished">内置脚本工厂未返回有效的脚本定义。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1031"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1075"/>
         <source>Script ID %1 is already loaded.</source>
         <translation type="unfinished">脚本 ID %1 已加载。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1092"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1144"/>
         <source>Project Required</source>
         <translation type="unfinished">需要工程</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1093"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1145"/>
         <source>The action %1 requires an open project.</source>
         <translation type="unfinished">操作 %1 需要已打开的工程。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1146"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1183"/>
         <source>The action returned a Promise or another thenable. Batch Process actions must complete synchronously.</source>
         <translation type="unfinished">操作返回了 Promise 或其他 thenable 对象。批处理操作必须同步完成。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1221"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1228"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1237"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1247"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1335"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1342"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1351"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1361"/>
         <source>Batch Process</source>
         <translation type="unfinished">批处理</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1222"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1336"/>
         <source>Failed to load a built-in script:
 
 %1</source>
@@ -999,7 +999,7 @@
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1229"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1343"/>
         <source>Failed to load script %1:
 
 %2</source>
@@ -1008,7 +1008,7 @@
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1238"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1352"/>
         <source>Failed to initialize %1:
 
 %2</source>
@@ -1017,7 +1017,7 @@
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1248"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1362"/>
         <source>Script %1, action %2 failed:
 
 %3</source>
@@ -1026,44 +1026,116 @@
 %3</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1276"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1390"/>
         <source>The script threw a function value.</source>
         <translation type="unfinished">脚本抛出了函数值。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1278"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1392"/>
         <source>The script threw a non-Error object.</source>
         <translation type="unfinished">脚本抛出了非 Error 对象。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1283"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1397"/>
         <source>The script threw an unidentified value.</source>
         <translation type="unfinished">脚本抛出了无法识别的值。</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1298"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1412"/>
         <source>Location: %1</source>
         <translation type="unfinished">位置：%1</translation>
     </message>
     <message>
         <location filename="../../internal/BatchProcessRuntime.cpp" line="894"/>
         <source>Method metadata cannot be represented as JSON.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">方法元数据无法表示为 JSON。</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="140"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="142"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="204"/>
+        <source>Translation resources are only available while a script is active.</source>
+        <translation type="unfinished">翻译资源仅在脚本处于活动状态时可用。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="146"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="208"/>
+        <source>The current script has no file-system package.</source>
+        <translation type="unfinished">当前脚本没有文件系统包。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="156"/>
+        <source>The translation directory does not exist:
+%1</source>
+        <translation type="unfinished">翻译目录不存在：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="159"/>
+        <source>The translation path is not a directory:
+%1</source>
+        <translation type="unfinished">翻译路径不是目录：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="163"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="213"/>
+        <source>The translation directory cannot be resolved:
+%1</source>
+        <translation type="unfinished">无法解析翻译目录：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="166"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="216"/>
+        <source>The translation directory resolves outside the script package:
+%1</source>
+        <translation type="unfinished">翻译目录解析后的路径超出脚本包范围：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="242"/>
+        <source>Failed to read the translation file %1.</source>
+        <translation type="unfinished">无法读取翻译文件 %1。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="247"/>
+        <source>Failed to parse the translation file %1 at offset %L2: %3</source>
+        <translation type="unfinished">无法解析翻译文件 %1，偏移量为 %L2：%3</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="250"/>
+        <source>The translation file %1 does not contain a JSON object.</source>
+        <translation type="unfinished">翻译文件 %1 不包含 JSON 对象。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="270"/>
+        <source>The embedded i18next module did not return a module namespace.</source>
+        <translation type="unfinished">内嵌的 i18next 模块未返回模块命名空间。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="274"/>
+        <source>The embedded i18next module does not export createInstance().</source>
+        <translation type="unfinished">内嵌的 i18next 模块未导出 createInstance()。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="286"/>
+        <source>i18next createInstance() did not return an object.</source>
+        <translation type="unfinished">i18next createInstance() 未返回对象。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="340"/>
         <source>Runtime script information is only available while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">运行时脚本信息仅在脚本执行期间可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="152"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="352"/>
         <source>The current action or method is not part of the current script.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">当前操作或方法不属于当前脚本。</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="211"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="411"/>
         <source>No script is currently executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">当前没有正在执行的脚本。</translation>
     </message>
 </context>
 <context>
@@ -1129,7 +1201,7 @@
 <context>
     <name>Core::CoreInterface</name>
     <message>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="707"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="746"/>
         <source>Untitled</source>
         <translation type="unfinished">无标题</translation>
     </message>
@@ -1137,13 +1209,13 @@
 <context>
     <name>DocumentInterface</name>
     <message>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="160"/>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="561"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="164"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="600"/>
         <source>The script document operation is not available in the current state.</source>
         <translation type="unfinished">脚本文档操作在当前状态下不可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="322"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="326"/>
         <source>Cleaning up script objects</source>
         <translation type="unfinished">清理脚本对象</translation>
     </message>
@@ -1323,7 +1395,7 @@ A value is required.</source>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="330"/>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="661"/>
         <source>Shell operations are only available while a script is executing.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Shell 操作仅在脚本执行期间可用。</translation>
     </message>
 </context>
 <context>

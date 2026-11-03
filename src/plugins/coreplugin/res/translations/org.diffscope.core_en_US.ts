@@ -4,7 +4,7 @@
 <context>
     <name></name>
     <message id="org.diffscope.core.timelineaddon.quick_jump_help">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="191"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="190"/>
         <source></source>
         <translation type="unfinished">&lt;p&gt;Enter operators and timecodes to adjust the playback position&lt;/p&gt;
 &lt;b&gt;Go To&lt;/b&gt;
@@ -237,8 +237,12 @@
     </message>
     <message>
         <location filename="../../core/CoreInterface.cpp" line="301"/>
+        <source>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;br&gt;Target platform: %7&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;br&gt;Target platform: %7&lt;/p&gt;</translation>
+    </message>
+    <message>
         <source>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;/p&gt;</translation>
+        <translation type="vanished">&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Version: %1&lt;br&gt;Branch: %2&lt;br&gt;Commit: %3&lt;br&gt;Build date: %4&lt;br&gt;Toolchain: %5 %6 %7&lt;/p&gt;</source>
@@ -2328,24 +2332,24 @@
 <context>
     <name>Core::CoreInterface</name>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="323"/>
+        <location filename="../../core/CoreInterface.cpp" line="325"/>
         <source>About %1</source>
         <translation>About %1</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="390"/>
+        <location filename="../../core/CoreInterface.cpp" line="392"/>
         <source>Unnamed track</source>
         <translation type="unfinished">Unnamed track</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="393"/>
+        <location filename="../../core/CoreInterface.cpp" line="395"/>
         <source>Unnamed clip</source>
         <translation type="unfinished">Unnamed clip</translation>
     </message>
     <message>
         <location filename="../../project/document/ProjectDocumentContext.cpp" line="156"/>
-        <location filename="../../core/CoreInterface.cpp" line="422"/>
-        <location filename="../../core/CoreInterface.cpp" line="440"/>
+        <location filename="../../core/CoreInterface.cpp" line="424"/>
+        <location filename="../../core/CoreInterface.cpp" line="442"/>
         <source>Untitled</source>
         <translation type="unfinished">Untitled</translation>
     </message>
@@ -3185,27 +3189,27 @@
 <context>
     <name>Core::Internal::CorePlugin</name>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="187"/>
+        <location filename="../../internal/CorePlugin.cpp" line="188"/>
         <source>Initializing core plugin...</source>
         <translation>Initializing core plugin...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="212"/>
+        <location filename="../../internal/CorePlugin.cpp" line="213"/>
         <source>Plugins loading complete, preparing for subsequent initialization...</source>
         <translation type="unfinished">Plugins loading complete, preparing for subsequent initialization...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="224"/>
+        <location filename="../../internal/CorePlugin.cpp" line="225"/>
         <source>Initializing GUI...</source>
         <translation>Initializing GUI...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="487"/>
+        <location filename="../../internal/CorePlugin.cpp" line="499"/>
         <source>Last run terminated abnormally</source>
         <translation type="unfinished">Last run terminated abnormally</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="487"/>
+        <location filename="../../internal/CorePlugin.cpp" line="499"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
@@ -3214,7 +3218,7 @@ To check for unsaved files, please go to Recovery Files.</source>
 To check for unsaved files, please go to Recovery Files.</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="532"/>
+        <location filename="../../internal/CorePlugin.cpp" line="544"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3227,12 +3231,12 @@ Please go to Plugins to see more details.</source>
 Please go to Plugins to see more details.</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="535"/>
+        <location filename="../../internal/CorePlugin.cpp" line="547"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="537"/>
+        <location filename="../../internal/CorePlugin.cpp" line="549"/>
         <source>Plugin Error</source>
         <translation type="unfinished">Plugin Error</translation>
     </message>
@@ -3347,12 +3351,12 @@ Please go to Plugins to see more details.</translation>
         <translation>Configure general behaviors of %1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/GeneralPage.cpp" line="180"/>
+        <location filename="../../internal/settings/GeneralPage.cpp" line="184"/>
         <source>Restart %1</source>
         <translation>Restart %1</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/GeneralPage.cpp" line="180"/>
+        <location filename="../../internal/settings/GeneralPage.cpp" line="184"/>
         <source>Restart %1 to apply language changes?</source>
         <translation>Restart %1 to apply language changes?</translation>
     </message>
@@ -3606,105 +3610,105 @@ Please go to Plugins to see more details.</translation>
 <context>
     <name>Core::Internal::ItemSelectorListModel</name>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="551"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="550"/>
         <source>Tracks</source>
         <translation type="unfinished">Tracks</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="553"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="552"/>
         <source>Labels</source>
         <translation type="unfinished">Labels</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="555"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="554"/>
         <source>Tempos</source>
         <translation type="unfinished">Tempos</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="557"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="556"/>
         <source>Key Signatures</source>
         <translation type="unfinished">Key Signatures</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="559"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="558"/>
         <source>Clips</source>
         <translation type="unfinished">Clips</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="561"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="560"/>
         <source>Notes</source>
         <translation type="unfinished">Notes</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="563"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="562"/>
         <source>Parameters</source>
         <translation type="unfinished">Parameters</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="565"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="564"/>
         <source>Voice Blending</source>
         <translation type="unfinished">Voice Blending</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="567"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="566"/>
         <source>Freeform Edited</source>
         <translation type="unfinished">Freeform Edited</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="569"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="568"/>
         <source>Freeform Transform</source>
         <translation type="unfinished">Freeform Transform</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="571"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="570"/>
         <source>Anchor Edited</source>
         <translation type="unfinished">Anchor Edited</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="573"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="572"/>
         <source>Anchor Transform</source>
         <translation type="unfinished">Anchor Transform</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="576"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="575"/>
         <source>%L1. %2</source>
         <translation type="unfinished">%L1. %2</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="580"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="579"/>
         <source>Audio</source>
         <translation type="unfinished">Audio</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="580"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="579"/>
         <source>Singing</source>
         <translation type="unfinished">Singing</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="581"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="580"/>
         <source>%1: %2</source>
         <translation type="unfinished">%1: %2</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="593"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="613"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="617"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="592"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="612"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="616"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="602"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="606"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="601"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="605"/>
         <source>Position %1</source>
         <translation type="unfinished">Position %1</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="612"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="611"/>
         <source>%L1 BPM</source>
         <translation type="unfinished">%L1 BPM</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="628"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="627"/>
         <source>Clip Count: %L1
 Color: %L2
 View Height: %L3
@@ -3721,7 +3725,7 @@ Mute: %6
 Solo: %7</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="638"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="637"/>
         <source>Position: %1
 Starting Offset: %2
 Clip Length: %3</source>
@@ -3730,26 +3734,26 @@ Starting Offset: %2
 Clip Length: %3</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="643"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="642"/>
         <source>
 Virtual Singer: %1</source>
         <translation type="unfinished">
 Virtual Singer: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="643"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="642"/>
         <source>No singer</source>
         <translation type="unfinished">No singer</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="646"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="645"/>
         <source>
 File: %1</source>
         <translation type="unfinished">
 File: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="656"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="655"/>
         <source>Onset Position (Relative to Clip): %1
 Duration: %2
 Language: %3
@@ -3762,7 +3766,7 @@ Pronunciation (Original): %4
 Pronunciation (Edited): %5</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="662"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="661"/>
         <source>Parameter ID: %1
 Edited Anchor Count: %L2
 Transform Anchor Count: %L3</source>
@@ -3771,34 +3775,34 @@ Edited Anchor Count: %L2
 Transform Anchor Count: %L3</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="673"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="672"/>
         <source>Value: %1
 Interpolation: %2</source>
         <translation type="unfinished">Value: %1
 Interpolation: %2</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="692"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="691"/>
         <source>%1: %L2%</source>
         <translation type="unfinished">%1: %L2%</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="698"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="697"/>
         <source>Position: %1</source>
         <translation type="unfinished">Position: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="708"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="706"/>
         <source>Flat</source>
         <translation type="unfinished">Flat</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="709"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="707"/>
         <source>Sharp</source>
         <translation type="unfinished">Sharp</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="710"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="708"/>
         <source>Position: %1
 Tonality: %2
 Mode: %3
@@ -3945,17 +3949,17 @@ Accidental Type: %4</translation>
 <context>
     <name>Core::Internal::ProjectStartupTimerAddOn</name>
     <message>
-        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="35"/>
+        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="29"/>
         <source>Initializing project window...</source>
         <translation>Initializing project window...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="82"/>
+        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="44"/>
         <source>Project window initialized in %1 seconds</source>
         <translation>Project window initialized in %1 seconds</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="84"/>
+        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="46"/>
         <source>Project window initialized</source>
         <translation>Project window initialized</translation>
     </message>
@@ -3963,128 +3967,128 @@ Accidental Type: %4</translation>
 <context>
     <name>Core::Internal::QuickJumpParser</name>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="185"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="184"/>
         <source>Type &quot;?&quot; to view tips</source>
         <translation type="unfinished">Type &quot;?&quot; to view tips</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="202"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="201"/>
         <source>Invalid format</source>
         <translation type="unfinished">Invalid format</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="215"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="307"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="356"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="363"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="370"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="214"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="264"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="306"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="321"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="333"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="345"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="355"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="362"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="369"/>
         <source>Go to %1</source>
         <translation type="unfinished">Go to %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="234"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="287"/>
         <source>Move backward by %1 (to %2)</source>
         <translation type="unfinished">Move backward by %1 (to %2)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="234"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="287"/>
         <source>Move forward by %1 (to %2)</source>
         <translation type="unfinished">Move forward by %1 (to %2)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="236"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
         <source>Move backward by music time...</source>
         <translation type="unfinished">Move backward by music time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="236"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
         <source>Move forward by music time...</source>
         <translation type="unfinished">Move forward by music time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="243"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="297"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="242"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="296"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="321"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="333"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="345"/>
         <source>
 The time offset exceeds the boundary and has been adjusted to zero</source>
         <translation type="unfinished">
 The time offset exceeds the boundary and has been adjusted to zero</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="264"/>
         <source>Go to absolute time...</source>
         <translation type="unfinished">Go to absolute time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="264"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="289"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
         <source>Move backward by absolute time...</source>
         <translation type="unfinished">Move backward by absolute time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="289"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
         <source>Move forward by absolute time...</source>
         <translation type="unfinished">Move forward by absolute time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="307"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="306"/>
         <source>the end of project (%1)</source>
         <translation type="unfinished">the end of project (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="321"/>
         <source>previous measure (%1)</source>
         <translation type="unfinished">previous measure (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="333"/>
         <source>previous beat (%1)</source>
         <translation type="unfinished">previous beat (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="345"/>
         <source>previous tick (%1)</source>
         <translation type="unfinished">previous tick (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="356"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="355"/>
         <source>next measure (%1)</source>
         <translation type="unfinished">next measure (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="363"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="362"/>
         <source>next beat (%1)</source>
         <translation type="unfinished">next beat (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="370"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="369"/>
         <source>next tick (%1)</source>
         <translation type="unfinished">next tick (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="399"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="398"/>
         <source>measure %L1, beat %L2</source>
         <translation type="unfinished">measure %L1, beat %L2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="401"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="400"/>
         <source>measure %L1, beat %L2, tick %L3</source>
         <translation type="unfinished">measure %L1, beat %L2, tick %L3</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="405"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="404"/>
         <source>%Ln quarter note(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -4093,7 +4097,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="406"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="405"/>
         <source>%Ln tick(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -4102,13 +4106,13 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="413"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="412"/>
         <source>%1 %2</source>
         <comment>relative quarter-note tick</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="417"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="416"/>
         <source>%Ln minute(s)</source>
         <comment>absolute time</comment>
         <translation type="unfinished">
@@ -4117,7 +4121,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="418"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="417"/>
         <source>%Ln second(s)</source>
         <comment>absolute time</comment>
         <translation type="unfinished">
@@ -4126,7 +4130,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="419"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="418"/>
         <source>%Ln millisecond(s)</source>
         <comment>absolute time</comment>
         <translation type="unfinished">
@@ -4135,26 +4139,26 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="427"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="433"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="426"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="432"/>
         <source>%1 %2</source>
         <comment>absolute minute second</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="430"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="429"/>
         <source>%1 %2</source>
         <comment>absolute second millisecond</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="435"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="434"/>
         <source>%1 %2 %3</source>
         <comment>absolute minute second millisecond</comment>
         <translation type="unfinished">%1 %2 %3</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="439"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="438"/>
         <source>%Ln minute(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -4163,7 +4167,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="440"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="439"/>
         <source>%Ln second(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -4172,7 +4176,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="441"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="440"/>
         <source>%Ln millisecond(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -4181,20 +4185,20 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="449"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="455"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="448"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="454"/>
         <source>%1 %2</source>
         <comment>relative minute second</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="452"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="451"/>
         <source>%1 %2</source>
         <comment>relative second millisecond</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="457"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="456"/>
         <source>%1 %2 %3</source>
         <comment>relative minute second millisecond</comment>
         <translation type="unfinished">%1 %2 %3</translation>
@@ -4236,35 +4240,35 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
 <context>
     <name>Core::Internal::SingerNameResolver</name>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="169"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="168"/>
         <source>No singer</source>
         <translation type="unfinished">No singer</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="178"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="261"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="177"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="260"/>
         <source>Mixed singer (%1)</source>
         <translation type="unfinished">Mixed singer (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="178"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="261"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="177"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="260"/>
         <source>, </source>
         <translation type="unfinished">, </translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="187"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="186"/>
         <source>Not available</source>
         <translation type="unfinished">Not available</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="187"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="196"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="186"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="195"/>
         <source>Custom (%1)</source>
         <translation type="unfinished">Custom (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="208"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="207"/>
         <source>Mixed singer</source>
         <translation type="unfinished">Mixed singer</translation>
     </message>
@@ -4433,12 +4437,12 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         <translation type="vanished">Type &quot;?&quot; to view tips</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="490"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="489"/>
         <source>Invalid format</source>
         <translation>Invalid format</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="478"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="477"/>
         <source>Jump to</source>
         <translation>Jump to</translation>
     </message>
@@ -4448,17 +4452,17 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         <translation type="unfinished">Custom Mode</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="149"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="148"/>
         <source>Enabling loop</source>
         <translation type="unfinished">Enabling loop</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="149"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="148"/>
         <source>Disabling loop</source>
         <translation type="unfinished">Disabling loop</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="488"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="487"/>
         <source>Input should not be empty</source>
         <translation>Input should not be empty</translation>
     </message>
@@ -4481,42 +4485,42 @@ Continue?</translation>
 <context>
     <name>Core::Internal::WorkspaceAddOn</name>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="160"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="170"/>
         <source>Save Current Layout As...</source>
         <translation>Save Current Layout As...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="166"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="176"/>
         <source>Default Layout</source>
         <translation>Default Layout</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="176"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="186"/>
         <source>custom layout</source>
         <translation>custom layout</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="180"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="190"/>
         <source>Workspace layout actions</source>
         <translation>Workspace layout actions</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="200"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="210"/>
         <source>Apply</source>
         <translation>Apply</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="203"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="213"/>
         <source>Rename</source>
         <translation>Rename</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="206"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="216"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="208"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="218"/>
         <source>Custom layout &quot;%1&quot; actions</source>
         <translation>Custom layout &quot;%1&quot; actions</translation>
     </message>
@@ -4557,22 +4561,22 @@ Continue?</translation>
 <context>
     <name>Core::Internal::WorkspaceSession</name>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="58"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="62"/>
         <source>The panel could not be placed in the selected location.</source>
         <translation type="unfinished">The panel could not be placed in the selected location.</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="152"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="156"/>
         <source>The workspace layout is invalid.</source>
         <translation type="unfinished">The workspace layout is invalid.</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="260"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="264"/>
         <source>The workspace layout could not be restored.</source>
         <translation type="unfinished">The workspace layout could not be restored.</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="438"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="446"/>
         <source>The panel could not be moved to a floating window.</source>
         <translation type="unfinished">The panel could not be moved to a floating window.</translation>
     </message>
@@ -5376,22 +5380,22 @@ Continue to bounce?</translation>
 <context>
     <name>GeneralPage</name>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="66"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="68"/>
         <source>Startup</source>
         <translation>Startup</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="74"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="76"/>
         <source>When starting %1</source>
         <translation>When starting %1</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="78"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="80"/>
         <source>Open the home window</source>
         <translation>Open the home window</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="91"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="93"/>
         <source>Create a new project</source>
         <translation>Create a new project</translation>
     </message>
@@ -5400,143 +5404,169 @@ Continue to bounce?</translation>
         <translation type="vanished">Open previous projects on startup automatically</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="104"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="106"/>
         <source>Close the home window after opening a project</source>
         <translation>Close the home window after opening a project</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="117"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="119"/>
         <source>Reopen the home window when the last project window closes</source>
         <translation type="unfinished">Reopen the home window when the last project window closes</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="132"/>
-        <location filename="../../qml/settings/GeneralPage.qml" line="152"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="134"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="154"/>
         <source>Language</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="138"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="140"/>
         <source>Use system language</source>
         <translation>Use system language</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="179"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="181"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="213"/>
         <source>(Restart required)</source>
         <translation>(Restart required)</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="186"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="188"/>
+        <source>Notation</source>
+        <translation type="unfinished">Notation</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/GeneralPage.qml" line="196"/>
+        <source>Middle C note name</source>
+        <translation type="unfinished">Middle C note name</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/GeneralPage.qml" line="204"/>
+        <source>C3</source>
+        <translation type="unfinished">C3</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/GeneralPage.qml" line="205"/>
+        <source>C4</source>
+        <translation type="unfinished">C4</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/GeneralPage.qml" line="206"/>
+        <source>C5</source>
+        <translation type="unfinished">C5</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/GeneralPage.qml" line="219"/>
         <source>Notification</source>
         <translation>Notification</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="192"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="225"/>
         <source>Play sound alert when a notification bubble is sent</source>
         <translation>Play sound alert when a notification bubble is sent</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="199"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="232"/>
         <source>Timeout for auto hiding notification bubbles</source>
         <translation>Timeout for auto hiding notification bubbles</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="209"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="242"/>
         <source>milliseconds</source>
         <translation>milliseconds</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="213"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="246"/>
         <source>Reset All &quot;Do Not Show Again&quot;</source>
         <translation>Reset All &quot;Do Not Show Again&quot;</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="220"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="253"/>
         <source>Window</source>
         <translation type="unfinished">Window</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="226"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="259"/>
         <source>Memorize window position and size</source>
         <translation type="unfinished">Memorize window position and size</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="234"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="267"/>
         <source>Find Actions</source>
         <translation>Find Actions</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="241"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="274"/>
         <source>Number of &quot;recently used&quot; records</source>
         <translation>Number of &quot;recently used&quot; records</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="253"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="286"/>
         <source>Clear History</source>
         <translation>Clear History</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="262"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="295"/>
         <source>History cleared</source>
         <translation>History cleared</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="276"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="309"/>
         <source>Network Proxy</source>
         <translation>Network Proxy</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="282"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="315"/>
         <source>No proxy</source>
         <translation>No proxy</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="288"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="321"/>
         <source>Use system proxy</source>
         <translation>Use system proxy</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="294"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="327"/>
         <source>Manually configure proxy</source>
         <translation>Manually configure proxy</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="307"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="340"/>
         <source>Type</source>
         <translation>Type</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="315"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="348"/>
         <source>SOCK5</source>
         <translation>SOCK5</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="316"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="349"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="322"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="355"/>
         <source>Hostname</source>
         <translation>Hostname</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="331"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="364"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="343"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="376"/>
         <source>Authentication</source>
         <translation>Authentication</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="354"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="387"/>
         <source>Username</source>
         <translation>Username</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/GeneralPage.qml" line="363"/>
+        <location filename="../../qml/settings/GeneralPage.qml" line="396"/>
         <source>Password</source>
         <translation>Password</translation>
     </message>

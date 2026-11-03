@@ -258,47 +258,47 @@
 <context>
     <name>AudioExtractionDialog</name>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="30"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="32"/>
         <source>Separate Audio</source>
         <translation type="unfinished">Separate Audio</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="30"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="32"/>
         <source>Extract Notes</source>
         <translation type="unfinished">Extract Notes</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="37"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="39"/>
         <source>Start</source>
         <translation type="unfinished">Start</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="45"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="47"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="77"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="81"/>
         <source>Extractor</source>
         <translation type="unfinished">Extractor</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="91"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="95"/>
         <source>Refresh</source>
         <translation type="unfinished">Refresh</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="119"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="124"/>
         <source>Extracting audio…</source>
         <translation type="unfinished">Extracting audio…</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="119"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="124"/>
         <source>Updating extractors…</source>
         <translation type="unfinished">Updating extractors…</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="127"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="132"/>
         <source>Extraction status</source>
         <translation type="unfinished">Extraction status</translation>
     </message>
@@ -306,52 +306,52 @@
 <context>
     <name>AudioSeparationOptions</name>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="37"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="39"/>
         <source>Output %1</source>
         <translation type="unfinished">Output %1</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="70"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="74"/>
         <source>Output directory</source>
         <translation type="unfinished">Output directory</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="85"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="89"/>
         <source>Browse...</source>
         <translation type="unfinished">Browse...</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="100"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="104"/>
         <source>Output Routing</source>
         <translation type="unfinished">Output Routing</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="110"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="114"/>
         <source>Output track count</source>
         <translation type="unfinished">Output track count</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="134"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="138"/>
         <source>Extractor track</source>
         <translation type="unfinished">Extractor track</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="140"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="144"/>
         <source>Output track</source>
         <translation type="unfinished">Output track</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="169"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="173"/>
         <source>Output track for %1</source>
         <translation type="unfinished">Output track for %1</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="35"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="37"/>
         <source>Do Not Output</source>
         <translation type="unfinished">Do Not Output</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="185"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="189"/>
         <source>Assign at least one extractor track to each output track.</source>
         <translation type="unfinished">Assign at least one extractor track to each output track.</translation>
     </message>
@@ -2807,8 +2807,8 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
     <message>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="111"/>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="248"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="837"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="860"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="855"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="878"/>
         <source>The synthesis piece is no longer available</source>
         <translation type="unfinished">The synthesis piece is no longer available</translation>
     </message>
@@ -2854,96 +2854,96 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">Synthesized audio for the synthesis piece could not be repositioned</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="903"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="910"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="921"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="928"/>
         <source>Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="928"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="946"/>
         <source>Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="948"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="966"/>
         <source>Audio synthesis could not be started for clip &quot;%1&quot;</source>
         <translation type="unfinished">Audio synthesis could not be started for clip &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="963"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="981"/>
         <source>Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</source>
         <translation type="unfinished">Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="969"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="987"/>
         <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</source>
         <translation type="unfinished">Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="981"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="999"/>
         <source>Unknown synthesis error</source>
         <translation type="unfinished">Unknown synthesis error</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="983"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1001"/>
         <source>Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</source>
         <translation type="unfinished">Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1021"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1039"/>
         <source>Synthesis failed</source>
         <translation type="unfinished">Synthesis failed</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1190"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1208"/>
         <source>The clip has no valid singer source</source>
         <translation type="unfinished">The clip has no valid singer source</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1283"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1390"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1303"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1414"/>
         <source>The synthesis task could not be queued</source>
         <translation type="unfinished">The synthesis task could not be queued</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1364"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1384"/>
         <source>No healthy service can synthesize this synthesis piece</source>
         <translation type="unfinished">No healthy service can synthesize this synthesis piece</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1607"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1631"/>
         <source>Resynthesize</source>
         <translation type="unfinished">Resynthesize</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1608"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1632"/>
         <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</source>
         <translation type="unfinished">The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1859"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1883"/>
         <source>The pronunciation result does not match the requested score</source>
         <translation type="unfinished">The pronunciation result does not match the requested score</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1861"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1885"/>
         <source>The phoneme result does not match the requested score</source>
         <translation type="unfinished">The phoneme result does not match the requested score</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1863"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1887"/>
         <source>The duration result does not match the score for the requested synthesis piece</source>
         <translation type="unfinished">The duration result does not match the score for the requested synthesis piece</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2064"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2113"/>
         <source>Synthesis was canceled</source>
         <translation type="unfinished">Synthesis was canceled</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1196"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1214"/>
         <source>No healthy service supports the singers selected for this clip</source>
         <translation type="unfinished">No healthy service supports the singers selected for this clip</translation>
     </message>
@@ -3248,74 +3248,74 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::SynthesisTaskManager</name>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="257"/>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="538"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="298"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="581"/>
         <source>No healthy synthesis service supports the selected architecture and all required singers</source>
         <translation type="unfinished">No healthy synthesis service supports the selected architecture and all required singers</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="478"/>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="876"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="520"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="919"/>
         <source>The synthesis service returned HTTP status %1</source>
         <translation type="unfinished">The synthesis service returned HTTP status %1</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="481"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="523"/>
         <source>The synthesis service request failed</source>
         <translation type="unfinished">The synthesis service request failed</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="867"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="910"/>
         <source>The synthesis service request failed: %1</source>
         <translation type="unfinished">The synthesis service request failed: %1</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="878"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="921"/>
         <source>The synthesis service returned HTTP status %1: %2</source>
         <translation type="unfinished">The synthesis service returned HTTP status %1: %2</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="899"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="942"/>
         <source>The synthesized audio response is empty or exceeds the configured size limit</source>
         <translation type="unfinished">The synthesized audio response is empty or exceeds the configured size limit</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="904"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="947"/>
         <source>Could not store synthesized audio locally</source>
         <translation type="unfinished">Could not store synthesized audio locally</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="916"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="959"/>
         <source>The synthesis service returned an invalid audio data URL</source>
         <translation type="unfinished">The synthesis service returned an invalid audio data URL</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="931"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="974"/>
         <source>The synthesis service returned an unsupported audio URL</source>
         <translation type="unfinished">The synthesis service returned an unsupported audio URL</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="949"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="992"/>
         <source>The synthesized audio URL redirected too many times</source>
         <translation type="unfinished">The synthesized audio URL redirected too many times</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="1002"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="1054"/>
         <source>The synthesized audio exceeds the configured download size limit</source>
         <translation type="unfinished">The synthesized audio exceeds the configured download size limit</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="611"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="654"/>
         <source>Audio request contains an invalid parameter value</source>
         <translation type="unfinished">Audio request contains an invalid parameter value</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="731"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="774"/>
         <source>Parameter request contains an invalid value</source>
         <translation type="unfinished">Parameter request contains an invalid value</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="738"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="781"/>
         <source>The selected singer cannot predict parameter %1</source>
         <translation type="unfinished">The selected singer cannot predict parameter %1</translation>
     </message>

@@ -127,47 +127,47 @@
 <context>
     <name>ImportExportManager::Internal::DspxFileExporter</name>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="35"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="33"/>
         <source>DSPX</source>
         <translation type="unfinished">DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="36"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="34"/>
         <source>Export as DSPX file compatible with older versions of DiffScope and other editors</source>
         <translation type="unfinished">Export as DSPX file compatible with older versions of DiffScope and other editors</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="37"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="35"/>
         <source>DiffScope Project Exchange Format (*.dspx)</source>
         <translation type="unfinished">DiffScope Project Exchange Format (*.dspx)</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="48"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="46"/>
         <source>Export DSPX</source>
         <translation type="unfinished">Export DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="53"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="51"/>
         <source>Format version</source>
         <translation type="unfinished">Format version</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="54"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="52"/>
         <source>Keep Workspace data</source>
         <translation type="unfinished">Keep Workspace data</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="57"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="55"/>
         <source>Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues.</source>
         <translation type="unfinished">Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues.</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="63"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="58"/>
         <source>Compress</source>
         <translation type="unfinished">Compress</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="70"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="65"/>
         <source>Export</source>
         <translation type="unfinished">Export</translation>
     </message>
@@ -175,37 +175,37 @@
 <context>
     <name>ImportExportManager::Internal::DspxFileImporter</name>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="32"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="30"/>
         <source>DSPX</source>
         <translation type="unfinished">DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="33"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="31"/>
         <source>Import DSPX file compatible with DiffScope</source>
         <translation type="unfinished">Import DSPX file compatible with DiffScope</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="34"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="32"/>
         <source>DiffScope Project Exchange Format (*.dspx)</source>
         <translation type="unfinished">DiffScope Project Exchange Format (*.dspx)</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="60"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="58"/>
         <source>Import DSPX</source>
         <translation type="unfinished">Import DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="62"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="60"/>
         <source>Keep Workspace data</source>
         <translation type="unfinished">Keep Workspace data</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="65"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="63"/>
         <source>Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues.</source>
         <translation type="unfinished">Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues.</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="74"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="69"/>
         <source>Import</source>
         <translation type="unfinished">Import</translation>
     </message>

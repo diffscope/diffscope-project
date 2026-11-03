@@ -169,7 +169,7 @@ SPDX-License-Identifier: Apache-2.0
         <group id="org.diffscope.core.edit.selectAllActions" />
         <group id="org.diffscope.core.edit.selectCurrentActions" />
         <group id="org.diffscope.core.edit.shiftCursorActions" />
-        <menu id="org.diffscope.core.edit.control" text="Control" />
+        <menu id="org.diffscope.core.edit.control" />
         <group id="org.diffscope.core.edit.trackSelectActions" />
         <menu id="org.diffscope.core.edit.transpose" />
         <group id="org.diffscope.core.edit.fillLyricsActions" />

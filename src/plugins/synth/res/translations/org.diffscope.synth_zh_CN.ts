@@ -258,47 +258,47 @@
 <context>
     <name>AudioExtractionDialog</name>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="30"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="32"/>
         <source>Separate Audio</source>
         <translation type="unfinished">分离音频</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="30"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="32"/>
         <source>Extract Notes</source>
         <translation type="unfinished">提取音符</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="37"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="39"/>
         <source>Start</source>
         <translation type="unfinished">开始</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="45"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="47"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="77"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="81"/>
         <source>Extractor</source>
         <translation type="unfinished">提取器</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="91"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="95"/>
         <source>Refresh</source>
         <translation type="unfinished">刷新</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="119"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="124"/>
         <source>Extracting audio…</source>
         <translation type="unfinished">正在提取音频…</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="119"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="124"/>
         <source>Updating extractors…</source>
         <translation type="unfinished">正在更新提取器…</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="127"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="132"/>
         <source>Extraction status</source>
         <translation type="unfinished">提取状态</translation>
     </message>
@@ -306,52 +306,52 @@
 <context>
     <name>AudioSeparationOptions</name>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="37"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="39"/>
         <source>Output %1</source>
         <translation type="unfinished">输出 %1</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="70"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="74"/>
         <source>Output directory</source>
         <translation type="unfinished">输出目录</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="85"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="89"/>
         <source>Browse...</source>
         <translation type="unfinished">浏览...</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="100"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="104"/>
         <source>Output Routing</source>
         <translation type="unfinished">输出路由</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="110"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="114"/>
         <source>Output track count</source>
         <translation type="unfinished">输出轨道数量</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="134"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="138"/>
         <source>Extractor track</source>
         <translation type="unfinished">提取器轨道</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="140"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="144"/>
         <source>Output track</source>
         <translation type="unfinished">输出轨道</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="169"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="173"/>
         <source>Output track for %1</source>
         <translation type="unfinished">%1 的输出轨道</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="35"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="37"/>
         <source>Do Not Output</source>
         <translation type="unfinished">不输出</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="185"/>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml" line="189"/>
         <source>Assign at least one extractor track to each output track.</source>
         <translation type="unfinished">为每个输出轨道至少分配一个提取器轨道。</translation>
     </message>
@@ -2806,8 +2806,8 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
     <message>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="111"/>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="248"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="837"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="860"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="855"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="878"/>
         <source>The synthesis piece is no longer available</source>
         <translation type="unfinished">合成片段已不可用</translation>
     </message>
@@ -2853,96 +2853,96 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">无法重新定位合成片段的合成音频</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="903"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="910"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="921"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="928"/>
         <source>Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">编辑进行中时无法开始音频导出。请完成或取消当前编辑后重试</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="928"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="946"/>
         <source>Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">编辑进行中时无法继续音频导出。请完成或取消当前编辑后重试</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="948"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="966"/>
         <source>Audio synthesis could not be started for clip &quot;%1&quot;</source>
         <translation type="unfinished">无法为剪辑“%1”启动音频合成</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="963"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="981"/>
         <source>Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</source>
         <translation type="unfinished">音频导出已停止，因为剪辑“%1”包含尚未完成音频的合成片段</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="969"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="987"/>
         <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</source>
         <translation type="unfinished">音频导出已停止，因为剪辑“%1”中某个合成片段的音频合成已取消</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="981"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="999"/>
         <source>Unknown synthesis error</source>
         <translation type="unfinished">未知的合成错误</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="983"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1001"/>
         <source>Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</source>
         <translation type="unfinished">音频导出已停止，因为剪辑“%1”中某个合成片段的合成失败：%2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1021"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1039"/>
         <source>Synthesis failed</source>
         <translation type="unfinished">合成失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1190"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1208"/>
         <source>The clip has no valid singer source</source>
         <translation type="unfinished">剪辑没有有效的歌手源</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1283"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1390"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1303"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1414"/>
         <source>The synthesis task could not be queued</source>
         <translation type="unfinished">无法将合成任务加入队列</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1364"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1384"/>
         <source>No healthy service can synthesize this synthesis piece</source>
         <translation type="unfinished">没有正常的服务可以合成此合成片段</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1607"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1631"/>
         <source>Resynthesize</source>
         <translation type="unfinished">重新合成</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1608"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1632"/>
         <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</source>
         <translation type="unfinished">以下剪辑无法重新合成，因为它们的源不受合成服务管理：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1859"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1883"/>
         <source>The pronunciation result does not match the requested score</source>
         <translation type="unfinished">发音结果与请求的乐谱不匹配</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1861"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1885"/>
         <source>The phoneme result does not match the requested score</source>
         <translation type="unfinished">音素结果与请求的乐谱不匹配</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1863"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1887"/>
         <source>The duration result does not match the score for the requested synthesis piece</source>
         <translation type="unfinished">时长结果与所请求合成片段的乐谱不匹配</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2064"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2113"/>
         <source>Synthesis was canceled</source>
         <translation type="unfinished">合成已取消</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1196"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1214"/>
         <source>No healthy service supports the singers selected for this clip</source>
         <translation type="unfinished">没有正常的服务支持此剪辑所选的歌手</translation>
     </message>
@@ -3247,74 +3247,74 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::SynthesisTaskManager</name>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="257"/>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="538"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="298"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="581"/>
         <source>No healthy synthesis service supports the selected architecture and all required singers</source>
         <translation type="unfinished">没有正常的合成服务同时支持所选架构和所有必需的歌手</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="478"/>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="876"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="520"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="919"/>
         <source>The synthesis service returned HTTP status %1</source>
         <translation type="unfinished">合成服务返回了 HTTP 状态 %1</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="481"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="523"/>
         <source>The synthesis service request failed</source>
         <translation type="unfinished">合成服务请求失败</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="867"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="910"/>
         <source>The synthesis service request failed: %1</source>
         <translation type="unfinished">合成服务请求失败：%1</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="878"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="921"/>
         <source>The synthesis service returned HTTP status %1: %2</source>
         <translation type="unfinished">合成服务返回了 HTTP 状态 %1：%2</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="899"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="942"/>
         <source>The synthesized audio response is empty or exceeds the configured size limit</source>
         <translation type="unfinished">已合成音频响应为空或超过配置的大小限制</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="904"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="947"/>
         <source>Could not store synthesized audio locally</source>
         <translation type="unfinished">无法在本地保存已合成的音频</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="916"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="959"/>
         <source>The synthesis service returned an invalid audio data URL</source>
         <translation type="unfinished">合成服务返回了无效的音频数据 URL</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="931"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="974"/>
         <source>The synthesis service returned an unsupported audio URL</source>
         <translation type="unfinished">合成服务返回了不受支持的音频 URL</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="949"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="992"/>
         <source>The synthesized audio URL redirected too many times</source>
         <translation type="unfinished">已合成音频 URL 的重定向次数过多</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="1002"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="1054"/>
         <source>The synthesized audio exceeds the configured download size limit</source>
         <translation type="unfinished">已合成音频超过配置的下载大小限制</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="611"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="654"/>
         <source>Audio request contains an invalid parameter value</source>
         <translation type="unfinished">音频请求包含无效的参数值</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="731"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="774"/>
         <source>Parameter request contains an invalid value</source>
         <translation type="unfinished">参数请求包含无效值</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="738"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="781"/>
         <source>The selected singer cannot predict parameter %1</source>
         <translation type="unfinished">所选歌手无法预测参数 %1</translation>
     </message>
