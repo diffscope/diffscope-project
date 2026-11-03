@@ -41,10 +41,7 @@
             "name": "glib",
             "platform": "linux"
         },
-        {
-            "name": "icu",
-            "platform": "!osx"
-        },
+        "icu",
         "wolf-midi",
         "zstd",
         "opendspx",

@@ -6,11 +6,7 @@ project(midiformatconverter
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
-set(_links_icu)
-if(NOT APPLE)
-    find_package(ICU COMPONENTS uc i18n REQUIRED)
-    list(APPEND _links_icu ICU::uc ICU::i18n)
-endif()
+find_package(ICU COMPONENTS uc i18n REQUIRED)
 
 diffscope_add_builtin_plugin(${PROJECT_NAME}
     NAME org.diffscope.midiformatconverter
@@ -18,7 +14,6 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     MACRO_PREFIX MIDI_FORMAT_CONVERTER
     QML_MODULE_NAME MIDIFormatConverter
     NO_ACTION
-    MACOS_INCLUDE_OBJC_SRC
     QT_LINKS
         Core
         Gui
@@ -34,8 +29,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         SVSCraftCore
         opendspx::model
         opendspx::converter
-        ${_links_icu}
+        ICU::uc
+        ICU::i18n
     INCLUDE_PRIVATE
         internal/**
-    MACOS_EXCLUDE_SRC *_icu.cpp
 )
