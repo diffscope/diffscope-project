@@ -3,34 +3,43 @@ SPDX-FileCopyrightText: Team OpenVPI
 SPDX-License-Identifier: GFDL-1.3-or-later
 -->
 
-# DiffScope
+
+
+# ![DiffScope](docs/banner.png)
+
+[![Dev Build](https://github.com/diffscope/diffscope-project/actions/workflows/dev-build.yml/badge.svg)](https://github.com/diffscope/diffscope-project/actions/workflows/dev-build.yml)
+![GitHub Release](https://img.shields.io/github/v/release/diffscope/diffscope-project?include_prereleases)
+
 
 A free, professional singing-voice-synthesis editor powered by [DiffSinger](https://github.com/openvpi/DiffSinger)
+
+Visit <https://diffscope.org/> for more details.
 
 > [!NOTE]
 > This project is currently under development. Anything related to the project is subject to change.
 
-## Looking for Contributors
+## Download
 
-This project is currently under active development, and we are looking for contributors to help develop it.
+Nightly builds are available to download, but are unstable and do not yet include all features.
 
-Preferred Skills:
-- C++ (front-end core logic)
-- Qt QML (front-end GUI)
-- Golang (backend)
+Visit <https://diffscope.org/downloads/#diffscope> to download.
 
-Additionally, familiarity with singing voice synthesis (SVS), digital audio processing, or related fields is highly appreciated.
+## Features
 
-If you are interested in contributing or collaborating, please feel free to reach out via Issues.
+- **Singing synthesis:** DiffSinger synthesis through a local [DiffSinger Synthesis Program (DSSP)](https://github.com/diffscope/diffsinger-synthesis-program) service or a remote DiffScope Synthesis Platform (DSSP) API, with voice package installation and per-stage resynthesis.
+- **Note editing:** A piano roll for notes, lyrics, phonemes, synthesis parameters, and pitch curves, including freehand and line pitch drawing, pitch fixing, transform, and erasing.
+- **Arrangement:** Multi-track timeline with singing clips, audio clips, labels, and variable tempo/time signature/key signature events, plus loop playback, metronome, and MIDI recording.
+- **Mixed singers:** Multiple singers per singing clip with weighted ratios, time-varying voice blending, and reusable presets.
+- **Mixing and effects:** Per-track volume, pan, mute, and solo controls, effect chains on tracks and the master bus, offline time stretching and pitch shifting, and mixed or stem export in multiple audio formats.
+- **Audio extraction:** Derives notes, pitch curves, and tempo from audio clips and separates clips into stems through DSSP services.
+- **Interchange:** Imports and exports MIDI and multiple formats via [LibreSVIP](https://github.com/SoulMelody/LibreSVIP), and exports lyrics as plain text or timed text.
 
 ## Progress
 
-- [x] Application GUI shell
-- [x] Arrangement and piano roll editors
-- [x] Basic audio processing functionalities
-- [x] Phoneme and parameter editors
-- [x] Audio playback
-- [x] Integration of synthesis engine
+- [x] Basic SVS editor experience
+- [ ] Scripting and MCP
+- [ ] VST bridge
+- [ ] Plugin SDK
 
 ## Build
 
