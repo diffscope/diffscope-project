@@ -142,8 +142,6 @@ cmake -S . -B $(Resolve-Path $BuildDir) -G Ninja `
     "-DAPPLICATION_NAME=$applicationName" `
     "-DAPPLICATION_DISPLAY_NAME=$applicationDisplayName" `
     "-DAPPLICATION_SEMVER=$semver" `
-    -DTALCS_DSPX:BOOL=ON `
-    -DTALCS_WIDGETS:BOOL=ON `
     "-DCMAKE_INSTALL_PREFIX=$(Resolve-Path $InstallDir)" | Write-Host
 if ($LASTEXITCODE -ne 0) {
     throw "Configure failed"
