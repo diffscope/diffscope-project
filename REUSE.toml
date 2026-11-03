@@ -4,3 +4,8 @@ version = 1
 path = [".agents/skills/**", ".gitignore", ".gitmodules"]
 SPDX-FileCopyrightText = "Team OpenVPI"
 SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["scripts/**"]
+SPDX-FileCopyrightText = "Team OpenVPI"
+SPDX-License-Identifier = "Apache-2.0"

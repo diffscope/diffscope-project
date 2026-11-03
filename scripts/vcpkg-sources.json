@@ -1,0 +1,23 @@
+{
+    "manifest-dir": "vcpkg-manifest",
+    "vcpkg": {
+        "repository": "https://github.com/microsoft/vcpkg.git",
+        "ref": "39344dff01c5a5a0134caf2624cdd492f05d30ea"
+    },
+    "overlays": [
+        {
+            "path": "vcpkg-overrides"
+        },
+        {
+            "repository": "../../stdware/vcpkg-overlay.git",
+            "ref": "f69a1a6321b36f1abda47ab548b2b9d037e65507"
+        }
+    ],
+    "tasks": {
+        "list": [
+            "${VCPKG_EXECUTABLE}",
+            "list",
+            "--x-install-root=${VCPKG_INSTALLED_DIR}"
+        ]
+    }
+}
