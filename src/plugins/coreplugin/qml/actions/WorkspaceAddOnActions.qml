@@ -42,7 +42,10 @@ ActionCollection {
 
         Action {
             enabled: collection.usable
-            onTriggered: collection.addOn.showWorkspaceLayoutCommand()
+            onTriggered: Qt.callLater(() => {
+                if (collection.usable)
+                    collection.addOn.showWorkspaceLayoutCommand()
+            })
         }
     }
 
@@ -62,7 +65,7 @@ ActionCollection {
             enabled: collection.usable && !collection.session.busy
             onTriggered: {
                 collection.addOn.saveCurrentLayout()
-                collection.helper.promptSaveLayout(collection.addOn.workspaceManager.currentLayout, "")
+                Qt.callLater(collection.helper.promptSaveLayout, collection.addOn.workspaceManager.currentLayout, "")
             }
         }
     }
@@ -74,7 +77,7 @@ ActionCollection {
             id: layouts
 
             Instantiator {
-                model: layoutRepeater.count === 0 ? 1 : 0
+                active: (collection.addOn?.workspaceManager?.customLayouts?.length ?? 0) === 0
                 delegate: MenuItem {
                     text: qsTr("No Custom Layouts")
                     enabled: false
@@ -84,7 +87,6 @@ ActionCollection {
             }
 
             Instantiator {
-                id: layoutRepeater
                 model: collection.addOn?.workspaceManager?.customLayouts ?? []
                 delegate: Menu {
                     required property var modelData
@@ -97,12 +99,12 @@ ActionCollection {
 
                     MenuItem {
                         text: qsTr("Rename")
-                        onTriggered: collection.helper.promptSaveLayout(modelData, modelData.name)
+                        onTriggered: Qt.callLater(collection.helper.promptSaveLayout, modelData, modelData.name)
                     }
 
                     MenuItem {
                         text: qsTr("Delete")
-                        onTriggered: collection.helper.promptDeleteLayout(modelData.name)
+                        onTriggered: Qt.callLater(collection.helper.promptDeleteLayout, modelData.name)
                     }
                 }
                 onObjectAdded: (index, object) => layouts.insertMenu(index, object)
