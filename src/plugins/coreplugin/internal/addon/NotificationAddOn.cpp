@@ -15,10 +15,11 @@
 #include <SVSCraftQuick/StatusTextContext.h>
 
 #include <coreplugin/CoreInterface.h>
+#include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/NotificationCenter.h>
 #include <coreplugin/internal/NotificationManager.h>
 #include <coreplugin/internal/NotificationViewModel.h>
-#include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/internal/WorkspaceSession.h>
 
 namespace Core::Internal {
     NotificationAddOn::NotificationAddOn(QObject *parent) {
@@ -96,12 +97,14 @@ namespace Core::Internal {
         };
         connect(this, &NotificationAddOn::showPanelRequested, this, openNotifications);
         connect(this, &NotificationAddOn::_diffscope_statusTipTriggered, this, openNotifications);
+
+        auto session = window->getFirstObject<WorkspaceSession>();
+        Q_ASSERT(session);
+        connect(session, &WorkspaceSession::readyChanged, this, [window] {
+            window->window()->setProperty("notificationEnablesAnimation", true);
+        }, Qt::SingleShotConnection);
     }
-    bool NotificationAddOn::delayedInitialize() {
-        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        windowInterface->window()->setProperty("notificationEnablesAnimation", true);
-        return WindowInterfaceAddOn::delayedInitialize();
-    }
+
     NotificationViewModel *NotificationAddOn::notificationManager() const {
         return m_notificationViewModel;
     }

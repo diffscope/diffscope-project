@@ -19,7 +19,6 @@ namespace Core::Internal {
 
         void initialize() override;
         void extensionsInitialized() override;
-        bool delayedInitialize() override;
 
         NotificationViewModel *notificationManager() const;
 
