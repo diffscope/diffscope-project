@@ -16,12 +16,15 @@ file(GENERATE
     INPUT "${CMAKE_CURRENT_BINARY_DIR}/${_desktop_id}.desktop.in"
 )
 configure_file(dspx.xml.in "${CMAKE_CURRENT_BINARY_DIR}/${APPLICATION_NAME}-dspx.xml" @ONLY)
+configure_file(dspk.xml.in "${CMAKE_CURRENT_BINARY_DIR}/${APPLICATION_NAME}-dspk.xml" @ONLY)
 
 if(APPLICATION_INSTALL)
     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${_desktop_id}.desktop"
         DESTINATION "${CK_INSTALL_SHARE_DIR}/applications"
     )
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${APPLICATION_NAME}-dspx.xml"
+    install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/${APPLICATION_NAME}-dspx.xml"
+        "${CMAKE_CURRENT_BINARY_DIR}/${APPLICATION_NAME}-dspk.xml"
         DESTINATION "${CK_INSTALL_SHARE_DIR}/mime/packages"
     )
 

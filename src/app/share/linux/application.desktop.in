@@ -10,4 +10,4 @@ Terminal=false
 StartupNotify=true
 Categories=AudioVideo;Audio;Music;
 Keywords=singing;voice;music;synthesis;
-MimeType=application/vnd.openvpi.dspx+json;application/x.diffscope.compressed-dspx+zstd;
+MimeType=application/vnd.openvpi.dspx+json;application/x.diffscope.compressed-dspx+zstd;application/x.diffscope.package+zip;

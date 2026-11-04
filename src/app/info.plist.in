@@ -67,6 +67,30 @@
                 <string>application/vnd.openvpi.dspx+json</string>
             </dict>
         </dict>
+        <dict>
+            <key>UTTypeIdentifier</key>
+            <string>org.diffscope.dspk</string>
+
+            <key>UTTypeDescription</key>
+            <string>DiffScope Package</string>
+
+            <key>UTTypeConformsTo</key>
+            <array>
+                <string>public.zip-archive</string>
+                <string>public.content</string>
+            </array>
+
+            <key>UTTypeTagSpecification</key>
+            <dict>
+                <key>public.filename-extension</key>
+                <array>
+                    <string>dspk</string>
+                </array>
+
+                <key>public.mime-type</key>
+                <string>application/x.diffscope.package+zip</string>
+            </dict>
+        </dict>
     </array>
 
     <key>CFBundleDocumentTypes</key>
@@ -85,6 +109,21 @@
 
             <key>CFBundleTypeIconFile</key>
             <string>dspx.icns</string>
+
+            <key>LSHandlerRank</key>
+            <string>Default</string>
+        </dict>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>DiffScope Package</string>
+
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>org.diffscope.dspk</string>
+            </array>
 
             <key>LSHandlerRank</key>
             <string>Default</string>
