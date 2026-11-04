@@ -1,16 +1,11 @@
 {
     "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
     "dependencies": [
-        "breakpad",
-        "qastool",
-        "qnrbf",
-        "stdutau",
         "extensionsystem",
         "qwindowkit",
         "stdcorelib",
         "qbreakpad",
         "libsndfile",
-        "rpclib",
         "rtmidi",
         {
             "name": "asiosdk",
@@ -33,7 +28,6 @@
             "platform": "linux"
         },
         "interval-tree",
-        "boost-interprocess",
         "wavpack",
         "neargye-semver",
         "r8brain-free-src",
@@ -42,8 +36,6 @@
             "platform": "linux"
         },
         "icu",
-        "wolf-midi",
-        "zstd",
         "opendspx",
         {
             "name": "libarchive",
