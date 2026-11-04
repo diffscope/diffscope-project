@@ -31,9 +31,9 @@ if ($IsLinux) {
 Push-Location $stagingRoot
 try {
     if ($IsLinux) {
-        & tar -cJf $archiveFullPath -- $ApplicationName | Write-Host
+        & tar -I 'xz --lzma2=preset=9e,dict=256MiB' -cf $archiveFullPath -- $ApplicationName | Write-Host
     } else {
-        & 7z a -tzip -mx=9 $archiveFullPath $ApplicationName | Write-Host
+        & 7z a -t7z -mx=9 -ms=on -m0=lzma2:d=256m $archiveFullPath $ApplicationName | Write-Host
     }
     if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $archiveFullPath -PathType Leaf)) {
         throw 'Portable archive creation failed'

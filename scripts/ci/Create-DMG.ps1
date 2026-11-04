@@ -109,6 +109,7 @@ try {
         --background "$BgTiff" `
         --window-size 600 448 `
         --icon-size 128 `
+        --format ULMO `
         --icon "$(Split-Path $AppBundlePath -Leaf)" 132 280 `
         --app-drop-link 468 280 `
         "$DmgPath" `
