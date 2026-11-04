@@ -230,12 +230,30 @@ jobs:
             -ArchivePath "$($env:ARTIFACT_NAME)_debug_symbols.7z"
           "SYMBOL_FILES_PATH=$output" >> $env:GITHUB_ENV
 
+      - name: Upload symbol files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}_debug_symbols.7z
+          path: ${{ env.SYMBOL_FILES_PATH }}
+          if-no-files-found: error
+          overwrite: true
+          compression-level: 0
+
       - name: Create InnoSetup installer (Windows)
         if: runner.os == 'Windows'
         run: |
           $output = & ./scripts/ci/Pack.ps1 -BuildDir $env:BUILD_DIR -InstallerFileBase $env:INSTALLER_FILE_BASE -InnoSetupCommit $env:INNOSETUP_REF
-          "PACKAGE_PATH=$($output.Path)" >> $env:GITHUB_ENV
-          "PACKAGE_ARTIFACT_NAME=$env:INSTALLER_FILE_BASE" >> $env:GITHUB_ENV
+          "INSTALLER_PATH=$($output.Path)" >> $env:GITHUB_ENV
+
+      - name: Upload installer (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.INSTALLER_FILE_BASE }}.exe
+          path: ${{ env.INSTALLER_PATH }}
+          if-no-files-found: error
+          overwrite: true
+          compression-level: 0
 
       - name: Create portable archive (Windows)
         if: runner.os == 'Windows'
@@ -246,26 +264,15 @@ jobs:
             -ArchivePath "$($env:ARTIFACT_NAME)_portable.7z"
           "PORTABLE_PATH=$output" >> $env:GITHUB_ENV
 
-      - name: Create DMG installer (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          $output = & ./scripts/ci/Create-DMG.ps1 `
-            -AppPath (Join-Path $env:INSTALL_DIR "$($env:APPLICATION_NAME).app") `
-            -Semver $env:APPLICATION_SEMVER `
-            -ApplicationDisplayName $env:APPLICATION_DISPLAY_NAME `
-            -InstallerFileBase $env:INSTALLER_FILE_BASE
-          "PACKAGE_PATH=$output" >> $env:GITHUB_ENV
-          "PACKAGE_ARTIFACT_NAME=$env:INSTALLER_FILE_BASE" >> $env:GITHUB_ENV
-
-      - name: Create portable archive (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          $output = & ./scripts/ci/Create-Portable.ps1 `
-            -InstallDir $env:INSTALL_DIR `
-            -ApplicationName $env:APPLICATION_NAME `
-            -ArchivePath "$($env:ARTIFACT_NAME)_portable.tar.xz"
-          "PACKAGE_PATH=$output" >> $env:GITHUB_ENV
-          "PACKAGE_ARTIFACT_NAME=$($env:ARTIFACT_NAME)_portable" >> $env:GITHUB_ENV
+      - name: Upload portable archive (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}_portable.7z
+          path: ${{ env.PORTABLE_PATH }}
+          if-no-files-found: error
+          overwrite: true
+          compression-level: 0
 
       - name: Create AppImage (Linux)
         if: runner.os == 'Linux'
@@ -277,43 +284,54 @@ jobs:
             -ApplicationName $env:APPLICATION_NAME `
             -AppImageToolPath $env:APPIMAGETOOL_PATH `
             -RuntimePath $env:APPIMAGE_RUNTIME_PATH `
-            -AppImagePath "$($env:ARTIFACT_NAME).AppImage"
+            -AppImagePath "$($env:ARTIFACT_NAME)_appimage.AppImage"
           "APPIMAGE_PATH=$output" >> $env:GITHUB_ENV
 
       - name: Upload AppImage (Linux)
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.ARTIFACT_NAME }}
+          name: ${{ env.ARTIFACT_NAME }}_appimage.AppImage
           path: ${{ env.APPIMAGE_PATH }}
           if-no-files-found: error
           overwrite: true
           compression-level: 0
 
-      - name: Upload symbol files
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.ARTIFACT_NAME }}_debug_symbols
-          path: ${{ env.SYMBOL_FILES_PATH }}
-          if-no-files-found: error
-          overwrite: true
-          compression-level: 0
+      - name: Create portable archive (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          $output = & ./scripts/ci/Create-Portable.ps1 `
+            -InstallDir $env:INSTALL_DIR `
+            -ApplicationName $env:APPLICATION_NAME `
+            -ArchivePath "$($env:ARTIFACT_NAME)_portable.tar.xz"
+          "PORTABLE_PATH=$output" >> $env:GITHUB_ENV
 
-      - name: Upload package
+      - name: Upload portable archive (Linux)
+        if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.PACKAGE_ARTIFACT_NAME }}
-          path: ${{ env.PACKAGE_PATH }}
-          if-no-files-found: error
-          overwrite: true
-          compression-level: 0
-
-      - name: Upload portable archive
-        if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.ARTIFACT_NAME }}_portable
+          name: ${{ env.ARTIFACT_NAME }}_portable.tar.xz
           path: ${{ env.PORTABLE_PATH }}
+          if-no-files-found: error
+          overwrite: true
+          compression-level: 0
+
+      - name: Create DMG installer (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          $output = & ./scripts/ci/Create-DMG.ps1 `
+            -AppPath (Join-Path $env:INSTALL_DIR "$($env:APPLICATION_NAME).app") `
+            -Semver $env:APPLICATION_SEMVER `
+            -ApplicationDisplayName $env:APPLICATION_DISPLAY_NAME `
+            -InstallerFileBase $env:INSTALLER_FILE_BASE
+          "DMG_PATH=$output" >> $env:GITHUB_ENV
+
+      - name: Upload DMG installer (macOS)
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.INSTALLER_FILE_BASE }}.dmg
+          path: ${{ env.DMG_PATH }}
           if-no-files-found: error
           overwrite: true
           compression-level: 0
