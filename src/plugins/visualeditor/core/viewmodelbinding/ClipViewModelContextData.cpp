@@ -735,6 +735,8 @@ namespace VisualEditor {
         if (moveTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT moveTransactionStarted();
         } else {
+            qCWarning(lcClipViewModelContextData) << "Failed to move a clip because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT moveTransactionNotStarted();
         }
     }
@@ -766,6 +768,8 @@ namespace VisualEditor {
         if (adjustTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT adjustTransactionStarted();
         } else {
+            qCWarning(lcClipViewModelContextData) << "Failed to adjust clip length because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT adjustTransactionNotStarted();
         }
     }
@@ -804,6 +808,8 @@ namespace VisualEditor {
         if (drawTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT drawTransactionStarted();
         } else {
+            qCWarning(lcClipViewModelContextData) << "Failed to draw a clip because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             if (targetClip && targetClip->clipSequence()) {
                 targetClip->clipSequence()->removeItem(targetClip);
             }
@@ -849,7 +855,7 @@ namespace VisualEditor {
     }
 
     void ClipViewModelContextData::onSplitCommittingStateEntered() {
-        document->splitItems(splitPosition);
+        document->splitItems(splitPosition, q_ptr->windowHandle());
         splitPosition = {};
     }
 
@@ -878,7 +884,7 @@ namespace VisualEditor {
 
         const int defaultClipLength = 15360;
 
-        document->transactionController()->beginScopedTransaction(VisualEditor::ClipViewModelContextData::tr("Inserting singing clip"), [=, &newClip, &success] {
+        const bool transactionStarted = document->transactionController()->beginScopedTransaction(VisualEditor::ClipViewModelContextData::tr("Inserting singing clip"), [=, &newClip, &success] {
             newClip = document->model()->createSingingClip();
             newClip->setName(tr("Unnamed clip"));
             newClip->setClipStart(0);
@@ -894,6 +900,11 @@ namespace VisualEditor {
             return true;
         });
 
+        if (!transactionStarted) {
+            qCWarning(lcClipViewModelContextData) << "Failed to insert a singing clip because the transaction could not start.";
+            q->windowHandle()->sendOperationConflictNotification();
+            return;
+        }
         if (success && newClip) {
             qCInfo(lcClipViewModelContextData) << "Singing clip inserted successfully at position" << newClip->position();
             document->selectionModel()->select(newClip, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);

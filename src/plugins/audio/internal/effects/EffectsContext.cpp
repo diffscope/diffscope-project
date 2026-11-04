@@ -274,6 +274,9 @@ namespace Audio::Internal {
                 m_pendingUnit = nullptr;
                 inserted = true;
                 return true;
+            }, [this] {
+                qCWarning(lcEffectsContext) << "The add effect transaction could not be started.";
+                m_windowHandle->sendOperationConflictNotification();
             });
         return transactionStarted && inserted;
     }
@@ -293,6 +296,9 @@ namespace Audio::Internal {
                 document->model()->destroyItem(item);
                 removed = true;
                 return true;
+            }, [this] {
+                qCWarning(lcEffectsContext) << "The remove effect transaction could not be started.";
+                m_windowHandle->sendOperationConflictNotification();
             });
         return transactionStarted && removed;
     }
@@ -310,6 +316,9 @@ namespace Audio::Internal {
                 entry->item->setEnabled(enabled);
                 changed = true;
                 return true;
+            }, [this] {
+                qCWarning(lcEffectsContext) << "The toggle effect transaction could not be started.";
+                m_windowHandle->sendOperationConflictNotification();
             });
         return transactionStarted && changed;
     }
@@ -330,6 +339,9 @@ namespace Audio::Internal {
                     ? m_audioDSPList->rotate(row - 1, row, row + 1)
                     : m_audioDSPList->rotate(row, row + 1, row + 2);
                 return moved;
+            }, [this] {
+                qCWarning(lcEffectsContext) << "The move effect transaction could not be started.";
+                m_windowHandle->sendOperationConflictNotification();
             });
         return transactionStarted && moved;
     }
@@ -491,6 +503,9 @@ namespace Audio::Internal {
                 item->setData(state);
                 changed = true;
                 return true;
+            }, [this] {
+                qCWarning(lcEffectsContext) << "The effect edit transaction could not be started.";
+                m_windowHandle->sendOperationConflictNotification();
             });
         if (!transactionStarted || !changed) {
             if (auto currentEntry = entryAt(indexOf(item))) {

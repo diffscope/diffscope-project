@@ -121,8 +121,9 @@ namespace Core {
             success = true;
             qCDebug(lcInsertItemScenario) << "Added track" << newTrack;
             return true;
-        }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to add track";
+        }, [this] {
+            qCWarning(lcInsertItemScenario) << "Failed to add track because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
         });
         if (success && newTrack) {
             selectionModel->select(newTrack, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
@@ -137,6 +138,7 @@ namespace Core {
         TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
         if (!readLock) {
             qCWarning(lcInsertItemScenario) << "Could not acquire a document read lock.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
             return;
         }
 
@@ -178,8 +180,9 @@ namespace Core {
             success = true;
             qCDebug(lcInsertItemScenario) << "Inserted tracks" << newTracks;
             return true;
-        }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to insert track";
+        }, [this] {
+            qCWarning(lcInsertItemScenario) << "Failed to insert track because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
         });
         if (success && !newTracks.isEmpty()) {
             auto selectionModel = document()->selectionModel();
@@ -203,6 +206,7 @@ namespace Core {
         TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
         if (!readLock) {
             qCWarning(lcInsertItemScenario) << "Could not acquire a document read lock.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
             return;
         }
 
@@ -237,8 +241,9 @@ namespace Core {
             success = true;
             qCDebug(lcInsertItemScenario) << "Inserted label" << newLabel;
             return true;
-        }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to insert label";
+        }, [this] {
+            qCWarning(lcInsertItemScenario) << "Failed to insert label because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
         });
         if (success && newLabel) {
             auto selectionModel = document()->selectionModel();
@@ -255,6 +260,7 @@ namespace Core {
         TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
         if (!readLock) {
             qCWarning(lcInsertItemScenario) << "Could not acquire a document read lock.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
             return;
         }
 
@@ -335,8 +341,9 @@ namespace Core {
             success = true;
             qCDebug(lcInsertItemScenario) << "Inserted singing clip" << newClip;
             return true;
-        }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to insert singing clip";
+        }, [this] {
+            qCWarning(lcInsertItemScenario) << "Failed to insert singing clip because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
         });
 
         if (success && newClip) {
@@ -353,6 +360,7 @@ namespace Core {
         TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
         if (!readLock) {
             qCWarning(lcInsertItemScenario) << "Could not acquire a document read lock.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
             return;
         }
 
@@ -414,8 +422,9 @@ namespace Core {
             success = true;
             qCDebug(lcInsertItemScenario) << "Inserted note" << newNote;
             return true;
-        }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to insert note";
+        }, [this] {
+            qCWarning(lcInsertItemScenario) << "Failed to insert note because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
         });
 
         if (success && newNote) {
@@ -432,6 +441,7 @@ namespace Core {
         TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
         if (!readLock) {
             qCWarning(lcInsertItemScenario) << "Could not acquire a document read lock.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
             return;
         }
 
@@ -490,8 +500,9 @@ namespace Core {
             success = true;
             qCDebug(lcInsertItemScenario) << "Inserted phoneme" << newPhoneme;
             return true;
-        }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to insert phoneme";
+        }, [this] {
+            qCWarning(lcInsertItemScenario) << "Failed to insert phoneme because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
         });
     }
 

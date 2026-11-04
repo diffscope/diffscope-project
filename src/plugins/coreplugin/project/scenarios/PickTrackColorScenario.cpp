@@ -41,6 +41,7 @@ namespace Core {
         TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
         if (!readLock) {
             qCWarning(lcPickTrackColorScenario) << "Could not acquire a document read lock.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
             return;
         }
 
@@ -64,8 +65,9 @@ namespace Core {
         targetDocument->transactionController()->beginScopedTransaction(tr("Picking track color"), [=] {
             track->setColorId(newColorId);
             return true;
-        }, [] {
-            qCCritical(lcPickTrackColorScenario) << "Failed to pick track color";
+        }, [this] {
+            qCWarning(lcPickTrackColorScenario) << "Failed to pick track color because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
         });
     }
 

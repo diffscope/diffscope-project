@@ -30,6 +30,10 @@ PropertyEditorGroupBox {
             return true
         transactionId = windowHandle.projectDocumentContext.document
             .transactionController.beginTransaction()
+        if (!transactionId) {
+            console.warn("The voice blending edit transaction could not be started.")
+            windowHandle.sendOperationConflictNotification()
+        }
         return transactionId !== 0
     }
 
@@ -44,8 +48,7 @@ PropertyEditorGroupBox {
     function abortTransaction() {
         if (!transactionId)
             return
-        windowHandle.projectDocumentContext.document.transactionController
-            .abortTransaction(transactionId)
+        windowHandle?.projectDocumentContext?.document?.transactionController?.abortTransaction(transactionId)
         transactionId = 0
     }
 
@@ -160,12 +163,13 @@ PropertyEditorGroupBox {
                         return isNaN(parsed) ? 0 : parsed / 100
                     }
                     onValueModified: {
-                        const continuous = spinBoxHelper.buttonPressed
-                                           || spinBoxHelper.keyPressing
-                        if (!continuous && !groupBox.beginTransaction())
+                        const continuous = spinBoxHelper.editing
+                        if (!continuous)
+                            groupBox.beginTransaction()
+                        if (!groupBox.transactionId) {
+                            GlobalHelper.setProperty(ratioSpinBox, "value", Number(singerRow.ratioValue ?? 0))
                             return
-                        if (!groupBox.transactionId)
-                            return
+                        }
                         groupBox.propertyMapper.setSingerRatio(singerRow.index,
                                                                value)
                         if (!continuous)

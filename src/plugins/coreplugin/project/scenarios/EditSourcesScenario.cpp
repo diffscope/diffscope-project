@@ -35,6 +35,7 @@
 #include <coreplugin/SingerInfo.h>
 #include <coreplugin/SingerRegistry.h>
 #include <coreplugin/SourcesPickerModel.h>
+#include <coreplugin/private/DocumentEditScenario_p.h>
 
 #include <transactional/TransactionController.h>
 
@@ -293,8 +294,9 @@ namespace Core {
                    && d->execDialog(guardedModel.data())
                    && guardedModel
                    && d->applySourcesImpl(guardedModel.data(), guardedClipList);
-        }, [] {
-            qCCritical(lcEditSourcesScenario) << "Failed to edit sources";
+        }, [d] {
+            qCWarning(lcEditSourcesScenario) << "Failed to edit sources because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(d->window);
         });
     }
 
@@ -308,8 +310,9 @@ namespace Core {
         const auto guardedClipList = guardedClips(clips);
         d->document->transactionController()->beginScopedTransaction(tr("Editing sources"), [d, guardedModel, guardedClipList] {
             return guardedModel && d->applySourcesImpl(guardedModel.data(), guardedClipList);
-        }, [] {
-            qCCritical(lcEditSourcesScenario) << "Failed to apply sources";
+        }, [d] {
+            qCWarning(lcEditSourcesScenario) << "Failed to apply sources because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(d->window);
         });
     }
 

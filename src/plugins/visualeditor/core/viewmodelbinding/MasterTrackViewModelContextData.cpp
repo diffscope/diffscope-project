@@ -343,6 +343,8 @@ namespace VisualEditor {
         if (muteTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT muteTransactionStarted();
         } else {
+            qCWarning(lcMasterTrackViewModelContextData) << "Failed to change master track mute because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT muteTransactionNotStarted();
         }
     }
@@ -366,6 +368,8 @@ namespace VisualEditor {
         if (gainTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT gainTransactionStarted();
         } else {
+            qCWarning(lcMasterTrackViewModelContextData) << "Failed to adjust master track gain because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT gainTransactionNotStarted();
         }
     }
@@ -394,6 +398,8 @@ namespace VisualEditor {
         if (panTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT panTransactionStarted();
         } else {
+            qCWarning(lcMasterTrackViewModelContextData) << "Failed to adjust master track pan because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT panTransactionNotStarted();
         }
     }
@@ -422,6 +428,8 @@ namespace VisualEditor {
         if (multiChannelTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT multiChannelTransactionStarted();
         } else {
+            qCWarning(lcMasterTrackViewModelContextData) << "Failed to change master track multichannel output because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             syncingFromModel = true;
             masterTrackViewModel->setMultiChannelOutput(model->multiChannelOutput());
             syncingFromModel = false;

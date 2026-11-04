@@ -372,6 +372,8 @@ namespace VisualEditor {
         if (moveTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT moveTransactionStarted();
         } else {
+            qCWarning(lcLabelViewModelContextData) << "Failed to move a label because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT moveTransactionNotStarted();
         }
     }
@@ -405,6 +407,8 @@ namespace VisualEditor {
             QMetaObject::invokeMethod(targetLabelSequenceItem, "editInPlace", viewItem);
             Q_EMIT editTransactionStarted();
         } else {
+            qCWarning(lcLabelViewModelContextData) << "Failed to edit a label because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT editTransactionNotStarted();
         }
     }
@@ -442,6 +446,8 @@ namespace VisualEditor {
             QMetaObject::invokeMethod(targetLabelSequenceItem, "editInPlace", viewItem);
             Q_EMIT insertTransactionStarted();
         } else {
+            qCWarning(lcLabelViewModelContextData) << "Failed to insert a label because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT insertTransactionNotStarted();
         }
     }

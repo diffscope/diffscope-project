@@ -18,8 +18,12 @@ AbstractPropertyEditorField {
         Layout.fillWidth: true
         label: d.label
         columnItem: TextField {
+            id: field
             text: d.value ?? ""
-            onEditingFinished: d.setValue(text)
+            onEditingFinished: {
+                if (!d.setValue(text))
+                    GlobalHelper.setProperty(field, "text", d.value ?? "")
+            }
         }
     }
 }

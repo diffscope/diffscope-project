@@ -17,6 +17,7 @@ namespace Core {
         bool shouldDialogPopupAtCursor = false;
 
         static bool execDialog(QObject *dialog);
+        static void sendOperationConflictNotification(QQuickWindow *window);
     };
 
 }

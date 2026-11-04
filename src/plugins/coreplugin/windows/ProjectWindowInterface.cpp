@@ -62,6 +62,7 @@ namespace Core {
         Internal::NotificationManager *notificationManager;
         ProjectTimeline *projectTimeline;
         ProjectDocumentContext *projectDocumentContext;
+        NotificationMessage *operationConflictMessage{};
 
         void init() {
             Q_Q(ProjectWindowInterface);
@@ -241,6 +242,18 @@ namespace Core {
                 }));
             }))
         }));
+    }
+
+    void ProjectWindowInterface::sendOperationConflictNotification() {
+        Q_D(ProjectWindowInterface);
+        if (!d->operationConflictMessage) {
+            d->operationConflictMessage = new NotificationMessage(this);
+            d->operationConflictMessage->setIcon(SVS::SVSCraft::Warning);
+            d->operationConflictMessage->setTitle(tr("Operation Conflict"));
+            d->operationConflictMessage->setText(tr("Please wait until the current operation is complete before proceeding."));
+        }
+        d->operationConflictMessage->close();
+        sendNotification(d->operationConflictMessage, AutoHide);
     }
 
     QWindow *ProjectWindowInterface::createWindow(QObject *parent) const {

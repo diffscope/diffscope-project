@@ -15,6 +15,7 @@ ActionCollection {
 
     required property TimelineAddOn addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
+    readonly property QtObject transactionController: windowHandle?.projectDocumentContext.document?.transactionController ?? null
     readonly property Window window: addOn?.windowHandle.window ?? null
     readonly property EditTempoTimeSignatureScenario editTempoTimeSignatureScenario: EditTempoTimeSignatureScenario {
         id: editTempoTimeSignatureScenario
@@ -244,6 +245,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.timeline.editTempo"
         Action {
+            enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
             onTriggered: Qt.callLater(() => editTempoTimeSignatureScenario.editTempo())
         }
     }
@@ -251,6 +253,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.timeline.editTimeSignature"
         Action {
+            enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
             onTriggered: Qt.callLater(() => editTempoTimeSignatureScenario.editTimeSignature())
         }
     }
@@ -258,6 +261,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.timeline.editLoop"
         Action {
+            enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
             onTriggered: Qt.callLater(() => editLoopScenario.editLoop())
         }
     }
@@ -265,6 +269,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.timeline.enableLoop"
         Action {
+            enabled: d.transactionController?.canBeginTransaction === true
             checkable: true
             checked: d.addOn.loopEnabled
             onTriggered: d.addOn.loopEnabled = checked

@@ -12,6 +12,8 @@ namespace Core {
 
     struct FreeParameterClipboardData;
 
+    class ProjectWindowInterface;
+
     class CORE_EXPORT ParameterResamplingScenario : public DocumentEditScenario {
         Q_OBJECT
         QML_ELEMENT
@@ -21,6 +23,7 @@ namespace Core {
         ~ParameterResamplingScenario() override;
 
         bool confirmPaste(const FreeParameterClipboardData &data, int targetStart) const;
+        bool confirmPaste(const FreeParameterClipboardData &data, int targetStart, ProjectWindowInterface *windowHandle) const;
         Q_INVOKABLE bool confirmBounce() const;
 
     private:

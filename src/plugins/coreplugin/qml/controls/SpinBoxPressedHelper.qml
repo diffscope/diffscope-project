@@ -15,29 +15,43 @@ QtObject {
     id: d
     required property var spinBox
     property bool keyPressing: false
+    property bool editing: false
+    readonly property bool buttonPressed: d.spinBox.up.pressed || d.spinBox.down.pressed
     signal pressed()
     signal released()
-    readonly property bool buttonPressed: d.spinBox.up.pressed || d.spinBox.down.pressed
-    readonly property Connections upConnections: Connections {
-        target: d.spinBox.up
-        function onPressedChanged() {
-            if (d.keyPressing)
-                return
-            if (d.spinBox.up.pressed)
-                d.pressed()
-            else
-                d.released()
+
+    onButtonPressedChanged: updateEditing()
+    onKeyPressingChanged: updateEditing()
+
+    function updateEditing() {
+        if (buttonPressed || keyPressing) {
+            if (!editing) {
+                editing = true
+                pressed()
+            }
+        } else if (editing) {
+            // A spin box can emit valueModified after releasing its button.
+            Qt.callLater(finishEditing)
         }
     }
-    readonly property Connections downConnections: Connections {
-        target: d.spinBox.down
-        function onPressedChanged() {
-            if (d.keyPressing)
+
+    function finishEditing() {
+        if (!editing || buttonPressed || keyPressing)
+            return
+        editing = false
+        released()
+    }
+
+    readonly property Connections focusConnections: Connections {
+        target: d.spinBox
+        function onActiveFocusChanged() {
+            if (d.spinBox.activeFocus || !d.keyPressing)
                 return
-            if (d.spinBox.down.pressed)
-                d.pressed()
-            else
+            d.keyPressing = false
+            if (d.editing) {
+                d.editing = false
                 d.released()
+            }
         }
     }
     readonly property Connections keysConnections: Connections {
@@ -46,19 +60,15 @@ QtObject {
             event.accepted = false
             if (event.isAutoRepeat)
                 return
-            if (event.key === Qt.Key_Up || event.key === Qt.Key_Down) {
+            if (event.key === Qt.Key_Up || event.key === Qt.Key_Down)
                 d.keyPressing = true
-                d.pressed()
-            }
         }
-        function onReleased (event) {
+        function onReleased(event) {
             event.accepted = false
             if (event.isAutoRepeat)
                 return
-            if (event.key === Qt.Key_Up || event.key === Qt.Key_Down) {
+            if (event.key === Qt.Key_Up || event.key === Qt.Key_Down)
                 d.keyPressing = false
-                d.released()
-            }
         }
     }
 }

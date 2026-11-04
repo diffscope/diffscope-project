@@ -769,6 +769,8 @@ namespace VisualEditor {
         }
         const auto id = document->transactionController()->beginTransaction();
         if (id == Core::TransactionController::TransactionId::Invalid) {
+            qCWarning(lcPhonemeViewModelContextData) << "The phoneme edit transaction could not be started.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             return false;
         }
         editOperation = operation;

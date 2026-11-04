@@ -74,6 +74,7 @@
 #include <coreplugin/DspxClipboard.h>
 #include <coreplugin/FreeParameterSelectionModel.h>
 #include <coreplugin/ParameterResamplingScenario.h>
+#include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/FreeParameterResampling.h>
 
 #include <stdcorelib/support/json.h>
@@ -1546,9 +1547,13 @@ namespace Core {
     }
 
     void DspxDocument::cutSelection(int playheadPosition) {
+        cutSelection(playheadPosition, nullptr);
+    }
+
+    void DspxDocument::cutSelection(int playheadPosition, ProjectWindowInterface *windowHandle) {
         Q_D(DspxDocument);
         if (anyItemsSelected() && d->copySelection(playheadPosition))
-            deleteSelection();
+            deleteSelection(windowHandle);
     }
 
     void DspxDocument::copySelection(int playheadPosition) {
@@ -1558,7 +1563,12 @@ namespace Core {
     }
 
     void DspxDocument::paste(int playheadPosition, PasteMode pasteMode) {
+        paste(playheadPosition, pasteMode, nullptr);
+    }
+
+    void DspxDocument::paste(int playheadPosition, PasteMode pasteMode, ProjectWindowInterface *windowHandle) {
         Q_D(DspxDocument);
+        const QPointer<ProjectWindowInterface> editWindow(windowHandle);
         const auto type = d->currentClipboardType();
         auto *clipboard = DspxClipboard::instance();
         const auto *handler = type ? clipboardHandler(*type) : nullptr;
@@ -1581,8 +1591,8 @@ namespace Core {
             const auto layer = d->freeParameterSelectionModel->layer();
             ParameterResamplingScenario scenario;
             scenario.setDocument(this);
-            scenario.setWindow(qobject_cast<QQuickWindow *>(QGuiApplication::focusWindow()));
-            if (!scenario.confirmPaste(data.freeParameter(), context.position))
+            scenario.setWindow(qobject_cast<QQuickWindow *>(editWindow ? editWindow->window() : QGuiApplication::focusWindow()));
+            if (!scenario.confirmPaste(data.freeParameter(), context.position, editWindow))
                 return;
             if (!documentGuard || !targetClip || d->freeParameterSelectionModel->singingClip() != targetClip ||
                 d->freeParameterSelectionModel->parameterId() != parameterId ||
@@ -1594,8 +1604,13 @@ namespace Core {
         const bool started = transactionController()->beginScopedTransaction(tr(handler->transactionName), [&] {
             pasted = (d->*handler->paste)(data, context);
             return pasted;
-        }, [] {
-            qCCritical(lcDspxDocument) << "The paste transaction could not be started.";
+        }, [editWindow] {
+            if (editWindow) {
+                qCWarning(lcDspxDocument) << "The paste transaction could not be started.";
+                editWindow->sendOperationConflictNotification();
+            } else {
+                qCCritical(lcDspxDocument) << "The paste transaction could not be started.";
+            }
         });
         if (!started || !pasted)
             return;
@@ -1615,6 +1630,10 @@ namespace Core {
     }
 
     void DspxDocument::deleteSelection() {
+        deleteSelection(nullptr);
+    }
+
+    void DspxDocument::deleteSelection(ProjectWindowInterface *windowHandle) {
         Q_D(DspxDocument);
         if (!anyItemsSelected())
             return;
@@ -1650,7 +1669,15 @@ namespace Core {
         bool deleted = false;
         transactionController()->beginScopedTransaction(transactionName, [=, &deleted] {
             deleted = d->deleteSelection();
-            return deleted; }, [] { qCCritical(lcDspxDocument) << "Failed to delete selection in scoped transaction"; });
+            return deleted;
+        }, [windowHandle] {
+            if (windowHandle) {
+                qCWarning(lcDspxDocument) << "The delete selection transaction could not be started.";
+                windowHandle->sendOperationConflictNotification();
+            } else {
+                qCCritical(lcDspxDocument) << "Failed to delete selection in scoped transaction";
+            }
+        });
         if (deletingFreeParameter)
             d->freeParameterSelectionModel->clear();
     }
@@ -1712,6 +1739,10 @@ namespace Core {
     }
 
     void DspxDocument::splitItems(int position) {
+        splitItems(position, nullptr);
+    }
+
+    void DspxDocument::splitItems(int position, ProjectWindowInterface *windowHandle) {
         Q_D(DspxDocument);
         const auto selectionType = d->selectionModel->selectionType();
         if (selectionType != dspx::SelectionModel::ST_Clip && selectionType != dspx::SelectionModel::ST_Note)
@@ -1793,8 +1824,13 @@ namespace Core {
                     break;
             }
             return changed;
-        }, [] {
-            qCCritical(lcDspxDocument) << "Failed to split items in scoped transaction";
+        }, [windowHandle] {
+            if (windowHandle) {
+                qCWarning(lcDspxDocument) << "The split items transaction could not be started.";
+                windowHandle->sendOperationConflictNotification();
+            } else {
+                qCCritical(lcDspxDocument) << "Failed to split items in scoped transaction";
+            }
         });
     }
 
@@ -1814,6 +1850,10 @@ namespace Core {
     }
 
     void DspxDocument::bounceToClip() {
+        bounceToClip(nullptr);
+    }
+
+    void DspxDocument::bounceToClip(ProjectWindowInterface *windowHandle) {
         Q_D(DspxDocument);
         qCInfo(lcDspxDocument) << "Bouncing to clip";
         const auto trackBounceInfoMap = buildTrackBounceInfoMap(d->selectionModel);
@@ -1874,8 +1914,13 @@ namespace Core {
                 }
             }
             return true;
-        }, [&] {
-            qCCritical(lcDspxDocument) << "Failed to begin transaction";
+        }, [windowHandle] {
+            if (windowHandle) {
+                qCWarning(lcDspxDocument) << "The bounce to clip transaction could not be started.";
+                windowHandle->sendOperationConflictNotification();
+            } else {
+                qCCritical(lcDspxDocument) << "Failed to begin transaction";
+            }
         });
         qCInfo(lcDspxDocument) << "End bouncing to clip";
     }

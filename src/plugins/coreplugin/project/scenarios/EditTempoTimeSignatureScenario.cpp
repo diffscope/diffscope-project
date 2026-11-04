@@ -68,6 +68,7 @@ namespace Core {
         TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
         if (!readLock) {
             qCWarning(lcEditTempoTimeSignatureScenario) << "Could not acquire a document read lock.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
             return;
         }
 
@@ -117,8 +118,9 @@ namespace Core {
                 tempoItem->setValue(tempo);
             }
             return true;
-        }, [] {
-            qCCritical(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo";
+        }, [this] {
+            qCWarning(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
         });
 
 
@@ -149,6 +151,7 @@ namespace Core {
         TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
         if (!readLock) {
             qCWarning(lcEditTempoTimeSignatureScenario) << "Could not acquire a document read lock.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
             return;
         }
 
@@ -203,8 +206,9 @@ namespace Core {
                 timeSignatureItem->setDenominator(denominator);
             }
             return true;
-        }, [] {
-            qCCritical(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo";
+        }, [this] {
+            qCWarning(lcEditTempoTimeSignatureScenario) << "Failed to edit the time signature because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
         });
     }
     void EditTempoTimeSignatureScenario::insertTimeSignatureAt(int position) const {

@@ -313,7 +313,8 @@ namespace Audio::Internal {
         setState(Starting);
         const auto transaction = m_document->transactionController()->beginTransaction();
         if (transaction == Core::TransactionController::TransactionId::Invalid) {
-            qCCritical(lcMidiRecording) << "The MIDI recording transaction could not start.";
+            qCWarning(lcMidiRecording) << "The MIDI recording transaction could not start.";
+            windowHandle()->cast<Core::ProjectWindowInterface>()->sendOperationConflictNotification();
             m_noteSequence.clear();
             setState(Idle);
             return;

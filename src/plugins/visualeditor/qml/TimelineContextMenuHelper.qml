@@ -21,6 +21,8 @@ EditTempoTimeSignatureScenario {
     shouldDialogPopupAtCursor: true
 
     required property Timeline timeline
+    required property ProjectWindowInterface windowHandle
+    readonly property QtObject transactionController: document?.transactionController ?? null
 
     readonly property MusicTimeline musicTimeline: projectTimeline?.musicTimeline ?? null
 
@@ -47,6 +49,7 @@ EditTempoTimeSignatureScenario {
         }
         Action {
             text: qsTr("Insert Time Signature")
+            enabled: helper.transactionController?.canBeginTransaction === true && helper.transactionController.canAcquireReadLock
             onTriggered: {
                 Qt.callLater(() => helper.insertTimeSignatureAt(menu.position))
             }
@@ -72,20 +75,22 @@ EditTempoTimeSignatureScenario {
         }
         Action {
             text: qsTr("Edit Time Signature")
+            enabled: helper.transactionController?.canBeginTransaction === true && helper.transactionController.canAcquireReadLock
             onTriggered: {
                 Qt.callLater(() => helper.modifyExistingTimeSignatureAt(menu.position))
             }
         }
         Action {
             text: qsTr("Remove Time Signature")
-            enabled: helper.musicTimeline.create(0, 0, menu.position).measure !== 0
+            enabled: helper.transactionController?.canBeginTransaction === true && helper.musicTimeline.create(0, 0, menu.position).measure !== 0
             onTriggered: () => {
                 let measure = helper.musicTimeline.create(0, 0, menu.position).measure
                 if (measure === 0)
                     return
                 let transactionId = helper.document.transactionController.beginTransaction()
                 if (!transactionId) {
-                    console.error(lcTimelineContextMenuHelper, "Failed to remove time signature")
+                    console.warn(lcTimelineContextMenuHelper, "The remove time signature transaction could not be started.")
+                    helper.windowHandle.sendOperationConflictNotification()
                     return
                 }
                 let currentTimeSignatures = helper.document.model.timeSignatures.slice(measure, 1)

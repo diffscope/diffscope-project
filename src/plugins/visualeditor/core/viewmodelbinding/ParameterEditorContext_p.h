@@ -39,6 +39,7 @@ namespace Core {
     class ClipSingerIdProvider;
     class DspxDocument;
     class FreeParameterSelectionModel;
+    class ProjectWindowInterface;
     class SingerRegistry;
 }
 
@@ -111,6 +112,7 @@ namespace VisualEditor {
         ParameterViewModelBinding *q_ptr{};
         bool editable{};
         Core::DspxDocument *document{};
+        Core::ProjectWindowInterface *windowHandle{};
         dspx::Model *model{};
         dspx::SelectionModel *selectionModel{};
         Core::FreeParameterSelectionModel *freeSelectionModel{};
@@ -160,7 +162,7 @@ namespace VisualEditor {
         bool currentOperationTransforms{};
         Core::TransactionController::TransactionId transactionId{};
 
-        void initialize(Core::DspxDocument *document);
+        void initialize(Core::DspxDocument *document, Core::ProjectWindowInterface *windowHandle);
         void initializeStateMachine();
         void initializeController();
         void setTarget(dspx::SingingClip *clip, const QString &id,

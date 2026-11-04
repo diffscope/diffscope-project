@@ -149,8 +149,9 @@ namespace Core::Internal {
             auto dspxModel = windowInterface->projectDocumentContext()->document()->model();
             dspxModel->setLoopEnabled(enabled);
             return true;
-        }, [=, this] {
-            qCCritical(lcTimelineAddOn()) << "Failed to edit loop";
+        }, [this, windowInterface] {
+            qCWarning(lcTimelineAddOn) << "The loop toggle transaction could not be started.";
+            windowInterface->sendOperationConflictNotification();
             Q_EMIT loopEnabledChanged();
         });
     }

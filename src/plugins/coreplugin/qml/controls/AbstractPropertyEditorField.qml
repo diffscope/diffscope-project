@@ -27,23 +27,34 @@ ColumnLayout {
             transactionId = a
             return true
         }
+        console.warn("The property edit transaction could not be started.")
+        d.windowHandle.sendOperationConflictNotification()
         return false
     }
     function commitTransaction() {
-        d.windowHandle.projectDocumentContext.document.transactionController.commitTransaction(transactionId, d.transactionName)
-        transactionId = 0
-    }
-    function abortTransaction() {
-        d.windowHandle.projectDocumentContext.document.transactionController.abortTransaction(transactionId)
-        transactionId = 0
-    }
-    function setValue(v) {
-        if (value === v)
-            return
-        beginTransaction()
         if (!transactionId)
             return
+        const id = transactionId
+        transactionId = 0
+        d.windowHandle.projectDocumentContext.document.transactionController.commitTransaction(id, d.transactionName)
+    }
+    function abortTransaction() {
+        if (!transactionId)
+            return
+        const id = transactionId
+        transactionId = 0
+        d.windowHandle?.projectDocumentContext?.document?.transactionController?.abortTransaction(id)
+    }
+    Component.onDestruction: abortTransaction()
+    function setValue(v, continuous = false): bool {
+        if (!continuous && value === v)
+            return true
+        const started = continuous ? transactionId !== 0 : beginTransaction()
+        if (!started)
+            return false
         propertyMapper[key] = v
-        commitTransaction()
+        if (!continuous)
+            commitTransaction()
+        return true
     }
 }

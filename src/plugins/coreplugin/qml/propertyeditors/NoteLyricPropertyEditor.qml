@@ -8,6 +8,7 @@ import QtQuick.Layouts
 
 import SVSCraft
 import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
 import DiffScope.Core
@@ -103,12 +104,13 @@ PropertyEditorGroupBox {
                     model: groupBox.languageOptions
                     textRole: "text"
                     valueRole: "value"
-                    currentIndex: {
+                    readonly property int modelIndex: {
                         const language = groupBox.propertyMapper?.language
                         return typeof language !== "string"
                                 ? -1
                                 : groupBox.languageOptions.findIndex(option => option.value === language)
                     }
+                    currentIndex: modelIndex
                     displayText: {
                         const language = languageField.value
                         if (typeof language !== "string")
@@ -117,7 +119,10 @@ PropertyEditorGroupBox {
                         const option = groupBox.languageOptions.find(option => option.value === language)
                         return option ? option.text : qsTr("Custom (%1)").arg(language)
                     }
-                    onActivated: (index) => languageField.setValue(valueAt(index))
+                    onActivated: (index) => {
+                        if (!languageField.setValue(valueAt(index)))
+                            GlobalHelper.setProperty(languageComboBox, "currentIndex", modelIndex)
+                    }
                 }
             }
         }

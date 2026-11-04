@@ -268,8 +268,9 @@ namespace VisualEditor {
         : QObject(), q_ptr(q), editable(editable_) {
     }
 
-    void ParameterViewModelBindingPrivate::initialize(Core::DspxDocument *document_) {
+    void ParameterViewModelBindingPrivate::initialize(Core::DspxDocument *document_, Core::ProjectWindowInterface *windowHandle_) {
         document = document_;
+        windowHandle = windowHandle_;
         model = document->model();
         selectionModel = document->selectionModel();
         freeSelectionModel = document->freeParameterSelectionModel();
@@ -950,6 +951,8 @@ namespace VisualEditor {
         }
         transactionId = document->transactionController()->beginTransaction();
         if (transactionId == Core::TransactionController::TransactionId::Invalid) {
+            qCWarning(lcParameterEditorContext) << "The parameter edit transaction could not be started.";
+            windowHandle->sendOperationConflictNotification();
             QMetaObject::invokeMethod(q_ptr, [this] {
                 if (currentOperation != NoOperation)
                     return;
@@ -1295,7 +1298,8 @@ namespace VisualEditor {
 
     void ParameterEditorContextPrivate::initialize() {
         Q_Q(ParameterEditorContext);
-        document = projectContext->windowHandle()->projectDocumentContext()->document();
+        auto *windowHandle = projectContext->windowHandle();
+        document = windowHandle->projectDocumentContext()->document();
         registry = Core::CoreInterface::singerRegistry();
         singerIdProvider = new Core::ClipSingerIdProvider(q);
         QObject::connect(singerIdProvider, &Core::ClipSingerIdProvider::singerTreeChanged, q, [this] {
@@ -1306,9 +1310,9 @@ namespace VisualEditor {
         pitchBinding = new ParameterViewModelBinding(q, true);
         editingBinding = new ParameterViewModelBinding(q, true);
         referenceBinding = new ParameterViewModelBinding(q, false);
-        pitchBinding->d_func()->initialize(document);
-        editingBinding->d_func()->initialize(document);
-        referenceBinding->d_func()->initialize(document);
+        pitchBinding->d_func()->initialize(document, windowHandle);
+        editingBinding->d_func()->initialize(document, windowHandle);
+        referenceBinding->d_func()->initialize(document, windowHandle);
 
         auto *noteSelection = document->selectionModel()->noteSelectionModel();
         QObject::connect(noteSelection, &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged,

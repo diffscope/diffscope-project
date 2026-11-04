@@ -252,6 +252,8 @@ namespace VisualEditor {
         if (moveTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT moveTransactionStarted();
         } else {
+            qCWarning(lcTempoViewModelContextData) << "Failed to move a tempo change because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT moveTransactionNotStarted();
         }
     }

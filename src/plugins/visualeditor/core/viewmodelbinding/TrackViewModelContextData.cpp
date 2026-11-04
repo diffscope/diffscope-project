@@ -657,6 +657,8 @@ namespace VisualEditor {
         if (moveTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT moveTransactionStarted();
         } else {
+            qCWarning(lcTrackViewModelContextData) << "Failed to move a track because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT moveTransactionNotStarted();
         }
     }
@@ -684,6 +686,8 @@ namespace VisualEditor {
         if (muteTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT muteTransactionStarted();
         } else {
+            qCWarning(lcTrackViewModelContextData) << "Failed to change track mute because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT muteTransactionNotStarted();
         }
     }
@@ -711,6 +715,8 @@ namespace VisualEditor {
         if (soloTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT soloTransactionStarted();
         } else {
+            qCWarning(lcTrackViewModelContextData) << "Failed to change track solo because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT soloTransactionNotStarted();
         }
     }
@@ -738,6 +744,8 @@ namespace VisualEditor {
         if (nameTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT nameTransactionStarted();
         } else {
+            qCWarning(lcTrackViewModelContextData) << "Failed to rename a track because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT nameTransactionNotStarted();
         }
     }
@@ -770,6 +778,8 @@ namespace VisualEditor {
         if (gainTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT gainTransactionStarted();
         } else {
+            qCWarning(lcTrackViewModelContextData) << "Failed to adjust track gain because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT gainTransactionNotStarted();
         }
     }
@@ -804,6 +814,8 @@ namespace VisualEditor {
         if (panTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT panTransactionStarted();
         } else {
+            qCWarning(lcTrackViewModelContextData) << "Failed to adjust track pan because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT panTransactionNotStarted();
         }
     }
@@ -838,6 +850,8 @@ namespace VisualEditor {
         if (heightTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT heightTransactionStarted();
         } else {
+            qCWarning(lcTrackViewModelContextData) << "Failed to resize a track because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT heightTransactionNotStarted();
         }
     }

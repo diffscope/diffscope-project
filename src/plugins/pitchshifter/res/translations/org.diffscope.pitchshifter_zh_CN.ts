@@ -144,14 +144,13 @@
     <name>PitchShifter::Internal::PitchShiftAddOn</name>
     <message>
         <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="176"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="186"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="222"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="253"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="267"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="278"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="324"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="232"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="263"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="277"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="288"/>
         <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="337"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="340"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="351"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="354"/>
         <source>Failed to stretch and shift pitch</source>
         <translation type="unfinished">伸缩与移调失败</translation>
     </message>
@@ -164,11 +163,6 @@
         <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="181"/>
         <source>Stretching and shifting pitch</source>
         <translation type="unfinished">伸缩与移调</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="186"/>
-        <source>The audio was saved, but the clip could not be updated.</source>
-        <translation type="unfinished">音频已保存，但无法更新剪辑。</translation>
     </message>
     <message>
         <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="222"/>

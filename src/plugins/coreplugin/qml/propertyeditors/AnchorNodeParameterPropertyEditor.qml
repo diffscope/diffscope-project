@@ -44,13 +44,24 @@ PropertyEditorGroupBox {
 
     function beginTransaction(): bool {
         transactionId = windowHandle.projectDocumentContext.document.transactionController.beginTransaction()
+        if (!transactionId) {
+            console.warn("The parameter anchor edit transaction could not be started.")
+            windowHandle.sendOperationConflictNotification()
+        }
         return transactionId !== 0
     }
 
     function commitTransaction() {
+        if (!transactionId)
+            return
         windowHandle.projectDocumentContext.document.transactionController.commitTransaction(
             transactionId, qsTr("Editing parameter anchor"))
         transactionId = 0
+    }
+
+    Component.onDestruction: {
+        if (transactionId)
+            windowHandle?.projectDocumentContext?.document?.transactionController?.abortTransaction(transactionId)
     }
 
     ParameterInfoProvider {
@@ -116,13 +127,14 @@ PropertyEditorGroupBox {
                 decimals: 3
                 from: Math.min(bottomDisplayValue, topDisplayValue)
                 to: Math.max(bottomDisplayValue, topDisplayValue)
-                value: {
+                readonly property real modelValue: {
                     if (displayValue === undefined || displayValue === null)
                         return 0
                     const lowerBound = Math.min(from, to)
                     const upperBound = Math.max(from, to)
                     return Math.max(lowerBound, Math.min(upperBound, displayValue))
                 }
+                value: modelValue
                 stepSize: 0.001
                 contentItem.visible: displayValue !== undefined && displayValue !== null
                 textFromValue: function(value, decimals, locale) {
@@ -146,12 +158,15 @@ PropertyEditorGroupBox {
                         ? 0.0 : parameterInfoProvider.valueFromDisplay(value)
                     if (normalized === undefined || normalized === null)
                         return
-                    if (!spinBoxHelper.buttonPressed)
+                    const continuous = spinBoxHelper.editing
+                    if (!continuous)
                         groupBox.beginTransaction()
-                    if (!groupBox.transactionId)
+                    if (!groupBox.transactionId) {
+                        GlobalHelper.setProperty(valueSpinBox, "value", modelValue)
                         return
+                    }
                     groupBox.propertyMapper.value = parameterInfoProvider.valueToDspx(normalized)
-                    if (!spinBoxHelper.buttonPressed)
+                    if (!continuous)
                         groupBox.commitTransaction()
                 }
 
@@ -179,8 +194,10 @@ PropertyEditorGroupBox {
                 ]
                 Component.onCompleted: currentValue = Qt.binding(() => groupBox.propertyMapper?.interpolationMode)
                 onActivated: index => {
-                    if (!groupBox.beginTransaction())
+                    if (!groupBox.beginTransaction()) {
+                        GlobalHelper.setProperty(interpolationCombo, "currentValue", groupBox.propertyMapper?.interpolationMode)
                         return
+                    }
                     groupBox.propertyMapper.interpolationMode = valueAt(index)
                     groupBox.commitTransaction()
                 }

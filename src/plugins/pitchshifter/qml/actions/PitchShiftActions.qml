@@ -18,11 +18,13 @@ ActionCollection {
 
     required property PitchShiftAddOn addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
+    readonly property QtObject transactionController: windowHandle?.projectDocumentContext.document?.transactionController ?? null
 
     ActionItem {
         actionId: "org.diffscope.pitchshifter.edit.shiftPitch"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip
+            enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
+                     && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip
                      && d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem?.kind === DspxModel.Clip.Audio
             onTriggered: Qt.callLater(() => d.addOn.shiftPitch(d.windowHandle.projectDocumentContext.document.selectionModel.currentItem))
         }

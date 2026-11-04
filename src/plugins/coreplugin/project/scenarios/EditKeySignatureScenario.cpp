@@ -77,6 +77,7 @@ namespace Core {
         TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
         if (!readLock) {
             qCWarning(lcEditKeySignatureScenario) << "Could not acquire a document read lock.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
             return;
         }
 
@@ -140,8 +141,9 @@ namespace Core {
                 keySignatureItem->setAccidentalType(static_cast<dspx::KeySignature::AccidentalType>(accidentalType));
             }
             return true;
-        }, [] {
-            qCCritical(lcEditKeySignatureScenario) << "Failed to edit key signature";
+        }, [this] {
+            qCWarning(lcEditKeySignatureScenario) << "Failed to edit key signature because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
         });
     }
 

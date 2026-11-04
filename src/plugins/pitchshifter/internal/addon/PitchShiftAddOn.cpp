@@ -181,9 +181,9 @@ namespace PitchShifter::Internal {
         document->transactionController()->beginScopedTransaction(tr("Stretching and shifting pitch"), [clip, path] {
             clip->setPath(path);
             return true;
-        }, [this] {
-            qCCritical(lcPitchShiftAddOn) << "Failed to replace audio clip";
-            showCritical(tr("Failed to stretch and shift pitch"), tr("The audio was saved, but the clip could not be updated."));
+        }, [windowInterface] {
+            qCWarning(lcPitchShiftAddOn) << "The stretched audio was saved, but the clip update transaction could not be started.";
+            windowInterface->sendOperationConflictNotification();
         });
     }
 
@@ -219,6 +219,7 @@ namespace PitchShifter::Internal {
             const auto readLock = std::make_shared<Core::TransactionController::ScopedReadLock>(document->transactionController());
             if (!*readLock) {
                 qCWarning(lcPitchShiftAddOn) << "Could not acquire a document read lock.";
+                windowInterface->sendOperationConflictNotification();
                 return;
             }
 

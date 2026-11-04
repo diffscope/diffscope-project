@@ -26,7 +26,7 @@ ActionCollection {
         Action {
             enabled: {
                 let document = root.addOn?.windowHandle?.projectDocumentContext?.document
-                if (!document?.anyItemsSelected)
+                if (!document?.anyItemsSelected || !document.transactionController.canAcquireReadLock)
                     return false
                 let selectionModel = document.selectionModel
                 let selectionType = selectionModel.selectionType

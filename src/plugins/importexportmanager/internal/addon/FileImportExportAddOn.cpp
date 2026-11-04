@@ -167,6 +167,7 @@ namespace ImportExportManager::Internal {
         Core::TransactionController::ScopedReadLock readLock(document->transactionController());
         if (!readLock) {
             qCWarning(lcFileImportExportAddOn) << "Could not acquire a document read lock.";
+            projectWindow->sendOperationConflictNotification();
             return;
         }
         auto model = document->model();
@@ -199,8 +200,9 @@ namespace ImportExportManager::Internal {
                 ++offset;
             }
             return true;
-        }, [] {
-            qCCritical(lcFileImportExportAddOn) << "Failed to import tracks";
+        }, [projectWindow] {
+            qCWarning(lcFileImportExportAddOn) << "Failed to import tracks because the transaction could not start.";
+            projectWindow->sendOperationConflictNotification();
         });
     }
 

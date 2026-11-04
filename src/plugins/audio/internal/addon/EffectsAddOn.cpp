@@ -327,7 +327,8 @@ namespace Audio::Internal {
             return false;
         }
         const auto array = EffectsPresets::instance()->presetAudioDSPs(name);
-        auto document = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document();
+        auto *windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        auto *document = windowInterface->projectDocumentContext()->document();
         bool applied = false;
         const bool transactionStarted = document->transactionController()->beginScopedTransaction(
             tr("Applying effect preset"), [context, array, &applied] {
@@ -338,6 +339,9 @@ namespace Audio::Internal {
                 }
                 applied = true;
                 return true;
+            }, [windowInterface] {
+                qCWarning(lcEffectsAddOn) << "The effect preset transaction could not be started.";
+                windowInterface->sendOperationConflictNotification();
             });
         return transactionStarted && applied;
     }

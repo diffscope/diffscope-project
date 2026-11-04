@@ -129,6 +129,7 @@ namespace Core::Internal {
         TransactionController::ScopedReadLock readLock(document->transactionController());
         if (!readLock) {
             qCWarning(lcFillLyricsAddOn) << "Could not acquire a document read lock.";
+            windowInterface->sendOperationConflictNotification();
             return;
         }
 
@@ -225,6 +226,9 @@ namespace Core::Internal {
                 notes.at(i)->setLyric(lyricList.at(i));
             }
             return count > 0;
+        }, [windowInterface] {
+            qCWarning(lcFillLyricsAddOn) << "The fill lyrics transaction could not be started.";
+            windowInterface->sendOperationConflictNotification();
         });
     }
 

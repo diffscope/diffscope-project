@@ -112,6 +112,7 @@ Item {
 
     TimelineContextMenuHelper {
         timeline: view.timeline
+        windowHandle: view.arrangementPanelInterface?.windowHandle ?? null
         window: view.Window.window
         projectTimeline: view.arrangementPanelInterface?.windowHandle.projectTimeline ?? null
         document: view.arrangementPanelInterface?.windowHandle.projectDocumentContext.document ?? null

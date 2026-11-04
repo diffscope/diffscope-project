@@ -8,6 +8,7 @@ import QtQuick.Layouts
 
 import SVSCraft
 import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
 
@@ -35,15 +36,8 @@ AbstractPropertyEditorField {
             to: d.spinBoxValueFromProperty(d.to)
             contentItem.visible: d.value !== undefined
             onValueModified: () => {
-                if (!spinBoxHelper.buttonPressed) {
-                    d.beginTransaction()
-                }
-                if (!d.transactionId)
-                    return
-                d.propertyMapper[d.key] = d.propertyFromSpinBoxValue(value)
-                if (!spinBoxHelper.buttonPressed) {
-                    d.commitTransaction()
-                }
+                if (!d.setValue(d.propertyFromSpinBoxValue(value), spinBoxHelper.editing))
+                    GlobalHelper.setProperty(spinBox, "value", d.spinBoxValueFromProperty(d.value ?? 0))
             }
             SpinBoxPressedHelper {
                 id: spinBoxHelper
@@ -58,15 +52,8 @@ AbstractPropertyEditorField {
             from: d.sliderValueFromProperty(d.from)
             to: d.sliderValueFromProperty(d.to)
             onMoved: () => {
-                if (!pressed) {
-                    d.beginTransaction()
-                }
-                if (!d.transactionId)
-                    return
-                d.propertyMapper[d.key] = d.propertyFromSliderValue(value)
-                if (!pressed) {
-                    d.commitTransaction()
-                }
+                if (!d.setValue(d.propertyFromSliderValue(value), pressed || sliderHelper.keyPressing))
+                    GlobalHelper.setProperty(slider, "value", d.sliderValueFromProperty(d.value ?? 0))
             }
             ThemedItem.onDoubleClickReset: moved()
             SliderPressedHelper {

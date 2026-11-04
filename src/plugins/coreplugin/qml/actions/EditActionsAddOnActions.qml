@@ -22,6 +22,7 @@ ActionCollection {
 
     required property QtObject addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
+    readonly property QtObject transactionController: windowHandle?.projectDocumentContext.document?.transactionController ?? null
     readonly property EditSourcesScenario editSourcesScenario: EditSourcesScenario {
         window: d.windowHandle?.window ?? null
         document: d.windowHandle?.projectDocumentContext.document ?? null
@@ -58,8 +59,11 @@ ActionCollection {
             return
         const transactionController = d.windowHandle.projectDocumentContext.document.transactionController
         const transactionId = transactionController.beginTransaction()
-        if (!transactionId)
+        if (!transactionId) {
+            console.warn("The property edit transaction could not be started.", propertyName)
+            d.windowHandle.sendOperationConflictNotification()
             return
+        }
         propertyMapper[propertyName] = value
         transactionController.commitTransaction(transactionId, transactionName)
     }
@@ -79,8 +83,9 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.cut"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected ?? false
-            onTriggered: d.windowHandle.projectDocumentContext.document.cutSelection(d.windowHandle.projectTimeline.position)
+            enabled: d.transactionController?.canBeginTransaction === true
+                     && d.windowHandle?.projectDocumentContext.document.anyItemsSelected
+            onTriggered: d.windowHandle.projectDocumentContext.document.cutSelection(d.windowHandle.projectTimeline.position, d.windowHandle)
         }
     }
 
@@ -95,16 +100,19 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.paste"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.pasteAvailable ?? false
-            onTriggered: Qt.callLater(() => d.windowHandle.projectDocumentContext.document.paste(d.windowHandle.projectTimeline.position, DspxDocument.CurrentPosition))
+            enabled: d.transactionController?.canBeginTransaction === true
+                     && d.windowHandle?.projectDocumentContext.document.pasteAvailable
+                     && (!d.windowHandle.projectDocumentContext.document.freeParameterSelectionModel.active || d.transactionController.canAcquireReadLock)
+            onTriggered: Qt.callLater(() => d.windowHandle.projectDocumentContext.document.paste(d.windowHandle.projectTimeline.position, DspxDocument.CurrentPosition, d.windowHandle))
         }
     }
 
     ActionItem {
         actionId: "org.diffscope.core.edit.delete"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected ?? false
-            onTriggered: d.windowHandle.projectDocumentContext.document.deleteSelection()
+            enabled: d.transactionController?.canBeginTransaction === true
+                     && d.windowHandle?.projectDocumentContext.document.anyItemsSelected
+            onTriggered: d.windowHandle.projectDocumentContext.document.deleteSelection(d.windowHandle)
         }
     }
 
@@ -178,7 +186,7 @@ ActionCollection {
         actionId: "org.diffscope.core.edit.mute"
         Action {
             enabled: {
-                if (!d.windowHandle?.projectDocumentContext.document.anyItemsSelected)
+                if (!d.transactionController?.canBeginTransaction || !d.windowHandle?.projectDocumentContext.document.anyItemsSelected)
                     return false
                 let selectionType = d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType
                 return selectionType === DspxSelectionModel.SelectionModel.ST_Clip || selectionType === DspxSelectionModel.SelectionModel.ST_Track
@@ -206,7 +214,8 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.solo"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Track
+            enabled: d.transactionController?.canBeginTransaction === true
+                     && d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Track
             checkable: true
             checked: Boolean(trackPropertyMapper.solo)
             onTriggered: () => {
@@ -230,28 +239,32 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.shiftUpByASemitone"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
+            enabled: d.transactionController?.canBeginTransaction === true
+                     && d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
             onTriggered: d.addOn.shiftNotes(1)
         }
     }
     ActionItem {
         actionId: "org.diffscope.core.edit.shiftDownByASemitone"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
+            enabled: d.transactionController?.canBeginTransaction === true
+                     && d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
             onTriggered: d.addOn.shiftNotes(-1)
         }
     }
     ActionItem {
         actionId: "org.diffscope.core.edit.shiftUpByAnOctave"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
+            enabled: d.transactionController?.canBeginTransaction === true
+                     && d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
             onTriggered: d.addOn.shiftNotes(12)
         }
     }
     ActionItem {
         actionId: "org.diffscope.core.edit.shiftDownByAnOctave"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
+            enabled: d.transactionController?.canBeginTransaction === true
+                     && d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
             onTriggered: d.addOn.shiftNotes(-12)
         }
     }
@@ -311,14 +324,16 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.edit.split"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && (d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip || d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note)
-            onTriggered: d.windowHandle.projectDocumentContext.document.splitItems(d.windowHandle.projectTimeline.position)
+            enabled: d.transactionController?.canBeginTransaction === true
+                     && d.windowHandle?.projectDocumentContext.document.anyItemsSelected && (d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip || d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note)
+            onTriggered: d.windowHandle.projectDocumentContext.document.splitItems(d.windowHandle.projectTimeline.position, d.windowHandle)
         }
     }
     ActionItem {
         actionId: "org.diffscope.core.edit.bounceToClip"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.clipSelectionModel.selectedSingingClipCount
+            enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
+                     && d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.clipSelectionModel.selectedSingingClipCount
             onTriggered: Qt.callLater(() => {
                 if (!d.windowHandle.projectDocumentContext.document.isClipSingerLayoutIdentical()) {
                     if (d.windowHandle.window.contentItem.MessageBox.warning(qsTr("Warning"), qsTr("The selected clips use different source singer layouts. Bouncing will keep one source singer layout and discard all voice blending anchors.\n\nContinue to bounce?"), SVS.Yes | SVS.No, SVS.No) === SVS.No) {
@@ -327,7 +342,7 @@ ActionCollection {
                 }
                 if (!d.parameterResamplingScenario.confirmBounce())
                     return
-                d.windowHandle.projectDocumentContext.document.bounceToClip()
+                d.windowHandle.projectDocumentContext.document.bounceToClip(d.windowHandle)
             })
         }
     }
@@ -350,6 +365,8 @@ ActionCollection {
         actionId: "org.diffscope.core.edit.editSingers"
         Action {
             enabled: {
+                if (!d.transactionController?.canBeginTransaction)
+                    return false
                 const selectionModel = d.windowHandle?.projectDocumentContext.document.selectionModel
                 if (!selectionModel || selectionModel.selectionType !== DspxSelectionModel.SelectionModel.ST_Clip)
                     return false

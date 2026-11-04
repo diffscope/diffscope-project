@@ -18,10 +18,12 @@ ActionCollection {
 
     required property AudioClipAddOn addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
+    readonly property QtObject transactionController: windowHandle?.projectDocumentContext.document?.transactionController ?? null
 
     ActionItem {
         actionId: "org.diffscope.audio.insert.insertAudioClip"
         Action {
+            enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
             onTriggered: Qt.callLater(() => d.addOn.insertAudioClip())
         }
     }
@@ -29,7 +31,8 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.audio.edit.replaceAudioClip"
         Action {
-            enabled: d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip
+            enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
+                     && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip
                      && d.windowHandle?.projectDocumentContext.document.selectionModel.currentItem?.kind === DspxModel.Clip.Audio
             onTriggered: Qt.callLater(() => d.addOn.replaceAudioClip(d.windowHandle.projectDocumentContext.document.selectionModel.currentItem))
         }

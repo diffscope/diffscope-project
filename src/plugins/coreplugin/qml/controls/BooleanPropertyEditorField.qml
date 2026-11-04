@@ -8,18 +8,24 @@ import QtQuick.Layouts
 
 import SVSCraft
 import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
 
 AbstractPropertyEditorField {
     id: d
     CheckBox {
+        id: checkBox
+        readonly property int modelCheckState: d.propertyMapper?.inactive ? Qt.Unchecked : d.value === undefined ? Qt.PartiallyChecked : d.value ? Qt.Checked : Qt.Unchecked
         text: d.label
         tristate: true
-        checkState: d.propertyMapper?.inactive ? Qt.Unchecked : d.value === undefined ? Qt.PartiallyChecked : d.value ? Qt.Checked : Qt.Unchecked
+        checkState: modelCheckState
         nextCheckState: function() {
             return checkState === Qt.Checked ? Qt.Unchecked : Qt.Checked
         }
-        onClicked: d.setValue(checkState === Qt.Checked)
+        onClicked: {
+            if (!d.setValue(checkState === Qt.Checked))
+                GlobalHelper.setProperty(checkBox, "checkState", modelCheckState)
+        }
     }
 }

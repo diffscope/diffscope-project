@@ -32,15 +32,9 @@
 <context>
     <name>AudioVisualizer::Internal::AudioFileDropAddOn</name>
     <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="163"/>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="200"/>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="216"/>
         <source>Audio import failed</source>
         <translation type="unfinished">音频导入失败</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="163"/>
-        <source>Audio files cannot be imported while another edit is active.</source>
-        <translation type="unfinished">其他编辑操作正在进行时，无法导入音频文件。</translation>
     </message>
     <message>
         <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="200"/>

@@ -9,6 +9,7 @@ import QtQuick.Templates as T
 
 import SVSCraft
 import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
 import DiffScope.DspxModel as DspxModel
@@ -48,6 +49,8 @@ PropertyEditorGroupBox {
                     transactionId = a
                     return true
                 }
+                console.warn("The associated track edit transaction could not be started.")
+                groupBox.windowHandle.sendOperationConflictNotification()
                 return false
             }
             function commitTransaction() {
@@ -72,6 +75,7 @@ PropertyEditorGroupBox {
                 }
             }
             columnItem: ComboBox {
+                id: trackComboBox
                 displayText: groupBox.propertyMapper?.associatedTrack ? undefined : qsTr("Multiple tracks")
                 model: groupBox.windowHandle?.projectDocumentContext.document.model.tracks.items.map((track, i) => ({text: qsTr("%L1: %2").arg(i + 1).arg(track.name), value: track})) ?? null
                 textRole: "text"
@@ -80,9 +84,10 @@ PropertyEditorGroupBox {
                 onActivated: (index) => {
                     if (groupBox.propertyMapper.associatedTrack === valueAt(index))
                         return
-                    assiciatedTrackSelector.beginTransaction()
-                    if (!assiciatedTrackSelector.transactionId)
+                    if (!assiciatedTrackSelector.beginTransaction()) {
+                        GlobalHelper.setProperty(trackComboBox, "currentValue", groupBox.propertyMapper?.associatedTrack)
                         return
+                    }
                     groupBox.propertyMapper.associatedTrack = valueAt(index)
                     assiciatedTrackSelector.commitTransaction()
                 }

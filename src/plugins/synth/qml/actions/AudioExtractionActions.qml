@@ -17,6 +17,7 @@ ActionCollection {
 
     required property AudioExtractionAddOn addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
+    readonly property QtObject transactionController: windowHandle?.projectDocumentContext.document?.transactionController ?? null
     readonly property var selection: windowHandle?.projectDocumentContext.document.selectionModel
     readonly property bool audioClipSelected: selection?.selectionType === DspxSelectionModel.SelectionModel.ST_Clip
                                                && selection?.currentItem?.kind === DspxModel.Clip.Audio
@@ -24,28 +25,28 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.synth.extract.notes"
         Action {
-            enabled: d.audioClipSelected
+            enabled: d.transactionController?.canAcquireReadLock === true && d.audioClipSelected
             onTriggered: Qt.callLater(() => d.addOn.extractNotes(d.selection.currentItem))
         }
     }
     ActionItem {
         actionId: "org.diffscope.synth.extract.tempo"
         Action {
-            enabled: d.audioClipSelected
+            enabled: d.transactionController?.canAcquireReadLock === true && d.audioClipSelected
             onTriggered: Qt.callLater(() => d.addOn.extractTempo(d.selection.currentItem))
         }
     }
     ActionItem {
         actionId: "org.diffscope.synth.extract.pitch"
         Action {
-            enabled: d.audioClipSelected
+            enabled: d.transactionController?.canAcquireReadLock === true && d.audioClipSelected
             onTriggered: Qt.callLater(() => d.addOn.extractPitch(d.selection.currentItem))
         }
     }
     ActionItem {
         actionId: "org.diffscope.synth.extract.separation"
         Action {
-            enabled: d.audioClipSelected
+            enabled: d.transactionController?.canAcquireReadLock === true && d.audioClipSelected
             onTriggered: Qt.callLater(() => d.addOn.separateAudio(d.selection.currentItem))
         }
     }

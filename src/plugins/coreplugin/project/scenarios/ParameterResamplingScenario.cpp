@@ -16,8 +16,10 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/FreeParameterResampling.h>
+#include <coreplugin/private/DocumentEditScenario_p.h>
 #include <coreplugin/private/DspxDocument_p.h>
 #include <transactional/TransactionController.h>
 
@@ -32,13 +34,22 @@ namespace Core {
     ParameterResamplingScenario::~ParameterResamplingScenario() = default;
 
     bool ParameterResamplingScenario::confirmPaste(const FreeParameterClipboardData &data, int targetStart) const {
+        return confirmPaste(data, targetStart, nullptr);
+    }
+
+    bool ParameterResamplingScenario::confirmPaste(const FreeParameterClipboardData &data, int targetStart, ProjectWindowInterface *windowHandle) const {
         if (Internal::BehaviorPreference::skipParameterResamplingCheck() ||
             !Internal::freeParameterRequiresResampling(data, targetStart)) {
             return true;
         }
-        TransactionController::ScopedReadLock readLock(document() ? document()->transactionController() : nullptr);
+        auto *target = document();
+        if (!target)
+            return false;
+        TransactionController::ScopedReadLock readLock(target->transactionController());
         if (!readLock) {
             qCWarning(lcParameterResamplingScenario) << "Could not acquire a document read lock.";
+            if (windowHandle)
+                windowHandle->sendOperationConflictNotification();
             return false;
         }
         return confirmResampling(tr("Pasting at this position requires resampling the parameter curve. Linear interpolation may change its shape.\n\nContinue to paste?"));
@@ -55,6 +66,7 @@ namespace Core {
         TransactionController::ScopedReadLock readLock(target->transactionController());
         if (!readLock) {
             qCWarning(lcParameterResamplingScenario) << "Could not acquire a document read lock.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
             return false;
         }
         if (warnAboutOverlap) {

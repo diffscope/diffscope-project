@@ -9,6 +9,7 @@ import QtQuick.Templates as T
 
 import SVSCraft
 import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
 
@@ -40,6 +41,7 @@ PropertyEditorGroupBox {
                     spacing: 16
                     topPadding: 8
                     Repeater {
+                        id: colorButtons
                         model: CoreInterface.trackColorSchema.colors
                         delegate: T.Button {
                             id: control
@@ -56,7 +58,14 @@ PropertyEditorGroupBox {
                                 border.width: control.checked ? 2 : 1
                             }
                             text: qsTr("Track Color %L1").arg(index + 1)
-                            onClicked: colorField.setValue(index)
+                            onClicked: {
+                                if (colorField.setValue(index))
+                                    return
+                                GlobalHelper.setProperty(control, "checked", false)
+                                const previousButton = colorButtons.itemAt(colorField.value ?? -1)
+                                if (previousButton)
+                                    GlobalHelper.setProperty(previousButton, "checked", true)
+                            }
                         }
                     }
                 }

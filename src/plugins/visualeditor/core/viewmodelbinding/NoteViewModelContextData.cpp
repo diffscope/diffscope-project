@@ -876,6 +876,8 @@ namespace VisualEditor {
         if (moveTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT moveTransactionStarted();
         } else {
+            qCWarning(lcNoteViewModelContextData) << "Failed to move a note because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT moveTransactionNotStarted();
         }
     }
@@ -907,6 +909,8 @@ namespace VisualEditor {
         if (adjustTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT adjustTransactionStarted();
         } else {
+            qCWarning(lcNoteViewModelContextData) << "Failed to adjust note length because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT adjustTransactionNotStarted();
         }
     }
@@ -942,6 +946,8 @@ namespace VisualEditor {
         if (drawTransactionId != Core::TransactionController::TransactionId::Invalid) {
             Q_EMIT drawTransactionStarted();
         } else {
+            qCWarning(lcNoteViewModelContextData) << "Failed to draw a note because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             if (targetNote && targetNote->noteSequence()) {
                 targetNote->noteSequence()->removeItem(targetNote);
             }
@@ -987,7 +993,7 @@ namespace VisualEditor {
     }
 
     void NoteViewModelContextData::onSplitCommittingStateEntered() {
-        document->splitItems(splitPosition);
+        document->splitItems(splitPosition, q_ptr->windowHandle());
         splitPosition = {};
     }
 
@@ -1000,6 +1006,8 @@ namespace VisualEditor {
             }
             Q_EMIT lyricTransactionStarted();
         } else {
+            qCWarning(lcNoteViewModelContextData) << "Failed to edit a lyric because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT lyricTransactionNotStarted();
         }
     }
@@ -1037,6 +1045,8 @@ namespace VisualEditor {
             }
             Q_EMIT additionalTextTransactionStarted();
         } else {
+            qCWarning(lcNoteViewModelContextData) << "Failed to edit a note annotation because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT additionalTextTransactionNotStarted();
         }
     }
@@ -1093,7 +1103,7 @@ namespace VisualEditor {
         position = qMax(0, timeManipulator.alignPosition(position + start, sflow::ScopicFlow::AO_Visible) - start);
         auto implicitNoteLength = qMax(1, qMax(PianoRollPanelInterface::of(q->windowHandle())->implicitNoteLength(), timeManipulator.timeLayoutViewModel()->positionAlignment()));
 
-        document->transactionController()->beginScopedTransaction(VisualEditor::NoteViewModelContextData::tr("Inserting note"), [=, &newNote, &success] {
+        const bool transactionStarted = document->transactionController()->beginScopedTransaction(VisualEditor::NoteViewModelContextData::tr("Inserting note"), [=, &newNote, &success] {
             newNote = document->model()->createNote();
             newNote->setPosition(position);
             newNote->setLength(implicitNoteLength);
@@ -1108,6 +1118,11 @@ namespace VisualEditor {
             return true;
         });
         
+        if (!transactionStarted) {
+            qCWarning(lcNoteViewModelContextData) << "Failed to insert a note because the transaction could not start.";
+            q->windowHandle()->sendOperationConflictNotification();
+            return;
+        }
         if (success && newNote) {
             qCInfo(lcNoteViewModelContextData) << "Note inserted successfully at position" << newNote->position() << "key" << newNote->keyNumber();
             document->selectionModel()->select(newNote, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
@@ -1136,13 +1151,17 @@ namespace VisualEditor {
                                            << "option:" << option 
                                            << "gap size:" << gapSize;
 
+        const auto onTransactionConflict = [this] {
+            qCWarning(lcNoteViewModelContextData) << "The fill gap transaction could not be started.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
+        };
         if (option == sflow::NoteEditLayerInteractionController::RippleDelete_Previous) {
             document->transactionController()->beginScopedTransaction(tr("Filling gap"), [=] {
                 const int newLength = nextItem->position() - note->position();
                 note->setLength(newLength);
                 qCDebug(lcNoteViewModelContextData) << "Extended current note length to" << newLength;
                 return true;
-            });
+            }, onTransactionConflict);
         } else if (option == sflow::NoteEditLayerInteractionController::RippleDelete_Next) {
             document->transactionController()->beginScopedTransaction(tr("Filling gap"), [=] {
                 const int newNextPos = note->position() + note->length();
@@ -1152,7 +1171,7 @@ namespace VisualEditor {
                 qCDebug(lcNoteViewModelContextData) << "Moved next note to position" << newNextPos 
                                                    << "and extended length to" << newNextLength;
                 return true;
-            });
+            }, onTransactionConflict);
         }
     }
 

@@ -9,6 +9,7 @@ import QtQuick.Layouts
 
 import SVSCraft
 import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
 import DiffScope.DspxModel as DspxModel
@@ -36,6 +37,8 @@ PropertyEditorGroupBox {
                     transactionId = a
                     return true
                 }
+                console.warn("The phoneme edit transaction could not be started.")
+                groupBox.windowHandle.sendOperationConflictNotification()
                 return false
             }
             function commitTransaction() {
@@ -80,13 +83,16 @@ PropertyEditorGroupBox {
                         Layout.fillWidth: true
                         uniformCellSizes: true
                         TextField {
+                            id: tokenField
                             text: phonemeRow.model.token
                             Layout.fillWidth: true
                             onEditingFinished: () => {
                                 if (text === phonemeRow.model.token)
                                     return
-                                if (!editor.beginTransaction())
+                                if (!editor.beginTransaction()) {
+                                    GlobalHelper.setProperty(tokenField, "text", phonemeRow.model.token)
                                     return
+                                }
                                 let editor_ = editor
                                 if (text.length !== 0) {
                                     phonemeRow.model.token = text
@@ -97,40 +103,49 @@ PropertyEditorGroupBox {
                             }
                         }
                         SpinBox {
+                            id: startSpinBox
                             from: -2147483648
                             to: 2147483647
                             value: phonemeRow.model.start
                             Layout.fillWidth: true
-                            onValueChanged: () => {
+                            onValueModified: () => {
                                 if (value === phonemeRow.model.start)
                                     return
-                                if (!editor.beginTransaction())
+                                if (!editor.beginTransaction()) {
+                                    GlobalHelper.setProperty(startSpinBox, "value", phonemeRow.model.start)
                                     return
+                                }
                                 phonemeRow.model.start = value
                                 editor.commitTransaction()
                             }
                         }
                         TextField {
+                            id: languageField
                             // TODO language selector
                             text: phonemeRow.model.language
                             Layout.fillWidth: true
                             onEditingFinished: () => {
                                 if (text === phonemeRow.model.language)
                                     return
-                                if (!editor.beginTransaction())
+                                if (!editor.beginTransaction()) {
+                                    GlobalHelper.setProperty(languageField, "text", phonemeRow.model.language)
                                     return
+                                }
                                 phonemeRow.model.language = text
                                 editor.commitTransaction()
                             }
                         }
                         CheckBox {
+                            id: onsetCheckBox
                             checked: phonemeRow.model.onset
                             Layout.fillWidth: true
                             onClicked: () => {
                                 if (checked === phonemeRow.model.onset)
                                     return
-                                if (!editor.beginTransaction())
+                                if (!editor.beginTransaction()) {
+                                    GlobalHelper.setProperty(onsetCheckBox, "checked", phonemeRow.model.onset)
                                     return
+                                }
                                 phonemeRow.model.onset = checked
                                 editor.commitTransaction()
                             }

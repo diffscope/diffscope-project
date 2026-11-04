@@ -223,6 +223,8 @@ namespace VisualEditor {
             pendingLoopLength = model->loopLength();
             Q_EMIT loopRangeTransactionStarted();
         } else {
+            qCWarning(lcPlaybackViewModelContextData) << "Failed to adjust the loop range because the transaction could not start.";
+            q_ptr->windowHandle()->sendOperationConflictNotification();
             Q_EMIT loopRangeTransactionNotStarted();
         }
     }

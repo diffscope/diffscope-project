@@ -107,9 +107,12 @@ namespace AudioVisualizer::Internal {
             readLock = std::make_shared<Core::TransactionController::ScopedReadLock>(document->transactionController());
             if (!*readLock) {
                 qCWarning(lcAudioFileDropAddOn) << "Could not acquire a document read lock.";
+                window->sendOperationConflictNotification();
                 return false;
             }
         } else if (!document->transactionController()->canBeginTransaction()) {
+            qCWarning(lcAudioFileDropAddOn) << "The audio import transaction cannot start.";
+            window->sendOperationConflictNotification();
             return false;
         }
         m_importing = true;
@@ -172,7 +175,8 @@ namespace AudioVisualizer::Internal {
                 readLock->release();
             const auto transaction = document->transactionController()->beginTransaction();
             if (transaction == Core::TransactionController::TransactionId::Invalid) {
-                window->sendNotification(SVS::SVSCraft::Warning, tr("Audio import failed"), tr("Audio files cannot be imported while another edit is active."));
+                qCWarning(lcAudioFileDropAddOn) << "The audio import transaction could not be started.";
+                window->sendOperationConflictNotification();
                 return;
             }
             QList<dspx::AudioClip *> clips;

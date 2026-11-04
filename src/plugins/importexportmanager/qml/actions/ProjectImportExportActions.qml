@@ -16,6 +16,7 @@ ActionCollection {
     id: d
 
     required property QtObject addOn
+    readonly property QtObject transactionController: addOn?.windowHandle?.projectDocumentContext?.document?.transactionController ?? null
 
     ActionItem {
         actionId: "org.diffscope.importexportmanager.file.export"
@@ -51,6 +52,7 @@ ActionCollection {
                         required property QtObject modelData
                         text: modelData?.name ?? ""
                         DescriptiveAction.statusTip: modelData?.description ?? ""
+                        enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
                         onTriggered: Qt.callLater(() => d.addOn.execImportTracks(modelData))
                     }
                 }

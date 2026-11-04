@@ -10,6 +10,8 @@
 
 #include <coreplugin/coreglobal.h>
 
+Q_MOC_INCLUDE(<coreplugin/ProjectWindowInterface.h>)
+
 namespace dspx {
     class Document;
     class Model;
@@ -23,6 +25,7 @@ namespace opendspx {
 namespace Core {
 
     class FreeParameterSelectionModel;
+    class ProjectWindowInterface;
     class TransactionController;
 
     class DspxDocumentPrivate;
@@ -60,15 +63,20 @@ namespace Core {
         bool pasteAvailable();
 
         Q_INVOKABLE void cutSelection(int playheadPosition = 0);
+        Q_INVOKABLE void cutSelection(int playheadPosition, Core::ProjectWindowInterface *windowHandle);
         Q_INVOKABLE void copySelection(int playheadPosition = 0);
         Q_INVOKABLE void paste(int playheadPosition = 0, PasteMode pasteMode = CurrentPosition);
+        Q_INVOKABLE void paste(int playheadPosition, PasteMode pasteMode, Core::ProjectWindowInterface *windowHandle);
         Q_INVOKABLE void deleteSelection();
+        Q_INVOKABLE void deleteSelection(Core::ProjectWindowInterface *windowHandle);
         Q_INVOKABLE void selectAll();
         Q_INVOKABLE void deselectAll();
         Q_INVOKABLE void splitItems(int position);
+        Q_INVOKABLE void splitItems(int position, Core::ProjectWindowInterface *windowHandle);
         Q_INVOKABLE bool isClipSingerLayoutIdentical() const;
         Q_INVOKABLE bool canSafelyBounce() const;
         Q_INVOKABLE void bounceToClip();
+        Q_INVOKABLE void bounceToClip(Core::ProjectWindowInterface *windowHandle);
 
         void loadModel(const opendspx::Model &model);
 

@@ -59,6 +59,8 @@ namespace Core {
 
         Q_INVOKABLE void boundTimelineRangeHint();
 
+        Q_INVOKABLE void sendOperationConflictNotification();
+
     protected:
         QWindow *createWindow(QObject *parent) const override;
 

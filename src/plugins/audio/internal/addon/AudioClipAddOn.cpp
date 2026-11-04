@@ -182,6 +182,7 @@ namespace Audio::Internal {
         Core::TransactionController::ScopedReadLock readLock(document->transactionController());
         if (!readLock) {
             qCWarning(lcAudioClipAddOn) << "Could not acquire a document read lock.";
+            windowInterface->sendOperationConflictNotification();
             return;
         }
 
@@ -245,8 +246,9 @@ namespace Audio::Internal {
         document->transactionController()->beginScopedTransaction(tr("Inserting audio clip"), [=, &importer, &newClip] {
             newClip = importer.insertClip(selectedTrack, clipPosition, clipName);
             return newClip != nullptr;
-        }, [] {
-            qCCritical(lcAudioClipAddOn) << "Failed to insert audio clip";
+        }, [windowInterface] {
+            qCWarning(lcAudioClipAddOn) << "Failed to insert audio clip because the transaction could not start.";
+            windowInterface->sendOperationConflictNotification();
         });
 
         if (newClip) {
@@ -269,8 +271,9 @@ namespace Audio::Internal {
         document->transactionController()->beginScopedTransaction(tr("Updating audio clip path"), [=] {
             clip->setPath(path);
             return true;
-        }, [] {
-            qCCritical(lcAudioClipAddOn) << "Failed to update audio clip path";
+        }, [windowInterface] {
+            qCWarning(lcAudioClipAddOn) << "Failed to update audio clip path because the transaction could not start.";
+            windowInterface->sendOperationConflictNotification();
         });
     }
 
@@ -296,8 +299,9 @@ namespace Audio::Internal {
         document->transactionController()->beginScopedTransaction(tr("Updating audio clip digest"), [=] {
             clip->setPath(path);
             return true;
-        }, [] {
-            qCCritical(lcAudioClipAddOn) << "Failed to update audio clip digest";
+        }, [windowInterface] {
+            qCWarning(lcAudioClipAddOn) << "Failed to update audio clip digest because the transaction could not start.";
+            windowInterface->sendOperationConflictNotification();
         });
     }
 
@@ -314,6 +318,7 @@ namespace Audio::Internal {
         Core::TransactionController::ScopedReadLock readLock(document->transactionController());
         if (!readLock) {
             qCWarning(lcAudioClipAddOn) << "Could not acquire a document read lock.";
+            windowInterface->sendOperationConflictNotification();
             return;
         }
 
@@ -335,8 +340,9 @@ namespace Audio::Internal {
             }
             clip->setPath(path);
             return true;
-        }, [] {
-            qCCritical(lcAudioClipAddOn) << "Failed to replace audio clip";
+        }, [windowInterface] {
+            qCWarning(lcAudioClipAddOn) << "Failed to replace audio clip because the transaction could not start.";
+            windowInterface->sendOperationConflictNotification();
         });
     }
 

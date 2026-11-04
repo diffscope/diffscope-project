@@ -19,6 +19,15 @@ QtObject {
     signal released()
     readonly property Connections sliderConnections: Connections {
         target: d.slider
+        function onActiveFocusChanged() {
+            if (d.slider.activeFocus || !d.keyPressing)
+                return
+            d.keyPressing = false
+            if (d.slider.pressed)
+                d.slider.pressed = false
+            else
+                d.released()
+        }
         function onPressedChanged() {
             if (d.keyPressing)
                 return

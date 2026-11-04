@@ -25,14 +25,8 @@
 <context>
     <name>AudioVisualizer::Internal::AudioFileDropAddOn</name>
     <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="163"/>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="200"/>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="216"/>
         <source>Audio import failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="163"/>
-        <source>Audio files cannot be imported while another edit is active.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

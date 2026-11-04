@@ -215,8 +215,11 @@ namespace Synth::Internal {
         const QPointer<dspx::AudioClip> guardedClip(clip);
         auto operation = std::make_unique<Operation>();
         operation->document = windowInterface->projectDocumentContext()->document();
-        if (!operation->document || !operation->readLock.acquire(operation->document->transactionController())) {
+        if (!operation->document)
+            return;
+        if (!operation->readLock.acquire(operation->document->transactionController())) {
             qCWarning(lcAudioExtractionScenario) << "Could not acquire a document read lock.";
+            windowInterface->sendOperationConflictNotification();
             return;
         }
         QString directory;
@@ -280,6 +283,7 @@ namespace Synth::Internal {
         auto &operation = *m_operation;
         if (!operation.readLock.acquire(operation.document->transactionController())) {
             qCWarning(lcAudioExtractionScenario) << "Could not acquire a document read lock.";
+            windowHandle()->cast<Core::ProjectWindowInterface>()->sendOperationConflictNotification();
             return;
         }
         auto clip = operation.source.data();
@@ -381,6 +385,7 @@ namespace Synth::Internal {
         auto &operation = *m_operation;
         if (!operation.readLock.acquire(operation.document->transactionController())) {
             qCWarning(lcAudioExtractionScenario) << "Could not acquire a document read lock.";
+            windowHandle()->cast<Core::ProjectWindowInterface>()->sendOperationConflictNotification();
             return;
         }
         auto document = operation.document.data();
@@ -396,7 +401,8 @@ namespace Synth::Internal {
         operation.readLock.release();
         const auto transaction = controller->beginTransaction();
         if (transaction == Core::TransactionController::TransactionId::Invalid) {
-            showError(tr("The tempo could not be applied while another edit is in progress."));
+            qCWarning(lcAudioExtractionScenario) << "The extracted tempo transaction could not be started.";
+            windowHandle()->cast<Core::ProjectWindowInterface>()->sendOperationConflictNotification();
             return;
         }
         qCDebug(lcAudioExtractionScenario) << "Entered committing state";
@@ -495,7 +501,8 @@ namespace Synth::Internal {
         operation.readLock.release();
         const auto transaction = controller->beginTransaction();
         if (transaction == Core::TransactionController::TransactionId::Invalid) {
-            showError(tr("The extracted tracks could not be inserted while another edit is in progress."));
+            qCWarning(lcAudioExtractionScenario) << "The extracted track insertion transaction could not be started.";
+            windowInterface->sendOperationConflictNotification();
             return;
         }
 

@@ -10,16 +10,20 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.Audio
+import DiffScope.Core
 
 ActionCollection {
     id: collection
 
     required property MidiRecordingAddOn addOn
+    readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
+    readonly property QtObject transactionController: windowHandle?.projectDocumentContext.document?.transactionController ?? null
 
     ActionItem {
         actionId: "org.diffscope.audio.playback.record"
         Action {
-            enabled: (collection.addOn?.recording ?? false) || (collection.addOn?.canRecord ?? false)
+            enabled: (collection.addOn?.recording ?? false)
+                     || (collection.transactionController?.canBeginTransaction === true && collection.addOn?.canRecord === true)
             onTriggered: Qt.callLater(() => collection.addOn.startRecording())
         }
     }

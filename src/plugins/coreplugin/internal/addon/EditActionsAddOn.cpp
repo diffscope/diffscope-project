@@ -5,8 +5,9 @@
 
 #include <algorithm>
 
-#include <QtGlobal>
+#include <QLoggingCategory>
 #include <QQmlComponent>
+#include <QtGlobal>
 
 #include <CoreApi/runtimeinterface.h>
 
@@ -40,6 +41,8 @@
 #include <coreplugin/NotificationMessage.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcEditActionsAddOn, "diffscope.core.editactionsaddon")
 
     using Direction = EditActionsAddOn::ShiftCursorDirection;
 
@@ -204,6 +207,9 @@ namespace Core::Internal {
                 note->setKeyNumber(p);
             }
             return true;
+        }, [windowInterface] {
+            qCWarning(lcEditActionsAddOn) << "The note pitch shift transaction could not be started.";
+            windowInterface->sendOperationConflictNotification();
         });
     }
 

@@ -348,6 +348,7 @@ Item {
 
     TimelineContextMenuHelper {
         timeline: view.timeline
+        windowHandle: view.pianoRollPanelInterface?.windowHandle ?? null
         window: view.Window.window
         projectTimeline: view.pianoRollPanelInterface?.windowHandle.projectTimeline ?? null
         document: view.pianoRollPanelInterface?.windowHandle.projectDocumentContext.document ?? null

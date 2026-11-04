@@ -94,6 +94,7 @@ PropertyEditorGroupBox {
                 visible: groupBox.audioClipAudioContext?.status === AudioClipAudioContext.FileMoved
                 display: AbstractButton.TextBesideIcon
                 action: Action {
+                    enabled: groupBox.windowHandle?.projectDocumentContext.document?.transactionController.canBeginTransaction === true
                     text: qsTr("Update Path")
                     onTriggered: () => {
                         AudioQmlHelper.getAudioClipAddOn(groupBox.windowHandle).updateAudioClipToIdenticallyMovedPath(groupBox.audioClip, groupBox.audioClipAudioContext.realAudioPath)
@@ -129,6 +130,7 @@ PropertyEditorGroupBox {
                          && Boolean(groupBox.audioClip?.path.digest)
                 display: AbstractButton.TextBesideIcon
                 action: Action {
+                    enabled: groupBox.windowHandle?.projectDocumentContext.document?.transactionController.canBeginTransaction === true
                     text: qsTr("Confirm the Change")
                     onTriggered: () => {
                         AudioQmlHelper.getAudioClipAddOn(groupBox.windowHandle).updateAudioClipDigest(groupBox.audioClip)
@@ -143,6 +145,7 @@ PropertyEditorGroupBox {
                          && !groupBox.audioClip?.path.digest
                 display: AbstractButton.TextBesideIcon
                 action: Action {
+                    enabled: groupBox.windowHandle?.projectDocumentContext.document?.transactionController.canBeginTransaction === true
                     text: qsTr("Confirm Current File")
                     onTriggered: () => {
                         AudioQmlHelper.getAudioClipAddOn(groupBox.windowHandle).updateAudioClipDigest(groupBox.audioClip)

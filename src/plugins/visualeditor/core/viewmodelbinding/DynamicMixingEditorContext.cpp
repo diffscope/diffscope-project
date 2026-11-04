@@ -8,6 +8,7 @@
 #include <limits>
 #include <utility>
 
+#include <QLoggingCategory>
 #include <QState>
 #include <QStateMachine>
 
@@ -31,6 +32,8 @@
 #include <visualeditor/ProjectViewModelContext.h>
 
 namespace VisualEditor {
+
+    Q_STATIC_LOGGING_CATEGORY(lcDynamicMixingEditorContext, "diffscope.visualeditor.dynamicmixingeditorcontext")
 
     DynamicMixingSelectionController::DynamicMixingSelectionController(
         DynamicMixingEditorContext *context)
@@ -421,6 +424,8 @@ namespace VisualEditor {
                                          : nullptr;
         transactionId = document->transactionController()->beginTransaction();
         if (transactionId == Core::TransactionController::TransactionId::Invalid) {
+            qCWarning(lcDynamicMixingEditorContext) << "The voice blending edit transaction could not be started.";
+            projectContext->windowHandle()->sendOperationConflictNotification();
             operation = Idle;
             rebuildPending = true;
             return false;

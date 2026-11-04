@@ -8,6 +8,7 @@ import QtQuick.Layouts
 
 import SVSCraft
 import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
 
@@ -53,13 +54,18 @@ PropertyEditorGroupBox {
                 Layout.fillWidth: true
                 label: qsTr("Maximum length")
                 rowItem: CheckBox {
+                    id: lengthFixedCheckBox
                     text: qsTr("Fix maximum length")
                     tristate: true
-                    checkState: lengthFixedField.propertyMapper?.inactive ? Qt.Unchecked : lengthFixedField.value === undefined ? Qt.PartiallyChecked : lengthFixedField.value ? Qt.Checked : Qt.Unchecked
+                    readonly property int modelCheckState: lengthFixedField.propertyMapper?.inactive ? Qt.Unchecked : lengthFixedField.value === undefined ? Qt.PartiallyChecked : lengthFixedField.value ? Qt.Checked : Qt.Unchecked
+                    checkState: modelCheckState
                     nextCheckState: function() {
                         return checkState === Qt.Checked ? Qt.Unchecked : Qt.Checked
                     }
-                    onClicked: lengthFixedField.setValue(checkState === Qt.Checked)
+                    onClicked: {
+                        if (!lengthFixedField.setValue(checkState === Qt.Checked))
+                            GlobalHelper.setProperty(lengthFixedCheckBox, "checkState", modelCheckState)
+                    }
                 }
                 columnItem: TextField {
                     text: groupBox.propertyMapper?.length === 0 ? qsTr("Limitless") : groupBox.propertyMapper?.length === undefined ? "" : groupBox.propertyMapper.length

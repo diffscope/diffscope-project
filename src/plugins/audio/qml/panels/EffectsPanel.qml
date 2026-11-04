@@ -16,6 +16,7 @@ QtObject {
     id: root
 
     required property QtObject addOn
+    readonly property QtObject transactionController: addOn?.windowHandle?.projectDocumentContext?.document?.transactionController ?? null
 
     readonly property Component panelComponent: ActionDockingPane {
         id: pane
@@ -23,6 +24,8 @@ QtObject {
 
         MenuAction {
             id: addAction
+            enabled: root.transactionController?.canBeginTransaction === true
+                     && (root.addOn?.hasEffectsContext ?? false) && (root.addOn?.availableEffects.length ?? 0) > 0
             menu: Menu {
                 id: addMenu
                 title: qsTr("Add Effect")
@@ -47,7 +50,6 @@ QtObject {
                 id: addButton
                 text: qsTr("Add Effect")
                 display: AbstractButton.IconOnly
-                enabled: (root.addOn?.hasEffectsContext ?? false) && (root.addOn?.availableEffects.length ?? 0) > 0
                 action: addAction
             }
             ToolButton {

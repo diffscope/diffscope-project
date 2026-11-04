@@ -1522,11 +1522,6 @@ X-Custom-Header-2: bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="463"/>
-        <source>The extracted tracks could not be inserted while another edit is in progress.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="481"/>
         <source>%1
 Some files could not be restored. Backups are in %2.
@@ -1602,11 +1597,6 @@ Some files could not be restored. Backups are in %2.
         <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="352"/>
         <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="431"/>
         <source>The audio clip or project timeline changed. Extract the tempo again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="369"/>
-        <source>The tempo could not be applied while another edit is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

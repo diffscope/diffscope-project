@@ -4686,6 +4686,16 @@ Do you want to save as a new file or overwrite it?</translation>
         <source>Untitled</source>
         <translation type="obsolete">Untitled</translation>
     </message>
+    <message>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="252"/>
+        <source>Operation Conflict</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="253"/>
+        <source>Please wait until the current operation is complete before proceeding.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Core::SingerInfoProvider</name>

@@ -35,15 +35,20 @@ PropertyEditorGroupBox {
             key: ""
             transactionName: qsTr("Editing key signature")
             MusicModeMaskSelector {
+                id: modeSelector
+                readonly property int modelMode: groupBox.propertyMapper?.mode ?? 0
+                readonly property int modelTonality: groupBox.propertyMapper?.tonality ?? -1
                 Layout.fillWidth: true
-                mode: groupBox.propertyMapper?.mode !== undefined ? groupBox.propertyMapper.mode : 0
-                tonality: groupBox.propertyMapper?.tonality !== undefined ? groupBox.propertyMapper.tonality : -1
+                mode: modelMode
+                tonality: modelTonality
                 onModified: () => {
                     if (mode === groupBox.propertyMapper?.mode && tonality === groupBox.propertyMapper?.tonality)
                         return
-                    pianoField.beginTransaction()
-                    if (!pianoField.transactionId)
+                    if (!pianoField.beginTransaction()) {
+                        GlobalHelper.setProperty(modeSelector, "mode", modelMode)
+                        GlobalHelper.setProperty(modeSelector, "tonality", modelTonality)
                         return
+                    }
                     pianoField.propertyMapper.mode = mode
                     pianoField.propertyMapper.tonality = tonality
                     pianoField.commitTransaction()
@@ -65,7 +70,10 @@ PropertyEditorGroupBox {
                     model: ["C", "C\u266f/D\u266d", "D", "D\u266f/E\u266d", "E", "F", "F\u266f/G\u266d", "G", "G\u266f/A\u266d", "A", "A\u266f/B\u266d", "B"]
                     enabled: groupBox.propertyMapper?.mode !== 0
                     currentIndex: tonalityField.value !== undefined ? tonalityField.value : -1
-                    onActivated: (index) => tonalityField.setValue(index)
+                    onActivated: (index) => {
+                        if (!tonalityField.setValue(index))
+                            GlobalHelper.setProperty(tonalityComboBox, "currentIndex", tonalityField.value ?? -1)
+                    }
                 }
             }
         }
@@ -86,7 +94,10 @@ PropertyEditorGroupBox {
                     model: SVS.getBuiltInMusicModeInfoList()
                     displayText: modeField.value === undefined ? "" : currentText.length ? currentText : qsTr("Custom Mode")
                     currentValue: modeField.value
-                    onActivated: (index) => modeField.setValue(valueAt(index))
+                    onActivated: (index) => {
+                        if (!modeField.setValue(valueAt(index)))
+                            GlobalHelper.setProperty(modeComboBox, "currentValue", modeField.value)
+                    }
                 }
             }
         }
@@ -112,22 +123,30 @@ PropertyEditorGroupBox {
                         spacing: 0
                         anchors.fill: parent
                         ToolButton {
+                            id: flatButton
                             Layout.fillWidth: true
                             ThemedItem.controlType: SVS.CT_Accent
                             icon.source: "qrc:/diffscope/coreplugin/icons/accidental_flat.svg"
                             text: qsTr("Flat")
                             checkable: true
                             checked: accidentalTypeField.value === 0
-                            onClicked: accidentalTypeField.setValue(0)
+                            onClicked: {
+                                accidentalTypeField.setValue(0)
+                                GlobalHelper.setProperty(flatButton, "checked", accidentalTypeField.value === 0)
+                            }
                         }
                         ToolButton {
+                            id: sharpButton
                             Layout.fillWidth: true
                             ThemedItem.controlType: SVS.CT_Accent
                             icon.source: "qrc:/diffscope/coreplugin/icons/accidental_sharp.svg"
                             text: qsTr("Sharp")
                             checkable: true
                             checked: accidentalTypeField.value === 1
-                            onClicked: accidentalTypeField.setValue(1)
+                            onClicked: {
+                                accidentalTypeField.setValue(1)
+                                GlobalHelper.setProperty(sharpButton, "checked", accidentalTypeField.value === 1)
+                            }
                         }
                     }
                     Rectangle {

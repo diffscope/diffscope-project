@@ -58,6 +58,7 @@ namespace Core {
         TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
         if (!readLock) {
             qCWarning(lcEditLoopScenario) << "Could not acquire a document read lock.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
             return;
         }
 
@@ -102,8 +103,9 @@ namespace Core {
             dspxModel->setLoopStart(startPosition);
             dspxModel->setLoopLength(loopLength);
             return true;
-        }, [] {
-            qCCritical(lcEditLoopScenario) << "Failed to edit loop";
+        }, [this] {
+            qCWarning(lcEditLoopScenario) << "Failed to edit loop because the transaction could not start.";
+            DocumentEditScenarioPrivate::sendOperationConflictNotification(window());
         });
     }
 

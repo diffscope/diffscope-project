@@ -8,6 +8,7 @@ import QtQuick.Layouts
 
 import SVSCraft
 import SVSCraft.UIComponents
+import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
 
@@ -33,15 +34,8 @@ AbstractPropertyEditorField {
             to: d.to
             contentItem.visible: d.value !== undefined
             onValueModified: () => {
-                if (!helper.buttonPressed) {
-                    d.beginTransaction()
-                }
-                if (!d.transactionId)
-                    return
-                d.propertyMapper[d.key] = value
-                if (!helper.buttonPressed) {
-                    d.commitTransaction()
-                }
+                if (!d.setValue(value, helper.editing))
+                    GlobalHelper.setProperty(control, "value", d.value ?? 0)
             }
             SpinBoxPressedHelper {
                 id: helper

@@ -6,10 +6,14 @@
 
 #include <QCursor>
 #include <QQmlComponent>
-#include <QQuickWindow>
 #include <QQuickItem>
+#include <QQuickWindow>
 
+#include <CoreApi/windowsystem.h>
+
+#include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
+#include <coreplugin/ProjectWindowInterface.h>
 
 namespace Core {
 
@@ -20,6 +24,16 @@ namespace Core {
         QMetaObject::invokeMethod(dialog, "open");
         eventLoop.exec();
         return dialog->property("result").toInt() == 1;
+    }
+
+    void DocumentEditScenarioPrivate::sendOperationConflictNotification(QQuickWindow *window) {
+        auto *windowSystem = CoreInterface::windowSystem();
+        for (QWindow *candidate = window; candidate; candidate = candidate->transientParent()) {
+            if (auto *windowInterface = qobject_cast<ProjectWindowInterface *>(windowSystem->findWindow(candidate))) {
+                windowInterface->sendOperationConflictNotification();
+                return;
+            }
+        }
     }
 
     DocumentEditScenario::DocumentEditScenario(QObject *parent)
