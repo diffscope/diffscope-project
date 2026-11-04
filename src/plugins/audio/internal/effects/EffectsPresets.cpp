@@ -154,7 +154,7 @@ namespace Audio::Internal {
 
     void EffectsPresets::load() {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.effectsPresets"));
 
         m_presets.clear();
         const auto presets = settings->value(QStringLiteral("presets")).toList();
@@ -172,7 +172,7 @@ namespace Audio::Internal {
 
     void EffectsPresets::save() const {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.effectsPresets"));
 
         QVariantList presets;
         presets.reserve(m_presets.size());

@@ -67,7 +67,7 @@ namespace VisualEditor::Internal {
     void EditorPreference::load() {
         Q_D(EditorPreference);
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.visualeditor.preference"));
         d->alternateAxisModifier = settings->value("alternateAxisModifier", QVariant::fromValue(SM_Alt)).value<ScrollModifier>();
         emit alternateAxisModifierChanged();
         d->zoomModifier = settings->value("zoomModifier", QVariant::fromValue(SM_Control)).value<ScrollModifier>();
@@ -134,7 +134,7 @@ namespace VisualEditor::Internal {
     void EditorPreference::save() const {
         Q_D(const EditorPreference);
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.visualeditor.preference"));
         settings->setValue("alternateAxisModifier", static_cast<int>(d->alternateAxisModifier));
         settings->setValue("zoomModifier", static_cast<int>(d->zoomModifier));
         settings->setValue("pageModifier", static_cast<int>(d->pageModifier));

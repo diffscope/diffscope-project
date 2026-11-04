@@ -51,7 +51,7 @@ ActionCollection {
 
         Action {
             enabled: collection.usable
-            onTriggered: collection.addOn.workspaceManager.currentLayout = collection.addOn.workspaceManager.defaultLayout
+            onTriggered: collection.addOn.workspaceManager.applyDefaultLayout()
         }
     }
 
@@ -92,7 +92,7 @@ ActionCollection {
 
                     MenuItem {
                         text: qsTr("Apply")
-                        onTriggered: collection.addOn.workspaceManager.currentLayout = modelData
+                        onTriggered: collection.addOn.workspaceManager.applyCustomLayout(modelData)
                     }
 
                     MenuItem {

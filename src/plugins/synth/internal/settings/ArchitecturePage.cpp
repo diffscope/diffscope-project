@@ -55,7 +55,7 @@ namespace Synth::Internal {
 
     void ArchitecturePage::beginSetting() {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QStringLiteral("org.diffscope.synth"));
+        settings->beginGroup(QStringLiteral("org.diffscope.synth.architecture"));
         QJsonParseError error;
         const auto document = QJsonDocument::fromJson(
             settings->value(QStringLiteral("architectureExtras")).toByteArray(), &error
@@ -84,7 +84,7 @@ namespace Synth::Internal {
         }
 
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QStringLiteral("org.diffscope.synth"));
+        settings->beginGroup(QStringLiteral("org.diffscope.synth.architecture"));
         settings->setValue(QStringLiteral("architectureExtras"), QJsonDocument(entries).toJson(QJsonDocument::Compact));
         settings->setValue(QStringLiteral("architectureControlPanelProviders"), QJsonDocument(providers).toJson(QJsonDocument::Compact));
         settings->endGroup();

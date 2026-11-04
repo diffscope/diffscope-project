@@ -7,6 +7,7 @@
 #include <cmath>
 #include <limits>
 
+#include <QDir>
 #include <QFile>
 #include <QLocale>
 #include <QLoggingCategory>
@@ -18,6 +19,8 @@
 #include <QSslSocket>
 #include <QVariantMap>
 #include <QtConcurrent/QtConcurrentRun>
+
+#include <CoreApi/applicationinfo.h>
 
 #include <synth/internal/SynthService.h>
 
@@ -34,11 +37,18 @@ namespace Synth::Internal {
             return left.scheme() == right.scheme() && left.host() == right.host() && port(left) == port(right);
         }
 
+        QString temporaryDirectoryPath(const QString &name) {
+            const auto base = QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::TempData)).filePath(QStringLiteral("synth"));
+            QDir().mkpath(base);
+            return QDir(base).filePath(name + QStringLiteral("-XXXXXX"));
+        }
+
     }
 
     AudioExtractionTask::AudioExtractionTask(Type type, QObject *parent)
         : QObject(parent), m_type(type), m_client(this), m_network(new QNetworkAccessManager(this)),
-          m_cancelled(std::make_shared<std::atomic_bool>(false)) {
+          m_cancelled(std::make_shared<std::atomic_bool>(false)),
+          m_temporaryDirectory(temporaryDirectoryPath(QStringLiteral("extraction"))) {
     }
 
     AudioExtractionTask::~AudioExtractionTask() {

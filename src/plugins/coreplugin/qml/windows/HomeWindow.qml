@@ -45,7 +45,7 @@ HomeWindow {
     onNewFileRequested: () => {
         windowHandle.triggerAction("org.diffscope.core.file.new", homeWindow.contentItem)
     }
-    property var panelStateCache: settings.value("panelData") ?? []
+    property var panelStateCache: stateSettings.value("panelData") ?? []
     property bool rebuildingPanels: false
     property var activePanelKey: null
 
@@ -148,8 +148,13 @@ HomeWindow {
     Settings {
         id: settings
         settings: RuntimeInterface.settings
-        category: "DiffScope.Core.HomeWindow"
+        category: "org.diffscope.core.homeWindow"
         property alias recentFilesIsListView: homeWindow.recentFilesIsListView
+    }
+    Settings {
+        id: stateSettings
+        settings: RuntimeInterface.state
+        category: "org.diffscope.core.homeWindow"
     }
 
     onClosing: () => {
@@ -163,6 +168,6 @@ HomeWindow {
                 state
             })
         }
-        settings.setValue("panelData", a)
+        stateSettings.setValue("panelData", a)
     }
 }

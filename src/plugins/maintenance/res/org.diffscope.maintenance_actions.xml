@@ -22,9 +22,14 @@ SPDX-License-Identifier: Apache-2.0
         <phony id="org.diffscope.core.mainMenu" />
 
         <action id="org.diffscope.maintenance.diagnosis.generateDiagnosticReport^" category="Diagnosis" description="Save diagnostic information to a file for troubleshooting." />
-        <action id="org.diffscope.maintenance.diagnosis.openLogsDirectory" category="Diagnosis" />
+        <action id="org.diffscope.maintenance.diagnosis.openConfigDirectory" category="Diagnosis" />
         <action id="org.diffscope.maintenance.diagnosis.openDataDirectory" category="Diagnosis" />
-        <action id="org.diffscope.maintenance.diagnosis.openPluginsDirectory" category="Diagnosis" />
+        <action id="org.diffscope.maintenance.diagnosis.openStateDirectory" category="Diagnosis" />
+        <action id="org.diffscope.maintenance.diagnosis.openCacheDirectory" category="Diagnosis" />
+        <action id="org.diffscope.maintenance.diagnosis.openLogsDirectory" category="Diagnosis" />
+        <action id="org.diffscope.maintenance.diagnosis.openBuiltinPluginsDirectory" category="Diagnosis" text="Open Built-in Plugins Directory" />
+        <action id="org.diffscope.maintenance.diagnosis.openSystemPluginsDirectory" category="Diagnosis" />
+        <action id="org.diffscope.maintenance.diagnosis.openUserPluginsDirectory" category="Diagnosis" />
         <action id="org.diffscope.maintenance.diagnosis.viewJson" category="Diagnosis" text="View JSON Code of Project" description="Open a snapshot of the current project as JSON in the default app." />
         <action id="org.diffscope.maintenance.getInvolved.reportIssue" category="Get Involved" description="Open the issue tracker for bug reports, feature requests, or support." />
         <action id="org.diffscope.maintenance.getInvolved.contribute" category="Get Involved" text="Contribute to ${APP_NAME}" description="Open the guide to contributing to DiffScope." />
@@ -43,9 +48,14 @@ SPDX-License-Identifier: Apache-2.0
             <action id="org.diffscope.maintenance.diagnosis.generateDiagnosticReport" />
             <action id="org.diffscope.maintenance.diagnosis.viewJson" />
             <group id="org.diffscope.maintenance.diagnosis.openDirectoryActions">
-                <action id="org.diffscope.maintenance.diagnosis.openLogsDirectory" />
+                <action id="org.diffscope.maintenance.diagnosis.openConfigDirectory" />
                 <action id="org.diffscope.maintenance.diagnosis.openDataDirectory" />
-                <action id="org.diffscope.maintenance.diagnosis.openPluginsDirectory" />
+                <action id="org.diffscope.maintenance.diagnosis.openStateDirectory" />
+                <action id="org.diffscope.maintenance.diagnosis.openCacheDirectory" />
+                <action id="org.diffscope.maintenance.diagnosis.openLogsDirectory" />
+                <action id="org.diffscope.maintenance.diagnosis.openBuiltinPluginsDirectory" />
+                <action id="org.diffscope.maintenance.diagnosis.openSystemPluginsDirectory" />
+                <action id="org.diffscope.maintenance.diagnosis.openUserPluginsDirectory" />
             </group>
         </menu>
 

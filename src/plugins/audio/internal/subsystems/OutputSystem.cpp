@@ -139,7 +139,7 @@ namespace Audio::Internal {
 
     void OutputSystem::load() {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.output"));
         m_adoptedBufferSize = settings->value("adoptedBufferSize").value<qint64>();
         m_adoptedSampleRate = settings->value("adoptedSampleRate").value<double>();
         m_hotPlugNotificationMode = static_cast<talcs::OutputContext::HotPlugNotificationMode>(settings->value("hotPlugNotificationMode", talcs::OutputContext::HotPlugNotificationMode::Omni).toInt());
@@ -151,7 +151,7 @@ namespace Audio::Internal {
 
     void OutputSystem::save() const {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.output"));
         settings->setValue("adoptedBufferSize", m_adoptedBufferSize);
         settings->setValue("adoptedSampleRate", m_adoptedSampleRate);
         settings->setValue("hotPlugNotificationMode", m_hotPlugNotificationMode);

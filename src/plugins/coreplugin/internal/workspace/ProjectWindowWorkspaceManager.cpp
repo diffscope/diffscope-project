@@ -9,6 +9,7 @@
 
 #include <QLoggingCategory>
 #include <QSettings>
+#include <QVariantMap>
 
 #include <CoreApi/runtimeinterface.h>
 
@@ -33,8 +34,21 @@ namespace Core::Internal {
         return m_currentLayout;
     }
 
-    void ProjectWindowWorkspaceManager::setCurrentLayout(const ProjectWindowWorkspaceLayout &layout) {
+    void ProjectWindowWorkspaceManager::setCurrentLayoutSnapshot(const ProjectWindowWorkspaceLayout &layout) {
         m_currentLayout = layout;
+    }
+
+    void ProjectWindowWorkspaceManager::applyDefaultLayout() {
+        setCurrentLayout(defaultLayout(), false);
+    }
+
+    void ProjectWindowWorkspaceManager::applyCustomLayout(const ProjectWindowWorkspaceLayout &layout) {
+        setCurrentLayout(layout, true);
+    }
+
+    void ProjectWindowWorkspaceManager::setCurrentLayout(const ProjectWindowWorkspaceLayout &layout, bool isCustom) {
+        m_currentLayout = layout;
+        m_currentLayoutIsCustom = isCustom;
         Q_EMIT currentLayoutChanged();
     }
 
@@ -98,24 +112,39 @@ namespace Core::Internal {
     void ProjectWindowWorkspaceManager::load() {
         qCDebug(lcProjectWindowWorkspaceManager) << "Loading settings";
         auto settings = RuntimeInterface::settings();
-        auto map = settings->value(staticMetaObject.className()).toMap();
-        if (!map.contains("currentLayout") || !map.contains("customLayouts")) {
-            qCDebug(lcProjectWindowWorkspaceManager) << "No settings found, using default layout";
-            setCurrentLayout(defaultLayout());
-            return;
-        }
-        auto currentLayout = ProjectWindowWorkspaceLayout::fromVariant(map.value("currentLayout"));
-        if (!currentLayout.isValid()) {
-            qCWarning(lcProjectWindowWorkspaceManager) << "Invalid current layout, using default layout";
-            currentLayout = defaultLayout();
-        }
-        auto customLayoutsVariants = map.value("customLayouts").toList();
+        settings->beginGroup(QStringLiteral("org.diffscope.core.workspace"));
+        auto customLayoutsVariants = settings->value(QStringLiteral("customLayouts")).toList();
+        const auto selection = settings->value(QStringLiteral("currentLayoutSelection")).toMap();
+        settings->endGroup();
+
+        auto state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.workspace"));
+        const auto snapshot = state->value(QStringLiteral("currentLayout")).toMap();
+        state->endGroup();
+
         QList<ProjectWindowWorkspaceLayout> customLayouts;
         std::ranges::transform(customLayoutsVariants, std::back_inserter(customLayouts), [](const auto &v) {
             return ProjectWindowWorkspaceLayout::fromVariant(v);
         });
-        setCurrentLayout(currentLayout);
         customLayouts.removeIf([](const auto &v) { return !v.isValid(); });
+
+        auto currentLayout = ProjectWindowWorkspaceLayout::fromVariant(snapshot.value(QStringLiteral("layout")));
+        auto isCustom = (currentLayout.isValid() ? snapshot : selection).value(QStringLiteral("isCustom")).toBool();
+        if (!currentLayout.isValid() && isCustom) {
+            const auto name = selection.value(QStringLiteral("name")).toString();
+            const auto it = std::ranges::find_if(customLayouts, [&](const auto &layout) {
+                return layout.name() == name;
+            });
+            if (it != customLayouts.end()) {
+                currentLayout = *it;
+            }
+        }
+        if (!currentLayout.isValid()) {
+            qCDebug(lcProjectWindowWorkspaceManager) << "No valid current layout found, using default layout";
+            currentLayout = defaultLayout();
+            isCustom = false;
+        }
+        setCurrentLayout(currentLayout, isCustom);
         setCustomLayouts(customLayouts);
     }
 
@@ -126,13 +155,21 @@ namespace Core::Internal {
         std::ranges::transform(m_customLayouts, std::back_inserter(customLayoutsVariants), [](const auto &v) {
             return v.toVariant();
         });
-        settings->setValue(
-            staticMetaObject.className(),
-            QVariantMap{
-                {"currentLayout", m_currentLayout.toVariant()},
-                {"customLayouts", customLayoutsVariants},
-            }
-        );
+        settings->beginGroup(QStringLiteral("org.diffscope.core.workspace"));
+        settings->setValue(QStringLiteral("customLayouts"), customLayoutsVariants);
+        settings->setValue(QStringLiteral("currentLayoutSelection"), QVariantMap{
+            {QStringLiteral("isCustom"), m_currentLayoutIsCustom},
+            {QStringLiteral("name"), m_currentLayout.name()},
+        });
+        settings->endGroup();
+
+        auto state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.workspace"));
+        state->setValue(QStringLiteral("currentLayout"), QVariantMap{
+            {QStringLiteral("isCustom"), m_currentLayoutIsCustom},
+            {QStringLiteral("layout"), m_currentLayout.toVariant()},
+        });
+        state->endGroup();
     }
 }
 

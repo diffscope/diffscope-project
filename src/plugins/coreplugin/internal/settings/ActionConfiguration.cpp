@@ -41,7 +41,7 @@ namespace Core::Internal {
 
     void ActionConfiguration::load() {
         auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.core.action"));
         const auto layoutData = QJsonDocument::fromJson(settings->value("layoutChanges").toByteArray());
         const auto keymapData = QJsonDocument::fromJson(settings->value("keymapPresets").toByteArray());
         m_currentKeymapId = settings->value("currentKeymapId").toString();
@@ -101,13 +101,13 @@ namespace Core::Internal {
             array.append(change.toJsonObject());
         }
         auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.core.action"));
         const auto previous = settings->value("layoutChanges");
         settings->setValue("layoutChanges", QJsonDocument(array).toJson(QJsonDocument::Compact));
         settings->endGroup();
         settings->sync();
         if (settings->status() != QSettings::NoError) {
-            settings->beginGroup(staticMetaObject.className());
+            settings->beginGroup(QStringLiteral("org.diffscope.core.action"));
             if (previous.isValid()) {
                 settings->setValue("layoutChanges", previous);
             } else {
@@ -140,7 +140,7 @@ namespace Core::Internal {
             }
         }
         auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.core.action"));
         const auto previousPresets = settings->value("keymapPresets");
         const auto previousId = settings->value("currentKeymapId");
         settings->setValue("keymapPresets", QJsonDocument(array).toJson(QJsonDocument::Compact));
@@ -148,7 +148,7 @@ namespace Core::Internal {
         settings->endGroup();
         settings->sync();
         if (settings->status() != QSettings::NoError) {
-            settings->beginGroup(staticMetaObject.className());
+            settings->beginGroup(QStringLiteral("org.diffscope.core.action"));
             if (previousPresets.isValid()) {
                 settings->setValue("keymapPresets", previousPresets);
             } else {

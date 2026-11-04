@@ -41,31 +41,16 @@ namespace Audio {
         d->formatManager->addEntry(new talcs::WavpackFormatEntry);
 
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.playback"));
         d->metronomeEnabled = settings->value(QStringLiteral("metronomeEnabled"), false).toBool();
         d->metronomeGain = settings->value(QStringLiteral("metronomeGain"), 1.0).toDouble();
         d->metronomePan = settings->value(QStringLiteral("metronomePan"), 0.0).toDouble();
-        const bool hasDeviceGain = settings->contains(QStringLiteral("deviceGain"));
-        const bool hasDevicePan = settings->contains(QStringLiteral("devicePan"));
+        settings->endGroup();
+
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.output"));
         d->deviceGain = settings->value(QStringLiteral("deviceGain"), 1.0).toDouble();
         d->devicePan = settings->value(QStringLiteral("devicePan"), 0.0).toDouble();
         settings->endGroup();
-
-        if (!hasDeviceGain || !hasDevicePan) {
-            settings->beginGroup(Internal::OutputSystem::staticMetaObject.className());
-            if (!hasDeviceGain) {
-                d->deviceGain = settings->value(QStringLiteral("deviceGain"), 1.0).toDouble();
-            }
-            if (!hasDevicePan) {
-                d->devicePan = settings->value(QStringLiteral("devicePan"), 0.0).toDouble();
-            }
-            settings->endGroup();
-
-            settings->beginGroup(staticMetaObject.className());
-            settings->setValue(QStringLiteral("deviceGain"), d->deviceGain);
-            settings->setValue(QStringLiteral("devicePan"), d->devicePan);
-            settings->endGroup();
-        }
 
         outputContext()->controlMixer()->setGain(static_cast<float>(d->deviceGain));
         outputContext()->controlMixer()->setPan(static_cast<float>(d->devicePan));
@@ -135,7 +120,7 @@ namespace Audio {
         }
 
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.playback"));
         settings->setValue(QStringLiteral("metronomeEnabled"), enabled);
         settings->endGroup();
         Q_EMIT m_instance->metronomeEnabledChanged(enabled);
@@ -160,7 +145,7 @@ namespace Audio {
         }
 
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.playback"));
         settings->setValue(QStringLiteral("metronomeGain"), gain);
         settings->endGroup();
         Q_EMIT m_instance->metronomeGainChanged(gain);
@@ -185,7 +170,7 @@ namespace Audio {
         }
 
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.playback"));
         settings->setValue(QStringLiteral("metronomePan"), pan);
         settings->endGroup();
         Q_EMIT m_instance->metronomePanChanged(pan);
@@ -211,7 +196,7 @@ namespace Audio {
 
         outputContext()->controlMixer()->setGain(static_cast<float>(gain));
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.output"));
         settings->setValue(QStringLiteral("deviceGain"), gain);
         settings->endGroup();
         Q_EMIT m_instance->deviceGainChanged(gain);
@@ -237,7 +222,7 @@ namespace Audio {
 
         outputContext()->controlMixer()->setPan(static_cast<float>(pan));
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.output"));
         settings->setValue(QStringLiteral("devicePan"), pan);
         settings->endGroup();
         Q_EMIT m_instance->devicePanChanged(pan);

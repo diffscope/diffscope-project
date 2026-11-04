@@ -79,6 +79,7 @@ namespace Audio::Internal {
     private:
         friend class AudioPlugin;
         struct Preset {
+            QString id;
             QString name;
             AudioExporterConfig config;
         };
@@ -90,9 +91,6 @@ namespace Audio::Internal {
         };
 
         explicit AudioExporterPresets(QObject *parent = nullptr);
-
-        static QString selectionTypeToString(SelectionType selectionType);
-        static SelectionType selectionTypeFromString(const QString &value);
 
         void initializeBuiltinPresets();
         void rebuildModel();
@@ -107,6 +105,7 @@ namespace Audio::Internal {
         SelectionType m_selectionType{SelectionType::Builtin};
         int m_currentBuiltinIndex{};
         QString m_currentCustomName;
+        QString m_currentPresetId;
         QStandardItemModel *m_model{};
         int m_currentIndex{};
     };

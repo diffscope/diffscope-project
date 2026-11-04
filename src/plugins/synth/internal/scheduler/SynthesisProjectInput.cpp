@@ -66,7 +66,7 @@ namespace Synth::Internal::ProjectInput {
 
         double configuredSampleRate(const QString &key, double fallback) {
             auto settings = Core::RuntimeInterface::settings();
-            settings->beginGroup(QStringLiteral("org.diffscope.synth"));
+            settings->beginGroup(QStringLiteral("org.diffscope.synth.synthesis"));
             const double value = settings->value(key, fallback).toDouble();
             settings->endGroup();
             return std::max(1.0, value);
@@ -106,7 +106,7 @@ namespace Synth::Internal::ProjectInput {
 
         QJsonValue architectureExtra(const QString &architectureId) {
             auto settings = Core::RuntimeInterface::settings();
-            settings->beginGroup(QStringLiteral("org.diffscope.synth"));
+            settings->beginGroup(QStringLiteral("org.diffscope.synth.architecture"));
             const auto encoded = settings->value(QStringLiteral("architectureExtras")).toByteArray();
             settings->endGroup();
             QJsonParseError error;
@@ -275,7 +275,7 @@ namespace Synth::Internal::ProjectInput {
             return;
         }
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QStringLiteral("org.diffscope.synth"));
+        settings->beginGroup(QStringLiteral("org.diffscope.synth.synthesis"));
         divider->setPaddingBase(settings->value(QStringLiteral("piecePaddingBaseMs"), 100.0).toDouble());
         divider->setPaddingAdditional(settings->value(QStringLiteral("piecePaddingAdditionalMs"), 100.0).toDouble());
         divider->setPaddingGap(settings->value(QStringLiteral("piecePaddingGapMs"), 200.0).toDouble());

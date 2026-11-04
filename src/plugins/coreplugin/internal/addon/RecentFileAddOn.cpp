@@ -162,7 +162,7 @@ namespace Core::Internal {
     }
 
     static QString recoveryRootPath() {
-        return QDir(ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData)).filePath(QStringLiteral("recovery"));
+        return QDir(ApplicationInfo::applicationLocation(ApplicationInfo::State)).filePath(QStringLiteral("recovery"));
     }
 
     static QString latestUnsavedProjectPath() {

@@ -17,6 +17,7 @@
 #include <QJsonDocument>
 
 #include <CoreApi/runtimeinterface.h>
+#include <CoreApi/applicationinfo.h>
 
 #include <SVSCraftQuick/MessageBox.h>
 
@@ -82,7 +83,7 @@ namespace Maintenance {
 
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         auto attemptWrite = [&](const QString &sessionId) -> std::optional<QString> {
-            auto path = QDir(QDir::tempPath()).filePath(sessionId + QStringLiteral(".json"));
+            auto path = QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::TempData)).filePath(sessionId + QStringLiteral(".json"));
             QSaveFile file(path);
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
                 qCWarning(lcViewJsonAddOn) << "Failed to open the file for writing" << path << file.errorString();
@@ -104,7 +105,7 @@ namespace Maintenance {
             generateSessionId();
             path = attemptWrite(m_sessionId);
             if (!path) {
-                auto errorPath = QDir(QDir::tempPath()).filePath(m_sessionId + QStringLiteral(".json"));
+                auto errorPath = QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::TempData)).filePath(m_sessionId + QStringLiteral(".json"));
                 SVS::MessageBox::critical(
                     Core::RuntimeInterface::qmlEngine(),
                     windowInterface ? windowInterface->window() : nullptr,

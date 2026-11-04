@@ -37,22 +37,29 @@ namespace Synth::Internal {
             return types;
         }
 
+        QString temporaryDirectoryPath(const QString &name) {
+            const auto base = QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::TempData)).filePath(QStringLiteral("synth"));
+            QDir().mkpath(base);
+            return QDir(base).filePath(name + QStringLiteral("-XXXXXX"));
+        }
+
     }
 
-    SynthesisTaskCache::SynthesisTaskCache() {
+    SynthesisTaskCache::SynthesisTaskCache()
+        : m_temporaryDir(temporaryDirectoryPath(QStringLiteral("cache"))) {
         reload();
     }
 
     void SynthesisTaskCache::reload() {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QStringLiteral("org.diffscope.synth"));
+        settings->beginGroup(QStringLiteral("org.diffscope.synth.synthesis"));
         m_maximumBytes = settings->value(QStringLiteral("cacheMaximumBytes"), qint64(10) * 1024 * 1024 * 1024).toLongLong();
         m_expiryDays = settings->value(QStringLiteral("cacheExpiryDays"), 30).toInt();
         m_maximumDownloadBytes = settings->value(QStringLiteral("audioDownloadMaximumBytes"), qint64(512) * 1024 * 1024).toLongLong();
         m_environmentTagTtlSeconds = settings->value(QStringLiteral("environmentTagTtlSeconds"), 60).toInt();
         settings->endGroup();
-        const auto runtimeData = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::RuntimeData);
-        m_root = QDir(runtimeData).filePath(QStringLiteral("synth/cache-v1"));
+        const auto cacheLocation = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::Cache);
+        m_root = QDir(cacheLocation).filePath(QStringLiteral("synth/cache-v1"));
         for (const auto type : cacheTaskTypes()) {
             QDir().mkpath(typeDirectory(type));
         }

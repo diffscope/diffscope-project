@@ -152,6 +152,7 @@ These rules apply to comments, documentation, README files, help text, and diagn
 - **Do not write a paragraph for what a few words can say.** Comments explain constraints, ownership, lifetimes, and the reason the implementation must take its current form. Do not restate what the signature already shows.
 - **Do not write archaeological comments.** Keep the reason the code must be this way now. Remove how it used to be and how it was fixed.
 - The same rules apply to Chinese text. Use written language, not colloquial words such as 「别」「搞」「就行」「得（表必须）」「啥」「拿来」「反正」「其实」「说白了」「这玩意儿」. Headings use 「动机」「设计理由」「实现方式」, not 「为什么」「怎么做」. Normative imperatives such as 「不要」「必须」 are not colloquial and remain in use.
+- Limit the amount of comments you put in the code to a strict minimum. You should almost never add comments.
 
 ## Class Design and PImpl
 
@@ -201,7 +202,7 @@ cmake --build build --target <plugin>_translations_lrelease
 
 Write user-facing window, dialog, and page titles, button text, and menu text in Title Case. Use sentence case for all other general user-facing text. Format numbers for the user's locale unless they are special identifiers such as HTTP status codes or require a defined representation such as timecodes. Use localized placeholders such as `%L1` and `%Ln`, `QLocale::toString()` in C++, or `toLocaleString()` in JavaScript/QML instead of inserting locale-neutral numeric strings. Describe concepts, actions, and results from the user's business perspective; do not over-explain internal implementation details in user-facing copy.
 
-Use `RuntimeInterface::settings()` for user preferences and `RuntimeInterface::globalSettings()` only for machine-wide state. Group C++ keys by `staticMetaObject.className()` (or an equally stable module name), use descriptive `lowerCamelCase` keys, supply defaults, and balance every `beginGroup()` with `endGroup()`. In QML, use `SVSCraft.Extras.Settings` with a stable module-qualified category.
+Use `RuntimeInterface::settings()` for user configuration, presets, and stable preset identifiers, `RuntimeInterface::state()` for unsaved drafts, dirty flags, and reconstructable runtime state such as window geometry, recent files, last-used directories, and session selections, and `RuntimeInterface::globalSettings()` only for machine-wide configuration. Use dotted, namespaced settings groups without class names: `<plugin-id>.<internal-group>` for plugins, the library namespace for class libraries, and `choruskit.<internal-group>` for ChorusKit without an `org.diffscope` prefix. Use descriptive `lowerCamelCase` leaf keys, supply defaults, and balance every `beginGroup()` with `endGroup()`. In QML, use `SVSCraft.Extras.Settings` with the same group as `category`, selecting `RuntimeInterface.settings` or `RuntimeInterface.state` by data role.
 
 Every interactive control must be keyboard reachable. Give icon-only controls meaningful `text` and use the control's tooltip and accessibility defaults unless additional semantics are required. Preserve logical focus order. Use `control.mirrored`, layouts, and left/right padding correctly for RTL interfaces. Test long translations and never encode meaning by color alone.
 

@@ -309,7 +309,7 @@ namespace Core {
         auto uuidBytes = QUuid::createUuid().toRfc4122();
         auto base64 = uuidBytes.toBase64(QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals);
         d->uuidString = QString::fromLatin1(base64);
-        d->recoveryDirPath = QDir(ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData))
+        d->recoveryDirPath = QDir(ApplicationInfo::applicationLocation(ApplicationInfo::State))
             .filePath(QStringLiteral("recovery/%1").arg(d->uuidString));
     }
 

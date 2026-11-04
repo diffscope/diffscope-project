@@ -108,7 +108,7 @@ namespace Synth::Internal {
         auto url = m_source;
         if (!m_preview) {
             auto settings = Core::RuntimeInterface::settings();
-            settings->beginGroup(QStringLiteral("org.diffscope.synth"));
+            settings->beginGroup(QStringLiteral("org.diffscope.synth.architecture"));
             const auto providers = QJsonDocument::fromJson(settings->value(QStringLiteral("architectureControlPanelProviders")).toByteArray()).object();
             settings->endGroup();
             url = QUrl(providers.value(m_architectureId).toString());

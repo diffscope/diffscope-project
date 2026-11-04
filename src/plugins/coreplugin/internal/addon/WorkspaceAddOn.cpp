@@ -10,7 +10,6 @@
 #include <QQmlComponent>
 #include <QQuickWindow>
 #include <QSet>
-#include <QSignalBlocker>
 #include <QStandardItemModel>
 
 #include <CoreApi/runtimeinterface.h>
@@ -124,8 +123,7 @@ namespace Core::Internal {
         if (!m_session || !m_session->isReady() || m_session->isShuttingDown())
             return;
         auto layout = m_session->snapshot(m_workspaceManager->currentLayout().name());
-        QSignalBlocker blocker(m_workspaceManager);
-        m_workspaceManager->setCurrentLayout(layout);
+        m_workspaceManager->setCurrentLayoutSnapshot(layout);
     }
 
     void WorkspaceAddOn::markNewPanelsPresented() {
@@ -220,7 +218,7 @@ namespace Core::Internal {
             return;
         switch (index) {
             case 0: {
-                m_workspaceManager->setCurrentLayout(layout);
+                m_workspaceManager->applyCustomLayout(layout);
                 break;
             }
             case 1: {

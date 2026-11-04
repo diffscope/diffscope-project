@@ -19,7 +19,7 @@ namespace Core {
     void MixedSingerPresetsPrivate::load() {
         Q_Q(MixedSingerPresets);
         auto *settings = RuntimeInterface::settings();
-        settings->beginGroup(MixedSingerPresets::staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.core.mixedSingerPresets"));
         const auto storedPresets = settings->value(QStringLiteral("presets")).toList();
         settings->endGroup();
         for (const auto &value : storedPresets) {
@@ -50,7 +50,7 @@ namespace Core {
             });
         }
         auto *settings = RuntimeInterface::settings();
-        settings->beginGroup(MixedSingerPresets::staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.core.mixedSingerPresets"));
         settings->setValue(QStringLiteral("presets"), entries);
         settings->endGroup();
     }

@@ -194,30 +194,38 @@ namespace Maintenance {
     void ApplicationUpdateChecker::saveSettings() const {
         Q_D(const ApplicationUpdateChecker);
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue("feedBaseUrl", d->feedBaseUrl);
-        settings->setValue("autoCheckForUpdates", d->autoCheckForUpdates);
-        settings->setValue("updateOption", static_cast<int>(d->updateOption));
-        if (d->ignoredVersion.isValid()) {
-            settings->setValue("ignoredVersion", d->ignoredVersion.toString());
-        } else {
-            settings->remove("ignoredVersion");
-        }
+        settings->beginGroup(QStringLiteral("org.diffscope.maintenance.update"));
+        settings->setValue(QStringLiteral("feedBaseUrl"), d->feedBaseUrl);
+        settings->setValue(QStringLiteral("autoCheckForUpdates"), d->autoCheckForUpdates);
+        settings->setValue(QStringLiteral("updateOption"), static_cast<int>(d->updateOption));
         settings->endGroup();
+
+        auto state = Core::RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.maintenance.update"));
+        if (d->ignoredVersion.isValid()) {
+            state->setValue(QStringLiteral("ignoredVersion"), d->ignoredVersion.toString());
+        } else {
+            state->remove(QStringLiteral("ignoredVersion"));
+        }
+        state->endGroup();
     }
 
     void ApplicationUpdateChecker::loadSettings() {
         Q_D(ApplicationUpdateChecker);
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        d->feedBaseUrl = settings->value("feedBaseUrl", DEFAULT_FEED_BASE_URL).toString();
-        d->autoCheckForUpdates = settings->value("autoCheckForUpdates", true).toBool();
-        d->updateOption = settings->value("updateOption", UO_Stable).value<UpdateOption>();
-        QString ignoredVersionStr = settings->value("ignoredVersion", "").toString();
+        settings->beginGroup(QStringLiteral("org.diffscope.maintenance.update"));
+        d->feedBaseUrl = settings->value(QStringLiteral("feedBaseUrl"), DEFAULT_FEED_BASE_URL).toString();
+        d->autoCheckForUpdates = settings->value(QStringLiteral("autoCheckForUpdates"), true).toBool();
+        d->updateOption = settings->value(QStringLiteral("updateOption"), UO_Stable).value<UpdateOption>();
+        settings->endGroup();
+
+        auto state = Core::RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.maintenance.update"));
+        QString ignoredVersionStr = state->value(QStringLiteral("ignoredVersion"), "").toString();
+        state->endGroup();
         if (!ignoredVersionStr.isEmpty()) {
             d->ignoredVersion = SVS::Semver(ignoredVersionStr);
         }
-        settings->endGroup();
 
         Q_EMIT autoCheckForUpdatesChanged();
         Q_EMIT updateOptionChanged();

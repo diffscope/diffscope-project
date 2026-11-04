@@ -33,7 +33,7 @@ QtObject {
         icon: SVS.Warning
         buttons: [qsTr("Restore Default Workspace")]
         onButtonClicked: if (helper.usable)
-            helper.addOn.workspaceManager.currentLayout = helper.addOn.workspaceManager.defaultLayout
+            helper.addOn.workspaceManager.applyDefaultLayout()
     }
     property bool noPanelNotificationVisible: false
 

@@ -27,10 +27,10 @@ ActionCollection {
         }
     }
     ActionItem {
-        actionId: "org.diffscope.maintenance.diagnosis.openLogsDirectory"
+        actionId: "org.diffscope.maintenance.diagnosis.openConfigDirectory"
         Action {
             onTriggered: () => {
-                d.addOn.reveal(MaintenanceAddOn.Logs)
+                d.addOn.reveal(MaintenanceAddOn.Config)
             }
         }
     }
@@ -43,10 +43,50 @@ ActionCollection {
         }
     }
     ActionItem {
-        actionId: "org.diffscope.maintenance.diagnosis.openPluginsDirectory"
+        actionId: "org.diffscope.maintenance.diagnosis.openStateDirectory"
         Action {
             onTriggered: () => {
-                d.addOn.reveal(MaintenanceAddOn.Plugins)
+                d.addOn.reveal(MaintenanceAddOn.State)
+            }
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.maintenance.diagnosis.openCacheDirectory"
+        Action {
+            onTriggered: () => {
+                d.addOn.reveal(MaintenanceAddOn.Cache)
+            }
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.maintenance.diagnosis.openLogsDirectory"
+        Action {
+            onTriggered: () => {
+                d.addOn.reveal(MaintenanceAddOn.Logs)
+            }
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.maintenance.diagnosis.openBuiltinPluginsDirectory"
+        Action {
+            onTriggered: () => {
+                d.addOn.reveal(MaintenanceAddOn.BuiltinPlugins)
+            }
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.maintenance.diagnosis.openSystemPluginsDirectory"
+        Action {
+            onTriggered: () => {
+                d.addOn.reveal(MaintenanceAddOn.SystemPlugins)
+            }
+        }
+    }
+    ActionItem {
+        actionId: "org.diffscope.maintenance.diagnosis.openUserPluginsDirectory"
+        Action {
+            onTriggered: () => {
+                d.addOn.reveal(MaintenanceAddOn.UserPlugins)
             }
         }
     }

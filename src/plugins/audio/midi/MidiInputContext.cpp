@@ -62,7 +62,7 @@ namespace Audio {
         d->mixer.addStream(&d->preview);
         d->integrator.setStream(&d->mixer);
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.midiInput"));
         d->deviceId = settings->value(QStringLiteral("deviceId")).toString();
         d->previewEnabled = settings->value(QStringLiteral("previewEnabled"), true).toBool();
         d->previewType = Internal::WaveformTypeCatalog::normalizedType(settings->value(QStringLiteral("previewType"), Internal::WaveformTypeCatalog::fallbackType()).toString());
@@ -341,7 +341,7 @@ namespace Audio {
 
     void MidiInputContextPrivate::save() const {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(MidiInputContext::staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.midiInput"));
         settings->setValue(QStringLiteral("deviceId"), deviceId);
         settings->setValue(QStringLiteral("previewEnabled"), previewEnabled);
         settings->setValue(QStringLiteral("previewType"), previewType);

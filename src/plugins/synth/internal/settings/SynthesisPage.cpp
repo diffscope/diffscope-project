@@ -59,7 +59,7 @@ namespace Synth::Internal {
     void SynthesisPage::beginSetting() {
         m_loading = true;
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QStringLiteral("org.diffscope.synth"));
+        settings->beginGroup(QStringLiteral("org.diffscope.synth.synthesis"));
         m_paddingBase = settings->value(QStringLiteral("piecePaddingBaseMs"), 100.0).toDouble();
         m_paddingAdditional = settings->value(QStringLiteral("piecePaddingAdditionalMs"), 100.0).toDouble();
         m_paddingGap = settings->value(QStringLiteral("piecePaddingGapMs"), 200.0).toDouble();
@@ -82,7 +82,7 @@ namespace Synth::Internal {
 
     bool SynthesisPage::accept() {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QStringLiteral("org.diffscope.synth"));
+        settings->beginGroup(QStringLiteral("org.diffscope.synth.synthesis"));
         settings->setValue(QStringLiteral("piecePaddingBaseMs"), m_paddingBase);
         settings->setValue(QStringLiteral("piecePaddingAdditionalMs"), m_paddingAdditional);
         settings->setValue(QStringLiteral("piecePaddingGapMs"), m_paddingGap);

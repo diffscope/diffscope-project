@@ -40,7 +40,7 @@ namespace AppInstall {
             d->product.executableRelativePath == QStringLiteral("..") || d->product.executableRelativePath.contains(u':'))
             qFatal("Invalid installation product configuration");
         if (d->product.downloadedVersionsDirectory.isEmpty())
-            d->product.downloadedVersionsDirectory = QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::RuntimeData)).filePath(QStringLiteral("installations/") + product.id + QStringLiteral("/versions"));
+            d->product.downloadedVersionsDirectory = QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::Data)).filePath(QStringLiteral("installations/") + product.id + QStringLiteral("/versions"));
         d->product.downloadedVersionsDirectory = normalizedPath(d->product.downloadedVersionsDirectory);
         if (d->product.catalogUrl.isEmpty())
             d->product.catalogUrl = QUrl(QStringLiteral("https://catalogs.diffscope.org/v1/") + product.id + u'/');
@@ -354,22 +354,18 @@ namespace AppInstall {
     void InstallationManagerPrivate::loadSettings() {
         Q_Q(InstallationManager);
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(InstallationManager::staticMetaObject.className());
-        settings->beginGroup(product.id);
+        settings->beginGroup(QStringLiteral("org.diffscope.appinstall.installation.%1").arg(product.id));
         selection.id = settings->value(QStringLiteral("selectedInstallationId"), q->defaultInstallationId()).toString();
         selection.localInstallations = settings->value(QStringLiteral("localInstallations")).toList();
-        settings->endGroup();
         settings->endGroup();
         selection = InstallationManager::normalizedSelection(selection);
     }
 
     void InstallationManagerPrivate::saveSettings() const {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(InstallationManager::staticMetaObject.className());
-        settings->beginGroup(product.id);
+        settings->beginGroup(QStringLiteral("org.diffscope.appinstall.installation.%1").arg(product.id));
         settings->setValue(QStringLiteral("selectedInstallationId"), selection.id);
         settings->setValue(QStringLiteral("localInstallations"), selection.localInstallations);
-        settings->endGroup();
         settings->endGroup();
     }
 

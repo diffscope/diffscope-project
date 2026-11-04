@@ -21,10 +21,10 @@ namespace Core::Internal {
         m_ids.removeDuplicates();
         m_ids.removeIf([](const QString &id) { return !CoreInterface::actionRegistry()->actionInfo(id).has_value(); });
 
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        bool initialized = settings->value("hasPreviousSnapshot", false).toBool();
-        auto previous = settings->value("registeredPanelIds").toStringList();
+        auto state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.workspace"));
+        bool initialized = state->value("hasPreviousSnapshot", false).toBool();
+        auto previous = state->value("registeredPanelIds").toStringList();
         if (initialized) {
             for (const auto &id : m_ids) {
                 if (!previous.contains(id))
@@ -32,9 +32,9 @@ namespace Core::Internal {
             }
         }
 
-        settings->setValue("hasPreviousSnapshot", true);
-        settings->setValue("registeredPanelIds", m_ids);
-        settings->endGroup();
+        state->setValue("hasPreviousSnapshot", true);
+        state->setValue("registeredPanelIds", m_ids);
+        state->endGroup();
     }
 
     QVariantList WorkspacePanelCatalog::entries() const {

@@ -31,7 +31,7 @@ namespace Synth::Internal {
 
     namespace {
 
-        constexpr auto settingsGroup = "org.diffscope.synth";
+        constexpr auto settingsGroup = "org.diffscope.synth.services";
         constexpr auto servicesKey = "services";
         constexpr int schemaVersion = 1;
 

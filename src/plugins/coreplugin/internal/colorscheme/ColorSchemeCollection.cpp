@@ -276,7 +276,43 @@ namespace Core::Internal {
         return preset;
     }
 
+    QString ColorSchemeCollection::presetIdAt(int index) const {
+        if (index < 0) {
+            return {};
+        }
+        if (index < MAX_INTERNAL_PRESETS) {
+            if (index >= m_internalPresets.size()) {
+                return {};
+            }
+            return QStringLiteral("internal:") + m_internalPresets.at(index).first;
+        }
+        const int customIndex = index - MAX_INTERNAL_PRESETS;
+        if (customIndex < 0 || customIndex >= m_presets.size()) {
+            return {};
+        }
+        return QStringLiteral("custom:") + m_presets.at(customIndex).first;
+    }
+    int ColorSchemeCollection::presetIndexForId(const QString &id) const {
+        if (id.startsWith(QStringLiteral("internal:"))) {
+            const auto name = id.sliced(9);
+            for (int i = 0; i < m_internalPresets.size(); ++i) {
+                if (m_internalPresets.at(i).first == name) {
+                    return i;
+                }
+            }
+        } else if (id.startsWith(QStringLiteral("custom:"))) {
+            const auto name = id.sliced(7);
+            for (int i = 0; i < m_presets.size(); ++i) {
+                if (m_presets.at(i).first == name) {
+                    return MAX_INTERNAL_PRESETS + i;
+                }
+            }
+        }
+        return -1;
+    }
+
     ColorSchemeCollection::ColorSchemeCollection(QObject *parent) : QObject(parent), m_unsavedPreset(m_internalPresets[0].second) {
+        m_currentPresetId = presetIdAt(0);
     }
     ColorSchemeCollection::~ColorSchemeCollection() = default;
     void ColorSchemeCollection::setValue(const QString &name, const QVariant &value) {
@@ -306,6 +342,7 @@ namespace Core::Internal {
         }
         m_unsavedPreset = preset;
         m_currentIndex = index;
+        m_currentPresetId = presetIdAt(index);
         m_showUnsavedPreset = false;
         emit allPresetsChanged();
         emit currentIndexChanged();
@@ -315,12 +352,14 @@ namespace Core::Internal {
         if (auto it = std::ranges::find_if(m_presets, [&](const auto &p) { return p.first == name; }); it != m_presets.end()) {
             it->second = m_unsavedPreset;
             m_currentIndex = MAX_INTERNAL_PRESETS + std::distance(m_presets.begin(), it);
+            m_currentPresetId = presetIdAt(m_currentIndex);
             m_showUnsavedPreset = false;
             emit allPresetsChanged();
             emit currentIndexChanged();
         } else {
             m_presets.append({name, m_unsavedPreset});
             m_currentIndex = MAX_INTERNAL_PRESETS + m_presets.size() - 1;
+            m_currentPresetId = presetIdAt(m_currentIndex);
             m_showUnsavedPreset = false;
             emit allPresetsChanged();
             emit currentIndexChanged();
@@ -336,6 +375,7 @@ namespace Core::Internal {
         } else if (index == m_currentIndex) {
             m_showUnsavedPreset = true;
             m_currentIndex = MAX_INTERNAL_PRESETS + m_presets.size();
+            m_currentPresetId = presetIdAt(0);
         }
         emit allPresetsChanged();
         emit currentIndexChanged();
@@ -353,6 +393,7 @@ namespace Core::Internal {
         emit allPresetsChanged();
         index = MAX_INTERNAL_PRESETS + std::distance(m_presets.begin(), it);
         m_currentIndex = index;
+        m_currentPresetId = presetIdAt(index);
         emit currentIndexChanged();
     }
     bool ColorSchemeCollection::presetExists(const QString &name) {
@@ -453,6 +494,9 @@ namespace Core::Internal {
     void ColorSchemeCollection::setCurrentIndex(int index) {
         if (m_currentIndex != index) {
             m_currentIndex = index;
+            if (index < MAX_INTERNAL_PRESETS + m_presets.size()) {
+                m_currentPresetId = presetIdAt(index);
+            }
             emit currentIndexChanged();
         }
     }
@@ -537,25 +581,40 @@ namespace Core::Internal {
             palette->setProperty("noteSelectedColorChange", m_unsavedPreset.value("noteSelectedColorChange"));
         }
     }
-    static const char settingCategoryC[] = "Core::Internal::ColorSchemeCollection";
     void ColorSchemeCollection::load() {
         auto settings = RuntimeInterface::settings();
-        auto data = settings->value(settingCategoryC).toMap();
-        if (!(data.contains("presets") && data.contains("unsavedPreset") && data.contains("currentIndex") && data.contains("showUnsavedPreset"))) {
-            return;
-        }
+        settings->beginGroup(QStringLiteral("org.diffscope.core.colorScheme"));
+        const auto presetsData = settings->value(QStringLiteral("presets")).toList();
+        const auto presetId = settings->value(QStringLiteral("currentPresetId")).toString();
+        settings->endGroup();
+
         QList<QPair<QString, QVariantHash>> presets;
-        std::ranges::transform(data.value("presets").toList(), std::back_inserter(presets), [](const QVariant &v) {
+        std::ranges::transform(presetsData, std::back_inserter(presets), [](const QVariant &v) {
             auto p = v.value<QVariantPair>();
             return qMakePair(p.first.toString(), deserializePreset(p.second.toByteArray()));
         });
         m_presets = presets;
-        m_unsavedPreset = deserializePreset(data.value("unsavedPreset").toByteArray());
-        m_currentIndex = data.value("currentIndex").toInt();
-        m_showUnsavedPreset = data.value("showUnsavedPreset").toBool();
-        if (!m_showUnsavedPreset) {
-            const auto &[_, preset] = m_currentIndex < MAX_INTERNAL_PRESETS ? m_internalPresets.value(m_currentIndex, m_internalPresets.first()) : m_presets.value(m_currentIndex - MAX_INTERNAL_PRESETS);
-            m_unsavedPreset = preset;
+
+        auto state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.colorScheme"));
+        const auto unsavedPreset = deserializePreset(state->value(QStringLiteral("unsavedPreset")).toByteArray());
+        m_showUnsavedPreset = state->value(QStringLiteral("showUnsavedPreset"), false).toBool();
+        state->endGroup();
+
+        int index = presetIndexForId(presetId);
+        if (index < 0) {
+            index = 0;
+        }
+        m_currentIndex = index;
+        m_currentPresetId = presetIdAt(index);
+        if (m_showUnsavedPreset && !unsavedPreset.isEmpty()) {
+            m_unsavedPreset = unsavedPreset;
+            m_currentIndex = MAX_INTERNAL_PRESETS + m_presets.size();
+        } else {
+            m_showUnsavedPreset = false;
+            m_unsavedPreset = m_currentIndex < MAX_INTERNAL_PRESETS
+                ? m_internalPresets.value(m_currentIndex, m_internalPresets.first()).second
+                : m_presets.value(m_currentIndex - MAX_INTERNAL_PRESETS).second;
         }
         emit allPresetsChanged();
         emit currentIndexChanged();
@@ -566,13 +625,16 @@ namespace Core::Internal {
         std::ranges::transform(m_presets, std::back_inserter(presetsVariantList), [](const auto &p) {
             return QVariant::fromValue(QVariantPair(p.first, serializePreset(p.second)));
         });
-        auto data = QVariantMap{
-            {"presets", presetsVariantList},
-            {"unsavedPreset", serializePreset(m_unsavedPreset)},
-            {"currentIndex", m_currentIndex},
-            {"showUnsavedPreset", m_showUnsavedPreset},
-        };
-        settings->setValue(settingCategoryC, data);
+        settings->beginGroup(QStringLiteral("org.diffscope.core.colorScheme"));
+        settings->setValue(QStringLiteral("presets"), presetsVariantList);
+        settings->setValue(QStringLiteral("currentPresetId"), m_currentPresetId);
+        settings->endGroup();
+
+        auto state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.colorScheme"));
+        state->setValue(QStringLiteral("unsavedPreset"), serializePreset(m_unsavedPreset));
+        state->setValue(QStringLiteral("showUnsavedPreset"), m_showUnsavedPreset);
+        state->endGroup();
     }
 
     QList<QPair<QString, QVariantHash>> ColorSchemeCollection::internalPresets() {

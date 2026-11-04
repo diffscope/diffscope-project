@@ -178,11 +178,11 @@ namespace Core {
 
         // TODO: show last used page if id is empty
 
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup("DiffScope.Core.SettingDialog");
-        settings->setValue("currentId", settings->value("currentId", "org.diffscope.core.General"));
-        qCDebug(lcCoreInterface) << "Saved current id" << settings->value("currentId").toString();
-        settings->endGroup();
+        auto state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.settingDialog"));
+        state->setValue(QStringLiteral("currentId"), state->value(QStringLiteral("currentId"), QStringLiteral("org.diffscope.core.General")));
+        qCDebug(lcCoreInterface) << "Saved current id" << state->value(QStringLiteral("currentId")).toString();
+        state->endGroup();
 
         if (dlg) {
             qCDebug(lcCoreInterface) << "Reusing existing settings dialog";

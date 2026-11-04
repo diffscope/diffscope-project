@@ -53,10 +53,10 @@ namespace Core {
     QString OpenSaveProjectFileScenario::openProjectFile(const QString &defaultDir) const {
         Q_D(const OpenSaveProjectFileScenario);
         Q_UNUSED(d->window);
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        auto defaultOpenDir = !defaultDir.isEmpty() ? defaultDir : settings->value(QStringLiteral("defaultOpenDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
-        settings->endGroup();
+        auto state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.projectFileDialog"));
+        auto defaultOpenDir = !defaultDir.isEmpty() ? defaultDir : state->value(QStringLiteral("defaultOpenDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+        state->endGroup();
         auto path = QFileDialog::getOpenFileName(
             nullptr,
             {},
@@ -65,9 +65,9 @@ namespace Core {
         );
         if (path.isEmpty())
             return {};
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue(QStringLiteral("defaultOpenDir"), QFileInfo(path).absolutePath());
-        settings->endGroup();
+        state->beginGroup(QStringLiteral("org.diffscope.core.projectFileDialog"));
+        state->setValue(QStringLiteral("defaultOpenDir"), QFileInfo(path).absolutePath());
+        state->endGroup();
 
         return path;
     }
@@ -75,18 +75,18 @@ namespace Core {
     QString OpenSaveProjectFileScenario::saveProjectFile(const QString &defaultDir, const QString &defaultDocumentName) const {
         Q_D(const OpenSaveProjectFileScenario);
         Q_UNUSED(d->window);
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        auto state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.projectFileDialog"));
         QString defaultSaveDir;
         if (!defaultDir.isEmpty()) {
             defaultSaveDir = defaultDir;
         } else {
-            defaultSaveDir = settings->value(QStringLiteral("defaultSaveDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+            defaultSaveDir = state->value(QStringLiteral("defaultSaveDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
             if (!defaultDocumentName.isEmpty()) {
                 defaultSaveDir = QDir(defaultSaveDir).filePath(defaultDocumentName);
             }
         }
-        settings->endGroup();
+        state->endGroup();
 
         auto path = QFileDialog::getSaveFileName(
             nullptr,
@@ -96,9 +96,9 @@ namespace Core {
         );
         if (path.isEmpty())
             return {};
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue(QStringLiteral("defaultSaveDir"), QFileInfo(path).absolutePath());
-        settings->endGroup();
+        state->beginGroup(QStringLiteral("org.diffscope.core.projectFileDialog"));
+        state->setValue(QStringLiteral("defaultSaveDir"), QFileInfo(path).absolutePath());
+        state->endGroup();
 
         return path;
     }

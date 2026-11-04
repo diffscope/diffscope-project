@@ -110,11 +110,11 @@ namespace Core::Internal {
             return;
         }
 
-        auto *settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        auto splitMode = static_cast<SplitMode>(settings->value(QStringLiteral("splitMode"), SplitMode_Auto).toInt());
-        auto regularExpression = settings->value(QStringLiteral("regularExpression"), kAutoExpression).toString();
-        settings->endGroup();
+        auto *state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.fillLyrics"));
+        auto splitMode = static_cast<SplitMode>(state->value(QStringLiteral("splitMode"), SplitMode_Auto).toInt());
+        auto regularExpression = state->value(QStringLiteral("regularExpression"), kAutoExpression).toString();
+        state->endGroup();
 
         if (splitMode < SplitMode_Auto || splitMode > SplitMode_Regex) {
             splitMode = SplitMode_Auto;
@@ -182,10 +182,10 @@ namespace Core::Internal {
             );
         }
 
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue(QStringLiteral("splitMode"), splitMode);
-        settings->setValue(QStringLiteral("regularExpression"), regularExpression);
-        settings->endGroup();
+        state->beginGroup(QStringLiteral("org.diffscope.core.fillLyrics"));
+        state->setValue(QStringLiteral("splitMode"), splitMode);
+        state->setValue(QStringLiteral("regularExpression"), regularExpression);
+        state->endGroup();
 
         auto lyricList = splitLyrics(lyricsText, regularExpression);
         if (lyricList.isEmpty()) {

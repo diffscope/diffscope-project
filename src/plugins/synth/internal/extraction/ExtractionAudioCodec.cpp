@@ -10,9 +10,12 @@
 
 #include <QBuffer>
 #include <QCoreApplication>
+#include <QDir>
 #include <QFile>
 #include <QMimeDatabase>
 #include <QTemporaryDir>
+
+#include <CoreApi/applicationinfo.h>
 
 #include <TalcsCore/AudioBuffer.h>
 #include <TalcsCore/MixerAudioSource.h>
@@ -28,6 +31,12 @@ namespace Synth::Internal::ExtractionAudioCodec {
 
         QString message(const char *text) {
             return QCoreApplication::translate("Synth::Internal::ExtractionAudioCodec", text);
+        }
+
+        QString temporaryDirectoryPath(const QString &name) {
+            const auto base = QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::TempData)).filePath(QStringLiteral("synth"));
+            QDir().mkpath(base);
+            return QDir(base).filePath(name + QStringLiteral("-XXXXXX"));
         }
 
         constexpr qint64 blockSize = 4096;
@@ -156,7 +165,7 @@ namespace Synth::Internal::ExtractionAudioCodec {
         }
         if (cancelled->load())
             return {};
-        QTemporaryDir directory;
+        QTemporaryDir directory(temporaryDirectoryPath(QStringLiteral("codec")));
         const auto suffix = QMimeDatabase().mimeTypeForData(bytes).preferredSuffix();
         const auto path = directory.filePath(QStringLiteral("audio.") + suffix);
         QFile file(path);

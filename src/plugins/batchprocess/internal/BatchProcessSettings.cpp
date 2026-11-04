@@ -5,13 +5,12 @@
 
 #include <algorithm>
 
-#include <QApplication>
 #include <QDir>
 #include <QFileInfo>
 #include <QLoggingCategory>
 #include <QSettings>
-#include <QStandardPaths>
 
+#include <CoreApi/applicationinfo.h>
 #include <CoreApi/runtimeinterface.h>
 
 #include <batchprocess/JavaScriptConsoleInterface.h>
@@ -73,11 +72,7 @@ namespace BatchProcess::Internal {
     }
 
     QString BatchProcessSettings::defaultScriptDirectory() {
-        auto documentsDirectory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-        if (documentsDirectory.isEmpty()) {
-            documentsDirectory = QDir::homePath();
-        }
-        return QDir::toNativeSeparators(QDir(documentsDirectory).filePath(QApplication::applicationName() + QStringLiteral("/Scripts")));
+        return QDir::toNativeSeparators(QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::UserConfig)).filePath(QStringLiteral("Scripts")));
     }
 
     QString BatchProcessSettings::scriptDataDirectory() {
@@ -93,11 +88,7 @@ namespace BatchProcess::Internal {
     }
 
     QString BatchProcessSettings::defaultScriptDataDirectory() {
-        auto documentsDirectory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-        if (documentsDirectory.isEmpty()) {
-            documentsDirectory = QDir::homePath();
-        }
-        return QDir::toNativeSeparators(QDir(documentsDirectory).filePath(QApplication::applicationName() + QStringLiteral("/Script Data")));
+        return QDir::toNativeSeparators(QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::UserConfig)).filePath(QStringLiteral("Script Data")));
     }
 
     int BatchProcessSettings::maximumConsoleMessageCount() {
@@ -120,7 +111,7 @@ namespace BatchProcess::Internal {
 
     void BatchProcessSettings::load() {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.batchprocess.preference"));
         m_customScriptDirectory = normalizedPath(settings->value(QStringLiteral("scriptDirectory")).toString());
         m_customScriptDataDirectory = normalizedPath(settings->value(QStringLiteral("scriptDataDirectory")).toString());
         bool ok = false;
@@ -132,7 +123,7 @@ namespace BatchProcess::Internal {
 
     void BatchProcessSettings::save() const {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.batchprocess.preference"));
         settings->setValue(QStringLiteral("scriptDirectory"), m_customScriptDirectory);
         settings->setValue(QStringLiteral("scriptDataDirectory"), m_customScriptDataDirectory);
         settings->setValue(QStringLiteral("maximumConsoleMessageCount"), m_maximumConsoleMessageCount);

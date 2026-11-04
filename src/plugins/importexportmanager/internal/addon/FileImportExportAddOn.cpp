@@ -201,18 +201,18 @@ namespace ImportExportManager::Internal {
             qCInfo(lcFileImportExportAddOn) << "Import pre-exec check failed";
             return false;
         }
-        auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        auto defaultDir = settings->value(QStringLiteral("defaultImportExportDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
-        settings->endGroup();
+        auto state = Core::RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.importexportmanager.fileDialog"));
+        auto defaultDir = state->value(QStringLiteral("defaultImportExportDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+        state->endGroup();
         path = QFileDialog::getOpenFileName(nullptr, tr("Import File"), defaultDir, converter->fileDialogFilters().join(";;"));
         if (path.isEmpty()) {
             qCInfo(lcFileImportExportAddOn) << "Import canceled: file not selected";
             return false;
         }
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue(QStringLiteral("defaultImportExportDir"), QFileInfo(path).absolutePath());
-        settings->endGroup();
+        state->beginGroup(QStringLiteral("org.diffscope.importexportmanager.fileDialog"));
+        state->setValue(QStringLiteral("defaultImportExportDir"), QFileInfo(path).absolutePath());
+        state->endGroup();
         if (!converter->execImport(path, model, windowHandle()->window())) {
             qCInfo(lcFileImportExportAddOn) << "Import failed or canceled";
             return false;
@@ -229,10 +229,10 @@ namespace ImportExportManager::Internal {
         Q_ASSERT(qobject_cast<Core::ProjectWindowInterface *>(windowHandle()));
         auto projectDocumentContext = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext();
         auto model = projectDocumentContext->document()->model()->toOpenDSPX();
-        auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        auto defaultDir = settings->value(QStringLiteral("defaultImportExportDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
-        settings->endGroup();
+        auto state = Core::RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.importexportmanager.fileDialog"));
+        auto defaultDir = state->value(QStringLiteral("defaultImportExportDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+        state->endGroup();
         auto fileLocker = projectDocumentContext->fileLocker();
         auto defaultFileName = fileLocker ? fileLocker->path() : QString();
         if (defaultFileName.isEmpty()) {
@@ -244,9 +244,9 @@ namespace ImportExportManager::Internal {
             qCInfo(lcFileImportExportAddOn) << "Export canceled: file not selected";
             return;
         }
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue(QStringLiteral("defaultImportExportDir"), QFileInfo(path).absolutePath());
-        settings->endGroup();
+        state->beginGroup(QStringLiteral("org.diffscope.importexportmanager.fileDialog"));
+        state->setValue(QStringLiteral("defaultImportExportDir"), QFileInfo(path).absolutePath());
+        state->endGroup();
         if (!converter->execExport(path, model, windowHandle()->window())) {
             qCInfo(lcFileImportExportAddOn) << "Export failed or canceled";
             return;

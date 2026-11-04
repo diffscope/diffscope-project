@@ -38,15 +38,15 @@ namespace WelcomeWizard {
     void WelcomeWizardPlugin::extensionsInitialized() {
     }
     bool WelcomeWizardPlugin::delayedInitialize() {
-        auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        bool shown = settings->value("welcomeWizardShown", false).toBool();
-        settings->endGroup();
+        auto state = Core::RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.welcomewizard.state"));
+        bool shown = state->value("welcomeWizardShown", false).toBool();
+        state->endGroup();
         if (!shown) {
             WelcomeWizardAddOn::execWelcomeWizard();
-            settings->beginGroup(staticMetaObject.className());
-            settings->setValue("welcomeWizardShown", true);
-            settings->endGroup();
+            state->beginGroup(QStringLiteral("org.diffscope.welcomewizard.state"));
+            state->setValue("welcomeWizardShown", true);
+            state->endGroup();
         }
         return IPlugin::delayedInitialize();
     }

@@ -53,9 +53,12 @@ static constexpr char kNoWarningLastInitialization[] = "--no-warning-last-initia
 class MyLoaderSpec : public Loader::LoaderSpec {
 public:
     MyLoaderSpec() {
-        userSettingsPath = ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData);
+        userSettingsPath = ApplicationInfo::applicationLocation(ApplicationInfo::Config);
+        userStatePath = ApplicationInfo::applicationLocation(ApplicationInfo::State);
         systemSettingsPath =
             ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources);
+        QDir().mkpath(userStatePath);
+        Logger::setLogsLocation(QDir(ApplicationInfo::applicationLocation(ApplicationInfo::Logs)).filePath(QStringLiteral("diffscope")));
         QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, userSettingsPath);
         QSettings::setPath(QSettings::IniFormat, QSettings::SystemScope, systemSettingsPath);
 
@@ -64,7 +67,7 @@ public:
         pluginIID = QStringLiteral(APPLICATION_PLUGIN_IID);
         splashConfigPath = ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinResources) +
                            QStringLiteral("/config.json");
-        pluginPaths << ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinPlugins);
+        pluginPaths << ApplicationInfo::applicationLocation(ApplicationInfo::BuiltinPlugins) << ApplicationInfo::applicationLocation(ApplicationInfo::SystemPlugins) << ApplicationInfo::applicationLocation(ApplicationInfo::UserPlugins);
         coreName = QStringLiteral("org.diffscope.core");
         extraArguments << Argument{
             {kNoWarningLastInitialization},
@@ -82,6 +85,13 @@ public:
 
     QSettings *createChorusKitSettings(QSettings::Scope scope) override {
         const QString &dir = scope == QSettings::UserScope ? userSettingsPath : systemSettingsPath;
+        return new QSettings(
+            QStringLiteral("%1/%2.plugins.json").arg(dir, QCoreApplication::applicationName()),
+            getJsonSettingsFormat());
+    }
+
+    QSettings *createChorusKitState(QSettings::Scope scope) override {
+        const QString &dir = scope == QSettings::UserScope ? userStatePath : systemSettingsPath;
         return new QSettings(
             QStringLiteral("%1/%2.plugins.json").arg(dir, QCoreApplication::applicationName()),
             getJsonSettingsFormat());
@@ -105,14 +115,15 @@ public:
         RuntimeInterface::setQmlEngine(engine);
         SVS::FluentSystemIconsImageProvider::addToEngine(engine);
         auto settings = RuntimeInterface::settings();
+        auto state = RuntimeInterface::state();
 
         QLocale locale;
 
-        settings->beginGroup("Core::Internal::BehaviorPreference");
-        if (settings->value("useSystemLanguage", true).toBool()) {
+        settings->beginGroup(QStringLiteral("org.diffscope.core.behavior"));
+        if (settings->value(QStringLiteral("useSystemLanguage"), true).toBool()) {
             locale = QLocale::system();
         } else {
-            locale = QLocale(settings->value("localeName", QLocale().name()).toString());
+            locale = QLocale(settings->value(QStringLiteral("localeName"), QLocale().name()).toString());
         }
         settings->endGroup();
         locale.setNumberOptions(QLocale::OmitGroupSeparator);
@@ -137,7 +148,8 @@ public:
         }
 
         bool lastInitializationWarningSuppressed = QApplication::arguments().contains(kNoWarningLastInitialization);
-        if (settings->value("lastInitializationAbortedFlag").toBool() && !lastInitializationWarningSuppressed) {
+        state->beginGroup(QStringLiteral("org.diffscope.core.startup"));
+        if (state->value(QStringLiteral("lastInitializationAbortedFlag")).toBool() && !lastInitializationWarningSuppressed) {
             qInfo() << "Last initialization was aborted abnormally";
             QQmlComponent component(engine, "DiffScope.UIShell", "InitializationFailureWarningDialog");
             if (component.isError()) {
@@ -158,7 +170,8 @@ public:
             win->show();
             eventLoop.exec();
         }
-        settings->setValue("lastInitializationAbortedFlag", true);
+        state->setValue(QStringLiteral("lastInitializationAbortedFlag"), true);
+        state->endGroup();
     }
 
     void afterLoadPlugins() override {
@@ -166,6 +179,7 @@ public:
     }
 
     QString userSettingsPath;
+    QString userStatePath;
     QString systemSettingsPath;
 };
 
@@ -203,7 +217,7 @@ int main(int argc, char *argv[]) {
 
 #ifdef APPLICATION_ENABLE_BREAKPAD
     QBreakpadHandler breakpad;
-    breakpad.setDumpPath(ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData) +
+    breakpad.setDumpPath(ApplicationInfo::applicationLocation(ApplicationInfo::State) +
                          QStringLiteral("/crashes"));
     breakpad.UniqueExtraHandler = crashHandler;
 #endif

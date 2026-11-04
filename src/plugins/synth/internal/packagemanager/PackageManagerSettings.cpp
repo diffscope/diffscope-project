@@ -145,7 +145,7 @@ namespace Synth::Internal {
 
     void PackageManagerSettings::load() {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.synth.packageManager"));
         const auto directory = settings->value("packageDir", defaultPackageDir()).toString();
         m_packageDir = AppInstall::InstallationManager::normalizedPath(directory.trimmed().isEmpty() ? defaultPackageDir() : directory);
         m_timeoutSeconds = std::max(1, settings->value("timeoutSeconds", 30).toInt());
@@ -157,7 +157,7 @@ namespace Synth::Internal {
 
     void PackageManagerSettings::save() const {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.synth.packageManager"));
         settings->setValue("packageDir", m_packageDir);
         settings->setValue("timeoutSeconds", m_timeoutSeconds);
         settings->endGroup();

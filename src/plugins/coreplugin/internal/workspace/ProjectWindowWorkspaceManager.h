@@ -14,20 +14,19 @@ namespace Core::Internal {
 
     class ProjectWindowWorkspaceManager : public QObject {
         Q_OBJECT
-        Q_PROPERTY(ProjectWindowWorkspaceLayout currentLayout READ currentLayout WRITE setCurrentLayout NOTIFY currentLayoutChanged)
+        Q_PROPERTY(ProjectWindowWorkspaceLayout currentLayout READ currentLayout NOTIFY currentLayoutChanged)
         Q_PROPERTY(QList<ProjectWindowWorkspaceLayout> customLayouts READ customLayouts WRITE setCustomLayouts NOTIFY customLayoutsChanged)
-        Q_PROPERTY(ProjectWindowWorkspaceLayout defaultLayout READ defaultLayout CONSTANT)
     public:
         explicit ProjectWindowWorkspaceManager(QObject *parent = nullptr);
         ~ProjectWindowWorkspaceManager() override;
 
         ProjectWindowWorkspaceLayout currentLayout() const;
-        void setCurrentLayout(const ProjectWindowWorkspaceLayout &layout);
+        void setCurrentLayoutSnapshot(const ProjectWindowWorkspaceLayout &layout);
+        Q_INVOKABLE void applyDefaultLayout();
+        Q_INVOKABLE void applyCustomLayout(const ProjectWindowWorkspaceLayout &layout);
 
         static QList<ProjectWindowWorkspaceLayout> customLayouts();
         static void setCustomLayouts(const QList<ProjectWindowWorkspaceLayout> &layouts);
-
-        static ProjectWindowWorkspaceLayout defaultLayout();
 
         void load();
         void save() const;
@@ -37,7 +36,11 @@ namespace Core::Internal {
         void customLayoutsChanged();
 
     private:
+        static ProjectWindowWorkspaceLayout defaultLayout();
+        void setCurrentLayout(const ProjectWindowWorkspaceLayout &layout, bool isCustom);
+
         ProjectWindowWorkspaceLayout m_currentLayout;
+        bool m_currentLayoutIsCustom{};
     };
 
 }

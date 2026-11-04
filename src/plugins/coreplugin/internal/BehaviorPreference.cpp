@@ -65,7 +65,7 @@ namespace Core::Internal {
     void BehaviorPreference::load() {
         Q_D(BehaviorPreference);
         auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.core.behavior"));
         d->startupBehavior = settings->value("startupBehavior", QVariant::fromValue(SB_CloseHomeWindowAfterOpeningProject | SB_OpenHomeWindowWhenLastProjectClosed)).value<StartupBehavior>();
         emit startupBehaviorChanged();
         d->useSystemLanguage = settings->value("useSystemLanguage", true).toBool();
@@ -143,7 +143,7 @@ namespace Core::Internal {
     void BehaviorPreference::save() const {
         Q_D(const BehaviorPreference);
         auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.core.behavior"));
         settings->setValue("startupBehavior", static_cast<int>(d->startupBehavior));
         settings->setValue("useSystemLanguage", d->useSystemLanguage);
         settings->setValue("localeName", d->localeName);

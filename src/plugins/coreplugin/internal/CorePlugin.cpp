@@ -405,10 +405,10 @@ namespace Core::Internal {
         QObject::connect(behaviorPreference, &BehaviorPreference::proxyUsernameChanged, updateProxy);
         QObject::connect(behaviorPreference, &BehaviorPreference::proxyPasswordChanged, updateProxy);
         QObject::connect(behaviorPreference, &BehaviorPreference::commandPaletteClearHistoryRequested, [] {
-            auto settings = RuntimeInterface::settings();
-            settings->beginGroup(FindActionsAddOn::staticMetaObject.className());
-            settings->setValue("priorityActions", QStringList());
-            settings->endGroup();
+            auto state = RuntimeInterface::state();
+            state->beginGroup(QStringLiteral("org.diffscope.core.findActions"));
+            state->remove(QStringLiteral("priorityActions"));
+            state->endGroup();
         });
         behaviorPreference->load();
         switch (BehaviorPreference::centralCName()) {
@@ -491,17 +491,22 @@ namespace Core::Internal {
     }
 
     void CorePlugin::checkLastRun() {
-        auto settings = RuntimeInterface::settings();
-        settings->setValue("lastInitializationAbortedFlag", false);
+        auto state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.startup"));
+        state->setValue(QStringLiteral("lastInitializationAbortedFlag"), false);
         bool lastRunWarningSuppressed = QApplication::arguments().contains(kNoWarningLastRun);
-        if (settings->value("lastRunTerminatedAbnormally").toBool() && !lastRunWarningSuppressed) {
+        if (state->value(QStringLiteral("lastRunTerminatedAbnormally")).toBool() && !lastRunWarningSuppressed) {
             qCWarning(lcCorePlugin) << "Last run terminated abnormally";
             SVS::MessageBox::warning(RuntimeInterface::qmlEngine(), nullptr, tr("Last run terminated abnormally"), tr("%1 did not exit normally during its last run.\n\nTo check for unsaved files, please go to Recovery Files.").arg(QApplication::applicationDisplayName()));
         }
-        settings->setValue("lastRunTerminatedAbnormally", true);
+        state->setValue(QStringLiteral("lastRunTerminatedAbnormally"), true);
+        state->endGroup();
         RuntimeInterface::addExitCallback([](int exitCode) {
             if (exitCode == 0) {
-                RuntimeInterface::settings()->setValue("lastRunTerminatedAbnormally", false);
+                auto state = RuntimeInterface::state();
+                state->beginGroup(QStringLiteral("org.diffscope.core.startup"));
+                state->setValue(QStringLiteral("lastRunTerminatedAbnormally"), false);
+                state->endGroup();
             }
         });
     }

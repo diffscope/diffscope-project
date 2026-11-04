@@ -58,9 +58,13 @@ namespace Core::Internal {
         void currentIndexChanged();
 
     private:
+        QString presetIdAt(int index) const;
+        int presetIndexForId(const QString &id) const;
+
         QList<QPair<QString, QVariantHash>> m_presets;
         QVariantHash m_unsavedPreset;
         int m_currentIndex{0};
+        QString m_currentPresetId;
         bool m_showUnsavedPreset{};
     };
 

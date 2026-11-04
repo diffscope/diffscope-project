@@ -30,28 +30,6 @@ namespace Audio::Internal {
         return name.trimmed();
     }
 
-    QString AudioExporterPresets::selectionTypeToString(SelectionType selectionType) {
-        switch (selectionType) {
-            case SelectionType::Builtin:
-                return QStringLiteral("builtin");
-            case SelectionType::Custom:
-                return QStringLiteral("custom");
-            case SelectionType::Unsaved:
-                return QStringLiteral("unsaved");
-        }
-        return QStringLiteral("builtin");
-    }
-
-    AudioExporterPresets::SelectionType AudioExporterPresets::selectionTypeFromString(const QString &value) {
-        if (value == QStringLiteral("custom")) {
-            return SelectionType::Custom;
-        }
-        if (value == QStringLiteral("unsaved")) {
-            return SelectionType::Unsaved;
-        }
-        return SelectionType::Builtin;
-    }
-
     AudioExporterPresets::AudioExporterPresets(QObject *parent)
         : QObject(parent), m_model(new QStandardItemModel(this)) {
         Q_ASSERT(!m_instance);
@@ -62,6 +40,7 @@ namespace Audio::Internal {
             {UnsavedRole, "unsaved"},
         });
         initializeBuiltinPresets();
+        m_currentPresetId = QStringLiteral("builtin:") + m_builtinPresets.first().id;
         setCurrentConfigInternal(m_builtinPresets.first().config, false);
         rebuildModel();
     }
@@ -149,6 +128,7 @@ namespace Audio::Internal {
         m_selectionType = SelectionType::Builtin;
         m_currentBuiltinIndex = builtinIndex;
         m_currentCustomName.clear();
+        m_currentPresetId = QStringLiteral("builtin:") + m_builtinPresets.at(builtinIndex).id;
         setCurrentConfigInternal(m_builtinPresets.at(builtinIndex).config, false);
         rebuildModel();
         updateCurrentIndexFromSelection();
@@ -184,6 +164,7 @@ namespace Audio::Internal {
         }
         m_selectionType = SelectionType::Custom;
         m_currentCustomName = normalizedName;
+        m_currentPresetId = QStringLiteral("custom:") + normalizedName;
         setCurrentConfigInternal(m_customPresets.at(index).config, false);
         rebuildModel();
         updateCurrentIndexFromSelection();
@@ -200,11 +181,12 @@ namespace Audio::Internal {
         if (index >= 0) {
             m_customPresets[index].config = config;
         } else {
-            m_customPresets.append({normalizedName, config});
+            m_customPresets.append({normalizedName, normalizedName, config});
         }
 
         m_selectionType = SelectionType::Custom;
         m_currentCustomName = normalizedName;
+        m_currentPresetId = QStringLiteral("custom:") + normalizedName;
         setCurrentConfigInternal(config, false);
         rebuildModel();
         updateCurrentIndexFromSelection();
@@ -224,12 +206,16 @@ namespace Audio::Internal {
         }
 
         const auto removingCurrent = m_selectionType == SelectionType::Custom && m_currentCustomName == normalizedName;
+        const auto removingSavedSelection = m_currentPresetId == QStringLiteral("custom:") + normalizedName;
         m_customPresets.removeAt(index);
         if (removingCurrent) {
             m_selectionType = SelectionType::Builtin;
             m_currentBuiltinIndex = 0;
             m_currentCustomName.clear();
+            m_currentPresetId = QStringLiteral("builtin:") + m_builtinPresets.first().id;
             setCurrentConfigInternal(m_builtinPresets.first().config, false);
+        } else if (removingSavedSelection) {
+            m_currentPresetId = QStringLiteral("builtin:") + m_builtinPresets.first().id;
         }
         rebuildModel();
         updateCurrentIndexFromSelection();
@@ -239,10 +225,18 @@ namespace Audio::Internal {
 
     void AudioExporterPresets::load() {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.audioExporter"));
+        const auto presets = settings->value(QStringLiteral("customPresets")).toList();
+        const auto currentPresetId = settings->value(QStringLiteral("currentPresetId")).toString();
+        settings->endGroup();
+
+        auto state = Core::RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.audio.audioExporter"));
+        const auto dirty = state->value(QStringLiteral("dirty"), false).toBool();
+        const auto unsavedConfig = QJsonDocument::fromJson(state->value(QStringLiteral("unsavedConfig")).toByteArray()).object();
+        state->endGroup();
 
         m_customPresets.clear();
-        const auto presets = settings->value(QStringLiteral("customPresets")).toList();
         for (const auto &value : presets) {
             const auto data = value.toMap();
             const auto name = normalizedPresetName(data.value(QStringLiteral("name")).toString());
@@ -251,23 +245,35 @@ namespace Audio::Internal {
             }
             m_customPresets.append({
                 name,
+                name,
                 deserializeConfig(data.value(QStringLiteral("config")).toByteArray()),
             });
         }
 
-        m_currentBuiltinIndex = settings->value(QStringLiteral("currentBuiltinIndex"), 0).toInt();
-        if (m_currentBuiltinIndex < 0 || m_currentBuiltinIndex >= m_builtinPresets.size()) {
-            m_currentBuiltinIndex = 0;
-        }
-        m_currentCustomName = normalizedPresetName(settings->value(QStringLiteral("currentCustomName")).toString());
-        m_selectionType = selectionTypeFromString(settings->value(QStringLiteral("currentSelectionType")).toString());
-        m_dirty = settings->value(QStringLiteral("dirty"), false).toBool();
+        m_selectionType = SelectionType::Builtin;
+        m_currentBuiltinIndex = 0;
+        m_currentCustomName.clear();
+        m_currentPresetId = QStringLiteral("builtin:") + m_builtinPresets.first().id;
 
-        if (m_dirty || m_selectionType == SelectionType::Unsaved) {
-            m_selectionType = SelectionType::Unsaved;
-            m_currentConfig = deserializeConfig(settings->value(QStringLiteral("unsavedConfig")).toByteArray());
-            m_dirty = true;
-        } else if (m_selectionType == SelectionType::Custom && hasCustomPreset(m_currentCustomName)) {
+        if (currentPresetId.startsWith(QStringLiteral("builtin:"))) {
+            const auto builtinId = currentPresetId.sliced(8);
+            for (int i = 0; i < m_builtinPresets.size(); ++i) {
+                if (m_builtinPresets.at(i).id == builtinId) {
+                    m_currentBuiltinIndex = i;
+                    m_currentPresetId = currentPresetId;
+                    break;
+                }
+            }
+        } else if (currentPresetId.startsWith(QStringLiteral("custom:"))) {
+            const auto name = currentPresetId.sliced(7);
+            if (hasCustomPreset(name)) {
+                m_selectionType = SelectionType::Custom;
+                m_currentCustomName = name;
+                m_currentPresetId = currentPresetId;
+            }
+        }
+
+        if (m_selectionType == SelectionType::Custom) {
             m_currentConfig = customPresetConfig(m_currentCustomName);
         } else {
             m_selectionType = SelectionType::Builtin;
@@ -275,7 +281,13 @@ namespace Audio::Internal {
             m_currentConfig = m_builtinPresets.at(m_currentBuiltinIndex).config;
         }
 
-        settings->endGroup();
+        if (dirty && !unsavedConfig.isEmpty()) {
+            m_selectionType = SelectionType::Unsaved;
+            m_dirty = true;
+            m_currentConfig = AudioExporterConfig::fromJsonObject(unsavedConfig);
+        } else {
+            m_dirty = false;
+        }
 
         rebuildModel();
         updateCurrentIndexFromSelection();
@@ -286,7 +298,7 @@ namespace Audio::Internal {
 
     void AudioExporterPresets::save() const {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.audioExporter"));
 
         QVariantList presets;
         presets.reserve(m_customPresets.size());
@@ -298,12 +310,14 @@ namespace Audio::Internal {
         }
 
         settings->setValue(QStringLiteral("customPresets"), presets);
-        settings->setValue(QStringLiteral("dirty"), m_dirty);
-        settings->setValue(QStringLiteral("unsavedConfig"), serializeConfig(m_currentConfig));
-        settings->setValue(QStringLiteral("currentSelectionType"), selectionTypeToString(m_selectionType));
-        settings->setValue(QStringLiteral("currentBuiltinIndex"), m_currentBuiltinIndex);
-        settings->setValue(QStringLiteral("currentCustomName"), m_currentCustomName);
+        settings->setValue(QStringLiteral("currentPresetId"), m_currentPresetId);
         settings->endGroup();
+
+        auto state = Core::RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.audio.audioExporter"));
+        state->setValue(QStringLiteral("dirty"), m_dirty);
+        state->setValue(QStringLiteral("unsavedConfig"), serializeConfig(m_currentConfig));
+        state->endGroup();
     }
 
     void AudioExporterPresets::initializeBuiltinPresets() {
@@ -332,12 +346,12 @@ namespace Audio::Internal {
         const auto oggSep = makePreset(QStringLiteral("${projectName}_${trackIndex}_${trackName}.ogg"), AudioExporterConfig::FT_OggContainer, AudioExporterConfig::MO_SeparatedThruMaster);
 
         m_builtinPresets = {
-            {tr("WAV (Mixed)"),               wavMix },
-            {tr("WAV (Separated)"),           wavSep },
-            {tr("FLAC (Mixed)"),              flacMix},
-            {tr("FLAC (Separated)"),          flacSep},
-            {tr("Ogg Container (Mixed)"),     oggMix },
-            {tr("Ogg Container (Separated)"), oggSep },
+            {QStringLiteral("wavMixed"),       tr("WAV (Mixed)"),               wavMix },
+            {QStringLiteral("wavSeparated"),   tr("WAV (Separated)"),           wavSep },
+            {QStringLiteral("flacMixed"),      tr("FLAC (Mixed)"),              flacMix},
+            {QStringLiteral("flacSeparated"),  tr("FLAC (Separated)"),          flacSep},
+            {QStringLiteral("oggMixed"),       tr("Ogg Container (Mixed)"),     oggMix },
+            {QStringLiteral("oggSeparated"),   tr("Ogg Container (Separated)"), oggSep },
         };
     }
 

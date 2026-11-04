@@ -19,8 +19,8 @@ SettingDialog {
 
     settingCatalog: CoreInterface.settingCatalog
     Settings {
-        settings: RuntimeInterface.settings
-        category: "DiffScope.Core.SettingDialog"
+        settings: RuntimeInterface.state
+        category: "org.diffscope.core.settingDialog"
         property alias navigationWidth: dialog.navigationWidth
         property alias currentId: dialog.currentId
     }

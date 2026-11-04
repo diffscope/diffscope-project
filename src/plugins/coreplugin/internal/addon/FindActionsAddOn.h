@@ -4,6 +4,9 @@
 #ifndef DIFFSCOPE_COREPLUGIN_FINDACTIONSADDON_H
 #define DIFFSCOPE_COREPLUGIN_FINDACTIONSADDON_H
 
+#include <QString>
+#include <QStringList>
+
 #include <CoreApi/windowinterface.h>
 
 namespace Core::Internal {
@@ -24,6 +27,7 @@ namespace Core::Internal {
 
     private:
         FindActionsModel *m_model{};
+        QString m_windowStateId;
         QStringList m_priorityActions;
 
         void loadSettings();

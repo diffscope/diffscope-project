@@ -13,7 +13,6 @@
 #include <QQuickItem>
 
 #include <CoreApi/applicationinfo.h>
-#include <CoreApi/logger.h>
 #include <CoreApi/runtimeinterface.h>
 
 #include <SVSCraftGui/DesktopServices.h>
@@ -68,14 +67,29 @@ namespace Maintenance {
     void MaintenanceAddOn::reveal(RevealFlag flag) {
         qCInfo(lcMaintenanceAddOn) << "Reveal" << flag;
         switch (flag) {
-            case Logs:
-                SVS::DesktopServices::reveal(Core::Logger::logsLocation());
+            case Config:
+                SVS::DesktopServices::reveal(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::Config));
                 break;
             case Data:
-                SVS::DesktopServices::reveal(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::RuntimeData));
+                SVS::DesktopServices::reveal(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::Data));
                 break;
-            case Plugins:
+            case State:
+                SVS::DesktopServices::reveal(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::State));
+                break;
+            case Cache:
+                SVS::DesktopServices::reveal(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::Cache));
+                break;
+            case Logs:
+                SVS::DesktopServices::reveal(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::Logs));
+                break;
+            case BuiltinPlugins:
                 SVS::DesktopServices::reveal(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::BuiltinPlugins));
+                break;
+            case SystemPlugins:
+                SVS::DesktopServices::reveal(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::SystemPlugins));
+                break;
+            case UserPlugins:
+                SVS::DesktopServices::reveal(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::UserPlugins));
                 break;
             case Issue:
                 QDesktopServices::openUrl(ISSUE_URL);

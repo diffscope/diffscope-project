@@ -104,7 +104,7 @@ namespace Synth::Internal {
     }
 
     QString DsspServerLog::logsLocation() {
-        return QDir::toNativeSeparators(QDir::cleanPath(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::RuntimeData) + QStringLiteral("/synth/dssp-logs")));
+        return QDir::toNativeSeparators(QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::Logs)).filePath(QStringLiteral("synth/dssp-logs")));
     }
 
     void DsspServerLog::rotateLogFile() {

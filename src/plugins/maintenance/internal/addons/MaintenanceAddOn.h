@@ -29,9 +29,14 @@ namespace Maintenance {
         bool delayedInitialize() override;
 
         enum RevealFlag {
-            Logs,
+            Config,
             Data,
-            Plugins,
+            State,
+            Cache,
+            Logs,
+            BuiltinPlugins,
+            SystemPlugins,
+            UserPlugins,
             Issue,
             Contribute,
             Community,

@@ -70,7 +70,8 @@ namespace LibreSVIPFormatConverter::Internal {
     static constexpr int kCatalogTimeoutMs = 15000;
     static constexpr int kConversionTimeoutMs = 10 * 60 * 1000;
     static constexpr int kCacheVersion = 1;
-    static constexpr auto kSettingsGroup = "LibreSVIPFormatConverter::Internal::LibreSVIPManager";
+    static constexpr auto kUpdateSettingsGroup = "org.diffscope.libresvipformatconverter.update";
+    static constexpr auto kCacheStateGroup = "org.diffscope.libresvipformatconverter.cache";
     static const QUrl kGrpcEndpoint(QStringLiteral("http://127.0.0.1:15150"));
     using CancellationCheck = std::function<bool()>;
 
@@ -380,7 +381,7 @@ namespace LibreSVIPFormatConverter::Internal {
             return;
         m_autoCheckForUpdates = enabled;
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QString::fromLatin1(kSettingsGroup));
+        settings->beginGroup(QString::fromLatin1(kUpdateSettingsGroup));
         settings->setValue(QStringLiteral("autoCheckForUpdates"), enabled);
         settings->endGroup();
         settings->sync();
@@ -394,16 +395,20 @@ namespace LibreSVIPFormatConverter::Internal {
     void LibreSVIPManager::loadConfiguration() {
         m_executablePath = m_installations->executablePath();
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QString::fromLatin1(kSettingsGroup));
+        settings->beginGroup(QString::fromLatin1(kUpdateSettingsGroup));
         m_autoCheckForUpdates = settings->value(QStringLiteral("autoCheckForUpdates"), true).toBool();
-        const auto configuration = QJsonDocument::fromJson(settings->value(QStringLiteral("configuration")).toByteArray()).object();
+        settings->endGroup();
+
+        auto state = Core::RuntimeInterface::state();
+        state->beginGroup(QString::fromLatin1(kCacheStateGroup));
+        const auto configuration = QJsonDocument::fromJson(state->value(QStringLiteral("configuration")).toByteArray()).object();
+        state->endGroup();
         if (configuration.value(QStringLiteral("cacheVersion")).toInt() == kCacheVersion &&
             configuration.value(QStringLiteral("installationId")).toString() == installationId()) {
             m_cachedSha512 = QByteArray::fromHex(configuration.value(QStringLiteral("sha512")).toString().toLatin1());
             m_cachedLocaleName = configuration.value(QStringLiteral("localeName")).toString();
             m_catalog = LibreSVIPPluginCatalog::fromJson(configuration.value(QStringLiteral("pluginCatalog")).toObject());
         }
-        settings->endGroup();
     }
 
     bool LibreSVIPManager::saveConfiguration(const AppInstall::InstallationSelection &selection, const LibreSVIPValidationResult &result) {
@@ -418,8 +423,8 @@ namespace LibreSVIPFormatConverter::Internal {
         m_cachedLocaleName = QLocale().name();
         m_catalog = result.catalog;
         m_installations->setSelection(selection);
-        auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QString::fromLatin1(kSettingsGroup));
+        auto state = Core::RuntimeInterface::state();
+        state->beginGroup(QString::fromLatin1(kCacheStateGroup));
         const QJsonObject configuration{
             {QStringLiteral("cacheVersion"), kCacheVersion},
             {QStringLiteral("installationId"), installationId()},
@@ -427,9 +432,9 @@ namespace LibreSVIPFormatConverter::Internal {
             {QStringLiteral("localeName"), m_cachedLocaleName},
             {QStringLiteral("pluginCatalog"), m_catalog.toJson()},
         };
-        settings->setValue(QStringLiteral("configuration"), QJsonDocument(configuration).toJson(QJsonDocument::Compact));
-        settings->endGroup();
-        settings->sync();
+        state->setValue(QStringLiteral("configuration"), QJsonDocument(configuration).toJson(QJsonDocument::Compact));
+        state->endGroup();
+        state->sync();
         Q_EMIT configurationChanged();
         Q_EMIT catalogChanged();
         return true;
@@ -440,11 +445,11 @@ namespace LibreSVIPFormatConverter::Internal {
         m_cachedSha512.clear();
         m_cachedLocaleName.clear();
         m_catalog = {};
-        auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QString::fromLatin1(kSettingsGroup));
-        settings->remove(QStringLiteral("configuration"));
-        settings->endGroup();
-        settings->sync();
+        auto state = Core::RuntimeInterface::state();
+        state->beginGroup(QString::fromLatin1(kCacheStateGroup));
+        state->remove(QStringLiteral("configuration"));
+        state->endGroup();
+        state->sync();
         Q_EMIT configurationChanged();
         Q_EMIT catalogChanged();
     }

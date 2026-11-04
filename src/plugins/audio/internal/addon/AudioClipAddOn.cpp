@@ -136,10 +136,10 @@ namespace Audio::Internal {
             return nullptr;
 
         qCInfo(lcAudioClipAddOn) << "Opening audio file";
-        auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        const auto defaultDir = settings->value(QStringLiteral("defaultDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
-        settings->endGroup();
+        auto state = Core::RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.audio.audioClip"));
+        const auto defaultDir = state->value(QStringLiteral("defaultDir"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).toString();
+        state->endGroup();
         auto io = talcs::AudioFileDialog::getOpenAudioFileIO(
             GlobalAudioContext::formatManager(),
             *fileName,
@@ -164,9 +164,9 @@ namespace Audio::Internal {
             return nullptr;
         }
 
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue(QStringLiteral("defaultDir"), QFileInfo(*fileName).absolutePath());
-        settings->endGroup();
+        state->beginGroup(QStringLiteral("org.diffscope.audio.audioClip"));
+        state->setValue(QStringLiteral("defaultDir"), QFileInfo(*fileName).absolutePath());
+        state->endGroup();
         return io;
     }
 

@@ -69,8 +69,8 @@ namespace Core::Internal {
             return windowInterface->save();
         }
         if (button == SVS::SVSCraft::No) {
-            QDir runtimeDataDir(ApplicationInfo::applicationLocation(ApplicationInfo::RuntimeData));
-            auto tempPath = runtimeDataDir.filePath(QStringLiteral("recovery/latest_unsaved_project.dspx"));
+            QDir stateDir(ApplicationInfo::applicationLocation(ApplicationInfo::State));
+            auto tempPath = stateDir.filePath(QStringLiteral("recovery/latest_unsaved_project.dspx"));
             return projectContext->saveCopy(tempPath);
         }
 

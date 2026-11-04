@@ -5,10 +5,12 @@
 
 #include <QLoggingCategory>
 #include <QQmlComponent>
+#include <QQmlEngine>
 #include <QSettings>
 #include <QTimer>
 
 #include <CoreApi/runtimeinterface.h>
+#include <CoreApi/windowsystem.h>
 
 #include <QAKQuick/quickactioncontext.h>
 
@@ -19,6 +21,18 @@
 namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcFindActionsAddOn, "diffscope.core.findactionsaddon")
+
+    static QString windowStateId(const WindowInterface *windowInterface) {
+        if (auto *window = windowInterface->window()) {
+            if (auto *attached = qmlAttachedPropertiesObject<WindowSystem>(window, false)) {
+                const auto id = attached->property("id").toString();
+                if (!id.isEmpty()) {
+                    return id;
+                }
+            }
+        }
+        return QStringLiteral("default");
+    }
 
     FindActionsAddOn::FindActionsAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
         connect(BehaviorPreference::instance(), &BehaviorPreference::commandPaletteClearHistoryRequested, this, [this] {
@@ -79,19 +93,26 @@ namespace Core::Internal {
         saveSettings();
     }
     void FindActionsAddOn::loadSettings() {
-        qCDebug(lcFindActionsAddOn) << "Loading settings on" << windowHandle()->metaObject()->className();
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        m_priorityActions = settings->value(QStringLiteral("priorityActions_") + windowHandle()->metaObject()->className()).value<QStringList>();
+        m_windowStateId = windowStateId(windowHandle());
+        qCDebug(lcFindActionsAddOn) << "Loading settings on" << m_windowStateId;
+        auto state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.findActions"));
+        const auto priorityActions = state->value(QStringLiteral("priorityActions")).toMap();
+        m_priorityActions = priorityActions.value(m_windowStateId).toStringList();
+        state->endGroup();
         qCDebug(lcFindActionsAddOn) << "Priority actions loaded:" << m_priorityActions;
-        settings->endGroup();
     }
     void FindActionsAddOn::saveSettings() const {
-        qCDebug(lcFindActionsAddOn) << "Saving settings on" << windowHandle()->metaObject()->className();
+        if (m_windowStateId.isEmpty()) {
+            return;
+        }
+        qCDebug(lcFindActionsAddOn) << "Saving settings on" << m_windowStateId;
         qCDebug(lcFindActionsAddOn) << "Priority actions to save:" << m_priorityActions;
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
-        settings->setValue(QStringLiteral("priorityActions_") + windowHandle()->metaObject()->className(), m_priorityActions);
-        settings->endGroup();
+        auto state = RuntimeInterface::state();
+        state->beginGroup(QStringLiteral("org.diffscope.core.findActions"));
+        auto priorityActions = state->value(QStringLiteral("priorityActions")).toMap();
+        priorityActions.insert(m_windowStateId, m_priorityActions);
+        state->setValue(QStringLiteral("priorityActions"), priorityActions);
+        state->endGroup();
     }
 }

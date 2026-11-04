@@ -13,7 +13,6 @@
 #include <QProcess>
 #include <QScopeGuard>
 #include <QSettings>
-#include <QStandardPaths>
 #include <QStringList>
 #include <QTimer>
 
@@ -53,7 +52,6 @@ namespace Synth::Internal {
         product.displayName = tr("DiffSinger Synthesis Program");
         product.executableRelativePath = QStringLiteral("bin/") + executableName();
         product.bundledExecutablePath = QDir(pluginDirectory).filePath(QStringLiteral("dssp/") + product.executableRelativePath);
-        product.downloadedVersionsDirectory = QDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath(QStringLiteral("dssp/versions"));
         product.catalogUrl = QUrl(QString::fromUtf8(DIFFSCOPE_DSSP_CATALOG_URL));
         product.probeVersion = [](const QString &path, QObject *context, AppInstall::VersionResultHandler finished) -> AppInstall::VersionProbeCancellation {
             auto process = new QProcess(context);
@@ -401,7 +399,7 @@ namespace Synth::Internal {
         m_configuration = defaultConfiguration();
         m_configuration.installation = m_installations->selection();
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.synth.dssp"));
         m_configuration.autoStart = settings->value(QStringLiteral("autoStart"), true).toBool();
         m_configuration.host = settings->value(QStringLiteral("host"), m_configuration.host).toString();
         m_configuration.port = settings->value(QStringLiteral("port"), m_configuration.port).toInt();
@@ -421,7 +419,7 @@ namespace Synth::Internal {
 
     void DsspServerManager::saveSettings() const {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.synth.dssp"));
         settings->setValue(QStringLiteral("autoStart"), m_configuration.autoStart);
         settings->setValue(QStringLiteral("host"), m_configuration.host);
         settings->setValue(QStringLiteral("port"), m_configuration.port);

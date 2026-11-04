@@ -302,7 +302,7 @@ namespace BatchProcess::Internal {
         Q_ASSERT(m_batchProcessInterface);
         Q_ASSERT(m_storageInterface);
         m_storageInterface->d_func()->moduleExtension = this;
-        m_persistentFilePath = QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::RuntimeData))
+        m_persistentFilePath = QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::Data))
                                    .filePath(QCoreApplication::applicationName() + QStringLiteral(".scriptstorage.json"));
         loadPersistentStorage();
 

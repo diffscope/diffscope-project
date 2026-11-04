@@ -24,7 +24,7 @@ namespace Core::Internal {
     Q_STATIC_LOGGING_CATEGORY(lcViewVisibilityAddOn, "diffscope.core.viewvisibilityaddon")
 
     void ViewVisibilityAddOn::initialize() {
-        auto settings = RuntimeInterface::settings();
+        auto state = RuntimeInterface::state();
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         auto window = windowInterface->window();
 
@@ -43,24 +43,24 @@ namespace Core::Internal {
 
         qCDebug(lcViewVisibilityAddOn) << "Loading view visibility properties from settings";
 
-        settings->beginGroup(staticMetaObject.className());
+        state->beginGroup(QStringLiteral("org.diffscope.core.viewVisibility"));
 
-        auto menuBarVisible = !settings->value("menuBarHidden", false).toBool();
+        auto menuBarVisible = !state->value("menuBarHidden", false).toBool();
         qCDebug(lcViewVisibilityAddOn) << "Menu bar" << menuBarVisible;
         auto menuBar = window->property("menuBar").value<QObject *>();
         menuBar->setProperty("alwaysVisible", menuBarVisible);
 
-        auto toolBarVisible = !settings->value("toolBarHidden", false).toBool();
+        auto toolBarVisible = !state->value("toolBarHidden", false).toBool();
         qCDebug(lcViewVisibilityAddOn) << "Tool bar" << toolBarVisible;
         auto toolBar = window->property("toolBar").value<QObject *>();
         toolBar->setProperty("visible", toolBarVisible);
 
-        auto statusBarVisible = !settings->value("statusBarHidden", false).toBool();
+        auto statusBarVisible = !state->value("statusBarHidden", false).toBool();
         qCDebug(lcViewVisibilityAddOn) << "Status bar" << statusBarVisible;
         auto statusBar = window->property("statusBar").value<QObject *>();
         statusBar->setProperty("visible", statusBarVisible);
 
-        settings->endGroup();
+        state->endGroup();
     }
     void ViewVisibilityAddOn::extensionsInitialized() {
     }
@@ -68,10 +68,10 @@ namespace Core::Internal {
         return WindowInterfaceAddOn::delayedInitialize();
     }
     void ViewVisibilityAddOn::toggleVisibility(ViewVisibilityOption option, bool visible) const {
-        auto settings = RuntimeInterface::settings();
+        auto state = RuntimeInterface::state();
         auto window = windowHandle()->window();
         qCInfo(lcViewVisibilityAddOn) << "Toggling visibility started";
-        settings->beginGroup(staticMetaObject.className());
+        state->beginGroup(QStringLiteral("org.diffscope.core.viewVisibility"));
         if (option == MenuBar) {
             auto menuBar = window->property("menuBar").value<QObject *>();
             qCInfo(lcViewVisibilityAddOn) << "Menu bar" << visible;
@@ -86,7 +86,7 @@ namespace Core::Internal {
             statusBar->setProperty("visible", visible);
         }
         const char *keys[]{"menuBarHidden", "toolBarHidden", "statusBarHidden"};
-        if (option >= MenuBar && option <= StatusBar) settings->setValue(keys[option], !visible);
-        settings->endGroup();
+        if (option >= MenuBar && option <= StatusBar) state->setValue(keys[option], !visible);
+        state->endGroup();
     }
 }

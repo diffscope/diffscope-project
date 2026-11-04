@@ -103,8 +103,8 @@ namespace Synth {
         : q_ptr(q),
           apiClient(new Internal::Api::ApiClient(q)),
           networkManager(new QNetworkAccessManager(q)) {
-        const auto runtimeData = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::RuntimeData);
-        diagnosticsRoot = QDir(runtimeData).filePath(QStringLiteral("synth/diagnostics-v1"));
+        const auto logsLocation = Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::Logs);
+        diagnosticsRoot = QDir(logsLocation).filePath(QStringLiteral("synth/diagnostics-v1"));
         QDir().mkpath(diagnosticsRoot);
         reloadDiagnosticsSettings();
         trimDiagnostics();
@@ -502,7 +502,7 @@ namespace Synth {
 
     void SynthesisTaskManagerPrivate::reloadDiagnosticsSettings() {
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(QStringLiteral("org.diffscope.synth"));
+        settings->beginGroup(QStringLiteral("org.diffscope.synth.synthesis"));
         diagnosticsMaximumBytes = settings->value(QStringLiteral("diagnosticsMaximumBytes"), qint64(256) * 1024 * 1024).toLongLong();
         diagnosticsExpiryDays = settings->value(QStringLiteral("diagnosticsExpiryDays"), 7).toInt();
         settings->endGroup();

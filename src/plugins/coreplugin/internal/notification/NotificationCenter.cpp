@@ -15,7 +15,7 @@ namespace Core::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcNotificationCenter, "diffscope.core.notificationcenter")
 
-    static constexpr char kNotificationSettingsGroup[] = "Core::Internal::NotificationManager";
+    static constexpr char kNotificationStateGroup[] = "org.diffscope.core.notification";
 
     NotificationCenter *NotificationCenter::m_instance = nullptr;
 
@@ -79,18 +79,18 @@ namespace Core::Internal {
     }
 
     void NotificationCenter::loadHiddenMessageIdentifiers() {
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(kNotificationSettingsGroup);
-        m_hiddenMessageIdentifiers = settings->value("hiddenMessageIdentifiers", QStringList()).toStringList();
-        settings->endGroup();
+        auto state = RuntimeInterface::state();
+        state->beginGroup(kNotificationStateGroup);
+        m_hiddenMessageIdentifiers = state->value(QStringLiteral("hiddenMessageIdentifiers"), QStringList()).toStringList();
+        state->endGroup();
         qCInfo(lcNotificationCenter) << "Loaded hidden message identifiers:" << m_hiddenMessageIdentifiers;
     }
 
     void NotificationCenter::saveHiddenMessageIdentifiers() const {
-        auto settings = RuntimeInterface::settings();
-        settings->beginGroup(kNotificationSettingsGroup);
-        settings->setValue("hiddenMessageIdentifiers", m_hiddenMessageIdentifiers);
-        settings->endGroup();
+        auto state = RuntimeInterface::state();
+        state->beginGroup(kNotificationStateGroup);
+        state->setValue(QStringLiteral("hiddenMessageIdentifiers"), m_hiddenMessageIdentifiers);
+        state->endGroup();
         qCInfo(lcNotificationCenter) << "Saved hidden message identifiers:" << m_hiddenMessageIdentifiers;
     }
 

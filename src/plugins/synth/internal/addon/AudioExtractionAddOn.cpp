@@ -24,6 +24,7 @@
 #include <QTemporaryDir>
 #include <QVariant>
 
+#include <CoreApi/applicationinfo.h>
 #include <CoreApi/filelocker.h>
 #include <CoreApi/runtimeinterface.h>
 
@@ -99,6 +100,12 @@ namespace Synth::Internal {
                     return false;
             }
             return output.commit();
+        }
+
+        QString temporaryDirectoryPath(const QString &name) {
+            const auto base = QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::TempData)).filePath(QStringLiteral("synth"));
+            QDir().mkpath(base);
+            return QDir(base).filePath(name + QStringLiteral("-XXXXXX"));
         }
 
         QList<QVariant> resamplePitch(const AudioExtractionResult &result, SVS::MusicTimeline *timeline, int position, int length) {
@@ -464,7 +471,7 @@ namespace Synth::Internal {
             return;
         }
 
-        QTemporaryDir backups;
+        QTemporaryDir backups(temporaryDirectoryPath(QStringLiteral("extraction-backup")));
         QStringList writtenFiles;
         QMap<QString, QString> backupFiles;
         const auto abort = [&](const QString &message) {

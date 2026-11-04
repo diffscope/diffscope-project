@@ -37,7 +37,7 @@ namespace Audio::Internal {
     void AudioPreference::load() {
         Q_D(AudioPreference);
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.preference"));
         d->playbackBehavior = settings->value("playbackBehavior", QVariant::fromValue(PB_ReturnToStart)).value<PlayheadBehavior>();
         d->playbackTogglingAction = settings->value("playbackTogglingAction", QVariant::fromValue(PTA_PlayStop)).value<PlaybackTogglingAction>();
         d->audioExporterClippingCheckEnabled = settings->value("audioExporterClippingCheckEnabled", true).toBool();
@@ -56,7 +56,7 @@ namespace Audio::Internal {
     void AudioPreference::save() const {
         Q_D(const AudioPreference);
         auto settings = Core::RuntimeInterface::settings();
-        settings->beginGroup(staticMetaObject.className());
+        settings->beginGroup(QStringLiteral("org.diffscope.audio.preference"));
         settings->setValue("playbackBehavior", d->playbackBehavior);
         settings->setValue("playbackTogglingAction", d->playbackTogglingAction);
         settings->setValue("audioExporterClippingCheckEnabled", d->audioExporterClippingCheckEnabled);
