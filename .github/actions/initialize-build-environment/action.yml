@@ -33,7 +33,7 @@ runs:
       run: |
         sudo apt update
         sudo apt-get -y install `
-          build-essential ninja-build ccache file binutils patchelf p7zip-full pkg-config tar xz-utils zip unzip curl git `
+          build-essential ninja-build ccache file binutils patchelf p7zip-full pkg-config squashfs-tools tar xz-utils zip unzip curl git `
           autoconf autoconf-archive automake libtool libltdl-dev bison flex m4 perl python3 python3-venv `
           libasound2-dev libatopology-dev `
           libxrandr-dev libxinerama-dev libxrender-dev libxcomposite-dev libxcursor-dev `
@@ -54,7 +54,26 @@ runs:
         if ($LASTEXITCODE -ne 0) {
           throw 'Failed to make appimagetool executable'
         }
-        "APPIMAGETOOL_PATH=$appImageTool" >> $env:GITHUB_ENV
+        Push-Location $toolDirectory
+        try {
+          & $appImageTool --appimage-extract | Write-Host
+          if ($LASTEXITCODE -ne 0) {
+            throw 'Failed to extract appimagetool'
+          }
+          $extractedToolDirectory = Join-Path $toolDirectory 'squashfs-root'
+          $bundledMksquashfs = Join-Path $extractedToolDirectory 'usr/bin/mksquashfs'
+          if (-not (Test-Path -LiteralPath $bundledMksquashfs -PathType Leaf)) {
+            throw 'The extracted appimagetool does not contain mksquashfs'
+          }
+          Remove-Item -LiteralPath $bundledMksquashfs -Force
+          & /bin/ln -s -- /usr/bin/mksquashfs $bundledMksquashfs
+          if ($LASTEXITCODE -ne 0) {
+            throw 'Failed to link the system mksquashfs into appimagetool'
+          }
+          "APPIMAGETOOL_PATH=$(Join-Path $extractedToolDirectory 'AppRun')" >> $env:GITHUB_ENV
+        } finally {
+          Pop-Location
+        }
         "APPIMAGE_RUNTIME_PATH=$runtime" >> $env:GITHUB_ENV
 
     - name: Install build tools (macOS)
