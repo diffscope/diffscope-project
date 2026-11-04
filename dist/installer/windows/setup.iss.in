@@ -85,8 +85,6 @@ begin
     Result := SetupMessage(msgCustomInstallation);
 end;
 
-#include "uninstall.iss"
-
 [Types]
 Name: "full"; Description: "{code:FullInstallationMessage}"
 Name: "compact"; Description: "{code:CompactInstallationMessage}"
