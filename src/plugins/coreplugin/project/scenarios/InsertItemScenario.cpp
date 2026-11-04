@@ -122,7 +122,7 @@ namespace Core {
             qCDebug(lcInsertItemScenario) << "Added track" << newTrack;
             return true;
         }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to add track in exclusive transaction";
+            qCCritical(lcInsertItemScenario) << "Failed to add track";
         });
         if (success && newTrack) {
             selectionModel->select(newTrack, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
@@ -133,6 +133,13 @@ namespace Core {
         Q_D(const InsertItemScenario);
         if (!document() || !window())
             return;
+        auto *targetDocument = document();
+        TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
+        if (!readLock) {
+            qCWarning(lcInsertItemScenario) << "Could not acquire a document read lock.";
+            return;
+        }
+
         qCInfo(lcInsertItemScenario) << "Inserting track";
         auto model = document()->model();
         auto trackList = model->tracks();
@@ -143,7 +150,7 @@ namespace Core {
         properties.insert("insertionCount", 1);
         properties.insert("trackName", tr("Unnamed track"));
         auto dialog = createAndPositionDialog(&component, properties);
-        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+        if (!DocumentEditScenarioPrivate::execDialog(dialog) || !readLock || document() != targetDocument)
             return;
         auto insertionIndex = dialog->property("insertionIndex").toInt();
         auto insertionCount = dialog->property("insertionCount").toInt();
@@ -153,7 +160,10 @@ namespace Core {
         QList<dspx::Track *> newTracks;
         newTracks.reserve(insertionCount);
         bool success = false;
-        document()->transactionController()->beginScopedTransaction(tr("Inserting track"), [=, &newTracks, &success] {
+        readLock.release();
+        if (document() != targetDocument)
+            return;
+        targetDocument->transactionController()->beginScopedTransaction(tr("Inserting track"), [=, &newTracks, &success] {
             for (int i = 0; i < insertionCount; ++i) {
                 auto track = model->createTrack();
                 track->fromOpenDSPX(opendspx::Track{});
@@ -169,7 +179,7 @@ namespace Core {
             qCDebug(lcInsertItemScenario) << "Inserted tracks" << newTracks;
             return true;
         }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to insert track in exclusive transaction";
+            qCCritical(lcInsertItemScenario) << "Failed to insert track";
         });
         if (success && !newTracks.isEmpty()) {
             auto selectionModel = document()->selectionModel();
@@ -189,6 +199,13 @@ namespace Core {
         Q_D(const InsertItemScenario);
         if (!document() || !d->projectTimeline || !window())
             return;
+        auto *targetDocument = document();
+        TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
+        if (!readLock) {
+            qCWarning(lcInsertItemScenario) << "Could not acquire a document read lock.";
+            return;
+        }
+
         qCInfo(lcInsertItemScenario) << "Inserting label";
         auto model = document()->model();
         auto labelSequence = model->labels();
@@ -198,14 +215,17 @@ namespace Core {
         properties.insert("labelPos", d->projectTimeline->position());
         properties.insert("labelText", QString());
         auto dialog = createAndPositionDialog(&component, properties);
-        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+        if (!DocumentEditScenarioPrivate::execDialog(dialog) || !readLock || document() != targetDocument)
             return;
         auto labelPos = dialog->property("labelPos").toInt();
         auto labelText = dialog->property("labelText").toString();
         qCDebug(lcInsertItemScenario) << "Inserting label at" << labelPos << "with text" << labelText;
         dspx::Label *newLabel = nullptr;
         bool success = false;
-        document()->transactionController()->beginScopedTransaction(tr("Inserting label"), [=, &newLabel, &success] {
+        readLock.release();
+        if (document() != targetDocument)
+            return;
+        targetDocument->transactionController()->beginScopedTransaction(tr("Inserting label"), [=, &newLabel, &success] {
             newLabel = model->createLabel();
             newLabel->setPosition(qMax(0, labelPos));
             newLabel->setText(labelText);
@@ -218,7 +238,7 @@ namespace Core {
             qCDebug(lcInsertItemScenario) << "Inserted label" << newLabel;
             return true;
         }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to insert label in exclusive transaction";
+            qCCritical(lcInsertItemScenario) << "Failed to insert label";
         });
         if (success && newLabel) {
             auto selectionModel = document()->selectionModel();
@@ -230,6 +250,13 @@ namespace Core {
         Q_D(const InsertItemScenario);
         if (!document() || !d->projectTimeline || !window())
             return;
+
+        auto *targetDocument = document();
+        TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
+        if (!readLock) {
+            qCWarning(lcInsertItemScenario) << "Could not acquire a document read lock.";
+            return;
+        }
 
         auto model = document()->model();
         auto trackList = model->tracks();
@@ -265,7 +292,7 @@ namespace Core {
         properties.insert("clipLength", 15360);
         properties.insert("clipName", tr("Unnamed clip"));
         auto dialog = createAndPositionDialog(&component, properties);
-        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+        if (!DocumentEditScenarioPrivate::execDialog(dialog) || !readLock || document() != targetDocument)
             return;
 
         auto selectedTrack = qobject_cast<dspx::Track *>(dialog->property("selectedTrack").value<QObject *>());
@@ -289,7 +316,10 @@ namespace Core {
 
         dspx::SingingClip *newClip = nullptr;
         bool success = false;
-        document()->transactionController()->beginScopedTransaction(tr("Inserting singing clip"), [=, &newClip, &success] {
+        readLock.release();
+        if (document() != targetDocument)
+            return;
+        targetDocument->transactionController()->beginScopedTransaction(tr("Inserting singing clip"), [=, &newClip, &success] {
             newClip = model->createSingingClip();
             newClip->setName(clipName);
             newClip->setClipStart(0);
@@ -306,7 +336,7 @@ namespace Core {
             qCDebug(lcInsertItemScenario) << "Inserted singing clip" << newClip;
             return true;
         }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to insert singing clip in exclusive transaction";
+            qCCritical(lcInsertItemScenario) << "Failed to insert singing clip";
         });
 
         if (success && newClip) {
@@ -318,6 +348,13 @@ namespace Core {
         Q_D(const InsertItemScenario);
         if (!document() || !d->projectTimeline || !window())
             return;
+
+        auto *targetDocument = document();
+        TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
+        if (!readLock) {
+            qCWarning(lcInsertItemScenario) << "Could not acquire a document read lock.";
+            return;
+        }
 
         auto model = document()->model();
         auto selectionModel = document()->selectionModel();
@@ -349,7 +386,7 @@ namespace Core {
         properties.insert("notePitch", 60); // Default to middle C (C4)
         properties.insert("noteLyric", CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(clip));
         auto dialog = createAndPositionDialog(&component, properties);
-        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+        if (!DocumentEditScenarioPrivate::execDialog(dialog) || !readLock || document() != targetDocument)
             return;
 
         const auto notePosition = qMax(0, dialog->property("notePosition").toInt());
@@ -360,7 +397,10 @@ namespace Core {
 
         dspx::Note *newNote = nullptr;
         bool success = false;
-        document()->transactionController()->beginScopedTransaction(tr("Inserting note"), [=, &newNote, &success] {
+        readLock.release();
+        if (document() != targetDocument)
+            return;
+        targetDocument->transactionController()->beginScopedTransaction(tr("Inserting note"), [=, &newNote, &success] {
             newNote = model->createNote();
             newNote->setPosition(notePosition);
             newNote->setLength(noteLength);
@@ -375,7 +415,7 @@ namespace Core {
             qCDebug(lcInsertItemScenario) << "Inserted note" << newNote;
             return true;
         }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to insert note in exclusive transaction";
+            qCCritical(lcInsertItemScenario) << "Failed to insert note";
         });
 
         if (success && newNote) {
@@ -387,6 +427,13 @@ namespace Core {
         Q_D(const InsertItemScenario);
         if (!document() || !window())
             return;
+
+        auto *targetDocument = document();
+        TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
+        if (!readLock) {
+            qCWarning(lcInsertItemScenario) << "Could not acquire a document read lock.";
+            return;
+        }
 
         auto model = document()->model();
         auto selectionModel = document()->selectionModel();
@@ -415,7 +462,7 @@ namespace Core {
         properties.insert("language", QString());
         properties.insert("onset", false);
         auto dialog = createAndPositionDialog(&component, properties);
-        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+        if (!DocumentEditScenarioPrivate::execDialog(dialog) || !readLock || document() != targetDocument)
             return;
 
         const auto token = dialog->property("token").toString();
@@ -426,7 +473,10 @@ namespace Core {
 
         dspx::Phoneme *newPhoneme = nullptr;
         bool success = false;
-        document()->transactionController()->beginScopedTransaction(tr("Inserting phoneme"), [=, &newPhoneme, &success] {
+        readLock.release();
+        if (document() != targetDocument)
+            return;
+        targetDocument->transactionController()->beginScopedTransaction(tr("Inserting phoneme"), [=, &newPhoneme, &success] {
             newPhoneme = model->createPhoneme();
             newPhoneme->setToken(token);
             newPhoneme->setStart(start);
@@ -441,7 +491,7 @@ namespace Core {
             qCDebug(lcInsertItemScenario) << "Inserted phoneme" << newPhoneme;
             return true;
         }, [] {
-            qCCritical(lcInsertItemScenario) << "Failed to insert phoneme in exclusive transaction";
+            qCCritical(lcInsertItemScenario) << "Failed to insert phoneme";
         });
     }
 

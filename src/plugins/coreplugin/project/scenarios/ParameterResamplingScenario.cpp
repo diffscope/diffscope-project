@@ -5,6 +5,7 @@
 
 #include <memory>
 
+#include <QLoggingCategory>
 #include <QPointer>
 #include <QQmlComponent>
 #include <QQuickWindow>
@@ -18,8 +19,11 @@
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/FreeParameterResampling.h>
 #include <coreplugin/private/DspxDocument_p.h>
+#include <transactional/TransactionController.h>
 
 namespace Core {
+
+    Q_STATIC_LOGGING_CATEGORY(lcParameterResamplingScenario, "diffscope.core.parameterresamplingscenario")
 
     ParameterResamplingScenario::ParameterResamplingScenario(QObject *parent)
         : DocumentEditScenario(parent) {
@@ -32,6 +36,11 @@ namespace Core {
             !Internal::freeParameterRequiresResampling(data, targetStart)) {
             return true;
         }
+        TransactionController::ScopedReadLock readLock(document() ? document()->transactionController() : nullptr);
+        if (!readLock) {
+            qCWarning(lcParameterResamplingScenario) << "Could not acquire a document read lock.";
+            return false;
+        }
         return confirmResampling(tr("Pasting at this position requires resampling the parameter curve. Linear interpolation may change its shape.\n\nContinue to paste?"));
     }
 
@@ -39,7 +48,16 @@ namespace Core {
         const QPointer<DspxDocument> target(document());
         if (!target)
             return false;
-        if (!target->d_func()->canSafelyBounceIgnoringResampling()) {
+        const bool warnAboutOverlap = !target->d_func()->canSafelyBounceIgnoringResampling();
+        const bool warnAboutResampling = !Internal::BehaviorPreference::skipParameterResamplingCheck() && target->d_func()->bounceRequiresResampling();
+        if (!warnAboutOverlap && !warnAboutResampling)
+            return true;
+        TransactionController::ScopedReadLock readLock(target->transactionController());
+        if (!readLock) {
+            qCWarning(lcParameterResamplingScenario) << "Could not acquire a document read lock.";
+            return false;
+        }
+        if (warnAboutOverlap) {
             if (SVS::MessageBox::warning(
                     RuntimeInterface::qmlEngine(), window(), tr("Warning"),
                     tr("Some notes or curves cross clip boundaries, or data points overlap after merging. Bouncing may trim or overwrite this data.\n\nContinue to bounce?"),
@@ -50,8 +68,7 @@ namespace Core {
         }
         if (!target || document() != target)
             return false;
-        const bool confirmed = Internal::BehaviorPreference::skipParameterResamplingCheck() ||
-            !target->d_func()->bounceRequiresResampling() ||
+        const bool confirmed = !warnAboutResampling ||
             confirmResampling(tr("Bouncing these clips requires resampling parameter curves. Linear interpolation may change their shape.\n\nContinue to bounce?"));
         return confirmed && target && document() == target;
     }

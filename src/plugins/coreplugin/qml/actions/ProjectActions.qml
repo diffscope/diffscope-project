@@ -22,7 +22,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.file.save"
         Action {
-            enabled: d.windowHandle.projectDocumentContext.fileLocker && !d.windowHandle.projectDocumentContext.document.transactionController.exclusiveToTransaction
+            enabled: d.windowHandle.projectDocumentContext.fileLocker && d.windowHandle.projectDocumentContext.document.transactionController.canAcquireReadLock
             onTriggered: Qt.callLater(() => d.windowHandle.save())
         }
     }
@@ -30,7 +30,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.file.saveAs"
         Action {
-            enabled: d.windowHandle.projectDocumentContext.fileLocker && !d.windowHandle.projectDocumentContext.document.transactionController.exclusiveToTransaction
+            enabled: d.windowHandle.projectDocumentContext.fileLocker && d.windowHandle.projectDocumentContext.document.transactionController.canAcquireReadLock
             onTriggered: Qt.callLater(() => d.windowHandle.saveAs())
         }
     }
@@ -38,7 +38,7 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.file.saveCopyAs"
         Action {
-            enabled: !d.windowHandle.projectDocumentContext.document.transactionController.exclusiveToTransaction
+            enabled: d.windowHandle.projectDocumentContext.document.transactionController.canAcquireReadLock
             onTriggered: Qt.callLater(() => d.windowHandle.saveCopy())
         }
     }

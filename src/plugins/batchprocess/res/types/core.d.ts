@@ -336,13 +336,19 @@ declare module "diffscope:core" {
         /** Remains readable after completion. */
         readonly active: boolean;
         /**
-         * Commits an undo step with a non-blank, localized user-facing name.
-         * Call abort() for a no-op. The native controller does not detect empty steps.
+         * Commits the transaction with a non-blank, localized user-facing undo step name.
          * Other calls after completion throw CoreError with code invalidState.
          */
         commit(name: string): void;
         /** Restores persisted model state and completes the transaction. Transient caches may be regenerated. */
         abort(): void;
+    }
+
+    export interface ReadLock {
+        /** Indicates whether the read lock is held. Remains readable after release. */
+        readonly active: boolean;
+        /** Releases the read lock. Returns whether the lock was held. */
+        release(): boolean;
     }
 
     export interface UndoHistory {
@@ -354,11 +360,11 @@ declare module "diffscope:core" {
         readonly canRedo: boolean;
         readonly undoName: string | null;
         readonly redoName: string | null;
-        /** Returns whether a step was undone. Requires no active transaction. */
+        /** Returns whether a step was undone. Requires permission to move the history position. */
         undo(): boolean;
-        /** Returns whether a step was redone. Requires no active transaction. */
+        /** Returns whether a step was redone. Requires permission to move the history position. */
         redo(): boolean;
-        /** Moves to an integer position from 0 through length. Requires no active transaction. */
+        /** Moves to an integer position from 0 through length. Requires permission to move the history position. */
         goTo(position: number): void;
     }
 
@@ -505,7 +511,7 @@ declare module "diffscope:core" {
 
     export type PasteMode = "currentPosition" | "relativeToCopiedPlayhead" | "originalPosition";
 
-    /** Uses the system DSPX clipboard. Operations require no active transaction. */
+    /** Uses the system DSPX clipboard. Operations require no active transaction. Cut and paste also require write access. */
     export interface DocumentClipboard {
         readonly canCopy: boolean;
         readonly canPaste: boolean;
@@ -527,16 +533,23 @@ declare module "diffscope:core" {
         readonly selection: Selection;
         readonly history: UndoHistory;
         readonly clipboard: DocumentClipboard;
-        /** Includes host transactions, including non-exclusive transactions. */
+        /** Includes ordinary and automatic commit transactions. */
         readonly transactionActive: boolean;
         /**
-         * Begins an exclusive transaction. An existing exclusive transaction causes
-         * CoreError with code transactionConflict. A pending non-exclusive host
-         * transaction is committed first through TransactionController.
+         * Begins a write transaction. An ordinary transaction, an active read lock,
+         * or a history operation causes CoreError with code transactionConflict.
+         * An active automatic commit transaction is committed first.
          * Any script transaction still active when the handler returns, throws, or
          * is interrupted is aborted. Previously committed steps remain committed.
          */
         beginTransaction(): Transaction;
+        /**
+         * Acquires a shared read lock, or returns null while a transaction or history
+         * operation prevents acquisition. A read lock blocks controller-managed
+         * write transactions and history navigation until release. The host releases
+         * remaining script locks when the handler ends or the document closes.
+         */
+        tryAcquireReadLock(): ReadLock | null;
         /** Deletes selected entities or a free-parameter range through a named undo step. */
         deleteSelection(): void;
         /**

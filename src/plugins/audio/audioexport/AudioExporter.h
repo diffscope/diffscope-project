@@ -24,6 +24,7 @@ namespace Audio {
     class AudioExporterListener {
     public:
         virtual ~AudioExporterListener() = default;
+        virtual bool prepareCallback(AudioExporter *) { return true; }
         virtual bool willStartCallback(AudioExporter *exporter) = 0;
         virtual void willFinishCallback(AudioExporter *exporter) = 0;
     };

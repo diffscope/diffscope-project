@@ -14,9 +14,10 @@ namespace Core {
         explicit TransactionalStrategy(QObject *parent = nullptr);
         ~TransactionalStrategy() override;
 
-        virtual void beginTransaction() = 0;
+        virtual bool beginTransaction() = 0;
         virtual void abortTransaction() = 0;
-        virtual void commitTransaction() = 0;
+        // Returns whether the commit created an undo step.
+        virtual bool commitTransaction() = 0;
         virtual void moveCurrentStepBy(int count) = 0;
 
     };

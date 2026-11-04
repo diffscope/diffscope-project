@@ -117,10 +117,11 @@ namespace Synth::Internal {
             }
         }
 
+        bool prepareCallback(Audio::AudioExporter *exporter) override {
+            return waitForSynthesis(exporter);
+        }
+
         bool willStartCallback(Audio::AudioExporter *exporter) override {
-            if (!waitForSynthesis(exporter)) {
-                return false;
-            }
             QString errorMessage;
             if (!refreshAudioRanges(exporter, exporter->config().formatSampleRate(), &errorMessage)) {
                 exporter->cancel(
@@ -194,7 +195,7 @@ namespace Synth::Internal {
                 errorMessage = Synth::Internal::SynthesisProjectAddOn::tr("The synthesis state could not be checked before audio export");
                 accepted = false;
             }
-            if (!accepted && exporter) {
+            if (!accepted && exporter && (!errorMessage.isEmpty() || !addOn)) {
                 exporter->cancel(true, errorMessage.isEmpty() ? Synth::Internal::SynthesisProjectAddOn::tr("Audio synthesis did not complete successfully") : errorMessage);
             }
             return accepted;
@@ -263,6 +264,12 @@ namespace Synth::Internal {
             }
         });
         if (m_transactionController) {
+            connect(m_transactionController.data(), &Core::TransactionController::accessStateChanged, this, [this] {
+                if (!m_processingPendingWork && !m_transactionController->hasReadLocks() && m_transactionController->canAcquireReadLock() &&
+                    (m_commitPending || !m_pendingTaskWritebacks.isEmpty())) {
+                    schedulePendingWork();
+                }
+            });
             connect(m_transactionController.data(), &Core::TransactionController::transactionActiveChanged, this, [this](bool active) {
                 if (!active)
                     schedulePendingWork();
@@ -729,14 +736,21 @@ namespace Synth::Internal {
         pruneDiscardedWritebacks();
         if (documentTransactionActive())
             return;
+        const auto writeDocument = [this](const std::function<void()> &callback) {
+            if (m_transactionController)
+                return m_transactionController->withWriteAccess(callback);
+            callback();
+            return true;
+        };
         m_processingPendingWork = true;
         while (!documentTransactionActive()) {
             bool processed{};
             if (m_commitPending) {
-                m_commitPending = false;
-                m_documentSyncPending = false;
-                processCommittedChanges();
-                processed = true;
+                processed = writeDocument([this] {
+                    m_commitPending = false;
+                    m_documentSyncPending = false;
+                    processCommittedChanges();
+                });
             } else if (m_documentSyncPending) {
                 m_documentSyncPending = false;
                 synchronizeDocument();
@@ -764,17 +778,17 @@ namespace Synth::Internal {
                 processed = true;
             }
             if (!m_pendingTaskWritebacks.isEmpty()) {
-                const auto writebacks = std::exchange(m_pendingTaskWritebacks, QList<QPointer<TaskWriteback>>{});
-                for (auto writeback : writebacks) {
+                const bool wroteBack = writeDocument([this] {
+                    auto writeback = m_pendingTaskWritebacks.takeFirst();
                     if (!writeback)
-                        continue;
+                        return;
                     auto runtime = m_clips.value(writeback->clipHandle);
                     m_taskWritebacks.remove(writeback);
                     processTaskWriteback(writeback);
                     delete writeback.data();
                     finalizeLanguageWave(runtime);
-                }
-                processed = true;
+                });
+                processed = processed || wroteBack;
             }
             if (!processed && std::exchange(m_retryFailedPiecesPending, false)) {
                 retryFailedPieces();
@@ -784,10 +798,12 @@ namespace Synth::Internal {
                 break;
         }
         m_processingPendingWork = false;
+        const bool canWriteDocument = !m_transactionController ||
+            (!m_transactionController->hasReadLocks() && m_transactionController->canAcquireReadLock());
         if (!documentTransactionActive() &&
-            (m_commitPending || m_documentSyncPending || m_architectureSyncPending || m_retryFailedPiecesPending ||
-             !m_pendingManualRequests.isEmpty() || !m_pendingFinalizers.isEmpty() ||
-             !m_pendingTaskWritebacks.isEmpty())) {
+            ((canWriteDocument && (m_commitPending || !m_pendingTaskWritebacks.isEmpty())) ||
+             (!m_commitPending && m_documentSyncPending) || m_architectureSyncPending || m_retryFailedPiecesPending ||
+             !m_pendingManualRequests.isEmpty() || !m_pendingFinalizers.isEmpty())) {
             schedulePendingWork();
         }
     }
@@ -937,6 +953,7 @@ namespace Synth::Internal {
         connect(m_taskManager, &SynthesisTaskManager::taskChanged, &eventLoop, &QEventLoop::quit);
         if (m_transactionController) {
             connect(m_transactionController.data(), &Core::TransactionController::transactionActiveChanged, &eventLoop, &QEventLoop::quit);
+            connect(m_transactionController.data(), &Core::TransactionController::accessStateChanged, &eventLoop, &QEventLoop::quit);
         }
 
         QSet<dspx::Handle> requestedClips;
@@ -1006,6 +1023,11 @@ namespace Synth::Internal {
                 }
             }
 
+            if (m_transactionController && m_transactionController->hasReadLocks() &&
+                (!clipsToStart.isEmpty() || waiting || m_commitPending || !m_pendingTaskWritebacks.isEmpty())) {
+                qCWarning(lcSynthesisScheduler) << "Could not prepare synthesis for export while the document is locked for reading.";
+                return false;
+            }
             if (!clipsToStart.isEmpty()) {
                 for (const auto clipHandle : clipsToStart) {
                     requestedClips.insert(clipHandle);
@@ -1588,6 +1610,11 @@ namespace Synth::Internal {
         auto *selectionModel = document ? document->selectionModel() : nullptr;
         if (!window || !selectionModel)
             return;
+        Core::TransactionController::ScopedReadLock readLock(document->transactionController());
+        if (!readLock) {
+            qCWarning(lcSynthesisScheduler) << "Could not acquire a document read lock.";
+            return;
+        }
         const auto selectionType = selectionModel->selectionType();
         if (selectionType != dspx::SelectionModel::ST_Clip && selectionType != dspx::SelectionModel::ST_Note)
             return;
@@ -1625,6 +1652,7 @@ namespace Synth::Internal {
             }
         }
         if (!unmanagedNames.isEmpty()) {
+            readLock.release();
             SVS::MessageBox::warning(
                 Core::RuntimeInterface::qmlEngine(),
                 window,
@@ -1657,7 +1685,7 @@ namespace Synth::Internal {
         QObject::connect(dialog.get(), SIGNAL(rejected()), &eventLoop, SLOT(quit()));
         QMetaObject::invokeMethod(dialog.get(), "open");
         eventLoop.exec();
-        if (dialog->property("result").toInt() != 1)
+        if (!readLock || dialog->property("result").toInt() != 1)
             return;
 
         const auto fromType = static_cast<SynthesisTaskType>(std::clamp(dialog->property("resynthesizeFrom").toInt(), 0, static_cast<int>(SynthesisTaskType::Audio)));

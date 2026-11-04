@@ -11,6 +11,8 @@
 
 #include <CoreApi/windowinterface.h>
 
+#include <transactional/TransactionController.h>
+
 namespace Core {
     class DspxDocument;
 }
@@ -56,7 +58,7 @@ namespace AudioVisualizer::Internal {
         void importingChanged();
 
     private:
-        void importFilesNow(const QList<QUrl> &urls, QPointer<Core::DspxDocument> document, QPointer<dspx::Track> firstTrack, bool hadFirstTrack, int position);
+        void importFilesNow(const QList<QUrl> &urls, QPointer<Core::DspxDocument> document, QPointer<dspx::Track> firstTrack, int position, Core::TransactionController::ScopedReadLock *readLock);
 
         bool m_importing{};
     };

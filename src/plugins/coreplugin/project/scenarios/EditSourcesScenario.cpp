@@ -294,7 +294,7 @@ namespace Core {
                    && guardedModel
                    && d->applySourcesImpl(guardedModel.data(), guardedClipList);
         }, [] {
-            qCCritical(lcEditSourcesScenario) << "Failed to edit sources in exclusive transaction";
+            qCCritical(lcEditSourcesScenario) << "Failed to edit sources";
         });
     }
 
@@ -309,7 +309,7 @@ namespace Core {
         d->document->transactionController()->beginScopedTransaction(tr("Editing sources"), [d, guardedModel, guardedClipList] {
             return guardedModel && d->applySourcesImpl(guardedModel.data(), guardedClipList);
         }, [] {
-            qCCritical(lcEditSourcesScenario) << "Failed to apply sources in exclusive transaction";
+            qCCritical(lcEditSourcesScenario) << "Failed to apply sources";
         });
     }
 

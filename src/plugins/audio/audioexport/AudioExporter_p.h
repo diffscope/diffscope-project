@@ -7,6 +7,8 @@
 #include <audio/AudioExporter.h>
 
 #include <QHash>
+#include <QList>
+#include <QPair>
 #include <QStringList>
 
 namespace dspx {
@@ -32,6 +34,7 @@ namespace Audio {
         AudioExporter::PreflightWarnings preflightWarnings{};
         QStringList fileList;
         QStringList temporaryFileList;
+        QList<QPair<int, QString>> sourceLabels;
         talcs::DspxProjectAudioExporter *currentExporter{};
         AudioExporter::Error error{AudioExporter::NoError};
         QString errorString;
@@ -50,6 +53,7 @@ namespace Audio {
         bool resolveTemplate(QString &templateString, const QString &trackName, int trackIndex) const;
         int calculateFormat() const;
         void refreshPreflight();
+        void refreshPreflight(const QList<int> &indexes);
 
         void setError(AudioExporter::Error error, const QString &message = {});
         void clearError();

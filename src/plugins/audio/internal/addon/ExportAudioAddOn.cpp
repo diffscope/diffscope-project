@@ -12,6 +12,7 @@
 #include <QEventLoop>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QLoggingCategory>
 #include <QPair>
 #include <QQmlComponent>
 #include <QStandardPaths>
@@ -43,6 +44,8 @@
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <transactional/TransactionController.h>
+
 #include <audio/AudioExporter.h>
 #include <audio/AudioExporterConfig.h>
 #include <audio/GlobalAudioContext.h>
@@ -52,6 +55,8 @@
 #include <audio/private/AudioExporter_p.h>
 
 namespace Audio::Internal {
+    Q_STATIC_LOGGING_CATEGORY(lcExportAudioAddOn, "diffscope.audio.exportaudioaddon")
+
     namespace {
         QString documentsDirectory() {
             const auto locations = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
@@ -413,6 +418,11 @@ namespace Audio::Internal {
         if (!windowInterface || !windowInterface->window()) {
             return false;
         }
+        const auto document = windowInterface->projectDocumentContext()->document();
+        if (!document || !document->transactionController()->canAcquireReadLock()) {
+            qCWarning(lcExportAudioAddOn) << "Could not acquire a document read lock.";
+            return false;
+        }
 
         const auto sendExportCompletedNotification = [this, windowInterface, exporter] {
             m_exportCompletedMessage->close();
@@ -517,11 +527,10 @@ namespace Audio::Internal {
             }
         };
 
-        const auto sourceIndexes = AudioExporterPrivate::of(exporter)->sourceIndexes();
-        const auto sourceInfo = [exporter, sourceIndexes](int sourceIndex) -> QPair<int, QString> {
-            if (sourceIndex >= 0 && sourceIndex < sourceIndexes.size()) {
-                const auto trackIndex = sourceIndexes.at(sourceIndex);
-                return {trackIndex + 1, AudioExporterPrivate::of(exporter)->trackName(trackIndex)};
+        const auto sourceInfo = [exporter](int sourceIndex) -> QPair<int, QString> {
+            const auto &labels = AudioExporterPrivate::of(exporter)->sourceLabels;
+            if (sourceIndex >= 0 && sourceIndex < labels.size()) {
+                return labels.at(sourceIndex);
             }
             return {sourceIndex + 1, {}};
         };
@@ -535,9 +544,8 @@ namespace Audio::Internal {
                 setDialogProperty("progressValue", ratio);
             });
         } else {
-            const auto sourceCount = std::max<qsizetype>(1, exporter->fileList().size());
             connect(exporter, &AudioExporter::progressChanged, progressDialog,
-                    [sourceCount, setDialogProperty, setProgressStatus, &progressRatioHash, &isProgressing](double ratio, int sourceIndex) {
+                     [exporter, setDialogProperty, setProgressStatus, &progressRatioHash, &isProgressing](double ratio, int sourceIndex) {
                 if (!isProgressing) {
                     isProgressing = true;
                     setProgressStatus(ExportAudioProgressController::Exporting);
@@ -545,9 +553,9 @@ namespace Audio::Internal {
                 progressRatioHash[sourceIndex] = ratio;
                 double totalRatio = 0;
                 for (const auto value : progressRatioHash.values()) {
-                    totalRatio += value;
+                        totalRatio += value;
                 }
-                setDialogProperty("progressValue", totalRatio / sourceCount);
+                    setDialogProperty("progressValue", totalRatio / std::max<qsizetype>(1, AudioExporterPrivate::of(exporter)->sourceLabels.size()));
             });
         }
 
@@ -594,6 +602,10 @@ namespace Audio::Internal {
             const auto result = exporter->exec();
             isExporting = false;
             setActionStatus(ExportAudioProgressController::CloseAction);
+            if (result == AudioExporter::R_Abort && exporter->error() == AudioExporter::NoError) {
+                closeDialog();
+                return;
+            }
 
             if (runtimeWarningCount > 0) {
                 switch (result) {

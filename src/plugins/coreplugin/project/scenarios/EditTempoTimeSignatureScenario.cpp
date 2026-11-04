@@ -64,6 +64,13 @@ namespace Core {
         Q_D(const EditTempoTimeSignatureScenario);
         if (!d->projectTimeline || !document() || !window())
             return;
+        auto *targetDocument = document();
+        TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
+        if (!readLock) {
+            qCWarning(lcEditTempoTimeSignatureScenario) << "Could not acquire a document read lock.";
+            return;
+        }
+
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "EditTempoDialog");
         auto dialog = createAndPositionDialog(&component, {
             {"timeline", QVariant::fromValue(d->projectTimeline->musicTimeline())},
@@ -71,7 +78,7 @@ namespace Core {
             {"doInsertNew", doInsertNew},
         });
         dialog->setProperty("tempo", tempo);
-        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+        if (!DocumentEditScenarioPrivate::execDialog(dialog) || !readLock || document() != targetDocument)
             return;
         doInsertNew = dialog->property("doInsertNew").toBool();
         tempo = dialog->property("tempo").toDouble();
@@ -81,7 +88,10 @@ namespace Core {
             position = d->projectTimeline->musicTimeline()->nearestTickWithTempoTo(position);
             qCInfo(lcEditTempoTimeSignatureScenario) << "modify existing tempo at" << position;
         }
-        document()->transactionController()->beginScopedTransaction(tr("Editing tempo"), [=] {
+        readLock.release();
+        if (document() != targetDocument)
+            return;
+        targetDocument->transactionController()->beginScopedTransaction(tr("Editing tempo"), [=] {
             auto tempoSequence = document()->model()->tempos();
             auto currentTempos = tempoSequence->slice(position, 1);
             dspx::Tempo *tempoItem;
@@ -108,7 +118,7 @@ namespace Core {
             }
             return true;
         }, [] {
-            qCCritical(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo in exclusive transaction";
+            qCCritical(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo";
         });
 
 
@@ -135,6 +145,13 @@ namespace Core {
         Q_D(const EditTempoTimeSignatureScenario);
         if (!d->projectTimeline || !document() || !window())
             return;
+        auto *targetDocument = document();
+        TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
+        if (!readLock) {
+            qCWarning(lcEditTempoTimeSignatureScenario) << "Could not acquire a document read lock.";
+            return;
+        }
+
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "EditTimeSignatureDialog");
         auto dialog = createAndPositionDialog(&component, {
             {"timeline", QVariant::fromValue(d->projectTimeline->musicTimeline())},
@@ -143,7 +160,7 @@ namespace Core {
         });
         dialog->setProperty("numerator", numerator);
         dialog->setProperty("denominator", denominator);
-        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+        if (!DocumentEditScenarioPrivate::execDialog(dialog) || !readLock || document() != targetDocument)
             return;
         doInsertNew = dialog->property("doInsertNew").toBool();
         numerator = dialog->property("numerator").toInt();
@@ -154,7 +171,10 @@ namespace Core {
             measure = d->projectTimeline->musicTimeline()->nearestBarWithTimeSignatureTo(measure);
             qCInfo(lcEditTempoTimeSignatureScenario) << "modify existing time signature at" << measure;
         }
-        document()->transactionController()->beginScopedTransaction(tr("Editing time signature"), [=] {
+        readLock.release();
+        if (document() != targetDocument)
+            return;
+        targetDocument->transactionController()->beginScopedTransaction(tr("Editing time signature"), [=] {
             auto timeSignatureSequence = document()->model()->timeSignatures();
             auto currentTimeSignatures = timeSignatureSequence->slice(measure, 1);
             dspx::TimeSignature *timeSignatureItem;
@@ -184,7 +204,7 @@ namespace Core {
             }
             return true;
         }, [] {
-            qCCritical(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo in exclusive transaction";
+            qCCritical(lcEditTempoTimeSignatureScenario) << "Failed to edit tempo";
         });
     }
     void EditTempoTimeSignatureScenario::insertTimeSignatureAt(int position) const {

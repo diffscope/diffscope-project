@@ -95,6 +95,9 @@ namespace BatchProcess::Internal {
         Q_INVOKABLE QJSValue splice(QObject *array, int index, int count, const QJSValue &values);
         Q_INVOKABLE QJSValue begin(QObject *object);
         Q_INVOKABLE QJSValue transaction(const QString &token, const QString &operation, const QString &name);
+        Q_INVOKABLE QJSValue tryAcquireReadLock(QObject *object);
+        Q_INVOKABLE bool isReadLockActive(const QString &token) const;
+        Q_INVOKABLE bool releaseReadLock(const QString &token);
         Q_INVOKABLE QJSValue complete(QObject *object);
         Q_INVOKABLE QJSValue command(QObject *object, const QString &operation, const QJSValue &arguments);
         Q_INVOKABLE QJSValue service(const QString &operation, const QJSValue &arguments);
@@ -107,6 +110,10 @@ namespace BatchProcess::Internal {
             Core::TransactionController::TransactionId id{Core::TransactionController::TransactionId::Invalid};
             QString token;
             QHash<quint64, QPointer<dspx::EntityObject>> existingDetached;
+        };
+        struct ReadLock {
+            QPointer<Core::TransactionController> controller;
+            Core::TransactionController::ReadLockId id{Core::TransactionController::ReadLockId::Invalid};
         };
         QJSValue success(const QJSValue &value = QJSValue()) const;
         QJSValue record() const;
@@ -131,6 +138,7 @@ namespace BatchProcess::Internal {
         QJSEngine *m_engine;
         QHash<dspx::Model *, Edit> m_edits;
         QHash<dspx::Model *, Edit> m_scopes;
+        QHash<QString, ReadLock> m_readLocks;
         QSet<Core::TransactionController *> m_controllers;
         QSet<Core::ProjectWindowInterface *> m_projects;
         QJSValue m_associatedProject{QJSValue::NullValue};
@@ -258,7 +266,7 @@ namespace BatchProcess::Internal {
         const auto *doc = document(object);
         if (!doc) return nullptr;
         auto it = m_edits.find(doc->model());
-        return it != m_edits.end() && it->document && it->document->transactionController()->isExclusiveToTransaction() ? &it.value() : nullptr;
+        return it != m_edits.end() && it->document && it->document->transactionController()->isTransactionActive() ? &it.value() : nullptr;
     }
 
     QJSValue CoreModuleBridge::guarded(QObject *object, const QString &operation, bool mutation, const std::function<QJSValue()> &callback) {
@@ -319,7 +327,7 @@ namespace BatchProcess::Internal {
     void CoreModuleBridge::cleanScope(Core::DspxDocument *doc) {
         if (!doc || m_edits.contains(doc->model())) return;
         auto state = m_scopes.value(doc->model());
-        if (!orphaned(state) || doc->transactionController()->isExclusiveToTransaction()) return;
+        if (!orphaned(state) || !doc->transactionController()->canBeginTransaction()) return;
         const auto id = doc->transactionController()->beginTransaction();
         if (id == Core::TransactionController::TransactionId::Invalid) return;
         try {
@@ -333,6 +341,12 @@ namespace BatchProcess::Internal {
 
     void CoreModuleBridge::finish(Core::DspxDocument *only) {
         if (!only) m_associatedProject = QJSValue(QJSValue::NullValue);
+        const auto *onlyController = only ? only->transactionController() : nullptr;
+        const auto readLockTokens = m_readLocks.keys();
+        for (const auto &token : readLockTokens) {
+            if (!only || m_readLocks.value(token).controller.data() == onlyController)
+                releaseReadLock(token);
+        }
         const auto models = m_edits.keys();
         for (auto *model : models) {
             auto state = m_edits.value(model);
@@ -371,7 +385,7 @@ namespace BatchProcess::Internal {
     QJSValue CoreModuleBridge::begin(QObject *object) {
         return guarded(object, QStringLiteral("beginTransaction"), false, [&] {
             auto *doc = document(object);
-            if (!doc || doc->transactionController()->isExclusiveToTransaction()) return failure(QStringLiteral("transactionConflict"), QStringLiteral("beginTransaction"));
+            if (!doc || !doc->transactionController()->canBeginTransaction()) return failure(QStringLiteral("transactionConflict"), QStringLiteral("beginTransaction"));
             Edit state;
             state.document = doc;
             for (const auto &pointer : modelEntities(doc->model())) if (pointer && !attachedObject(pointer)) state.existingDetached.insert(pointer->handle().d, pointer);
@@ -399,6 +413,36 @@ namespace BatchProcess::Internal {
             });
         }
         return operation == QStringLiteral("active") ? success(false) : failure(QStringLiteral("invalidState"), operation);
+    }
+
+    QJSValue CoreModuleBridge::tryAcquireReadLock(QObject *object) {
+        const auto operation = QStringLiteral("tryAcquireReadLock");
+        if (!m_context || !m_context->isExecuting())
+            return failure(QStringLiteral("invalidState"), operation);
+        QPointer<Core::DspxDocument> doc(document(object));
+        if (!doc)
+            return failure(QStringLiteral("invalidObject"), operation);
+        QPointer<Core::TransactionController> controller(doc->transactionController());
+        const auto id = controller->tryAcquireReadLock();
+        if (id == Core::TransactionController::ReadLockId::Invalid || !controller)
+            return success(QJSValue(QJSValue::NullValue));
+        if (!doc || document(doc.data()) != doc.data() || !m_context || !m_context->isExecuting()) {
+            controller->releaseReadLock(id);
+            return failure(QStringLiteral("invalidState"), operation);
+        }
+        const auto token = QString::number(++m_nextToken);
+        m_readLocks.insert(token, {controller, id});
+        return success(QJSValue(token));
+    }
+
+    bool CoreModuleBridge::isReadLockActive(const QString &token) const {
+        const auto it = m_readLocks.constFind(token);
+        return it != m_readLocks.constEnd() && it->controller;
+    }
+
+    bool CoreModuleBridge::releaseReadLock(const QString &token) {
+        const auto lock = m_readLocks.take(token);
+        return lock.controller && lock.controller->releaseReadLock(lock.id);
     }
 
     QJSValue CoreModuleBridge::complete(QObject *object) {
@@ -804,7 +848,7 @@ namespace BatchProcess::Internal {
                 return success(value);
             }
             if (operation == QStringLiteral("goToHistory")) {
-                if (doc->transactionController()->isTransactionActive()) return failure(QStringLiteral("transactionConflict"), operation);
+                if (!doc->transactionController()->canMoveCurrentStep()) return failure(QStringLiteral("transactionConflict"), operation);
                 doc->transactionController()->setCurrentStep(args.property(0).toInt());
                 return success();
             }
@@ -855,7 +899,9 @@ namespace BatchProcess::Internal {
                     return success(propertyValue(QVariantMap{{"tempos", tempos}, {"timeSignatures", signatures}}));
                 }
             }
-            if (doc->transactionController()->isTransactionActive()) return failure(QStringLiteral("transactionConflict"), operation);
+            auto *controller = doc->transactionController();
+            if (controller->isTransactionActive() || (operation != QStringLiteral("copy") && !controller->canBeginTransaction()))
+                return failure(QStringLiteral("transactionConflict"), operation);
             if (operation == QStringLiteral("copy")) doc->copySelection(args.property(0).toInt());
             else if (operation == QStringLiteral("cut")) doc->cutSelection(args.property(0).toInt());
             else if (operation == QStringLiteral("paste")) doc->paste(args.property(0).toInt(), static_cast<Core::DspxDocument::PasteMode>(args.property(1).toInt()));

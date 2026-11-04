@@ -11,6 +11,8 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QLoggingCategory>
+#include <QPointer>
 #include <QRegularExpression>
 #include <QSet>
 #include <QStandardPaths>
@@ -42,7 +44,11 @@
 #include <dspxmodelORM/TrackList.h>
 #include <dspxmodelSelectionModel/TrackSelectionModel.h>
 
+#include <transactional/TransactionController.h>
+
 namespace Audio {
+
+    Q_STATIC_LOGGING_CATEGORY(lcAudioExporter, "diffscope.audio.exporter")
 
     namespace {
 
@@ -311,6 +317,10 @@ namespace Audio {
     }
 
     void AudioExporterPrivate::refreshPreflight() {
+        refreshPreflight(sourceIndexes());
+    }
+
+    void AudioExporterPrivate::refreshPreflight(const QList<int> &indexes) {
         Q_Q(AudioExporter);
 
         auto oldWarnings = preflightWarnings;
@@ -323,7 +333,6 @@ namespace Audio {
             preflightWarnings |= AudioExporter::PW_LossyFormat;
         }
 
-        const auto indexes = sourceIndexes();
         const auto isMixed = config.mixingOption() == AudioExporterConfig::MO_Mixed;
         if (!isMixed && indexes.isEmpty()) {
             preflightWarnings |= AudioExporter::PW_NoFile;
@@ -541,9 +550,9 @@ namespace Audio {
             d->setRunning(false);
         });
 
-        d->refreshPreflight();
         d->clearError();
         d->temporaryFileList.clear();
+        d->sourceLabels.clear();
 
         const auto format = d->calculateFormat();
         if (format == 0) {
@@ -551,7 +560,32 @@ namespace Audio {
             return R_Fail;
         }
 
+        const QPointer<Core::DspxDocument> document(d->windowHandle->projectDocumentContext()->document());
+        if (!document || !document->transactionController()->canAcquireReadLock()) {
+            qCWarning(lcAudioExporter) << "Could not acquire a document read lock.";
+            return R_Abort;
+        }
+        const auto approvedFiles = d->fileList;
+        const auto approvedWarnings = d->preflightWarnings;
+        for (const auto listener : s_listeners) {
+            if (!listener->prepareCallback(this))
+                return d->error == NoError ? R_Abort : R_Fail;
+        }
+
+        Core::TransactionController::ScopedReadLock readLock(
+            document && d->windowHandle->projectDocumentContext()->document() == document ? document->transactionController() : nullptr);
+        if (!readLock) {
+            qCWarning(lcAudioExporter) << "Could not acquire a document read lock.";
+            return R_Abort;
+        }
         const auto sourceIndexes = d->sourceIndexes();
+        d->refreshPreflight(sourceIndexes);
+        if (approvedFiles != d->fileList || (d->preflightWarnings & ~approvedWarnings)) {
+            qCWarning(lcAudioExporter) << "Audio export preflight changed during preparation.";
+            return R_Abort;
+        }
+        for (const auto index : sourceIndexes)
+            d->sourceLabels.append({index + 1, d->trackName(index)});
 
         const auto projectContext = d->projectContext();
         QHash<QString, QString> temporaryFiles;
@@ -674,6 +708,7 @@ namespace Audio {
             }
         }
 
+        readLock.release();
         d->temporaryFileList.clear();
 
         if (Internal::AudioPreference::audioExporterUseTemporaryFile()) {
@@ -707,13 +742,14 @@ namespace Audio {
 
     void AudioExporter::cancel(bool isFail, const QString &message) {
         Q_D(AudioExporter);
-        if (!d->currentExporter) {
+        if (!d->running) {
             return;
         }
         if (isFail) {
             d->setError(UnknownError, message.isEmpty() ? tr("Unknown error.") : message);
         }
-        d->currentExporter->interrupt(isFail);
+        if (d->currentExporter)
+            d->currentExporter->interrupt(isFail);
     }
 
     void AudioExporter::addRuntimeWarning(const QString &message, int sourceIndex) {

@@ -54,6 +54,13 @@ namespace Core {
         if (!d->projectTimeline || !document() || !window())
             return;
 
+        auto *targetDocument = document();
+        TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
+        if (!readLock) {
+            qCWarning(lcEditLoopScenario) << "Could not acquire a document read lock.";
+            return;
+        }
+
         auto model = document()->model();
         auto startPosition = model->loopStart();
         auto endPosition = startPosition + model->loopLength();
@@ -66,7 +73,7 @@ namespace Core {
             {"startPosition", startPosition},
             {"endPosition", endPosition},
         });
-        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+        if (!DocumentEditScenarioPrivate::execDialog(dialog) || !readLock || document() != targetDocument)
             return;
 
         loopEnabled = dialog->property("loopEnabled").toBool();
@@ -86,14 +93,17 @@ namespace Core {
 
         qCInfo(lcEditLoopScenario) << "Edit loop" << loopEnabled << startPosition << loopLength;
 
-        document()->transactionController()->beginScopedTransaction(tr("Editing loop"), [=] {
+        readLock.release();
+        if (document() != targetDocument)
+            return;
+        targetDocument->transactionController()->beginScopedTransaction(tr("Editing loop"), [=] {
             auto dspxModel = document()->model();
             dspxModel->setLoopEnabled(loopEnabled);
             dspxModel->setLoopStart(startPosition);
             dspxModel->setLoopLength(loopLength);
             return true;
         }, [] {
-            qCCritical(lcEditLoopScenario) << "Failed to edit loop in exclusive transaction";
+            qCCritical(lcEditLoopScenario) << "Failed to edit loop";
         });
     }
 

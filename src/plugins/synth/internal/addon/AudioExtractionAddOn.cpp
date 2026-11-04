@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <memory>
+#include <utility>
 
 #include <QDateTime>
 #include <QDir>
@@ -141,6 +143,7 @@ namespace Synth::Internal {
     }
 
     struct AudioExtractionAddOn::Operation {
+        Core::TransactionController::ScopedReadLock readLock;
         QPointer<Core::DspxDocument> document;
         QPointer<dspx::AudioClip> source;
         QPointer<dspx::Track> track;
@@ -210,14 +213,19 @@ namespace Synth::Internal {
         if (m_dialog || m_pendingDialog || !window || !clip || !clip->clipSequence() || clip->clipLength() <= 0)
             return;
         const QPointer<dspx::AudioClip> guardedClip(clip);
+        auto operation = std::make_unique<Operation>();
+        operation->document = windowInterface->projectDocumentContext()->document();
+        if (!operation->document || !operation->readLock.acquire(operation->document->transactionController())) {
+            qCWarning(lcAudioExtractionScenario) << "Could not acquire a document read lock.";
+            return;
+        }
         QString directory;
         if (type == AudioExtractionTask::Separation) {
             directory = chooseDirectory({});
-            if (directory.isEmpty() || !guardedClip)
+            if (directory.isEmpty() || !guardedClip || !operation->readLock)
                 return;
         }
-        m_operation = std::make_unique<Operation>();
-        m_operation->document = windowInterface->projectDocumentContext()->document();
+        m_operation = std::move(operation);
         m_operation->source = guardedClip;
         m_operation->type = type;
         m_task = new AudioExtractionTask(type, this);
@@ -242,6 +250,10 @@ namespace Synth::Internal {
         m_dialog->setProperty("y", window->property("popupTopMarginHint").isValid()
             ? window->property("popupTopMarginHint") : QVariant((window->height() - m_dialog->property("height").toDouble()) / 2));
         connect(m_task, &AudioExtractionTask::succeeded, this, &AudioExtractionAddOn::finish);
+        connect(m_task, &AudioExtractionTask::changed, this, [this, task = m_task.data()] {
+            if (m_operation && m_task == task && !task->busy() && !task->error().isEmpty())
+                m_operation->readLock.release();
+        });
         QMetaObject::invokeMethod(m_dialog, "open");
         m_task->refresh();
         qCDebug(lcAudioExtractionScenario) << "Entered pending state";
@@ -266,6 +278,10 @@ namespace Synth::Internal {
         }
         m_dialog->setProperty("scenarioError", QString());
         auto &operation = *m_operation;
+        if (!operation.readLock.acquire(operation.document->transactionController())) {
+            qCWarning(lcAudioExtractionScenario) << "Could not acquire a document read lock.";
+            return;
+        }
         auto clip = operation.source.data();
         auto audioContext = Audio::AudioClipAudioContext::of(clip);
         const auto sourceFile = audioContext ? audioContext->realAudioPath() : QString();
@@ -356,11 +372,17 @@ namespace Synth::Internal {
             return;
         m_tempoPreview->pause();
         if (!sourceUnchanged()) {
+            if (m_operation)
+                m_operation->readLock.release();
             showError(tr("The audio clip or project timeline changed. Extract the tempo again."));
             return;
         }
         const auto &plan = m_tempoPreview->plan();
         auto &operation = *m_operation;
+        if (!operation.readLock.acquire(operation.document->transactionController())) {
+            qCWarning(lcAudioExtractionScenario) << "Could not acquire a document read lock.";
+            return;
+        }
         auto document = operation.document.data();
         auto model = document->model();
         auto sequence = model->tempos();
@@ -371,6 +393,7 @@ namespace Synth::Internal {
             return;
         }
         auto controller = document->transactionController();
+        operation.readLock.release();
         const auto transaction = controller->beginTransaction();
         if (transaction == Core::TransactionController::TransactionId::Invalid) {
             showError(tr("The tempo could not be applied while another edit is in progress."));
@@ -419,6 +442,8 @@ namespace Synth::Internal {
 
     void AudioExtractionAddOn::finish() {
         if (!sourceAvailable()) {
+            if (m_operation)
+                m_operation->readLock.release();
             showError(tr("The original audio clip is no longer available."));
             return;
         }
@@ -429,12 +454,14 @@ namespace Synth::Internal {
         if (source->clipSequence()->track() != operation.track || source->position() != operation.position
             || source->clipStart() != operation.clipStart || source->clipLength() != operation.clipLength
             || source->path() != operation.sourcePath || timeline->tempi() != operation.tempi) {
+            operation.readLock.release();
             showError(tr("The original audio clip or project tempo changed during extraction. Try again."));
             return;
         }
         const auto &result = m_task->result();
         if (operation.type == AudioExtractionTask::Tempo) {
             if (!sourceUnchanged()) {
+                operation.readLock.release();
                 showError(tr("The audio clip or project timeline changed. Extract the tempo again."));
                 return;
             }
@@ -465,6 +492,7 @@ namespace Synth::Internal {
         auto model = document->model();
         auto tracks = model->tracks();
         auto controller = document->transactionController();
+        operation.readLock.release();
         const auto transaction = controller->beginTransaction();
         if (transaction == Core::TransactionController::TransactionId::Invalid) {
             showError(tr("The extracted tracks could not be inserted while another edit is in progress."));

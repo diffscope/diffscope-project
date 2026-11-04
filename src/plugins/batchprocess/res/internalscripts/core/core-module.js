@@ -543,6 +543,10 @@
         commit(name) { V.nonempty(name); if (!name.trim().length) throw new Type("A non-blank transaction name is required."); result(bridge.transaction(token, "commit", name)); },
         abort() { result(bridge.transaction(token, "abort", "")); },
     });
+    const readLockValue = token => freeze({
+        get active() { return bridge.isReadLockActive(token); },
+        release() { return bridge.releaseReadLock(token); },
+    });
     const history = document => {
         const value = create(null);
         const read = () => command(document, "history");
@@ -596,6 +600,10 @@
     property(documentPrototype, "clipboard", function () { return clipboard(this); });
     for (let i = 0, names = ["transactionActive", "canBounceSelection", "selectedClipSingerLayoutIdentical"]; i < names.length; ++i) { const name = names[i]; property(documentPrototype, name, function () { return command(this, "documentState")[name]; }); }
     method(documentPrototype, "beginTransaction", function () { return transactionValue(result(bridge.begin(state(this).raw))); });
+    method(documentPrototype, "tryAcquireReadLock", function () {
+        const token = result(bridge.tryAcquireReadLock(state(this).raw));
+        return token === null ? null : readLockValue(token);
+    });
     method(documentPrototype, "deleteSelection", function () { command(this, "deleteSelection"); });
     method(documentPrototype, "splitSelectionAt", function (tick) { V.int(tick); command(this, "splitSelectionAt", [tick]); });
     method(documentPrototype, "bounceSelectionToClip", function () { command(this, "bounceSelectionToClip"); });

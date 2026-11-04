@@ -73,6 +73,13 @@ namespace Core {
         Q_D(const EditKeySignatureScenario);
         if (!d->projectTimeline || !document() || !window())
             return;
+        auto *targetDocument = document();
+        TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
+        if (!readLock) {
+            qCWarning(lcEditKeySignatureScenario) << "Could not acquire a document read lock.";
+            return;
+        }
+
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "EditKeySignatureDialog");
         auto dialog = createAndPositionDialog(&component, {
             {"timeline", QVariant::fromValue(d->projectTimeline->musicTimeline())},
@@ -82,7 +89,7 @@ namespace Core {
         dialog->setProperty("tonality", tonality);
         dialog->setProperty("mode", mode);
         dialog->setProperty("accidentalType", accidentalType);
-        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+        if (!DocumentEditScenarioPrivate::execDialog(dialog) || !readLock || document() != targetDocument)
             return;
         doInsertNew = dialog->property("doInsertNew").toBool();
         tonality = dialog->property("tonality").toInt();
@@ -98,7 +105,10 @@ namespace Core {
                 qCInfo(lcEditKeySignatureScenario) << "modify existing key signature at" << position;
             }
         }
-        document()->transactionController()->beginScopedTransaction(tr("Editing key signature"), [=] {
+        readLock.release();
+        if (document() != targetDocument)
+            return;
+        targetDocument->transactionController()->beginScopedTransaction(tr("Editing key signature"), [=] {
             auto keySignatureSequence = document()->model()->keySignatures();
             auto currentKeySignatures = keySignatureSequence->slice(position, 1);
             dspx::KeySignature *keySignatureItem;
@@ -131,7 +141,7 @@ namespace Core {
             }
             return true;
         }, [] {
-            qCCritical(lcEditKeySignatureScenario) << "Failed to edit key signature in exclusive transaction";
+            qCCritical(lcEditKeySignatureScenario) << "Failed to edit key signature";
         });
     }
 

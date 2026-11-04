@@ -99,18 +99,28 @@ namespace AudioVisualizer::Internal {
         }
         const auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
         QPointer<Core::DspxDocument> document = window->projectDocumentContext()->document();
-        if (!document || document->transactionController()->isExclusiveToTransaction() || (firstTrack && firstTrack->trackList() != document->model()->tracks())) {
+        if (!document || (firstTrack && firstTrack->trackList() != document->model()->tracks())) {
+            return false;
+        }
+        std::shared_ptr<Core::TransactionController::ScopedReadLock> readLock;
+        if (firstTrack) {
+            readLock = std::make_shared<Core::TransactionController::ScopedReadLock>(document->transactionController());
+            if (!*readLock) {
+                qCWarning(lcAudioFileDropAddOn) << "Could not acquire a document read lock.";
+                return false;
+            }
+        } else if (!document->transactionController()->canBeginTransaction()) {
             return false;
         }
         m_importing = true;
         Q_EMIT importingChanged();
-        QMetaObject::invokeMethod(this, [this, urls, document, firstTrack = QPointer<dspx::Track>(firstTrack), hadFirstTrack = firstTrack != nullptr, position] {
-            importFilesNow(urls, document, firstTrack, hadFirstTrack, qMax(0, position));
+        QMetaObject::invokeMethod(this, [this, urls, document, firstTrack = QPointer<dspx::Track>(firstTrack), readLock, position] {
+            importFilesNow(urls, document, firstTrack, qMax(0, position), readLock.get());
         }, Qt::QueuedConnection);
         return true;
     }
 
-    void AudioFileDropAddOn::importFilesNow(const QList<QUrl> &urls, QPointer<Core::DspxDocument> document, QPointer<dspx::Track> firstTrack, bool hadFirstTrack, int position) {
+    void AudioFileDropAddOn::importFilesNow(const QList<QUrl> &urls, QPointer<Core::DspxDocument> document, QPointer<dspx::Track> firstTrack, int position, Core::TransactionController::ScopedReadLock *readLock) {
         QPointer<AudioFileDropAddOn> guard(this);
         const auto resetImporting = qScopeGuard([guard] {
             if (guard) {
@@ -119,7 +129,7 @@ namespace AudioVisualizer::Internal {
             }
         });
         const QPointer<Core::ProjectWindowInterface> window = windowHandle()->cast<Core::ProjectWindowInterface>();
-        if (!document || window->projectDocumentContext()->document() != document || (hadFirstTrack && !firstTrack)) {
+        if (!document || window->projectDocumentContext()->document() != document || (readLock && !firstTrack)) {
             return;
         }
         const auto model = document->model();
@@ -158,6 +168,8 @@ namespace AudioVisualizer::Internal {
                     return;
                 }
             }
+            if (readLock)
+                readLock->release();
             const auto transaction = document->transactionController()->beginTransaction();
             if (transaction == Core::TransactionController::TransactionId::Invalid) {
                 window->sendNotification(SVS::SVSCraft::Warning, tr("Audio import failed"), tr("Audio files cannot be imported while another edit is active."));

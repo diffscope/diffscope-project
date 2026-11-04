@@ -164,6 +164,11 @@ namespace ImportExportManager::Internal {
         Q_ASSERT(qobject_cast<Core::ProjectWindowInterface *>(windowHandle()));
         auto projectWindow = windowHandle()->cast<Core::ProjectWindowInterface>();
         auto document = projectWindow->projectDocumentContext()->document();
+        Core::TransactionController::ScopedReadLock readLock(document->transactionController());
+        if (!readLock) {
+            qCWarning(lcFileImportExportAddOn) << "Could not acquire a document read lock.";
+            return;
+        }
         auto model = document->model();
         auto trackList = model->tracks();
         const bool replaceTimeline = SVS::MessageBox::question(
@@ -173,6 +178,9 @@ namespace ImportExportManager::Internal {
                                          tr("Do you want to replace the current tempo and time signature with those from the imported file?")
                                      ) == SVS::SVSCraft::Yes;
 
+        if (!readLock)
+            return;
+        readLock.release();
         document->transactionController()->beginScopedTransaction(tr("Importing tracks"), [=, &importedModel] {
             if (replaceTimeline) {
                 model->tempos()->fromOpenDSPX(importedModel.content.timeline.tempos);
@@ -192,7 +200,7 @@ namespace ImportExportManager::Internal {
             }
             return true;
         }, [] {
-            qCCritical(lcFileImportExportAddOn) << "Failed to import tracks in exclusive transaction";
+            qCCritical(lcFileImportExportAddOn) << "Failed to import tracks";
         });
     }
 

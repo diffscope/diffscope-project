@@ -435,8 +435,8 @@ namespace Core {
 
     bool ProjectDocumentContext::save() {
         Q_D(ProjectDocumentContext);
-        if (d->document && d->document->transactionController()->isExclusiveToTransaction()) {
-            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during an active transaction.";
+        if (d->document && !d->document->transactionController()->canAcquireReadLock()) {
+            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during a document write.";
             return false;
         }
         if (!d->fileLocker || d->fileLocker->path().isEmpty())
@@ -462,8 +462,8 @@ namespace Core {
 
     bool ProjectDocumentContext::saveAs(const QString &filePath) {
         Q_D(ProjectDocumentContext);
-        if (d->document && d->document->transactionController()->isExclusiveToTransaction()) {
-            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during an active transaction.";
+        if (d->document && !d->document->transactionController()->canAcquireReadLock()) {
+            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during a document write.";
             return false;
         }
         if (!d->fileLocker)
@@ -494,8 +494,8 @@ namespace Core {
 
     bool ProjectDocumentContext::saveCopy(const QString &filePath) {
         Q_D(ProjectDocumentContext);
-        if (d->document && d->document->transactionController()->isExclusiveToTransaction()) {
-            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during an active transaction.";
+        if (d->document && !d->document->transactionController()->canAcquireReadLock()) {
+            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during a document write.";
             return false;
         }
         FileLocker copyFileLocker;

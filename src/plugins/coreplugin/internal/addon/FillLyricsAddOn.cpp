@@ -8,6 +8,7 @@
 #include <utility>
 
 #include <QEventLoop>
+#include <QLoggingCategory>
 #include <QQuickItem>
 #include <QQuickWindow>
 #include <QRegularExpression>
@@ -32,6 +33,8 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 namespace Core::Internal {
+
+    Q_STATIC_LOGGING_CATEGORY(lcFillLyricsAddOn, "diffscope.core.filllyricsaddon")
 
     namespace {
 
@@ -123,6 +126,12 @@ namespace Core::Internal {
             regularExpression = regularExpressionForSplitMode(splitMode);
         }
 
+        TransactionController::ScopedReadLock readLock(document->transactionController());
+        if (!readLock) {
+            qCWarning(lcFillLyricsAddOn) << "Could not acquire a document read lock.";
+            return;
+        }
+
         auto notes = noteSelectionModel->selectedItems();
         std::sort(notes.begin(), notes.end(), [](const dspx::Note *lhs, const dspx::Note *rhs) {
             return lhs->position() < rhs->position();
@@ -160,7 +169,7 @@ namespace Core::Internal {
                 dialog->setProperty("y", window->height() / 2.0 - dialog->property("height").toDouble() / 2.0);
             }
 
-            if (!execDialog(dialog.get())) {
+            if (!execDialog(dialog.get()) || !readLock) {
                 return;
             }
 
@@ -209,6 +218,7 @@ namespace Core::Internal {
             }
         }
 
+        readLock.release();
         document->transactionController()->beginScopedTransaction(tr("Filling lyrics"), [notes, lyricList] {
             const auto count = std::min(notes.size(), lyricList.size());
             for (qsizetype i = 0; i < count; ++i) {

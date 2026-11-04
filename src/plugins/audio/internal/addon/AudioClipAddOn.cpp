@@ -179,6 +179,12 @@ namespace Audio::Internal {
         if (!document)
             return;
 
+        Core::TransactionController::ScopedReadLock readLock(document->transactionController());
+        if (!readLock) {
+            qCWarning(lcAudioClipAddOn) << "Could not acquire a document read lock.";
+            return;
+        }
+
         auto model = document->model();
         auto trackList = model->tracks();
         if (!trackList || trackList->size() == 0)
@@ -188,7 +194,7 @@ namespace Audio::Internal {
         QVariant userData;
         QString entryClassName;
         std::unique_ptr<talcs::AbstractAudioFormatIO> io(openAudioFile(&fileName, &userData, &entryClassName));
-        if (!io) {
+        if (!io || !readLock) {
             return;
         }
 
@@ -221,7 +227,7 @@ namespace Audio::Internal {
             return;
         }
         auto dialog = createAndPositionDialog(quickWindow, &component, properties);
-        if (!execDialog(dialog)) {
+        if (!execDialog(dialog) || !readLock) {
             return;
         }
 
@@ -235,11 +241,12 @@ namespace Audio::Internal {
         player.reset();
 
         dspx::AudioClip *newClip = nullptr;
+        readLock.release();
         document->transactionController()->beginScopedTransaction(tr("Inserting audio clip"), [=, &importer, &newClip] {
             newClip = importer.insertClip(selectedTrack, clipPosition, clipName);
             return newClip != nullptr;
         }, [] {
-            qCCritical(lcAudioClipAddOn) << "Failed to insert audio clip in exclusive transaction";
+            qCCritical(lcAudioClipAddOn) << "Failed to insert audio clip";
         });
 
         if (newClip) {
@@ -263,7 +270,7 @@ namespace Audio::Internal {
             clip->setPath(path);
             return true;
         }, [] {
-            qCCritical(lcAudioClipAddOn) << "Failed to update audio clip path in exclusive transaction";
+            qCCritical(lcAudioClipAddOn) << "Failed to update audio clip path";
         });
     }
 
@@ -290,7 +297,7 @@ namespace Audio::Internal {
             clip->setPath(path);
             return true;
         }, [] {
-            qCCritical(lcAudioClipAddOn) << "Failed to update audio clip digest in exclusive transaction";
+            qCCritical(lcAudioClipAddOn) << "Failed to update audio clip digest";
         });
     }
 
@@ -304,17 +311,24 @@ namespace Audio::Internal {
         if (!document)
             return;
 
+        Core::TransactionController::ScopedReadLock readLock(document->transactionController());
+        if (!readLock) {
+            qCWarning(lcAudioClipAddOn) << "Could not acquire a document read lock.";
+            return;
+        }
+
         QString fileName;
         QVariant userData;
         QString entryClassName;
         std::unique_ptr<talcs::AbstractAudioFormatIO> io(openAudioFile(&fileName, &userData, &entryClassName));
-        if (!io) {
+        if (!io || !readLock) {
             return;
         }
 
         const auto path = AudioClipImporter::createAudioPath(windowInterface, fileName, userData, entryClassName);
         io->open(talcs::AbstractAudioFormatIO::Read);
         auto projectAudioAddOn = ProjectAudioAddOn::of(windowInterface);
+        readLock.release();
         document->transactionController()->beginScopedTransaction(tr("Replacing audio clip"), [=, &io] {
             if (projectAudioAddOn) {
                 projectAudioAddOn->addAudioClipCache(clip, io.release());
@@ -322,7 +336,7 @@ namespace Audio::Internal {
             clip->setPath(path);
             return true;
         }, [] {
-            qCCritical(lcAudioClipAddOn) << "Failed to replace audio clip in exclusive transaction";
+            qCCritical(lcAudioClipAddOn) << "Failed to replace audio clip";
         });
     }
 

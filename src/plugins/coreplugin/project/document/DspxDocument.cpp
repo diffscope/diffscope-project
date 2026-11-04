@@ -632,11 +632,12 @@ namespace Core {
             : TransactionalStrategy(parent), m_document(document) {
         }
 
-        void beginTransaction() override {
-            if (!m_document || m_transaction)
-                return;
+        bool beginTransaction() override {
+            if (!m_document || m_transaction || m_document->transaction())
+                return false;
             m_transaction.emplace(m_document->engine()->beginTransaction());
             m_document->setTransaction(&*m_transaction);
+            return true;
         }
         void abortTransaction() override {
             if (!m_document || !m_transaction)
@@ -645,12 +646,13 @@ namespace Core {
             m_transaction->rollback();
             m_transaction.reset();
         }
-        void commitTransaction() override {
+        bool commitTransaction() override {
             if (!m_document || !m_transaction)
-                return;
-            m_transaction->commit();
+                return false;
+            const bool undoStepCreated = m_transaction->commit().createdUndoStep;
             m_document->setTransaction(nullptr);
             m_transaction.reset();
+            return undoStepCreated;
         }
         void moveCurrentStepBy(int count) override {
             if (!m_document)
@@ -1578,6 +1580,7 @@ namespace Core {
             const auto parameterId = d->freeParameterSelectionModel->parameterId();
             const auto layer = d->freeParameterSelectionModel->layer();
             ParameterResamplingScenario scenario;
+            scenario.setDocument(this);
             scenario.setWindow(qobject_cast<QQuickWindow *>(QGuiApplication::focusWindow()));
             if (!scenario.confirmPaste(data.freeParameter(), context.position))
                 return;

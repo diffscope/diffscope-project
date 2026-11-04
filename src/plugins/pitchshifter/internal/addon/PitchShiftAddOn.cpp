@@ -182,7 +182,7 @@ namespace PitchShifter::Internal {
             clip->setPath(path);
             return true;
         }, [this] {
-            qCCritical(lcPitchShiftAddOn) << "Failed to replace audio clip in exclusive transaction";
+            qCCritical(lcPitchShiftAddOn) << "Failed to replace audio clip";
             showCritical(tr("Failed to stretch and shift pitch"), tr("The audio was saved, but the clip could not be updated."));
         });
     }
@@ -213,6 +213,15 @@ namespace PitchShifter::Internal {
                 return;
             }
 
+            auto *document = windowInterface->projectDocumentContext()->document();
+            if (!document)
+                return;
+            const auto readLock = std::make_shared<Core::TransactionController::ScopedReadLock>(document->transactionController());
+            if (!*readLock) {
+                qCWarning(lcPitchShiftAddOn) << "Could not acquire a document read lock.";
+                return;
+            }
+
             const QPointer<dspx::AudioClip> guardedClip(clip);
             const auto sourcePath = clip->path();
             auto audioContext = Audio::AudioClipAudioContext::of(clip);
@@ -231,7 +240,7 @@ namespace PitchShifter::Internal {
                 sourceFileInfo.dir().filePath(defaultBaseName + QStringLiteral(".wav")),
                 tr("WAV Audio (*.wav)")
             );
-            if (outputFilePath.isEmpty()) {
+            if (outputFilePath.isEmpty() || !*readLock) {
                 return;
             }
             QFileInfo outputFileInfo(outputFilePath);
@@ -253,7 +262,7 @@ namespace PitchShifter::Internal {
                 showCritical(tr("Failed to stretch and shift pitch"), configComponent.errorString());
                 return;
             }
-            if (!execDialog(configDialog.get())) {
+            if (!execDialog(configDialog.get()) || !*readLock) {
                 return;
             }
 
@@ -311,19 +320,23 @@ namespace PitchShifter::Internal {
                 progressDialog->setProperty("progressValue", progress);
             });
 
-            connect(task, &PitchShiftTask::succeeded, this, [this, guardedClip, outputFilePath = config.outputFilePath, progressDialog](const QString &digest) {
+            connect(task, &PitchShiftTask::succeeded, this, [this, readLock, guardedClip, outputFilePath = config.outputFilePath, progressDialog](const QString &digest) {
                 closeProgressDialog(progressDialog);
+                readLock->release();
                 replaceClipAudio(guardedClip, outputFilePath, digest);
             });
-            connect(task, &PitchShiftTask::cancelled, this, [this, progressDialog] {
+            connect(task, &PitchShiftTask::cancelled, this, [this, readLock, progressDialog] {
+                readLock->release();
                 qCWarning(lcPitchShiftAddOn) << "Pitch shift operation cancelled";
                 closeProgressDialog(progressDialog);
             });
-            connect(task, &PitchShiftTask::failed, this, [this, progressDialog](const QString &message) {
+            connect(task, &PitchShiftTask::failed, this, [this, readLock, progressDialog](const QString &message) {
+                readLock->release();
                 closeProgressDialog(progressDialog);
                 showCritical(tr("Failed to stretch and shift pitch"), message);
             });
-            connect(task, &QThread::finished, this, [this, task, progressDialog] {
+            connect(task, &QThread::finished, this, [this, task, progressDialog, readLock] {
+                readLock->release();
                 m_operations.remove(task);
                 progressDialog->deleteLater();
                 task->deleteLater();

@@ -150,7 +150,7 @@ namespace Core::Internal {
             dspxModel->setLoopEnabled(enabled);
             return true;
         }, [=, this] {
-            qCCritical(lcTimelineAddOn()) << "Failed to edit loop in exclusive transaction";
+            qCCritical(lcTimelineAddOn()) << "Failed to edit loop";
             Q_EMIT loopEnabledChanged();
         });
     }

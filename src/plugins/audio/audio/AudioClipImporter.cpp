@@ -114,7 +114,7 @@ namespace Audio {
 
     dspx::AudioClip *AudioClipImporter::insertClip(dspx::Track *track, int position, const QString &name) {
         Q_D(AudioClipImporter);
-        if (!d->windowHandle || !d->document || !d->windowHandle->projectTimeline() || d->windowHandle->projectDocumentContext()->document() != d->document || !d->io || !track || track->model() != d->document->model() || !track->trackList() || !d->document->transactionController()->isExclusiveToTransaction()) {
+        if (!d->windowHandle || !d->document || !d->windowHandle->projectTimeline() || d->windowHandle->projectDocumentContext()->document() != d->document || !d->io || !track || track->model() != d->document->model() || !track->trackList() || !d->document->transactionController()->isTransactionActive()) {
             return nullptr;
         }
         if (!(d->io->openMode() & talcs::AbstractAudioFormatIO::Read) && !d->io->open(talcs::AbstractAudioFormatIO::Read)) {

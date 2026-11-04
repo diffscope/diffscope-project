@@ -4,7 +4,12 @@
 #ifndef DIFFSCOPE_TRANSACTIONAL_TRANSACTIONCONTROLLER_H
 #define DIFFSCOPE_TRANSACTIONAL_TRANSACTIONCONTROLLER_H
 
+#include <concepts>
+#include <functional>
+
 #include <QObject>
+#include <QPointer>
+#include <QScopedPointer>
 
 class QAbstractItemModel;
 
@@ -18,7 +23,10 @@ namespace Core {
         Q_OBJECT
         Q_DECLARE_PRIVATE(TransactionController)
         Q_PROPERTY(bool transactionActive READ isTransactionActive NOTIFY transactionActiveChanged)
-        Q_PROPERTY(bool exclusiveToTransaction READ isExclusiveToTransaction NOTIFY exclusiveToTransactionChanged)
+        Q_PROPERTY(bool hasReadLocks READ hasReadLocks NOTIFY accessStateChanged)
+        Q_PROPERTY(bool canBeginTransaction READ canBeginTransaction NOTIFY accessStateChanged)
+        Q_PROPERTY(bool canAcquireReadLock READ canAcquireReadLock NOTIFY accessStateChanged)
+        Q_PROPERTY(bool canMoveCurrentStep READ canMoveCurrentStep NOTIFY accessStateChanged)
         Q_PROPERTY(int currentStep READ currentStep WRITE setCurrentStep NOTIFY currentStepChanged)
         Q_PROPERTY(int totalSteps READ totalSteps NOTIFY totalStepsChanged)
         Q_PROPERTY(int cleanStep READ cleanStep WRITE setCleanStep NOTIFY cleanStepChanged)
@@ -30,7 +38,36 @@ namespace Core {
         TransactionalStrategy *strategy() const;
 
         bool isTransactionActive() const;
-        bool isExclusiveToTransaction() const;
+        bool hasReadLocks() const;
+        bool canBeginTransaction() const;
+        bool canAcquireReadLock() const;
+        bool canMoveCurrentStep() const;
+
+        enum class ReadLockId {
+            Invalid = 0,
+        };
+        Q_ENUM(ReadLockId)
+
+        Q_INVOKABLE ReadLockId tryAcquireReadLock();
+        Q_INVOKABLE bool releaseReadLock(ReadLockId readLockId);
+
+        class ScopedReadLock {
+        public:
+            ScopedReadLock() = default;
+            explicit ScopedReadLock(TransactionController *controller);
+            ~ScopedReadLock();
+
+            bool acquire(TransactionController *controller);
+            void release();
+            explicit operator bool() const;
+
+        private:
+            Q_DISABLE_COPY_MOVE(ScopedReadLock)
+            QPointer<TransactionController> m_controller;
+            ReadLockId m_id = ReadLockId::Invalid;
+        };
+
+        bool withWriteAccess(const std::function<void()> &callback);
 
         int currentStep() const;
         void setCurrentStep(int step);
@@ -84,12 +121,12 @@ namespace Core {
             return true;
         }
 
-        Q_INVOKABLE TransactionId beginNonExclusiveTransaction(int lifeTime, const QString &name);
-        Q_INVOKABLE void resetNonExclusiveTransactionLifeTime(TransactionId transactionId, int lifeTime, const QString &name = {});
+        Q_INVOKABLE TransactionId beginAutoCommitTransaction(int timeoutMs, const QString &name);
+        Q_INVOKABLE void restartAutoCommitTimer(TransactionId transactionId, int timeoutMs, const QString &name = {});
 
     Q_SIGNALS:
         void transactionActiveChanged(bool isTransactionActive);
-        void exclusiveToTransactionChanged(bool isExclusiveToTransaction);
+        void accessStateChanged();
         void currentStepChanged(int currentStep);
         void totalStepsChanged(int totalSteps);
         void cleanStepChanged(int cleanStep);
@@ -97,7 +134,7 @@ namespace Core {
         void transactionBegun();
         void transactionAborted();
         void transactionCommitted(const QString &name);
-        void nonExclusiveTransactionAutoCommitted(TransactionId transactionId);
+        void transactionAutoCommitted(TransactionId transactionId);
 
     private:
         QScopedPointer<TransactionControllerPrivate> d_ptr;

@@ -37,6 +37,13 @@ namespace Core {
         if (!track || !document() || !window())
             return;
 
+        auto *targetDocument = document();
+        TransactionController::ScopedReadLock readLock(targetDocument->transactionController());
+        if (!readLock) {
+            qCWarning(lcPickTrackColorScenario) << "Could not acquire a document read lock.";
+            return;
+        }
+
         auto currentColorId = track->colorId();
 
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PickTrackColorDialog");
@@ -44,18 +51,21 @@ namespace Core {
             {"colorId", currentColorId}
         });
         
-        if (!DocumentEditScenarioPrivate::execDialog(dialog))
+        if (!DocumentEditScenarioPrivate::execDialog(dialog) || !readLock || document() != targetDocument)
             return;
 
         auto newColorId = dialog->property("colorId").toInt();
 
         qCInfo(lcPickTrackColorScenario) << "Pick track color" << track << "from" << currentColorId << "to" << newColorId;
 
-        document()->transactionController()->beginScopedTransaction(tr("Picking track color"), [=] {
+        readLock.release();
+        if (document() != targetDocument)
+            return;
+        targetDocument->transactionController()->beginScopedTransaction(tr("Picking track color"), [=] {
             track->setColorId(newColorId);
             return true;
         }, [] {
-            qCCritical(lcPickTrackColorScenario) << "Failed to pick track color in exclusive transaction";
+            qCCritical(lcPickTrackColorScenario) << "Failed to pick track color";
         });
     }
 
