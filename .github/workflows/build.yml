@@ -267,6 +267,29 @@ jobs:
           "PACKAGE_PATH=$output" >> $env:GITHUB_ENV
           "PACKAGE_ARTIFACT_NAME=$($env:ARTIFACT_NAME)_portable" >> $env:GITHUB_ENV
 
+      - name: Create AppImage (Linux)
+        if: runner.os == 'Linux'
+        env:
+          ARCH: x86_64
+        run: |
+          $output = & ./scripts/ci/Create-AppImage.ps1 `
+            -InstallDir $env:INSTALL_DIR `
+            -ApplicationName $env:APPLICATION_NAME `
+            -AppImageToolPath $env:APPIMAGETOOL_PATH `
+            -RuntimePath $env:APPIMAGE_RUNTIME_PATH `
+            -AppImagePath "$($env:ARTIFACT_NAME).AppImage"
+          "APPIMAGE_PATH=$output" >> $env:GITHUB_ENV
+
+      - name: Upload AppImage (Linux)
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.APPIMAGE_PATH }}
+          if-no-files-found: error
+          overwrite: true
+          compression-level: 0
+
       - name: Upload symbol files
         uses: actions/upload-artifact@v4
         with:

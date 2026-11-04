@@ -38,7 +38,24 @@ runs:
           libasound2-dev libatopology-dev `
           libxrandr-dev libxinerama-dev libxrender-dev libxcomposite-dev libxcursor-dev `
           libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev `
-          protobuf-compiler
+          protobuf-compiler desktop-file-utils
+
+    - name: Install AppImage tools (Linux)
+      if: runner.os == 'Linux'
+      shell: pwsh
+      run: |
+        $toolDirectory = Join-Path $env:RUNNER_TEMP 'appimage-tools'
+        New-Item -ItemType Directory -Path $toolDirectory -Force | Out-Null
+        $appImageTool = Join-Path $toolDirectory 'appimagetool.AppImage'
+        $runtime = Join-Path $toolDirectory 'runtime-x86_64'
+        Invoke-WebRequest -Uri 'https://github.com/AppImage/appimagetool/releases/download/1.9.1/appimagetool-x86_64.AppImage' -OutFile $appImageTool
+        Invoke-WebRequest -Uri 'https://github.com/AppImage/type2-runtime/releases/download/20251108/runtime-x86_64' -OutFile $runtime
+        & /bin/chmod +x -- $appImageTool
+        if ($LASTEXITCODE -ne 0) {
+          throw 'Failed to make appimagetool executable'
+        }
+        "APPIMAGETOOL_PATH=$appImageTool" >> $env:GITHUB_ENV
+        "APPIMAGE_RUNTIME_PATH=$runtime" >> $env:GITHUB_ENV
 
     - name: Install build tools (macOS)
       if: runner.os == 'macOS'
