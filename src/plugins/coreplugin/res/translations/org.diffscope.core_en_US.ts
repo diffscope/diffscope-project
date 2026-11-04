@@ -4,7 +4,7 @@
 <context>
     <name></name>
     <message id="org.diffscope.core.timelineaddon.quick_jump_help">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="190"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="191"/>
         <source></source>
         <translation type="unfinished">&lt;p&gt;Enter operators and timecodes to adjust the playback position&lt;/p&gt;
 &lt;b&gt;Go To&lt;/b&gt;
@@ -48,42 +48,42 @@
         <translation type="unfinished">Parameter Anchor</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="52"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="58"/>
         <source>Editing parameter anchor</source>
         <translation type="unfinished">Editing parameter anchor</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="77"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="88"/>
         <source>The selected parameter is not registered for this singer architecture.</source>
         <translation type="unfinished">The selected parameter is not registered for this singer architecture.</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="84"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="95"/>
         <source>Position</source>
         <translation type="unfinished">Position</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="97"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="108"/>
         <source>Value</source>
         <translation type="unfinished">Value</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="169"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="184"/>
         <source>Interpolation</source>
         <translation type="unfinished">Interpolation</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="176"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="191"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="177"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="192"/>
         <source>Linear</source>
         <translation type="unfinished">Linear</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="178"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="193"/>
         <source>Hermite</source>
         <translation type="unfinished">Hermite</translation>
     </message>
@@ -249,12 +249,12 @@
         <translation type="obsolete">&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Version: %1&lt;br&gt;Branch: %2&lt;br&gt;Commit: %3&lt;br&gt;Build date: %4&lt;br&gt;Toolchain: %5 %6 %7&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="96"/>
+        <location filename="../../../../app/main.cpp" line="106"/>
         <source>Version %1</source>
         <translation type="unfinished">Version %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="97"/>
+        <location filename="../../../../app/main.cpp" line="107"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
     </message>
@@ -1679,57 +1679,57 @@
 <context>
     <name>ClipPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="21"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="22"/>
         <source>Basic</source>
         <translation type="unfinished">Basic</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="28"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="29"/>
         <source>Name</source>
         <translation type="unfinished">Name</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="29"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="30"/>
         <source>Renaming clip</source>
         <translation type="unfinished">Renaming clip</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="33"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="34"/>
         <source>Type</source>
         <translation type="unfinished">Type</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="35"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="36"/>
         <source>Audio</source>
         <translation type="unfinished">Audio</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="35"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="36"/>
         <source>Singing</source>
         <translation type="unfinished">Singing</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="35"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="36"/>
         <source>Multiple types</source>
         <translation type="unfinished">Multiple types</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="43"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="44"/>
         <source>Associated track</source>
         <translation type="unfinished">Associated track</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="58"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="61"/>
         <source>Select track</source>
         <translation type="unfinished">Select track</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="75"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="79"/>
         <source>Multiple tracks</source>
         <translation type="unfinished">Multiple tracks</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="76"/>
+        <location filename="../../qml/propertyeditors/ClipPropertyEditor.qml" line="80"/>
         <source>%L1: %2</source>
         <translation type="unfinished">%L1: %2</translation>
     </message>
@@ -1737,48 +1737,48 @@
 <context>
     <name>ClipTimePropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="18"/>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="19"/>
         <source>Time</source>
         <translation type="unfinished">Time</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="26"/>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="27"/>
         <source>Position</source>
         <translation type="unfinished">Position</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="27"/>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="28"/>
         <source>Editing clip position</source>
         <translation type="unfinished">Editing clip position</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="33"/>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="34"/>
         <source>Starting offset</source>
         <translation type="unfinished">Starting offset</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="35"/>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="36"/>
         <source>Editing clip starting offset</source>
         <translation type="unfinished">Editing clip starting offset</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="41"/>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="42"/>
         <source>Clip length</source>
         <translation type="unfinished">Clip length</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="44"/>
-        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="51"/>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="45"/>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="52"/>
         <source>Editing clip length</source>
         <translation type="unfinished">Editing clip length</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="54"/>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="55"/>
         <source>Maximum length</source>
         <translation type="unfinished">Maximum length</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="56"/>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="58"/>
         <source>Fix maximum length</source>
         <translation type="unfinished">Fix maximum length</translation>
     </message>
@@ -1787,7 +1787,7 @@
         <translation type="obsolete">Full length</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="65"/>
+        <location filename="../../qml/propertyeditors/ClipTimePropertyEditor.qml" line="71"/>
         <source>Limitless</source>
         <translation type="unfinished">Limitless</translation>
     </message>
@@ -2357,122 +2357,122 @@
 <context>
     <name>Core::DspxDocument</name>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1568"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1580"/>
         <source>Paste Failed</source>
         <translation type="unfinished">Paste Failed</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1568"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1580"/>
         <source>Cannot paste data from the clipboard.</source>
         <translation type="unfinished">Cannot paste data from the clipboard.</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="122"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="123"/>
         <source>Pasting tempo</source>
         <translation type="unfinished">Pasting tempo</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="123"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="124"/>
         <source>Pasting label</source>
         <translation type="unfinished">Pasting label</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="124"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="125"/>
         <source>Pasting key signature</source>
         <translation type="unfinished">Pasting key signature</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="125"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="126"/>
         <source>Pasting track</source>
         <translation type="unfinished">Pasting track</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="126"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="127"/>
         <source>Pasting clip</source>
         <translation type="unfinished">Pasting clip</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="127"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="128"/>
         <source>Pasting note</source>
         <translation type="unfinished">Pasting note</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="128"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="129"/>
         <source>Pasting voice blending anchor</source>
         <translation type="unfinished">Pasting voice blending anchor</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1622"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1644"/>
         <source>Deleting parameter data</source>
         <translation type="unfinished">Deleting parameter data</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1625"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1647"/>
         <source>Deleting tempo</source>
         <translation type="unfinished">Deleting tempo</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1627"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1649"/>
         <source>Deleting label</source>
         <translation type="unfinished">Deleting label</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1629"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1651"/>
         <source>Deleting key signature</source>
         <translation type="unfinished">Deleting key signature</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1631"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1653"/>
         <source>Deleting track</source>
         <translation type="unfinished">Deleting track</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1633"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1655"/>
         <source>Deleting clip</source>
         <translation type="unfinished">Deleting clip</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1635"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1657"/>
         <source>Deleting note</source>
         <translation type="unfinished">Deleting note</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1637"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1659"/>
         <source>Deleting anchor node</source>
         <translation type="unfinished">Deleting anchor node</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1639"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1661"/>
         <source>Deleting voice blending anchor</source>
         <translation type="unfinished">Deleting voice blending anchor</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1642"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1664"/>
         <source>Deleting selection</source>
         <translation type="unfinished">Deleting selection</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1717"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1751"/>
         <source>Splitting clip</source>
         <translation type="unfinished">Splitting clip</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1717"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1751"/>
         <source>Splitting note</source>
         <translation type="unfinished">Splitting note</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1821"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="1864"/>
         <source>Bouncing to clip</source>
         <translation type="unfinished">Bouncing to clip</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="129"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="130"/>
         <source>Pasting anchor node</source>
         <translation type="unfinished">Pasting anchor node</translation>
     </message>
     <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="130"/>
+        <location filename="../../project/document/DspxDocument.cpp" line="131"/>
         <source>Pasting parameter data</source>
         <translation type="unfinished">Pasting parameter data</translation>
     </message>
@@ -2835,7 +2835,7 @@
 <context>
     <name>Core::EditKeySignatureScenario</name>
     <message>
-        <location filename="../../project/scenarios/EditKeySignatureScenario.cpp" line="101"/>
+        <location filename="../../project/scenarios/EditKeySignatureScenario.cpp" line="112"/>
         <source>Editing key signature</source>
         <translation type="unfinished">Editing key signature</translation>
     </message>
@@ -2843,7 +2843,7 @@
 <context>
     <name>Core::EditLoopScenario</name>
     <message>
-        <location filename="../../project/scenarios/EditLoopScenario.cpp" line="89"/>
+        <location filename="../../project/scenarios/EditLoopScenario.cpp" line="100"/>
         <source>Editing loop</source>
         <translation type="unfinished">Editing loop</translation>
     </message>
@@ -2851,18 +2851,18 @@
 <context>
     <name>Core::EditSourcesScenario</name>
     <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="226"/>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="227"/>
         <source>Unsupported Note Languages</source>
         <translation type="unfinished">Unsupported Note Languages</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="227"/>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="228"/>
         <source>Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</source>
         <translation type="unfinished">Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="291"/>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="309"/>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="292"/>
+        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="311"/>
         <source>Editing sources</source>
         <translation type="unfinished">Editing sources</translation>
     </message>
@@ -2870,12 +2870,12 @@
 <context>
     <name>Core::EditTempoTimeSignatureScenario</name>
     <message>
-        <location filename="../../project/scenarios/EditTempoTimeSignatureScenario.cpp" line="84"/>
+        <location filename="../../project/scenarios/EditTempoTimeSignatureScenario.cpp" line="95"/>
         <source>Editing tempo</source>
         <translation type="unfinished">Editing tempo</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/EditTempoTimeSignatureScenario.cpp" line="157"/>
+        <location filename="../../project/scenarios/EditTempoTimeSignatureScenario.cpp" line="180"/>
         <source>Editing time signature</source>
         <translation type="unfinished">Editing time signature</translation>
     </message>
@@ -2889,37 +2889,37 @@
     </message>
     <message>
         <location filename="../../project/scenarios/InsertItemScenario.cpp" line="102"/>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="144"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="153"/>
         <source>Unnamed track</source>
         <translation type="unfinished">Unnamed track</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="156"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="168"/>
         <source>Inserting track</source>
         <translation type="unfinished">Inserting track</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="208"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="232"/>
         <source>Inserting label</source>
         <translation type="unfinished">Inserting label</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="266"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="299"/>
         <source>Unnamed clip</source>
         <translation type="unfinished">Unnamed clip</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="292"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="328"/>
         <source>Inserting singing clip</source>
         <translation type="unfinished">Inserting singing clip</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="363"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="411"/>
         <source>Inserting note</source>
         <translation type="unfinished">Inserting note</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="429"/>
+        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="489"/>
         <source>Inserting phoneme</source>
         <translation type="unfinished">Inserting phoneme</translation>
     </message>
@@ -3032,33 +3032,33 @@
         <translation type="unfinished">DiffScope High Contrast</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="365"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="406"/>
         <source>Failed to Import Preset</source>
         <translation>Failed to Import Preset</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="365"/>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="390"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="406"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="431"/>
         <source>Unable to open file &quot;%1&quot;</source>
         <translation>Unable to open file &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="375"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="416"/>
         <source>Failed to import preset</source>
         <translation>Failed to import preset</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="375"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="416"/>
         <source>Invalid format in file &quot;%1&quot;</source>
         <translation>Invalid format in file &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="390"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="431"/>
         <source>Failed to export preset</source>
         <translation>Failed to export preset</translation>
     </message>
     <message>
-        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="431"/>
+        <location filename="../../internal/colorscheme/ColorSchemeCollection.cpp" line="472"/>
         <source>(Unsaved preset)</source>
         <translation>(Unsaved preset)</translation>
     </message>
@@ -3204,12 +3204,12 @@
         <translation>Initializing GUI...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="499"/>
+        <location filename="../../internal/CorePlugin.cpp" line="500"/>
         <source>Last run terminated abnormally</source>
         <translation type="unfinished">Last run terminated abnormally</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="499"/>
+        <location filename="../../internal/CorePlugin.cpp" line="500"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
@@ -3218,7 +3218,7 @@ To check for unsaved files, please go to Recovery Files.</source>
 To check for unsaved files, please go to Recovery Files.</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="544"/>
+        <location filename="../../internal/CorePlugin.cpp" line="549"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3231,12 +3231,12 @@ Please go to Plugins to see more details.</source>
 Please go to Plugins to see more details.</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="547"/>
+        <location filename="../../internal/CorePlugin.cpp" line="552"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="549"/>
+        <location filename="../../internal/CorePlugin.cpp" line="554"/>
         <source>Plugin Error</source>
         <translation type="unfinished">Plugin Error</translation>
     </message>
@@ -3257,17 +3257,17 @@ Please go to Plugins to see more details.</translation>
 <context>
     <name>Core::Internal::EditActionsAddOn</name>
     <message>
-        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="93"/>
+        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="96"/>
         <source>Cannot Shift Notes</source>
         <translation type="unfinished">Cannot Shift Notes</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="94"/>
+        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="97"/>
         <source>Pitch out of range</source>
         <translation type="unfinished">Pitch out of range</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="196"/>
+        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="199"/>
         <source>Shifting note pitch</source>
         <translation type="unfinished">Shifting note pitch</translation>
     </message>
@@ -3288,12 +3288,12 @@ Please go to Plugins to see more details.</translation>
 <context>
     <name>Core::Internal::FillLyricsAddOn</name>
     <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="180"/>
+        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="190"/>
         <source>Invalid Regular Expression</source>
         <translation type="unfinished">Invalid Regular Expression</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="181"/>
+        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="191"/>
         <source>The regular expression is invalid:
 
 %1</source>
@@ -3302,7 +3302,7 @@ Please go to Plugins to see more details.</translation>
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="212"/>
+        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="223"/>
         <source>Filling lyrics</source>
         <translation type="unfinished">Filling lyrics</translation>
     </message>
@@ -3310,7 +3310,7 @@ Please go to Plugins to see more details.</translation>
 <context>
     <name>Core::Internal::FindActionsAddOn</name>
     <message>
-        <location filename="../../internal/addon/FindActionsAddOn.cpp" line="67"/>
+        <location filename="../../internal/addon/FindActionsAddOn.cpp" line="81"/>
         <source>Find actions</source>
         <translation>Find actions</translation>
     </message>
@@ -3938,7 +3938,7 @@ Accidental Type: %4</translation>
 <context>
     <name>Core::Internal::NotificationAddOn</name>
     <message numerus="yes">
-        <location filename="../../internal/addon/NotificationAddOn.cpp" line="84"/>
+        <location filename="../../internal/addon/NotificationAddOn.cpp" line="85"/>
         <source>%1 (+%Ln notification(s))</source>
         <translation>
             <numerusform>%1 (+%Ln notification)</numerusform>
@@ -3967,128 +3967,128 @@ Accidental Type: %4</translation>
 <context>
     <name>Core::Internal::QuickJumpParser</name>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="184"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="185"/>
         <source>Type &quot;?&quot; to view tips</source>
         <translation type="unfinished">Type &quot;?&quot; to view tips</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="201"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="202"/>
         <source>Invalid format</source>
         <translation type="unfinished">Invalid format</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="214"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="264"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="306"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="321"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="333"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="345"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="355"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="362"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="369"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="215"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="307"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="356"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="363"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="370"/>
         <source>Go to %1</source>
         <translation type="unfinished">Go to %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="234"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="287"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
         <source>Move backward by %1 (to %2)</source>
         <translation type="unfinished">Move backward by %1 (to %2)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="234"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="287"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
         <source>Move forward by %1 (to %2)</source>
         <translation type="unfinished">Move forward by %1 (to %2)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="236"/>
         <source>Move backward by music time...</source>
         <translation type="unfinished">Move backward by music time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="236"/>
         <source>Move forward by music time...</source>
         <translation type="unfinished">Move forward by music time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="242"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="296"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="321"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="333"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="345"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="243"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="297"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
         <source>
 The time offset exceeds the boundary and has been adjusted to zero</source>
         <translation type="unfinished">
 The time offset exceeds the boundary and has been adjusted to zero</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="264"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
         <source>Go to absolute time...</source>
         <translation type="unfinished">Go to absolute time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="264"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="289"/>
         <source>Move backward by absolute time...</source>
         <translation type="unfinished">Move backward by absolute time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="289"/>
         <source>Move forward by absolute time...</source>
         <translation type="unfinished">Move forward by absolute time...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="306"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="307"/>
         <source>the end of project (%1)</source>
         <translation type="unfinished">the end of project (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="321"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
         <source>previous measure (%1)</source>
         <translation type="unfinished">previous measure (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="333"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
         <source>previous beat (%1)</source>
         <translation type="unfinished">previous beat (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="345"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
         <source>previous tick (%1)</source>
         <translation type="unfinished">previous tick (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="355"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="356"/>
         <source>next measure (%1)</source>
         <translation type="unfinished">next measure (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="362"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="363"/>
         <source>next beat (%1)</source>
         <translation type="unfinished">next beat (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="369"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="370"/>
         <source>next tick (%1)</source>
         <translation type="unfinished">next tick (%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="398"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="399"/>
         <source>measure %L1, beat %L2</source>
         <translation type="unfinished">measure %L1, beat %L2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="400"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="401"/>
         <source>measure %L1, beat %L2, tick %L3</source>
         <translation type="unfinished">measure %L1, beat %L2, tick %L3</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="404"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="405"/>
         <source>%Ln quarter note(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -4097,7 +4097,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="405"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="406"/>
         <source>%Ln tick(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -4106,13 +4106,13 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="412"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="413"/>
         <source>%1 %2</source>
         <comment>relative quarter-note tick</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="416"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="417"/>
         <source>%Ln minute(s)</source>
         <comment>absolute time</comment>
         <translation type="unfinished">
@@ -4121,7 +4121,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="417"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="418"/>
         <source>%Ln second(s)</source>
         <comment>absolute time</comment>
         <translation type="unfinished">
@@ -4130,7 +4130,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="418"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="419"/>
         <source>%Ln millisecond(s)</source>
         <comment>absolute time</comment>
         <translation type="unfinished">
@@ -4139,26 +4139,26 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="426"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="432"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="427"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="433"/>
         <source>%1 %2</source>
         <comment>absolute minute second</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="429"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="430"/>
         <source>%1 %2</source>
         <comment>absolute second millisecond</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="434"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="435"/>
         <source>%1 %2 %3</source>
         <comment>absolute minute second millisecond</comment>
         <translation type="unfinished">%1 %2 %3</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="438"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="439"/>
         <source>%Ln minute(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -4167,7 +4167,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="439"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="440"/>
         <source>%Ln second(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -4176,7 +4176,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="440"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="441"/>
         <source>%Ln millisecond(s)</source>
         <comment>relative time</comment>
         <translation type="unfinished">
@@ -4185,20 +4185,20 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="448"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="454"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="449"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="455"/>
         <source>%1 %2</source>
         <comment>relative minute second</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="451"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="452"/>
         <source>%1 %2</source>
         <comment>relative second millisecond</comment>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="456"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="457"/>
         <source>%1 %2 %3</source>
         <comment>relative minute second millisecond</comment>
         <translation type="unfinished">%1 %2 %3</translation>
@@ -4437,12 +4437,12 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         <translation type="vanished">Type &quot;?&quot; to view tips</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="489"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="490"/>
         <source>Invalid format</source>
         <translation>Invalid format</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="477"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="478"/>
         <source>Jump to</source>
         <translation>Jump to</translation>
     </message>
@@ -4462,7 +4462,7 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         <translation type="unfinished">Disabling loop</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="487"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="488"/>
         <source>Input should not be empty</source>
         <translation>Input should not be empty</translation>
     </message>
@@ -4485,42 +4485,42 @@ Continue?</translation>
 <context>
     <name>Core::Internal::WorkspaceAddOn</name>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="170"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="168"/>
         <source>Save Current Layout As...</source>
         <translation>Save Current Layout As...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="176"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="174"/>
         <source>Default Layout</source>
         <translation>Default Layout</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="186"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="184"/>
         <source>custom layout</source>
         <translation>custom layout</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="190"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="188"/>
         <source>Workspace layout actions</source>
         <translation>Workspace layout actions</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="210"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="208"/>
         <source>Apply</source>
         <translation>Apply</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="213"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="211"/>
         <source>Rename</source>
         <translation>Rename</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="216"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="214"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="218"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="216"/>
         <source>Custom layout &quot;%1&quot; actions</source>
         <translation>Custom layout &quot;%1&quot; actions</translation>
     </message>
@@ -4711,7 +4711,7 @@ Do you want to continue?</translation>
 <context>
     <name>Core::ParameterResamplingScenario</name>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="35"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="55"/>
         <source>Pasting at this position requires resampling the parameter curve. Linear interpolation may change its shape.
 
 Continue to paste?</source>
@@ -4720,12 +4720,12 @@ Continue to paste?</source>
 Continue to paste?</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="44"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="74"/>
         <source>Warning</source>
         <translation type="unfinished">Warning</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="45"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="75"/>
         <source>Some notes or curves cross clip boundaries, or data points overlap after merging. Bouncing may trim or overwrite this data.
 
 Continue to bounce?</source>
@@ -4734,7 +4734,7 @@ Continue to bounce?</source>
 Continue to bounce?</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="55"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="84"/>
         <source>Bouncing these clips requires resampling parameter curves. Linear interpolation may change their shape.
 
 Continue to bounce?</source>
@@ -4743,22 +4743,22 @@ Continue to bounce?</source>
 Continue to bounce?</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="73"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="102"/>
         <source>Once</source>
         <translation type="unfinished">Once</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="74"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="103"/>
         <source>Always</source>
         <translation type="unfinished">Always</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="75"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="104"/>
         <source>No</source>
         <translation type="unfinished">No</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="70"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="99"/>
         <source>Resample Parameters</source>
         <translation type="unfinished">Resample Parameters</translation>
     </message>
@@ -4766,7 +4766,7 @@ Continue to bounce?</translation>
 <context>
     <name>Core::PickTrackColorScenario</name>
     <message>
-        <location filename="../../project/scenarios/PickTrackColorScenario.cpp" line="54"/>
+        <location filename="../../project/scenarios/PickTrackColorScenario.cpp" line="65"/>
         <source>Picking track color</source>
         <translation type="unfinished">Picking track color</translation>
     </message>
@@ -4774,12 +4774,12 @@ Continue to bounce?</translation>
 <context>
     <name>Core::ProjectWindowInterface</name>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="127"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="128"/>
         <source>File Modified Externally</source>
         <translation type="unfinished">File Modified Externally</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="128"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="129"/>
         <source>The file has been modified by another program since it was last saved.
 
 Do you want to save as a new file or overwrite it?</source>
@@ -4788,24 +4788,24 @@ Do you want to save as a new file or overwrite it?</source>
 Do you want to save as a new file or overwrite it?</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="132"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="133"/>
         <source>Save As...</source>
         <translation type="unfinished">Save As...</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="136"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="137"/>
         <source>Overwrite</source>
         <translation type="unfinished">Overwrite</translation>
     </message>
     <message>
         <location filename="../../windows/ProjectWindowInterface.cpp" line="252"/>
         <source>Operation Conflict</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Operation Conflict</translation>
     </message>
     <message>
         <location filename="../../windows/ProjectWindowInterface.cpp" line="253"/>
         <source>Please wait until the current operation is complete before proceeding.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Please wait until the current operation is complete before proceeding.</translation>
     </message>
 </context>
 <context>
@@ -4994,28 +4994,28 @@ Do you want to save as a new file or overwrite it?</translation>
         <translation type="unfinished">Voice blending anchor</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="40"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="44"/>
         <source>Editing voice blending</source>
         <translation type="unfinished">Editing voice blending</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="56"/>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="101"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="59"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="104"/>
         <source>Unnamed singer</source>
         <translation type="unfinished">Unnamed singer</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="68"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="71"/>
         <source>Position</source>
         <translation type="unfinished">Position</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="99"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="102"/>
         <source>Mixed singer</source>
         <translation type="unfinished">Mixed singer</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="154"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="157"/>
         <source>%1%</source>
         <translation type="unfinished">%1%</translation>
     </message>
@@ -5027,28 +5027,28 @@ Do you want to save as a new file or overwrite it?</translation>
         <translation type="obsolete">%1 [%2, %3)</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="199"/>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="201"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="207"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="209"/>
         <source>Toggling mute</source>
         <translation type="unfinished">Toggling mute</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="213"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="222"/>
         <source>Toggling solo</source>
         <translation type="unfinished">Toggling solo</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="272"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="285"/>
         <source>%1 (%2 - %3)</source>
         <translation type="unfinished">%1 (%2 - %3)</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="279"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="292"/>
         <source>No selection</source>
         <translation type="unfinished">No selection</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="281"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="294"/>
         <source>%Ln parameter anchor(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln parameter anchor</numerusform>
@@ -5056,7 +5056,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="283"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="296"/>
         <source>%Ln clip(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln clip</numerusform>
@@ -5064,7 +5064,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="285"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="298"/>
         <source>%Ln label(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln label</numerusform>
@@ -5072,7 +5072,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="287"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="300"/>
         <source>%Ln note(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln note</numerusform>
@@ -5080,7 +5080,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="289"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="302"/>
         <source>%Ln tempo(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln tempo</numerusform>
@@ -5088,7 +5088,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="291"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="304"/>
         <source>%Ln track(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln track</numerusform>
@@ -5096,7 +5096,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="293"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="306"/>
         <source>%Ln key signature(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln key signature</numerusform>
@@ -5104,7 +5104,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="295"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="308"/>
         <source>%Ln voice blending anchor(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln voice blending anchor</numerusform>
@@ -5112,7 +5112,7 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="305"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="318"/>
         <source> (%Ln selected)</source>
         <translation type="unfinished">
             <numerusform> (%Ln selected)</numerusform>
@@ -5120,12 +5120,12 @@ Do you want to save as a new file or overwrite it?</translation>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="324"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="339"/>
         <source>Warning</source>
         <translation type="unfinished">Warning</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="324"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="339"/>
         <source>The selected clips use different source singer layouts. Bouncing will keep one source singer layout and discard all voice blending anchors.
 
 Continue to bounce?</source>
@@ -5786,47 +5786,47 @@ Continue to bounce?</translation>
         <translation type="unfinished">Editing key signature</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="58"/>
+        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="63"/>
         <source>Tonality</source>
         <translation type="unfinished">Tonality</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="59"/>
+        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="64"/>
         <source>Editing key signature tonality</source>
         <translation type="unfinished">Editing key signature tonality</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="77"/>
+        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="85"/>
         <source>Mode</source>
         <translation type="unfinished">Mode</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="78"/>
+        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="86"/>
         <source>Editing key signature mode</source>
         <translation type="unfinished">Editing key signature mode</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="87"/>
+        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="95"/>
         <source>Custom Mode</source>
         <translation type="unfinished">Custom Mode</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="98"/>
+        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="109"/>
         <source>Accidental type</source>
         <translation type="unfinished">Accidental type</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="99"/>
+        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="110"/>
         <source>Editing key signature accidental type</source>
         <translation type="unfinished">Editing key signature accidental type</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="118"/>
+        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="130"/>
         <source>Flat</source>
         <translation type="unfinished">Flat</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="127"/>
+        <location filename="../../qml/propertyeditors/KeySignaturePropertyEditor.qml" line="143"/>
         <source>Sharp</source>
         <translation type="unfinished">Sharp</translation>
     </message>
@@ -6498,73 +6498,73 @@ Continue to bounce?</translation>
 <context>
     <name>NoteLyricPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="22"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="23"/>
         <source>Lyric and Pronunciation</source>
         <translation type="unfinished">Lyric and Pronunciation</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="57"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="58"/>
         <source>Lyric</source>
         <translation type="unfinished">Lyric</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="58"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="59"/>
         <source>Editing lyric</source>
         <translation type="unfinished">Editing lyric</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="66"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="67"/>
         <source>Language</source>
         <translation type="unfinished">Language</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="67"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="68"/>
         <source>Editing language</source>
         <translation type="unfinished">Editing language</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="73"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="74"/>
         <source>Enter custom language code</source>
         <translation type="unfinished">Enter custom language code</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="77"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="78"/>
         <source>Custom language codes may not be supported by the singer.</source>
         <translation type="unfinished">Custom language codes may not be supported by the singer.</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="83"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="84"/>
         <source>Custom language code</source>
         <translation type="unfinished">Custom language code</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="93"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="94"/>
         <source>Language code should not be empty</source>
         <translation type="unfinished">Language code should not be empty</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="118"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="120"/>
         <source>Custom (%1)</source>
         <translation type="unfinished">Custom (%1)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="127"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="132"/>
         <source>Pronunciation (original)</source>
         <translation type="unfinished">Pronunciation (original)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="115"/>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="130"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="117"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="135"/>
         <source>Multiple values</source>
         <translation type="unfinished">Multiple values</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="141"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="146"/>
         <source>Pronunciation (edited)</source>
         <translation type="unfinished">Pronunciation (edited)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="142"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="147"/>
         <source>Editing pronunciation (edited)</source>
         <translation type="unfinished">Editing pronunciation (edited)</translation>
     </message>
@@ -6572,57 +6572,57 @@ Continue to bounce?</translation>
 <context>
     <name>NotePhonemePropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="20"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="21"/>
         <source>Phoneme</source>
         <translation type="unfinished">Phoneme</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="42"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="45"/>
         <source>Editing phoneme</source>
         <translation type="unfinished">Editing phoneme</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="53"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="56"/>
         <source>Token</source>
         <translation type="unfinished">Token</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="58"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="61"/>
         <source>Start (ms)</source>
         <translation type="unfinished">Start (ms)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="63"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="66"/>
         <source>Language</source>
         <translation type="unfinished">Language</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="68"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="71"/>
         <source>Onset</source>
         <translation type="unfinished">Onset</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="172"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="187"/>
         <source>Yes</source>
         <translation type="unfinished">Yes</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="172"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="187"/>
         <source>No</source>
         <translation type="unfinished">No</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="188"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="203"/>
         <source>Original</source>
         <translation type="unfinished">Original</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="198"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="213"/>
         <source>Edited</source>
         <translation type="unfinished">Edited</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="207"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="222"/>
         <source>Insert</source>
         <translation type="unfinished">Insert</translation>
     </message>
@@ -7175,12 +7175,12 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>TimelineAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="46"/>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="47"/>
         <source>Current project time</source>
         <translation>Current project time</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="88"/>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="89"/>
         <source>Slide to adjust current project time</source>
         <translation>Slide to adjust current project time</translation>
     </message>
@@ -7206,32 +7206,32 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>TrackPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="19"/>
+        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="20"/>
         <source>Basic</source>
         <translation type="unfinished">Basic</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="26"/>
+        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="27"/>
         <source>Name</source>
         <translation type="unfinished">Name</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="27"/>
+        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="28"/>
         <source>Renaming track</source>
         <translation type="unfinished">Renaming track</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="34"/>
+        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="35"/>
         <source>Color</source>
         <translation type="unfinished">Color</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="35"/>
+        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="36"/>
         <source>Picking track color</source>
         <translation type="unfinished">Picking track color</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="58"/>
+        <location filename="../../qml/propertyeditors/TrackPropertyEditor.qml" line="60"/>
         <source>Track Color %L1</source>
         <translation type="unfinished">Track Color %L1</translation>
     </message>

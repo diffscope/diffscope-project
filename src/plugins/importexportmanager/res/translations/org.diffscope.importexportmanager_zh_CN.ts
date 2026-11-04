@@ -11,12 +11,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="96"/>
+        <location filename="../../../../app/main.cpp" line="106"/>
         <source>Version %1</source>
         <translation>版本 %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="97"/>
+        <location filename="../../../../app/main.cpp" line="107"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation>版权所有 © %1-%2 %3。保留所有权利。</translation>
     </message>
@@ -213,27 +213,27 @@
 <context>
     <name>ImportExportManager::Internal::FileImportExportAddOn</name>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="172"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="178"/>
         <source>Replace tempo and time signature</source>
         <translation type="unfinished">替换曲速与拍号</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="173"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="179"/>
         <source>Do you want to replace the current tempo and time signature with those from the imported file?</source>
         <translation type="unfinished">要用导入文件中的曲速与拍号替换当前的曲速与拍号吗？</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="176"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="185"/>
         <source>Importing tracks</source>
         <translation type="unfinished">导入轨道</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="208"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="218"/>
         <source>Import File</source>
         <translation>导入文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="242"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="252"/>
         <source>Export File</source>
         <translation>导出文件</translation>
     </message>

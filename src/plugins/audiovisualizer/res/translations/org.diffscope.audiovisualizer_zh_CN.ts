@@ -11,12 +11,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="96"/>
+        <location filename="../../../../app/main.cpp" line="106"/>
         <source>Version %1</source>
         <translation type="unfinished">版本 %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="97"/>
+        <location filename="../../../../app/main.cpp" line="107"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished">版权所有 © %1-%2 %3。保留所有权利。</translation>
     </message>
@@ -37,22 +37,22 @@
         <translation type="unfinished">音频导入失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="200"/>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="216"/>
         <source>The audio clips could not be inserted.</source>
         <translation type="unfinished">无法插入音频剪辑。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="203"/>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="219"/>
         <source>Importing audio files</source>
         <translation type="unfinished">导入音频文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="216"/>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="232"/>
         <source>Audio files skipped</source>
         <translation type="unfinished">已跳过音频文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="216"/>
+        <location filename="../../internal/addon/AudioFileDropAddOn.cpp" line="232"/>
         <source>The following audio files could not be imported:
 %1</source>
         <translation type="unfinished">以下音频文件无法导入：

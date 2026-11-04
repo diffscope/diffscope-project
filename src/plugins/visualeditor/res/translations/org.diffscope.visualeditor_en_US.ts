@@ -29,12 +29,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="96"/>
+        <location filename="../../../../app/main.cpp" line="106"/>
         <source>Version %1</source>
         <translation type="unfinished">Version %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="97"/>
+        <location filename="../../../../app/main.cpp" line="107"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
     </message>
@@ -1339,32 +1339,32 @@
 <context>
     <name>PianoRollView</name>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="642"/>
+        <location filename="../../qml/PianoRollView.qml" line="643"/>
         <source>Show</source>
         <translation type="unfinished">Show</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1033"/>
+        <location filename="../../qml/PianoRollView.qml" line="1034"/>
         <source>No clip selected</source>
         <translation type="unfinished">No clip selected</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1039"/>
+        <location filename="../../qml/PianoRollView.qml" line="1040"/>
         <source>Activate a clip to edit</source>
         <translation type="unfinished">Activate a clip to edit</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1072"/>
+        <location filename="../../qml/PianoRollView.qml" line="1073"/>
         <source>Move Up</source>
         <translation type="unfinished">Move Up</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1079"/>
+        <location filename="../../qml/PianoRollView.qml" line="1080"/>
         <source>Move Down</source>
         <translation type="unfinished">Move Down</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1085"/>
+        <location filename="../../qml/PianoRollView.qml" line="1086"/>
         <source>Remove</source>
         <translation type="unfinished">Remove</translation>
     </message>
@@ -1451,23 +1451,23 @@
 <context>
     <name>TimelineContextMenuHelper</name>
     <message>
-        <location filename="../../qml/TimelineContextMenuHelper.qml" line="49"/>
+        <location filename="../../qml/TimelineContextMenuHelper.qml" line="51"/>
         <source>Insert Time Signature</source>
         <translation type="unfinished">Insert Time Signature</translation>
     </message>
     <message>
-        <location filename="../../qml/TimelineContextMenuHelper.qml" line="57"/>
-        <location filename="../../qml/TimelineContextMenuHelper.qml" line="102"/>
+        <location filename="../../qml/TimelineContextMenuHelper.qml" line="60"/>
+        <location filename="../../qml/TimelineContextMenuHelper.qml" line="107"/>
         <source>Move Playhead Here</source>
         <translation type="unfinished">Move Playhead Here</translation>
     </message>
     <message>
-        <location filename="../../qml/TimelineContextMenuHelper.qml" line="74"/>
+        <location filename="../../qml/TimelineContextMenuHelper.qml" line="77"/>
         <source>Edit Time Signature</source>
         <translation type="unfinished">Edit Time Signature</translation>
     </message>
     <message>
-        <location filename="../../qml/TimelineContextMenuHelper.qml" line="80"/>
+        <location filename="../../qml/TimelineContextMenuHelper.qml" line="84"/>
         <source>Remove Time Signature</source>
         <translation type="unfinished">Remove Time Signature</translation>
     </message>
@@ -1475,7 +1475,7 @@
 <context>
     <name>VisualEditor::ClipPaneInteractionControllerProxy</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="919"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="930"/>
         <source>Unnamed clip</source>
         <translation type="unfinished">Unnamed clip</translation>
     </message>
@@ -1483,27 +1483,27 @@
 <context>
     <name>VisualEditor::ClipViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="746"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="748"/>
         <source>Moving clip</source>
         <translation type="unfinished">Moving clip</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="786"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="790"/>
         <source>Adjusting clip length</source>
         <translation type="unfinished">Adjusting clip length</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="833"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="839"/>
         <source>Drawing clip</source>
         <translation type="unfinished">Drawing clip</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="881"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="887"/>
         <source>Inserting singing clip</source>
         <translation type="unfinished">Inserting singing clip</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="883"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="889"/>
         <source>Unnamed clip</source>
         <translation type="unfinished">Unnamed clip</translation>
     </message>
@@ -1511,17 +1511,17 @@
 <context>
     <name>VisualEditor::DynamicMixingEditorContext</name>
     <message>
-        <location filename="../../core/viewmodelbinding/DynamicMixingEditorContext.cpp" line="496"/>
+        <location filename="../../core/viewmodelbinding/DynamicMixingEditorContext.cpp" line="501"/>
         <source>Adding voice blending anchor</source>
         <translation type="unfinished">Adding voice blending anchor</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/DynamicMixingEditorContext.cpp" line="566"/>
+        <location filename="../../core/viewmodelbinding/DynamicMixingEditorContext.cpp" line="571"/>
         <source>Editing voice blending</source>
         <translation type="unfinished">Editing voice blending</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/DynamicMixingEditorContext.cpp" line="587"/>
+        <location filename="../../core/viewmodelbinding/DynamicMixingEditorContext.cpp" line="592"/>
         <source>Deleting voice blending anchor</source>
         <translation type="unfinished">Deleting voice blending anchor</translation>
     </message>
@@ -1628,7 +1628,7 @@
         <translation type="unfinished">Custom Mode</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/KeySignatureViewModelContextData.cpp" line="352"/>
+        <location filename="../../core/viewmodelbinding/KeySignatureViewModelContextData.cpp" line="354"/>
         <source>Moving key signature</source>
         <translation type="unfinished">Moving key signature</translation>
     </message>
@@ -1636,17 +1636,17 @@
 <context>
     <name>VisualEditor::LabelViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/LabelViewModelContextData.cpp" line="391"/>
+        <location filename="../../core/viewmodelbinding/LabelViewModelContextData.cpp" line="393"/>
         <source>Moving label</source>
         <translation type="unfinished">Moving label</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/LabelViewModelContextData.cpp" line="419"/>
+        <location filename="../../core/viewmodelbinding/LabelViewModelContextData.cpp" line="423"/>
         <source>Editing label</source>
         <translation type="unfinished">Editing label</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/LabelViewModelContextData.cpp" line="451"/>
+        <location filename="../../core/viewmodelbinding/LabelViewModelContextData.cpp" line="457"/>
         <source>Inserting label</source>
         <translation type="unfinished">Inserting label</translation>
     </message>
@@ -1659,22 +1659,22 @@
         <translation type="unfinished">Master</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="359"/>
+        <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="361"/>
         <source>Editing master mute</source>
         <translation type="unfinished">Editing master mute</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="382"/>
+        <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="386"/>
         <source>Adjusting master gain</source>
         <translation type="unfinished">Adjusting master gain</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="410"/>
+        <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="416"/>
         <source>Adjusting master pan</source>
         <translation type="unfinished">Adjusting master pan</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="441"/>
+        <location filename="../../core/viewmodelbinding/MasterTrackViewModelContextData.cpp" line="449"/>
         <source>Editing master multi-channel output</source>
         <translation type="unfinished">Editing master multi-channel output</translation>
     </message>
@@ -1682,38 +1682,38 @@
 <context>
     <name>VisualEditor::NoteViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="887"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="889"/>
         <source>Moving note</source>
         <translation type="unfinished">Moving note</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="924"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="928"/>
         <source>Adjusting note length</source>
         <translation type="unfinished">Adjusting note length</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="971"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="977"/>
         <source>Drawing note</source>
         <translation type="unfinished">Drawing note</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1011"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1019"/>
         <source>Editing lyric</source>
         <translation type="unfinished">Editing lyric</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1052"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1062"/>
         <source>Editing pronunciation</source>
         <translation type="unfinished">Editing pronunciation</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1096"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1106"/>
         <source>Inserting note</source>
         <translation type="unfinished">Inserting note</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1140"/>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1147"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1159"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1166"/>
         <source>Filling gap</source>
         <translation type="unfinished">Filling gap</translation>
     </message>
@@ -1721,8 +1721,8 @@
 <context>
     <name>VisualEditor::ParameterEditorContext</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1423"/>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1543"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1427"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1547"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
@@ -1730,7 +1730,7 @@
 <context>
     <name>VisualEditor::ParameterViewModelBinding</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1273"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1276"/>
         <source>%1 Transform</source>
         <translation type="unfinished">%1 Transform</translation>
     </message>
@@ -1738,18 +1738,18 @@
 <context>
     <name>VisualEditor::ParameterViewModelBindingPrivate</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="597"/>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="606"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="598"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="607"/>
         <source>%1 Transform</source>
         <translation type="unfinished">%1 Transform</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1000"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1003"/>
         <source>Editing parameter transform</source>
         <translation type="unfinished">Editing parameter transform</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1001"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1004"/>
         <source>Editing parameter</source>
         <translation type="unfinished">Editing parameter</translation>
     </message>
@@ -1757,12 +1757,12 @@
 <context>
     <name>VisualEditor::PhonemeViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/PhonemeViewModelContextData.cpp" line="814"/>
+        <location filename="../../core/viewmodelbinding/PhonemeViewModelContextData.cpp" line="816"/>
         <source>Moving phoneme</source>
         <translation type="unfinished">Moving phoneme</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/PhonemeViewModelContextData.cpp" line="845"/>
+        <location filename="../../core/viewmodelbinding/PhonemeViewModelContextData.cpp" line="847"/>
         <source>Editing phoneme</source>
         <translation type="unfinished">Editing phoneme</translation>
     </message>
@@ -1770,7 +1770,7 @@
 <context>
     <name>VisualEditor::PlaybackViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/PlaybackViewModelContextData.cpp" line="247"/>
+        <location filename="../../core/viewmodelbinding/PlaybackViewModelContextData.cpp" line="249"/>
         <source>Adjust loop range</source>
         <translation type="unfinished">Adjust loop range</translation>
     </message>
@@ -1778,7 +1778,7 @@
 <context>
     <name>VisualEditor::TempoViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/TempoViewModelContextData.cpp" line="325"/>
+        <location filename="../../core/viewmodelbinding/TempoViewModelContextData.cpp" line="327"/>
         <source>Moving tempo</source>
         <translation type="unfinished">Moving tempo</translation>
     </message>
@@ -1786,37 +1786,37 @@
 <context>
     <name>VisualEditor::TrackViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="668"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="670"/>
         <source>Moving track</source>
         <translation type="unfinished">Moving track</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="703"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="707"/>
         <source>Editing track mute</source>
         <translation type="unfinished">Editing track mute</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="730"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="736"/>
         <source>Editing track solo</source>
         <translation type="unfinished">Editing track solo</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="756"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="764"/>
         <source>Renaming track</source>
         <translation type="unfinished">Renaming track</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="789"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="799"/>
         <source>Adjusting track gain</source>
         <translation type="unfinished">Adjusting track gain</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="823"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="835"/>
         <source>Adjusting track pan</source>
         <translation type="unfinished">Adjusting track pan</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="857"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="871"/>
         <source>Resizing track</source>
         <translation type="unfinished">Resizing track</translation>
     </message>

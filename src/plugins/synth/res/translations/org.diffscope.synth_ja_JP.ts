@@ -4,12 +4,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="96"/>
+        <location filename="../../../../app/main.cpp" line="106"/>
         <source>Version %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="97"/>
+        <location filename="../../../../app/main.cpp" line="107"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1484,153 +1484,153 @@ X-Custom-Header-2: bar</source>
 <context>
     <name>Synth::Internal::AudioExtractionAddOn</name>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="189"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="199"/>
         <source>Choose Separated Audio Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="257"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="297"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="415"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="279"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="324"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="453"/>
         <source>The original audio clip is no longer available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="266"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="293"/>
         <source>The audio file for the selected clip is unavailable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="275"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="302"/>
         <source>Choose a writable directory for the separated audio.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="291"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="318"/>
         <source>Overwrite Separated Audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="292"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="319"/>
         <source>The following files may be replaced by the separated tracks. Overwrite matching files?
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="425"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="464"/>
         <source>The original audio clip or project tempo changed during extraction. Try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="481"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="523"/>
         <source>%1
 Some files could not be restored. Backups are in %2.
 %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="494"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="536"/>
         <source>The separated track names produce duplicate file names.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="504"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="546"/>
         <source>An output file appeared or changed during extraction. Start again to confirm overwriting it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="509"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="551"/>
         <source>Could not back up an existing output file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="519"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="561"/>
         <source>Could not save the separated audio files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="546"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="588"/>
         <source>%1 (Extracted notes)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="549"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="591"/>
         <source>%1 (%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="555"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="597"/>
         <source>Could not insert the extracted tracks.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="587"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="629"/>
         <source>Could not insert the extracted notes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="604"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="646"/>
         <source>Could not insert the extracted clips.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="610"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="652"/>
         <source>Extracting notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="612"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="654"/>
         <source>Separating audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="614"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="656"/>
         <source>Could not commit the extracted tracks.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="320"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="347"/>
         <source>The audio region exceeds the supported time range.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="352"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="431"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="381"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="471"/>
         <source>The audio clip or project timeline changed. Extract the tempo again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="376"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="412"/>
         <source>The extracted tempo could not be applied.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="405"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="441"/>
         <source>Extracting tempo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="230"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="248"/>
         <source>Extract Tempo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="232"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="250"/>
         <source>Extract Pitch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="548"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="590"/>
         <source>%1 (Extracted pitch)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="566"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="608"/>
         <source>Could not insert the extracted pitch.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="611"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="653"/>
         <source>Extracting pitch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1638,7 +1638,7 @@ Some files could not be restored. Backups are in %2.
 <context>
     <name>Synth::Internal::AudioExtractionTask</name>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="465"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="475"/>
         <source>, </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1648,106 +1648,106 @@ Some files could not be restored. Backups are in %2.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="59"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="69"/>
         <source>%1 — %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="84"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="94"/>
         <source>%1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="108"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="118"/>
         <source>No extractors are available. Check your synthesis services.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="113"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="123"/>
         <source>No enabled synthesis services are available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="133"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="143"/>
         <source>The extraction request failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="182"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="192"/>
         <source>The service returned inconsistent extractor metadata.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="251"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="261"/>
         <source>The extractor returned invalid note data.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="267"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="277"/>
         <source>The extractor returned invalid beat data.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="283"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="290"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="293"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="300"/>
         <source>The extractor returned invalid pitch data.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="312"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="322"/>
         <source>The extractor returned no separated audio tracks.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="345"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="353"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="355"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="363"/>
         <source>The extractor returned an invalid audio data URL.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="367"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="377"/>
         <source>The extractor returned an unsupported audio URL.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="401"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="411"/>
         <source>The audio download redirected to an insecure URL.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="409"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="419"/>
         <source>Could not download separated audio: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="432"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="492"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="442"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="502"/>
         <source>Could not store separated audio.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="144"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="154"/>
         <source>The extractor has an invalid track layout.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="149"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="159"/>
         <source>The output routing is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="195"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="205"/>
         <source>The extractor track layout changed. Refresh the extractors and configure the output routing again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="316"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="323"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="326"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="333"/>
         <source>The separated tracks do not match the extractor track layout.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="154"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="164"/>
         <source>Assign at least one extractor track to each output track.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1904,152 +1904,152 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::DsspServerManager</name>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="121"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="119"/>
         <source>Could not start DiffSinger Synthesis Program:
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="397"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="395"/>
         <source>DiffSinger Synthesis Program exited abnormally</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="138"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="136"/>
         <source>DiffSinger Synthesis Program exited unexpectedly (exit code %L1).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="390"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="388"/>
         <source>DiffSinger Synthesis Program is not configured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="396"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="394"/>
         <source>DiffSinger Synthesis Program is running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="394"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="392"/>
         <source>DiffSinger Synthesis Program is starting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="397"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="395"/>
         <source>DiffSinger Synthesis Program is stopped</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="392"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="390"/>
         <source>DiffSinger Synthesis Program is stopping</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="546"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="544"/>
         <source>DiffSinger Synthesis Program Stopped</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="449"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="447"/>
         <source>DiffSinger Synthesis Program was not found:
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="549"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="547"/>
         <source>Restart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="385"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="383"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="378"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="376"/>
         <source>Not Configured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="384"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="382"/>
         <source>Running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="382"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="380"/>
         <source>Starting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="385"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="383"/>
         <source>Stopped</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="380"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="378"/>
         <source>Stopping</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="53"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="52"/>
         <source>DiffSinger Synthesis Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="571"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="569"/>
         <source>DiffSinger Synthesis Program Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="573"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="571"/>
         <source>DiffSinger Synthesis Program Critical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="575"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="573"/>
         <source>DiffSinger Synthesis Program Fatal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="581"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="579"/>
         <source>Module: %1
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="268"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="266"/>
         <source>DiffSinger Synthesis Program will be stopped before this version is uninstalled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="256"/>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="334"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="254"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="332"/>
         <source>Could not stop device discovery.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="264"/>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="351"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="262"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="349"/>
         <source>Could not stop DiffSinger Synthesis Program.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="310"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="308"/>
         <source>Another operation is using DiffSinger Synthesis Program.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="323"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="321"/>
         <source>Stop DiffSinger Synthesis Program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="324"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="322"/>
         <source>Installing or uninstalling packages requires stopping the local DiffSinger Synthesis Program. Synthesis tasks in progress will be aborted. Continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="460"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="458"/>
         <source>Configure the package directory in Settings &gt; Synthesis &gt; Package Manager instead of additional command-line arguments.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2105,55 +2105,55 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::ExtractionAudioCodec</name>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="69"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="91"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="78"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="100"/>
         <source>Could not open the source audio.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="74"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="93"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="188"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="201"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="83"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="102"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="197"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="210"/>
         <source>The audio has invalid format information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="79"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="88"/>
         <source>Could not prepare the audio for extraction.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="58"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="67"/>
         <source>Could not convert the audio format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="99"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="108"/>
         <source>The extractor does not accept audio data URLs.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="144"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="153"/>
         <source>Could not encode an audio format accepted by the extractor.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="172"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="181"/>
         <source>Could not decode the separated audio.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="180"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="183"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="197"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="189"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="192"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="206"/>
         <source>Could not open the separated audio for mixing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="177"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="207"/>
-        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="211"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="186"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="216"/>
+        <location filename="../../internal/extraction/ExtractionAudioCodec.cpp" line="220"/>
         <source>Could not mix the separated audio.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2687,30 +2687,30 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::SynthesisProjectAddOn</name>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="129"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="130"/>
         <source>Synthesized audio could not be prepared for the export sample rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="172"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="173"/>
         <source>Synthesized audio positions could not be updated before export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="194"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="195"/>
         <source>The synthesis state could not be checked before audio export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="198"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="199"/>
         <source>Audio synthesis did not complete successfully</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="111"/>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="248"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="855"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="878"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="871"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="894"/>
         <source>The synthesis piece is no longer available</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2756,95 +2756,95 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="921"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="928"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="937"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="944"/>
         <source>Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="946"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="963"/>
         <source>Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="966"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="983"/>
         <source>Audio synthesis could not be started for clip &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="981"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="998"/>
         <source>Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="987"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1004"/>
         <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="999"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1016"/>
         <source>Unknown synthesis error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1001"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1018"/>
         <source>Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1039"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1061"/>
         <source>Synthesis failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1208"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1230"/>
         <source>The clip has no valid singer source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1303"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1414"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1325"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1436"/>
         <source>The synthesis task could not be queued</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1384"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1406"/>
         <source>No healthy service can synthesize this synthesis piece</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1631"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1659"/>
         <source>Resynthesize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1632"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1660"/>
         <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1883"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1911"/>
         <source>The pronunciation result does not match the requested score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1885"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1913"/>
         <source>The phoneme result does not match the requested score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1887"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1915"/>
         <source>The duration result does not match the score for the requested synthesis piece</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2113"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2141"/>
         <source>Synthesis was canceled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1214"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1236"/>
         <source>No healthy service supports the singers selected for this clip</source>
         <translation type="unfinished"></translation>
     </message>

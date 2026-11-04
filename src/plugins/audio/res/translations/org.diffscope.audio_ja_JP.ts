@@ -11,12 +11,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="96"/>
+        <location filename="../../../../app/main.cpp" line="106"/>
         <source>Version %1</source>
         <translation type="unfinished">Version %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="97"/>
+        <location filename="../../../../app/main.cpp" line="107"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
     </message>
@@ -178,108 +178,108 @@
 <context>
     <name>Audio::AudioExporter</name>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="78"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="84"/>
         <source>Untitled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="379"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="388"/>
         <source>Invalid audio export configuration.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="382"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="391"/>
         <source>Cannot open file for writing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="385"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="394"/>
         <source>Audio format is not supported.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="388"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="397"/>
         <source>Cannot start audio exporting.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="391"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="400"/>
         <source>Audio exporting failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="394"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="403"/>
         <source>Cannot rename temporary files to target files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="397"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="406"/>
         <source>Audio exporting was cancelled.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="400"/>
-        <location filename="../../audioexport/AudioExporter.cpp" line="714"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="409"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="749"/>
         <source>Unknown error.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="488"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="497"/>
         <source>No file will be exported. Please check if any source is selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="491"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="500"/>
         <source>The files to be exported contain files with duplicate names. Please check if the file name template is unique for each source.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="494"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="503"/>
         <source>The files to be exported contain files with the same name as existing files. If continue, the existing files will be overwritten.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="497"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="506"/>
         <source>Unrecognized file name template. Please check the syntax of the file name template.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="500"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="509"/>
         <source>The currently selected file type is a lossy format. To avoid loss of sound quality, please use WAV or FLAC format.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="535"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="544"/>
         <source>Audio exporting is already running.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="579"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="613"/>
         <source>Cannot open file for writing: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="589"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="623"/>
         <source>Format not supported: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="648"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="682"/>
         <source>Cannot reopen audio after exported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="637"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="671"/>
         <source>Audio export was rejected by a listener.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="667"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="701"/>
         <source>Internal Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../audioexport/AudioExporter.cpp" line="680"/>
+        <location filename="../../audioexport/AudioExporter.cpp" line="715"/>
         <source>Cannot rename temporary files to target files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -355,22 +355,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="238"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="246"/>
         <source>Inserting audio clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="262"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="271"/>
         <source>Updating audio clip path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="289"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="299"/>
         <source>Updating audio clip digest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="318"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="337"/>
         <source>Replacing audio clip</source>
         <translation type="unfinished"></translation>
     </message>
@@ -378,37 +378,37 @@
 <context>
     <name>Audio::Internal::AudioExporterPresets</name>
     <message>
-        <location filename="../../internal/AudioExporterPresets.cpp" line="335"/>
+        <location filename="../../internal/AudioExporterPresets.cpp" line="349"/>
         <source>WAV (Mixed)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/AudioExporterPresets.cpp" line="336"/>
+        <location filename="../../internal/AudioExporterPresets.cpp" line="350"/>
         <source>WAV (Separated)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/AudioExporterPresets.cpp" line="337"/>
+        <location filename="../../internal/AudioExporterPresets.cpp" line="351"/>
         <source>FLAC (Mixed)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/AudioExporterPresets.cpp" line="338"/>
+        <location filename="../../internal/AudioExporterPresets.cpp" line="352"/>
         <source>FLAC (Separated)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/AudioExporterPresets.cpp" line="339"/>
+        <location filename="../../internal/AudioExporterPresets.cpp" line="353"/>
         <source>Ogg Container (Mixed)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/AudioExporterPresets.cpp" line="340"/>
+        <location filename="../../internal/AudioExporterPresets.cpp" line="354"/>
         <source>Ogg Container (Separated)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/AudioExporterPresets.cpp" line="367"/>
+        <location filename="../../internal/AudioExporterPresets.cpp" line="381"/>
         <source>Unsaved Preset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -603,24 +603,24 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="333"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="334"/>
         <source>Applying effect preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="394"/>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="406"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="398"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="410"/>
         <source>Effects are unavailable for the master track.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="430"/>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="532"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="434"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="536"/>
         <source>Effects are unavailable for this track.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="522"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="526"/>
         <source>Effects cannot be edited for multiple tracks.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -643,27 +643,27 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/effects/EffectsContext.cpp" line="288"/>
+        <location filename="../../internal/effects/EffectsContext.cpp" line="291"/>
         <source>Removing effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/effects/EffectsContext.cpp" line="308"/>
+        <location filename="../../internal/effects/EffectsContext.cpp" line="314"/>
         <source>Enabling effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/effects/EffectsContext.cpp" line="308"/>
+        <location filename="../../internal/effects/EffectsContext.cpp" line="314"/>
         <source>Disabling effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/effects/EffectsContext.cpp" line="328"/>
+        <location filename="../../internal/effects/EffectsContext.cpp" line="337"/>
         <source>Moving effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/effects/EffectsContext.cpp" line="486"/>
+        <location filename="../../internal/effects/EffectsContext.cpp" line="498"/>
         <source>Editing effect</source>
         <translation type="unfinished"></translation>
     </message>
@@ -671,48 +671,48 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::ExportAudioAddOn</name>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="256"/>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="289"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="261"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="294"/>
         <source>WAV (*.wav)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="257"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="262"/>
         <source>FLAC (*.flac)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="258"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="263"/>
         <source>Ogg Container (*.ogg *.opus)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="290"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="295"/>
         <source>Ogg Vorbis (*.ogg)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="429"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="439"/>
         <source>Audio exported to %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="432"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="442"/>
         <source>Audio export completed, no files exported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="435"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="445"/>
         <source>Audio exported to multiple files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="447"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="457"/>
         <source>Reveal in %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="259"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="264"/>
         <source>MP3 (*.mp3)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -855,7 +855,7 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::MidiRecordingAddOn</name>
     <message>
-        <location filename="../../internal/addon/MidiRecordingAddOn.cpp" line="725"/>
+        <location filename="../../internal/addon/MidiRecordingAddOn.cpp" line="726"/>
         <source>Recording MIDI</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1670,7 +1670,7 @@ Estimated size of each file: %3</source>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="59"/>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="112"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="113"/>
         <source>Reveal in %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1695,32 +1695,32 @@ Estimated size of each file: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="97"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="98"/>
         <source>Update Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="108"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="109"/>
         <source>Actual path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="127"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="128"/>
         <source>Audio file content changed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="132"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="134"/>
         <source>Confirm the Change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="141"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="143"/>
         <source>Audio file content consistency unknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="146"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="149"/>
         <source>Confirm Current File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1728,64 +1728,64 @@ Estimated size of each file: %3</source>
 <context>
     <name>EffectsPanel</name>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="28"/>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="48"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="31"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="51"/>
         <source>Add Effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="55"/>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="164"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="57"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="166"/>
         <source>Effect Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="87"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="89"/>
         <source>Track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="93"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="95"/>
         <source>Master</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="200"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="202"/>
         <source>Collapse Effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="200"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="202"/>
         <source>Expand Effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="207"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="209"/>
         <source>Disable Effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="207"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="209"/>
         <source>Enable Effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="221"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="223"/>
         <source>Move Effect Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="228"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="230"/>
         <source>Move Effect Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="235"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="237"/>
         <source>Reset Effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/panels/EffectsPanel.qml" line="242"/>
+        <location filename="../../qml/panels/EffectsPanel.qml" line="244"/>
         <source>Delete Effect</source>
         <translation type="unfinished"></translation>
     </message>

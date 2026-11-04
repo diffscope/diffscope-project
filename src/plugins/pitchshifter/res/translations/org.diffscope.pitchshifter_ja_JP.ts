@@ -4,12 +4,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="96"/>
+        <location filename="../../../../app/main.cpp" line="106"/>
         <source>Version %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="97"/>
+        <location filename="../../../../app/main.cpp" line="107"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -165,32 +165,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="222"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="232"/>
         <source>The audio file for the selected clip is unavailable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="230"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="240"/>
         <source>Save Stretched and Pitch-Shifted Audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="232"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="242"/>
         <source>WAV Audio (*.wav)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="267"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="277"/>
         <source>The selected formant mode is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="278"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="288"/>
         <source>Unable to open the selected clip&apos;s audio file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="340"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="354"/>
         <source>An unknown error occurred while preparing pitch shifting.</source>
         <translation type="unfinished"></translation>
     </message>

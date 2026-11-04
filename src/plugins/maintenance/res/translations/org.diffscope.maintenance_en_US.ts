@@ -11,12 +11,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="96"/>
+        <location filename="../../../../app/main.cpp" line="106"/>
         <source>Version %1</source>
         <translation type="unfinished">Version %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="97"/>
+        <location filename="../../../../app/main.cpp" line="107"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
     </message>
@@ -24,17 +24,17 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="673"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="873"/>
         <source>Diagnosis</source>
         <translation>Diagnosis</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="674"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="874"/>
         <source>Get Involved</source>
         <translation>Get Involved</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="675"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="875"/>
         <source>Update</source>
         <translation>Update</translation>
     </message>
@@ -50,22 +50,22 @@
         <translation type="vanished">Report bugs, request new features, or ask for support</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="678"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="878"/>
         <source>Save diagnostic information to a file for troubleshooting.</source>
         <translation type="unfinished">Save diagnostic information to a file for troubleshooting.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="679"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="879"/>
         <source>Open a snapshot of the current project as JSON in the default app.</source>
         <translation type="unfinished">Open a snapshot of the current project as JSON in the default app.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="680"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="880"/>
         <source>Open the issue tracker for bug reports, feature requests, or support.</source>
         <translation type="unfinished">Open the issue tracker for bug reports, feature requests, or support.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="681"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="881"/>
         <source>Open the guide to contributing to DiffScope.</source>
         <translation type="unfinished">Open the guide to contributing to DiffScope.</translation>
     </message>
@@ -73,67 +73,96 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="654"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="849"/>
         <source>Main Menu</source>
         <translation type="unfinished">Main Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="655"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="850"/>
         <source>Generate Diagnostic Report...</source>
         <translation>Generate Diagnostic Report...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="656"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="851"/>
+        <source>Open Config Directory</source>
+        <translation type="unfinished">Open Config Directory</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="853"/>
+        <source>Open State Directory</source>
+        <translation type="unfinished">Open State Directory</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="854"/>
+        <source>Open Cache Directory</source>
+        <translation type="unfinished">Open Cache Directory</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="855"/>
         <source>Open Logs Directory</source>
         <translation>Open Logs Directory</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="657"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="852"/>
         <source>Open Data Directory</source>
         <translation>Open Data Directory</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="658"/>
         <source>Open Plugins Directory</source>
-        <translation>Open Plugins Directory</translation>
+        <translation type="vanished">Open Plugins Directory</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="659"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="856"/>
+        <source>Open Built-in Plugins Directory</source>
+        <translation type="unfinished">Open Built-in Plugins Directory</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="857"/>
+        <source>Open System Plugins Directory</source>
+        <translation type="unfinished">Open System Plugins Directory</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="858"/>
+        <source>Open User Plugins Directory</source>
+        <translation type="unfinished">Open User Plugins Directory</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="859"/>
         <source>View JSON Code of Project</source>
         <translation type="unfinished">View JSON Code of Project</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="660"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="860"/>
         <source>Report Issue</source>
         <translation>Report Issue</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="661"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="861"/>
         <source>Contribute to DiffScope</source>
         <translation>Contribute to DiffScope</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="662"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="862"/>
         <source>Join the Community</source>
         <translation>Join the Community</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="663"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="863"/>
         <source>Check for Updates</source>
         <translation>Check for Updates</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="664"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="864"/>
         <source>View Release Log</source>
         <translation>View Release Log</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="665"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="865"/>
         <source>Diagnosis</source>
         <translation type="unfinished">Diagnosis</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="666"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="866"/>
         <source>Open Directory Actions</source>
         <translation type="unfinished">Open Directory Actions</translation>
     </message>
@@ -142,12 +171,12 @@
         <translation type="vanished">Diagnosis Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="667"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="867"/>
         <source>Get Involved Actions</source>
         <translation>Get Involved Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="668"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/maintenance/res/qak_org.diffscope.maintenance_actions.cpp" line="868"/>
         <source>Update Actions</source>
         <translation>Update Actions</translation>
     </message>
@@ -159,12 +188,12 @@
         <translation type="vanished">Important Notice</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="101"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="115"/>
         <source>Disclaimer</source>
         <translation type="unfinished">Disclaimer</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="102"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="116"/>
         <source>&lt;p&gt;The diagnostic report may contain &lt;b&gt;sensitive information&lt;/b&gt; (e.g., usernames, hostnames, network addresses, personalized configurations).&lt;/p&gt;
 &lt;p&gt;If you do not wish to make such information public, please &lt;b&gt;do not&lt;/b&gt; share this report on public platforms like GitHub Issues or online chat rooms.&lt;/p&gt;
 &lt;p&gt;You may follow the feedback guidelines to send the report privately via email to the DiffScope development team.&lt;/p&gt;
@@ -177,17 +206,17 @@
 </translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="110"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="124"/>
         <source>Save Diagnostic Report</source>
         <translation>Save Diagnostic Report</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="120"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="134"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="121"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="135"/>
         <source>Failed to open the file for writing:
 
 %1</source>
@@ -196,12 +225,12 @@
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="154"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="168"/>
         <source>Diagnostic Report Generated</source>
         <translation>Diagnostic Report Generated</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="155"/>
+        <location filename="../../internal/addons/MaintenanceAddOn.cpp" line="169"/>
         <source>The identifier of report is:</source>
         <translation>The identifier of report is:</translation>
     </message>
@@ -222,12 +251,12 @@
 <context>
     <name>Maintenance::ViewJsonAddOn</name>
     <message>
-        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="111"/>
+        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="112"/>
         <source>Failed to create JSON file</source>
         <translation type="unfinished">Failed to create JSON file</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="112"/>
+        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="113"/>
         <source>Could not create temporary JSON file:
 
 %1</source>

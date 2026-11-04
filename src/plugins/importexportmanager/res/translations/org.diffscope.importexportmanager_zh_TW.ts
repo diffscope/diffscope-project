@@ -11,12 +11,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="96"/>
+        <location filename="../../../../app/main.cpp" line="106"/>
         <source>Version %1</source>
         <translation type="unfinished">Version %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="97"/>
+        <location filename="../../../../app/main.cpp" line="107"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
     </message>
@@ -213,27 +213,27 @@
 <context>
     <name>ImportExportManager::Internal::FileImportExportAddOn</name>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="172"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="178"/>
         <source>Replace tempo and time signature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="173"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="179"/>
         <source>Do you want to replace the current tempo and time signature with those from the imported file?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="176"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="185"/>
         <source>Importing tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="208"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="218"/>
         <source>Import File</source>
         <translation type="unfinished">Import File</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="242"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="252"/>
         <source>Export File</source>
         <translation type="unfinished">Export File</translation>
     </message>
