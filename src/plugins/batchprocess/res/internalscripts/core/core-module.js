@@ -87,13 +87,6 @@
     const command = (value, name, args = []) => result(bridge.command(state(value).raw, name, args));
     const requireKind = (value, kind) => { const entry = state(value); if (entry.kind !== kind) throw new Type("The method receiver has an incompatible document type."); return entry; };
     const nativeName = (kind, name) => name === "sequence" ? (kind === "AnchorNode" ? "anchorNodeSequence" : "dynamicMixingAnchorSequence") : name === "clip" && kind === "Sources" ? "singingClip" : propertyAliases[name] && name !== "length" ? propertyAliases[name] : name;
-    const get = (value, name, reference = false) => {
-        const entry = state(value);
-        const raw = readRaw(entry, nativeName(entry.kind, name));
-        if (reference) return wrap(raw);
-        if (enumeration[name]) return enumeration[name][raw];
-        return raw && typeof raw === "object" ? V.copy(raw) : raw;
-    };
     const method = (prototype, name, callback) => define(prototype, name, { value: callback });
     const property = (prototype, name, getter, setter) => define(prototype, name, { enumerable: true, get: getter, set: setter });
     const ownerOf = entry => {
@@ -165,6 +158,13 @@
         const entry = weakGet(states, value);
         return entry && bridge.valid(entry.raw, entry.generation) ? entry.raw : undefined;
     };
+    const get = (value, name, reference = false) => {
+        const entry = state(value);
+        const raw = readRaw(entry, nativeName(entry.kind, name));
+        if (reference) return wrap(raw);
+        if (enumeration[name]) return enumeration[name][raw];
+        return raw && typeof raw === "object" ? V.copy(raw) : raw;
+    };
 
     const entityPrototype = create(null);
     property(entityPrototype, "handle", function () { return state(this, false).handle; });
@@ -229,8 +229,7 @@
         });
         return curves;
     };
-    const anchorCurves = nodes => {
-        const points = mapped(nodes, node => initData("AnchorNode", node));
+    const anchorCurves = points => {
         V.sort(points, (a, b) => a.x - b.x);
         V.unique(points, "x");
         const curves = [];
@@ -311,8 +310,13 @@
         } else if (kind === "Note") {
             value = { pos: input.position, length: input.length, keyNum: input.keyNumber, centShift: d("centShift", 0), language: d("language", ""), lyric: d("lyric", context.lyric === undefined ? result(bridge.service("lyric", [null])) : context.lyric), pronunciation: { original: d("originalPronunciation", ""), edited: d("editedPronunciation", "") }, phonemes: { original: childList("originalPhonemes", "Phoneme", { language: d("language", "") }), edited: childList("editedPhonemes", "Phoneme", { language: d("language", "") }) }, vibrato: { amp: d("vibratoAmplitude", 0), end: d("vibratoEnd", 0), freq: d("vibratoFrequency", 0), offset: d("vibratoOffset", 0), phase: d("vibratoPhase", 0), start: d("vibratoStart", 0), points: { amp: d("vibratoAmplitudeControlPoints", []), freq: d("vibratoFrequencyControlPoints", []) } }, workspace: w };
         } else if (kind === "Phoneme") value = { start: input.start, token: input.token, language: d("language", context.language === undefined ? "" : context.language), onset: d("onset", false) };
-        else if (kind === "Parameter") value = { original: freeCurves(d("original", [])), transform: append(freeCurves(d("freeTransform", [])), anchorCurves(d("anchorTransform", []))), edited: append(freeCurves(d("freeEdited", [])), anchorCurves(d("anchorEdited", []))) };
-        else if (kind === "AnchorNode") value = { x: input.x, y: input.y, interp: d("interpolationMode", "none") };
+        else if (kind === "Parameter") {
+            value = {
+                original: freeCurves(d("original", [])),
+                transform: append(freeCurves(d("freeTransform", [])), anchorCurves(childList("anchorTransform", "AnchorNode"))),
+                edited: append(freeCurves(d("freeEdited", [])), anchorCurves(childList("anchorEdited", "AnchorNode"))),
+            };
+        } else if (kind === "AnchorNode") value = { x: input.x, y: input.y, interp: d("interpolationMode", "none") };
         else if (kind === "Sources") value = { category: input.category, singers: singerList("singers", { category: input.category }), mix: childList("dynamicMixingAnchors", "DynamicMixingAnchor") };
         else if (kind === "SingleSinger" || kind === "MixedSinger") {
             if (own(input, "kind")) V.oneOf(input.kind, [kind === "SingleSinger" ? "single" : "mixed"]);
@@ -338,6 +342,11 @@
         }
         return {};
     };
+    const parameterRaw = (entry, id) => {
+        const ids = readRaw(entry, "keys"); const values = rawItems(entry);
+        for (let i = 0; i < ids.length; ++i) if (ids[i] === id) return values[i];
+        return null;
+    };
     const createItem = (container, kind, input, index, key = "", imported = false) => {
         const entry = state(container); active();
         if (entry.kind === "PhonemeSequence" && readRaw(entry, "role") === 0) throw new Type("Original phoneme collections support whole-collection replacement only.");
@@ -355,11 +364,6 @@
             result(bridge.attach(entry.raw, raw, target, key));
             return wrap(raw);
         });
-    };
-    const parameterRaw = (entry, id) => {
-        const ids = readRaw(entry, "keys"); const values = rawItems(entry);
-        for (let i = 0; i < ids.length; ++i) if (ids[i] === id) return values[i];
-        return null;
     };
 
     const snapshotItems = value => mapped(rawItems(state(value)), wrap);
@@ -549,6 +553,28 @@
         value.goTo = position => { V.int(position, 0, read().length); command(document, "goToHistory", [position]); };
         return freeze(value);
     };
+
+    const projectOptions = options => {
+        const value = options === undefined ? {} : V.copy(options, true); V.object(value);
+        const names = keys(value); for (let i = 0; i < names.length; ++i) V.oneOf(names[i], ["defaultName", "model"]);
+        if (own(value, "defaultName")) V.string(value.defaultName);
+        return value;
+    };
+    const application = freeze({
+        get project() { return result(bridge.service("project", [])); },
+        get projects() { return freeze(mapped(result(bridge.service("projects", [])), wrap)); },
+        get homeWindow() { return result(bridge.service("homeWindow", [])); },
+        newProject(options) {
+            const value = projectOptions(options);
+            if (own(value, "model")) return wrap(result(bridge.service("newProjectFromOpenDSPX", [initData("DspxModel", value.model), defaulted(value, "defaultName", ""), true])));
+            return wrap(result(bridge.service("newProject", [defaulted(value, "defaultName", "")])));
+        },
+        newProjectFromOpenDSPX(input, options) { const data = V.validate("DspxModel", V.copy(input)); const value = projectOptions(options); if (own(value, "model")) throw new Type("A model option is not supported for this operation."); return wrap(result(bridge.service("newProjectFromOpenDSPX", [data, defaulted(value, "defaultName", ""), false]))); },
+        newProjectFromTemplate(file, options) { const value = projectOptions(options); if (own(value, "model")) throw new Type("A model option is not supported for this operation."); return wrap(result(bridge.service("newProjectFromTemplate", [file, defaulted(value, "defaultName", "")]))); },
+        openProject(file) { return wrap(result(bridge.service("openProject", [file]))); },
+        showHome() { result(bridge.service("showHome", [])); },
+    });
+
     const clipboard = document => {
         const value = create(null);
         property(value, "canCopy", () => command(document, "documentState").canCopy);
@@ -615,26 +641,6 @@
     });
     const lyricDefaults = freeze({ lyricFor(clip) { const entry = state(clip); if (entry.kind !== "SingingClip") throw new Type("A singing clip is required."); return result(bridge.service("lyric", [entry.raw])); } });
     const trackColors = freeze({ get colors() { return deepFreeze(V.copy(result(bridge.service("trackColors", [])))); } });
-    const projectOptions = options => {
-        const value = options === undefined ? {} : V.copy(options, true); V.object(value);
-        const names = keys(value); for (let i = 0; i < names.length; ++i) V.oneOf(names[i], ["defaultName", "model"]);
-        if (own(value, "defaultName")) V.string(value.defaultName);
-        return value;
-    };
-    const application = freeze({
-        get project() { return result(bridge.service("project", [])); },
-        get projects() { return freeze(mapped(result(bridge.service("projects", [])), wrap)); },
-        get homeWindow() { return result(bridge.service("homeWindow", [])); },
-        newProject(options) {
-            const value = projectOptions(options);
-            if (own(value, "model")) return wrap(result(bridge.service("newProjectFromOpenDSPX", [initData("DspxModel", value.model), defaulted(value, "defaultName", ""), true])));
-            return wrap(result(bridge.service("newProject", [defaulted(value, "defaultName", "")])));
-        },
-        newProjectFromOpenDSPX(input, options) { const data = V.validate("DspxModel", V.copy(input)); const value = projectOptions(options); if (own(value, "model")) throw new Type("A model option is not supported for this operation."); return wrap(result(bridge.service("newProjectFromOpenDSPX", [data, defaulted(value, "defaultName", ""), false]))); },
-        newProjectFromTemplate(file, options) { const value = projectOptions(options); if (own(value, "model")) throw new Type("A model option is not supported for this operation."); return wrap(result(bridge.service("newProjectFromTemplate", [file, defaulted(value, "defaultName", "")]))); },
-        openProject(file) { return wrap(result(bridge.service("openProject", [file]))); },
-        showHome() { result(bridge.service("showHome", [])); },
-    });
 
     const selectionTypes = [null, "anchorNode", "clip", "label", "note", "tempo", "track", "keySignature", "dynamicMixingAnchor"];
     const viewProperties = { anchorNode: "anchorNodeSelectionModel", clip: "clipSelectionModel", label: "labelSelectionModel", note: "noteSelectionModel", tempo: "tempoSelectionModel", track: "trackSelectionModel", keySignature: "keySignatureSelectionModel", dynamicMixingAnchor: "dynamicMixingAnchorSelectionModel" };
