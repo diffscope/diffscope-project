@@ -58,7 +58,7 @@ namespace BatchProcess::Internal {
                 auto item = m_engine->newObject();
                 item.setProperty(QStringLiteral("functionName"), frame.functionName);
                 item.setProperty(QStringLiteral("fileUrl"), frame.fileUrl.toString(QUrl::FullyEncoded));
-                item.setProperty(QStringLiteral("displaySource"), frame.fileUrl.toDisplayString(QUrl::PreferLocalFile));
+                item.setProperty(QStringLiteral("displaySource"), JavaScriptEngineHelper::sourceDisplayPath(frame.fileUrl));
                 item.setProperty(QStringLiteral("line"), frame.line);
                 item.setProperty(QStringLiteral("column"), frame.column);
                 result.setProperty(static_cast<quint32>(index), item);
@@ -99,7 +99,7 @@ namespace BatchProcess::Internal {
             qFatal() << "Failed to open the embedded Batch Process JavaScript console:" << consoleFile.errorString();
         }
 
-        const auto factory = engine->evaluate(QString::fromUtf8(consoleFile.readAll()), QString::fromLatin1(ConsoleResourcePath));
+        const auto factory = engine->evaluate(QString::fromUtf8(consoleFile.readAll()), consoleFile.fileName());
         if (factory.isError()) {
             qFatal() << "Failed to evaluate the embedded Batch Process JavaScript console:" << javaScriptErrorText(factory);
         }

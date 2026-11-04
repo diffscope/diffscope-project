@@ -206,9 +206,10 @@ declare module "diffscope:runtime" {
         readonly isBuiltin: boolean;
 
         /**
-         * The native absolute entry-file path for a single-file script, the native
-         * absolute package-directory path for a multi-file script, or an empty
-         * string for a script registered with a factory.
+         * The absolute entry file path for a single-file script or the absolute
+         * package directory path for a multi-file script. Local paths use native
+         * separators. Qt resource paths begin with `:/`. The path is empty for
+         * a script registered with a factory.
          */
         readonly scriptPath: string;
 

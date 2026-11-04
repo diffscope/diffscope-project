@@ -17,6 +17,7 @@
 #include <QJsonValue>
 #include <QLoggingCategory>
 #include <QStringList>
+#include <QUrl>
 #include <QVariant>
 #include <QWindow>
 
@@ -91,8 +92,8 @@ namespace BatchProcess::Internal {
             return specifier.startsWith(QLatin1Char('.')) || QDir::isAbsolutePath(specifier);
         }
 
-        QString nativeAbsolutePath(const QString &path) {
-            return QDir::toNativeSeparators(QFileInfo(path).absoluteFilePath());
+        QString nativeScriptPath(const QString &path) {
+            return path.startsWith(QLatin1String(":/")) ? path : QDir::toNativeSeparators(path);
         }
 
         QList<JavaScriptConsoleStackFrame> consoleStackTrace(const QList<JavaScriptStackFrame> &stackTrace) {
@@ -411,9 +412,9 @@ namespace BatchProcess::Internal {
         if (!runtimeFile.open(QIODevice::ReadOnly)) {
             qFatal() << "Failed to open the embedded Batch Process module context:" << runtimeFile.errorString();
         }
-        m_runtimeHelpers = m_engine->evaluate(QString::fromUtf8(runtimeFile.readAll()), QStringLiteral(":/diffscope/batchprocess/internalscripts/runtime/module-context.js"));
+        m_runtimeHelpers = m_engine->evaluate(QString::fromUtf8(runtimeFile.readAll()), runtimeFile.fileName());
         if (m_runtimeHelpers.isError()) {
-            qFatal() << "Failed to evaluate the embedded Batch Process module context:" << errorText(m_runtimeHelpers, QStringLiteral("/module-context.js"));
+            qFatal() << "Failed to evaluate the embedded Batch Process module context:" << errorText(m_runtimeHelpers, runtimeFile.fileName());
         }
         if (!m_runtimeHelpers.isObject()) {
             qFatal("The embedded Batch Process module context did not return an object");
@@ -440,17 +441,17 @@ namespace BatchProcess::Internal {
         const auto absoluteDirectory = QFileInfo(scriptDirectory).absoluteFilePath();
         QDir directory(absoluteDirectory);
         if (!directory.exists() && !QDir().mkpath(absoluteDirectory)) {
-            const auto message = BatchProcessInterface::tr("Failed to create the script directory:\n%1").arg(nativeAbsolutePath(absoluteDirectory));
+            const auto message = BatchProcessInterface::tr("Failed to create the script directory:\n%1").arg(nativeScriptPath(absoluteDirectory));
             qCCritical(lcBatchProcessRuntime) << message;
-            reportLoadError(nativeAbsolutePath(absoluteDirectory), ErrorInfo(message));
+            reportLoadError(absoluteDirectory, ErrorInfo(message));
             return false;
         }
 
         const auto rootCanonicalPath = QFileInfo(absoluteDirectory).canonicalFilePath();
         if (rootCanonicalPath.isEmpty()) {
-            const auto message = BatchProcessInterface::tr("The script directory cannot be resolved:\n%1").arg(nativeAbsolutePath(absoluteDirectory));
+            const auto message = BatchProcessInterface::tr("The script directory cannot be resolved:\n%1").arg(nativeScriptPath(absoluteDirectory));
             qCCritical(lcBatchProcessRuntime) << message;
-            reportLoadError(nativeAbsolutePath(absoluteDirectory), ErrorInfo(message));
+            reportLoadError(absoluteDirectory, ErrorInfo(message));
             return false;
         }
 
@@ -725,12 +726,12 @@ namespace BatchProcess::Internal {
             return cached.value()->moduleObject.property(QStringLiteral("exports"));
         }
 
-        const auto moduleId = nativeAbsolutePath(filePath);
+        const auto moduleId = nativeScriptPath(filePath);
         const auto exportsObject = m_engine->newObject();
         const auto makeModule = m_runtimeHelpers.property(QStringLiteral("makeModule"));
         const auto moduleObject = makeModule.call({moduleId, exportsObject});
         if (moduleObject.isError()) {
-            *errorMessage = errorInfo(moduleObject, moduleId);
+            *errorMessage = errorInfo(moduleObject, filePath);
             return {};
         }
 
@@ -752,24 +753,24 @@ namespace BatchProcess::Internal {
             }
         } else {
             const auto source = QString::fromUtf8(file.readAll());
-            record->factory = m_engine->evaluate(QStringLiteral("(function(module, require, defineScript) {") + source + QStringLiteral("\n})"), nativeAbsolutePath(filePath));
+            record->factory = m_engine->evaluate(QStringLiteral("(function(module, require, defineScript) {") + source + QStringLiteral("\n})"), filePath);
             if (record->factory.isError()) {
-                *errorMessage = errorInfo(record->factory, moduleId);
+                *errorMessage = errorInfo(record->factory, filePath);
             } else {
                 auto requireBridge = new RequireBridge(this, script, rootPath, entryPath, filePath, singleFile, m_engine.get());
                 auto defineScriptBridge = new DefineScriptBridge(this, script, m_engine.get());
                 record->requireFunction = m_runtimeHelpers.property(QStringLiteral("makeRequire")).call({m_engine->newQObject(requireBridge)});
                 record->defineScriptFunction = m_runtimeHelpers.property(QStringLiteral("makeDefineScript")).call({m_engine->newQObject(defineScriptBridge)});
                 if (record->requireFunction.isError()) {
-                    *errorMessage = errorInfo(record->requireFunction, moduleId);
+                    *errorMessage = errorInfo(record->requireFunction, filePath);
                 } else if (record->defineScriptFunction.isError()) {
-                    *errorMessage = errorInfo(record->defineScriptFunction, moduleId);
+                    *errorMessage = errorInfo(record->defineScriptFunction, filePath);
                 } else {
                     const auto result = m_runtimeHelpers.property(QStringLiteral("invokeModule")).call({record->factory, record->moduleObject, record->requireFunction, record->defineScriptFunction});
                     if (result.isError()) {
-                        *errorMessage = errorInfo(result, moduleId);
+                        *errorMessage = errorInfo(result, filePath);
                     } else if (!result.property(QStringLiteral("ok")).toBool()) {
-                        *errorMessage = errorInfo(result.property(QStringLiteral("error")), moduleId);
+                        *errorMessage = errorInfo(result.property(QStringLiteral("error")), filePath);
                     }
                 }
             }
@@ -910,7 +911,7 @@ namespace BatchProcess::Internal {
         const QFileInfo pathInfo(path);
         const auto scriptPath = pathInfo.canonicalFilePath();
         if (scriptPath.isEmpty() || (!scriptDirectory.isEmpty() && !isWithinDirectory(scriptDirectory, scriptPath))) {
-            *error = BatchProcessInterface::tr("The script path cannot be resolved within its root directory:\n%1").arg(nativeAbsolutePath(path));
+            *error = BatchProcessInterface::tr("The script path cannot be resolved within its root directory:\n%1").arg(nativeScriptPath(path));
             return false;
         }
 
@@ -922,12 +923,12 @@ namespace BatchProcess::Internal {
         } else if (pathInfo.isDir()) {
             const QFileInfo indexFile(QDir(pathInfo.absoluteFilePath()).filePath(QStringLiteral("index.js")));
             if (!indexFile.isFile()) {
-                *error = BatchProcessInterface::tr("The script directory does not contain a regular index.js:\n%1").arg(nativeAbsolutePath(path));
+                *error = BatchProcessInterface::tr("The script directory does not contain a regular index.js:\n%1").arg(nativeScriptPath(path));
                 return false;
             }
             const auto entryPath = indexFile.canonicalFilePath();
             if (entryPath.isEmpty() || !isWithinDirectory(scriptPath, entryPath)) {
-                *error = BatchProcessInterface::tr("Module %1 resolves outside the script package.").arg(quoted(nativeAbsolutePath(indexFile.absoluteFilePath())));
+                *error = BatchProcessInterface::tr("Module %1 resolves outside the script package.").arg(quoted(nativeScriptPath(indexFile.absoluteFilePath())));
                 return false;
             }
             candidate->scriptPath = scriptPath;
@@ -935,7 +936,7 @@ namespace BatchProcess::Internal {
             candidate->entryPath = entryPath;
             candidate->singleFile = false;
         } else {
-            *error = BatchProcessInterface::tr("The script path is not a JavaScript file or a script package directory:\n%1").arg(nativeAbsolutePath(path));
+            *error = BatchProcessInterface::tr("The script path is not a JavaScript file or a script package directory:\n%1").arg(nativeScriptPath(path));
             return false;
         }
         candidate->sortName = pathInfo.fileName();
@@ -943,7 +944,7 @@ namespace BatchProcess::Internal {
     }
 
     bool BatchProcessRuntime::loadCandidate(const ScriptCandidate &candidate, QSet<QString> *loadedIds) {
-        std::unique_ptr<Script> script(new Script(nativeAbsolutePath(candidate.scriptPath), nativeAbsolutePath(candidate.rootPath), candidate.builtin));
+        std::unique_ptr<Script> script(new Script(nativeScriptPath(candidate.scriptPath), nativeScriptPath(candidate.rootPath), candidate.builtin));
         setCurrentScript(script.get());
 
         ErrorInfo error;
@@ -968,7 +969,7 @@ namespace BatchProcess::Internal {
         if (selected == definitions.end()) {
             exportedDefinition = entryExports.property(QStringLiteral("default"));
             if (m_engine->hasError()) {
-                error = errorInfo(m_engine->catchError(), nativeAbsolutePath(candidate.entryPath));
+                error = errorInfo(m_engine->catchError(), candidate.entryPath);
             } else {
                 selected = std::ranges::find_if(definitions, [&exportedDefinition](const DefinitionRecord &record) {
                     return record.definition.strictlyEquals(exportedDefinition);
@@ -1340,7 +1341,7 @@ namespace BatchProcess::Internal {
         Core::CoreInterface::sendNotification(
             SVS::SVSCraft::Critical,
             BatchProcessInterface::tr("Batch Process"),
-            BatchProcessInterface::tr("Failed to load script %1:\n\n%2").arg(quoted(QDir::toNativeSeparators(scriptPath)), error.diagnosticText)
+            BatchProcessInterface::tr("Failed to load script %1:\n\n%2").arg(quoted(nativeScriptPath(scriptPath)), error.diagnosticText)
         );
     }
 
@@ -1363,7 +1364,7 @@ namespace BatchProcess::Internal {
         );
     }
 
-    BatchProcessRuntime::ErrorInfo BatchProcessRuntime::errorInfo(const QJSValue &error, const QString &moduleId) const {
+    BatchProcessRuntime::ErrorInfo BatchProcessRuntime::errorInfo(const QJSValue &error, const QString &fallbackFilePath) const {
         auto javaScriptStackTrace = JavaScriptEngineHelper::stackTrace(error);
         const auto exceptionStackTrace = JavaScriptEngineHelper::takeExceptionStackTrace(m_engine.get());
         if (javaScriptStackTrace.isEmpty()) {
@@ -1372,7 +1373,7 @@ namespace BatchProcess::Internal {
 
         QString message;
         QString fileName;
-        QString stack;
+        auto stack = JavaScriptEngineHelper::formatStackTrace(javaScriptStackTrace);
         auto lineNumber = 0;
 
         if (error.isError()) {
@@ -1383,7 +1384,9 @@ namespace BatchProcess::Internal {
             }
             fileName = error.property(QStringLiteral("fileName")).toString();
             lineNumber = error.property(QStringLiteral("lineNumber")).toInt();
-            stack = error.property(QStringLiteral("stack")).toString();
+            if (stack.isEmpty()) {
+                stack = error.property(QStringLiteral("stack")).toString();
+            }
         } else if (error.isString() || error.isNumber() || error.isBool() || error.isNull() || error.isUndefined()) {
             message = error.toString();
         } else if (error.isCallable()) {
@@ -1397,13 +1400,12 @@ namespace BatchProcess::Internal {
             message = BatchProcessInterface::tr("The script threw an unidentified value.");
         }
         const auto hasErrorFileName = !fileName.isEmpty();
-        if (fileName.isEmpty()) {
-            fileName = moduleId;
-        }
+        const auto fileUrl = hasErrorFileName ? QUrl(fileName) : JavaScriptEngineHelper::filePathToSourceUrl(fallbackFilePath);
 
         QString location;
-        if (!fileName.isEmpty()) {
-            location = lineNumber > 0 ? QStringLiteral("%1:%2").arg(fileName).arg(lineNumber) : fileName;
+        if (!fileUrl.isEmpty()) {
+            const auto displayPath = JavaScriptEngineHelper::sourceDisplayPath(fileUrl);
+            location = lineNumber > 0 ? QStringLiteral("%1:%2").arg(displayPath).arg(lineNumber) : displayPath;
         }
 
         QStringList parts;
@@ -1421,13 +1423,7 @@ namespace BatchProcess::Internal {
         result.errorValue = error;
         result.hasErrorValue = true;
         result.stackTrace = std::move(javaScriptStackTrace);
-        if (!fileName.isEmpty()) {
-            QUrl fileUrl;
-            if (QDir::isAbsolutePath(fileName)) {
-                fileUrl = QUrl::fromLocalFile(QFileInfo(fileName).absoluteFilePath());
-            } else {
-                fileUrl = QUrl(fileName);
-            }
+        if (!fileUrl.isEmpty()) {
             auto matchingFrame = std::ranges::find_if(result.stackTrace, [&fileUrl](const JavaScriptStackFrame &frame) {
                 if (frame.fileUrl.isLocalFile() && fileUrl.isLocalFile()) {
                     return pathsEqual(frame.fileUrl.toLocalFile(), fileUrl.toLocalFile());
@@ -1445,8 +1441,8 @@ namespace BatchProcess::Internal {
         return result;
     }
 
-    QString BatchProcessRuntime::errorText(const QJSValue &error, const QString &moduleId) const {
-        return errorInfo(error, moduleId).diagnosticText;
+    QString BatchProcessRuntime::errorText(const QJSValue &error, const QString &fallbackFilePath) const {
+        return errorInfo(error, fallbackFilePath).diagnosticText;
     }
 
     void BatchProcessRuntime::clearExecutionContext() {

@@ -107,8 +107,8 @@ namespace BatchProcess {
             void reportLoadError(const QString &scriptPath, const ErrorInfo &errorInfo, bool builtin = false) const;
             void reportRuntimeError(const QString &component, const ErrorInfo &errorInfo) const;
             void reportExecutionError(ScriptAction *action, Core::ActionWindowInterfaceBase *windowInterface, const ErrorInfo &errorInfo) const;
-            ErrorInfo errorInfo(const QJSValue &error, const QString &moduleId = {}) const;
-            QString errorText(const QJSValue &error, const QString &moduleId = {}) const;
+            ErrorInfo errorInfo(const QJSValue &error, const QString &fallbackFilePath = {}) const;
+            QString errorText(const QJSValue &error, const QString &fallbackFilePath = {}) const;
             void clearExecutionContext();
             void runExecutionCallbacks(bool starting);
 

@@ -60,7 +60,6 @@ namespace BatchProcess::Internal {
 
         constexpr auto ModuleName = "diffscope:shell";
         constexpr auto ModuleResourcePath = ":/diffscope/batchprocess/internalscripts/shell/shell-module.js";
-        constexpr auto ModuleSourceUrl = "qrc:/diffscope/batchprocess/internalscripts/shell/shell-module.js";
 
         struct MessageButtonData {
             QString id;
@@ -840,7 +839,7 @@ namespace BatchProcess::Internal {
         if (!moduleFile.open(QIODevice::ReadOnly)) {
             qFatal() << "Failed to open the embedded Batch Process shell module:" << moduleFile.errorString();
         }
-        const auto factory = engine->evaluate(QString::fromUtf8(moduleFile.readAll()), QString::fromLatin1(ModuleSourceUrl));
+        const auto factory = engine->evaluate(QString::fromUtf8(moduleFile.readAll()), moduleFile.fileName());
         if (factory.isError()) {
             qFatal() << "Failed to evaluate the embedded Batch Process shell module:" << javaScriptErrorText(factory);
         }

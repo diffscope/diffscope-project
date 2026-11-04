@@ -4,8 +4,8 @@
 #include "JavaScriptEngineHelper.h"
 
 #include <QDir>
-#include <QFileInfo>
 #include <QJSEngine>
+#include <QStringList>
 #include <QtGlobal>
 
 #include <QtQml/private/qjsvalue_p.h>
@@ -16,39 +16,52 @@ namespace BatchProcess::Internal {
 
     namespace {
 
-        QUrl sourceUrl(const QString &source) {
-            if (source.isEmpty()) {
-                return {};
-            }
-            if (QDir::isAbsolutePath(source)) {
-                return QUrl::fromLocalFile(QFileInfo(source).absoluteFilePath());
-            }
-            return QUrl(source);
-        }
-
         QList<JavaScriptStackFrame> convertStackTrace(const QV4::StackTrace &stackTrace) {
             QList<JavaScriptStackFrame> result;
             result.reserve(stackTrace.size());
             for (const auto &frame : stackTrace) {
                 const auto line = frame.line == -1 ? -1 : qAbs(frame.line);
-                result.append({frame.function, sourceUrl(frame.source), line, frame.column});
+                result.append({frame.function, QUrl(frame.source), line, frame.column});
             }
             return result;
-        }
-
-        QString stackFrameSource(const QUrl &fileUrl) {
-            return fileUrl.isLocalFile() ? QFileInfo(fileUrl.toLocalFile()).absoluteFilePath() : fileUrl.toString(QUrl::FullyEncoded);
         }
 
         QV4::StackTrace convertStackTrace(const QList<JavaScriptStackFrame> &stackTrace) {
             QV4::StackTrace result;
             result.reserve(stackTrace.size());
             for (const auto &frame : stackTrace) {
-                result.append({stackFrameSource(frame.fileUrl), frame.functionName, frame.line, frame.column});
+                result.append({frame.fileUrl.toString(), frame.functionName, frame.line, frame.column});
             }
             return result;
         }
 
+    }
+
+    QUrl JavaScriptEngineHelper::filePathToSourceUrl(const QString &filePath) {
+        if (!filePath.startsWith(QLatin1String(":/"))) {
+            return QUrl::fromLocalFile(filePath);
+        }
+        QUrl fileUrl;
+        fileUrl.setScheme(QStringLiteral("qrc"));
+        fileUrl.setPath(filePath.mid(1), QUrl::DecodedMode);
+        return fileUrl;
+    }
+
+    QString JavaScriptEngineHelper::sourceDisplayPath(const QUrl &fileUrl) {
+        return fileUrl.isLocalFile() ? QDir::toNativeSeparators(fileUrl.toLocalFile()) : fileUrl.toDisplayString();
+    }
+
+    QString JavaScriptEngineHelper::formatStackTrace(const QList<JavaScriptStackFrame> &stackTrace) {
+        QStringList lines;
+        lines.reserve(stackTrace.size());
+        for (const auto &frame : stackTrace) {
+            auto text = frame.functionName + QLatin1Char('@') + sourceDisplayPath(frame.fileUrl);
+            if (frame.line > 0) {
+                text += QLatin1Char(':') + QString::number(frame.line);
+            }
+            lines.append(text);
+        }
+        return lines.join(QLatin1Char('\n'));
     }
 
     QList<JavaScriptStackFrame> JavaScriptEngineHelper::stackTrace(QJSEngine *engine, int frameLimit) {

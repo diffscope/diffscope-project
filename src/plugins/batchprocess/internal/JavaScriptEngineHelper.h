@@ -22,6 +22,9 @@ namespace BatchProcess::Internal {
 
     class JavaScriptEngineHelper {
     public:
+        static QUrl filePathToSourceUrl(const QString &filePath);
+        static QString sourceDisplayPath(const QUrl &fileUrl);
+        static QString formatStackTrace(const QList<JavaScriptStackFrame> &stackTrace);
         static QList<JavaScriptStackFrame> stackTrace(QJSEngine *engine, int frameLimit = -1);
         static QList<JavaScriptStackFrame> stackTrace(const QJSValue &error);
         static QList<JavaScriptStackFrame> takeExceptionStackTrace(QJSEngine *engine);

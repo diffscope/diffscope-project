@@ -621,7 +621,7 @@ namespace BatchProcess::Internal {
         if (!moduleFile.open(QIODevice::ReadOnly)) {
             qFatal() << "Failed to open the embedded Batch Process file-system module:" << moduleFile.errorString();
         }
-        const auto factory = engine->evaluate(QString::fromUtf8(moduleFile.readAll()), QString::fromLatin1(ModuleResourcePath));
+        const auto factory = engine->evaluate(QString::fromUtf8(moduleFile.readAll()), moduleFile.fileName());
         if (factory.isError()) {
             qFatal() << "Failed to evaluate the embedded Batch Process file-system module:" << javaScriptErrorText(factory);
         }

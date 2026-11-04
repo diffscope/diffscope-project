@@ -312,7 +312,7 @@ namespace BatchProcess::Internal {
             qFatal() << "Failed to open the embedded Batch Process runtime module:" << runtimeModuleFile.errorString();
         }
 
-        const auto factory = engine->evaluate(QString::fromUtf8(runtimeModuleFile.readAll()), QString::fromLatin1(RuntimeModuleResourcePath));
+        const auto factory = engine->evaluate(QString::fromUtf8(runtimeModuleFile.readAll()), runtimeModuleFile.fileName());
         if (factory.isError()) {
             qFatal() << "Failed to evaluate the embedded Batch Process runtime module:" << javaScriptErrorText(factory);
         }

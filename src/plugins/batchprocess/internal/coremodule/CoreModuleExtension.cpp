@@ -936,14 +936,14 @@ namespace BatchProcess::Internal {
     void CoreModuleExtension::install(QJSEngine *engine, ScriptExecutionContext *context) {
         QFile file(QStringLiteral(":/diffscope/batchprocess/internalscripts/core/core-module.js"));
         if (!file.open(QIODevice::ReadOnly)) qFatal() << file.errorString();
-        const auto factory = engine->evaluate(QString::fromUtf8(file.readAll()), QStringLiteral("qrc:/diffscope/batchprocess/internalscripts/core/core-module.js"));
+        const auto factory = engine->evaluate(QString::fromUtf8(file.readAll()), file.fileName());
         if (!factory.isCallable() || factory.isError()) qFatal() << factory.toString();
         auto *bridge = new CoreModuleBridge(m_documents, context, engine);
         m_bridges.insert(engine, bridge);
         connect(engine, &QObject::destroyed, this, [this, engine] { m_bundles.remove(engine); m_bridges.remove(engine); });
         QFile validationFile(QStringLiteral(":/diffscope/batchprocess/internalscripts/core/core-validation.js"));
         if (!validationFile.open(QIODevice::ReadOnly)) qFatal() << validationFile.errorString();
-        const auto validation = engine->evaluate(QString::fromUtf8(validationFile.readAll()), QStringLiteral("qrc:/diffscope/batchprocess/internalscripts/core/core-validation.js"));
+        const auto validation = engine->evaluate(QString::fromUtf8(validationFile.readAll()), validationFile.fileName());
         if (validation.isError() || !validation.isObject()) qFatal() << validation.toString();
         const auto bundle = factory.call({engine->newQObject(bridge), validation});
         if (bundle.isError() || !bundle.property(QStringLiteral("wrap")).isCallable() || !bundle.property(QStringLiteral("unwrap")).isCallable()) qFatal() << bundle.toString();

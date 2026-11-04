@@ -33,7 +33,6 @@ namespace BatchProcess::Internal {
 
         constexpr auto ModuleName = "diffscope:storage";
         constexpr auto ModuleResourcePath = ":/diffscope/batchprocess/internalscripts/storage/storage-module.js";
-        constexpr auto ModuleSourceUrl = "qrc:/diffscope/batchprocess/internalscripts/storage/storage-module.js";
 
         QString javaScriptErrorText(const QJSValue &error) {
             auto text = error.toString();
@@ -328,7 +327,7 @@ namespace BatchProcess::Internal {
         if (!moduleFile.open(QIODevice::ReadOnly)) {
             qFatal() << "Failed to open the embedded Batch Process storage module:" << moduleFile.errorString();
         }
-        const auto factory = engine->evaluate(QString::fromUtf8(moduleFile.readAll()), QString::fromLatin1(ModuleSourceUrl));
+        const auto factory = engine->evaluate(QString::fromUtf8(moduleFile.readAll()), moduleFile.fileName());
         if (factory.isError()) {
             qFatal() << "Failed to evaluate the embedded Batch Process storage module:" << javaScriptErrorText(factory);
         }
