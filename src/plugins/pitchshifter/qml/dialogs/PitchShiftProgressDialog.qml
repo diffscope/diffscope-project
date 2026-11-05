@@ -97,31 +97,15 @@ Window {
             }
         }
 
-        Rectangle {
-            implicitHeight: 1
+        WindowDialogButtonBox {
             Layout.fillWidth: true
-            color: Theme.paneSeparatorColor
-        }
+            hostWindow: dialog
+            onRejected: dialog.requestCancel()
 
-        Rectangle {
-            color: Theme.backgroundSecondaryColor
-            Layout.fillWidth: true
-            height: dialog.isMacOS ? 64 : 52
-
-            RowLayout {
-                anchors.fill: parent
-                anchors.margins: dialog.isMacOS ? 24 : 12
-                anchors.topMargin: 12
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                Button {
-                    text: qsTr("Cancel")
-                    enabled: !dialog.cancelling
-                    onClicked: dialog.requestCancel()
-                }
+            Button {
+                text: qsTr("Cancel")
+                DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
+                enabled: !dialog.cancelling
             }
         }
     }

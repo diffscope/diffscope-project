@@ -428,15 +428,19 @@ Window {
                     }
                 }
             }
-            Rectangle {
-                color: Theme.paneSeparatorColor
-                implicitHeight: 1
+            WindowDialogButtonBox {
                 Layout.fillWidth: true
-            }
-            Rectangle {
-                color: Theme.backgroundSecondaryColor
-                Layout.fillWidth: true
-                height: 60
+                hostWindow: dialog
+                standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+                defaultStandardButton: DialogButtonBox.Ok
+                Component.onCompleted: standardButton(DialogButtonBox.Ok).forceActiveFocus()
+                onAccepted: {
+                    if (dialog.apply())
+                        dialog.close()
+                }
+                onRejected: dialog.close()
+                onApplied: dialog.apply()
+
                 AnnotationPopup {
                     id: applyFailAnnotation
                     ThemedItem.controlType: SVS.CT_Error
@@ -448,39 +452,11 @@ Window {
                     x: mirrored ? 6 : parent.width - width - 6
                     y: -height - 6
                 }
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.margins: 16
-                    spacing: 12
-                    Item {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                    }
-                    Button {
-                        ThemedItem.controlType: SVS.CT_Accent
-                        Layout.alignment: Qt.AlignVCenter
-                        text: qsTr("OK")
-                        Component.onCompleted: forceActiveFocus()
-                        onClicked: () => {
-                            if (dialog.apply()) {
-                                dialog.close()
-                            }
-                        }
-                    }
-                    Button {
-                        Layout.alignment: Qt.AlignVCenter
-                        text: qsTr("Cancel")
-                        onClicked: () => {
-                            dialog.close()
-                        }
-                    }
-                    Button {
-                        id: applyButton
-                        Layout.alignment: Qt.AlignVCenter
-                        enabled: false
-                        text: qsTr("Apply")
-                        onClicked: dialog.apply()
-                    }
+                Button {
+                    id: applyButton
+                    enabled: false
+                    text: qsTr("Apply")
+                    DialogButtonBox.buttonRole: DialogButtonBox.ApplyRole
                 }
             }
         }

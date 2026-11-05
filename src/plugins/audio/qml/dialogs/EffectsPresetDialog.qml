@@ -27,15 +27,17 @@ Dialog {
     modal: false
 
     footer: DialogButtonBox {
+        defaultButton: applyPresetButton
         Button {
+            id: applyPresetButton
             text: qsTr("Apply Preset")
             DialogButtonBox.buttonRole: DialogButtonBox.AcceptRole
-            ThemedItem.controlType: SVS.CT_Accent
+            DialogButton.emphasis: DialogButton.Primary
             enabled: dialog.canUsePresets
         }
         Button {
             text: qsTr("Close")
-            DialogButtonBox.buttonRole: DialogButtonBox.DestructiveRole
+            DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
         }
     }
 
@@ -177,35 +179,36 @@ Dialog {
                 color: Theme.warningColor
                 visible: dialog.addOn?.hasPreset(saveAsDialog.presetName) ?? false
             }
-            RowLayout {
-                Layout.fillWidth: true
-                Item { Layout.fillWidth: true }
-                Button {
-                    id: saveAsOkButton
-                    ThemedItem.controlType: SVS.CT_Accent
-                    text: qsTr("OK")
-                    enabled: saveAsDialog.presetName.trim().length > 0
-                    onClicked: {
-                        const name = saveAsDialog.presetName.trim()
-                        const overwrite = dialog.addOn?.hasPreset(name) ?? false
-                        if (overwrite) {
-                            const choice = contentColumn.MessageBox.question(qsTr("Overwrite Preset"),
-                                qsTr("A preset with the name \"%1\" already exists. Overwrite it?").arg(name),
-                                SVS.Yes | SVS.No, SVS.No)
-                            if (choice !== SVS.Yes)
-                                return
-                        }
-                        if (dialog.addOn.savePreset(name)) {
-                            Qt.callLater(() => {
-                                const index = dialog.addOn.presetIndex(name)
-                                if (index >= 0) {
-                                    presetList.currentIndex = index
-                                    presetList.positionViewAtIndex(index, ListView.Contain)
-                                }
-                            })
-                        }
-                        saveAsDialog.close()
+        }
+        footer: DialogButtonBox {
+            defaultButton: saveAsOkButton
+            Button {
+                id: saveAsOkButton
+                text: qsTr("OK")
+                enabled: saveAsDialog.presetName.trim().length > 0
+                DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+                DialogButton.layoutRole: DialogButton.AcceptRole
+                DialogButton.emphasis: DialogButton.Primary
+                onClicked: {
+                    const name = saveAsDialog.presetName.trim()
+                    const overwrite = dialog.addOn?.hasPreset(name) ?? false
+                    if (overwrite) {
+                        const choice = contentColumn.MessageBox.question(qsTr("Overwrite Preset"),
+                            qsTr("A preset with the name \"%1\" already exists. Overwrite it?").arg(name),
+                            SVS.Yes | SVS.No, SVS.No)
+                        if (choice !== SVS.Yes)
+                            return
                     }
+                    if (dialog.addOn.savePreset(name)) {
+                        Qt.callLater(() => {
+                            const index = dialog.addOn.presetIndex(name)
+                            if (index >= 0) {
+                                presetList.currentIndex = index
+                                presetList.positionViewAtIndex(index, ListView.Contain)
+                            }
+                        })
+                    }
+                    saveAsDialog.close()
                 }
             }
         }

@@ -62,15 +62,18 @@ Dialog {
     }
 
     footer: DialogButtonBox {
+        defaultButton: submitButton
         Button {
+            id: submitButton
             text: qsTranslate("QPlatformTheme", "OK")
             DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+            DialogButton.layoutRole: DialogButton.AcceptRole
+            DialogButton.emphasis: DialogButton.Primary
             onClicked: dialog.submit()
         }
         Button {
             text: qsTranslate("QPlatformTheme", "Cancel")
             DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
-            onClicked: dialog.reject()
         }
     }
 

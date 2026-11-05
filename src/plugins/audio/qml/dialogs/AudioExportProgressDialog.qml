@@ -188,37 +188,21 @@ Window {
             }
         }
 
-        Rectangle {
-            implicitHeight: 1
+        WindowDialogButtonBox {
             Layout.fillWidth: true
-            color: Theme.paneSeparatorColor
-        }
+            hostWindow: dialog
 
-        Rectangle {
-            color: Theme.backgroundSecondaryColor
-            Layout.fillWidth: true
-            height: dialog.isMacOS ? 64 : 52
-
-            RowLayout {
-                anchors.fill: parent
-                anchors.margins: dialog.isMacOS ? 24 : 12
-                anchors.topMargin: 12
-
-                CheckBox {
-                    text: qsTr("Keep partial files")
-                    visible: dialog.keepPartialFilesVisible
-                    checked: dialog.keepPartialFiles
-                    onToggled: dialog.keepPartialFiles = checked
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                Button {
-                    text: dialog.actionButtonText
-                    onClicked: dialog.actionRequested()
-                }
+            leadingContent: CheckBox {
+                text: qsTr("Keep partial files")
+                visible: dialog.keepPartialFilesVisible
+                checked: dialog.keepPartialFiles
+                onToggled: dialog.keepPartialFiles = checked
+            }
+            Button {
+                text: dialog.actionButtonText
+                DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+                DialogButton.layoutRole: DialogButton.RejectRole
+                onClicked: dialog.actionRequested()
             }
         }
     }

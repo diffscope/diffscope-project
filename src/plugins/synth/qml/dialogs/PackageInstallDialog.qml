@@ -280,36 +280,34 @@ Window {
             }
         }
 
-        Rectangle {
+        WindowDialogButtonBox {
             Layout.fillWidth: true
-            implicitHeight: buttons.implicitHeight + 24
-            color: Theme.backgroundSecondaryColor
+            hostWindow: dialog
+            defaultButton: installButton
+            onRejected: dialog.finish(false)
 
-            RowLayout {
-                id: buttons
-                anchors.fill: parent
-                anchors.margins: 12
-                BusyIndicator {
-                    running: dialog.installModel.busy
-                    visible: running
-                    implicitWidth: 24
-                    implicitHeight: 24
+            leadingContent: BusyIndicator {
+                running: dialog.installModel.busy
+                visible: running
+                implicitWidth: 24
+                implicitHeight: 24
+            }
+            Button {
+                id: installButton
+                text: qsTr("Install")
+                DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+                DialogButton.layoutRole: DialogButton.AcceptRole
+                DialogButton.emphasis: DialogButton.Primary
+                enabled: dialog.installModel.canInstall
+                onClicked: {
+                    if (dialog.installModel.install(dialog))
+                        dialog.finish(true)
                 }
-                Item { Layout.fillWidth: true }
-                Button {
-                    text: qsTr("Install")
-                    highlighted: true
-                    enabled: dialog.installModel.canInstall
-                    onClicked: {
-                        if (dialog.installModel.install(dialog))
-                            dialog.finish(true)
-                    }
-                }
-                Button {
-                    text: qsTranslate("QPlatformTheme", "Cancel")
-                    enabled: !dialog.installModel.busy
-                    onClicked: dialog.finish(false)
-                }
+            }
+            Button {
+                text: qsTranslate("QPlatformTheme", "Cancel")
+                DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
+                enabled: !dialog.installModel.busy
             }
         }
     }

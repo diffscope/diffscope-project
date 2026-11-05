@@ -131,17 +131,19 @@ Item {
         }
 
         footer: DialogButtonBox {
+            defaultButton: applyButton
             Button {
+                id: applyButton
                 text: qsTr("Apply Changes")
-                ThemedItem.controlType: SVS.CT_Accent
                 DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+                DialogButton.layoutRole: DialogButton.AcceptRole
+                DialogButton.emphasis: DialogButton.Primary
                 onClicked: control.submitDraft()
             }
             Button {
                 text: qsTr("Cancel")
                 DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
             }
-            onRejected: editDialog.reject()
         }
     }
 }

@@ -128,18 +128,19 @@ Window {
                 text: qsTr("The preset with the same name will be overwritten.")
                 visible: saveAsDialog.overwrite
             }
-            RowLayout {
-                Layout.fillWidth: true
-                Item {
-                    Layout.fillWidth: true
-                }
-                Button {
-                    text: qsTr("OK")
-                    enabled: presetNameTextField.text.trim().length > 0
-                    onClicked: {
-                        AudioExporterPresets.saveCurrentAsCustomPreset(presetNameTextField.text)
-                        saveAsDialog.close()
-                    }
+        }
+        footer: DialogButtonBox {
+            defaultButton: savePresetButton
+            Button {
+                id: savePresetButton
+                text: qsTr("OK")
+                enabled: presetNameTextField.text.trim().length > 0
+                DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+                DialogButton.layoutRole: DialogButton.AcceptRole
+                DialogButton.emphasis: DialogButton.Primary
+                onClicked: {
+                    AudioExporterPresets.saveCurrentAsCustomPreset(presetNameTextField.text)
+                    saveAsDialog.close()
                 }
             }
         }
@@ -675,56 +676,41 @@ Window {
                 }
             }
         }
-        Rectangle {
-            implicitHeight: 1
+        WindowDialogButtonBox {
             Layout.fillWidth: true
-            color: Theme.paneSeparatorColor
-        }
-        Rectangle {
-            color: Theme.backgroundSecondaryColor
-            Layout.fillWidth: true
-            height: dialog.isMacOS ? 64 : 52
-            RowLayout {
-                id: buttonLayout
-                anchors.fill: parent
-                anchors.margins: dialog.isMacOS ? 24 : 12
-                anchors.topMargin: 12
-                Button {
-                    text: AudioPreference.audioExporterEnableAdvancedOptions ? qsTr("Simple Mode") : qsTr("Advanced Mode")
-                    onClicked: AudioPreference.audioExporterEnableAdvancedOptions = !AudioPreference.audioExporterEnableAdvancedOptions
-                }
-                Item {
-                    Layout.fillWidth: true
-                }
-                Button {
-                    id: warningButton
-                    flat: true
-                    icon.source: "image://fluent-system-icons/warning"
-                    icon.color: Theme.warningColor
-                    text: qsTr("Warnings")
-                    display: AbstractButton.IconOnly
-                    visible: dialog.exporter.preflightWarnings !== 0
-                    onClicked: dryRunDialog.open()
-                }
-                Button {
-                    id: exportButton
-                    text: qsTr("Export")
-                    ThemedItem.controlType: SVS.CT_Accent
-                    onClicked: () => {
-                        for (const warningText of dialog.exporter.preflightWarningTexts(dialog.exporter.preflightWarnings)) {
-                            if (MessageBox.warning(qsTr("Warning"), warningText + "\n\n" + qsTr("Continue to export?"), SVS.Yes | SVS.No, SVS.No) === SVS.No) {
-                                return
-                            }
-                        }
-                        if (dialog.addOn.runExport(dialog.exporter) && !keepOpenCheckBox.checked) {
-                            dialog.close()
+            hostWindow: dialog
+            standardButtons: DialogButtonBox.Cancel
+            defaultButton: exportButton
+            onRejected: dialog.close()
+
+            leadingContent: Button {
+                text: AudioPreference.audioExporterEnableAdvancedOptions ? qsTr("Simple Mode") : qsTr("Advanced Mode")
+                onClicked: AudioPreference.audioExporterEnableAdvancedOptions = !AudioPreference.audioExporterEnableAdvancedOptions
+            }
+            accessoryContent: Button {
+                flat: true
+                icon.source: "image://fluent-system-icons/warning"
+                icon.color: Theme.warningColor
+                text: qsTr("Warnings")
+                display: AbstractButton.IconOnly
+                visible: dialog.exporter.preflightWarnings !== 0
+                onClicked: dryRunDialog.open()
+            }
+            Button {
+                id: exportButton
+                text: qsTr("Export")
+                DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+                DialogButton.layoutRole: DialogButton.AcceptRole
+                DialogButton.emphasis: DialogButton.Primary
+                onClicked: () => {
+                    for (const warningText of dialog.exporter.preflightWarningTexts(dialog.exporter.preflightWarnings)) {
+                        if (MessageBox.warning(qsTr("Warning"), warningText + "\n\n" + qsTr("Continue to export?"), SVS.Yes | SVS.No, SVS.No) === SVS.No) {
+                            return
                         }
                     }
-                }
-                Button {
-                    id: cancelButton
-                    text: qsTr("Cancel")
-                    onClicked: dialog.close()
+                    if (dialog.addOn.runExport(dialog.exporter) && !keepOpenCheckBox.checked) {
+                        dialog.close()
+                    }
                 }
             }
         }

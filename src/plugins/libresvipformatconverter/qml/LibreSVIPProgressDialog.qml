@@ -90,23 +90,12 @@ Window {
             }
         }
 
-        Rectangle {
+        WindowDialogButtonBox {
             Layout.fillWidth: true
-            implicitHeight: 52
-            color: Theme.backgroundSecondaryColor
-
-            RowLayout {
-                anchors.fill: parent
-                anchors.margins: 12
-
-                Item { Layout.fillWidth: true }
-
-                Button {
-                    visible: dialog.cancellable
-                    text: qsTranslate("QPlatformTheme", "Cancel")
-                    onClicked: dialog.finish("cancelled")
-                }
-            }
+            hostWindow: dialog
+            visible: dialog.cancellable
+            standardButtons: DialogButtonBox.Cancel
+            onRejected: dialog.finish("cancelled")
         }
     }
 }

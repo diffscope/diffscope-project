@@ -89,15 +89,18 @@ Dialog {
     }
 
     footer: DialogButtonBox {
+        defaultButton: submitButton
         Button {
+            id: submitButton
             text: dialog.acceptText
             DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+            DialogButton.layoutRole: DialogButton.AcceptRole
+            DialogButton.emphasis: DialogButton.Primary
             onClicked: dialog.submit()
         }
         Button {
             text: dialog.cancelText
             DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
-            onClicked: dialog.reject()
         }
     }
 

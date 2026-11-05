@@ -446,46 +446,21 @@ Window {
             }
         }
 
-        Rectangle {
+        WindowDialogButtonBox {
             Layout.fillWidth: true
-            implicitHeight: 1
-            color: Theme.paneSeparatorColor
-        }
+            hostWindow: dialog
+            standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
+            defaultStandardButton: DialogButtonBox.Ok
+            onAccepted: dialog.acceptDialog()
+            onRejected: dialog.rejectDialog()
 
-        Rectangle {
-            Layout.fillWidth: true
-            height: dialog.isMacOS ? 64 : 52
-            color: Theme.backgroundSecondaryColor
-
-            RowLayout {
-                anchors.fill: parent
-                anchors.margins: dialog.isMacOS ? 24 : 12
-                anchors.topMargin: 12
-                spacing: 12
-
-                ToolButton {
-                    visible: dialog.sourcesModel.validationIssues.length > 0
-                    display: AbstractButton.TextBesideIcon
-                    text: qsTr("Source singer warnings")
-                    icon.source: "image://fluent-system-icons/warning"
-                    icon.color: Theme.warningColor
-                    onClicked: dialog.showValidationIssues()
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                Button {
-                    ThemedItem.controlType: SVS.CT_Accent
-                    text: qsTr("OK")
-                    onClicked: dialog.acceptDialog()
-                }
-
-                Button {
-                    text: qsTr("Cancel")
-                    onClicked: dialog.rejectDialog()
-                }
+            leadingContent: ToolButton {
+                visible: dialog.sourcesModel.validationIssues.length > 0
+                display: AbstractButton.TextBesideIcon
+                text: qsTr("Source singer warnings")
+                icon.source: "image://fluent-system-icons/warning"
+                icon.color: Theme.warningColor
+                onClicked: dialog.showValidationIssues()
             }
         }
     }

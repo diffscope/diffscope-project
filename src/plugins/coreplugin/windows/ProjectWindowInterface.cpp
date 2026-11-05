@@ -4,6 +4,7 @@
 #include "ProjectWindowInterface.h"
 
 #include <QAbstractItemModel>
+#include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QJSValue>
@@ -131,10 +132,12 @@ namespace Core {
                                  QVariantMap{
                                      {"id", SaveAs},
                                      {"text", Core::ProjectWindowInterface::tr("Save As...")},
+                                     {"role", QDialogButtonBox::AcceptRole},
                                  },
                                  QVariantMap{
                                      {"id", Overwrite},
                                      {"text", Core::ProjectWindowInterface::tr("Overwrite")},
+                                     {"role", QDialogButtonBox::DestructiveRole},
                                  },
                                  SVS::SVSCraft::Cancel,
                              }},

@@ -174,26 +174,22 @@ Window {
             }
         }
 
-        Rectangle {
+        WindowDialogButtonBox {
             Layout.fillWidth: true
-            implicitHeight: buttons.implicitHeight + 24
-            color: Theme.backgroundSecondaryColor
-            RowLayout {
-                id: buttons
-                anchors.fill: parent
-                anchors.margins: 12
-                Item { Layout.fillWidth: true }
-                Button {
-                    visible: dialog.phase === "selection"
-                    enabled: dialog.catalog.available
-                    highlighted: true
-                    text: qsTr("Download")
-                    onClicked: dialog.done("download")
-                }
-                Button {
-                    text: qsTranslate("QPlatformTheme", "Cancel")
-                    onClicked: dialog.finish("cancelled")
-                }
+            hostWindow: dialog
+            standardButtons: DialogButtonBox.Cancel
+            defaultButton: downloadButton
+            onRejected: dialog.finish("cancelled")
+
+            Button {
+                id: downloadButton
+                visible: dialog.phase === "selection"
+                enabled: dialog.catalog.available
+                text: qsTr("Download")
+                DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+                DialogButton.layoutRole: DialogButton.AcceptRole
+                DialogButton.emphasis: DialogButton.Primary
+                onClicked: dialog.done("download")
             }
         }
     }

@@ -206,14 +206,21 @@ Item {
                 Layout.fillWidth: true
                 wrapMode: Text.WordWrap
             }
-            RowLayout {
-                Item { Layout.fillWidth: true }
-                Button { text: qsTr("Cancel"); onClicked: nameDialog.close() }
-                Button {
-                    text: qsTr("Save")
-                    enabled: nameInput.text.trim().length > 0
-                    onClicked: nameDialog.save()
-                }
+        }
+        footer: DialogButtonBox {
+            defaultButton: saveButton
+            Button {
+                text: qsTr("Cancel")
+                DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
+            }
+            Button {
+                id: saveButton
+                text: qsTr("Save")
+                enabled: nameInput.text.trim().length > 0
+                DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+                DialogButton.layoutRole: DialogButton.AcceptRole
+                DialogButton.emphasis: DialogButton.Primary
+                onClicked: nameDialog.save()
             }
         }
     }

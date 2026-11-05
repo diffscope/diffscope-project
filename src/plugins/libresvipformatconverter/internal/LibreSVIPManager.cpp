@@ -10,6 +10,7 @@
 
 #include <QCoreApplication>
 #include <QCryptographicHash>
+#include <QDialogButtonBox>
 #include <QDir>
 #include <QElapsedTimer>
 #include <QEventLoop>
@@ -743,8 +744,8 @@ namespace LibreSVIPFormatConverter::Internal {
         QWindow *parent = defaultParentWindow();
         if (m_executablePath.isEmpty()) {
             QVariantList buttons{
-                QVariantMap{{QStringLiteral("id"), QStringLiteral("download")}, {QStringLiteral("text"), tr("Download LibreSVIP")}},
-                QVariantMap{{QStringLiteral("id"), QStringLiteral("browse")}, {QStringLiteral("text"), tr("Browse...")}},
+                QVariantMap{{QStringLiteral("id"), QStringLiteral("download")}, {QStringLiteral("text"), tr("Download LibreSVIP")}, {QStringLiteral("role"), QDialogButtonBox::AcceptRole}},
+                QVariantMap{{QStringLiteral("id"), QStringLiteral("browse")}, {QStringLiteral("text"), tr("Browse...")}, {QStringLiteral("role"), QDialogButtonBox::ActionRole}},
                 QVariant::fromValue(SVS::SVSCraft::Cancel),
             };
             std::unique_ptr<QObject> dialog(createQuickObject("LibreSVIPMessageBoxDialog", {

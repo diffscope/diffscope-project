@@ -35,11 +35,15 @@ Dialog {
     onClosed: addOn?.closeDialog()
 
     footer: DialogButtonBox {
+        defaultButton: startButton
         Button {
+            id: startButton
             text: qsTr("Start")
             enabled: dialog.task !== null && !dialog.busy && !dialog.refreshing && dialog.extractor !== null
                      && (!dialog.separation || (dialog.directory.length > 0 && separationOptions.routingValid))
             DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+            DialogButton.layoutRole: DialogButton.AcceptRole
+            DialogButton.emphasis: DialogButton.Primary
             onClicked: dialog.addOn.start(extractorBox.currentIndex, dialog.directory,
                                          separationOptions.outputTrackCount, separationOptions.outputRoutes)
         }
@@ -47,7 +51,6 @@ Dialog {
             text: qsTr("Cancel")
             DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
         }
-        onRejected: dialog.reject()
     }
 
     contentItem: ScrollView {

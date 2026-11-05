@@ -590,53 +590,38 @@ Window {
 
         }
 
-        Rectangle {
+        WindowDialogButtonBox {
             Layout.fillWidth: true
-            implicitHeight: 1
-            color: Theme.paneSeparatorColor
-        }
+            hostWindow: dialog
+            defaultButton: forwardButton
 
-        Rectangle {
-            Layout.fillWidth: true
-            height: dialog.isMacOS ? 64 : 52
-            color: Theme.backgroundSecondaryColor
-
-            RowLayout {
-                anchors.fill: parent
-                anchors.margins: dialog.isMacOS ? 24 : 12
-                anchors.topMargin: 12
-                spacing: 12
-
-                Button {
-                    visible: dialog.currentStep > 0
-                    enabled: dialog.session.exportState !== LyricExportSession.Exporting
-                    text: qsTr("Previous")
-                    onClicked: dialog.goBack()
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                Button {
-                    id: forwardButton
-
-                    ThemedItem.controlType: SVS.CT_Accent
-                    enabled: {
-                        if (dialog.currentStep === 0)
-                            return dialog.session.selectedTrack >= 0
-                        return dialog.session.exportState !== LyricExportSession.Exporting
-                    }
-                    text: dialog.currentStep === 2 ? qsTr("Export") : qsTr("Next")
-                    onClicked: dialog.goForward()
-                }
-
-                Button {
-                    enabled: dialog.session.exportState !== LyricExportSession.Exporting
-                    text: qsTr("Cancel")
-                    onClicked: dialog.close()
-                }
+            leadingContent: Button {
+                visible: dialog.currentStep > 0
+                enabled: dialog.session.exportState !== LyricExportSession.Exporting
+                text: qsTr("Previous")
+                onClicked: dialog.goBack()
             }
+
+            Button {
+                id: forwardButton
+                DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+                DialogButton.layoutRole: DialogButton.AcceptRole
+                DialogButton.emphasis: DialogButton.Primary
+                enabled: {
+                    if (dialog.currentStep === 0)
+                        return dialog.session.selectedTrack >= 0
+                    return dialog.session.exportState !== LyricExportSession.Exporting
+                }
+                text: dialog.currentStep === 2 ? qsTr("Export") : qsTr("Next")
+                onClicked: dialog.goForward()
+            }
+
+            Button {
+                enabled: dialog.session.exportState !== LyricExportSession.Exporting
+                text: qsTr("Cancel")
+                DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
+            }
+            onRejected: dialog.close()
         }
     }
 }

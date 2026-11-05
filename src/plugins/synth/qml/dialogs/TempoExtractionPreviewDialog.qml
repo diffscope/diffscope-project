@@ -27,18 +27,20 @@ Dialog {
     onWidthChanged: if (parent) x = (parent.width - width) / 2
 
     footer: DialogButtonBox {
+        defaultButton: applyButton
         Button {
+            id: applyButton
             text: qsTr("Apply")
             enabled: dialog.preview.valid
-            ThemedItem.controlType: SVS.CT_Accent
             DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+            DialogButton.layoutRole: DialogButton.AcceptRole
+            DialogButton.emphasis: DialogButton.Primary
             onClicked: dialog.addOn.applyTempo()
         }
         Button {
             text: qsTr("Cancel")
             DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
         }
-        onRejected: dialog.reject()
     }
 
     contentItem: ColumnLayout {

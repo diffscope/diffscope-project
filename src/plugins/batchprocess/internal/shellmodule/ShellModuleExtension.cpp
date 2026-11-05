@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <memory>
 
-#include <QAbstractButton>
 #include <QColor>
 #include <QCoreApplication>
 #include <QDialogButtonBox>
@@ -17,15 +16,12 @@
 #include <QFileInfo>
 #include <QJSEngine>
 #include <QJSValue>
-#include <QLayout>
 #include <QLoggingCategory>
 #include <QMetaObject>
 #include <QPointer>
 #include <QQmlComponent>
-#include <QPushButton>
 #include <QQuickItem>
 #include <QQuickWindow>
-#include <QSet>
 #include <QStandardItemModel>
 #include <QStringList>
 #include <QUrl>
@@ -113,37 +109,6 @@ namespace BatchProcess::Internal {
                 return QDialogButtonBox::HelpRole;
             }
             return QDialogButtonBox::ActionRole;
-        }
-
-        QList<MessageButtonData> platformOrderedButtons(const QList<MessageButtonData> &buttons) {
-            QDialogButtonBox buttonBox;
-            QHash<QAbstractButton *, qsizetype> sourceIndexes;
-            for (qsizetype index = 0; index < buttons.size(); ++index) {
-                auto button = buttonBox.addButton(buttons.at(index).text, buttonRole(buttons.at(index).role));
-                sourceIndexes.insert(button, index);
-            }
-            buttonBox.ensurePolished();
-            buttonBox.layout()->activate();
-
-            QList<MessageButtonData> result;
-            result.reserve(buttons.size());
-            QSet<qsizetype> appended;
-            for (int index = 0; index < buttonBox.layout()->count(); ++index) {
-                const auto item = buttonBox.layout()->itemAt(index);
-                const auto button = item ? qobject_cast<QAbstractButton *>(item->widget()) : nullptr;
-                if (!button || !sourceIndexes.contains(button)) {
-                    continue;
-                }
-                const auto sourceIndex = sourceIndexes.value(button);
-                result.append(buttons.at(sourceIndex));
-                appended.insert(sourceIndex);
-            }
-            for (qsizetype index = 0; index < buttons.size(); ++index) {
-                if (!appended.contains(index)) {
-                    result.append(buttons.at(index));
-                }
-            }
-            return result;
         }
 
         QString fileDialogFilters(const QJSValue &filters) {
@@ -362,12 +327,11 @@ namespace BatchProcess::Internal {
                     });
                 }
             }
-            const auto orderedButtons = platformOrderedButtons(buttons);
             QVariantList buttonModel;
             QString primaryButton;
             QString escapeButton;
-            for (const auto &button : orderedButtons) {
-                buttonModel.append(QVariantMap{{QStringLiteral("id"), button.id}, {QStringLiteral("text"), button.text}});
+            for (const auto &button : buttons) {
+                buttonModel.append(QVariantMap{{QStringLiteral("id"), button.id}, {QStringLiteral("text"), button.text}, {QStringLiteral("role"), buttonRole(button.role)}});
                 if (button.isDefault) {
                     primaryButton = button.id;
                 }
@@ -375,11 +339,11 @@ namespace BatchProcess::Internal {
                     escapeButton = button.id;
                 }
             }
-            if (primaryButton.isEmpty()) {
-                const auto acceptButton = std::ranges::find_if(orderedButtons, [](const MessageButtonData &button) {
+            if (primaryButton.isEmpty() && !buttons.isEmpty()) {
+                const auto acceptButton = std::ranges::find_if(buttons, [](const MessageButtonData &button) {
                     return button.role == QStringLiteral("accept") || button.role == QStringLiteral("destructive");
                 });
-                primaryButton = acceptButton == orderedButtons.cend() ? orderedButtons.constFirst().id : acceptButton->id;
+                primaryButton = acceptButton == buttons.cend() ? buttons.constFirst().id : acceptButton->id;
             }
             QQmlComponent component(Core::RuntimeInterface::qmlEngine(), QUrl(QStringLiteral("qrc:/qt/qml/SVSCraft/UIComponents/qml/MessageBoxDialog.qml")));
             if (component.isError()) {

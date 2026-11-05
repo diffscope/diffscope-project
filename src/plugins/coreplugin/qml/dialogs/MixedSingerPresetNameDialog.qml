@@ -69,10 +69,14 @@ Dialog {
     }
 
     footer: DialogButtonBox {
+        defaultButton: saveButton
         Button {
+            id: saveButton
             text: qsTr("Save")
             enabled: nameField.text.trim().length > 0
             DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+            DialogButton.layoutRole: DialogButton.AcceptRole
+            DialogButton.emphasis: DialogButton.Primary
             onClicked: dialog.savePreset()
         }
 
@@ -80,7 +84,5 @@ Dialog {
             text: qsTr("Cancel")
             DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
         }
-
-        onRejected: dialog.reject()
     }
 }

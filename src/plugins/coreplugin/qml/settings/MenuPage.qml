@@ -332,14 +332,21 @@ Item {
                 wrapMode: Text.WordWrap
                 Layout.fillWidth: true
             }
-            RowLayout {
-                Item { Layout.fillWidth: true }
-                Button { text: qsTr("Cancel"); onClicked: picker.close() }
-                Button {
-                    text: qsTr("Add")
-                    enabled: picker.selectedType >= 0
-                    onClicked: picker.addSelected()
-                }
+        }
+        footer: DialogButtonBox {
+            defaultButton: addButton
+            Button {
+                text: qsTr("Cancel")
+                DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
+            }
+            Button {
+                id: addButton
+                text: qsTr("Add")
+                enabled: picker.selectedType >= 0
+                DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+                DialogButton.layoutRole: DialogButton.AcceptRole
+                DialogButton.emphasis: DialogButton.Primary
+                onClicked: picker.addSelected()
             }
         }
     }

@@ -78,31 +78,25 @@ Dialog {
         }
     }
 
-    footer: Item {
-        implicitWidth: buttons.implicitWidth + 24
-        implicitHeight: buttons.implicitHeight + 24
-        RowLayout {
-            id: buttons
-            anchors.fill: parent
-            anchors.margins: 12
-            spacing: 12
-            Button {
-                text: qsTr("Discard")
-                ThemedItem.controlType: SVS.CT_Error
-                onClicked: dialog.finish(MidiRecordingAddOn.Discard)
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            Button {
-                text: qsTr("OK")
-                ThemedItem.controlType: SVS.CT_Accent
-                onClicked: dialog.finish(MidiRecordingAddOn.Quantize)
-            }
-            Button {
-                text: qsTr("Cancel")
-                onClicked: dialog.reject()
-            }
+    footer: DialogButtonBox {
+        defaultButton: quantizeButton
+
+        leadingContent: Button {
+            text: qsTr("Discard")
+            DialogButton.emphasis: DialogButton.Error
+            onClicked: dialog.finish(MidiRecordingAddOn.Discard)
+        }
+        Button {
+            id: quantizeButton
+            text: qsTr("OK")
+            DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+            DialogButton.layoutRole: DialogButton.AcceptRole
+            DialogButton.emphasis: DialogButton.Primary
+            onClicked: dialog.finish(MidiRecordingAddOn.Quantize)
+        }
+        Button {
+            text: qsTr("Cancel")
+            DialogButtonBox.buttonRole: DialogButtonBox.RejectRole
         }
     }
 }

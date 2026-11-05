@@ -91,24 +91,20 @@ Window {
             }
         }
 
-        Rectangle {
+        WindowDialogButtonBox {
             Layout.fillWidth: true
-            implicitHeight: buttons.implicitHeight + 24
-            color: Theme.backgroundSecondaryColor
-            RowLayout {
-                id: buttons
-                anchors.fill: parent
-                anchors.margins: 12
-                Item { Layout.fillWidth: true }
-                Button {
-                    text: qsTr("Uninstall")
-                    onClicked: dialog.finish("uninstall")
-                }
-                Button {
-                    text: qsTranslate("QPlatformTheme", "Cancel")
-                    focus: true
-                    onClicked: dialog.finish("cancelled")
-                }
+            hostWindow: dialog
+            standardButtons: DialogButtonBox.Cancel
+            defaultStandardButton: DialogButtonBox.Cancel
+            Component.onCompleted: standardButton(DialogButtonBox.Cancel).forceActiveFocus()
+            onRejected: dialog.finish("cancelled")
+
+            Button {
+                text: qsTr("Uninstall")
+                DialogButtonBox.buttonRole: DialogButtonBox.DestructiveRole
+                DialogButton.layoutRole: DialogButton.AcceptRole
+                DialogButton.emphasis: DialogButton.Normal
+                onClicked: dialog.finish("uninstall")
             }
         }
     }

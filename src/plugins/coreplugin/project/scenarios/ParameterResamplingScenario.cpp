@@ -5,6 +5,7 @@
 
 #include <memory>
 
+#include <QDialogButtonBox>
 #include <QLoggingCategory>
 #include <QPointer>
 #include <QQmlComponent>
@@ -99,9 +100,9 @@ namespace Core {
             {"text", tr("Resample Parameters")},
             {"informativeText", text},
             {"buttons", QVariantList {
-                QVariantMap {{"id", ResampleOnce}, {"text", tr("Once")}},
-                QVariantMap {{"id", AlwaysResample}, {"text", tr("Always")}},
-                QVariantMap {{"id", DoNotResample}, {"text", tr("No")}},
+                QVariantMap {{"id", ResampleOnce}, {"text", tr("Once")}, {"role", QDialogButtonBox::AcceptRole}},
+                QVariantMap {{"id", AlwaysResample}, {"text", tr("Always")}, {"role", QDialogButtonBox::ActionRole}},
+                QVariantMap {{"id", DoNotResample}, {"text", tr("No")}, {"role", QDialogButtonBox::RejectRole}},
             }},
             {"primaryButton", ResampleOnce},
             {"escapeButton", DoNotResample},
