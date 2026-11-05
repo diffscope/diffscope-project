@@ -7,7 +7,6 @@
 
 #include <QApplication>
 #include <QDirIterator>
-#include <QFileOpenEvent>
 #include <QFontDatabase>
 #include <QImageReader>
 #include <QLoggingCategory>
@@ -22,6 +21,7 @@
 #include <QThread>
 #include <QTimer>
 
+#include <CoreApi/FileOpenEventSource.h>
 #include <CoreApi/applicationinfo.h>
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/settingcatalog.h>
@@ -190,7 +190,6 @@ namespace Core::Internal {
 
         initializeSingletons();
         CoreInterface::fileOpenDispatcher()->setReady(false);
-        qApp->installEventFilter(this);
         initializeBehaviorPreference();
         initializeActions();
         initializeSettings();
@@ -219,6 +218,18 @@ namespace Core::Internal {
         checkLastRun();
         checkPlugins();
         CoreInterface::fileOpenDispatcher()->registerHandler(new ProjectFileOpenHandler(this));
+
+        auto fileOpenEventSource = RuntimeInterface::fileOpenEventSource();
+        const auto openPendingFiles = [fileOpenEventSource] {
+            const auto filePaths = fileOpenEventSource->takePendingFiles();
+            if (filePaths.isEmpty()) {
+                return;
+            }
+            auto firstWindow = CoreInterface::windowSystem()->firstWindow();
+            CoreInterface::fileOpenDispatcher()->openFiles(filePaths, firstWindow ? firstWindow->window() : nullptr);
+        };
+        connect(fileOpenEventSource, &FileOpenEventSource::filesAvailable, this, openPendingFiles);
+        openPendingFiles();
     }
 
     bool CorePlugin::delayedInitialize() {
@@ -255,18 +266,6 @@ namespace Core::Internal {
     QObject *CorePlugin::remoteCommand(const QStringList &options, const QString &workingDirectory, const QStringList &args) {
         initializeGui(options, workingDirectory, args);
         return nullptr;
-    }
-
-    bool CorePlugin::eventFilter(QObject *obj, QEvent *event) {
-        if (obj == qApp && event->type() == QEvent::FileOpen) {
-            const auto filePath = static_cast<QFileOpenEvent *>(event)->file();
-            if (!filePath.isEmpty()) {
-                auto firstWindow = CoreInterface::windowSystem()->firstWindow();
-                CoreInterface::fileOpenDispatcher()->openFiles({filePath}, firstWindow ? firstWindow->window() : nullptr);
-            }
-            return true;
-        }
-        return QObject::eventFilter(obj, event);
     }
 
     void CorePlugin::initializeSingletons() {

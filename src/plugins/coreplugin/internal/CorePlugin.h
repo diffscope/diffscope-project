@@ -21,9 +21,6 @@ namespace Core::Internal {
 
         QObject *remoteCommand(const QStringList &options, const QString &workingDirectory, const QStringList &args) override;
 
-    protected:
-        bool eventFilter(QObject *obj, QEvent *event) override;
-
     private:
         void initializeSingletons();
         void initializeActions();
