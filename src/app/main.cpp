@@ -90,8 +90,8 @@ public:
             getJsonSettingsFormat());
     }
 
-    QSettings *createChorusKitState(QSettings::Scope scope) override {
-        const QString &dir = scope == QSettings::UserScope ? userStatePath : systemSettingsPath;
+    QSettings *createChorusKitState() override {
+        const QString &dir = userStatePath;
         return new QSettings(
             QStringLiteral("%1/%2.plugins.json").arg(dir, QCoreApplication::applicationName()),
             getJsonSettingsFormat());
