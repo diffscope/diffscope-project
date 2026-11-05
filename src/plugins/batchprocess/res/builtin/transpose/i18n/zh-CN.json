@@ -1,8 +1,8 @@
 {
     "transpose": {
         "title": "移调",
-        "description": "将所选歌声片段或所选音符按指定半音数移调。",
-        "selectionWarning": "请选择一个或多个歌声片段，或选择一个或多个音符。",
+        "description": "将所选歌声剪辑或所选音符按指定半音数移调。",
+        "selectionWarning": "请选择一个或多个歌声剪辑，或选择一个或多个音符。",
         "rangeWarningTitle": "移调失败",
         "rangeWarning": "移调后至少有一个音符会超出 0 到 127 的有效音高范围。",
         "formDescription": "输入每个音符要移动的半音数。使用负值可向下移调。",

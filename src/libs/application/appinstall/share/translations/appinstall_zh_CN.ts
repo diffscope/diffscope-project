@@ -383,7 +383,7 @@
         <translation type="unfinished">%1 / %2（%3%）</translation>
     </message>
     <message>
-        <location filename="../../src/qml/DownloadDialog.qml" line="190"/>
+        <location filename="../../src/qml/DownloadDialog.qml" line="188"/>
         <source>Download</source>
         <translation type="unfinished">下载</translation>
     </message>
@@ -391,10 +391,8 @@
 <context>
     <name>QPlatformTheme</name>
     <message>
-        <location filename="../../src/qml/UninstallDialog.qml" line="108"/>
-        <location filename="../../src/qml/DownloadDialog.qml" line="194"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
 </context>
 <context>
@@ -420,7 +418,7 @@
         <translation type="unfinished">安装目录</translation>
     </message>
     <message>
-        <location filename="../../src/qml/UninstallDialog.qml" line="104"/>
+        <location filename="../../src/qml/UninstallDialog.qml" line="103"/>
         <source>Uninstall</source>
         <translation type="unfinished">卸载</translation>
     </message>

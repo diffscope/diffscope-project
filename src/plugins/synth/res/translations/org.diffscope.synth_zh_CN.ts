@@ -268,37 +268,37 @@
         <translation type="unfinished">提取音符</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="39"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="41"/>
         <source>Start</source>
         <translation type="unfinished">开始</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="47"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="51"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="81"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="84"/>
         <source>Extractor</source>
         <translation type="unfinished">提取器</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="95"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="98"/>
         <source>Refresh</source>
         <translation type="unfinished">刷新</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="124"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="127"/>
         <source>Extracting audio…</source>
         <translation type="unfinished">正在提取音频…</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="124"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="127"/>
         <source>Updating extractors…</source>
         <translation type="unfinished">正在更新提取器…</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="132"/>
+        <location filename="../../qml/dialogs/AudioExtractionDialog.qml" line="135"/>
         <source>Extraction status</source>
         <translation type="unfinished">提取状态</translation>
     </message>
@@ -669,12 +669,12 @@
         <translation type="unfinished">编辑 JSON</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/JsonExtraEditor.qml" line="135"/>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="137"/>
         <source>Apply Changes</source>
         <translation type="unfinished">应用更改</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/JsonExtraEditor.qml" line="141"/>
+        <location filename="../../qml/controls/JsonExtraEditor.qml" line="144"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -745,7 +745,7 @@
         <translation type="unfinished">从列表中移除</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="300"/>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="297"/>
         <source>Install</source>
         <translation type="unfinished">安装</translation>
     </message>
@@ -930,7 +930,7 @@
 <context>
     <name>QPlatformTheme</name>
     <message>
-        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="309"/>
+        <location filename="../../qml/dialogs/PackageInstallDialog.qml" line="308"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -1771,80 +1771,80 @@ Some files could not be restored. Backups are in %2.
 <context>
     <name>Synth::Internal::CommandLineTool</name>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="184"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="189"/>
         <source>The command exited with code %1.</source>
         <translation type="unfinished">命令以代码 %1 退出。</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="200"/>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="217"/>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="224"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="205"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="222"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="229"/>
         <source>The command did not return valid JSON.</source>
         <translation type="unfinished">命令未返回有效的 JSON。</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="202"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="207"/>
         <source>The selected command is not dspm.</source>
         <translation type="unfinished">所选命令不是 dspm。</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="271"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="276"/>
         <source>The command reported an error.</source>
         <translation type="unfinished">命令报告了错误。</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="171"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="176"/>
         <source>The command produced no output for %L1 seconds.</source>
         <translation type="unfinished">命令已持续 %L1 秒未产生输出。</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="241"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="246"/>
         <source>Invalid JSON at output line %L1: %2
 %3</source>
         <translation type="unfinished">输出第 %L1 行的 JSON 无效：%2
 %3</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="245"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="250"/>
         <source>Output followed the final operation record:
 %1</source>
         <translation type="unfinished">最终操作记录之后仍有输出：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="256"/>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="264"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="261"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="269"/>
         <source>Unexpected operation record:
 %1</source>
         <translation type="unfinished">意外的操作记录：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="280"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="285"/>
         <source>Invalid operation summary:
 %1</source>
         <translation type="unfinished">操作摘要无效：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="281"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="286"/>
         <source>The command completed without an operation summary.</source>
         <translation type="unfinished">命令已完成，但未提供操作摘要。</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="282"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="287"/>
         <source>The package manager returned an invalid operation result:
 %1</source>
         <translation type="unfinished">包管理器返回了无效的操作结果：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="78"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="80"/>
         <source>No package manager installation is selected. Configure it in Settings &gt; Synthesis &gt; Package Manager.</source>
         <translation type="unfinished">未选择包管理器安装。请在“设置 &gt; 合成 &gt; 包管理器”中配置。</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="83"/>
+        <location filename="../../internal/packagemanager/PackageManagerUtils.cpp" line="85"/>
         <source>The command line tool does not exist:
 
 %1
@@ -1860,17 +1860,17 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::DsspDeviceCatalog</name>
     <message>
-        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="107"/>
+        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="109"/>
         <source>Could not read execution devices from DiffSinger Synthesis Program.</source>
         <translation type="unfinished">无法从 DiffSinger 合成程序 读取执行设备。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="101"/>
+        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="103"/>
         <source>Could not start device discovery.</source>
         <translation type="unfinished">无法启动设备发现。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="20"/>
+        <location filename="../../internal/dssp/DsspDeviceCatalog.cpp" line="22"/>
         <source>Device discovery timed out.</source>
         <translation type="unfinished">设备发现超时。</translation>
     </message>
@@ -1941,54 +1941,54 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="obsolete">内置</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="119"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="125"/>
         <source>Could not start DiffSinger Synthesis Program:
 %1</source>
         <translation type="unfinished">无法启动 DiffSinger 合成程序：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="395"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="401"/>
         <source>DiffSinger Synthesis Program exited abnormally</source>
         <translation type="unfinished">DiffSinger 合成程序 异常退出</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="136"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="142"/>
         <source>DiffSinger Synthesis Program exited unexpectedly (exit code %L1).</source>
         <translation type="unfinished">DiffSinger 合成程序 意外退出（退出代码为 %L1）。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="388"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="394"/>
         <source>DiffSinger Synthesis Program is not configured</source>
         <translation type="unfinished">未配置 DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="394"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="400"/>
         <source>DiffSinger Synthesis Program is running</source>
         <translation type="unfinished">DiffSinger 合成程序 正在运行</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="392"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="398"/>
         <source>DiffSinger Synthesis Program is starting</source>
         <translation type="unfinished">DiffSinger 合成程序 正在启动</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="395"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="401"/>
         <source>DiffSinger Synthesis Program is stopped</source>
         <translation type="unfinished">DiffSinger 合成程序 已停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="390"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="396"/>
         <source>DiffSinger Synthesis Program is stopping</source>
         <translation type="unfinished">DiffSinger 合成程序 正在停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="544"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="555"/>
         <source>DiffSinger Synthesis Program Stopped</source>
         <translation type="unfinished">DiffSinger 合成程序 已停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="447"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="453"/>
         <source>DiffSinger Synthesis Program was not found:
 %1</source>
         <translation type="unfinished">未找到 DiffSinger 合成程序：
@@ -2003,7 +2003,7 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="obsolete">未选择安装</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="547"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="558"/>
         <source>Restart</source>
         <translation type="unfinished">重新启动</translation>
     </message>
@@ -2020,96 +2020,96 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="obsolete">DiffSinger 合成程序 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="383"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="389"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="376"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="382"/>
         <source>Not Configured</source>
         <translation type="unfinished">未配置</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="382"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="388"/>
         <source>Running</source>
         <translation type="unfinished">运行中</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="380"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="386"/>
         <source>Starting</source>
         <translation type="unfinished">启动中</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="383"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="389"/>
         <source>Stopped</source>
         <translation type="unfinished">已停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="378"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="384"/>
         <source>Stopping</source>
         <translation type="unfinished">停止中</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="52"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="53"/>
         <source>DiffSinger Synthesis Program</source>
         <translation type="unfinished">DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="569"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="580"/>
         <source>DiffSinger Synthesis Program Warning</source>
         <translation type="unfinished">DiffSinger 合成程序 警告</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="571"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="582"/>
         <source>DiffSinger Synthesis Program Critical</source>
         <translation type="unfinished">DiffSinger 合成程序 关键性错误</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="573"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="584"/>
         <source>DiffSinger Synthesis Program Fatal</source>
         <translation type="unfinished">DiffSinger 合成程序 致命错误</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="579"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="590"/>
         <source>Module: %1
 %2</source>
         <translation type="unfinished">模块：%1
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="266"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="272"/>
         <source>DiffSinger Synthesis Program will be stopped before this version is uninstalled.</source>
         <translation type="unfinished">卸载此版本之前，将停止 DiffSinger 合成程序。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="254"/>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="332"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="260"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="338"/>
         <source>Could not stop device discovery.</source>
         <translation type="unfinished">无法停止设备发现。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="262"/>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="349"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="268"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="355"/>
         <source>Could not stop DiffSinger Synthesis Program.</source>
         <translation type="unfinished">无法停止 DiffSinger 合成程序。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="308"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="314"/>
         <source>Another operation is using DiffSinger Synthesis Program.</source>
         <translation type="unfinished">其他操作正在使用 DiffSinger 合成程序。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="321"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="327"/>
         <source>Stop DiffSinger Synthesis Program</source>
         <translation type="unfinished">停止 DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="322"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="328"/>
         <source>Installing or uninstalling packages requires stopping the local DiffSinger Synthesis Program. Synthesis tasks in progress will be aborted. Continue?</source>
         <translation type="unfinished">安装或卸载包需要停止本地 DiffSinger 合成程序。正在进行的合成任务将被中止。是否继续？</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="458"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="464"/>
         <source>Configure the package directory in Settings &gt; Synthesis &gt; Package Manager instead of additional command-line arguments.</source>
         <translation type="unfinished">请在“设置 &gt; 合成 &gt; 包管理器”中配置包目录，不要使用附加命令行参数。</translation>
     </message>
@@ -2609,12 +2609,12 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::PackageManagerSettings</name>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerSettings.cpp" line="37"/>
+        <location filename="../../internal/packagemanager/PackageManagerSettings.cpp" line="38"/>
         <source>DiffScope Package Manager</source>
         <translation type="unfinished">DiffScope 包管理器</translation>
     </message>
     <message>
-        <location filename="../../internal/packagemanager/PackageManagerSettings.cpp" line="171"/>
+        <location filename="../../internal/packagemanager/PackageManagerSettings.cpp" line="177"/>
         <source>Could not create the package directory:
 %1</source>
         <translation type="unfinished">无法创建包目录：
@@ -3706,12 +3706,12 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">提取曲速</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml" line="31"/>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml" line="33"/>
         <source>Apply</source>
         <translation type="unfinished">应用</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml" line="38"/>
+        <location filename="../../qml/dialogs/TempoExtractionPreviewDialog.qml" line="41"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>

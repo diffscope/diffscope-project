@@ -3194,22 +3194,22 @@
         <translation>正在初始化核心插件...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="213"/>
+        <location filename="../../internal/CorePlugin.cpp" line="212"/>
         <source>Plugins loading complete, preparing for subsequent initialization...</source>
         <translation type="unfinished">插件加载完成，正在准备后续初始化...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="225"/>
+        <location filename="../../internal/CorePlugin.cpp" line="236"/>
         <source>Initializing GUI...</source>
         <translation>正在初始化图形界面...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="500"/>
+        <location filename="../../internal/CorePlugin.cpp" line="499"/>
         <source>Last run terminated abnormally</source>
         <translation>上次运行异常终止</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="500"/>
+        <location filename="../../internal/CorePlugin.cpp" line="499"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
@@ -3218,7 +3218,7 @@ To check for unsaved files, please go to Recovery Files.</source>
 要检查未保存的文件，请前往“恢复文件”。</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="549"/>
+        <location filename="../../internal/CorePlugin.cpp" line="548"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3231,12 +3231,12 @@ Please go to Plugins to see more details.</source>
 请前往“插件”查看详细信息。</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="552"/>
+        <location filename="../../internal/CorePlugin.cpp" line="551"/>
         <source>%1 (%2)</source>
         <translation>%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="554"/>
+        <location filename="../../internal/CorePlugin.cpp" line="553"/>
         <source>Plugin Error</source>
         <translation>插件错误</translation>
     </message>
@@ -4696,7 +4696,7 @@ Do you want to continue?</source>
 <context>
     <name>Core::ParameterResamplingScenario</name>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="55"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="56"/>
         <source>Pasting at this position requires resampling the parameter curve. Linear interpolation may change its shape.
 
 Continue to paste?</source>
@@ -4705,12 +4705,12 @@ Continue to paste?</source>
 是否继续粘贴？</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="74"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="75"/>
         <source>Warning</source>
         <translation type="unfinished">警告</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="75"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="76"/>
         <source>Some notes or curves cross clip boundaries, or data points overlap after merging. Bouncing may trim or overwrite this data.
 
 Continue to bounce?</source>
@@ -4719,7 +4719,7 @@ Continue to bounce?</source>
 是否继续合并？</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="84"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="85"/>
         <source>Bouncing these clips requires resampling parameter curves. Linear interpolation may change their shape.
 
 Continue to bounce?</source>
@@ -4728,22 +4728,22 @@ Continue to bounce?</source>
 是否继续合并？</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="102"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="103"/>
         <source>Once</source>
         <translation type="unfinished">本次</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="103"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="104"/>
         <source>Always</source>
         <translation type="unfinished">总是</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="104"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="105"/>
         <source>No</source>
         <translation type="unfinished">否</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="99"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="100"/>
         <source>Resample Parameters</source>
         <translation type="unfinished">重采样参数</translation>
     </message>
@@ -4759,12 +4759,12 @@ Continue to bounce?</source>
 <context>
     <name>Core::ProjectWindowInterface</name>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="128"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="129"/>
         <source>File Modified Externally</source>
         <translation>文件在外部修改</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="129"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="130"/>
         <source>The file has been modified by another program since it was last saved.
 
 Do you want to save as a new file or overwrite it?</source>
@@ -4773,12 +4773,12 @@ Do you want to save as a new file or overwrite it?</source>
 你想另存为新文件还是覆盖现有文件？</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="133"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="134"/>
         <source>Save As...</source>
         <translation>另存为...</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="137"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="139"/>
         <source>Overwrite</source>
         <translation>覆盖</translation>
     </message>
@@ -4787,12 +4787,12 @@ Do you want to save as a new file or overwrite it?</source>
         <translation type="vanished">未命名</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="252"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="255"/>
         <source>Operation Conflict</source>
         <translation type="unfinished">操作冲突</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="253"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="256"/>
         <source>Please wait until the current operation is complete before proceeding.</source>
         <translation type="unfinished">请等待当前操作完成后再继续。</translation>
     </message>
@@ -5924,12 +5924,12 @@ Continue to bounce?</source>
         <translation type="unfinished">预设名称</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="211"/>
+        <location filename="../../qml/settings/KeymapPage.qml" line="213"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="213"/>
+        <location filename="../../qml/settings/KeymapPage.qml" line="218"/>
         <source>Save</source>
         <translation type="unfinished">保存</translation>
     </message>
@@ -6184,7 +6184,7 @@ Continue to bounce?</source>
     <name>MenuPage</name>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="164"/>
-        <location filename="../../qml/settings/MenuPage.qml" line="339"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="344"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
@@ -6264,7 +6264,7 @@ Continue to bounce?</source>
         <translation type="unfinished">添加操作、菜单或组</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="337"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="339"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -6475,12 +6475,12 @@ Continue to bounce?</source>
         <translation type="unfinished">无法保存预设。歌手可能已不可用。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="73"/>
+        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="75"/>
         <source>Save</source>
         <translation type="unfinished">保存</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="80"/>
+        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="84"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -7006,7 +7006,7 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
     </message>
     <message>
         <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="94"/>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="469"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="460"/>
         <source>Source singer warnings</source>
         <translation type="unfinished">声源歌手警告</translation>
     </message>
@@ -7056,14 +7056,12 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
         <translation type="unfinished">当前声源列表无法再添加歌手。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="481"/>
         <source>OK</source>
-        <translation type="unfinished">确定</translation>
+        <translation type="obsolete">确定</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="486"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
 </context>
 <context>
@@ -7346,32 +7344,32 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>WorkspaceAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="79"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="82"/>
         <source>No Custom Layouts</source>
         <translation type="unfinished">没有自定义布局</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="94"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="96"/>
         <source>Apply</source>
         <translation type="unfinished">应用</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="99"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="101"/>
         <source>Rename</source>
         <translation type="unfinished">重命名</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="104"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="106"/>
         <source>Delete</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="123"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="125"/>
         <source>No Panels</source>
         <translation type="unfinished">没有面板</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="162"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="164"/>
         <source>No Open Panels</source>
         <translation type="unfinished">没有打开的面板</translation>
     </message>

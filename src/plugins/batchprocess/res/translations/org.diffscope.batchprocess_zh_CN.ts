@@ -1293,14 +1293,14 @@
 <context>
     <name>QPlatformTheme</name>
     <message>
-        <location filename="../../qml/dialogs/ShellTextPromptDialog.qml" line="66"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="244"/>
+        <location filename="../../qml/dialogs/ShellTextPromptDialog.qml" line="68"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="209"/>
         <source>OK</source>
         <translation type="unfinished">确定</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/ShellTextPromptDialog.qml" line="71"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="248"/>
+        <location filename="../../qml/dialogs/ShellTextPromptDialog.qml" line="75"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="213"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -1308,22 +1308,22 @@
 <context>
     <name>ShellFormDialog</name>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="129"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="132"/>
         <source>A value is required.</source>
         <translation type="unfinished">必须输入一个值。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="131"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="134"/>
         <source>Enter at least %1 characters.</source>
         <translation type="unfinished">请至少输入 %1 个字符。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="133"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="136"/>
         <source>Enter no more than %1 characters.</source>
         <translation type="unfinished">请输入不超过 %1 个字符。</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="135"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="138"/>
         <source>The value does not match the required format.</source>
         <translation type="unfinished">该值不符合所需格式。</translation>
     </message>
@@ -1331,69 +1331,69 @@
 <context>
     <name>ShellInterface</name>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="300"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="332"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="670"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="265"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="297"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="634"/>
         <source>The application window handle is no longer valid.</source>
         <translation type="unfinished">应用程序窗口句柄已无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="323"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="288"/>
         <source>No application window is available for this operation.</source>
         <translation type="unfinished">没有可供此操作使用的应用程序窗口。</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="442"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="406"/>
         <source>%1
 A value is required.</source>
         <translation type="unfinished">%1
 必须输入一个值。</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="457"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="421"/>
         <source>The application window cannot host this text input dialog.</source>
         <translation type="unfinished">应用程序窗口无法承载此文本输入对话框。</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="532"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="496"/>
         <source>The application window cannot host this form dialog.</source>
         <translation type="unfinished">应用程序窗口无法承载此表单对话框。</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="582"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="546"/>
         <source>Open File</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="596"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="630"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="560"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="594"/>
         <source>The selected file could not be authorized.</source>
         <translation type="unfinished">无法授权所选文件。</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="619"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="583"/>
         <source>Save File</source>
         <translation type="unfinished">保存文件</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="643"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="607"/>
         <source>Select Directory</source>
         <translation type="unfinished">选择目录</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="653"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="617"/>
         <source>The selected directory could not be authorized.</source>
         <translation type="unfinished">无法授权所选目录。</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="674"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="638"/>
         <source>This application window does not support window notifications.</source>
         <translation type="unfinished">此应用程序窗口不支持窗口通知。</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="293"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="329"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="660"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="258"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="294"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="624"/>
         <source>Shell operations are only available while a script is executing.</source>
         <translation type="unfinished">Shell 操作仅在脚本执行期间可用。</translation>
     </message>

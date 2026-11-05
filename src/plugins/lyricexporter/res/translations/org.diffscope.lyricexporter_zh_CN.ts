@@ -133,22 +133,22 @@
         <translation type="unfinished">筛选后没有剩余歌词。</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="613"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="601"/>
         <source>Previous</source>
         <translation type="unfinished">上一步</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="630"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="615"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="630"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="615"/>
         <source>Next</source>
         <translation type="unfinished">下一步</translation>
     </message>
     <message>
-        <location filename="../../qml/LyricExportDialog.qml" line="636"/>
+        <location filename="../../qml/LyricExportDialog.qml" line="621"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>

@@ -666,27 +666,25 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
         <translation type="unfinished">This settings page cannot be displayed because its type is not supported.</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="446"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="450"/>
         <source>Cannot Apply Settings</source>
         <translation type="unfinished">Cannot Apply Settings</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="447"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="451"/>
         <source>Failed to apply &quot;%1&quot;</source>
         <translation type="unfinished">Failed to apply &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="462"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="472"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancel</translation>
+        <translation type="obsolete">Cancel</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="481"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="458"/>
         <source>Apply</source>
         <translation type="unfinished">Apply</translation>
     </message>

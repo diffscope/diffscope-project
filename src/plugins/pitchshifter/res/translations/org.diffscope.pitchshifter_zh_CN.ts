@@ -135,7 +135,7 @@
         <translation type="unfinished">伸缩与移调</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PitchShiftProgressDialog.qml" line="121"/>
+        <location filename="../../qml/dialogs/PitchShiftProgressDialog.qml" line="106"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>

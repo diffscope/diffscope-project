@@ -3151,29 +3151,29 @@
         <translation type="unfinished">Initializing core plugin...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="213"/>
+        <location filename="../../internal/CorePlugin.cpp" line="212"/>
         <source>Plugins loading complete, preparing for subsequent initialization...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="225"/>
+        <location filename="../../internal/CorePlugin.cpp" line="236"/>
         <source>Initializing GUI...</source>
         <translation type="unfinished">Initializing GUI...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="500"/>
+        <location filename="../../internal/CorePlugin.cpp" line="499"/>
         <source>Last run terminated abnormally</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="500"/>
+        <location filename="../../internal/CorePlugin.cpp" line="499"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="549"/>
+        <location filename="../../internal/CorePlugin.cpp" line="548"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3182,12 +3182,12 @@ Please go to Plugins to see more details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="552"/>
+        <location filename="../../internal/CorePlugin.cpp" line="551"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="554"/>
+        <location filename="../../internal/CorePlugin.cpp" line="553"/>
         <source>Plugin Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4602,48 +4602,48 @@ Do you want to continue?</source>
 <context>
     <name>Core::ParameterResamplingScenario</name>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="55"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="56"/>
         <source>Pasting at this position requires resampling the parameter curve. Linear interpolation may change its shape.
 
 Continue to paste?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="74"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="75"/>
         <source>Warning</source>
         <translation type="unfinished">Warning</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="75"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="76"/>
         <source>Some notes or curves cross clip boundaries, or data points overlap after merging. Bouncing may trim or overwrite this data.
 
 Continue to bounce?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="84"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="85"/>
         <source>Bouncing these clips requires resampling parameter curves. Linear interpolation may change their shape.
 
 Continue to bounce?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="102"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="103"/>
         <source>Once</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="103"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="104"/>
         <source>Always</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="104"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="105"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="99"/>
+        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="100"/>
         <source>Resample Parameters</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4659,12 +4659,12 @@ Continue to bounce?</source>
 <context>
     <name>Core::ProjectWindowInterface</name>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="128"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="129"/>
         <source>File Modified Externally</source>
         <translation type="unfinished">File Modified Externally</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="129"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="130"/>
         <source>The file has been modified by another program since it was last saved.
 
 Do you want to save as a new file or overwrite it?</source>
@@ -4673,12 +4673,12 @@ Do you want to save as a new file or overwrite it?</source>
 Do you want to save as a new file or overwrite it?</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="133"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="134"/>
         <source>Save As...</source>
         <translation type="unfinished">Save As...</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="137"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="139"/>
         <source>Overwrite</source>
         <translation type="unfinished">Overwrite</translation>
     </message>
@@ -4687,12 +4687,12 @@ Do you want to save as a new file or overwrite it?</translation>
         <translation type="obsolete">Untitled</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="252"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="255"/>
         <source>Operation Conflict</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="253"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="256"/>
         <source>Please wait until the current operation is complete before proceeding.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5818,12 +5818,12 @@ Continue to bounce?</source>
         <translation type="unfinished">Preset name</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="211"/>
+        <location filename="../../qml/settings/KeymapPage.qml" line="213"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/KeymapPage.qml" line="213"/>
+        <location filename="../../qml/settings/KeymapPage.qml" line="218"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6078,7 +6078,7 @@ Continue to bounce?</source>
     <name>MenuPage</name>
     <message>
         <location filename="../../qml/settings/MenuPage.qml" line="164"/>
-        <location filename="../../qml/settings/MenuPage.qml" line="339"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="344"/>
         <source>Add</source>
         <translation type="unfinished">Add</translation>
     </message>
@@ -6158,7 +6158,7 @@ Continue to bounce?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/MenuPage.qml" line="337"/>
+        <location filename="../../qml/settings/MenuPage.qml" line="339"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6369,12 +6369,12 @@ Continue to bounce?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="73"/>
+        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="75"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="80"/>
+        <location filename="../../qml/dialogs/MixedSingerPresetNameDialog.qml" line="84"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6896,7 +6896,7 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
     </message>
     <message>
         <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="94"/>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="469"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="460"/>
         <source>Source singer warnings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6946,14 +6946,8 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="481"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="486"/>
-        <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">OK</translation>
     </message>
 </context>
 <context>
@@ -7235,32 +7229,32 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>WorkspaceAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="79"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="82"/>
         <source>No Custom Layouts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="94"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="96"/>
         <source>Apply</source>
         <translation type="unfinished">Apply</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="99"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="101"/>
         <source>Rename</source>
         <translation type="unfinished">Rename</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="104"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="106"/>
         <source>Delete</source>
         <translation type="unfinished">Delete</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="123"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="125"/>
         <source>No Panels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="162"/>
+        <location filename="../../qml/actions/WorkspaceAddOnActions.qml" line="164"/>
         <source>No Open Panels</source>
         <translation type="unfinished"></translation>
     </message>

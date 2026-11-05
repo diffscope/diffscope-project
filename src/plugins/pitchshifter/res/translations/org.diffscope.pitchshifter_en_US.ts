@@ -135,7 +135,7 @@
         <translation type="unfinished">Stretch and Shift Pitch</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/PitchShiftProgressDialog.qml" line="121"/>
+        <location filename="../../qml/dialogs/PitchShiftProgressDialog.qml" line="106"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>

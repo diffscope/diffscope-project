@@ -666,27 +666,25 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
         <translation>此设置页面无法被显示，因为其类型不受支持。</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="446"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="450"/>
         <source>Cannot Apply Settings</source>
         <translation>无法应用设置</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="447"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="451"/>
         <source>Failed to apply &quot;%1&quot;</source>
         <translation>应用“%1”失败</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="462"/>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="vanished">确定</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="472"/>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../../src/qml/SettingDialog.qml" line="481"/>
+        <location filename="../../src/qml/SettingDialog.qml" line="458"/>
         <source>Apply</source>
         <translation>应用</translation>
     </message>
