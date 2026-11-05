@@ -18,6 +18,8 @@
 #include <QVariant>
 #include <QtGlobal>
 
+#include <coreplugin/ChildProcess.h>
+
 namespace Synth::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcPackageManagerUtils, "diffscope.synth.utils")
@@ -83,6 +85,9 @@ namespace Synth::Internal {
             result.errorMessage = QCoreApplication::translate("Synth::Internal::CommandLineTool", "The command line tool does not exist:\n\n%1\n\nPlease install dspm and configure it in Settings > Synthesis > Package Manager.").arg(executablePath);
             return result;
         }
+
+        if (!Core::configureChildProcess(&process, &result.errorMessage))
+            return result;
 
         process.setProgram(executablePath);
         process.setArguments(arguments);

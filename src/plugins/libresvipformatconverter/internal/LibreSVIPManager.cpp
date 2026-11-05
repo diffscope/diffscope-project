@@ -49,6 +49,7 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <appinstall/InstallationManager.h>
+#include <coreplugin/ChildProcess.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/NotificationMessage.h>
 
@@ -521,6 +522,10 @@ namespace LibreSVIPFormatConverter::Internal {
 
         stopProcess(true);
         m_process = new QProcess(this);
+        if (!Core::configureChildProcess(m_process, &result.errorMessage)) {
+            stopProcess(true);
+            return result;
+        }
         m_process->setProcessChannelMode(QProcess::MergedChannels);
         m_process->setWorkingDirectory(canonicalInfo.absolutePath());
         m_process->start(canonicalPath, {QStringLiteral("rpc"), QStringLiteral("server")});
@@ -817,6 +822,11 @@ namespace LibreSVIPFormatConverter::Internal {
 
         stopProcess(true);
         m_process = new QProcess(this);
+        if (!Core::configureChildProcess(m_process, &result.errorMessage)) {
+            stopProcess(true);
+            m_busy = false;
+            return result;
+        }
         m_process->setProcessChannelMode(QProcess::MergedChannels);
         m_process->setWorkingDirectory(QFileInfo(m_executablePath).absolutePath());
         m_process->start(m_executablePath, {QStringLiteral("rpc"), QStringLiteral("server")});

@@ -22,6 +22,7 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <appinstall/InstallationManager.h>
+#include <coreplugin/ChildProcess.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/NotificationMessage.h>
 
@@ -55,6 +56,11 @@ namespace Synth::Internal {
         product.catalogUrl = QUrl(QString::fromUtf8(DIFFSCOPE_DSSP_CATALOG_URL));
         product.probeVersion = [](const QString &path, QObject *context, AppInstall::VersionResultHandler finished) -> AppInstall::VersionProbeCancellation {
             auto process = new QProcess(context);
+            if (!Core::configureChildProcess(process)) {
+                delete process;
+                finished({});
+                return {};
+            }
             process->setStandardErrorFile(QProcess::nullDevice());
             QObject::connect(process, &QProcess::errorOccurred, context, [finished](QProcess::ProcessError error) {
                 if (error == QProcess::FailedToStart)
@@ -470,6 +476,11 @@ namespace Synth::Internal {
     }
 
     void DsspServerManager::launch(const QVariantMap &device) {
+        QString errorMessage;
+        if (!Core::configureChildProcess(m_process, &errorMessage)) {
+            fail(errorMessage);
+            return;
+        }
         QStringList arguments{
             QStringLiteral("serve"),
             QStringLiteral("--host"), m_startConfiguration.host,

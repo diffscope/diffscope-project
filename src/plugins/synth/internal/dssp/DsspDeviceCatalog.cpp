@@ -10,6 +10,8 @@
 #include <QProcess>
 #include <QTimer>
 
+#include <coreplugin/ChildProcess.h>
+
 namespace Synth::Internal {
 
     DsspDeviceCatalog::DsspDeviceCatalog(QObject *parent) : QObject(parent), m_timer(new QTimer(this)) {
@@ -106,6 +108,11 @@ namespace Synth::Internal {
             const bool success = status == QProcess::NormalExit && exitCode == 0 && readDevices(process->readAllStandardOutput());
             complete(process, success, success ? QString{} : tr("Could not read execution devices from DiffSinger Synthesis Program."));
         });
+        QString errorMessage;
+        if (!Core::configureChildProcess(process, &errorMessage)) {
+            complete(process, false, errorMessage);
+            return;
+        }
         m_timer->start();
         Q_EMIT changed();
         process->start(executablePath, {QStringLiteral("dump-devices")}, QIODevice::ReadOnly);

@@ -18,6 +18,7 @@
 #include <CoreApi/runtimeinterface.h>
 
 #include <appinstall/InstallationManager.h>
+#include <coreplugin/ChildProcess.h>
 
 #include <synth/internal/DsspServerManager.h>
 #include <synth/internal/PackageManagerUtils.h>
@@ -45,6 +46,11 @@ namespace Synth::Internal {
         product.catalogUrl = QUrl(QString::fromUtf8(DIFFSCOPE_DSPM_CATALOG_URL));
         product.probeVersion = [](const QString &path, QObject *context, AppInstall::VersionResultHandler finished) -> AppInstall::VersionProbeCancellation {
             auto process = new QProcess(context);
+            if (!Core::configureChildProcess(process)) {
+                delete process;
+                finished({});
+                return {};
+            }
             process->setStandardErrorFile(QProcess::nullDevice());
             QObject::connect(process, &QProcess::errorOccurred, context, [finished](QProcess::ProcessError error) {
                 if (error == QProcess::FailedToStart)
