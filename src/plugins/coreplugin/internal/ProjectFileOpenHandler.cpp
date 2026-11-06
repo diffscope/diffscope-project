@@ -7,7 +7,7 @@
 #include <QWindow>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/internal/ProjectWindowNavigatorAddOn.h>
+#include <coreplugin/ProjectLifecycleScenario.h>
 
 namespace Core::Internal {
 
@@ -30,9 +30,7 @@ namespace Core::Internal {
         const QPointer<QWindow> parent(parentWindow);
         QSet<qsizetype> indexes;
         for (qsizetype index = 0; index < filePaths.size(); ++index) {
-            if (auto windowInterface = CoreInterface::openProjectFile(filePaths.at(index), parent)) {
-                ProjectWindowNavigatorAddOn::raiseWindow(windowInterface);
-            }
+            CoreInterface::projectLifecycleScenario()->openProject(filePaths.at(index), parent);
             indexes.insert(index);
         }
         return indexes;

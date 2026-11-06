@@ -3,26 +3,21 @@
 
 #include "ProjectWindowInterface.h"
 
-#include <QAbstractItemModel>
-#include <QDialogButtonBox>
-#include <QFileDialog>
-#include <QFileInfo>
-#include <QJSValue>
-#include <QLoggingCategory>
+#include <algorithm>
+#include <ranges>
+
+#include <QDir>
+#include <QIcon>
 #include <QQmlComponent>
-#include <QQmlEngine>
 #include <QQuickWindow>
-#include <QStandardPaths>
 
 #include <CoreApi/filelocker.h>
-#include <CoreApi/recentfilecollection.h>
 #include <CoreApi/runtimeinterface.h>
 
 #include <QAKQuick/quickactioncontext.h>
 
 #include <SVSCraftCore/MusicTime.h>
 #include <SVSCraftCore/MusicTimeline.h>
-#include <SVSCraftQuick/MessageBox.h>
 #include <SVSCraftQuick/StatusTextContext.h>
 
 #include <dspxmodelORM/Clip.h>
@@ -40,21 +35,13 @@
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
 
-#include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/NotificationMessage.h>
-#include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
-#include <coreplugin/QuickInput.h>
-#include <coreplugin/QuickPick.h>
-#include <coreplugin/internal/ActionHelper.h>
-#include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/NotificationManager.h>
 
 namespace Core {
-
-    Q_LOGGING_CATEGORY(lcProjectWindow, "diffscope.core.projectwindow")
 
     class ProjectWindowInterfacePrivate {
         Q_DECLARE_PUBLIC(ProjectWindowInterface)
@@ -105,55 +92,6 @@ namespace Core {
                 QMetaObject::invokeMethod(o, "registerToContext", actionContext);
             }
         }
-
-        void updateRecentFile() const {
-            Q_Q(const ProjectWindowInterface);
-            auto win = qobject_cast<QQuickWindow *>(q->window());
-            auto image = win->grabWindow().scaled(400, 400, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-            CoreInterface::recentFileCollection()->addRecentFile(projectDocumentContext->fileLocker()->path(), image);
-        }
-
-        enum ExternalChangeOperation {
-            SaveAs,
-            Overwrite,
-            Cancel = SVS::SVSCraft::Cancel
-        };
-
-        ExternalChangeOperation promptFileExternalChange() const {
-            Q_Q(const ProjectWindowInterface);
-            QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
-            if (component.isError()) {
-                qFatal() << component.errorString();
-            }
-            std::unique_ptr<QObject> object(component.createWithInitialProperties(
-                {{"text", Core::ProjectWindowInterface::tr("File Modified Externally")},
-                 {"informativeText", Core::ProjectWindowInterface::tr("The file has been modified by another program since it was last saved.\n\nDo you want to save as a new file or overwrite it?")},
-                 {"buttons", QVariantList{
-                                 QVariantMap{
-                                     {"id", SaveAs},
-                                     {"text", Core::ProjectWindowInterface::tr("Save As...")},
-                                     {"role", QDialogButtonBox::AcceptRole},
-                                 },
-                                 QVariantMap{
-                                     {"id", Overwrite},
-                                     {"text", Core::ProjectWindowInterface::tr("Overwrite")},
-                                     {"role", QDialogButtonBox::DestructiveRole},
-                                 },
-                                 SVS::SVSCraft::Cancel,
-                             }},
-                 {"primaryButton", SaveAs},
-                 {"icon", SVS::SVSCraft::Warning},
-                 {"transientParent", QVariant::fromValue(q->window())}}
-            ));
-            if (!object) {
-                qFatal() << component.errorString();
-            }
-            auto mb = qobject_cast<QQuickWindow *>(object.get());
-            if (!mb) {
-                qFatal("MessageBoxDialog in SVSCraft.UIComponents is not QQuickWindow");
-            }
-            return static_cast<ExternalChangeOperation>(SVS::MessageBox::customExec(mb).toInt());
-        }
     };
 
     ProjectTimeline *ProjectWindowInterface::projectTimeline() const {
@@ -177,48 +115,6 @@ namespace Core {
         message->setText(text);
         connect(message, &NotificationMessage::closed, message, &QObject::deleteLater);
         sendNotification(message, mode);
-    }
-
-    bool ProjectWindowInterface::save() {
-        Q_D(ProjectWindowInterface);
-        if (!d->projectDocumentContext->fileLocker() || d->projectDocumentContext->fileLocker()->path().isEmpty())
-            return saveAs();
-        if (d->projectDocumentContext->fileLocker()->isFileModifiedSinceLastSave() && (Internal::BehaviorPreference::fileOption() & Internal::BehaviorPreference::FO_CheckForExternalChangedOnSave)) {
-            auto op = d->promptFileExternalChange();
-            if (op == ProjectWindowInterfacePrivate::Cancel) {
-                return false;
-            }
-            if (op == ProjectWindowInterfacePrivate::SaveAs) {
-                return saveAs();
-            }
-        }
-        bool isSuccess = d->projectDocumentContext->save();
-        if (isSuccess) {
-            d->updateRecentFile();
-            return true;
-        }
-        return false;
-    }
-
-    bool ProjectWindowInterface::saveAs() {
-        Q_D(ProjectWindowInterface);
-        auto path = d->projectDocumentContext->openSaveProjectFileScenario()->saveProjectFile(d->projectDocumentContext->fileLocker() ? d->projectDocumentContext->fileLocker()->path() : QString(), d->projectDocumentContext->defaultDocumentName());
-        if (path.isEmpty())
-            return false;
-        bool isSuccess = d->projectDocumentContext->saveAs(path);
-        if (isSuccess) {
-            d->updateRecentFile();
-            return true;
-        }
-        return false;
-    }
-
-    bool ProjectWindowInterface::saveCopy() {
-        Q_D(ProjectWindowInterface);
-        auto path = d->projectDocumentContext->openSaveProjectFileScenario()->saveProjectFile(d->projectDocumentContext->fileLocker() ? d->projectDocumentContext->fileLocker()->path() : QString(), d->projectDocumentContext->defaultDocumentName());
-        if (path.isEmpty())
-            return false;
-        return d->projectDocumentContext->saveCopy(path);
     }
 
     void ProjectWindowInterface::boundTimelineRangeHint() {
@@ -276,7 +172,6 @@ namespace Core {
         }
         SVS::StatusTextContext::setStatusContext(win, new SVS::StatusTextContext(win));
         SVS::StatusTextContext::setContextHelpContext(win, new SVS::StatusTextContext(win));
-        d->projectDocumentContext->openSaveProjectFileScenario()->setWindow(win);
         static QIcon dspxIcon = [] {
             QIcon icon;
             for (const auto &file : QDir(":/diffscope/icons/dspx").entryInfoList(QDir::Files)) {
@@ -321,4 +216,3 @@ namespace Core {
 }
 
 #include "moc_ProjectWindowInterface.cpp"
-#include "ProjectWindowInterface.moc"

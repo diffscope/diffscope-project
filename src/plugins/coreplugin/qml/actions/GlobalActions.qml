@@ -24,7 +24,7 @@ ActionCollection {
         actionId: "org.diffscope.core.file.new"
         Action {
             onTriggered: (o) => {
-                CoreInterface.newFile(d.windowHandle.window)
+                CoreInterface.projectLifecycleScenario.newProject("", d.windowHandle.window)
             }
         }
     }
@@ -33,7 +33,7 @@ ActionCollection {
         actionId: "org.diffscope.core.file.newFromTemplate"
         Action {
             onTriggered: (o) => {
-                CoreInterface.newFileFromTemplate("", d.windowHandle.window)
+                CoreInterface.projectLifecycleScenario.newProjectFromTemplate("", d.windowHandle.window)
             }
         }
     }
@@ -42,7 +42,7 @@ ActionCollection {
         actionId: "org.diffscope.core.file.open"
         Action {
             onTriggered: (o) => {
-                CoreInterface.openFiles([], d.windowHandle.window)
+                CoreInterface.projectLifecycleScenario.openFiles([], d.windowHandle.window)
             }
         }
     }

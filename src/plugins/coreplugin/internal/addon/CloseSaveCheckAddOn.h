@@ -17,9 +17,6 @@ namespace Core::Internal {
         void initialize() override;
         void extensionsInitialized() override;
         bool delayedInitialize() override;
-
-    private:
-        bool handleCloseRequest() const;
     };
 
 }

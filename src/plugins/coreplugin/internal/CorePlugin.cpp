@@ -43,7 +43,10 @@
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxClipboard.h>
+#include <coreplugin/FileOpenDispatcher.h>
 #include <coreplugin/HomeWindowInterface.h>
+#include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/ProjectLifecycleScenario.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/ActionConfiguration.h>
 #include <coreplugin/internal/AfterSavingNotifyAddOn.h>
@@ -166,7 +169,9 @@ namespace Core::Internal {
             windowInterface = nullptr;
             if (options.contains(kNewProjectArg) || (BehaviorPreference::startupBehavior() & BehaviorPreference::SB_CreateNewProject)) {
                 qCInfo(lcCorePlugin) << "Create new project on startup";
-                windowInterface = CoreInterface::newFile();
+                if (auto context = CoreInterface::projectLifecycleScenario()->newProject()) {
+                    windowInterface = qobject_cast<ProjectWindowInterface *>(context->parent());
+                }
             }
             if (!windowInterface) {
                 qCInfo(lcCorePlugin) << "Open home window on startup";

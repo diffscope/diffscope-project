@@ -18,10 +18,6 @@ namespace QAK {
 class QAbstractItemModel;
 class QJSValue;
 
-namespace opendspx {
-    class Model;
-}
-
 namespace Core {
 
     class NotificationMessage;
@@ -52,10 +48,6 @@ namespace Core {
         Q_ENUM(NotificationBubbleMode)
         Q_INVOKABLE void sendNotification(NotificationMessage *message, NotificationBubbleMode mode = NormalBubble);
         Q_INVOKABLE void sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode = NormalBubble);
-
-        Q_INVOKABLE bool save();
-        Q_INVOKABLE bool saveAs();
-        Q_INVOKABLE bool saveCopy();
 
         Q_INVOKABLE void boundTimelineRangeHint();
 

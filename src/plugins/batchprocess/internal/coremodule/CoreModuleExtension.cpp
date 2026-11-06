@@ -44,8 +44,8 @@
 #include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/HomeWindowInterface.h>
-#include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/ProjectLifecycleScenario.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/TrackColorSchema.h>
@@ -742,14 +742,22 @@ namespace BatchProcess::Internal {
             if (!m_edits.isEmpty()) return failure(QStringLiteral("transactionConflict"), operation);
             return success(project->triggerAction(args.property(0).toString()));
         }
-        if (operation == QStringLiteral("save")) return success(project->save());
+        auto *scenario = Core::CoreInterface::projectLifecycleScenario();
+        auto *context = project->projectDocumentContext();
+        auto *parent = project->window();
+        using Status = Core::ProjectLifecycleScenario::Status;
+        if (operation == QStringLiteral("save")) return success(scenario->saveProject(context, parent) == Status::Success);
         const auto target = args.property(0);
-        if (target.isUndefined()) return success(operation == QStringLiteral("saveAs") ? project->saveAs() : project->saveCopy());
-        FileSystemHandle handle;
-        FileSystemError error;
-        auto *files = FileSystemAccessInterface::instance();
-        if (!files->fromJavaScriptValue(m_context, target, &handle, FileSystemHandle::File, &error) || !files->validateHandle(m_context, handle, FileAccessMode::Write, FileSystemHandle::File, &error)) return failure(QStringLiteral("invalidData"), operation, error.message);
-        return success(operation == QStringLiteral("saveAs") ? project->projectDocumentContext()->saveAs(handle.path()) : project->projectDocumentContext()->saveCopy(handle.path()));
+        QString path;
+        if (!target.isUndefined()) {
+            FileSystemHandle handle;
+            FileSystemError error;
+            auto *files = FileSystemAccessInterface::instance();
+            if (!files->fromJavaScriptValue(m_context, target, &handle, FileSystemHandle::File, &error) || !files->validateHandle(m_context, handle, FileAccessMode::Write, FileSystemHandle::File, &error)) return failure(QStringLiteral("invalidData"), operation, error.message);
+            path = handle.path();
+        }
+        const auto status = operation == QStringLiteral("saveAs") ? scenario->saveProjectAs(context, path, parent) : scenario->saveProjectCopy(context, path, parent);
+        return success(status == Status::Success);
     }
 
     QJSValue CoreModuleBridge::service(const QString &operation, const QJSValue &args) {
@@ -780,7 +788,6 @@ namespace BatchProcess::Internal {
                 return success(values(projects));
             }
             if (operation == QStringLiteral("newProjectFromOpenDSPX")) {
-                auto context = std::make_unique<Core::ProjectDocumentContext>();
                 // Parse into a temporary native model before initializing a project window.
                 auto temporary = std::make_unique<Core::DspxDocument>();
                 const auto transaction = temporary->transactionController()->beginTransaction();
@@ -791,16 +798,16 @@ namespace BatchProcess::Internal {
                 const auto native = temporary->model()->toOpenDSPX();
                 temporary->transactionController()->abortTransaction(transaction);
                 temporary.reset();
-                const auto requestedName = args.property(1).toString();
-                const auto name = requestedName.isEmpty() ? Core::CoreInterface::tr("Untitled") + QStringLiteral(".dspx") : requestedName;
-                if (!context->newFile(native, name, false)) return success(QJSValue(QJSValue::NullValue));
-                auto *project = Core::CoreInterface::createProjectWindow(context.release());
+                auto *parent = m_context->windowInterface() ? m_context->windowInterface()->window() : nullptr;
+                auto *context = Core::CoreInterface::projectLifecycleScenario()->newProjectFromModel(native, args.property(1).toString(), parent);
+                auto *project = context ? qobject_cast<Core::ProjectWindowInterface *>(context->parent()) : nullptr;
                 registerProject(project);
                 return success(raw(project));
             }
             if (operation == QStringLiteral("newProject")) {
-                auto *project = Core::CoreInterface::newFile(m_context->windowInterface() ? m_context->windowInterface()->window() : nullptr);
-                if (project && !args.property(0).toString().isEmpty()) project->projectDocumentContext()->setDefaultDocumentName(args.property(0).toString());
+                auto *parent = m_context->windowInterface() ? m_context->windowInterface()->window() : nullptr;
+                auto *context = Core::CoreInterface::projectLifecycleScenario()->newProject(args.property(0).toString(), parent);
+                auto *project = context ? qobject_cast<Core::ProjectWindowInterface *>(context->parent()) : nullptr;
                 registerProject(project);
                 return success(raw(project));
             }
@@ -814,10 +821,9 @@ namespace BatchProcess::Internal {
                     path = handle.path();
                 }
                 auto *parent = m_context->windowInterface() ? m_context->windowInterface()->window() : nullptr;
-                if (path.isEmpty()) { Core::OpenSaveProjectFileScenario picker; picker.setWindow(parent); path = picker.openProjectFile(); }
-                if (path.isEmpty()) return success(QJSValue(QJSValue::NullValue));
-                auto *project = operation == QStringLiteral("openProject") ? Core::CoreInterface::openProjectFile(path, parent) : Core::CoreInterface::newFileFromTemplate(path, parent);
-                if (project && operation == QStringLiteral("newProjectFromTemplate") && !args.property(1).toString().isEmpty()) project->projectDocumentContext()->setDefaultDocumentName(args.property(1).toString());
+                auto *scenario = Core::CoreInterface::projectLifecycleScenario();
+                auto *context = operation == QStringLiteral("openProject") ? scenario->openProject(path, parent) : scenario->newProjectFromTemplate(path, parent, args.property(1).toString());
+                auto *project = context ? qobject_cast<Core::ProjectWindowInterface *>(context->parent()) : nullptr;
                 registerProject(project);
                 return success(raw(project));
             }

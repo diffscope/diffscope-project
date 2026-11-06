@@ -6,17 +6,14 @@
 #include <application_buildinfo.h>
 #include <application_config.h>
 
-#include <algorithm>
 #include <csignal>
 #include <memory>
 
 #include <QApplication>
 #include <QChildEvent>
 #include <QDesktopServices>
-#include <QFileDialog>
 #include <QFontDatabase>
 #include <QMessageBox>
-#include <QPointer>
 #include <QQmlComponent>
 #include <QQmlEngine>
 #include <QQuickWindow>
@@ -29,17 +26,11 @@
 
 #include <QtQuickTemplates2/private/qquickicon_p.h>
 
-#include <CoreApi/filelocker.h>
 #include <CoreApi/private/coreinterfacebase_p.h>
-#include <CoreApi/recentfilecollection.h>
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/windowsystem.h>
 
 #include <extensionsystem/pluginmanager.h>
-
-#include <stdcorelib/support/json.h>
-
-#include <opendspx/model.h>
 
 #include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
@@ -47,19 +38,17 @@
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/Theme.h>
 
+#include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/DspxCheckerRegistry.h>
+#include <coreplugin/FileOpenDispatcher.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/MixedSingerPresets.h>
 #include <coreplugin/NotificationMessage.h>
-#include <coreplugin/internal/BehaviorPreference.h>
+#include <coreplugin/ProjectLifecycleScenario.h>
+#include <coreplugin/TrackColorSchema.h>
+#include <coreplugin/internal/CoreProjectLifecycleStrategy.h>
 #include <coreplugin/internal/NotificationCenter.h>
 #include <coreplugin/internal/NotificationManager.h>
-#include <coreplugin/internal/ProjectStartupTimerAddOn.h>
-#include <coreplugin/OpenSaveProjectFileScenario.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/TrackColorSchema.h>
-#include <coreplugin/DefaultLyricManager.h>
 #include <singercatalog/SingerRegistry.h>
 
 namespace Core {
@@ -81,6 +70,7 @@ namespace Core {
         SingerCatalog::SingerRegistry *singerRegistry;
         MixedSingerPresets *mixedSingerPresets;
         FileOpenDispatcher *fileOpenDispatcher;
+        ProjectLifecycleScenario *projectLifecycleScenario;
         Internal::NotificationCenter *notificationCenter;
 
         void init() {
@@ -95,6 +85,9 @@ namespace Core {
             singerRegistry = new SingerCatalog::SingerRegistry(q);
             mixedSingerPresets = new MixedSingerPresets(q);
             fileOpenDispatcher = new FileOpenDispatcher(q);
+            auto strategy = new Internal::CoreProjectLifecycleStrategy(dspxCheckerRegistry);
+            projectLifecycleScenario = new ProjectLifecycleScenario(strategy, q);
+            strategy->setParent(projectLifecycleScenario);
             notificationCenter = new Internal::NotificationCenter(q);
             QObject::connect(q, &CoreInterface::resetAllDoNotShowAgainRequested,
                              notificationCenter, &Internal::NotificationCenter::clearHiddenMessageIdentifiers);
@@ -150,6 +143,11 @@ namespace Core {
     FileOpenDispatcher *CoreInterface::fileOpenDispatcher() {
         Q_ASSERT(instance());
         return instance()->d_func()->fileOpenDispatcher;
+    }
+
+    ProjectLifecycleScenario *CoreInterface::projectLifecycleScenario() {
+        Q_ASSERT(instance());
+        return instance()->d_func()->projectLifecycleScenario;
     }
 
     static Internal::NotificationManager::NotificationBubbleMode toInternalNotificationBubbleMode(CoreInterface::NotificationBubbleMode mode) {
@@ -361,134 +359,6 @@ namespace Core {
         qCInfo(lcCoreInterface) << "Creating home window";
         auto windowInterface = HomeWindowInterfaceRegistry::instance()->create();
         QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
-    }
-
-    ProjectWindowInterface *CoreInterface::createProjectWindow(ProjectDocumentContext *projectDocumentContext) {
-        Internal::ProjectStartupTimerAddOn::startTimerIfNotStarted();
-        auto windowInterface = ProjectWindowInterfaceRegistry::instance()->create(projectDocumentContext);
-        QQmlEngine::setObjectOwnership(windowInterface, QQmlEngine::CppOwnership);
-        projectDocumentContext->setParent(windowInterface);
-        auto win = static_cast<QQuickWindow *>(windowInterface->window());
-        win->setVisible(true);
-        if (HomeWindowInterface::instance() && (Internal::BehaviorPreference::startupBehavior() & Internal::BehaviorPreference::SB_CloseHomeWindowAfterOpeningProject)) {
-            qCInfo(lcCoreInterface) << "Closing home window";
-            HomeWindowInterface::instance()->quit();
-        }
-        return windowInterface;
-    }
-
-    ProjectWindowInterface *CoreInterface::newFile(QWindow *parent) {
-        static opendspx::Model defaultModel{
-            .version = opendspx::Model::Version::V1,
-            .content = {
-                .global = {},
-                .timeline = {
-                    .labels = {},
-                    .tempos = {{0, 120}},
-                    .timeSignatures = {{0, 4, 4}}
-                },
-                .tracks = {
-                    opendspx::Track{
-                        .name = tr("Unnamed track").toStdString(),
-                        .clips = {
-                            std::make_shared<opendspx::SingingClip>(
-                                tr("Unnamed clip").toStdString(),
-                                opendspx::BusControl{},
-                                opendspx::ClipTime{
-                                    .pos = 0,
-                                    .length = 0,
-                                    .clipStart = 0,
-                                    .clipLen = 46080
-                                }
-                            )
-                        }
-                    }
-                },
-                .workspace = {
-                    {"diffscope", stdc::json::Object({
-                        {"keySignatures", stdc::json::Array({
-                            stdc::json::Value(stdc::json::Object({
-                                {"pos", 0},
-                                {"mode", 2741},
-                                {"tonality", 0},
-                                {"accidentalType", 1}
-                            }))
-                        })}
-                    })}
-                }
-            }
-        };
-        qCInfo(lcCoreInterface) << "New file";
-        Internal::ProjectStartupTimerAddOn::startTimer();
-        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
-        if (!projectDocumentContext->newFile(defaultModel, tr("Untitled") + ".dspx", false)) {
-            return nullptr;
-        }
-        auto windowInterface = createProjectWindow(projectDocumentContext.release());
-        return windowInterface;
-    }
-
-    ProjectWindowInterface *CoreInterface::newFileFromTemplate(const QString &templateFilePath_, QWindow *parent) {
-        qCInfo(lcCoreInterface) << "New file from template" << templateFilePath_;
-        Internal::ProjectStartupTimerAddOn::startTimer();
-        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
-        projectDocumentContext->openSaveProjectFileScenario()->setWindow(parent);
-        auto templateFilePath = templateFilePath_;
-        if (templateFilePath.isEmpty()) {
-            templateFilePath = projectDocumentContext->openSaveProjectFileScenario()->openProjectFile();
-            if (templateFilePath.isEmpty())
-                return nullptr;
-        }
-        if (!projectDocumentContext->newFile(templateFilePath, tr("Untitled") + ".dspx", false)) {
-            return nullptr;
-        }
-        auto windowInterface = createProjectWindow(projectDocumentContext.release());
-        return windowInterface;
-    }
-
-    void CoreInterface::openFiles(const QStringList &filePaths, QWindow *parent) {
-        if (!filePaths.isEmpty()) {
-            fileOpenDispatcher()->openFiles(filePaths, parent);
-            return;
-        }
-        const QPointer<QWindow> parentWindow(parent);
-        OpenSaveProjectFileScenario scenario;
-        scenario.setWindow(parent);
-        const auto filePath = scenario.openProjectFile();
-        if (!filePath.isEmpty()) {
-            fileOpenDispatcher()->openFiles({filePath}, parentWindow);
-        }
-    }
-
-    ProjectWindowInterface *CoreInterface::openProjectFile(const QString &filePath, QWindow *parent) {
-        if (filePath.isEmpty()) {
-            return nullptr;
-        }
-        qCInfo(lcCoreInterface) << "Open project file" << filePath;
-        Internal::ProjectStartupTimerAddOn::startTimer();
-        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
-        projectDocumentContext->openSaveProjectFileScenario()->setWindow(parent);
-
-        auto windows = windowSystem()->windows();
-        auto openedWindow = std::ranges::find_if(windows, [filePath](WindowInterface *windowInterface) {
-            if (auto projectWindowInterface = qobject_cast<ProjectWindowInterface *>(windowInterface)) {
-                if (!projectWindowInterface->projectDocumentContext()->fileLocker() || projectWindowInterface->projectDocumentContext()->fileLocker()->path().isEmpty())
-                    return false;
-                return QFileInfo(projectWindowInterface->projectDocumentContext()->fileLocker()->path()).canonicalFilePath() == QFileInfo(filePath).canonicalFilePath();
-            }
-            return false;
-        });
-        if (openedWindow != windows.end()) {
-            qCInfo(lcCoreInterface) << "File already opened" << filePath;
-            raiseWindow((*openedWindow)->window());
-            return qobject_cast<ProjectWindowInterface *>(*openedWindow);
-        }
-        if (!projectDocumentContext->openFile(filePath)) {
-            return nullptr;
-        }
-        auto windowInterface = createProjectWindow(projectDocumentContext.release());
-        recentFileCollection()->addRecentFile(filePath, {});
-        return windowInterface;
     }
 
     CoreInterface::CoreInterface(QObject *parent) : CoreInterface(*new CoreInterfacePrivate(), parent) {

@@ -20,7 +20,8 @@
 #include <opendspx/serializer/serializer.h>
 #include <opendspx/singingclip.h>
 
-#include <coreplugin/OpenSaveProjectFileScenario.h>
+#include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/ProjectFileDialogs.h>
 
 namespace ImportExportManager::Internal {
 
@@ -37,12 +38,12 @@ namespace ImportExportManager::Internal {
     DspxFileImporter::~DspxFileImporter() = default;
 
     bool DspxFileImporter::execImport(const QString &path, opendspx::Model &model, QWindow *window) {
-        Core::OpenSaveProjectFileScenario scenario;
-        scenario.setWindow(window);
+        Core::ProjectFileDialogs dialogs(window);
         QFile file(path);
         if (!file.open(QIODevice::ReadOnly)) {
             qCCritical(lcDspxFileImporter) << "Failed to read file:" << path << file.errorString();
-            scenario.showOpenFailMessageBox(path, file.errorString());
+            const Core::ProjectFileError error{Core::ProjectFileError::Read, path, file.errorString()};
+            dialogs.reportError(error);
             return false;
         }
         opendspx::SerializationErrorList errors;
@@ -51,7 +52,8 @@ namespace ImportExportManager::Internal {
         file.close();
         if (errors.containsFatal() || errors.containsError()) {
             qCCritical(lcDspxFileImporter) << "Failed to deserialize file:" << path;
-            scenario.showDeserializationFailMessageBox(path);
+            const Core::ProjectFileError error{Core::ProjectFileError::Parse, path, {}};
+            dialogs.reportError(error);
             return false;
         }
         QDialog dlg;

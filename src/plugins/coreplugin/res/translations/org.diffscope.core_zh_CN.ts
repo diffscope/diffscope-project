@@ -2332,26 +2332,9 @@
 <context>
     <name>Core::CoreInterface</name>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="325"/>
+        <location filename="../../core/CoreInterface.cpp" line="321"/>
         <source>About %1</source>
         <translation>关于 %1</translation>
-    </message>
-    <message>
-        <location filename="../../core/CoreInterface.cpp" line="392"/>
-        <source>Unnamed track</source>
-        <translation>未命名轨道</translation>
-    </message>
-    <message>
-        <location filename="../../core/CoreInterface.cpp" line="395"/>
-        <source>Unnamed clip</source>
-        <translation>未命名剪辑</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/ProjectDocumentContext.cpp" line="156"/>
-        <location filename="../../core/CoreInterface.cpp" line="424"/>
-        <location filename="../../core/CoreInterface.cpp" line="442"/>
-        <source>Untitled</source>
-        <translation>无标题</translation>
     </message>
 </context>
 <context>
@@ -2987,19 +2970,6 @@
         <location filename="../../internal/settings/AppearancePage.cpp" line="22"/>
         <source>Configure how %1 looks like</source>
         <translation>配置 %1 的外观</translation>
-    </message>
-</context>
-<context>
-    <name>Core::Internal::CloseSaveCheckAddOn</name>
-    <message>
-        <location filename="../../internal/addon/CloseSaveCheckAddOn.cpp" line="62"/>
-        <source>Do you want to save before closing?</source>
-        <translation>你想在关闭前保存吗？</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/CloseSaveCheckAddOn.cpp" line="63"/>
-        <source>If you choose not to save, a copy of the current project file will be created to help recover your work in case of accidental incorrect operation.</source>
-        <translation>如果你选择不保存，当前工程文件的副本将会被创建，以便在意外误操作时帮助你恢复工作。</translation>
     </message>
 </context>
 <context>
@@ -4193,32 +4163,12 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
 <context>
     <name>Core::Internal::RecentFileAddOn</name>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="156"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="145"/>
         <source>&lt;i&gt;File moved or deleted&lt;/i&gt;</source>
         <translation>&lt;i&gt;文件被移动或删除&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="176"/>
-        <source>Failed to restore recovery file</source>
-        <translation type="unfinished">还原恢复文件失败</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="177"/>
-        <source>Cannot restore the recovery file.</source>
-        <translation type="unfinished">无法还原恢复文件。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="185"/>
-        <source>Complete recovery failed</source>
-        <translation type="unfinished">完整恢复失败</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="186"/>
-        <source>Complete recovery failed. Partial recovery will be attempted.</source>
-        <translation type="unfinished">完整恢复失败。将尝试部分恢复。</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="285"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="196"/>
         <source>Unsaved project from last close</source>
         <translation type="unfinished">上次关闭时未保存的工程</translation>
     </message>
@@ -4562,39 +4512,29 @@ Continue?</source>
     </message>
 </context>
 <context>
-    <name>Core::OpenSaveProjectFileScenario</name>
+    <name>Core::ProjectFileDialogs</name>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="48"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="47"/>
         <source>DiffScope Project Exchange Format (*.dspx)</source>
         <translation>DiffScope 工程交换格式 (*.dspx)</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="49"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="47"/>
         <source>All Files (*)</source>
         <translation>所有文件 (*)</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="108"/>
-        <source>Failed to open file</source>
-        <translation>打开文件失败</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="113"/>
-        <source>Failed to save file</source>
-        <translation>保存文件失败</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="130"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="93"/>
         <source>Open DSPX Inspector</source>
         <translation>打开 DSPX 检查器</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="136"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="99"/>
         <source>Failed to parse file content</source>
         <translation>解析文件内容失败</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="137"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="100"/>
         <source>%1
 
 You can check for problems in the file with DSPX Inspector.</source>
@@ -4603,12 +4543,12 @@ You can check for problems in the file with DSPX Inspector.</source>
 你可以使用 DSPX Inspector 检查文件中的问题。</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="166"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="133"/>
         <source>File created with another application</source>
         <translation>使用其他应用程序创建的文件</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="167"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="134"/>
         <source>This project file was created with another application (%1). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</source>
@@ -4617,17 +4557,17 @@ Do you want to continue opening it?</source>
 是否继续打开？</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="168"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="135"/>
         <source>name unknown</source>
         <translation>名称未知</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="177"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="141"/>
         <source>File created with a potentially incompatible %1 version</source>
         <translation type="unfinished">文件由可能不兼容的 %1 版本创建</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="178"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="142"/>
         <source>This project file was created with a newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</source>
@@ -4636,24 +4576,13 @@ Do you want to continue opening it?</source>
 是否继续打开？</translation>
     </message>
     <message>
-        <source>This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
-
-Do you want to continue opening it?</source>
-        <translation type="obsolete">此工程文件由 %1 的较新版本或测试版本（%2）创建。某些功能可能不完全兼容或行为有所不同。
-
-是否继续打开？</translation>
-    </message>
-    <message>
-        <source>File created with incompatible %1 version</source>
-        <translation type="vanished">使用不兼容的 %1 版本创建的文件</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="188"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="149"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="270"/>
         <source>Additional check failed</source>
         <translation>附加检查失败</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="189"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="150"/>
         <source>%1
 
 The file can still be opened, but it may cause potential problems.
@@ -4666,12 +4595,13 @@ Do you want to continue opening it?</source>
 是否继续打开？</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="198"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="156"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="273"/>
         <source>Potential document integrity issue</source>
         <translation>潜在的文档完整性问题</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="199"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="157"/>
         <source>The document integrity check failed while saving the file. The file can still be saved, but it may not be parsed correctly when opened again.
 
 Under normal circumstances, this problem should not occur. It may be caused by defects in %1 or some plugins.
@@ -4686,6 +4616,117 @@ Do you want to continue?</source>
 如果您当前正在使用“保存”或覆盖现有文件，建议取消当前操作。作为替代，请使用“保存副本”将文档保存到另一个文件中，然后使用“DSPX 检查器”检查该文件。
 
 是否继续？</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="172"/>
+        <source>File Modified Externally</source>
+        <translation>文件在外部修改</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="173"/>
+        <source>The file has been modified by another program since it was last saved.
+
+Do you want to save as a new file or overwrite it?</source>
+        <translation>该文件自上次保存后已被其他程序修改。
+
+你想另存为新文件还是覆盖现有文件？</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="175"/>
+        <source>Save As...</source>
+        <translation>另存为...</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="176"/>
+        <source>Overwrite</source>
+        <translation>覆盖</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="205"/>
+        <source>Do you want to save before closing?</source>
+        <translation>你想在关闭前保存吗？</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="206"/>
+        <source>If you choose not to save, a copy of the current project file will be created to help recover your work in case of accidental incorrect operation.</source>
+        <translation>如果你选择不保存，当前工程文件的副本将会被创建，以便在意外误操作时帮助你恢复工作。</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="225"/>
+        <source>Complete recovery failed</source>
+        <translation type="unfinished">完整恢复失败</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="226"/>
+        <source>Complete recovery failed. Partial recovery will be attempted.</source>
+        <translation type="unfinished">完整恢复失败。将尝试部分恢复。</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="241"/>
+        <source>Failed to open file</source>
+        <translation>打开文件失败</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="247"/>
+        <source>Failed to Load Project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="250"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="264"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="267"/>
+        <source>Failed to save file</source>
+        <translation>保存文件失败</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="253"/>
+        <source>Failed to restore recovery file</source>
+        <translation type="unfinished">还原恢复文件失败</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="253"/>
+        <source>Cannot restore the recovery file.</source>
+        <translation type="unfinished">无法还原恢复文件。</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="264"/>
+        <source>The project cannot be saved in its current state.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="267"/>
+        <source>Choose a different path for the project copy.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This project file was created with an newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
+
+Do you want to continue opening it?</source>
+        <translation type="obsolete">此工程文件由 %1 的较新版本或测试版本（%2）创建。某些功能可能不完全兼容或行为有所不同。
+
+是否继续打开？</translation>
+    </message>
+    <message>
+        <source>File created with incompatible %1 version</source>
+        <translation type="vanished">使用不兼容的 %1 版本创建的文件</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::CoreProjectLifecycleStrategy</name>
+    <message>
+        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="45"/>
+        <source>Untitled</source>
+        <translation>无标题</translation>
+    </message>
+    <message>
+        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="48"/>
+        <source>Unnamed track</source>
+        <translation>未命名轨道</translation>
+    </message>
+    <message>
+        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="49"/>
+        <source>Unnamed clip</source>
+        <translation>未命名剪辑</translation>
     </message>
 </context>
 <context>
@@ -4754,40 +4795,18 @@ Continue to bounce?</source>
 <context>
     <name>Core::ProjectWindowInterface</name>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="129"/>
-        <source>File Modified Externally</source>
-        <translation>文件在外部修改</translation>
-    </message>
-    <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="130"/>
-        <source>The file has been modified by another program since it was last saved.
-
-Do you want to save as a new file or overwrite it?</source>
-        <translation>该文件自上次保存后已被其他程序修改。
-
-你想另存为新文件还是覆盖现有文件？</translation>
-    </message>
-    <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="134"/>
-        <source>Save As...</source>
-        <translation>另存为...</translation>
-    </message>
-    <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="139"/>
-        <source>Overwrite</source>
-        <translation>覆盖</translation>
-    </message>
-    <message>
         <source>Untitled</source>
         <translation type="vanished">未命名</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="255"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="151"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="259"/>
         <source>Operation Conflict</source>
         <translation type="unfinished">操作冲突</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="256"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="152"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="260"/>
         <source>Please wait until the current operation is complete before proceeding.</source>
         <translation type="unfinished">请等待当前操作完成后再继续。</translation>
     </message>

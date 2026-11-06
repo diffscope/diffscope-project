@@ -36,7 +36,7 @@ namespace Core::Internal {
         bool isHomeWindow() const;
 
     public Q_SLOTS:
-        static void openRecentFile(int index);
+        void openRecentFile(int index) const;
         static void removeRecentFile(int index);
         Q_INVOKABLE void openRecoveryFile(int index);
         Q_INVOKABLE void removeRecoveryFile(int index);

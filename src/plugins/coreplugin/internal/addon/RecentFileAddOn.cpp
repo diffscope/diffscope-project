@@ -3,39 +3,28 @@
 
 #include "RecentFileAddOn.h"
 
-#include <exception>
-#include <memory>
-
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QLockFile>
-#include <QLoggingCategory>
+#include <QLocale>
 #include <QQmlComponent>
 #include <QStandardItemModel>
 
-#include <CoreApi/applicationinfo.h>
 #include <CoreApi/recentfilecollection.h>
 #include <CoreApi/runtimeinterface.h>
 
-#include <dspxmodelCore/Document.h>
-#include <dspxmodelORM/Model.h>
-#include <opendspx/model.h>
-
 #include <QAKQuick/quickactioncontext.h>
-
-#include <SVSCraftQuick/MessageBox.h>
 
 #include <uishell/USDef.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/ProjectLifecycleScenario.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/internal/CoreProjectLifecycleStrategy.h>
 
 namespace Core::Internal {
-
-    Q_STATIC_LOGGING_CATEGORY(lcRecentFileAddOn, "diffscope.core.recentfileaddon")
 
     enum RecoveryFileKind {
         RFK_LatestUnsavedProject,
@@ -161,84 +150,6 @@ namespace Core::Internal {
         }
     }
 
-    static QString recoveryRootPath() {
-        return QDir(ApplicationInfo::applicationLocation(ApplicationInfo::State)).filePath(QStringLiteral("recovery"));
-    }
-
-    static QString latestUnsavedProjectPath() {
-        return QDir(recoveryRootPath()).filePath(QStringLiteral("latest_unsaved_project.dspx"));
-    }
-
-    static void showRecoveryRestoreFailure() {
-        SVS::MessageBox::critical(
-            RuntimeInterface::qmlEngine(),
-            nullptr,
-            Core::Internal::RecentFileAddOn::tr("Failed to restore recovery file"),
-            Core::Internal::RecentFileAddOn::tr("Cannot restore the recovery file.")
-        );
-    }
-
-    static void showPartialRecoveryWarning() {
-        SVS::MessageBox::warning(
-            RuntimeInterface::qmlEngine(),
-            nullptr,
-            Core::Internal::RecentFileAddOn::tr("Complete recovery failed"),
-            Core::Internal::RecentFileAddOn::tr("Complete recovery failed. Partial recovery will be attempted."),
-            SVS::SVSCraft::Ok,
-            SVS::SVSCraft::Ok
-        );
-    }
-
-    static std::unique_ptr<dspx::Document> restoreRecoveryDocument(const QDir &recoveryDirectory,
-                                                                   dspx::Document::RestoreOptions options,
-                                                                   QString *errorMessage) {
-        QFile snapshotFile(recoveryDirectory.filePath(QStringLiteral("snapshot")));
-        if (!snapshotFile.open(QIODevice::ReadOnly)) {
-            if (errorMessage) {
-                *errorMessage = QStringLiteral("Failed to open recovery snapshot \"%1\": %2")
-                    .arg(snapshotFile.fileName(), snapshotFile.errorString());
-            }
-            return nullptr;
-        }
-
-        QFile logsFile(recoveryDirectory.filePath(QStringLiteral("logs")));
-        QIODevice *logsDevice = nullptr;
-        if (logsFile.exists()) {
-            if (!logsFile.open(QIODevice::ReadOnly)) {
-                if (errorMessage) {
-                    *errorMessage = QStringLiteral("Failed to open recovery log \"%1\": %2")
-                        .arg(logsFile.fileName(), logsFile.errorString());
-                }
-                return nullptr;
-            }
-            logsDevice = &logsFile;
-        }
-
-        try {
-            auto *document = dspx::Document::restore(&snapshotFile, logsDevice, options);
-            if (!document) {
-                if (errorMessage) {
-                    *errorMessage = QStringLiteral("Document::restore returned null for recovery directory \"%1\"")
-                        .arg(recoveryDirectory.absolutePath());
-                }
-                return nullptr;
-            }
-            return std::unique_ptr<dspx::Document>(document);
-        } catch (const std::exception &e) {
-            if (errorMessage) {
-                *errorMessage = QStringLiteral("Failed to restore document from recovery directory \"%1\": %2")
-                    .arg(recoveryDirectory.absolutePath(), QString::fromUtf8(e.what()));
-            }
-            return nullptr;
-        } catch (...) {
-            if (errorMessage) {
-                *errorMessage = QStringLiteral("Failed to restore document from recovery directory \"%1\": unknown exception")
-                    .arg(recoveryDirectory.absolutePath());
-            }
-            return nullptr;
-        }
-    }
-
     static bool recoveryDirectoryInUse(const QDir &directory) {
         QLockFile lock(directory.filePath(QStringLiteral("active.lock")));
         if (lock.tryLock(0)) {
@@ -278,7 +189,7 @@ namespace Core::Internal {
         m_recoveryFilesModel->clear();
         int recoveryFileCount = 0;
 
-        const auto latestPath = latestUnsavedProjectPath();
+        const auto latestPath = CoreProjectLifecycleStrategy::recoveryCopyPath();
         QFileInfo latestFileInfo(latestPath);
         if (latestFileInfo.exists() && latestFileInfo.isFile()) {
             auto item = new QStandardItem;
@@ -293,7 +204,7 @@ namespace Core::Internal {
             m_recoveryFilesModel->appendRow(item);
         }
 
-        QDir recoveryRoot(recoveryRootPath());
+        QDir recoveryRoot(CoreProjectLifecycleStrategy::recoveryRootPath());
         for (const auto &directoryInfo : recoveryRoot.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Time)) {
             QDir directory(directoryInfo.absoluteFilePath());
             if (recoveryDirectoryInUse(directory)) {
@@ -324,9 +235,9 @@ namespace Core::Internal {
         }
     }
 
-    void RecentFileAddOn::openRecentFile(int index) {
+    void RecentFileAddOn::openRecentFile(int index) const {
         auto filePath = CoreInterface::recentFileCollection()->recentFiles().at(index);
-        CoreInterface::openFiles({filePath});
+        CoreInterface::projectLifecycleScenario()->openFiles({filePath}, windowHandle()->window());
     }
 
     void RecentFileAddOn::removeRecentFile(int index) {
@@ -341,57 +252,10 @@ namespace Core::Internal {
         const auto path = item->data(RecoveryFileStoragePathRole).toString();
         const auto kind = item->data(RecoveryFileKindRole).toInt();
 
-        if (kind == RFK_LatestUnsavedProject) {
-            CoreInterface::newFileFromTemplate(path);
-            return;
-        }
-
-        QDir recoveryDirectory(path);
-        QString completeRecoveryError;
-        auto restoredDocument = restoreRecoveryDocument(recoveryDirectory, {}, &completeRecoveryError);
-        if (!restoredDocument) {
-            qCCritical(lcRecentFileAddOn) << "Complete recovery failed:" << completeRecoveryError;
-            showPartialRecoveryWarning();
-
-            QString partialRecoveryError;
-            restoredDocument = restoreRecoveryDocument(
-                recoveryDirectory,
-                dspx::Document::RO_DiscardInvalidCommitLogTail,
-                &partialRecoveryError
-            );
-            if (!restoredDocument) {
-                qCCritical(lcRecentFileAddOn) << "Partial recovery failed:" << partialRecoveryError;
-                showRecoveryRestoreFailure();
-                return;
-            }
-            qCWarning(lcRecentFileAddOn) << "Partial recovery succeeded after complete recovery failed:"
-                                         << recoveryDirectory.absolutePath();
-        }
-
-        opendspx::Model openDspxModel;
-        try {
-            dspx::Model restoredModel(restoredDocument.get());
-            openDspxModel = restoredModel.toOpenDSPX();
-        } catch (const std::exception &e) {
-            qCCritical(lcRecentFileAddOn) << "Failed to convert restored recovery document to OpenDSPX:"
-                                          << recoveryDirectory.absolutePath()
-                                          << e.what();
-            showRecoveryRestoreFailure();
-            return;
-        } catch (...) {
-            qCCritical(lcRecentFileAddOn) << "Failed to convert restored recovery document to OpenDSPX:"
-                                          << recoveryDirectory.absolutePath()
-                                          << "Unknown exception";
-            showRecoveryRestoreFailure();
-            return;
-        }
-        auto defaultDocumentName = defaultDocumentNameFromRecoveryName(item->data(UIShell::USDef::RF_NameRole).toString());
-        auto projectDocumentContext = std::make_unique<ProjectDocumentContext>();
-        if (!projectDocumentContext->newFile(openDspxModel, defaultDocumentName, false)) {
-            qCWarning(lcRecentFileAddOn) << "Failed to create project context from recovery directory:" << recoveryDirectory.absolutePath();
-            return;
-        }
-        CoreInterface::createProjectWindow(projectDocumentContext.release());
+        const bool isProjectCopy = kind == RFK_LatestUnsavedProject;
+        const auto recoverySource = isProjectCopy ? ProjectRecoverySource::ProjectCopy : ProjectRecoverySource::DocumentLog;
+        const auto name = isProjectCopy ? QString() : defaultDocumentNameFromRecoveryName(item->data(UIShell::USDef::RF_NameRole).toString());
+        CoreInterface::projectLifecycleScenario()->recoverProject(recoverySource, path, name, windowHandle()->window());
     }
 
     void RecentFileAddOn::removeRecoveryFile(int index) {
@@ -410,8 +274,8 @@ namespace Core::Internal {
     }
 
     void RecentFileAddOn::clearRecoveryFiles() {
-        auto root = QDir(recoveryRootPath());
-        QFile::remove(latestUnsavedProjectPath());
+        auto root = QDir(CoreProjectLifecycleStrategy::recoveryRootPath());
+        QFile::remove(CoreProjectLifecycleStrategy::recoveryCopyPath());
         for (const auto &directoryInfo : root.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot)) {
             QDir directory(directoryInfo.absoluteFilePath());
             if (!recoveryDirectoryInUse(directory)) {

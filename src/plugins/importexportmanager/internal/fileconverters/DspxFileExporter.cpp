@@ -23,7 +23,8 @@
 #include <opendspx/serializer/serializer.h>
 #include <opendspx/singingclip.h>
 
-#include <coreplugin/OpenSaveProjectFileScenario.h>
+#include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/ProjectFileDialogs.h>
 
 namespace ImportExportManager::Internal {
 
@@ -40,8 +41,7 @@ namespace ImportExportManager::Internal {
     DspxFileExporter::~DspxFileExporter() = default;
 
     bool DspxFileExporter::execExport(const QString &path, const opendspx::Model &model_, QWindow *window) {
-        Core::OpenSaveProjectFileScenario scenario;
-        scenario.setWindow(window);
+        Core::ProjectFileDialogs dialogs(window);
         QDialog dlg;
         dlg.setWindowTitle(tr("Export DSPX"));
         auto layout = new QVBoxLayout;
@@ -99,7 +99,8 @@ namespace ImportExportManager::Internal {
         QFile file(path);
         if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             qCCritical(lcDspxFileExporter) << "Failed to write file:" << path << file.errorString();
-            scenario.showSaveFailMessageBox(path, file.errorString());
+            const Core::ProjectFileError error{Core::ProjectFileError::Write, path, file.errorString()};
+            dialogs.reportError(error);
             return false;
         }
         opendspx::SerializationErrorList errors;
@@ -113,7 +114,8 @@ namespace ImportExportManager::Internal {
         auto bytesWritten = file.write(data);
         if (bytesWritten != data.size()) {
             qCCritical(lcDspxFileExporter) << "Failed to write file:" << path << file.errorString();
-            scenario.showSaveFailMessageBox(path, file.errorString());
+            const Core::ProjectFileError error{Core::ProjectFileError::Write, path, file.errorString()};
+            dialogs.reportError(error);
             return false;
         }
         file.close();

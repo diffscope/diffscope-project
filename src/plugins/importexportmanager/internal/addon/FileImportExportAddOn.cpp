@@ -37,6 +37,7 @@
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/ProjectDocumentContext.h>
+#include <coreplugin/ProjectLifecycleScenario.h>
 #include <coreplugin/DspxDocument.h>
 
 #include <importexportmanager/ConverterCollection.h>
@@ -148,9 +149,7 @@ namespace ImportExportManager::Internal {
         if (!execImportToModel(converter, model, path)) {
             return;
         }
-        auto projectDocumentContext = std::make_unique<Core::ProjectDocumentContext>();
-        projectDocumentContext->newFile(model, QFileInfo(path).baseName() + ".dspx", false);
-        Core::CoreInterface::createProjectWindow(projectDocumentContext.release());
+        Core::CoreInterface::projectLifecycleScenario()->newProjectFromModel(model, QFileInfo(path).baseName() + QStringLiteral(".dspx"), windowHandle()->window());
     }
 
     void FileImportExportAddOn::execImportTracks(FileConverter *converter) const {

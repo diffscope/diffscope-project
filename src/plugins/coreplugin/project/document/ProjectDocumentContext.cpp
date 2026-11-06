@@ -4,129 +4,35 @@
 #include "ProjectDocumentContext.h"
 #include "ProjectDocumentContext_p.h"
 
+#include <exception>
 #include <sstream>
-#include <stdexcept>
-
-#include <application_config.h>
+#include <utility>
 
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QLockFile>
 #include <QLoggingCategory>
+#include <QScopedValueRollback>
 #include <QUuid>
 
-#include <CoreApi/applicationinfo.h>
-#include <CoreApi/filelocker.h>
-#include <CoreApi/runtimeinterface.h>
-
+#include <opendspx/serializer/serializer.h>
 #include <stdcorelib/support/json.h>
 
 #include <dspxmodelCore/Document.h>
-#include <opendspx/model.h>
-
-#include <SVSCraftCore/Semver.h>
-#include <SVSCraftQuick/MessageBox.h>
-
 #include <dspxmodelORM/Model.h>
-
-#include <coreplugin/CoreInterface.h>
-#include <coreplugin/DspxCheckerRegistry.h>
 #include <coreplugin/DspxDocument.h>
-
-#include <coreplugin/OpenSaveProjectFileScenario.h>
-#include <coreplugin/internal/BehaviorPreference.h>
-
-#include <opendspx/serializer/serializer.h>
-
+#include <coreplugin/IDspxChecker.h>
 #include <transactional/TransactionController.h>
 
 namespace Core {
 
     Q_LOGGING_CATEGORY(lcProjectDocumentContext, "diffscope.core.projectdocumentcontext")
 
-    static void writeEditorInfo(opendspx::Model &model) {
-        model.content.global.editorId = CoreInterface::dspxEditorId();
-        model.content.global.editorName = QStringLiteral("DiffScope").toStdString();
-        model.content.workspace["diffscope"]["editorVersion"] = QStringLiteral(APPLICATION_SEMVER).toStdString();
-    }
-
-    static bool checkIsVersionCompatible(const QString &version) {
-        if (version.isEmpty())
-            return true;
-        SVS::Semver currentSemver(QStringLiteral(APPLICATION_SEMVER));
-        SVS::Semver fileSemver(version);
-        if (fileSemver == currentSemver)
-            return true;
-        if (fileSemver > currentSemver)
-            return false;
-        if (!fileSemver.preRelease().isEmpty() || !fileSemver.build().isEmpty()) {
-            return false;
-        }
-        return true;
-    }
-
-    void ProjectDocumentContextPrivate::markSaved() {
-        Q_Q(ProjectDocumentContext);
-        document->transactionController()->setCleanStep(document->transactionController()->currentStep());
-        Q_EMIT q->saved();
-    }
-
-    QByteArray ProjectDocumentContextPrivate::serializeDocument(bool *hasError) const {
-        opendspx::SerializationErrorList errors;
-        auto model = document->model()->toOpenDSPX();
-        writeEditorInfo(model);
-        std::stringstream out(std::ios::out);
-        opendspx::Serializer::OutputOption outputOptions = opendspx::Serializer::WriteSchema;
-        if (Internal::BehaviorPreference::fileOption() & Internal::BehaviorPreference::FO_Compress) {
-            outputOptions |= opendspx::Serializer::Compress;
-        }
-        opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, outputOptions);
-        if (errors.containsError()) {
-            if (hasError) {
-                *hasError = true;
-            }
-        } else {
-            if (hasError) {
-                *hasError = false;
-            }
-        }
-        return QByteArray::fromStdString(out.str());
-    }
-
-    static QString getVersionStringFromModel(const opendspx::Model &model) {
-        try {
-            return QString::fromStdString(model.content.workspace.at("diffscope").at("editorVersion").toString());
-        } catch (const std::out_of_range &) {
-            return {};
-        }
-    }
-
-    bool ProjectDocumentContextPrivate::initializeDocument(const opendspx::Model &model, bool doCheck) {
-        Q_Q(ProjectDocumentContext);
-        document = new DspxDocument(q);
-        if (doCheck) {
-            if (model.content.global.editorId != CoreInterface::dspxEditorId()) {
-                if (!openSaveProjectFileScenario->confirmFileCreatedByAnotherApplication(QString::fromStdString(model.content.global.editorName))) {
-                    return false;
-                }
-            } else if (auto version = getVersionStringFromModel(model); !checkIsVersionCompatible(version)) {
-                if (!openSaveProjectFileScenario->confirmFileCreatedByIncompatibleVersion(version)) {
-                    return false;
-                }
-            }
-            auto customCheckResult = CoreInterface::dspxCheckerRegistry()->runCheck(model, IDspxChecker::Strong, true);
-            if (!customCheckResult.isEmpty()) {
-                if (!openSaveProjectFileScenario->confirmCustomCheckWarning(customCheckResult.front().message)) {
-                    return false;
-                }
-            }
-        }
-        auto postProcessedModel = model;
-        writeEditorInfo(postProcessedModel);
-        document->loadModel(postProcessedModel);
-        setupDocumentLog();
-        return true;
+    void ProjectDocumentContextPrivate::writeEditorInfo(opendspx::Model &model) const {
+        model.content.global.editorId = options.editorId.toStdString();
+        model.content.global.editorName = options.editorName.toStdString();
+        model.content.workspace["diffscope"]["editorVersion"] = options.editorVersion.toStdString();
     }
 
     QString ProjectDocumentContextPrivate::recoveryDisplayName() const {
@@ -153,11 +59,11 @@ namespace Core {
             }
             return defaultDocumentName;
         }
-        return Core::CoreInterface::tr("Untitled");
+        return options.untitledName;
     }
 
     bool ProjectDocumentContextPrivate::writeRecoveryNameFile() const {
-        if (!documentLogEnabled || recoveryDirPath.isEmpty()) {
+        if (!documentLogLock) {
             return false;
         }
         if (!QDir().mkpath(recoveryDirPath)) {
@@ -174,7 +80,7 @@ namespace Core {
     }
 
     bool ProjectDocumentContextPrivate::lockRecoveryDirectory() {
-        if (!documentLogEnabled || recoveryDirPath.isEmpty()) {
+        if (recoveryDirPath.isEmpty()) {
             return false;
         }
         if (documentLogLock) {
@@ -216,7 +122,7 @@ namespace Core {
     }
 
     bool ProjectDocumentContextPrivate::writeRecoverySnapshot() const {
-        if (!documentLogEnabled || !document || !document->model() || !document->model()->document() || recoveryDirPath.isEmpty()) {
+        if (!document || !document->model() || !document->model()->document() || recoveryDirPath.isEmpty()) {
             return false;
         }
         if (!QDir().mkpath(recoveryDirPath)) {
@@ -233,7 +139,7 @@ namespace Core {
     }
 
     bool ProjectDocumentContextPrivate::openDocumentLogDevice() {
-        if (!documentLogEnabled || !document || !document->model() || !document->model()->document() || recoveryDirPath.isEmpty()) {
+        if (!document || !document->model() || !document->model()->document() || recoveryDirPath.isEmpty()) {
             return false;
         }
         auto *logFile = new QFile(QDir(recoveryDirPath).filePath(QStringLiteral("logs")));
@@ -248,7 +154,7 @@ namespace Core {
     }
 
     bool ProjectDocumentContextPrivate::resetDocumentLog() {
-        if (!documentLogEnabled || recoveryDirPath.isEmpty()) {
+        if (!documentLogLock) {
             return false;
         }
         closeDocumentLogDevice();
@@ -265,7 +171,7 @@ namespace Core {
 
     bool ProjectDocumentContextPrivate::setupDocumentLog() {
         Q_Q(ProjectDocumentContext);
-        if (!documentLogEnabled || !document || recoveryDirPath.isEmpty()) {
+        if (!document || recoveryDirPath.isEmpty()) {
             return false;
         }
         if (!lockRecoveryDirectory()) {
@@ -285,32 +191,20 @@ namespace Core {
 
     void ProjectDocumentContextPrivate::cleanupDocumentLog() {
         closeDocumentLogDevice();
-        unlockRecoveryDirectory();
-        if (!recoveryDirPath.isEmpty()) {
+        if (documentLogLock) {
+            unlockRecoveryDirectory();
             QDir(recoveryDirPath).removeRecursively();
         }
     }
 
-    bool ProjectDocumentContextPrivate::deserializeAndInitializeDocument(const QByteArray &data) {
-        opendspx::SerializationErrorList errors;
-        std::stringstream in(data.toStdString(), std::ios::in);
-        auto model = opendspx::Serializer::deserialize(in, errors);
-        if (errors.containsFatal() || errors.containsError()) {
-            return false;
-        }
-        return initializeDocument(model, true);
-    }
-
-    ProjectDocumentContext::ProjectDocumentContext(QObject *parent) : QObject(parent), d_ptr(new ProjectDocumentContextPrivate) {
+    ProjectDocumentContext::ProjectDocumentContext(const Options &options, QObject *parent) : QObject(parent), d_ptr(new ProjectDocumentContextPrivate) {
         Q_D(ProjectDocumentContext);
         d->q_ptr = this;
-        d->openSaveProjectFileScenario = new OpenSaveProjectFileScenario(this);
-        d->documentLogEnabled = Internal::BehaviorPreference::documentLogEnabled();
-        auto uuidBytes = QUuid::createUuid().toRfc4122();
-        auto base64 = uuidBytes.toBase64(QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals);
-        d->uuidString = QString::fromLatin1(base64);
-        d->recoveryDirPath = QDir(ApplicationInfo::applicationLocation(ApplicationInfo::State))
-            .filePath(QStringLiteral("recovery/%1").arg(d->uuidString));
+        d->options = options;
+        if (!d->options.recoveryRootPath.isEmpty()) {
+            const auto uuid = QUuid::createUuid().toRfc4122().toBase64(QByteArray::Base64UrlEncoding | QByteArray::OmitTrailingEquals);
+            d->recoveryDirPath = QDir(d->options.recoveryRootPath).filePath(QString::fromLatin1(uuid));
+        }
     }
 
     ProjectDocumentContext::~ProjectDocumentContext() {
@@ -328,11 +222,6 @@ namespace Core {
         return d->document;
     }
 
-    OpenSaveProjectFileScenario *ProjectDocumentContext::openSaveProjectFileScenario() const {
-        Q_D(const ProjectDocumentContext);
-        return d->openSaveProjectFileScenario;
-    }
-
     QString ProjectDocumentContext::defaultDocumentName() const {
         Q_D(const ProjectDocumentContext);
         return d->defaultDocumentName;
@@ -340,180 +229,243 @@ namespace Core {
 
     void ProjectDocumentContext::setDefaultDocumentName(const QString &name) {
         Q_D(ProjectDocumentContext);
-        if (d->defaultDocumentName == name) return;
+        if (d->defaultDocumentName == name) {
+            return;
+        }
         d->defaultDocumentName = name;
         d->writeRecoveryNameFile();
         Q_EMIT defaultDocumentNameChanged();
     }
 
-    bool ProjectDocumentContext::openFile(const QString &filePath) {
+    ProjectFileError ProjectDocumentContext::openFile(const QString &path, const OpenOptions &options) {
         Q_D(ProjectDocumentContext);
-        if (d->document) {
-            qCWarning(lcProjectDocumentContext) << "Cannot open file: document already exists.";
-            return false;
+        return d->loadFile(path, {}, ProjectDocumentContextPrivate::OpenMode::Existing, options);
+    }
+
+    ProjectFileError ProjectDocumentContext::newFile(const opendspx::Model &model, const QString &name, bool isNonFileDocument) {
+        Q_D(ProjectDocumentContext);
+        return d->initialize(model, name, isNonFileDocument ? nullptr : std::make_unique<FileLocker>());
+    }
+
+    ProjectFileError ProjectDocumentContext::newFile(const QString &templatePath, const QString &name, bool isNonFileDocument, const OpenOptions &options) {
+        Q_D(ProjectDocumentContext);
+        using OpenMode = ProjectDocumentContextPrivate::OpenMode;
+        return d->loadFile(templatePath, name, isNonFileDocument ? OpenMode::NonFileTemplate : OpenMode::Template, options);
+    }
+
+    ProjectFileError ProjectDocumentContext::save(const SaveOptions &options) {
+        Q_D(ProjectDocumentContext);
+        return d->save(d->fileLocker ? d->fileLocker->path() : QString(), ProjectDocumentContextPrivate::SaveMode::Current, options);
+    }
+
+    ProjectFileError ProjectDocumentContext::saveAs(const QString &path, const SaveOptions &options) {
+        Q_D(ProjectDocumentContext);
+        return d->save(path, ProjectDocumentContextPrivate::SaveMode::As, options);
+    }
+
+    ProjectFileError ProjectDocumentContext::saveCopy(const QString &path, const SaveOptions &options) {
+        Q_D(ProjectDocumentContext);
+        return d->save(path, ProjectDocumentContextPrivate::SaveMode::Copy, options);
+    }
+
+    ProjectDocumentContextPrivate::OpenCandidate ProjectDocumentContextPrivate::readProjectFile(const QString &path, bool keepFileOpen) {
+        auto locker = std::make_unique<FileLocker>();
+        if (!locker->open(path)) {
+            return {.error = {ProjectFileError::Read, path, locker->errorString()}};
         }
-        d->fileLocker = new FileLocker(this);
-        if (!d->fileLocker->open(filePath)) {
-            qCCritical(lcProjectDocumentContext) << "Failed to open file:" << filePath;
-            d->openSaveProjectFileScenario->showOpenFailMessageBox(filePath, d->fileLocker->errorString());
-            return false;
-        }
+
         bool ok;
-        auto data = d->fileLocker->readData(&ok);
-        if (
-#ifdef Q_OS_WIN
-            !(Internal::BehaviorPreference::fileOption() & Internal::BehaviorPreference::FO_LockOpenedFiles)
-#else
-            true
-#endif
-        ) {
-            d->fileLocker->release();
-        }
+        const auto data = locker->readData(&ok);
         if (!ok) {
-            qCCritical(lcProjectDocumentContext) << "Failed to read file:" << filePath;
-            d->openSaveProjectFileScenario->showOpenFailMessageBox(filePath, d->fileLocker->errorString());
-            return false;
+            return {.error = {ProjectFileError::Read, path, locker->errorString()}};
         }
-        if (!d->deserializeAndInitializeDocument(data)) {
-            qCCritical(lcProjectDocumentContext) << "Failed to deserialize file:" << filePath;
-            d->openSaveProjectFileScenario->showDeserializationFailMessageBox(filePath);
-            return false;
+        if (!keepFileOpen) {
+            locker->release();
         }
-        return true;
+
+        try {
+            opendspx::SerializationErrorList errors;
+            std::stringstream input(data.toStdString(), std::ios::in);
+            auto model = opendspx::Serializer::deserialize(input, errors);
+            if (errors.containsFatal() || errors.containsError()) {
+                return {.error = {ProjectFileError::Parse, path, {}}};
+            }
+            return {.model = std::move(model), .locker = std::move(locker)};
+        } catch (const std::exception &error) {
+            return {.error = {ProjectFileError::Parse, path, QString::fromUtf8(error.what())}};
+        }
     }
 
-    bool ProjectDocumentContext::newFile(const opendspx::Model &templateModel, const QString &defaultDocumentName, bool isNonFileDocument) {
-        Q_D(ProjectDocumentContext);
-        if (d->document) {
-            qCWarning(lcProjectDocumentContext) << "Cannot create new file: document already exists.";
-            return false;
+    ProjectDocumentContextPrivate::OpenCandidate ProjectDocumentContextPrivate::restoreProjectModel(const QString &directory, bool allowPartialRecovery) {
+        const QDir recoveryDirectory(directory);
+        QFile snapshotFile(recoveryDirectory.filePath(QStringLiteral("snapshot")));
+        if (!snapshotFile.open(QIODevice::ReadOnly)) {
+            return {.error = {ProjectFileError::Restore, snapshotFile.fileName(), snapshotFile.errorString()}};
         }
-        if (!isNonFileDocument) {
-            d->fileLocker = new FileLocker(this);
+
+        QFile logsFile(recoveryDirectory.filePath(QStringLiteral("logs")));
+        QIODevice *logsDevice = nullptr;
+        if (logsFile.exists()) {
+            if (!logsFile.open(QIODevice::ReadOnly)) {
+                return {.error = {ProjectFileError::Restore, logsFile.fileName(), logsFile.errorString()}};
+            }
+            logsDevice = &logsFile;
         }
-        if (!d->initializeDocument(templateModel, false)) {
-            return false;
+
+        try {
+            dspx::Document::RestoreOptions options;
+            if (allowPartialRecovery) {
+                options |= dspx::Document::RO_DiscardInvalidCommitLogTail;
+            }
+            std::unique_ptr<dspx::Document> document(dspx::Document::restore(&snapshotFile, logsDevice, options));
+            if (!document) {
+                return {.error = {ProjectFileError::Restore, directory, QStringLiteral("Document restoration failed.")}};
+            }
+            return {.model = dspx::Model(document.get()).toOpenDSPX()};
+        } catch (const std::exception &error) {
+            return {.error = {ProjectFileError::Restore, directory, QString::fromUtf8(error.what())}};
         }
-        d->defaultDocumentName = defaultDocumentName;
-        Q_EMIT defaultDocumentNameChanged();
-        d->writeRecoveryNameFile();
-        return true;
     }
 
-    bool ProjectDocumentContext::newFile(const QString &templateFilePath, const QString &defaultDocumentName, bool isNonFileDocument) {
-        Q_D(ProjectDocumentContext);
-        if (d->document) {
-            qCWarning(lcProjectDocumentContext) << "Cannot create new file: document already exists.";
-            return false;
+    ProjectFileError ProjectDocumentContextPrivate::loadFile(const QString &path, const QString &name, OpenMode mode, const ProjectDocumentContext::OpenOptions &options) {
+        if (document) {
+            return {ProjectFileError::InvalidState, path, {}};
         }
-        if (!isNonFileDocument) {
-            d->fileLocker = new FileLocker(this);
-        }
-        FileLocker openFileLocker;
-        if (!openFileLocker.open(templateFilePath)) {
-            qCCritical(lcProjectDocumentContext) << "Failed to open template file:" << templateFilePath;
-            d->openSaveProjectFileScenario->showOpenFailMessageBox(templateFilePath, openFileLocker.errorString());
-            return false;
-        }
-        bool ok;
-        auto data = openFileLocker.readData(&ok);
-        if (!ok) {
-            qCCritical(lcProjectDocumentContext) << "Failed to read template file:" << templateFilePath;
-            d->openSaveProjectFileScenario->showOpenFailMessageBox(templateFilePath, d->fileLocker->errorString());
-            return false;
-        }
-        if (!d->deserializeAndInitializeDocument(data)) {
-            qCCritical(lcProjectDocumentContext) << "Failed to deserialize template file:" << templateFilePath;
-            d->openSaveProjectFileScenario->showDeserializationFailMessageBox(templateFilePath);
-            return false;
-        }
-        d->defaultDocumentName = defaultDocumentName;
-        Q_EMIT defaultDocumentNameChanged();
-        d->writeRecoveryNameFile();
-        return true;
-    }
 
-    bool ProjectDocumentContext::save() {
-        Q_D(ProjectDocumentContext);
-        if (d->document && !d->document->transactionController()->canAcquireReadLock()) {
-            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during a document write.";
-            return false;
+        auto candidate = readProjectFile(path, mode == OpenMode::Existing && options.keepFileOpen);
+        if (candidate.error.code != ProjectFileError::None) {
+            return candidate.error;
         }
-        if (!d->fileLocker || d->fileLocker->path().isEmpty())
-            return false;
-        bool hasError;
-        auto data = d->serializeDocument(&hasError);
-        if (hasError) {
-            qCWarning(lcProjectDocumentContext) << "Failed to serialize document.";
-            if (!d->openSaveProjectFileScenario->confirmSaveFileIntegrity()) {
-                return false;
+        if (options.checker) {
+            const auto warnings = options.checker->runCheck(candidate.model, IDspxChecker::Strong, true);
+            if (!warnings.isEmpty() && !options.acceptCheckerWarnings) {
+                return {ProjectFileError::CheckerWarning, path, warnings.front().message};
             }
         }
-        bool isSuccess = d->fileLocker->save(data);
-        if (!isSuccess) {
-            qCCritical(lcProjectDocumentContext) << "Failed to save file:" << d->fileLocker->path();
-            d->openSaveProjectFileScenario->showSaveFailMessageBox(d->fileLocker->path(), d->fileLocker->errorString());
-            return false;
+
+        if (mode != OpenMode::Existing) {
+            candidate.locker = mode == OpenMode::Template ? std::make_unique<FileLocker>() : nullptr;
         }
-        d->markSaved();
-        d->resetDocumentLog();
-        return true;
+        auto error = initialize(candidate.model, name, std::move(candidate.locker));
+        if (error.code != ProjectFileError::None) {
+            error.path = path;
+        }
+        return error;
     }
 
-    bool ProjectDocumentContext::saveAs(const QString &filePath) {
-        Q_D(ProjectDocumentContext);
-        if (d->document && !d->document->transactionController()->canAcquireReadLock()) {
-            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during a document write.";
-            return false;
+    ProjectFileError ProjectDocumentContextPrivate::initialize(const opendspx::Model &model, const QString &name, std::unique_ptr<FileLocker> locker) {
+        Q_Q(ProjectDocumentContext);
+        if (document) {
+            return {ProjectFileError::InvalidState, {}, {}};
         }
-        if (!d->fileLocker)
-            return false;
-        bool hasError;
-        auto data = d->serializeDocument(&hasError);
-        if (hasError) {
-            qCWarning(lcProjectDocumentContext) << "Failed to serialize document.";
-            if (!d->openSaveProjectFileScenario->confirmSaveFileIntegrity()) {
-                return false;
-            }
+        auto newDocument = std::make_unique<DspxDocument>();
+        try {
+            auto projectModel = model;
+            writeEditorInfo(projectModel);
+            newDocument->loadModel(projectModel);
+        } catch (const std::exception &error) {
+            return {ProjectFileError::Load, {}, QString::fromUtf8(error.what())};
         }
-        bool isSuccess = d->fileLocker->saveAs(filePath, data);
-        if (!isSuccess) {
-            qCCritical(lcProjectDocumentContext) << "Failed to save file as:" << d->fileLocker->path();
-            d->openSaveProjectFileScenario->showSaveFailMessageBox(filePath, d->fileLocker->errorString());
-            return false;
+
+        defaultDocumentName = name;
+        fileLocker = locker.release();
+        document = newDocument.release();
+        if (fileLocker) {
+            fileLocker->setParent(q);
         }
-        d->markSaved();
-        d->resetDocumentLog();
-        if (!d->defaultDocumentName.isEmpty()) {
-            d->defaultDocumentName.clear();
-            Q_EMIT defaultDocumentNameChanged();
-            d->writeRecoveryNameFile();
-        }
-        return true;
+        document->setParent(q);
+        setupDocumentLog();
+        return {};
     }
 
-    bool ProjectDocumentContext::saveCopy(const QString &filePath) {
-        Q_D(ProjectDocumentContext);
-        if (d->document && !d->document->transactionController()->canAcquireReadLock()) {
-            qCWarning(lcProjectDocumentContext) << "The project cannot be saved during a document write.";
-            return false;
+    QString ProjectDocumentContextPrivate::canonicalOrAbsolutePath(const QString &path) {
+        const QFileInfo info(path);
+        const auto canonical = info.canonicalFilePath();
+        return canonical.isEmpty() ? QDir::cleanPath(info.absoluteFilePath()) : canonical;
+    }
+
+    ProjectFileError ProjectDocumentContextPrivate::validateSave(const QString &path, SaveMode mode) const {
+        if (!document || path.isEmpty() || (!fileLocker && mode != SaveMode::Copy)) {
+            return {ProjectFileError::InvalidState, path, {}};
         }
-        FileLocker copyFileLocker;
-        bool hasError;
-        auto data = d->serializeDocument(&hasError);
-        if (hasError) {
-            qCWarning(lcProjectDocumentContext) << "Failed to serialize document.";
-            if (!d->openSaveProjectFileScenario->confirmSaveFileIntegrity()) {
-                return false;
+        if (writing) {
+            return {ProjectFileError::Busy, path, {}};
+        }
+        const auto currentPath = fileLocker ? fileLocker->path() : QString();
+        if (mode == SaveMode::Current && currentPath != path) {
+            return {ProjectFileError::InvalidState, path, {}};
+        }
+        if (mode == SaveMode::Copy && !currentPath.isEmpty() && canonicalOrAbsolutePath(currentPath) == canonicalOrAbsolutePath(path)) {
+            return {ProjectFileError::CopyToCurrentFile, path, {}};
+        }
+        return {};
+    }
+
+    ProjectFileError ProjectDocumentContextPrivate::save(const QString &path, SaveMode mode, const ProjectDocumentContext::SaveOptions &options) {
+        if (const auto error = validateSave(path, mode); error.code != ProjectFileError::None) {
+            return error;
+        }
+        TransactionController::ScopedReadLock readLock(document->transactionController());
+        if (!readLock) {
+            return {ProjectFileError::Busy, path, {}};
+        }
+        const auto prepared = prepareSave(options.compress);
+        if (prepared.error.code != ProjectFileError::None) {
+            return {prepared.error.code, path, prepared.error.detail};
+        }
+        if (prepared.hasIntegrityWarning && !options.acceptIntegrityWarnings) {
+            return {ProjectFileError::IntegrityWarning, path, {}};
+        }
+        return writeSave(prepared.data, path, mode);
+    }
+
+    ProjectDocumentContextPrivate::PreparedSave ProjectDocumentContextPrivate::prepareSave(bool compress) const {
+        try {
+            auto model = document->model()->toOpenDSPX();
+            writeEditorInfo(model);
+            opendspx::Serializer::OutputOption outputOptions = opendspx::Serializer::WriteSchema;
+            if (compress) {
+                outputOptions |= opendspx::Serializer::Compress;
             }
+            opendspx::SerializationErrorList errors;
+            std::stringstream output(std::ios::out);
+            opendspx::Serializer::serialize(output, model, errors, opendspx::Serializer::CheckError, outputOptions);
+            if (errors.containsFatal() || !output) {
+                return {.error = {ProjectFileError::Write, {}, {}}};
+            }
+            return {QByteArray::fromStdString(output.str()), errors.containsError(), {}};
+        } catch (const std::exception &error) {
+            return {.error = {ProjectFileError::Write, {}, QString::fromUtf8(error.what())}};
         }
-        bool isSuccess = copyFileLocker.saveAs(filePath, data);
-        if (!isSuccess) {
-            qCCritical(lcProjectDocumentContext) << "Failed to save copy file:" << d->fileLocker->path();
-            d->openSaveProjectFileScenario->showSaveFailMessageBox(filePath, copyFileLocker.errorString());
-            return false;
+    }
+
+    ProjectFileError ProjectDocumentContextPrivate::writeSave(const QByteArray &data, const QString &path, SaveMode mode) {
+        Q_Q(ProjectDocumentContext);
+        if (const auto error = validateSave(path, mode); error.code != ProjectFileError::None) {
+            return error;
         }
-        return true;
+        const QScopedValueRollback writeGuard(writing, true);
+        if (mode == SaveMode::Copy) {
+            FileLocker locker;
+            if (!locker.saveAs(path, data)) {
+                return {ProjectFileError::Write, path, locker.errorString()};
+            }
+            return {};
+        }
+
+        const bool written = mode == SaveMode::Current ? fileLocker->save(data) : fileLocker->saveAs(path, data);
+        if (!written) {
+            return {ProjectFileError::Write, path, fileLocker->errorString()};
+        }
+
+        auto controller = document->transactionController();
+        controller->setCleanStep(controller->currentStep());
+        resetDocumentLog();
+        if (mode == SaveMode::As) {
+            q->setDefaultDocumentName({});
+        }
+        Q_EMIT q->saved();
+        return {};
     }
 
 }

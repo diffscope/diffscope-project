@@ -2289,26 +2289,9 @@
 <context>
     <name>Core::CoreInterface</name>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="325"/>
+        <location filename="../../core/CoreInterface.cpp" line="321"/>
         <source>About %1</source>
         <translation type="unfinished">About %1</translation>
-    </message>
-    <message>
-        <location filename="../../core/CoreInterface.cpp" line="392"/>
-        <source>Unnamed track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../core/CoreInterface.cpp" line="395"/>
-        <source>Unnamed clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/ProjectDocumentContext.cpp" line="156"/>
-        <location filename="../../core/CoreInterface.cpp" line="424"/>
-        <location filename="../../core/CoreInterface.cpp" line="442"/>
-        <source>Untitled</source>
-        <translation type="unfinished">Untitled</translation>
     </message>
 </context>
 <context>
@@ -2944,19 +2927,6 @@
         <location filename="../../internal/settings/AppearancePage.cpp" line="22"/>
         <source>Configure how %1 looks like</source>
         <translation type="unfinished">Configure how %1 looks like</translation>
-    </message>
-</context>
-<context>
-    <name>Core::Internal::CloseSaveCheckAddOn</name>
-    <message>
-        <location filename="../../internal/addon/CloseSaveCheckAddOn.cpp" line="62"/>
-        <source>Do you want to save before closing?</source>
-        <translation type="unfinished">Do you want to save before closing?</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/CloseSaveCheckAddOn.cpp" line="63"/>
-        <source>If you choose not to save, a copy of the current project file will be created to help recover your work in case of accidental incorrect operation.</source>
-        <translation type="unfinished">If you choose not to save, a copy of the current project file will be created to help recover your work in case of accidental incorrect operation.</translation>
     </message>
 </context>
 <context>
@@ -4121,32 +4091,12 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
 <context>
     <name>Core::Internal::RecentFileAddOn</name>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="156"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="145"/>
         <source>&lt;i&gt;File moved or deleted&lt;/i&gt;</source>
         <translation type="unfinished">&lt;i&gt;File moved or deleted&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="176"/>
-        <source>Failed to restore recovery file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="177"/>
-        <source>Cannot restore the recovery file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="185"/>
-        <source>Complete recovery failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="186"/>
-        <source>Complete recovery failed. Partial recovery will be attempted.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="285"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="196"/>
         <source>Unsaved project from last close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4490,39 +4440,29 @@ Continue?</translation>
     </message>
 </context>
 <context>
-    <name>Core::OpenSaveProjectFileScenario</name>
+    <name>Core::ProjectFileDialogs</name>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="48"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="47"/>
         <source>DiffScope Project Exchange Format (*.dspx)</source>
         <translation type="unfinished">DiffScope Project Exchange Format (*.dspx)</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="49"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="47"/>
         <source>All Files (*)</source>
         <translation type="unfinished">All Files (*)</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="108"/>
-        <source>Failed to open file</source>
-        <translation type="unfinished">Failed to open file</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="113"/>
-        <source>Failed to save file</source>
-        <translation type="unfinished">Failed to save file</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="130"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="93"/>
         <source>Open DSPX Inspector</source>
         <translation type="unfinished">Open DSPX Inspector</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="136"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="99"/>
         <source>Failed to parse file content</source>
         <translation type="unfinished">Failed to parse file content</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="137"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="100"/>
         <source>%1
 
 You can check for problems in the file with DSPX Inspector.</source>
@@ -4531,45 +4471,42 @@ You can check for problems in the file with DSPX Inspector.</source>
 You can check for problems in the file with DSPX Inspector.</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="166"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="133"/>
         <source>File created with another application</source>
         <translation type="unfinished">File created with another application</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="167"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="134"/>
         <source>This project file was created with another application (%1). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="168"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="135"/>
         <source>name unknown</source>
         <translation type="unfinished">name unknown</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="177"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="141"/>
         <source>File created with a potentially incompatible %1 version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="178"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="142"/>
         <source>This project file was created with a newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>File created with incompatible %1 version</source>
-        <translation type="obsolete">File created with incompatible %1 version</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="188"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="149"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="270"/>
         <source>Additional check failed</source>
         <translation type="unfinished">Additional check failed</translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="189"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="150"/>
         <source>%1
 
 The file can still be opened, but it may cause potential problems.
@@ -4578,12 +4515,13 @@ Do you want to continue opening it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="198"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="156"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="273"/>
         <source>Potential document integrity issue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/scenarios/OpenSaveProjectFileScenario.cpp" line="199"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="157"/>
         <source>The document integrity check failed while saving the file. The file can still be saved, but it may not be parsed correctly when opened again.
 
 Under normal circumstances, this problem should not occur. It may be caused by defects in %1 or some plugins.
@@ -4591,6 +4529,109 @@ Under normal circumstances, this problem should not occur. It may be caused by d
 If you are currently using Save or overwriting an existing file, it is recommended that you cancel the current operation. Instead, use Save Copy to save the document in another file, and then inspect the file using DSPX Inspector.
 
 Do you want to continue?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="172"/>
+        <source>File Modified Externally</source>
+        <translation type="unfinished">File Modified Externally</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="173"/>
+        <source>The file has been modified by another program since it was last saved.
+
+Do you want to save as a new file or overwrite it?</source>
+        <translation type="unfinished">The file has been modified by another program since it was last saved.
+
+Do you want to save as a new file or overwrite it?</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="175"/>
+        <source>Save As...</source>
+        <translation type="unfinished">Save As...</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="176"/>
+        <source>Overwrite</source>
+        <translation type="unfinished">Overwrite</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="205"/>
+        <source>Do you want to save before closing?</source>
+        <translation type="unfinished">Do you want to save before closing?</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="206"/>
+        <source>If you choose not to save, a copy of the current project file will be created to help recover your work in case of accidental incorrect operation.</source>
+        <translation type="unfinished">If you choose not to save, a copy of the current project file will be created to help recover your work in case of accidental incorrect operation.</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="225"/>
+        <source>Complete recovery failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="226"/>
+        <source>Complete recovery failed. Partial recovery will be attempted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="241"/>
+        <source>Failed to open file</source>
+        <translation type="unfinished">Failed to open file</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="247"/>
+        <source>Failed to Load Project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="250"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="264"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="267"/>
+        <source>Failed to save file</source>
+        <translation type="unfinished">Failed to save file</translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="253"/>
+        <source>Failed to restore recovery file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="253"/>
+        <source>Cannot restore the recovery file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="264"/>
+        <source>The project cannot be saved in its current state.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="267"/>
+        <source>Choose a different path for the project copy.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File created with incompatible %1 version</source>
+        <translation type="obsolete">File created with incompatible %1 version</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::CoreProjectLifecycleStrategy</name>
+    <message>
+        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="45"/>
+        <source>Untitled</source>
+        <translation type="unfinished">Untitled</translation>
+    </message>
+    <message>
+        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="48"/>
+        <source>Unnamed track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="49"/>
+        <source>Unnamed clip</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4654,40 +4695,18 @@ Continue to bounce?</source>
 <context>
     <name>Core::ProjectWindowInterface</name>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="129"/>
-        <source>File Modified Externally</source>
-        <translation type="unfinished">File Modified Externally</translation>
-    </message>
-    <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="130"/>
-        <source>The file has been modified by another program since it was last saved.
-
-Do you want to save as a new file or overwrite it?</source>
-        <translation type="unfinished">The file has been modified by another program since it was last saved.
-
-Do you want to save as a new file or overwrite it?</translation>
-    </message>
-    <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="134"/>
-        <source>Save As...</source>
-        <translation type="unfinished">Save As...</translation>
-    </message>
-    <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="139"/>
-        <source>Overwrite</source>
-        <translation type="unfinished">Overwrite</translation>
-    </message>
-    <message>
         <source>Untitled</source>
         <translation type="obsolete">Untitled</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="255"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="151"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="259"/>
         <source>Operation Conflict</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="256"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="152"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="260"/>
         <source>Please wait until the current operation is complete before proceeding.</source>
         <translation type="unfinished"></translation>
     </message>

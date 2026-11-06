@@ -31,7 +31,7 @@
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxCheckerRegistry.h>
-#include <coreplugin/OpenSaveProjectFileScenario.h>
+#include <coreplugin/ProjectFileDialogs.h>
 
 namespace Core {
 
@@ -91,10 +91,10 @@ namespace Core {
             runCheckButton->setEnabled(!path.isEmpty());
         });
 
-
-        auto scenario = new OpenSaveProjectFileScenario(this);
-        connect(browseButton, &QPushButton::clicked, [scenario, this] {
-            auto path = scenario->openProjectFile();
+        connect(browseButton, &QPushButton::clicked, this, [this] {
+            ProjectFileDialogs dialogs(windowHandle());
+            const ProjectPathRequest request{ProjectPathRequest::Open, {}, {}};
+            auto path = dialogs.requestPath(request);
             if (!path.isEmpty())
                 setPath(path);
         });

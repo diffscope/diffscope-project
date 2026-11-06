@@ -17,6 +17,7 @@
 #include <QAKQuick/quickactioncontext.h>
 
 #include <coreplugin/CoreInterface.h>
+#include <coreplugin/FileOpenDispatcher.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <singercatalog/SingerRegistry.h>

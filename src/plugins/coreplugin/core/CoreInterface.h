@@ -5,17 +5,13 @@
 #define DIFFSCOPE_COREPLUGIN_COREINTERFACE_H
 
 #include <QObject>
-#include <QStringList>
 #include <qqmlintegration.h>
 
 #include <CoreApi/coreinterfacebase.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
-#include <coreplugin/FileOpenDispatcher.h>
 #include <coreplugin/coreglobal.h>
-
-Q_MOC_INCLUDE(<singercatalog/SingerRegistry.h>)
 
 class QQmlEngine;
 class QJSEngine;
@@ -36,10 +32,10 @@ namespace Core {
         class CorePlugin;
     }
 
-    class ProjectWindowInterface;
     class NotificationMessage;
     class DspxCheckerRegistry;
-    class ProjectDocumentContext;
+    class FileOpenDispatcher;
+    class ProjectLifecycleScenario;
     class PropertyEditorManager;
     class TrackColorSchema;
     class DefaultLyricManager;
@@ -59,6 +55,7 @@ namespace Core {
         Q_PROPERTY(SingerCatalog::SingerRegistry *singerRegistry READ singerRegistry CONSTANT)
         Q_PROPERTY(MixedSingerPresets *mixedSingerPresets READ mixedSingerPresets CONSTANT)
         Q_PROPERTY(FileOpenDispatcher *fileOpenDispatcher READ fileOpenDispatcher CONSTANT)
+        Q_PROPERTY(ProjectLifecycleScenario *projectLifecycleScenario READ projectLifecycleScenario CONSTANT)
     public:
         static CoreInterface *instance();
         static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
@@ -77,6 +74,7 @@ namespace Core {
         static MixedSingerPresets *mixedSingerPresets();
 
         static FileOpenDispatcher *fileOpenDispatcher();
+        static ProjectLifecycleScenario *projectLifecycleScenario();
 
         static constexpr const char *dspxEditorId() {
             return "org.diffscope.diffscope";
@@ -98,13 +96,6 @@ namespace Core {
         Q_INVOKABLE static void execAboutAppDialog(QWindow *parent);
         Q_INVOKABLE static void execAboutQtDialog(QWindow *parent);
         Q_INVOKABLE static void showHome();
-
-    public:
-        Q_INVOKABLE static ProjectWindowInterface *newFile(QWindow *parent = nullptr);
-        Q_INVOKABLE static ProjectWindowInterface *newFileFromTemplate(const QString &templateFilePath, QWindow *parent = nullptr);
-        Q_INVOKABLE static void openFiles(const QStringList &filePaths, QWindow *parent = nullptr);
-        Q_INVOKABLE static ProjectWindowInterface *openProjectFile(const QString &filePath, QWindow *parent = nullptr);
-        Q_INVOKABLE static ProjectWindowInterface *createProjectWindow(ProjectDocumentContext *projectDocumentContext);
 
     Q_SIGNALS:
         void resetAllDoNotShowAgainRequested();
