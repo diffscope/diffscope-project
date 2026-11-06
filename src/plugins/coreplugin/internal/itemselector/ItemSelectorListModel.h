@@ -122,7 +122,6 @@ namespace Core::Internal {
         ListKind listKind() const;
         QObject *context() const;
         QString contextKey() const;
-        QString parameterDisplayName() const;
 
     Q_SIGNALS:
         void checkStateSummaryChanged();
@@ -176,7 +175,6 @@ namespace Core::Internal {
         QHash<QObject *, QObject *> m_singerResolvers;
         QHash<QObject *, SingerCatalog::ParameterInfoProvider *> m_parameterProviders;
         QObject *m_contextSingerResolver = nullptr;
-        SingerCatalog::ParameterInfoProvider *m_contextParameterProvider = nullptr;
         SingerCatalog::ParameterInfoProvider *m_anchorProvider = nullptr;
         KeySignatureAtSpecifiedPositionHelper *m_keySignatureHelper = nullptr;
     };

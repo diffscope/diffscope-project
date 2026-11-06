@@ -21,7 +21,6 @@ class QShowEvent;
 class QTreeView;
 
 namespace Core {
-    class FreeParameterSelectionModel;
     class ProjectWindowInterface;
 }
 
@@ -65,7 +64,6 @@ namespace Core::Internal {
         void releaseColumns();
         dspx::Model *model() const;
         dspx::SelectionModel *selectionModel() const;
-        FreeParameterSelectionModel *freeParameterSelectionModel() const;
         void popupDocumentContextMenu(dspx::SelectionModel::SelectionType selectionType,
                                       bool sceneContextMenu);
         void addColumn(ListKind kind, QObject *context, const QString &contextKey = {});

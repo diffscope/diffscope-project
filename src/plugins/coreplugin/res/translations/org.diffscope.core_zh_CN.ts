@@ -3364,11 +3364,6 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::ItemSelectorDialog</name>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="102"/>
-        <source>%1 Transform</source>
-        <translation type="unfinished">%1 变换</translation>
-    </message>
-    <message>
         <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="232"/>
         <source>Document Components</source>
         <translation type="unfinished">文档组件</translation>
@@ -5012,6 +5007,11 @@ Do you want to save as a new file or overwrite it?</source>
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="222"/>
         <source>Toggling solo</source>
         <translation type="unfinished">切换独奏</translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="293"/>
+        <source>%1 Transform</source>
+        <translation type="unfinished">%1 变换</translation>
     </message>
     <message>
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="285"/>

@@ -650,8 +650,8 @@
     const lyricDefaults = freeze({ lyricFor(clip) { const entry = state(clip); if (entry.kind !== "SingingClip") throw new Type("A singing clip is required."); return result(bridge.service("lyric", [entry.raw])); } });
     const trackColors = freeze({ get colors() { return deepFreeze(V.copy(result(bridge.service("trackColors", [])))); } });
 
-    const selectionTypes = [null, "anchorNode", "clip", "label", "note", "tempo", "track", "keySignature", "dynamicMixingAnchor"];
-    const viewProperties = { anchorNode: "anchorNodeSelectionModel", clip: "clipSelectionModel", label: "labelSelectionModel", note: "noteSelectionModel", tempo: "tempoSelectionModel", track: "trackSelectionModel", keySignature: "keySignatureSelectionModel", dynamicMixingAnchor: "dynamicMixingAnchorSelectionModel" };
+    const selectionTypes = [null, "anchorNode", "clip", "label", "note", "tempo", "track", "keySignature", "dynamicMixingAnchor", "freeParameter"];
+    const viewProperties = { anchorNode: "anchorNodeSelectionModel", clip: "clipSelectionModel", label: "labelSelectionModel", note: "noteSelectionModel", tempo: "tempoSelectionModel", track: "trackSelectionModel", keySignature: "keySignatureSelectionModel", dynamicMixingAnchor: "dynamicMixingAnchorSelectionModel", freeParameter: "freeParameterSelectionModel" };
     const selectionCode = type => { for (let i = 1; i < selectionTypes.length; ++i) if (selectionTypes[i] === type) return i; throw new Type("The selection type is not supported."); };
     const selectionOf = value => {
         const entry = state(value);
@@ -663,17 +663,23 @@
         if (!map[entry.kind]) throw new Type("The entity cannot be selected.");
         return map[entry.kind];
     };
+    const entitySelectionView = (selection, type) => {
+        if (type === "freeParameter") throw new Type("The selection type does not contain entities.");
+        return selection.view(type);
+    };
     const selectionPrototype = prototypes.Selection = create(null);
-    property(selectionPrototype, "type", function () { return selectionTypes[readRaw(state(this), "selectionType")]; });
-    property(selectionPrototype, "kind", function () { return this.freeParameter.active ? "freeParameter" : this.type; });
+    property(selectionPrototype, "type", function () { return selectionTypes[readRaw(state(this), "selectionType")] ?? null; });
     property(selectionPrototype, "current", function () { return wrap(readRaw(state(this), "currentItem")); });
     property(selectionPrototype, "count", function () { return readRaw(state(this), "selectedCount"); });
+    property(selectionPrototype, "hasSelection", function () { return readRaw(state(this), "hasSelection"); });
     property(selectionPrototype, "activeView", function () { const type = this.type; return type === null ? null : this.view(type); });
-    property(selectionPrototype, "freeParameter", function () { const model = wrap(result(bridge.model(state(this).raw))); return wrap(readRaw(state(model.document), "freeParameterSelectionModel")); });
     method(selectionPrototype, "view", function (type) { selectionCode(type); return wrap(readRaw(state(this), viewProperties[type])); });
-    method(selectionPrototype, "items", function (type) { return this.view(type).items; });
-    method(selectionPrototype, "currentItem", function (type) { return this.view(type).current; });
-    method(selectionPrototype, "has", function (item) { const view = this.activeView; return view ? view.has(item) : false; });
+    method(selectionPrototype, "items", function (type) { return entitySelectionView(this, type).items; });
+    method(selectionPrototype, "currentItem", function (type) { return entitySelectionView(this, type).current; });
+    method(selectionPrototype, "has", function (item) {
+        const view = this.activeView;
+        return !!view && view.type !== "freeParameter" && view.has(item);
+    });
     const selectionChange = (selection, item, flags) => {
         const target = state(selection); const entry = state(item); selectionItemType(entry);
         if (!bridge.sameDocument(target.raw, entry.raw)) throw new Type("The selected entity must belong to this document.");
@@ -683,30 +689,49 @@
     method(selectionPrototype, "deselect", function (item) { const entry = weakGet(states, item); if (entry && bridge.valid(entry.raw, entry.generation) && this.has(item)) selectionChange(this, item, 2); });
     method(selectionPrototype, "toggle", function (item) { selectionChange(this, item, 3 | 8); });
     method(selectionPrototype, "setCurrent", function (item) { selectionChange(this, item, 8); });
-    method(selectionPrototype, "clearCurrent", function (type) { if (type === undefined) type = this.type; if (type === null) return; const code = selectionCode(type); const context = this.view(type).context; command(this, "selection", [null, 8, code, context ? state(context).raw : null]); });
+    method(selectionPrototype, "clearCurrent", function (type) {
+        if (type === undefined) {
+            type = this.type;
+            if (type === "freeParameter") return;
+        }
+        if (type === null) return;
+        const context = entitySelectionView(this, type).context;
+        command(this, "selection", [null, 8, selectionCode(type), context ? state(context).raw : null]);
+    });
     method(selectionPrototype, "clear", function (type) { const current = this.type; if (type !== undefined) selectionCode(type); if (current === null || (type !== undefined && type !== current)) return; command(this, "selection", [null, 4 | 8, selectionCode(current), null]); });
     method(selectionPrototype, "setContext", function (type, context) {
+        if (type === "freeParameter") {
+            V.object(context);
+            this.freeParameter.setContext(context.clip, context.parameterId, context.layer);
+            return;
+        }
         const code = selectionCode(type); const entry = state(context);
         const expected = type === "note" ? "NoteSequence" : type === "anchorNode" ? "AnchorNodeSequence" : type === "dynamicMixingAnchor" ? "DynamicMixingAnchorSequence" : "";
         if (entry.kind !== expected || !bridge.sameDocument(state(this).raw, entry.raw)) throw new Type("The selection sequence is not compatible with this document.");
         command(this, "selection", [null, 4 | 8, code, entry.raw]);
     });
     method(selectionPrototype, "selectAll", function (type, context) {
-        selectionCode(type);
+        const code = selectionCode(type);
+        if (type === "freeParameter") {
+            if (context !== undefined) this.setContext(type, context);
+            command(this, "selectAll");
+            return;
+        }
         let items = [];
         if (type === "note" || type === "anchorNode" || type === "dynamicMixingAnchor") { this.setContext(type, context); items = context.toArray(); }
         else {
             const model = wrap(result(bridge.model(state(this).raw)));
             if (type === "clip") V.each(model.tracks.toArray(), track => append(items, track.clips.toArray()));
             else items = type === "track" ? model.tracks.toArray() : type === "tempo" ? model.tempos.toArray() : type === "label" ? model.labels.toArray() : model.keySignatures.toArray();
-            command(this, "selection", [null, 4 | 8, selectionCode(type), null]);
+            command(this, "selection", [null, 4 | 8, code, null]);
         }
         for (let i = 0; i < items.length; ++i) selectionChange(this, items[i], 1 | 8);
     });
-    const plural = { anchorNode: "anchorNodes", clip: "clips", label: "labels", note: "notes", tempo: "tempos", track: "tracks", keySignature: "keySignatures", dynamicMixingAnchor: "dynamicMixingAnchors" };
+    const selectionViewNames = { anchorNode: "anchorNodes", clip: "clips", label: "labels", note: "notes", tempo: "tempos", track: "tracks", keySignature: "keySignatures", dynamicMixingAnchor: "dynamicMixingAnchors", freeParameter: "freeParameter" };
     for (let i = 1; i < selectionTypes.length; ++i) {
         const type = selectionTypes[i];
-        property(selectionPrototype, plural[type], function () { return this.view(type); });
+        property(selectionPrototype, selectionViewNames[type], function () { return this.view(type); });
+        if (type === "freeParameter") continue;
         const native = type === "keySignature" ? "KeySignatureSelectionModel" : type === "dynamicMixingAnchor" ? "DynamicMixingAnchorSelectionModel" : type === "anchorNode" ? "AnchorNodeSelectionModel" : type[0].toUpperCase() + type.slice(1) + "SelectionModel";
         const prototype = prototypes[native] = create(null);
         property(prototype, "type", () => type);
@@ -724,16 +749,17 @@
         }
     }
     const freePrototype = prototypes.FreeParameterSelection = create(null);
-    property(freePrototype, "active", function () { return readRaw(state(this), "active"); });
+    property(freePrototype, "type", () => "freeParameter");
+    property(freePrototype, "active", function () { return selectionOf(this).type === this.type; });
     property(freePrototype, "hasRange", function () { return readRaw(state(this), "hasSelection"); });
     property(freePrototype, "clip", function () { return this.active ? wrap(readRaw(state(this), "singingClip")) : null; });
-    for (let i = 0, names = ["parameterId", "displayName"]; i < names.length; ++i) { const key = names[i]; property(freePrototype, key, function () { return this.active ? readRaw(state(this), key) : null; }); }
-    property(freePrototype, "layer", function () { return this.active ? readRaw(state(this), "layer") === 0 ? "edited" : "transform" : null; });
+    property(freePrototype, "parameterId", function () { return this.active ? readRaw(state(this), "parameterId") : null; });
+    property(freePrototype, "layer", function () { return this.active ? readRaw(state(this), "layer") : null; });
     property(freePrototype, "start", function () { return this.hasRange ? readRaw(state(this), "start") : null; });
     property(freePrototype, "end", function () { return this.hasRange ? readRaw(state(this), "end") : null; });
-    method(freePrototype, "setContext", function (clip, id, layer, displayName = "") { const entry = state(clip); if (entry.kind !== "SingingClip" || !bridge.sameDocument(state(this).raw, entry.raw)) throw new Type("The clip must belong to this document."); V.nonempty(id); V.oneOf(layer, ["edited", "transform"]); V.string(displayName); command(this, "freeContext", [entry.raw, id, displayName, layer === "edited" ? 0 : 1]); });
+    method(freePrototype, "setContext", function (clip, id, layer) { const entry = state(clip); if (entry.kind !== "SingingClip" || !bridge.sameDocument(state(this).raw, entry.raw)) throw new Type("The clip must belong to this document."); V.nonempty(id); V.oneOf(layer, ["edited", "transform"]); command(this, "freeContext", [entry.raw, id, layer]); });
     method(freePrototype, "setRange", function (start, end) { V.int(start); V.int(end, start); if (!this.active) throw new CoreError({ code: "invalidState", operation: "setRange", message: "A parameter context is required." }); command(this, "freeRange", [start, end]); });
-    method(freePrototype, "clearRange", function () { command(this, "clearFreeRange"); });
+    method(freePrototype, "clearRange", function () { selectionOf(this).clear(this.type); });
     method(freePrototype, "clearContext", function () { command(this, "clearFreeContext"); });
 
     const timelinePrototype = prototypes.Timeline = create(null);

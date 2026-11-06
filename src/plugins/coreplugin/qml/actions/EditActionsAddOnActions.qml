@@ -15,6 +15,7 @@ import DiffScope.UIShell
 import DiffScope.DspxModel as DspxModel
 import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 import DiffScope.DspxModel.PropertyMapper
+import DiffScope.SingerCatalog
 import DiffScope.Core
 
 ActionCollection {
@@ -102,7 +103,8 @@ ActionCollection {
         Action {
             enabled: d.transactionController?.canBeginTransaction === true
                      && d.windowHandle?.projectDocumentContext.document.pasteAvailable
-                     && (!d.windowHandle.projectDocumentContext.document.freeParameterSelectionModel.active || d.transactionController.canAcquireReadLock)
+                     && (d.windowHandle.projectDocumentContext.document.selectionModel.selectionType !== DspxSelectionModel.SelectionModel.ST_FreeParameter
+                         || d.transactionController.canAcquireReadLock)
             onTriggered: Qt.callLater(() => d.windowHandle.projectDocumentContext.document.paste(d.windowHandle.projectTimeline.position, DspxDocument.CurrentPosition, d.windowHandle))
         }
     }
@@ -271,18 +273,27 @@ ActionCollection {
     ActionItem {
         actionId: "org.diffscope.core.selectionIndicator"
         Label {
+            id: selectionIndicator
+
+            readonly property DspxDocument document: d.windowHandle?.projectDocumentContext.document ?? null
+            readonly property DspxSelectionModel.FreeParameterSelectionModel freeSelection:
+                document?.selectionModel.freeParameterSelectionModel ?? null
+
             leftPadding: 4
             rightPadding: 4
             text: {
-                const model = d.windowHandle?.projectDocumentContext.document.model
-                const selectionModel = d.windowHandle?.projectDocumentContext.document.selectionModel
-                const freeSelection = d.windowHandle?.projectDocumentContext.document.freeParameterSelectionModel
+                const model = selectionIndicator.document?.model
+                const selectionModel = selectionIndicator.document?.selectionModel
                 if (!model || !selectionModel)
                     return ""
-                if (freeSelection?.active) {
+                if (selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_FreeParameter) {
+                    const freeSelection = selectionIndicator.freeSelection
+                    const parameterName = freeParameterInfo.info.displayName || freeSelection.parameterId
+                    const displayName = freeSelection.role === DspxModel.FreeValueDataArray.Transform
+                        ? qsTr("%1 Transform").arg(parameterName) : parameterName
                     if (!freeSelection.hasSelection)
-                        return freeSelection.displayName
-                    return qsTr("%1 (%2 - %3)").arg(freeSelection.displayName)
+                        return displayName
+                    return qsTr("%1 (%2 - %3)").arg(displayName)
                         .arg(GlobalHelper.musicTimelineTextFromValue(d.windowHandle?.projectTimeline.musicTimeline ?? null, freeSelection.start, 1, 1, 3))
                         .arg(GlobalHelper.musicTimelineTextFromValue(d.windowHandle?.projectTimeline.musicTimeline ?? null, freeSelection.end, 1, 1, 3))
                 }
@@ -318,6 +329,13 @@ ActionCollection {
                     return qsTr(" (%Ln selected)", "", selectionModel.selectedCount)
                 }
                 return getContainerText() + getSelectionText()
+            }
+
+            ParameterInfoProvider {
+                id: freeParameterInfo
+                registry: CoreInterface.singerRegistry
+                architectureId: selectionIndicator.freeSelection?.singingClip?.sources?.category ?? ""
+                parameterId: selectionIndicator.freeSelection?.parameterId ?? ""
             }
         }
     }

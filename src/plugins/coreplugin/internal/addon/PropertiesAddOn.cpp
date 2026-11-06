@@ -11,10 +11,10 @@
 #include <QAKQuick/quickactioncontext.h>
 
 #include <dspxmodelORM/SingingClip.h>
+#include <dspxmodelSelectionModel/FreeParameterSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/DspxDocument.h>
-#include <coreplugin/FreeParameterSelectionModel.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
@@ -25,11 +25,11 @@ namespace Core::Internal {
     void PropertiesAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         auto document = windowInterface->projectDocumentContext()->document();
-        auto freeSelection = document->freeParameterSelectionModel();
+        auto *freeSelection = document->selectionModel()->freeParameterSelectionModel();
         // Property mapping must not replace the document's active selection context.
         m_freeParameterClipSelectionModel = new dspx::SelectionModel(document->model(), this);
         const auto updatePropertySelectionModel = [this, document, freeSelection] {
-            auto singingClip = freeSelection->isActive() ? freeSelection->singingClip() : nullptr;
+            auto *singingClip = freeSelection->singingClip();
             if (singingClip) {
                 if (!m_freeParameterClipSelectionModel->isItemSelected(singingClip)) {
                     m_freeParameterClipSelectionModel->select(singingClip, dspx::SelectionModel::ClearPreviousSelection | dspx::SelectionModel::Select);
@@ -43,8 +43,7 @@ namespace Core::Internal {
                 Q_EMIT propertySelectionModelChanged();
             }
         };
-        connect(freeSelection, &FreeParameterSelectionModel::contextChanged, this, updatePropertySelectionModel);
-        connect(freeSelection, &FreeParameterSelectionModel::activeChanged, this, updatePropertySelectionModel);
+        connect(freeSelection, &dspx::FreeParameterSelectionModel::contextChanged, this, updatePropertySelectionModel);
         updatePropertySelectionModel();
         {
             QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "PropertiesPanel", this);

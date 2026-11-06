@@ -181,15 +181,13 @@ QtObject {
             anchors.right: parent.right
             anchors.margins: 12
             currentIndex: {
-                let selectionModel = d.addOn?.propertySelectionModel
-                if (!selectionModel)
+                const selectionModel = d.addOn?.propertySelectionModel
+                const type = selectionModel?.selectionType ?? DspxSelectionModel.SelectionModel.ST_None
+                if (type < 0 || type >= selectionTypeModel.count)
                     return 0
-                let t = selectionModel.selectionType
-                if (selectionModel.selectedCount !== 0) {
-                    return t
-                } else {
-                    return [0, 2, 0, 0, 2, 0, 0, 0, 2][t]
-                }
+                if (selectionModel?.selectedCount > 0)
+                    return type
+                return [0, 2, 0, 0, 2, 0, 0, 0, 2][type] ?? 0
             }
             onCurrentIndexChanged: () => {
                 let tabBar = itemAt(currentIndex)

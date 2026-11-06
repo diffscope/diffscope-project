@@ -153,6 +153,7 @@ namespace Core::Internal {
         QObject *target = nullptr;
         switch (selectionType) {
             case dspx::SelectionModel::ST_None:
+            case dspx::SelectionModel::ST_FreeParameter:
                 return;
             case dspx::SelectionModel::ST_AnchorNode:
                 // TODO support anchor node cursor shifting

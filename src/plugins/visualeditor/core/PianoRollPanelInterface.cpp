@@ -46,7 +46,6 @@
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/DspxDocument.h>
-#include <coreplugin/FreeParameterSelectionModel.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
@@ -268,7 +267,6 @@ namespace VisualEditor {
                 }
                 return;
             }
-            windowHandle->projectDocumentContext()->document()->freeParameterSelectionModel()->clearContext();
             auto *selectionModel = windowHandle->projectDocumentContext()->document()->selectionModel();
             if (editingClip &&
                 (selectionModel->selectionType() != dspx::SelectionModel::ST_Note ||
@@ -276,6 +274,8 @@ namespace VisualEditor {
                 selectionModel->select(
                     nullptr, dspx::SelectionModel::ClearPreviousSelection,
                     dspx::SelectionModel::ST_Note, editingClip->notes());
+            } else {
+                selectionModel->clearFreeParameterContext();
             }
             switch (tool) {
                 case PianoRollPanelInterface::PointerTool: {

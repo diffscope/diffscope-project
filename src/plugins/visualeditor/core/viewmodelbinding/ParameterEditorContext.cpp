@@ -10,6 +10,7 @@
 
 #include <QLoggingCategory>
 #include <QMetaType>
+#include <QScopedValueRollback>
 #include <QState>
 #include <QStateMachine>
 #include <QVariantList>
@@ -29,12 +30,12 @@
 #include <dspxmodelORM/SingingClip.h>
 #include <dspxmodelORM/Sources.h>
 #include <dspxmodelSelectionModel/AnchorNodeSelectionModel.h>
+#include <dspxmodelSelectionModel/FreeParameterSelectionModel.h>
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
-#include <coreplugin/FreeParameterSelectionModel.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <singercatalog/ClipSingerIdProvider.h>
@@ -273,7 +274,7 @@ namespace VisualEditor {
         windowHandle = windowHandle_;
         model = document->model();
         selectionModel = document->selectionModel();
-        freeSelectionModel = document->freeParameterSelectionModel();
+        freeSelectionModel = selectionModel->freeParameterSelectionModel();
 
         original = new sflow::FreeParameterViewModel(q_ptr);
         freeEdited = new sflow::FreeParameterViewModel(q_ptr);
@@ -438,26 +439,32 @@ namespace VisualEditor {
         connect(selectionModel, &dspx::SelectionModel::selectionTypeChanged,
                 transformAnchorSelectionController, &AnchorParameterSelectionController::notifyEditScopeFocusedChanged);
 
-        connect(freeSelectionModel, &Core::FreeParameterSelectionModel::rangeChanged, this, [this] {
-            if (!editable || freeSelectionModel->singingClip() != singingClip ||
-                freeSelectionModel->parameterId() != parameterId)
-                return;
-            updatingSelection = true;
-            if (freeSelectionModel->layer() == Core::FreeParameterSelectionModel::TransformLayer) {
-                freeSelection->clear();
-                if (freeSelectionModel->hasSelection())
-                    transformFreeSelection->setRange(freeSelectionModel->start(), freeSelectionModel->end());
-                else
-                    transformFreeSelection->clear();
+        connect(freeSelectionModel, &dspx::FreeParameterSelectionModel::contextChanged,
+                this, &ParameterViewModelBindingPrivate::synchronizeFreeSelection);
+        connect(freeSelectionModel, &dspx::FreeParameterSelectionModel::rangeChanged,
+                this, &ParameterViewModelBindingPrivate::synchronizeFreeSelection);
+    }
+
+    bool ParameterViewModelBindingPrivate::matchesFreeSelection(bool transform) const {
+        return singingClip && freeSelectionModel->singingClip() == singingClip &&
+               freeSelectionModel->parameterId() == parameterId &&
+               freeSelectionModel->role() == (transform ? dspx::FreeValueDataArray::Transform : dspx::FreeValueDataArray::Edited);
+    }
+
+    void ParameterViewModelBindingPrivate::synchronizeFreeSelection() {
+        if (!editable) {
+            return;
+        }
+        const QScopedValueRollback guard(updatingSelection, true);
+        const auto update = [this](sflow::ParameterRangeSelectionViewModel *view, bool transform) {
+            if (matchesFreeSelection(transform) && freeSelectionModel->hasSelection()) {
+                view->setRange(freeSelectionModel->start(), freeSelectionModel->end());
             } else {
-                transformFreeSelection->clear();
-                if (freeSelectionModel->hasSelection())
-                    freeSelection->setRange(freeSelectionModel->start(), freeSelectionModel->end());
-                else
-                    freeSelection->clear();
+                view->clear();
             }
-            updatingSelection = false;
-        });
+        };
+        update(freeSelection, false);
+        update(transformFreeSelection, true);
     }
 
     void ParameterViewModelBindingPrivate::initializeStateMachine() {
@@ -547,15 +554,10 @@ namespace VisualEditor {
             auto *viewSelection = transform ? transformFreeSelection : freeSelection;
             connect(viewSelection, &sflow::ParameterRangeSelectionViewModel::hasSelectionChanged,
                     this, [this, transform](bool hasSelection) {
-                if (hasSelection || updatingSelection || freeRangeSelecting ||
-                    freeSelectionModel->singingClip() != singingClip ||
-                    freeSelectionModel->parameterId() != parameterId ||
-                    freeSelectionModel->layer() != (transform
-                        ? Core::FreeParameterSelectionModel::TransformLayer
-                        : Core::FreeParameterSelectionModel::EditedLayer)) {
+                if (hasSelection || updatingSelection || freeRangeSelecting || !matchesFreeSelection(transform)) {
                     return;
                 }
-                freeSelectionModel->clear();
+                selectionModel->setFreeParameterRange(0, 0);
             });
             connect(controller, &sflow::ParameterEditorInteractionController::freeEditingStarted,
                     this, [this, transform] { startOperation(FreeEditing, transform); });
@@ -593,39 +595,21 @@ namespace VisualEditor {
                 freeRangeSelecting = true;
                 if (!singingClip || parameterId.isEmpty())
                     return;
-                const auto name = parameterInfo.displayName.isEmpty() ? parameterId : parameterInfo.displayName;
-                freeSelectionModel->setContext(singingClip, parameterId,
-                    transform ? tr("%1 Transform").arg(name) : name,
-                    transform ? Core::FreeParameterSelectionModel::TransformLayer
-                              : Core::FreeParameterSelectionModel::EditedLayer);
+                selectionModel->setFreeParameterContext(singingClip, parameterId,
+                    transform ? dspx::FreeValueDataArray::Transform : dspx::FreeValueDataArray::Edited);
             });
             connect(controller, &sflow::ParameterEditorInteractionController::freeRangeSelectingCommitted,
                     this, [this, transform](QQuickItem *, int start, int end) {
-                if (singingClip && !parameterId.isEmpty()) {
-                    const auto name = parameterInfo.displayName.isEmpty() ? parameterId : parameterInfo.displayName;
-                    freeSelectionModel->setContext(singingClip, parameterId,
-                        transform ? tr("%1 Transform").arg(name) : name,
-                        transform ? Core::FreeParameterSelectionModel::TransformLayer
-                                  : Core::FreeParameterSelectionModel::EditedLayer);
-                    freeSelectionModel->setRange(start, end);
+                if (matchesFreeSelection(transform)) {
+                    selectionModel->setFreeParameterRange(start, end);
+                } else {
+                    synchronizeFreeSelection();
                 }
                 freeRangeSelecting = false;
             });
             connect(controller, &sflow::ParameterEditorInteractionController::freeRangeSelectingAborted,
-                    this, [this, transform] {
-                if (freeSelectionModel->singingClip() != singingClip ||
-                    freeSelectionModel->parameterId() != parameterId ||
-                    freeSelectionModel->layer() != (transform
-                        ? Core::FreeParameterSelectionModel::TransformLayer
-                        : Core::FreeParameterSelectionModel::EditedLayer)) {
-                    freeRangeSelecting = false;
-                    return;
-                }
-                auto *viewSelection = transform ? transformFreeSelection : freeSelection;
-                if (freeSelectionModel->hasSelection())
-                    viewSelection->setRange(freeSelectionModel->start(), freeSelectionModel->end());
-                else
-                    viewSelection->clear();
+                    this, [this] {
+                synchronizeFreeSelection();
                 freeRangeSelecting = false;
             });
         };
@@ -677,6 +661,7 @@ namespace VisualEditor {
         } else {
             clearViewModels();
         }
+        synchronizeFreeSelection();
 
         if (targetChanged)
             Q_EMIT q_ptr->targetChanged();
@@ -1241,19 +1226,13 @@ namespace VisualEditor {
         Q_D(ParameterViewModelBinding);
         if (!d->editable || !d->singingClip || d->parameterId.isEmpty())
             return;
-        d->freeSelectionModel->setContext(d->singingClip, d->parameterId,
-            d->parameterInfo.displayName.isEmpty() ? d->parameterId : d->parameterInfo.displayName,
-            Core::FreeParameterSelectionModel::EditedLayer);
+        d->selectionModel->setFreeParameterContext(d->singingClip, d->parameterId, dspx::FreeValueDataArray::Edited);
     }
 
     void ParameterViewModelBinding::focusAnchorLayer() {
         Q_D(ParameterViewModelBinding);
         if (!d->editable || !d->singingClip || d->parameterId.isEmpty())
             return;
-        if (d->freeSelectionModel->singingClip() == d->singingClip &&
-            d->freeSelectionModel->parameterId() == d->parameterId) {
-            d->freeSelectionModel->clearContext();
-        }
         if (d->parameter &&
             d->selectionModel->selectionType() == dspx::SelectionModel::ST_AnchorNode &&
             d->selectionModel->anchorNodeSelectionModel()->anchorNodeSequenceWithSelectedItems() ==
@@ -1270,20 +1249,13 @@ namespace VisualEditor {
         Q_D(ParameterViewModelBinding);
         if (!d->editable || !d->singingClip || d->parameterId.isEmpty())
             return;
-        const auto name = d->parameterInfo.displayName.isEmpty() ? d->parameterId
-                                                                 : d->parameterInfo.displayName;
-        d->freeSelectionModel->setContext(d->singingClip, d->parameterId,
-            tr("%1 Transform").arg(name), Core::FreeParameterSelectionModel::TransformLayer);
+        d->selectionModel->setFreeParameterContext(d->singingClip, d->parameterId, dspx::FreeValueDataArray::Transform);
     }
 
     void ParameterViewModelBinding::focusTransformAnchorLayer() {
         Q_D(ParameterViewModelBinding);
         if (!d->editable || !d->singingClip || d->parameterId.isEmpty())
             return;
-        if (d->freeSelectionModel->singingClip() == d->singingClip &&
-            d->freeSelectionModel->parameterId() == d->parameterId) {
-            d->freeSelectionModel->clearContext();
-        }
         if (d->parameter &&
             d->selectionModel->selectionType() == dspx::SelectionModel::ST_AnchorNode &&
             d->selectionModel->anchorNodeSelectionModel()->anchorNodeSequenceWithSelectedItems() ==
@@ -1529,7 +1501,6 @@ namespace VisualEditor {
         auto *selection = document->selectionModel();
         selection->select(nullptr, dspx::SelectionModel::ClearPreviousSelection,
                           dspx::SelectionModel::ST_None);
-        document->freeParameterSelectionModel()->clearContext();
         pitchBinding->freeSelection()->clear();
         pitchBinding->transformFreeSelection()->clear();
         editingBinding->freeSelection()->clear();

@@ -35,13 +35,14 @@
 #include <SVSCraftCore/MusicTimeSignature.h>
 #include <SVSCraftCore/MusicTimeline.h>
 
+#include <dspxmodelORM/FreeValueDataArray.h>
 #include <dspxmodelORM/Handle.h>
+#include <dspxmodelSelectionModel/FreeParameterSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/DspxDocument.h>
-#include <coreplugin/FreeParameterSelectionModel.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/OpenSaveProjectFileScenario.h>
 #include <coreplugin/ProjectDocumentContext.h>
@@ -243,7 +244,7 @@ namespace BatchProcess::Internal {
         if (qobject_cast<Core::DspxDocument *>(object)) return QStringLiteral("Document");
         if (qobject_cast<Core::ProjectWindowInterface *>(object)) return QStringLiteral("Project");
         if (qobject_cast<Core::ProjectTimeline *>(object)) return QStringLiteral("Timeline");
-        if (qobject_cast<Core::FreeParameterSelectionModel *>(object)) return QStringLiteral("FreeParameterSelection");
+        if (qobject_cast<dspx::FreeParameterSelectionModel *>(object)) return QStringLiteral("FreeParameterSelection");
         if (qobject_cast<dspx::SelectionModel *>(object)) return QStringLiteral("Selection");
         const auto name = object ? QString::fromLatin1(object->metaObject()->className()).section(QStringLiteral("::"), -1) : QString();
         if (name.endsWith(QStringLiteral("SelectionModel"))) return name;
@@ -556,6 +557,10 @@ namespace BatchProcess::Internal {
                 if (auto *map = parameter->parameterMap()) for (const auto &key : map->keys()) if (map->item(key) == parameter) return success(key);
                 return success(QJSValue(QJSValue::NullValue));
             }
+            if (auto *freeSelection = qobject_cast<dspx::FreeParameterSelectionModel *>(object); freeSelection && property == QStringLiteral("layer")) {
+                return success(freeSelection->role() == dspx::FreeValueDataArray::Transform
+                    ? QStringLiteral("transform") : QStringLiteral("edited"));
+            }
             const auto variant = object->property(property.toLatin1().constData());
             if (variant.metaType() == QMetaType::fromType<QJsonValue>()) return success(propertyValue(variant.value<QJsonValue>().toVariant()));
             return success(propertyValue(variant));
@@ -866,13 +871,22 @@ namespace BatchProcess::Internal {
             }
             if (operation == QStringLiteral("freeContext")) {
                 auto *clip = qobject_cast<dspx::SingingClip *>(args.property(0).toQObject());
-                if (clip && document(clip) != doc) return failure(QStringLiteral("invalidData"), operation);
-                doc->freeParameterSelectionModel()->setContext(clip, args.property(1).toString(), args.property(2).toString(), args.property(3).toInt() == 0 ? Core::FreeParameterSelectionModel::EditedLayer : Core::FreeParameterSelectionModel::TransformLayer);
+                const auto role = args.property(2).toString() == QStringLiteral("transform")
+                    ? dspx::FreeValueDataArray::Transform : dspx::FreeValueDataArray::Edited;
+                if (!doc->selectionModel()->setFreeParameterContext(clip, args.property(1).toString(), role)) {
+                    return failure(QStringLiteral("invalidData"), operation);
+                }
                 return success();
             }
-            if (operation == QStringLiteral("freeRange")) { doc->freeParameterSelectionModel()->setRange(args.property(0).toInt(), args.property(1).toInt()); return success(); }
-            if (operation == QStringLiteral("clearFreeRange")) { doc->freeParameterSelectionModel()->clear(); return success(); }
-            if (operation == QStringLiteral("clearFreeContext")) { doc->freeParameterSelectionModel()->clearContext(); return success(); }
+            if (operation == QStringLiteral("freeRange")) { doc->selectionModel()->setFreeParameterRange(args.property(0).toInt(), args.property(1).toInt()); return success(); }
+            if (operation == QStringLiteral("clearFreeContext")) { doc->selectionModel()->clearFreeParameterContext(); return success(); }
+            if (operation == QStringLiteral("selectAll")) {
+                if (doc->selectionModel()->selectionType() != dspx::SelectionModel::ST_FreeParameter) {
+                    return failure(QStringLiteral("invalidState"), operation, QStringLiteral("A parameter context is required."));
+                }
+                doc->selectAll();
+                return success();
+            }
             if (operation == QStringLiteral("renameParameter")) {
                 if (!edit(object)) return failure(QStringLiteral("transactionConflict"), operation);
                 auto *map = qobject_cast<dspx::ParameterMap *>(object);

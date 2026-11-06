@@ -309,11 +309,6 @@ namespace Core::Internal {
                 connect(resolver, &SingerNameResolver::changed, this, [this] {
                     refreshAll(rolesIncludingDescription());
                 });
-            } else if (m_kind == ListKind::AnchorBranches) {
-                m_contextParameterProvider = new SingerCatalog::ParameterInfoProvider(this);
-                m_contextParameterProvider->setRegistry(CoreInterface::singerRegistry());
-                m_contextParameterProvider->setArchitectureId(parameterArchitectureId());
-                m_contextParameterProvider->setParameterId(m_contextKey);
             } else if (m_kind == ListKind::Anchors) {
                 rebuildAnchorProvider();
             }
@@ -498,14 +493,6 @@ namespace Core::Internal {
 
     QString ItemSelectorListModel::contextKey() const {
             return m_contextKey;
-        }
-
-    QString ItemSelectorListModel::parameterDisplayName() const {
-            if (!m_contextParameterProvider) {
-                return m_contextKey;
-            }
-            const auto displayName = m_contextParameterProvider->info().displayName;
-            return displayName.isEmpty() ? m_contextKey : displayName;
         }
 
     bool ItemSelectorListModel::isSelectable(const ItemSelectorEntry &entry) const {
@@ -1248,9 +1235,6 @@ namespace Core::Internal {
             const auto architectureId = parameterArchitectureId();
             for (auto *provider : std::as_const(m_parameterProviders)) {
                 provider->setArchitectureId(architectureId);
-            }
-            if (m_contextParameterProvider) {
-                m_contextParameterProvider->setArchitectureId(architectureId);
             }
         }
 

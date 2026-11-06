@@ -368,8 +368,8 @@ declare module "diffscope:core" {
         goTo(position: number): void;
     }
 
-    export type SelectionType = "anchorNode" | "clip" | "dynamicMixingAnchor" | "keySignature" | "label" | "note" | "tempo" | "track";
-    export type SelectionKind = SelectionType | "freeParameter";
+    export type EntitySelectionType = keyof SelectionEntityMap;
+    export type SelectionType = EntitySelectionType | "freeParameter";
 
     export interface SelectionEntityMap {
         readonly anchorNode: AnchorNode;
@@ -382,10 +382,10 @@ declare module "diffscope:core" {
         readonly track: Track;
     }
 
-    export type SelectableEntity = SelectionEntityMap[SelectionType];
+    export type SelectableEntity = SelectionEntityMap[EntitySelectionType];
 
     /** Provides a live typed view. The current focus item need not belong to the selected set. */
-    export interface EntitySelectionView<T extends SelectionType> {
+    export interface EntitySelectionView<T extends EntitySelectionType> {
         readonly type: T;
         readonly active: boolean;
         readonly current: SelectionEntityMap[T] | null;
@@ -419,6 +419,7 @@ declare module "diffscope:core" {
         readonly anchorNode: AnchorNodeSelectionView;
         readonly clip: ClipSelectionView;
         readonly dynamicMixingAnchor: DynamicMixingAnchorSelectionView;
+        readonly freeParameter: FreeParameterSelection;
         readonly keySignature: EntitySelectionView<"keySignature">;
         readonly label: EntitySelectionView<"label">;
         readonly note: NoteSelectionView;
@@ -435,11 +436,17 @@ declare module "diffscope:core" {
         readonly current?: boolean;
     }
 
+    export interface FreeParameterSelectionContext {
+        readonly clip: SingingClip;
+        readonly parameterId: string;
+        readonly layer: "edited" | "transform";
+    }
+
     export interface FreeParameterSelection {
+        readonly type: "freeParameter";
         readonly active: boolean;
         readonly clip: SingingClip | null;
         readonly parameterId: string | null;
-        readonly displayName: string | null;
         readonly layer: "edited" | "transform" | null;
         readonly hasRange: boolean;
         /** The range uses clip-local content ticks in [start, end), or null without a range. */
@@ -448,9 +455,8 @@ declare module "diffscope:core" {
         /**
          * Binds an attached clip and non-empty parameter ID. The parameter need not
          * exist yet. Clears entity selection. A changed context clears the range.
-         * An omitted or empty displayName uses parameterId.
          */
-        setContext(clip: SingingClip, parameterId: string, layer: "edited" | "transform", displayName?: string): void;
+        setContext(clip: SingingClip, parameterId: string, layer: "edited" | "transform"): void;
         /** Sets a non-negative half-open range. Equal endpoints clear it. Requires a context. */
         setRange(start: Tick, end: Tick): void;
         /** Clears the range and retains the context. */
@@ -461,9 +467,12 @@ declare module "diffscope:core" {
 
     export interface Selection {
         readonly type: SelectionType | null;
-        readonly kind: SelectionKind | null;
+        /** The current entity, or null for a range selection. */
         readonly current: SelectableEntity | null;
+        /** The number of selected entities. A range selection has a count of zero. */
         readonly count: number;
+        /** Whether the active selection contains any entities or a nonempty range. */
+        readonly hasSelection: boolean;
         readonly activeView: AnySelectionView | null;
         readonly anchorNodes: AnchorNodeSelectionView;
         readonly clips: ClipSelectionView;
@@ -478,9 +487,9 @@ declare module "diffscope:core" {
         /** Returns the typed view even if inactive. */
         view<T extends SelectionType>(type: T): SelectionViewMap[T];
         /** Returns a snapshot of the requested typed selection. */
-        items<T extends SelectionType>(type: T): readonly SelectionEntityMap[T][];
+        items<T extends EntitySelectionType>(type: T): readonly SelectionEntityMap[T][];
         /** Returns the typed current item, which may be retained while inactive. */
-        currentItem<T extends SelectionType>(type: T): SelectionEntityMap[T] | null;
+        currentItem<T extends EntitySelectionType>(type: T): SelectionEntityMap[T] | null;
         /** Returns whether the active typed selection contains the item. */
         has(item: SelectableEntity): boolean;
         /**
@@ -495,18 +504,25 @@ declare module "diffscope:core" {
         /** Activates the item's type and context without selecting the item. */
         setCurrent(item: SelectableEntity): void;
         /** Clears the current item. An explicit type activates its selection context. */
-        clearCurrent(type?: SelectionType): void;
-        /** Clears the active selected set and current item. An inactive explicit type is ignored. */
+        clearCurrent(type?: EntitySelectionType): void;
+        /**
+         * Clears the selected entities and current item, or clears the range and
+         * retains the parameter context. An inactive explicit type is ignored.
+         */
         clear(type?: SelectionType): void;
         /** Establishes a sequence context that permits an empty selection. */
         setContext(type: "note", context: NoteSequence): void;
         setContext(type: "anchorNode", context: AnchorNodeSequence): void;
         setContext(type: "dynamicMixingAnchor", context: DynamicMixingAnchorSequence): void;
+        /** Establishes a free parameter context. A changed context clears the range. */
+        setContext(type: "freeParameter", context: FreeParameterSelectionContext): void;
         /** Selects every eligible item within the supplied sequence or document scope. */
         selectAll(type: "note", context: NoteSequence): void;
         selectAll(type: "anchorNode", context: AnchorNodeSequence): void;
         selectAll(type: "dynamicMixingAnchor", context: DynamicMixingAnchorSequence): void;
-        selectAll(type: Exclude<SelectionType, "note" | "anchorNode" | "dynamicMixingAnchor">): void;
+        selectAll(type: Exclude<EntitySelectionType, "note" | "anchorNode" | "dynamicMixingAnchor">): void;
+        /** Selects the visible clip span. Uses the active free parameter context if omitted. */
+        selectAll(type: "freeParameter", context?: FreeParameterSelectionContext): void;
     }
 
     export type PasteMode = "currentPosition" | "relativeToCopiedPlayhead" | "originalPosition";

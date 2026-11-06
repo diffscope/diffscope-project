@@ -47,6 +47,7 @@
 #include <dspxmodelORM/Clip.h>
 #include <dspxmodelORM/ClipSequence.h>
 #include <dspxmodelORM/DynamicMixingAnchorSequence.h>
+#include <dspxmodelORM/FreeValueDataArray.h>
 #include <dspxmodelORM/Model.h>
 #include <dspxmodelORM/NoteSequence.h>
 #include <dspxmodelORM/Parameter.h>
@@ -58,11 +59,11 @@
 #include <dspxmodelSelectionModel/AnchorNodeSelectionModel.h>
 #include <dspxmodelSelectionModel/ClipSelectionModel.h>
 #include <dspxmodelSelectionModel/DynamicMixingAnchorSelectionModel.h>
+#include <dspxmodelSelectionModel/FreeParameterSelectionModel.h>
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/DspxDocument.h>
-#include <coreplugin/FreeParameterSelectionModel.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
@@ -88,24 +89,9 @@ namespace Core::Internal {
                    || kind == NodeKind::FreeformTransform;
         }
 
-        FreeParameterSelectionModel::Layer freeParameterLayer(NodeKind kind) {
-            return kind == NodeKind::FreeformTransform
-                       ? FreeParameterSelectionModel::TransformLayer
-                       : FreeParameterSelectionModel::EditedLayer;
-        }
-
-        QString freeParameterDisplayName(ItemSelectorListModel *model,
-                                         bool transform) {
-            const auto displayName = model ? model->parameterDisplayName()
-                                           : QString{};
-            return transform
-                       ? ItemSelectorDialog::tr("%1 Transform").arg(displayName)
-                       : displayName;
-        }
-
         bool applyFreeParameterContext(NodeKind kind,
                                        ItemSelectorListModel *model,
-                                       FreeParameterSelectionModel *selectionModel) {
+                                       dspx::SelectionModel *selectionModel) {
             if (!isFreeParameterNode(kind)) {
                 return false;
             }
@@ -116,18 +102,9 @@ namespace Core::Internal {
             auto *clip = parameterMap ? parameterMap->singingClip() : nullptr;
             const auto parameterId = model ? model->contextKey() : QString{};
             if (clip && !parameterId.isEmpty()) {
-                const auto layer = freeParameterLayer(kind);
-                if (selectionModel->isActive()
-                    && selectionModel->singingClip() == clip
-                    && selectionModel->parameterId() == parameterId
-                    && selectionModel->layer() == layer) {
-                    return true;
-                }
-                selectionModel->setContext(
-                    clip, parameterId,
-                    freeParameterDisplayName(
-                        model, kind == NodeKind::FreeformTransform),
-                    layer);
+                const auto role = kind == NodeKind::FreeformTransform
+                    ? dspx::FreeValueDataArray::Transform : dspx::FreeValueDataArray::Edited;
+                selectionModel->setFreeParameterContext(clip, parameterId, role);
             }
             return true;
         }
@@ -594,11 +571,6 @@ namespace Core::Internal {
         return m_windowInterface->projectDocumentContext()->document()->selectionModel();
     }
 
-    FreeParameterSelectionModel *ItemSelectorDialog::freeParameterSelectionModel() const {
-        return m_windowInterface->projectDocumentContext()->document()
-            ->freeParameterSelectionModel();
-    }
-
     void ItemSelectorDialog::popupDocumentContextMenu(
         dspx::SelectionModel::SelectionType selectionType,
         bool sceneContextMenu) {
@@ -709,7 +681,7 @@ namespace Core::Internal {
             navigateFrom(columnIndex, index);
 
             if (applyFreeParameterContext(
-                    entry.kind, model, freeParameterSelectionModel())) {
+                    entry.kind, model, selectionModel())) {
                 return;
             }
 
@@ -733,7 +705,7 @@ namespace Core::Internal {
             }
 
             if (applyFreeParameterContext(
-                    entry->kind, model, freeParameterSelectionModel())) {
+                    entry->kind, model, selectionModel())) {
                 return;
             }
 
@@ -845,19 +817,15 @@ namespace Core::Internal {
         updateColumnWidth(columnWidget);
 
         const QPointer<dspx::SingingClip> guardedClip = clip;
-        const QPointer<ItemSelectorListModel> guardedParameterModel =
-            parameterComponentsModel;
-        auto *freeSelection = freeParameterSelectionModel();
-        const auto layer = transform
-                               ? FreeParameterSelectionModel::TransformLayer
-                               : FreeParameterSelectionModel::EditedLayer;
+        auto *selection = selectionModel();
+        const auto *freeSelection = selection->freeParameterSelectionModel();
+        const auto role = transform ? dspx::FreeValueDataArray::Transform : dspx::FreeValueDataArray::Edited;
         const QString parameterId = parameterComponentsModel->contextKey();
         const auto contextMatches = [freeSelection, guardedClip,
-                                     parameterId, layer] {
-            return guardedClip && freeSelection->isActive()
-                   && freeSelection->singingClip() == guardedClip
+                                     parameterId, role] {
+            return guardedClip && freeSelection->singingClip() == guardedClip
                    && freeSelection->parameterId() == parameterId
-                   && freeSelection->layer() == layer;
+                   && freeSelection->role() == role;
         };
         const auto synchronizeRange = [columnWidget, startSpinBox, endSpinBox,
                                        freeSelection, contextMatches] {
@@ -870,45 +838,35 @@ namespace Core::Internal {
             endSpinBox->setMusicValue(matches ? freeSelection->end() : 0);
         };
 
-        QObject::connect(freeSelection, &FreeParameterSelectionModel::contextChanged,
+        QObject::connect(freeSelection, &dspx::FreeParameterSelectionModel::contextChanged,
                          columnWidget, synchronizeRange);
-        QObject::connect(freeSelection, &FreeParameterSelectionModel::activeChanged,
-                         columnWidget, synchronizeRange);
-        QObject::connect(freeSelection, &FreeParameterSelectionModel::rangeChanged,
-                         columnWidget, synchronizeRange);
-        QObject::connect(freeSelection, &FreeParameterSelectionModel::hasSelectionChanged,
+        QObject::connect(freeSelection, &dspx::FreeParameterSelectionModel::rangeChanged,
                          columnWidget, synchronizeRange);
         QObject::connect(columnWidget, &QGroupBox::clicked, columnWidget,
-                         [freeSelection, guardedClip, guardedParameterModel,
-                          parameterId, layer, contextMatches,
+                         [selection, guardedClip, parameterId, role, contextMatches,
                           synchronizeRange](bool checked) {
             if (!checked) {
                 if (contextMatches()) {
-                    freeSelection->clear();
+                    selection->setFreeParameterRange(0, 0);
                 }
                 return;
             }
-            if (!guardedClip || !guardedParameterModel) {
+            if (!selection->setFreeParameterContext(guardedClip, parameterId, role) || !contextMatches()) {
                 synchronizeRange();
                 return;
             }
-            freeSelection->setContext(
-                guardedClip, parameterId,
-                freeParameterDisplayName(
-                    guardedParameterModel, layer == FreeParameterSelectionModel::TransformLayer),
-                layer);
-            freeSelection->setRange(
+            selection->setFreeParameterRange(
                 guardedClip->clipStart(),
                 guardedClip->clipStart() + guardedClip->clipLength());
             synchronizeRange();
         });
 
-        const auto updateSelectionRange = [freeSelection, contextMatches,
+        const auto updateSelectionRange = [selection, contextMatches,
                                            startSpinBox, endSpinBox] {
             if (!contextMatches()) {
                 return;
             }
-            freeSelection->setRange(startSpinBox->value(), endSpinBox->value());
+            selection->setFreeParameterRange(startSpinBox->value(), endSpinBox->value());
         };
         QObject::connect(startSpinBox, &QSpinBox::valueChanged,
                          columnWidget, updateSelectionRange);
@@ -1329,12 +1287,11 @@ namespace Core::Internal {
     }
 
     void ItemSelectorDialog::restoreInitialPath() {
-        if (freeParameterSelectionModel()->isActive()) {
-            restoreFreeParameterPath();
-            return;
-        }
         auto *selection = selectionModel();
         switch (selection->selectionType()) {
+            case dspx::SelectionModel::ST_FreeParameter:
+                restoreFreeParameterPath();
+                return;
             case dspx::SelectionModel::ST_None:
                 return;
             case dspx::SelectionModel::ST_Track:
@@ -1423,7 +1380,7 @@ namespace Core::Internal {
     }
 
     void ItemSelectorDialog::restoreFreeParameterPath() {
-        auto *freeSelection = freeParameterSelectionModel();
+        const auto *freeSelection = selectionModel()->freeParameterSelectionModel();
         auto *clip = freeSelection->singingClip();
         const auto parameterId = freeSelection->parameterId();
         auto *parameter = clip && !parameterId.isEmpty()
@@ -1443,7 +1400,7 @@ namespace Core::Internal {
         }
         activate(
             6,
-            freeSelection->layer() == FreeParameterSelectionModel::TransformLayer
+            freeSelection->role() == dspx::FreeValueDataArray::Transform
                 ? NodeKind::FreeformTransform
                 : NodeKind::FreeformEdited);
     }

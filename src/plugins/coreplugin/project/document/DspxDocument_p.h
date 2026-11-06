@@ -22,7 +22,6 @@ namespace Core {
     public:
         void initConnections();
 
-        bool updateAnyItemsSelected();
         bool updateEditScopeFocused();
         bool updatePasteAvailable();
 
@@ -92,9 +91,7 @@ namespace Core {
         dspx::Document *dspxDocument = nullptr;
         dspx::Model *model = nullptr;
         dspx::SelectionModel *selectionModel = nullptr;
-        FreeParameterSelectionModel *freeParameterSelectionModel = nullptr;
         TransactionController *transactionController = nullptr;
-        bool anyItemsSelected{false};
         bool editScopeFocused{false};
         bool pasteAvailable{false};
     };

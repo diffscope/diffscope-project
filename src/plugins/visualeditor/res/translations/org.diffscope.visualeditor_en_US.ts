@@ -1728,21 +1728,7 @@
     </message>
 </context>
 <context>
-    <name>VisualEditor::ParameterViewModelBinding</name>
-    <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1276"/>
-        <source>%1 Transform</source>
-        <translation type="unfinished">%1 Transform</translation>
-    </message>
-</context>
-<context>
     <name>VisualEditor::ParameterViewModelBindingPrivate</name>
-    <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="598"/>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="607"/>
-        <source>%1 Transform</source>
-        <translation type="unfinished">%1 Transform</translation>
-    </message>
     <message>
         <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1003"/>
         <source>Editing parameter transform</source>

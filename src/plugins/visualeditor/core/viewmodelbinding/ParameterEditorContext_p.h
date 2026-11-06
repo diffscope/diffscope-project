@@ -28,6 +28,7 @@ class QStateMachine;
 namespace dspx {
     class AnchorNode;
     class AnchorNodeSequence;
+    class FreeParameterSelectionModel;
     class FreeValueDataArray;
     class Model;
     class ParameterMap;
@@ -42,7 +43,6 @@ namespace SingerCatalog {
 
 namespace Core {
     class DspxDocument;
-    class FreeParameterSelectionModel;
     class ProjectWindowInterface;
 }
 
@@ -118,7 +118,7 @@ namespace VisualEditor {
         Core::ProjectWindowInterface *windowHandle{};
         dspx::Model *model{};
         dspx::SelectionModel *selectionModel{};
-        Core::FreeParameterSelectionModel *freeSelectionModel{};
+        dspx::FreeParameterSelectionModel *freeSelectionModel{};
         QPointer<dspx::SingingClip> singingClip;
         QPointer<dspx::Parameter> parameter;
         QString parameterId;
@@ -168,6 +168,8 @@ namespace VisualEditor {
         void initialize(Core::DspxDocument *document, Core::ProjectWindowInterface *windowHandle);
         void initializeStateMachine();
         void initializeController();
+        bool matchesFreeSelection(bool transform) const;
+        void synchronizeFreeSelection();
         void setTarget(dspx::SingingClip *clip, const QString &id,
                        const SingerCatalog::ParameterInfo &info, bool isSupported);
         void abortActiveEdit();
