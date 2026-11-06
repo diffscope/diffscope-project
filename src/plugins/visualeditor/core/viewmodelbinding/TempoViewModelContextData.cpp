@@ -22,9 +22,10 @@
 #include <dspxmodelSelectionModel/TempoSelectionModel.h>
 #include <dspxmodelORM/TempoSequence.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/EditTempoTimeSignatureScenario.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/DocumentEditHints.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/EditTempoTimeSignatureScenario.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/ProjectViewModelContext.h>
@@ -346,12 +347,8 @@ namespace VisualEditor {
         timeManipulator.setTimeViewModel(labelSequenceItem->property("timeViewModel").value<sflow::TimeViewModel *>());
         timeManipulator.setTimeLayoutViewModel(labelSequenceItem->property("timeLayoutViewModel").value<sflow::TimeLayoutViewModel *>());
         position = timeManipulator.alignPosition(position, sflow::ScopicFlow::AO_Visible);
-        Core::EditTempoTimeSignatureScenario scenario;
-        scenario.setProjectTimeline(q->windowHandle()->projectTimeline());
-        scenario.setDocument(document);
-        scenario.setShouldDialogPopupAtCursor(true);
-        scenario.setWindow(labelSequenceItem->window());
-        scenario.insertTempoAt(position);
+        q->windowHandle()->editTempoTimeSignatureScenario()->insertTempoAt(labelSequenceItem->window(), q->windowHandle()->projectTimeline(),
+                                                position, DspxProject::DocumentEdit::AtCursor);
         auto items = tempoSequence->slice(position, 1);
         if (items.isEmpty()) {
             return;
@@ -361,12 +358,8 @@ namespace VisualEditor {
 
     void TempoViewModelContextData::onItemDoubleClicked(QQuickItem *labelSequenceItem, sflow::LabelViewModel *viewItem) {
         Q_Q(ProjectViewModelContext);
-        Core::EditTempoTimeSignatureScenario scenario;
-        scenario.setProjectTimeline(q->windowHandle()->projectTimeline());
-        scenario.setDocument(document);
-        scenario.setShouldDialogPopupAtCursor(true);
-        scenario.setWindow(labelSequenceItem->window());
-        scenario.modifyExistingTempoAt(viewItem->position());
+        q->windowHandle()->editTempoTimeSignatureScenario()->modifyExistingTempoAt(labelSequenceItem->window(), q->windowHandle()->projectTimeline(),
+                                                viewItem->position(), DspxProject::DocumentEdit::AtCursor);
     }
 
 }

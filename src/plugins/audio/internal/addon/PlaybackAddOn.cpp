@@ -20,9 +20,9 @@
 
 #include <dspxmodelORM/Model.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/GlobalAudioContext.h>
@@ -95,7 +95,7 @@ namespace Audio::Internal {
         connect(m_context, &ProjectAudioContext::statusChanged, this, &PlaybackAddOn::handlePlaybackStatusChanged);
         connect(GlobalAudioContext::instance(), &GlobalAudioContext::metronomeEnabledChanged,
                 this, &PlaybackAddOn::metronomeEnabledChanged);
-        connect(m_projectTimeline, &Core::ProjectTimeline::positionChanged, this, &PlaybackAddOn::handlePlaybackPositionChanged);
+        connect(m_projectTimeline, &DspxProject::ProjectTimeline::positionChanged, this, &PlaybackAddOn::handlePlaybackPositionChanged);
         connect(m_projectTimeline->musicTimeline(), &SVS::MusicTimeline::changed, this, [this] {
             syncLoopingRange();
             handlePlaybackPositionChanged(m_projectTimeline->position());

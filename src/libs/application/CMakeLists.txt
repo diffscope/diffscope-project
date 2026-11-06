@@ -10,3 +10,7 @@ add_subdirectory(appinstall)
 add_subdirectory(transactional)
 
 add_subdirectory(singercatalog)
+
+add_subdirectory(jsonconv)
+
+add_subdirectory(dspxproject)

@@ -28,9 +28,10 @@
 #include <dspxmodelSelectionModel/KeySignatureSelectionModel.h>
 #include <dspxmodelORM/KeySignatureSequence.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/EditKeySignatureScenario.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/DocumentEditHints.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/EditKeySignatureScenario.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/ProjectViewModelContext.h>
@@ -373,12 +374,8 @@ namespace VisualEditor {
         timeManipulator.setTimeViewModel(labelSequenceItem->property("timeViewModel").value<sflow::TimeViewModel *>());
         timeManipulator.setTimeLayoutViewModel(labelSequenceItem->property("timeLayoutViewModel").value<sflow::TimeLayoutViewModel *>());
         position = timeManipulator.alignPosition(position, sflow::ScopicFlow::AO_Visible);
-        Core::EditKeySignatureScenario scenario;
-        scenario.setProjectTimeline(q->windowHandle()->projectTimeline());
-        scenario.setDocument(document);
-        scenario.setShouldDialogPopupAtCursor(true);
-        scenario.setWindow(labelSequenceItem->window());
-        scenario.insertKeySignatureAt(position);
+        q->windowHandle()->editKeySignatureScenario()->insertKeySignatureAt(labelSequenceItem->window(), q->windowHandle()->projectTimeline(),
+                                                position, DspxProject::DocumentEdit::AtCursor);
         auto items = keySignatureSequence->slice(position, 1);
         if (items.isEmpty()) {
             return;
@@ -388,12 +385,8 @@ namespace VisualEditor {
 
     void KeySignatureViewModelContextData::onItemDoubleClicked(QQuickItem *labelSequenceItem, sflow::LabelViewModel *viewItem) {
         Q_Q(ProjectViewModelContext);
-        Core::EditKeySignatureScenario scenario;
-        scenario.setProjectTimeline(q->windowHandle()->projectTimeline());
-        scenario.setDocument(document);
-        scenario.setShouldDialogPopupAtCursor(true);
-        scenario.setWindow(labelSequenceItem->window());
-        scenario.modifyExistingKeySignatureAt(viewItem->position());
+        q->windowHandle()->editKeySignatureScenario()->modifyExistingKeySignatureAt(labelSequenceItem->window(), q->windowHandle()->projectTimeline(),
+                                                viewItem->position(), DspxProject::DocumentEdit::AtCursor);
     }
 
     void KeySignatureViewModelContextData::bindScaleHighlightDocumentItem(dspx::KeySignature *item) {

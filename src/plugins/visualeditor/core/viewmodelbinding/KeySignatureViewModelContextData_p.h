@@ -14,6 +14,10 @@ class QStateMachine;
 class QState;
 class QQuickItem;
 
+namespace DspxProject {
+    class Document;
+}
+
 namespace dspx {
     class KeySignatureSequence;
     class KeySignatureSelectionModel;
@@ -28,10 +32,6 @@ namespace sflow {
     class ScaleHighlightViewModel;
 }
 
-namespace Core {
-    class DspxDocument;
-}
-
 namespace VisualEditor {
 
     class KeySignatureSelectionController;
@@ -43,7 +43,7 @@ namespace VisualEditor {
         ProjectViewModelContext *q_ptr;
 
         // Cached document objects
-        Core::DspxDocument *document;
+        DspxProject::Document *document;
         dspx::KeySignatureSequence *keySignatureSequence;
         dspx::KeySignatureSelectionModel *keySignatureSelectionModel;
 

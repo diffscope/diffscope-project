@@ -9,7 +9,7 @@
 #include <dspxmodelORM/EntityObject.h>
 #include <dspxmodelORM/Model.h>
 
-#include <coreplugin/DspxDocument.h>
+#include <dspxproject/Document.h>
 
 #include <batchprocess/ScriptExecutionContext.h>
 #include <batchprocess/Storage.h>
@@ -36,7 +36,7 @@ namespace BatchProcess {
         return s_instance;
     }
 
-    bool DocumentInterface::registerDocument(Core::DspxDocument *document) {
+    bool DocumentInterface::registerDocument(DspxProject::Document *document) {
         Q_D(DocumentInterface);
         if (!document || QThread::currentThread() != thread() || document->thread() != thread()) {
             return false;
@@ -55,7 +55,7 @@ namespace BatchProcess {
         return true;
     }
 
-    void DocumentInterface::unregisterDocument(Core::DspxDocument *document) {
+    void DocumentInterface::unregisterDocument(DspxProject::Document *document) {
         Q_D(DocumentInterface);
         if (!document || QThread::currentThread() != thread()) {
             return;
@@ -70,16 +70,16 @@ namespace BatchProcess {
         d->generations.remove(model);
     }
 
-    Core::DspxDocument *DocumentInterface::documentForObject(QObject *object) const {
+    DspxProject::Document *DocumentInterface::documentForObject(QObject *object) const {
         Q_D(const DocumentInterface);
         if (!object || QThread::currentThread() != thread()) {
             return nullptr;
         }
-        if (auto *document = qobject_cast<Core::DspxDocument *>(object)) {
+        if (auto *document = qobject_cast<DspxProject::Document *>(object)) {
             return d->documents.value(document->model()) == document ? document : nullptr;
         }
         for (auto *parent = object; parent; parent = parent->parent()) {
-            if (auto *document = qobject_cast<Core::DspxDocument *>(parent)) {
+            if (auto *document = qobject_cast<DspxProject::Document *>(parent)) {
                 return d->documents.value(document->model()) == document ? document : nullptr;
             }
             if (auto *entity = qobject_cast<dspx::EntityObject *>(parent)) {
@@ -89,7 +89,7 @@ namespace BatchProcess {
         return nullptr;
     }
 
-    QJSValue DocumentInterface::toJavaScriptValue(ScriptExecutionContext *context, Core::DspxDocument *document) {
+    QJSValue DocumentInterface::toJavaScriptValue(ScriptExecutionContext *context, DspxProject::Document *document) {
         return registerDocument(document) ? wrapObject(context, document) : QJSValue();
     }
 
@@ -114,11 +114,11 @@ namespace BatchProcess {
         return context && d->extension && QThread::currentThread() == thread() ? d->extension->unwrap(context, value) : nullptr;
     }
 
-    bool DocumentInterface::fromJavaScriptValue(ScriptExecutionContext *context, const QJSValue &value, Core::DspxDocument **document) const {
+    bool DocumentInterface::fromJavaScriptValue(ScriptExecutionContext *context, const QJSValue &value, DspxProject::Document **document) const {
         if (!document) {
             return false;
         }
-        *document = qobject_cast<Core::DspxDocument *>(unwrapObject(context, value));
+        *document = qobject_cast<DspxProject::Document *>(unwrapObject(context, value));
         return *document;
     }
 

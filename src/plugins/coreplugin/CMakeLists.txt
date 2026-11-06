@@ -38,6 +38,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QuickControls2
         QuickTemplates2
     LINKS
+        dspxproject
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
         loadapi
@@ -55,6 +56,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         opendspx::model
         opendspx::serializer
         transactional
+    LINKS_PRIVATE
+        jsonconv::stdcorelib
     INCLUDE_PRIVATE
         core
         windows

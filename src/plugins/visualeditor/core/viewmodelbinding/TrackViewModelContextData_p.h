@@ -15,6 +15,10 @@ class QState;
 class QStateMachine;
 class QQuickItem;
 
+namespace DspxProject {
+    class Document;
+}
+
 namespace dspx {
     class Track;
     class TrackList;
@@ -28,7 +32,6 @@ namespace sflow {
 }
 
 namespace Core {
-    class DspxDocument;
     class TrackColorSchema;
 }
 
@@ -42,7 +45,7 @@ namespace VisualEditor {
     public:
         ProjectViewModelContext *q_ptr;
 
-        Core::DspxDocument *document;
+        DspxProject::Document *document;
         dspx::TrackList *trackList;
         dspx::TrackSelectionModel *trackSelectionModel;
 

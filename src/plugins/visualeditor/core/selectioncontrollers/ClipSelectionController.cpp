@@ -18,8 +18,8 @@
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/ProjectViewModelContext.h>

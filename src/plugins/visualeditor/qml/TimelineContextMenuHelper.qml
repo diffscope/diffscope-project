@@ -14,14 +14,16 @@ import dev.sjimo.ScopicFlow
 import dev.sjimo.ScopicFlow.Views
 
 import DiffScope.Core
+import DiffScope.DspxProject as DspxProject
 
-EditTempoTimeSignatureScenario {
+QtObject {
     id: helper
-
-    shouldDialogPopupAtCursor: true
 
     required property Timeline timeline
     required property ProjectWindowInterface windowHandle
+    required property Window window
+    required property DspxProject.ProjectTimeline projectTimeline
+    required property DspxProject.Document document
     readonly property QtObject transactionController: document?.transactionController ?? null
 
     readonly property MusicTimeline musicTimeline: projectTimeline?.musicTimeline ?? null
@@ -51,7 +53,7 @@ EditTempoTimeSignatureScenario {
             text: qsTr("Insert Time Signature")
             enabled: helper.transactionController?.canBeginTransaction === true && helper.transactionController.canAcquireReadLock
             onTriggered: {
-                Qt.callLater(() => helper.insertTimeSignatureAt(menu.position))
+                Qt.callLater(() => helper.windowHandle.editTempoTimeSignatureScenario.insertTimeSignatureAt(helper.window, helper.projectTimeline, menu.position, DspxProject.DocumentEdit.AtCursor))
             }
         }
         MenuSeparator {
@@ -77,7 +79,7 @@ EditTempoTimeSignatureScenario {
             text: qsTr("Edit Time Signature")
             enabled: helper.transactionController?.canBeginTransaction === true && helper.transactionController.canAcquireReadLock
             onTriggered: {
-                Qt.callLater(() => helper.modifyExistingTimeSignatureAt(menu.position))
+                Qt.callLater(() => helper.windowHandle.editTempoTimeSignatureScenario.modifyExistingTimeSignatureAt(helper.window, helper.projectTimeline, menu.position, DspxProject.DocumentEdit.AtCursor))
             }
         }
         Action {

@@ -41,9 +41,9 @@
 #include <audio/internal/HashHelper.h>
 #include <audio/internal/AudioSystem.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <CoreApi/filelocker.h>
 

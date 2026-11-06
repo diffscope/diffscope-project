@@ -31,8 +31,10 @@
 #include <TalcsFormat/AbstractAudioFormatIO.h>
 #include <TalcsFormat/FormatManager.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <uishell/DialogPositioner.h>
+
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <transactional/TransactionController.h>
@@ -135,14 +137,7 @@ namespace PitchShifter::Internal {
         if (!dialog) {
             return nullptr;
         }
-        const auto width = dialog->property("width").toDouble();
-        const auto height = dialog->property("height").toDouble();
-        dialog->setProperty("x", window->width() / 2.0 - width / 2.0);
-        if (const auto topMargin = window->property("popupTopMarginHint"); topMargin.isValid()) {
-            dialog->setProperty("y", topMargin);
-        } else {
-            dialog->setProperty("y", window->height() / 2.0 - height / 2.0);
-        }
+        UIShell::DialogPositioner::positionPopup(dialog, window);
         return dialog;
     }
 

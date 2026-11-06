@@ -11,6 +11,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.Core
+import DiffScope.UIShell
 
 Item {
     id: control
@@ -417,8 +418,9 @@ Item {
                                           : SourcesPickerModel.InvalidSinger
 
         parent: control
-        x: Math.max(0, (control.width - width) / 2)
-        y: Math.max(0, (control.height - height) / 2)
+        readonly property point popupPosition: DialogPositioner.position(Qt.size(control.width, control.height), Qt.size(width, height))
+        x: popupPosition.x
+        y: popupPosition.y
         width: Math.min(560, control.width)
         height: Math.min(440, control.height)
         modal: true
@@ -447,8 +449,9 @@ Item {
         id: appendSingerPopup
 
         parent: control
-        x: Math.max(0, (control.width - width) / 2)
-        y: Math.max(0, (control.height - height) / 2)
+        readonly property point popupPosition: DialogPositioner.position(Qt.size(control.width, control.height), Qt.size(width, height))
+        x: popupPosition.x
+        y: popupPosition.y
         width: Math.min(520, control.width)
         height: Math.min(420, control.height)
         modal: true
@@ -482,8 +485,9 @@ Item {
         }
 
         parent: control
-        x: Math.max(0, (control.width - width) / 2)
-        y: Math.max(0, (control.height - height) / 2)
+        readonly property point popupPosition: DialogPositioner.position(Qt.size(control.width, control.height), Qt.size(width, height))
+        x: popupPosition.x
+        y: popupPosition.y
         width: Math.min(520, control.width)
         height: Math.min(420, control.height)
         modal: true

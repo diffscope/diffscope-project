@@ -12,6 +12,7 @@
 #include <QLoggingCategory>
 #include <QMutex>
 #include <QQmlComponent>
+#include <QQuickItem>
 #include <QQuickWindow>
 #include <QScopedValueRollback>
 #include <QTimer>
@@ -37,12 +38,13 @@
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
+#include <uishell/DialogPositioner.h>
+
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
-#include <coreplugin/DocumentEditScenario.h>
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/GlobalAudioContext.h>
@@ -54,21 +56,6 @@
 namespace Audio::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcMidiRecording, "diffscope.audio.midirecording")
-
-    namespace {
-
-        class RecordingDialogScenario : public Core::DocumentEditScenario {
-        public:
-            QObject *createDialog(MidiRecordingAddOn *addOn) const {
-                QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "MidiRecordingDialog");
-                if (component.isError()) {
-                    qFatal() << component.errorString();
-                }
-                return createAndPositionDialog(&component, {{QStringLiteral("addOn"), QVariant::fromValue(addOn)}});
-            }
-        };
-
-    }
 
     class MidiRecordingAddOn::InputListener : public talcs::MidiMessageListener {
     public:
@@ -187,7 +174,7 @@ namespace Audio::Internal {
             if (isRecording() && currentNoteSequence() != m_noteSequence)
                 stopRecording();
         }, Qt::QueuedConnection);
-        connect(m_timeline, &Core::ProjectTimeline::positionChanged, this, [this](int position) {
+        connect(m_timeline, &DspxProject::ProjectTimeline::positionChanged, this, [this](int position) {
             if (isRecording() && !m_updatingPlayhead)
                 repositionRecording(position);
         });
@@ -673,10 +660,20 @@ namespace Audio::Internal {
         if (m_state != AwaitingQuantization)
             return;
         if (!m_dialog) {
-            RecordingDialogScenario scenario;
-            scenario.setWindow(static_cast<QQuickWindow *>(windowHandle()->window()));
-            scenario.setDocument(m_document);
-            m_dialog = scenario.createDialog(this);
+            auto window = static_cast<QQuickWindow *>(windowHandle()->window());
+            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Audio", "MidiRecordingDialog");
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            auto dialog = component.createWithInitialProperties({
+                {"parent", QVariant::fromValue(window->contentItem())},
+                {"addOn", QVariant::fromValue(this)},
+            });
+            if (!dialog) {
+                qFatal() << component.errorString();
+            }
+            UIShell::DialogPositioner::positionPopup(dialog, window);
+            m_dialog = dialog;
             m_dialog->setParent(this);
             connect(m_dialog, &QObject::destroyed, this, [this] {
                 if (m_state == AwaitingQuantization)

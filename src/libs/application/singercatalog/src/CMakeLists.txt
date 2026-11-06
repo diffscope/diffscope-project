@@ -21,7 +21,6 @@ endif()
 qt_add_qml_module(${PROJECT_NAME}
     URI DiffScope.SingerCatalog
     NAMESPACE SingerCatalog
-    DEPENDENCIES DiffScope.DspxModel
     OUTPUT_DIRECTORY ${QMSETUP_BUILD_DIR}/qml/DiffScope/SingerCatalog
 )
 

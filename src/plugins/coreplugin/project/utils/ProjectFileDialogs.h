@@ -7,7 +7,7 @@
 #include <QCoreApplication>
 #include <QScopedPointer>
 
-#include <coreplugin/ProjectLifecycleStrategy.h>
+#include <dspxproject/ProjectLifecycleStrategy.h>
 #include <coreplugin/coreglobal.h>
 
 class QWindow;
@@ -24,12 +24,12 @@ namespace Core {
         ~ProjectFileDialogs();
         Q_DISABLE_COPY_MOVE(ProjectFileDialogs)
 
-        QString requestPath(const ProjectPathRequest &request);
-        bool confirmWarning(const ProjectWarning &warning);
-        ProjectLifecycleStrategy::ExternalChangeChoice resolveExternalChange(const QString &path);
-        ProjectLifecycleStrategy::CloseChoice confirmClose(const QString &projectName, const QString &recoveryPath);
-        void notifyPartialRecovery(const ProjectFileError &error);
-        void reportError(const ProjectFileError &error);
+        QString requestPath(const DspxProject::ProjectPathRequest &request);
+        bool confirmWarning(const DspxProject::ProjectWarning &warning);
+        DspxProject::ProjectLifecycleStrategy::ExternalChangeChoice resolveExternalChange(const QString &path);
+        DspxProject::ProjectLifecycleStrategy::CloseChoice confirmClose(const QString &projectName, const QString &recoveryPath);
+        void notifyPartialRecovery(const DspxProject::ProjectFileError &error);
+        void reportError(const DspxProject::ProjectFileError &error);
 
     private:
         QScopedPointer<ProjectFileDialogsPrivate> d_ptr;

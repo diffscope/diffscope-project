@@ -140,6 +140,7 @@ public:
         RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/uishell/translations"));
         RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/appinstall/translations"));
         RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/singercatalog/translations"));
+        RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/dspxproject/translations"));
 
         for (auto pluginSpec : ExtensionSystem::PluginManager::plugins()) {
             static QRegularExpression rx("^([a-z_][a-z0-9_]*)(\\.[a-z_][a-z0-9_]*)+$");

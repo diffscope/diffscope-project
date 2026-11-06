@@ -31,8 +31,9 @@
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/EditItemsScenario.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/private/ClipSelectionController_p.h>
@@ -53,7 +54,7 @@ namespace VisualEditor {
         return length == 0 ? std::numeric_limits<int>::max() : length;
     }
 
-    static dspx::Clip *duplicateClip(dspx::Clip *source, Core::DspxDocument *document) {
+    static dspx::Clip *duplicateClip(dspx::Clip *source, DspxProject::Document *document) {
         if (!source) {
             return nullptr;
         }
@@ -855,7 +856,7 @@ namespace VisualEditor {
     }
 
     void ClipViewModelContextData::onSplitCommittingStateEntered() {
-        document->splitItems(splitPosition, q_ptr->windowHandle());
+        q_ptr->windowHandle()->editItemsScenario()->splitItems(splitPosition);
         splitPosition = {};
     }
 

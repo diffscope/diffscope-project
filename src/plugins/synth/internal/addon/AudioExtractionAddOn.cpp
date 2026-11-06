@@ -54,11 +54,13 @@
 #include <dspxmodelORM/TrackList.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
+#include <uishell/DialogPositioner.h>
+
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <singercatalog/ArchitectureInfo.h>
 
@@ -144,7 +146,7 @@ namespace Synth::Internal {
 
     struct AudioExtractionAddOn::Operation {
         Core::TransactionController::ScopedReadLock readLock;
-        QPointer<Core::DspxDocument> document;
+        QPointer<DspxProject::Document> document;
         QPointer<dspx::AudioClip> source;
         QPointer<dspx::Track> track;
         AudioExtractionTask::Type type{};
@@ -249,9 +251,7 @@ namespace Synth::Internal {
         else if (type == AudioExtractionTask::Pitch)
             m_dialog->setProperty("title", tr("Extract Pitch"));
         m_task->setParent(m_dialog);
-        m_dialog->setProperty("x", (window->width() - m_dialog->property("width").toDouble()) / 2);
-        m_dialog->setProperty("y", window->property("popupTopMarginHint").isValid()
-            ? window->property("popupTopMarginHint") : QVariant((window->height() - m_dialog->property("height").toDouble()) / 2));
+        UIShell::DialogPositioner::positionPopup(m_dialog, window);
         connect(m_task, &AudioExtractionTask::succeeded, this, &AudioExtractionAddOn::finish);
         connect(m_task, &AudioExtractionTask::changed, this, [this, task = m_task.data()] {
             if (m_operation && m_task == task && !task->busy() && !task->error().isEmpty())
@@ -487,9 +487,7 @@ namespace Synth::Internal {
                 qFatal() << component.errorString();
             m_pendingDialog = dialog;
             m_tempoPreview->setParent(dialog);
-            dialog->setProperty("x", (window->width() - dialog->property("width").toDouble()) / 2);
-            dialog->setProperty("y", window->property("popupTopMarginHint").isValid()
-                ? window->property("popupTopMarginHint") : QVariant((window->height() - dialog->property("height").toDouble()) / 2));
+            UIShell::DialogPositioner::positionPopup(dialog, window);
             QMetaObject::invokeMethod(m_dialog, "accept");
             return;
         }

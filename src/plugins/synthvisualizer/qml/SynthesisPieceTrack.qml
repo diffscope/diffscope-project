@@ -149,12 +149,11 @@ QtObject {
                 })
             if (dialog === null)
                 return
-            const width = dialog.width
-            const height = dialog.height
-            dialog.x = Math.max(
-                0, Math.min(pieceMenu.anchorX, window.width - width))
-            dialog.y = Math.max(
-                0, Math.min(pieceMenu.anchorY, window.height - height))
+            const position = DialogPositioner.positionAt(Qt.size(window.width, window.height),
+                                                         Qt.size(dialog.width, dialog.height),
+                                                         Qt.point(pieceMenu.anchorX, pieceMenu.anchorY))
+            dialog.x = position.x
+            dialog.y = position.y
             dialog.accepted.connect(() => {
                 control.pieceModel.resynthesizePiece(
                     piece, dialog.resynthesizeFrom,

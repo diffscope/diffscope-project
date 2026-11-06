@@ -19,9 +19,9 @@ namespace BatchProcess {
         explicit DocumentInterfacePrivate(DocumentInterface *q) : q_ptr(q) {}
         DocumentInterface *q_ptr;
         Internal::CoreModuleExtension *extension{};
-        QHash<dspx::Model *, QPointer<Core::DspxDocument>> documents;
+        QHash<dspx::Model *, QPointer<DspxProject::Document>> documents;
         QHash<dspx::Model *, quint64> generations;
-        QHash<Core::DspxDocument *, QHash<QString, QPointer<Storage>>> storages;
+        QHash<DspxProject::Document *, QHash<QString, QPointer<Storage>>> storages;
         quint64 nextGeneration{};
     };
 }

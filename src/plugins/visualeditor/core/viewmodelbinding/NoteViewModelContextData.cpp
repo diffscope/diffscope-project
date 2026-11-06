@@ -28,8 +28,9 @@
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/EditItemsScenario.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
@@ -993,7 +994,7 @@ namespace VisualEditor {
     }
 
     void NoteViewModelContextData::onSplitCommittingStateEntered() {
-        document->splitItems(splitPosition, q_ptr->windowHandle());
+        q_ptr->windowHandle()->editItemsScenario()->splitItems(splitPosition);
         splitPosition = {};
     }
 

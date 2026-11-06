@@ -2338,129 +2338,6 @@
     </message>
 </context>
 <context>
-    <name>Core::DspxDocument</name>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1580"/>
-        <source>Paste Failed</source>
-        <translation type="unfinished">粘贴失败</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1580"/>
-        <source>Cannot paste data from the clipboard.</source>
-        <translation>无法从剪贴板粘贴数据。</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="123"/>
-        <source>Pasting tempo</source>
-        <translation>粘贴曲速</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="124"/>
-        <source>Pasting label</source>
-        <translation>粘贴标签</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="125"/>
-        <source>Pasting key signature</source>
-        <translation>粘贴调号</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="126"/>
-        <source>Pasting track</source>
-        <translation>粘贴轨道</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="127"/>
-        <source>Pasting clip</source>
-        <translation>粘贴剪辑</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="128"/>
-        <source>Pasting note</source>
-        <translation>粘贴音符</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="129"/>
-        <source>Pasting voice blending anchor</source>
-        <translation type="unfinished">粘贴声线融合锚点</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1644"/>
-        <source>Deleting parameter data</source>
-        <translation type="unfinished">删除参数数据</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1647"/>
-        <source>Deleting tempo</source>
-        <translation>删除曲速</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1649"/>
-        <source>Deleting label</source>
-        <translation>删除标签</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1651"/>
-        <source>Deleting key signature</source>
-        <translation>删除调号</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1653"/>
-        <source>Deleting track</source>
-        <translation>删除轨道</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1655"/>
-        <source>Deleting clip</source>
-        <translation>删除剪辑</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1657"/>
-        <source>Deleting note</source>
-        <translation>删除音符</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1659"/>
-        <source>Deleting anchor node</source>
-        <translation>删除锚点</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1661"/>
-        <source>Deleting voice blending anchor</source>
-        <translation type="unfinished">删除声线融合锚点</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1664"/>
-        <source>Deleting selection</source>
-        <translation>删除选区</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1751"/>
-        <source>Splitting clip</source>
-        <translation>分割剪辑</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1751"/>
-        <source>Splitting note</source>
-        <translation>分割音符</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1864"/>
-        <source>Bouncing to clip</source>
-        <translation>合并到剪辑</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="130"/>
-        <source>Pasting anchor node</source>
-        <translation type="unfinished">粘贴锚点</translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="131"/>
-        <source>Pasting parameter data</source>
-        <translation type="unfinished">粘贴参数数据</translation>
-    </message>
-</context>
-<context>
     <name>Core::DspxInspectorDialog</name>
     <message>
         <location filename="../../project/utils/DspxInspectorDialog.cpp" line="69"/>
@@ -2816,98 +2693,6 @@
     </message>
 </context>
 <context>
-    <name>Core::EditKeySignatureScenario</name>
-    <message>
-        <location filename="../../project/scenarios/EditKeySignatureScenario.cpp" line="112"/>
-        <source>Editing key signature</source>
-        <translation>编辑调号</translation>
-    </message>
-</context>
-<context>
-    <name>Core::EditLoopScenario</name>
-    <message>
-        <location filename="../../project/scenarios/EditLoopScenario.cpp" line="100"/>
-        <source>Editing loop</source>
-        <translation>编辑循环</translation>
-    </message>
-</context>
-<context>
-    <name>Core::EditSourcesScenario</name>
-    <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="227"/>
-        <source>Unsupported Note Languages</source>
-        <translation type="unfinished">不支持的音符语言</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="228"/>
-        <source>Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</source>
-        <translation type="unfinished">部分音符使用了所选歌手不支持的语言，可能导致合成失败。请将音符语言更改为歌手支持的语言。</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="292"/>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="311"/>
-        <source>Editing sources</source>
-        <translation type="unfinished">编辑声源</translation>
-    </message>
-</context>
-<context>
-    <name>Core::EditTempoTimeSignatureScenario</name>
-    <message>
-        <location filename="../../project/scenarios/EditTempoTimeSignatureScenario.cpp" line="95"/>
-        <source>Editing tempo</source>
-        <translation>编辑曲速</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/EditTempoTimeSignatureScenario.cpp" line="180"/>
-        <source>Editing time signature</source>
-        <translation>编辑拍号</translation>
-    </message>
-</context>
-<context>
-    <name>Core::InsertItemScenario</name>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="99"/>
-        <source>Adding track</source>
-        <translation>添加轨道</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="102"/>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="153"/>
-        <source>Unnamed track</source>
-        <translation>未命名轨道</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="168"/>
-        <source>Inserting track</source>
-        <translation>插入轨道</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="232"/>
-        <source>Inserting label</source>
-        <translation>插入标签</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="299"/>
-        <source>Unnamed clip</source>
-        <translation>未命名剪辑</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="328"/>
-        <source>Inserting singing clip</source>
-        <translation>插入歌声剪辑</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="411"/>
-        <source>Inserting note</source>
-        <translation>插入音符</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="489"/>
-        <source>Inserting phoneme</source>
-        <translation>插入音素</translation>
-    </message>
-</context>
-<context>
     <name>Core::Internal::ActionCatalogProxyModel</name>
     <message>
         <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="208"/>
@@ -3157,6 +2942,117 @@
     </message>
 </context>
 <context>
+    <name>Core::Internal::CoreClipboardEditStrategy</name>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreClipboardEditStrategy.cpp" line="22"/>
+        <source>Paste Failed</source>
+        <translation type="unfinished">粘贴失败</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreClipboardEditStrategy.cpp" line="23"/>
+        <source>Cannot paste data from the clipboard.</source>
+        <translation>无法从剪贴板粘贴数据。</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::CoreEditItemsStrategy</name>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreEditItemsStrategy.cpp" line="23"/>
+        <location filename="../../internal/scenariostrategies/CoreEditItemsStrategy.cpp" line="32"/>
+        <source>Warning</source>
+        <translation type="unfinished">警告</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreEditItemsStrategy.cpp" line="33"/>
+        <source>Some notes or curves cross clip boundaries, or data points overlap after merging. Bouncing may trim or overwrite this data.
+
+Continue to bounce?</source>
+        <translation type="unfinished">某些音符或曲线超出剪辑边界，或数据点在合并后重叠。合并可能会裁剪或覆盖这些数据。
+
+是否继续合并？</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreEditItemsStrategy.cpp" line="24"/>
+        <source>The selected clips use different source singer layouts. Bouncing will keep one source singer layout and discard all voice blending anchors.
+
+Continue to bounce?</source>
+        <translation type="unfinished">所选剪辑使用了不同的声源歌手布局。合并将保留一个声源歌手布局并丢弃所有声线融合锚点。
+
+继续合并吗？</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::CoreEditSourcesStrategy</name>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreEditSourcesStrategy.cpp" line="66"/>
+        <source>Unsupported Note Languages</source>
+        <translation type="unfinished">不支持的音符语言</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreEditSourcesStrategy.cpp" line="67"/>
+        <source>Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</source>
+        <translation type="unfinished">部分音符使用了所选歌手不支持的语言，可能导致合成失败。请将音符语言更改为歌手支持的语言。</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::CoreFillLyricsStrategy</name>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreFillLyricsStrategy.cpp" line="100"/>
+        <source>Invalid Regular Expression</source>
+        <translation type="unfinished">无效的正则表达式</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreFillLyricsStrategy.cpp" line="101"/>
+        <source>The regular expression is invalid:
+
+%1</source>
+        <translation type="unfinished">正则表达式无效：
+
+%1</translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::CoreParameterResamplingStrategy</name>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="20"/>
+        <source>Pasting at this position requires resampling the parameter curve. Linear interpolation may change its shape.
+
+Continue to paste?</source>
+        <translation type="unfinished">在此位置粘贴需要对参数曲线进行重采样。线性插值可能会改变其形状。
+
+是否继续粘贴？</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="21"/>
+        <source>Bouncing these clips requires resampling parameter curves. Linear interpolation may change their shape.
+
+Continue to bounce?</source>
+        <translation type="unfinished">合并这些剪辑需要对参数曲线进行重采样。线性插值可能会改变其形状。
+
+是否继续合并？</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="35"/>
+        <source>Once</source>
+        <translation type="unfinished">本次</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="36"/>
+        <source>Always</source>
+        <translation type="unfinished">总是</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="37"/>
+        <source>No</source>
+        <translation type="unfinished">否</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="32"/>
+        <source>Resample Parameters</source>
+        <translation type="unfinished">重采样参数</translation>
+    </message>
+</context>
+<context>
     <name>Core::Internal::CorePlugin</name>
     <message>
         <location filename="../../internal/CorePlugin.cpp" line="188"/>
@@ -3253,28 +3149,6 @@ Please go to Plugins to see more details.</source>
         <location filename="../../internal/settings/FileBackupPage.cpp" line="21"/>
         <source>Configure file handling and backup behaviors of %1</source>
         <translation>配置 %1 的文件处理和备份行为</translation>
-    </message>
-</context>
-<context>
-    <name>Core::Internal::FillLyricsAddOn</name>
-    <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="190"/>
-        <source>Invalid Regular Expression</source>
-        <translation type="unfinished">无效的正则表达式</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="191"/>
-        <source>The regular expression is invalid:
-
-%1</source>
-        <translation type="unfinished">正则表达式无效：
-
-%1</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="223"/>
-        <source>Filling lyrics</source>
-        <translation type="unfinished">填充歌词</translation>
     </message>
 </context>
 <context>
@@ -4714,82 +4588,19 @@ Do you want to continue opening it?</source>
 <context>
     <name>Core::Internal::CoreProjectLifecycleStrategy</name>
     <message>
-        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="45"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="45"/>
         <source>Untitled</source>
         <translation>无标题</translation>
     </message>
     <message>
-        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="48"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="48"/>
         <source>Unnamed track</source>
         <translation>未命名轨道</translation>
     </message>
     <message>
-        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="49"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="49"/>
         <source>Unnamed clip</source>
         <translation>未命名剪辑</translation>
-    </message>
-</context>
-<context>
-    <name>Core::ParameterResamplingScenario</name>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="56"/>
-        <source>Pasting at this position requires resampling the parameter curve. Linear interpolation may change its shape.
-
-Continue to paste?</source>
-        <translation type="unfinished">在此位置粘贴需要对参数曲线进行重采样。线性插值可能会改变其形状。
-
-是否继续粘贴？</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="75"/>
-        <source>Warning</source>
-        <translation type="unfinished">警告</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="76"/>
-        <source>Some notes or curves cross clip boundaries, or data points overlap after merging. Bouncing may trim or overwrite this data.
-
-Continue to bounce?</source>
-        <translation type="unfinished">某些音符或曲线超出剪辑边界，或数据点在合并后重叠。合并可能会裁剪或覆盖这些数据。
-
-是否继续合并？</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="85"/>
-        <source>Bouncing these clips requires resampling parameter curves. Linear interpolation may change their shape.
-
-Continue to bounce?</source>
-        <translation type="unfinished">合并这些剪辑需要对参数曲线进行重采样。线性插值可能会改变其形状。
-
-是否继续合并？</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="103"/>
-        <source>Once</source>
-        <translation type="unfinished">本次</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="104"/>
-        <source>Always</source>
-        <translation type="unfinished">总是</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="105"/>
-        <source>No</source>
-        <translation type="unfinished">否</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="100"/>
-        <source>Resample Parameters</source>
-        <translation type="unfinished">重采样参数</translation>
-    </message>
-</context>
-<context>
-    <name>Core::PickTrackColorScenario</name>
-    <message>
-        <location filename="../../project/scenarios/PickTrackColorScenario.cpp" line="65"/>
-        <source>Picking track color</source>
-        <translation>选择轨道颜色</translation>
     </message>
 </context>
 <context>
@@ -5105,20 +4916,6 @@ Continue to bounce?</source>
             <numerusform>（已选择 %Ln 个）</numerusform>
         </translation>
     </message>
-    <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="339"/>
-        <source>Warning</source>
-        <translation type="unfinished">警告</translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="339"/>
-        <source>The selected clips use different source singer layouts. Bouncing will keep one source singer layout and discard all voice blending anchors.
-
-Continue to bounce?</source>
-        <translation type="unfinished">所选剪辑使用了不同的声源歌手布局。合并将保留一个声源歌手布局并丢弃所有声线融合锚点。
-
-继续合并吗？</translation>
-    </message>
 </context>
 <context>
     <name>EditKeySignatureDialog</name>
@@ -5319,17 +5116,17 @@ Continue to bounce?</source>
 <context>
     <name>FillLyricsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="27"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="28"/>
         <source>Fill Lyrics</source>
         <translation type="unfinished">填充歌词</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="50"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="51"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="54"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="55"/>
         <source>Preview</source>
         <translation type="unfinished">预览</translation>
     </message>
@@ -5341,33 +5138,33 @@ Continue to bounce?</source>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="129"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="130"/>
         <source>Split mode</source>
         <translation type="unfinished">拆分模式</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="137"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="138"/>
         <source>Auto</source>
         <translation type="unfinished">自动</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="142"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="143"/>
         <source>Character</source>
         <translation type="unfinished">字符</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="147"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="148"/>
         <source>Word</source>
         <translation type="unfinished">单词</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="152"/>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="159"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="160"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="160"/>
         <source>Regex</source>
         <translation type="unfinished">正则表达式</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="174"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="175"/>
         <source>Truncate to selection</source>
         <translation type="unfinished">截断至选区</translation>
     </message>
@@ -6392,67 +6189,67 @@ Continue to bounce?</source>
 <context>
     <name>MixedSingerEditor</name>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="85"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="86"/>
         <source>Rename mixed singer</source>
         <translation type="unfinished">重命名混合歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="96"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="97"/>
         <source>Save Preset</source>
         <translation type="unfinished">保存预设</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="198"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="199"/>
         <source>%1%</source>
         <translation type="unfinished">%1%</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="216"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="217"/>
         <source>Configure singer</source>
         <translation type="unfinished">配置歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="232"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="233"/>
         <source>Replace singer</source>
         <translation type="unfinished">替换歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="236"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="237"/>
         <source>An invalid mixed singer cannot replace entries.</source>
         <translation type="unfinished">无效的混合歌手无法替换条目。</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="247"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="248"/>
         <source>Move singer up</source>
         <translation type="unfinished">上移歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="258"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="259"/>
         <source>Move singer down</source>
         <translation type="unfinished">下移歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="269"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="270"/>
         <source>Remove singer</source>
         <translation type="unfinished">移除歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="273"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="274"/>
         <source>A mixed singer must retain at least one child singer.</source>
         <translation type="unfinished">混合歌手必须保留至少一个子歌手。</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="336"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="337"/>
         <source>Add singer</source>
         <translation type="unfinished">添加歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="340"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="341"/>
         <source>An invalid mixed singer or empty mix group cannot accept another singer.</source>
         <translation type="unfinished">无效的混合歌手或空混合组无法再添加歌手。</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="397"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="398"/>
         <source>Mixed singer name</source>
         <translation type="unfinished">混合歌手名称</translation>
     </message>
@@ -7011,53 +6808,53 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
         <translation type="unfinished">选择声源</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="94"/>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="460"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="445"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="445"/>
         <source>Source singer warnings</source>
         <translation type="unfinished">声源歌手警告</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="146"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="128"/>
         <source>Cannot update source singers</source>
         <translation type="unfinished">无法更新声源歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="249"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="231"/>
         <source>Remove singer</source>
         <translation type="unfinished">移除歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="323"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="305"/>
         <source>Move up</source>
         <translation type="unfinished">上移</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="332"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="314"/>
         <source>Move down</source>
         <translation type="unfinished">下移</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="343"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="325"/>
         <source>Remove</source>
         <translation type="unfinished">移除</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="355"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="337"/>
         <source>Create mixed singer</source>
         <translation type="unfinished">创建混合歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="370"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="352"/>
         <source>Add singer</source>
         <translation type="unfinished">添加歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="398"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="380"/>
         <source>Add</source>
         <translation type="unfinished">添加</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="403"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="385"/>
         <source>The current source list cannot accept another singer.</source>
         <translation type="unfinished">当前声源列表无法再添加歌手。</translation>
     </message>

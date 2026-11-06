@@ -2295,129 +2295,6 @@
     </message>
 </context>
 <context>
-    <name>Core::DspxDocument</name>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1580"/>
-        <source>Paste Failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1580"/>
-        <source>Cannot paste data from the clipboard.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="123"/>
-        <source>Pasting tempo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="124"/>
-        <source>Pasting label</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="125"/>
-        <source>Pasting key signature</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="126"/>
-        <source>Pasting track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="127"/>
-        <source>Pasting clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="128"/>
-        <source>Pasting note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="129"/>
-        <source>Pasting voice blending anchor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1644"/>
-        <source>Deleting parameter data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1647"/>
-        <source>Deleting tempo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1649"/>
-        <source>Deleting label</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1651"/>
-        <source>Deleting key signature</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1653"/>
-        <source>Deleting track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1655"/>
-        <source>Deleting clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1657"/>
-        <source>Deleting note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1659"/>
-        <source>Deleting anchor node</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1661"/>
-        <source>Deleting voice blending anchor</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1664"/>
-        <source>Deleting selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1751"/>
-        <source>Splitting clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1751"/>
-        <source>Splitting note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="1864"/>
-        <source>Bouncing to clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="130"/>
-        <source>Pasting anchor node</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/document/DspxDocument.cpp" line="131"/>
-        <source>Pasting parameter data</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Core::DspxInspectorDialog</name>
     <message>
         <location filename="../../project/utils/DspxInspectorDialog.cpp" line="69"/>
@@ -2773,98 +2650,6 @@
     </message>
 </context>
 <context>
-    <name>Core::EditKeySignatureScenario</name>
-    <message>
-        <location filename="../../project/scenarios/EditKeySignatureScenario.cpp" line="112"/>
-        <source>Editing key signature</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Core::EditLoopScenario</name>
-    <message>
-        <location filename="../../project/scenarios/EditLoopScenario.cpp" line="100"/>
-        <source>Editing loop</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Core::EditSourcesScenario</name>
-    <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="227"/>
-        <source>Unsupported Note Languages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="228"/>
-        <source>Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="292"/>
-        <location filename="../../project/scenarios/EditSourcesScenario.cpp" line="311"/>
-        <source>Editing sources</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Core::EditTempoTimeSignatureScenario</name>
-    <message>
-        <location filename="../../project/scenarios/EditTempoTimeSignatureScenario.cpp" line="95"/>
-        <source>Editing tempo</source>
-        <translation type="unfinished">Editing tempo</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/EditTempoTimeSignatureScenario.cpp" line="180"/>
-        <source>Editing time signature</source>
-        <translation type="unfinished">Editing time signature</translation>
-    </message>
-</context>
-<context>
-    <name>Core::InsertItemScenario</name>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="99"/>
-        <source>Adding track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="102"/>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="153"/>
-        <source>Unnamed track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="168"/>
-        <source>Inserting track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="232"/>
-        <source>Inserting label</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="299"/>
-        <source>Unnamed clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="328"/>
-        <source>Inserting singing clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="411"/>
-        <source>Inserting note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/InsertItemScenario.cpp" line="489"/>
-        <source>Inserting phoneme</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Core::Internal::ActionCatalogProxyModel</name>
     <message>
         <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="208"/>
@@ -3114,6 +2899,107 @@
     </message>
 </context>
 <context>
+    <name>Core::Internal::CoreClipboardEditStrategy</name>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreClipboardEditStrategy.cpp" line="22"/>
+        <source>Paste Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreClipboardEditStrategy.cpp" line="23"/>
+        <source>Cannot paste data from the clipboard.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::CoreEditItemsStrategy</name>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreEditItemsStrategy.cpp" line="23"/>
+        <location filename="../../internal/scenariostrategies/CoreEditItemsStrategy.cpp" line="32"/>
+        <source>Warning</source>
+        <translation type="unfinished">Warning</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreEditItemsStrategy.cpp" line="33"/>
+        <source>Some notes or curves cross clip boundaries, or data points overlap after merging. Bouncing may trim or overwrite this data.
+
+Continue to bounce?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreEditItemsStrategy.cpp" line="24"/>
+        <source>The selected clips use different source singer layouts. Bouncing will keep one source singer layout and discard all voice blending anchors.
+
+Continue to bounce?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::CoreEditSourcesStrategy</name>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreEditSourcesStrategy.cpp" line="66"/>
+        <source>Unsupported Note Languages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreEditSourcesStrategy.cpp" line="67"/>
+        <source>Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::CoreFillLyricsStrategy</name>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreFillLyricsStrategy.cpp" line="100"/>
+        <source>Invalid Regular Expression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreFillLyricsStrategy.cpp" line="101"/>
+        <source>The regular expression is invalid:
+
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::CoreParameterResamplingStrategy</name>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="20"/>
+        <source>Pasting at this position requires resampling the parameter curve. Linear interpolation may change its shape.
+
+Continue to paste?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="21"/>
+        <source>Bouncing these clips requires resampling parameter curves. Linear interpolation may change their shape.
+
+Continue to bounce?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="35"/>
+        <source>Once</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="36"/>
+        <source>Always</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="37"/>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreParameterResamplingStrategy.cpp" line="32"/>
+        <source>Resample Parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Core::Internal::CorePlugin</name>
     <message>
         <location filename="../../internal/CorePlugin.cpp" line="188"/>
@@ -3204,26 +3090,6 @@ Please go to Plugins to see more details.</source>
         <location filename="../../internal/settings/FileBackupPage.cpp" line="21"/>
         <source>Configure file handling and backup behaviors of %1</source>
         <translation type="unfinished">Configure file handling and backup behaviors of %1</translation>
-    </message>
-</context>
-<context>
-    <name>Core::Internal::FillLyricsAddOn</name>
-    <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="190"/>
-        <source>Invalid Regular Expression</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="191"/>
-        <source>The regular expression is invalid:
-
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/FillLyricsAddOn.cpp" line="223"/>
-        <source>Filling lyrics</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4620,75 +4486,18 @@ Do you want to save as a new file or overwrite it?</translation>
 <context>
     <name>Core::Internal::CoreProjectLifecycleStrategy</name>
     <message>
-        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="45"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="45"/>
         <source>Untitled</source>
         <translation type="unfinished">Untitled</translation>
     </message>
     <message>
-        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="48"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="48"/>
         <source>Unnamed track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CoreProjectLifecycleStrategy.cpp" line="49"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="49"/>
         <source>Unnamed clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Core::ParameterResamplingScenario</name>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="56"/>
-        <source>Pasting at this position requires resampling the parameter curve. Linear interpolation may change its shape.
-
-Continue to paste?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="75"/>
-        <source>Warning</source>
-        <translation type="unfinished">Warning</translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="76"/>
-        <source>Some notes or curves cross clip boundaries, or data points overlap after merging. Bouncing may trim or overwrite this data.
-
-Continue to bounce?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="85"/>
-        <source>Bouncing these clips requires resampling parameter curves. Linear interpolation may change their shape.
-
-Continue to bounce?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="103"/>
-        <source>Once</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="104"/>
-        <source>Always</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="105"/>
-        <source>No</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/scenarios/ParameterResamplingScenario.cpp" line="100"/>
-        <source>Resample Parameters</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Core::PickTrackColorScenario</name>
-    <message>
-        <location filename="../../project/scenarios/PickTrackColorScenario.cpp" line="65"/>
-        <source>Picking track color</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5001,18 +4810,6 @@ Continue to bounce?</source>
             <numerusform></numerusform>
         </translation>
     </message>
-    <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="339"/>
-        <source>Warning</source>
-        <translation type="unfinished">Warning</translation>
-    </message>
-    <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="339"/>
-        <source>The selected clips use different source singer layouts. Bouncing will keep one source singer layout and discard all voice blending anchors.
-
-Continue to bounce?</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>EditKeySignatureDialog</name>
@@ -5213,17 +5010,17 @@ Continue to bounce?</source>
 <context>
     <name>FillLyricsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="27"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="28"/>
         <source>Fill Lyrics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="50"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="51"/>
         <source>Edit</source>
         <translation type="unfinished">Edit</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="54"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="55"/>
         <source>Preview</source>
         <translation type="unfinished">Preview</translation>
     </message>
@@ -5235,33 +5032,33 @@ Continue to bounce?</source>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="129"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="130"/>
         <source>Split mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="137"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="138"/>
         <source>Auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="142"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="143"/>
         <source>Character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="147"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="148"/>
         <source>Word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="152"/>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="159"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="160"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="160"/>
         <source>Regex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="174"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="175"/>
         <source>Truncate to selection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6286,67 +6083,67 @@ Continue to bounce?</source>
 <context>
     <name>MixedSingerEditor</name>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="85"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="86"/>
         <source>Rename mixed singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="96"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="97"/>
         <source>Save Preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="198"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="199"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="216"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="217"/>
         <source>Configure singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="232"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="233"/>
         <source>Replace singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="236"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="237"/>
         <source>An invalid mixed singer cannot replace entries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="247"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="248"/>
         <source>Move singer up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="258"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="259"/>
         <source>Move singer down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="269"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="270"/>
         <source>Remove singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="273"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="274"/>
         <source>A mixed singer must retain at least one child singer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="336"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="337"/>
         <source>Add singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="340"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="341"/>
         <source>An invalid mixed singer or empty mix group cannot accept another singer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/MixedSingerEditor.qml" line="397"/>
+        <location filename="../../qml/controls/MixedSingerEditor.qml" line="398"/>
         <source>Mixed singer name</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6901,53 +6698,53 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="94"/>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="460"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="445"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="445"/>
         <source>Source singer warnings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="146"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="128"/>
         <source>Cannot update source singers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="249"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="231"/>
         <source>Remove singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="323"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="305"/>
         <source>Move up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="332"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="314"/>
         <source>Move down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="343"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="325"/>
         <source>Remove</source>
         <translation type="unfinished">Remove</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="355"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="337"/>
         <source>Create mixed singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="370"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="352"/>
         <source>Add singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="398"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="380"/>
         <source>Add</source>
         <translation type="unfinished">Add</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="403"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="385"/>
         <source>The current source list cannot accept another singer.</source>
         <translation type="unfinished"></translation>
     </message>

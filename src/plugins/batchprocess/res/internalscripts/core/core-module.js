@@ -590,7 +590,11 @@
         };
         value.copy = tick => { command(document, "copy", [reference(tick)]); };
         value.cut = tick => { command(document, "cut", [reference(tick)]); };
-        value.paste = (tick, mode = "currentPosition") => { V.oneOf(mode, ["currentPosition", "relativeToCopiedPlayhead", "originalPosition"]); command(document, "paste", [reference(tick), mode === "currentPosition" ? 0 : mode === "relativeToCopiedPlayhead" ? 1 : 2]); };
+        value.paste = (tick, mode = "currentPosition", allowResampling) => {
+            V.oneOf(mode, ["currentPosition", "relativeToCopiedPlayhead", "originalPosition"]);
+            if (allowResampling !== undefined) V.boolean(allowResampling);
+            command(document, "paste", [reference(tick), mode === "currentPosition" ? 0 : mode === "relativeToCopiedPlayhead" ? 1 : 2, allowResampling]);
+        };
         return freeze(value);
     };
     const documentPrototype = prototypes.Document = create(null);

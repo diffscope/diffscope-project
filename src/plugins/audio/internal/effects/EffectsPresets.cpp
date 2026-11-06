@@ -7,74 +7,14 @@
 
 #include <QJsonArray>
 #include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonValue>
 #include <QSettings>
 #include <QVariantMap>
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <stdcorelib/jsonconv_stdcorelib.h>
+
 namespace Audio::Internal {
-
-    namespace {
-
-        QJsonValue toQJsonValue(const stdc::json::Value &value) {
-            if (value.isString()) {
-                return QString::fromStdString(value.toString());
-            }
-            if (value.isBool()) {
-                return value.toBool();
-            }
-            if (value.isNumber()) {
-                return value.toDouble();
-            }
-            if (value.isArray()) {
-                QJsonArray result;
-                for (const auto &item : value.toArray()) {
-                    result.append(toQJsonValue(item));
-                }
-                return result;
-            }
-            if (value.isObject()) {
-                QJsonObject result;
-                for (const auto &[key, item] : value.toObject()) {
-                    result.insert(QString::fromStdString(key), toQJsonValue(item));
-                }
-                return result;
-            }
-            return {};
-        }
-
-        stdc::json::Value fromQJsonValue(const QJsonValue &value) {
-            switch (value.type()) {
-                case QJsonValue::Null:
-                case QJsonValue::Undefined:
-                    return {};
-                case QJsonValue::Bool:
-                    return value.toBool();
-                case QJsonValue::Double:
-                    return value.toDouble();
-                case QJsonValue::String:
-                    return value.toString().toStdString();
-                case QJsonValue::Array: {
-                    stdc::json::Array result;
-                    for (const auto &item : value.toArray()) {
-                        result.push_back(fromQJsonValue(item));
-                    }
-                    return result;
-                }
-                case QJsonValue::Object: {
-                    stdc::json::Object result;
-                    for (auto it = value.toObject().begin(); it != value.toObject().end(); ++it) {
-                        result[it.key().toStdString()] = fromQJsonValue(it.value());
-                    }
-                    return result;
-                }
-            }
-            return {};
-        }
-
-    }
 
     EffectsPresets *EffectsPresets::m_instance = nullptr;
 
@@ -188,7 +128,7 @@ namespace Audio::Internal {
     }
 
     QByteArray EffectsPresets::serialize(const stdc::json::Array &audioDSPs) const {
-        const auto json = toQJsonValue(audioDSPs).toArray();
+        const auto json = jsonconv_stdcorelib::toQJsonValue(audioDSPs).toArray();
         return QJsonDocument(json).toJson(QJsonDocument::Compact);
     }
 
@@ -197,7 +137,7 @@ namespace Audio::Internal {
         if (!document.isArray()) {
             return {};
         }
-        return fromQJsonValue(document.array()).toArray();
+        return jsonconv_stdcorelib::fromQJsonValue(document.array()).toArray();
     }
 
 }

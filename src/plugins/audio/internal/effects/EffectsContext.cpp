@@ -22,8 +22,8 @@
 
 #include <transactional/TransactionController.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/EffectsUnit.h>

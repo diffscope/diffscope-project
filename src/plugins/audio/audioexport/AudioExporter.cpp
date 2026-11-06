@@ -31,9 +31,9 @@
 #include <audio/private/ProjectAudioContext_p.h>
 #include <audio/internal/AudioPreference.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <dspxmodelORM/Clip.h>
@@ -560,7 +560,7 @@ namespace Audio {
             return R_Fail;
         }
 
-        const QPointer<Core::DspxDocument> document(d->windowHandle->projectDocumentContext()->document());
+        const QPointer<DspxProject::Document> document(d->windowHandle->projectDocumentContext()->document());
         if (!document || !document->transactionController()->canAcquireReadLock()) {
             qCWarning(lcAudioExporter) << "Could not acquire a document read lock.";
             return R_Abort;

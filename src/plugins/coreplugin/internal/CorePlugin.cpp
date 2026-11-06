@@ -42,11 +42,11 @@
 #include <loadapi/initroutine.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/DspxClipboard.h>
+#include <dspxproject/Clipboard.h>
 #include <coreplugin/FileOpenDispatcher.h>
 #include <coreplugin/HomeWindowInterface.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectLifecycleScenario.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectLifecycleScenario.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/ActionConfiguration.h>
 #include <coreplugin/internal/AfterSavingNotifyAddOn.h>
@@ -276,7 +276,7 @@ namespace Core::Internal {
     void CorePlugin::initializeSingletons() {
         new CoreInterface(this);
         new BehaviorPreference(this);
-        new DspxClipboard(this);
+        new DspxProject::Clipboard(this);
     }
 
     void CorePlugin::initializeActions() {

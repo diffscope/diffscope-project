@@ -18,8 +18,8 @@
 class QState;
 class QStateMachine;
 
-namespace Core {
-    class DspxDocument;
+namespace DspxProject {
+    class Document;
 }
 
 namespace dspx {
@@ -47,7 +47,7 @@ namespace VisualEditor {
 
         DynamicMixingEditorContext *q_ptr{};
         ProjectViewModelContext *projectContext{};
-        Core::DspxDocument *document{};
+        DspxProject::Document *document{};
         dspx::SelectionModel *selectionModel{};
         dspx::DynamicMixingAnchorSelectionModel *dynamicSelectionModel{};
         dspx::SingingClip *singingClip{};

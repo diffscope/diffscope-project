@@ -36,9 +36,9 @@
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectLifecycleScenario.h>
-#include <coreplugin/DspxDocument.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectLifecycleScenario.h>
+#include <dspxproject/Document.h>
 
 #include <importexportmanager/ConverterCollection.h>
 #include <importexportmanager/FileConverter.h>

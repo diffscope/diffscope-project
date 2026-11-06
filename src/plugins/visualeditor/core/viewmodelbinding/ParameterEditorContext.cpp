@@ -35,8 +35,8 @@
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <singercatalog/ClipSingerIdProvider.h>
 #include <singercatalog/SingerRegistry.h>
@@ -269,7 +269,7 @@ namespace VisualEditor {
         : QObject(), q_ptr(q), editable(editable_) {
     }
 
-    void ParameterViewModelBindingPrivate::initialize(Core::DspxDocument *document_, Core::ProjectWindowInterface *windowHandle_) {
+    void ParameterViewModelBindingPrivate::initialize(DspxProject::Document *document_, Core::ProjectWindowInterface *windowHandle_) {
         document = document_;
         windowHandle = windowHandle_;
         model = document->model();

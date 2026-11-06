@@ -14,8 +14,7 @@ import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 ActionCollection {
     id: d
 
-    required property QtObject addOn
-    readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
+    required property ProjectWindowInterface windowHandle
     readonly property QtObject transactionController: windowHandle?.projectDocumentContext.document?.transactionController ?? null
 
     ActionItem {
@@ -24,7 +23,7 @@ ActionCollection {
             enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
                      && d.windowHandle?.projectDocumentContext.document.anyItemsSelected
                      && d.windowHandle.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note
-            onTriggered: Qt.callLater(() => d.addOn.fillLyrics())
+            onTriggered: Qt.callLater(() => d.windowHandle.fillLyricsScenario.fillLyrics(d.windowHandle.window))
         }
     }
 }

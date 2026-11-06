@@ -10,9 +10,12 @@
 
 class QJSEngine;
 
+namespace DspxProject {
+    class ProjectDocumentContext;
+}
+
 namespace Core {
     class ActionWindowInterfaceBase;
-    class ProjectDocumentContext;
     class ProjectWindowInterface;
 }
 
@@ -41,7 +44,7 @@ namespace BatchProcess {
         bool isExecuting() const;
         Core::ActionWindowInterfaceBase *windowInterface() const;
         Core::ProjectWindowInterface *projectWindowInterface() const;
-        Core::ProjectDocumentContext *projectDocumentContext() const;
+        DspxProject::ProjectDocumentContext *projectDocumentContext() const;
 
     private:
         friend class Internal::BatchProcessRuntime;

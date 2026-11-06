@@ -63,9 +63,9 @@
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/ItemSelectorListModel.h>
 

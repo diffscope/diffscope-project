@@ -20,6 +20,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         Qml
         Quick
     LINKS
+        dspxproject
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
         uishell
@@ -41,6 +42,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         svscraft::Core
         svscraft::Quick
         xxHash::xxhash
+    LINKS_PRIVATE
+        jsonconv::stdcorelib
     INCLUDE_PRIVATE
         internal/**
 )

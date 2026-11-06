@@ -14,6 +14,10 @@ class QState;
 class QStateMachine;
 class QQuickItem;
 
+namespace DspxProject {
+    class Document;
+}
+
 namespace dspx {
     class Clip;
     class ClipSelectionModel;
@@ -30,10 +34,6 @@ namespace sflow {
     class RangeSequenceViewModel;
 }
 
-namespace Core {
-    class DspxDocument;
-}
-
 namespace VisualEditor {
 
     class ClipSelectionController;
@@ -44,7 +44,7 @@ namespace VisualEditor {
     public:
         ProjectViewModelContext *q_ptr;
 
-        Core::DspxDocument *document;
+        DspxProject::Document *document;
         dspx::TrackList *trackList;
         dspx::SelectionModel *selectionModel;
         dspx::ClipSelectionModel *clipSelectionModel;

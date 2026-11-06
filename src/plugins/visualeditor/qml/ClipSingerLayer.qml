@@ -13,6 +13,7 @@ import dev.sjimo.ScopicFlow
 import DiffScope.DspxModel as DspxModel
 import DiffScope.Core
 import DiffScope.SingerCatalog
+import DiffScope.DspxProject as DspxProject
 
 Item {
     id: d
@@ -71,11 +72,7 @@ Item {
         id: sourcesPickerModel
     }
 
-    EditSourcesScenario {
-        id: editSourcesScenario
-        window: d.projectViewModelContext?.windowHandle?.window ?? null
-        document: d.projectViewModelContext?.windowHandle?.projectDocumentContext?.document ?? null
-    }
+    readonly property DspxProject.EditSourcesScenario editSourcesScenario: projectViewModelContext?.windowHandle?.editSourcesScenario ?? null
 
     DropArea {
         id: singerDropArea
@@ -91,7 +88,7 @@ Item {
                 drop.accepted = false
                 return
             }
-            editSourcesScenario.applySources(sourcesPickerModel, [d.singingClip])
+            d.editSourcesScenario?.applySources(d.projectViewModelContext.windowHandle.window, sourcesPickerModel.sourcesSelection(), [d.singingClip])
             drop.acceptProposedAction()
         }
     }

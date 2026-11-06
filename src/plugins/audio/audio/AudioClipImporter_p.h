@@ -14,8 +14,8 @@
 
 #include <dspxmodelORM/AudioClip.h>
 
-namespace Core {
-    class DspxDocument;
+namespace DspxProject {
+    class Document;
 }
 
 namespace Audio {
@@ -25,7 +25,7 @@ namespace Audio {
     public:
         AudioClipImporter *q_ptr{};
         QPointer<Core::ProjectWindowInterface> windowHandle;
-        QPointer<Core::DspxDocument> document;
+        QPointer<DspxProject::Document> document;
         std::unique_ptr<talcs::AbstractAudioFormatIO> io;
         QString fileName;
         dspx::AudioPathInfo path;

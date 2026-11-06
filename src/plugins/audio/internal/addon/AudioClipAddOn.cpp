@@ -35,9 +35,11 @@
 #include <dspxmodelSelectionModel/SelectionModel.h>
 #include <dspxmodelSelectionModel/TrackSelectionModel.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <uishell/DialogPositioner.h>
+
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <transactional/TransactionController.h>
@@ -71,18 +73,11 @@ namespace Audio::Internal {
         if (!dialog) {
             qFatal() << component->errorString();
         }
-        auto width = dialog->property("width").toDouble();
-        auto height = dialog->property("height").toDouble();
-        dialog->setProperty("x", window->width() / 2.0 - width / 2);
-        if (auto popupTopMarginHint = window->property("popupTopMarginHint"); popupTopMarginHint.isValid()) {
-            dialog->setProperty("y", popupTopMarginHint);
-        } else {
-            dialog->setProperty("y", window->height() / 2.0 - height / 2);
-        }
+        UIShell::DialogPositioner::positionPopup(dialog, window);
         return dialog;
     }
 
-    static dspx::Track *currentTrack(Core::DspxDocument *document) {
+    static dspx::Track *currentTrack(DspxProject::Document *document) {
         auto selectionModel = document ? document->selectionModel() : nullptr;
         auto trackSelectionModel = selectionModel ? selectionModel->trackSelectionModel() : nullptr;
         auto track = trackSelectionModel ? trackSelectionModel->currentItem() : nullptr;

@@ -112,16 +112,20 @@ Window {
         id: commandPalettePopup
         property double horizontalOffset: 0
         property double verticalOffset: 0
-        x: (window.width - implicitWidth) / 2 + horizontalOffset
-        y: popupTopMarginHint + verticalOffset
+        readonly property point popupPosition: DialogPositioner.position(Qt.size(window.width, window.height),
+                                                                         Qt.size(implicitWidth, implicitHeight), window.popupTopMarginHint)
+        x: popupPosition.x + horizontalOffset
+        y: popupPosition.y + verticalOffset
         emptyText: qsTr("Empty")
     }
     InputPalette {
         id: inputPalettePopup
         property double horizontalOffset: 0
         property double verticalOffset: 0
-        x: (window.width - implicitWidth) / 2 + horizontalOffset
-        y: popupTopMarginHint + verticalOffset
+        readonly property point popupPosition: DialogPositioner.position(Qt.size(window.width, window.height),
+                                                                         Qt.size(implicitWidth, implicitHeight), window.popupTopMarginHint)
+        x: popupPosition.x + horizontalOffset
+        y: popupPosition.y + verticalOffset
     }
     Rectangle {
         anchors.fill: parent

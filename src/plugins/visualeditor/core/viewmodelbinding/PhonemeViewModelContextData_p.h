@@ -23,6 +23,10 @@
 
 class QQuickItem;
 
+namespace DspxProject {
+    class Document;
+}
+
 namespace dspx {
     class Note;
     class Phoneme;
@@ -42,10 +46,6 @@ namespace sflow {
 
 namespace SVS {
     class MusicTimeline;
-}
-
-namespace Core {
-    class DspxDocument;
 }
 
 namespace VisualEditor {
@@ -89,7 +89,7 @@ namespace VisualEditor {
 
         ~PhonemeViewModelContextData() override;
 
-        Core::DspxDocument *document{};
+        DspxProject::Document *document{};
         SVS::MusicTimeline *musicTimeline{};
         dspx::TempoSequence *tempoSequence{};
         dspx::TrackList *trackList{};

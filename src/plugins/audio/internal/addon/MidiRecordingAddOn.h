@@ -21,9 +21,12 @@
 
 class QTimer;
 
-namespace Core {
-    class DspxDocument;
+namespace DspxProject {
+    class Document;
     class ProjectTimeline;
+}
+
+namespace Core {
     class ProjectWindowInterface;
 }
 
@@ -130,8 +133,8 @@ namespace Audio::Internal {
         void finishHeldNotes(int tick, quint64 sourceId = 0, int channel = 0, bool allSources = true);
         void failRecording(const char *message);
 
-        QPointer<Core::DspxDocument> m_document;
-        Core::ProjectTimeline *m_timeline{};
+        QPointer<DspxProject::Document> m_document;
+        DspxProject::ProjectTimeline *m_timeline{};
         QPointer<MidiInputContext> m_inputContext;
         QPointer<ProjectAudioContext> m_audioContext;
         std::unique_ptr<InputListener> m_listener;

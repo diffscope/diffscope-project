@@ -45,11 +45,11 @@
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/internal/KeySignatureAtSpecifiedPositionHelper.h>
+#include <dspxproject/KeySignatureAtSpecifiedPositionHelper.h>
 
 #include <transactional/TransactionController.h>
 #include <visualeditor/AutoPageScrollingManipulator.h>
@@ -70,7 +70,7 @@ namespace VisualEditor {
         auto projectTimeline = windowHandle->projectTimeline();
         timeViewModel->setTimeline(projectTimeline->musicTimeline());
         timeViewModel->setEnd(projectTimeline->rangeHint());
-        QObject::connect(projectTimeline, &Core::ProjectTimeline::rangeHintChanged, timeViewModel, [=, this] {
+        QObject::connect(projectTimeline, &DspxProject::ProjectTimeline::rangeHintChanged, timeViewModel, [=, this] {
             timeViewModel->setEnd(projectTimeline->rangeHint());
         });
         QObject::connect(timeViewModel, &sflow::TimeViewModel::endChanged, projectTimeline, [=, this] {
@@ -399,12 +399,12 @@ namespace VisualEditor {
         applyLabelStrategy();
         QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::pianoKeyboardLabelPolicyChanged, clavierInteractionController, applyLabelStrategy);
 
-        auto keySignatureAtSpecifiedPositionHelper = new Core::Internal::KeySignatureAtSpecifiedPositionHelper(const_cast<PianoRollPanelInterface *>(q));
+        auto keySignatureAtSpecifiedPositionHelper = new DspxProject::KeySignatureAtSpecifiedPositionHelper(const_cast<PianoRollPanelInterface *>(q));
         keySignatureAtSpecifiedPositionHelper->setKeySignatureSequence(windowHandle->projectDocumentContext()->document()->model()->keySignatures());
         keySignatureAtSpecifiedPositionHelper->setPosition(windowHandle->projectTimeline()->position());
         clavierInteractionController->setAccidentalType(static_cast<sflow::ClavierInteractionController::AccidentalType>(keySignatureAtSpecifiedPositionHelper->accidentalType()));
-        QObject::connect(windowHandle->projectTimeline(), &Core::ProjectTimeline::positionChanged, keySignatureAtSpecifiedPositionHelper, &Core::Internal::KeySignatureAtSpecifiedPositionHelper::setPosition);
-        QObject::connect(keySignatureAtSpecifiedPositionHelper, &Core::Internal::KeySignatureAtSpecifiedPositionHelper::accidentalTypeChanged, clavierInteractionController, [=] {
+        QObject::connect(windowHandle->projectTimeline(), &DspxProject::ProjectTimeline::positionChanged, keySignatureAtSpecifiedPositionHelper, &DspxProject::KeySignatureAtSpecifiedPositionHelper::setPosition);
+        QObject::connect(keySignatureAtSpecifiedPositionHelper, &DspxProject::KeySignatureAtSpecifiedPositionHelper::accidentalTypeChanged, clavierInteractionController, [=] {
             clavierInteractionController->setAccidentalType(static_cast<sflow::ClavierInteractionController::AccidentalType>(keySignatureAtSpecifiedPositionHelper->accidentalType()));
         });
     }

@@ -30,7 +30,7 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/DspxCheckerRegistry.h>
+#include <dspxproject/CheckerRegistry.h>
 #include <coreplugin/ProjectFileDialogs.h>
 
 namespace Core {
@@ -93,7 +93,7 @@ namespace Core {
 
         connect(browseButton, &QPushButton::clicked, this, [this] {
             ProjectFileDialogs dialogs(windowHandle());
-            const ProjectPathRequest request{ProjectPathRequest::Open, {}, {}};
+            const DspxProject::ProjectPathRequest request{DspxProject::ProjectPathRequest::Open, {}, {}};
             auto path = dialogs.requestPath(request);
             if (!path.isEmpty())
                 setPath(path);
@@ -443,13 +443,13 @@ namespace Core {
                 );
             }
 
-            auto customCheckResult = CoreInterface::dspxCheckerRegistry()->runCheck(dspxModel, IDspxChecker::Weak, false);
+            auto customCheckResult = CoreInterface::dspxCheckerRegistry()->runCheck(dspxModel, DspxProject::IChecker::Weak, false);
             for (const auto &warning : customCheckResult) {
                 addErrorItem(
                     problemModel,
                     warning.message,
                     warning.jsonPath,
-                    warning.level == IDspxChecker::Strong ? style()->standardIcon(QStyle::SP_MessageBoxWarning) : QIcon(),
+                    warning.level == DspxProject::IChecker::Strong ? style()->standardIcon(QStyle::SP_MessageBoxWarning) : QIcon(),
                     warning.info,
                     warning.description
                 );

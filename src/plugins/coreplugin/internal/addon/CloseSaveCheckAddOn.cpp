@@ -4,7 +4,7 @@
 #include "CloseSaveCheckAddOn.h"
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/ProjectLifecycleScenario.h>
+#include <dspxproject/ProjectLifecycleScenario.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 namespace Core::Internal {
@@ -17,7 +17,7 @@ namespace Core::Internal {
     void CloseSaveCheckAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         windowInterface->addCloseCallback([windowInterface] {
-            return CoreInterface::projectLifecycleScenario()->prepareClose(windowInterface->projectDocumentContext(), windowInterface->window()) == ProjectLifecycleScenario::Status::Success;
+            return CoreInterface::projectLifecycleScenario()->prepareClose(windowInterface->projectDocumentContext(), windowInterface->window()) == DspxProject::ProjectLifecycleScenario::Status::Success;
         });
     }
 

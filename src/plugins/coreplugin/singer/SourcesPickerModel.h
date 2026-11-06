@@ -17,6 +17,10 @@
 
 #include <coreplugin/coreglobal.h>
 
+namespace DspxProject {
+    struct SourcesSelection;
+}
+
 namespace dspx {
     class Sources;
 }
@@ -71,6 +75,7 @@ namespace Core {
         QList<opendspx::SingerRef> singers() const;
         opendspx::SingerRef singer(const QModelIndex &index) const;
         void setSingers(const QList<opendspx::SingerRef> &singers);
+        Q_INVOKABLE DspxProject::SourcesSelection sourcesSelection() const;
         Q_INVOKABLE void fromSources(dspx::Sources *sources);
         Q_INVOKABLE void fromDefaultSinger(const QString &singerId);
         Q_INVOKABLE QByteArray serialize() const;

@@ -11,8 +11,8 @@
 
 class QJSEngine;
 
-namespace Core {
-    class DspxDocument;
+namespace DspxProject {
+    class Document;
 }
 
 namespace BatchProcess {
@@ -30,7 +30,7 @@ namespace BatchProcess::Internal {
         ~CoreModuleExtension() override;
         QJSValue wrap(ScriptExecutionContext *context, QObject *object) const;
         QObject *unwrap(ScriptExecutionContext *context, const QJSValue &value) const;
-        void releaseDocument(Core::DspxDocument *document);
+        void releaseDocument(DspxProject::Document *document);
 
     private:
         void install(QJSEngine *engine, ScriptExecutionContext *context);

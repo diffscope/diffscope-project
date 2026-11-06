@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+SPDX-FileCopyrightText: Team OpenVPI
+SPDX-License-Identifier: LGPL-3.0-or-later
+-->
+<!DOCTYPE TS>
+<TS version="2.1" language="en_US" sourcelanguage="en-US">
+<context>
+    <name>DspxProject::ClipboardEditScenario</name>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="147"/>
+        <source>Pasting tempo</source>
+        <translation type="unfinished">Pasting tempo</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="149"/>
+        <source>Pasting label</source>
+        <translation type="unfinished">Pasting label</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="151"/>
+        <source>Pasting key signature</source>
+        <translation type="unfinished">Pasting key signature</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="153"/>
+        <source>Pasting track</source>
+        <translation type="unfinished">Pasting track</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="155"/>
+        <source>Pasting clip</source>
+        <translation type="unfinished">Pasting clip</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="157"/>
+        <source>Pasting note</source>
+        <translation type="unfinished">Pasting note</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="159"/>
+        <source>Pasting voice blending anchor</source>
+        <translation type="unfinished">Pasting voice blending anchor</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="161"/>
+        <source>Pasting anchor node</source>
+        <translation type="unfinished">Pasting anchor node</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="163"/>
+        <source>Pasting parameter data</source>
+        <translation type="unfinished">Pasting parameter data</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="171"/>
+        <source>Deleting parameter data</source>
+        <translation type="unfinished">Deleting parameter data</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="173"/>
+        <source>Deleting tempo</source>
+        <translation type="unfinished">Deleting tempo</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="175"/>
+        <source>Deleting label</source>
+        <translation type="unfinished">Deleting label</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="177"/>
+        <source>Deleting key signature</source>
+        <translation type="unfinished">Deleting key signature</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="179"/>
+        <source>Deleting track</source>
+        <translation type="unfinished">Deleting track</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="181"/>
+        <source>Deleting clip</source>
+        <translation type="unfinished">Deleting clip</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="183"/>
+        <source>Deleting note</source>
+        <translation type="unfinished">Deleting note</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="185"/>
+        <source>Deleting anchor node</source>
+        <translation type="unfinished">Deleting anchor node</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="187"/>
+        <source>Deleting voice blending anchor</source>
+        <translation type="unfinished">Deleting voice blending anchor</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="189"/>
+        <source>Deleting selection</source>
+        <translation type="unfinished">Deleting selection</translation>
+    </message>
+</context>
+<context>
+    <name>DspxProject::EditItemsScenario</name>
+    <message>
+        <location filename="../../src/scenarios/EditItemsScenario.cpp" line="29"/>
+        <source>Splitting clip</source>
+        <translation type="unfinished">Splitting clip</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/EditItemsScenario.cpp" line="31"/>
+        <source>Splitting note</source>
+        <translation type="unfinished">Splitting note</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/EditItemsScenario.cpp" line="94"/>
+        <source>Bouncing to clip</source>
+        <translation type="unfinished">Bouncing to clip</translation>
+    </message>
+</context>
+<context>
+    <name>DspxProject::EditKeySignatureScenario</name>
+    <message>
+        <location filename="../../src/scenarios/EditKeySignatureScenario.cpp" line="82"/>
+        <source>Editing key signature</source>
+        <translation type="unfinished">Editing key signature</translation>
+    </message>
+</context>
+<context>
+    <name>DspxProject::EditLoopScenario</name>
+    <message>
+        <location filename="../../src/scenarios/EditLoopScenario.cpp" line="75"/>
+        <source>Editing loop</source>
+        <translation type="unfinished">Editing loop</translation>
+    </message>
+</context>
+<context>
+    <name>DspxProject::EditSourcesScenario</name>
+    <message>
+        <location filename="../../src/scenarios/EditSourcesScenario.cpp" line="177"/>
+        <source>Editing sources</source>
+        <translation type="unfinished">Editing sources</translation>
+    </message>
+</context>
+<context>
+    <name>DspxProject::EditTempoTimeSignatureScenario</name>
+    <message>
+        <location filename="../../src/scenarios/EditTempoTimeSignatureScenario.cpp" line="69"/>
+        <source>Editing tempo</source>
+        <translation type="unfinished">Editing tempo</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/EditTempoTimeSignatureScenario.cpp" line="145"/>
+        <source>Editing time signature</source>
+        <translation type="unfinished">Editing time signature</translation>
+    </message>
+</context>
+<context>
+    <name>DspxProject::FillLyricsScenario</name>
+    <message>
+        <location filename="../../src/scenarios/FillLyricsScenario.cpp" line="82"/>
+        <source>Filling lyrics</source>
+        <translation type="unfinished">Filling lyrics</translation>
+    </message>
+</context>
+<context>
+    <name>DspxProject::InsertItemScenario</name>
+    <message>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="70"/>
+        <source>Adding track</source>
+        <translation type="unfinished">Adding track</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="73"/>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="118"/>
+        <source>Unnamed track</source>
+        <translation type="unfinished">Unnamed track</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="133"/>
+        <source>Inserting track</source>
+        <translation type="unfinished">Inserting track</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="191"/>
+        <source>Inserting label</source>
+        <translation type="unfinished">Inserting label</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="250"/>
+        <source>Unnamed clip</source>
+        <translation type="unfinished">Unnamed clip</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="280"/>
+        <source>Inserting singing clip</source>
+        <translation type="unfinished">Inserting singing clip</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="363"/>
+        <source>Inserting note</source>
+        <translation type="unfinished">Inserting note</translation>
+    </message>
+    <message>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="441"/>
+        <source>Inserting phoneme</source>
+        <translation type="unfinished">Inserting phoneme</translation>
+    </message>
+</context>
+<context>
+    <name>DspxProject::PickTrackColorScenario</name>
+    <message>
+        <location filename="../../src/scenarios/PickTrackColorScenario.cpp" line="57"/>
+        <source>Picking track color</source>
+        <translation type="unfinished">Picking track color</translation>
+    </message>
+</context>
+</TS>

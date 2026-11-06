@@ -2,14 +2,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "ProjectWindowInterface.h"
+#include "ProjectWindowInterface_p.h"
 
 #include <algorithm>
 #include <ranges>
+#include <utility>
 
+#include <QColor>
 #include <QDir>
 #include <QIcon>
+#include <QPointer>
 #include <QQmlComponent>
 #include <QQuickWindow>
+#include <QVariant>
 
 #include <CoreApi/filelocker.h>
 #include <CoreApi/runtimeinterface.h>
@@ -35,73 +40,176 @@
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
 
-#include <coreplugin/DspxDocument.h>
+#include <dspxproject/Clipboard.h>
+#include <dspxproject/ClipboardEditScenario.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/EditItemsScenario.h>
+#include <dspxproject/EditKeySignatureScenario.h>
+#include <dspxproject/EditLoopScenario.h>
+#include <dspxproject/EditSourcesScenario.h>
+#include <dspxproject/EditTempoTimeSignatureScenario.h>
+#include <dspxproject/FillLyricsScenario.h>
+#include <dspxproject/InsertItemScenario.h>
+#include <dspxproject/ParameterResamplingScenario.h>
+#include <dspxproject/PickTrackColorScenario.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
+
+#include <coreplugin/CoreInterface.h>
+#include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/NotificationMessage.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <coreplugin/TrackColorSchema.h>
+#include <coreplugin/internal/BehaviorPreference.h>
+#include <coreplugin/internal/CoreClipboardEditStrategy.h>
+#include <coreplugin/internal/CoreEditItemsStrategy.h>
+#include <coreplugin/internal/CoreEditKeySignatureStrategy.h>
+#include <coreplugin/internal/CoreEditLoopStrategy.h>
+#include <coreplugin/internal/CoreEditSourcesStrategy.h>
+#include <coreplugin/internal/CoreEditTempoTimeSignatureStrategy.h>
+#include <coreplugin/internal/CoreFillLyricsStrategy.h>
+#include <coreplugin/internal/CoreInsertItemStrategy.h>
+#include <coreplugin/internal/CoreParameterResamplingStrategy.h>
+#include <coreplugin/internal/CorePickTrackColorStrategy.h>
 #include <coreplugin/internal/NotificationManager.h>
 
 namespace Core {
 
-    class ProjectWindowInterfacePrivate {
-        Q_DECLARE_PUBLIC(ProjectWindowInterface)
-    public:
-        ProjectWindowInterface *q_ptr;
-        Internal::NotificationManager *notificationManager;
-        ProjectTimeline *projectTimeline;
-        ProjectDocumentContext *projectDocumentContext;
-        NotificationMessage *operationConflictMessage{};
+    template <typename Scenario, typename Strategy, typename... Args>
+    static Scenario *createEditScenario(ProjectWindowInterface *projectWindow, DspxProject::Document *document, Args &&...args) {
+        auto strategy = new Strategy(document);
+        auto scenario = new Scenario(document, strategy, std::forward<Args>(args)..., projectWindow);
+        strategy->setParent(scenario);
+        return scenario;
+    }
 
-        void init() {
-            Q_Q(ProjectWindowInterface);
-            initActionContext();
-            notificationManager = new Internal::NotificationManager(q);
-            projectTimeline = new ProjectTimeline(projectDocumentContext->document(), q);
-            q->boundTimelineRangeHint();
-        }
+    void ProjectWindowInterfacePrivate::init() {
+        Q_Q(ProjectWindowInterface);
+        auto document = projectDocumentContext->document();
+        Q_ASSERT(!ProjectWindowInterface::of(document));
+        notificationManager = new Internal::NotificationManager(q);
+        projectTimeline = new DspxProject::ProjectTimeline(document, q);
+        document->setProperty(ProjectWindowInterface::staticMetaObject.className(), QVariant::fromValue(QPointer(q)));
+        initEditScenarios();
+        initActionContext();
+        q->boundTimelineRangeHint();
+    }
 
-        void initActionContext() {
-            Q_Q(ProjectWindowInterface);
-            auto actionContext = q->actionContext();
-            {
-                QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "GlobalActions");
-                if (component.isError()) {
-                    qFatal() << component.errorString();
-                }
-                auto o = component.createWithInitialProperties({
-                    {"windowHandle", QVariant::fromValue(q)}
-                });
-                if (!o) {
-                    qFatal() << component.errorString();
-                }
-                o->setParent(q);
-                QMetaObject::invokeMethod(o, "registerToContext", actionContext);
+    void ProjectWindowInterfacePrivate::initEditScenarios() {
+        Q_Q(ProjectWindowInterface);
+        auto document = projectDocumentContext->document();
+        auto resamplingStrategy = new Internal::CoreParameterResamplingStrategy(q);
+        auto resampling = new DspxProject::ParameterResamplingScenario(resamplingStrategy, {
+            .skipResamplingCheck = &Internal::BehaviorPreference::skipParameterResamplingCheck,
+            .skipFutureResamplingChecks = [] {
+                Internal::BehaviorPreference::setSkipParameterResamplingCheck(true);
+                Internal::BehaviorPreference::instance()->save();
+            },
+        }, q);
+        resamplingStrategy->setParent(resampling);
+        clipboardEditScenario = createEditScenario<DspxProject::ClipboardEditScenario, Internal::CoreClipboardEditStrategy>(q, document, DspxProject::Clipboard::instance(), resampling);
+        editItemsScenario = createEditScenario<DspxProject::EditItemsScenario, Internal::CoreEditItemsStrategy>(q, document, resampling);
+        editKeySignatureScenario = createEditScenario<DspxProject::EditKeySignatureScenario, Internal::CoreEditKeySignatureStrategy>(q, document);
+        editLoopScenario = createEditScenario<DspxProject::EditLoopScenario, Internal::CoreEditLoopStrategy>(q, document);
+        editSourcesScenario = createEditScenario<DspxProject::EditSourcesScenario, Internal::CoreEditSourcesStrategy>(q, document, CoreInterface::singerRegistry());
+        editTempoTimeSignatureScenario = createEditScenario<DspxProject::EditTempoTimeSignatureScenario, Internal::CoreEditTempoTimeSignatureStrategy>(q, document);
+        fillLyricsScenario = createEditScenario<DspxProject::FillLyricsScenario, Internal::CoreFillLyricsStrategy>(q, document);
+        insertItemScenario = createEditScenario<DspxProject::InsertItemScenario, Internal::CoreInsertItemStrategy>(q, document, DspxProject::InsertItemScenario::Options{
+            .trackColorCount = [] { return static_cast<int>(CoreInterface::trackColorSchema()->colors().size()); },
+            .defaultLyricForClip = [](dspx::SingingClip *clip) { return CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(clip); },
+        });
+        pickTrackColorScenario = createEditScenario<DspxProject::PickTrackColorScenario, Internal::CorePickTrackColorStrategy>(q, document);
+    }
+
+    void ProjectWindowInterfacePrivate::initActionContext() {
+        Q_Q(ProjectWindowInterface);
+        auto actionContext = q->actionContext();
+        {
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "GlobalActions");
+            if (component.isError()) {
+                qFatal() << component.errorString();
             }
-            {
-                QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectActions");
-                if (component.isError()) {
-                    qFatal() << component.errorString();
-                }
-                auto o = component.createWithInitialProperties({
-                    {"windowHandle", QVariant::fromValue(q)},
-                });
-                if (!o) {
-                    qFatal() << component.errorString();
-                }
-                o->setParent(q);
-                QMetaObject::invokeMethod(o, "registerToContext", actionContext);
+            auto o = component.createWithInitialProperties({
+                {"windowHandle", QVariant::fromValue(q)}
+            });
+            if (!o) {
+                qFatal() << component.errorString();
             }
+            o->setParent(q);
+            QMetaObject::invokeMethod(o, "registerToContext", actionContext);
         }
-    };
+        {
+            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectActions");
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            auto o = component.createWithInitialProperties({
+                {"windowHandle", QVariant::fromValue(q)},
+            });
+            if (!o) {
+                qFatal() << component.errorString();
+            }
+            o->setParent(q);
+            QMetaObject::invokeMethod(o, "registerToContext", actionContext);
+        }
+    }
 
-    ProjectTimeline *ProjectWindowInterface::projectTimeline() const {
+    ProjectWindowInterface *ProjectWindowInterface::of(const DspxProject::Document *document) {
+        return document->property(staticMetaObject.className()).value<QPointer<ProjectWindowInterface>>();
+    }
+
+    DspxProject::ProjectTimeline *ProjectWindowInterface::projectTimeline() const {
         Q_D(const ProjectWindowInterface);
         return d->projectTimeline;
     }
 
-    ProjectDocumentContext *ProjectWindowInterface::projectDocumentContext() const {
+    DspxProject::ProjectDocumentContext *ProjectWindowInterface::projectDocumentContext() const {
         Q_D(const ProjectWindowInterface);
         return d->projectDocumentContext;
+    }
+
+    DspxProject::ClipboardEditScenario *ProjectWindowInterface::clipboardEditScenario() const {
+        Q_D(const ProjectWindowInterface);
+        return d->clipboardEditScenario;
+    }
+
+    DspxProject::EditItemsScenario *ProjectWindowInterface::editItemsScenario() const {
+        Q_D(const ProjectWindowInterface);
+        return d->editItemsScenario;
+    }
+
+    DspxProject::EditKeySignatureScenario *ProjectWindowInterface::editKeySignatureScenario() const {
+        Q_D(const ProjectWindowInterface);
+        return d->editKeySignatureScenario;
+    }
+
+    DspxProject::EditLoopScenario *ProjectWindowInterface::editLoopScenario() const {
+        Q_D(const ProjectWindowInterface);
+        return d->editLoopScenario;
+    }
+
+    DspxProject::EditSourcesScenario *ProjectWindowInterface::editSourcesScenario() const {
+        Q_D(const ProjectWindowInterface);
+        return d->editSourcesScenario;
+    }
+
+    DspxProject::EditTempoTimeSignatureScenario *ProjectWindowInterface::editTempoTimeSignatureScenario() const {
+        Q_D(const ProjectWindowInterface);
+        return d->editTempoTimeSignatureScenario;
+    }
+
+    DspxProject::FillLyricsScenario *ProjectWindowInterface::fillLyricsScenario() const {
+        Q_D(const ProjectWindowInterface);
+        return d->fillLyricsScenario;
+    }
+
+    DspxProject::InsertItemScenario *ProjectWindowInterface::insertItemScenario() const {
+        Q_D(const ProjectWindowInterface);
+        return d->insertItemScenario;
+    }
+
+    DspxProject::PickTrackColorScenario *ProjectWindowInterface::pickTrackColorScenario() const {
+        Q_D(const ProjectWindowInterface);
+        return d->pickTrackColorScenario;
     }
 
     void ProjectWindowInterface::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
@@ -190,7 +298,7 @@ namespace Core {
         return win;
     }
 
-    ProjectWindowInterface::ProjectWindowInterface(ProjectDocumentContext *projectDocumentContext, QObject *parent) : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {
+    ProjectWindowInterface::ProjectWindowInterface(DspxProject::ProjectDocumentContext *projectDocumentContext, QObject *parent) : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {
         Q_D(ProjectWindowInterface);
         d->projectDocumentContext = projectDocumentContext;
         if (d->projectDocumentContext->fileLocker()) {

@@ -17,7 +17,7 @@
 #include <TalcsFormat/AudioFormatInputSource.h>
 #include <TalcsFormat/FormatManager.h>
 
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/GlobalAudioContext.h>

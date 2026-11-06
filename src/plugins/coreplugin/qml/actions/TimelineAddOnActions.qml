@@ -9,6 +9,7 @@ import QActionKit
 
 import DiffScope.UIShell
 import DiffScope.Core
+import DiffScope.DspxProject as DspxProject
 
 ActionCollection {
     id: d
@@ -17,24 +18,9 @@ ActionCollection {
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
     readonly property QtObject transactionController: windowHandle?.projectDocumentContext.document?.transactionController ?? null
     readonly property Window window: addOn?.windowHandle.window ?? null
-    readonly property EditTempoTimeSignatureScenario editTempoTimeSignatureScenario: EditTempoTimeSignatureScenario {
-        id: editTempoTimeSignatureScenario
-        window: d.window
-        projectTimeline: d.windowHandle?.projectTimeline ?? null
-        document: d.windowHandle?.projectDocumentContext.document ?? null
-    }
-    readonly property EditLoopScenario editLoopScenario: EditLoopScenario {
-        id: editLoopScenario
-        window: d.window
-        projectTimeline: windowHandle?.projectTimeline ?? null
-        document: windowHandle?.projectDocumentContext.document ?? null
-    }
-    readonly property EditKeySignatureScenario editKeySignatureScenario: EditKeySignatureScenario {
-        id: editKeySignatureScenario
-        window: d.window
-        projectTimeline: windowHandle?.projectTimeline ?? null
-        document: windowHandle?.projectDocumentContext.document ?? null
-    }
+    readonly property DspxProject.EditTempoTimeSignatureScenario editTempoTimeSignatureScenario: windowHandle?.editTempoTimeSignatureScenario ?? null
+    readonly property DspxProject.EditLoopScenario editLoopScenario: windowHandle?.editLoopScenario ?? null
+    readonly property DspxProject.EditKeySignatureScenario editKeySignatureScenario: windowHandle?.editKeySignatureScenario ?? null
 
     ActionItem {
         actionId: "org.diffscope.core.widget.digitalClock"
@@ -141,9 +127,9 @@ ActionCollection {
             timeSignatureText: d.addOn.timeSignatureText
             keySignatureText: d.addOn.keySignatureText
 
-            onTempoClicked: editTempoTimeSignatureScenario.editTempo()
-            onTimeSignatureClicked: editTempoTimeSignatureScenario.editTimeSignature()
-            onKeySignatureClicked: editKeySignatureScenario.editKeySignature()
+            onTempoClicked: editTempoTimeSignatureScenario.editTempo(d.window, d.windowHandle.projectTimeline)
+            onTimeSignatureClicked: editTempoTimeSignatureScenario.editTimeSignature(d.window, d.windowHandle.projectTimeline)
+            onKeySignatureClicked: editKeySignatureScenario.editKeySignature(d.window, d.windowHandle.projectTimeline)
         }
     }
 
@@ -246,7 +232,7 @@ ActionCollection {
         actionId: "org.diffscope.core.timeline.editTempo"
         Action {
             enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
-            onTriggered: Qt.callLater(() => editTempoTimeSignatureScenario.editTempo())
+            onTriggered: Qt.callLater(() => editTempoTimeSignatureScenario.editTempo(d.window, d.windowHandle.projectTimeline))
         }
     }
 
@@ -254,7 +240,7 @@ ActionCollection {
         actionId: "org.diffscope.core.timeline.editTimeSignature"
         Action {
             enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
-            onTriggered: Qt.callLater(() => editTempoTimeSignatureScenario.editTimeSignature())
+            onTriggered: Qt.callLater(() => editTempoTimeSignatureScenario.editTimeSignature(d.window, d.windowHandle.projectTimeline))
         }
     }
 
@@ -262,7 +248,7 @@ ActionCollection {
         actionId: "org.diffscope.core.timeline.editLoop"
         Action {
             enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
-            onTriggered: Qt.callLater(() => editLoopScenario.editLoop())
+            onTriggered: Qt.callLater(() => editLoopScenario.editLoop(d.window, d.windowHandle.projectTimeline))
         }
     }
 

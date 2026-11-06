@@ -10,17 +10,19 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.Core
+import DiffScope.DspxProject as DspxProject
 
 Dialog {
     id: dialog
 
-    required property QtObject addOn
+    required property QtObject strategy
+    required property int noteCount
     property string lyricsText
     property int splitMode
     property string regularExpression
     property bool truncateToSelection
 
-    readonly property bool regularExpressionValid: addOn.isRegularExpressionValid(regularExpression)
+    readonly property bool regularExpressionValid: strategy.isRegularExpressionValid(regularExpression)
 
     width: 480
     height: 560
@@ -29,8 +31,8 @@ Dialog {
     closePolicy: Popup.CloseOnEscape
 
     function selectSplitMode(mode) {
-        if (mode !== FillLyricsAddOn.SplitMode_Regex)
-            regularExpression = addOn.regularExpressionForSplitMode(mode)
+        if (mode !== DspxProject.FillLyricsScenario.SplitMode_Regex)
+            regularExpression = strategy.regularExpressionForSplitMode(mode)
         splitMode = mode
     }
 
@@ -93,7 +95,7 @@ Dialog {
                                 previewRepeater.previewRegularExpression: dialog.regularExpression
                                 previewRepeater.previewTruncateToSelection: dialog.truncateToSelection
                             }
-                            readonly property list<string> lyrics: dialog.addOn.splitLyrics(previewLyricsText, previewRegularExpression)
+                            readonly property list<string> lyrics: dialog.strategy.splitLyrics(previewLyricsText, previewRegularExpression)
                             model: lyrics
                             delegate: Frame {
                                 id: previewFrame
@@ -106,7 +108,7 @@ Dialog {
                                 background: Rectangle {
                                     color: Theme.textFieldColor
                                     border.width: 1
-                                    border.color: (previewRepeater.previewTruncateToSelection && previewFrame.index >= dialog.addOn.windowHandle.projectDocumentContext.document.selectionModel.selectedCount) ? Theme.warningColor : Theme.borderColor
+                                    border.color: (previewRepeater.previewTruncateToSelection && previewFrame.index >= dialog.noteCount) ? Theme.warningColor : Theme.borderColor
                                 }
                             }
                         }
@@ -135,22 +137,22 @@ Dialog {
                 TabButton {
                     icon.source: "image://fluent-system-icons/local_language_zi"
                     text: qsTr("Auto")
-                    onClicked: dialog.selectSplitMode(FillLyricsAddOn.SplitMode_Auto)
+                    onClicked: dialog.selectSplitMode(DspxProject.FillLyricsScenario.SplitMode_Auto)
                 }
                 TabButton {
                     icon.source: "image://fluent-system-icons/square_zi"
                     text: qsTr("Character")
-                    onClicked: dialog.selectSplitMode(FillLyricsAddOn.SplitMode_Character)
+                    onClicked: dialog.selectSplitMode(DspxProject.FillLyricsScenario.SplitMode_Character)
                 }
                 TabButton {
                     icon.source: "image://fluent-system-icons/text_whole_word"
                     text: qsTr("Word")
-                    onClicked: dialog.selectSplitMode(FillLyricsAddOn.SplitMode_Word)
+                    onClicked: dialog.selectSplitMode(DspxProject.FillLyricsScenario.SplitMode_Word)
                 }
                 TabButton {
                     icon.source: "image://fluent-system-icons/text_period_asterisk"
                     text: qsTr("Regex")
-                    onClicked: dialog.selectSplitMode(FillLyricsAddOn.SplitMode_Regex)
+                    onClicked: dialog.selectSplitMode(DspxProject.FillLyricsScenario.SplitMode_Regex)
                 }
             }
 
@@ -163,7 +165,7 @@ Dialog {
                 Accessible.labelledBy: regularExpressionLabel
                 Accessible.name: regularExpressionLabel.text
                 Layout.fillWidth: true
-                enabled: dialog.splitMode === FillLyricsAddOn.SplitMode_Regex
+                enabled: dialog.splitMode === DspxProject.FillLyricsScenario.SplitMode_Regex
                 text: dialog.regularExpression
                 ThemedItem.controlType: enabled && !dialog.regularExpressionValid ? SVS.CT_Error : SVS.CT_Normal
                 onTextEdited: dialog.regularExpression = text

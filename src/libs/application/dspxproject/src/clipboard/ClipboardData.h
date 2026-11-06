@@ -1,0 +1,170 @@
+// SPDX-FileCopyrightText: Team OpenVPI
+// SPDX-License-Identifier: LGPL-3.0-or-later
+
+#ifndef DIFFSCOPE_DSPXPROJECT_CLIPBOARDDATA_H
+#define DIFFSCOPE_DSPXPROJECT_CLIPBOARDDATA_H
+
+#include <variant>
+#include <vector>
+
+#include <QByteArray>
+#include <QList>
+#include <QString>
+#include <QVariant>
+
+#include <stdcorelib/support/json.h>
+
+#include <opendspx/model.h>
+
+#include <dspxproject/dspxprojectglobal.h>
+
+namespace DspxProject {
+
+    struct DSPXPROJECT_EXPORT FreeParameterClipboardData {
+        // The copied interval is [0, length).
+        int length{};
+        // The first sample position is relative to the selection start and may be negative.
+        int offset{};
+        // Boundary neighbors retain the source sampling grid. Invalid variants represent gaps.
+        QList<QVariant> values;
+    };
+
+    struct DSPXPROJECT_EXPORT ClipboardData {
+
+        enum Type {
+            Tempo,
+            Label,
+            KeySignature,
+            Track,
+            Clip,
+            Note,
+            DynamicMixingAnchor,
+            AnchorNode,
+            FreeParameter,
+        };
+
+        Type type() const {
+            return static_cast<Type>(m_data.index());
+        }
+
+        void setTempos(const QList<opendspx::Tempo> &tempos) {
+            m_data = tempos;
+        }
+
+        QList<opendspx::Tempo> tempos() const {
+            return std::get<Tempo>(m_data);
+        }
+
+        void setLabels(const QList<opendspx::Label> &labels) {
+            m_data = labels;
+        }
+
+        QList<opendspx::Label> labels() const {
+            return std::get<Label>(m_data);
+        }
+
+        void setKeySignatures(const QList<stdc::json::Value> &keySignatures) {
+            m_data = keySignatures;
+        }
+
+        QList<stdc::json::Value> keySignatures() const {
+            return std::get<KeySignature>(m_data);
+        }
+
+        void setTracks(const QList<opendspx::Track> &tracks) {
+            m_data = tracks;
+        }
+
+        QList<opendspx::Track> tracks() const {
+            return std::get<Track>(m_data);
+        }
+
+        void setClips(const QList<std::vector<opendspx::ClipRef>> &clips) {
+            m_data = clips;
+        }
+
+        QList<std::vector<opendspx::ClipRef>> clips() const {
+            return std::get<Clip>(m_data);
+        }
+
+        void setNotes(const QList<opendspx::Note> &notes) {
+            m_data = notes;
+        }
+
+        QList<opendspx::Note> notes() const {
+            return std::get<Note>(m_data);
+        }
+
+        void setDynamicMixingAnchors(const QList<opendspx::DynamicMixingAnchor> &anchors) {
+            m_data = anchors;
+        }
+
+        QList<opendspx::DynamicMixingAnchor> dynamicMixingAnchors() const {
+            return std::get<DynamicMixingAnchor>(m_data);
+        }
+
+        void setAnchorNodes(const QList<opendspx::AnchorNode> &nodes) {
+            m_data = nodes;
+        }
+
+        QList<opendspx::AnchorNode> anchorNodes() const {
+            return std::get<AnchorNode>(m_data);
+        }
+
+        void setFreeParameter(const FreeParameterClipboardData &parameter) {
+            m_data = parameter;
+        }
+
+        FreeParameterClipboardData freeParameter() const {
+            return std::get<FreeParameter>(m_data);
+        }
+
+        int playhead() const {
+            return m_playhead;
+        }
+
+        void setPlayhead(int playhead) {
+            m_playhead = playhead;
+        }
+
+        int absolute() const {
+            return m_absolute;
+        }
+
+        void setAbsolute(int absolute) {
+            m_absolute = absolute;
+        }
+
+        int track() const {
+            return m_track;
+        }
+
+        void setTrack(int track) {
+            m_track = track;
+        }
+
+        static QString mimeType(Type type);
+        static Type typeFromMimeType(const QString &mimeType, bool *ok = nullptr);
+        QByteArray toData() const;
+        static ClipboardData fromData(const QByteArray &data, Type type, bool *ok = nullptr);
+
+    private:
+        std::variant<
+            QList<opendspx::Tempo>,
+            QList<opendspx::Label>,
+            QList<stdc::json::Value>,
+            QList<opendspx::Track>,
+            QList<std::vector<opendspx::ClipRef>>,
+            QList<opendspx::Note>,
+            QList<opendspx::DynamicMixingAnchor>,
+            QList<opendspx::AnchorNode>,
+            FreeParameterClipboardData
+        > m_data;
+        int m_playhead{};
+        int m_absolute{};
+        int m_track{};
+    };
+
+}
+
+#endif // DIFFSCOPE_DSPXPROJECT_CLIPBOARDDATA_H

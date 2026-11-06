@@ -5,7 +5,7 @@
 #include "ScriptExecutionContext_p.h"
 
 #include <coreplugin/ActionWindowInterfaceBase.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 namespace BatchProcess {
@@ -54,7 +54,7 @@ namespace BatchProcess {
         return d->projectWindowInterface;
     }
 
-    Core::ProjectDocumentContext *ScriptExecutionContext::projectDocumentContext() const {
+    DspxProject::ProjectDocumentContext *ScriptExecutionContext::projectDocumentContext() const {
         Q_D(const ScriptExecutionContext);
         return d->projectDocumentContext;
     }

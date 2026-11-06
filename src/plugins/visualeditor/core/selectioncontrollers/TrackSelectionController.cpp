@@ -17,8 +17,8 @@
 #include <dspxmodelORM/Model.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/DspxDocument.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/Document.h>
 
 #include <visualeditor/ProjectViewModelContext.h>
 

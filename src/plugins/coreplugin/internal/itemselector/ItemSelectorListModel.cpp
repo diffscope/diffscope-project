@@ -51,12 +51,12 @@
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/ItemSelectorDialog.h>
-#include <coreplugin/internal/KeySignatureAtSpecifiedPositionHelper.h>
+#include <dspxproject/KeySignatureAtSpecifiedPositionHelper.h>
 #include <singercatalog/ArchitectureInfo.h>
 #include <singercatalog/ClipSingerIdProvider.h>
 #include <singercatalog/ParameterInfoProvider.h>
@@ -291,10 +291,10 @@ namespace Core::Internal {
                 connect(resolver, &SingerNameResolver::changed, this, [this] {
                     refreshAll(rolesIncludingDescription());
                 });
-                m_keySignatureHelper = new KeySignatureAtSpecifiedPositionHelper(this);
+                m_keySignatureHelper = new DspxProject::KeySignatureAtSpecifiedPositionHelper(this);
                 m_keySignatureHelper->setKeySignatureSequence(document->model()->keySignatures());
                 connect(m_keySignatureHelper,
-                        &KeySignatureAtSpecifiedPositionHelper::keySignatureLookupChanged,
+                        &DspxProject::KeySignatureAtSpecifiedPositionHelper::keySignatureLookupChanged,
                         this, [this] {
                             refreshAll({Qt::DisplayRole});
                         });

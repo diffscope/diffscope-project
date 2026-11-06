@@ -24,9 +24,10 @@
 #include <dspxmodelORM/Clip.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/PickTrackColorScenario.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/DocumentEditHints.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/PickTrackColorScenario.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/TrackColorSchema.h>
 
@@ -884,11 +885,7 @@ namespace VisualEditor {
             return;
         }
 
-        Core::PickTrackColorScenario scenario;
-        scenario.setDocument(document);
-        scenario.setWindow(trackListItem->window());
-        scenario.setShouldDialogPopupAtCursor(true);
-        scenario.pickTrackColor(track);
+        q_ptr->windowHandle()->pickTrackColorScenario()->pickTrackColor(trackListItem->window(), track, DspxProject::DocumentEdit::AtCursor);
     }
 
     QColor TrackViewModelContextData::trackColorForId(int colorId) const {

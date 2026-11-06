@@ -36,6 +36,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     QT_INCLUDE_PRIVATE
         Core
     LINKS
+        dspxproject
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
         QAKCore

@@ -22,6 +22,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         Qml
         Quick
     LINKS
+        dspxproject
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
         QAKCore

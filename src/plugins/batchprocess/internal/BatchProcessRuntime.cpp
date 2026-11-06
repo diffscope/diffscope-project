@@ -28,7 +28,7 @@
 
 #include <coreplugin/ActionWindowInterfaceBase.h>
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <batchprocess/JavaScriptConsoleInterface.h>

@@ -30,6 +30,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QuickControls2
         QuickTemplates2
     LINKS
+        dspxproject
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
         uishell

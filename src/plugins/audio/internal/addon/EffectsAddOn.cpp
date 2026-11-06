@@ -43,8 +43,10 @@
 
 #include <transactional/TransactionController.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <uishell/DialogPositioner.h>
+
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/EffectsUnitClass.h>
@@ -373,14 +375,7 @@ namespace Audio::Internal {
         if (!object) {
             qFatal() << component.errorString();
         }
-        const auto width = object->property("width").toDouble();
-        const auto height = object->property("height").toDouble();
-        object->setProperty("x", quickWindow->width() / 2.0 - width / 2);
-        if (auto popupTopMarginHint = quickWindow->property("popupTopMarginHint"); popupTopMarginHint.isValid()) {
-            object->setProperty("y", popupTopMarginHint);
-        } else {
-            object->setProperty("y", quickWindow->height() / 2.0 - height / 2);
-        }
+        UIShell::DialogPositioner::positionPopup(object, quickWindow);
         QMetaObject::invokeMethod(object, "open");
     }
 

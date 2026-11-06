@@ -17,6 +17,11 @@ class QQmlEngine;
 class QJSEngine;
 class QWindow;
 
+namespace DspxProject {
+    class CheckerRegistry;
+    class ProjectLifecycleScenario;
+}
+
 namespace QAK {
     class ActionRegistry;
     class QuickActionContext;
@@ -33,9 +38,7 @@ namespace Core {
     }
 
     class NotificationMessage;
-    class DspxCheckerRegistry;
     class FileOpenDispatcher;
-    class ProjectLifecycleScenario;
     class PropertyEditorManager;
     class TrackColorSchema;
     class DefaultLyricManager;
@@ -55,7 +58,7 @@ namespace Core {
         Q_PROPERTY(SingerCatalog::SingerRegistry *singerRegistry READ singerRegistry CONSTANT)
         Q_PROPERTY(MixedSingerPresets *mixedSingerPresets READ mixedSingerPresets CONSTANT)
         Q_PROPERTY(FileOpenDispatcher *fileOpenDispatcher READ fileOpenDispatcher CONSTANT)
-        Q_PROPERTY(ProjectLifecycleScenario *projectLifecycleScenario READ projectLifecycleScenario CONSTANT)
+        Q_PROPERTY(DspxProject::ProjectLifecycleScenario *projectLifecycleScenario READ projectLifecycleScenario CONSTANT)
     public:
         static CoreInterface *instance();
         static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
@@ -63,7 +66,7 @@ namespace Core {
         static QAK::ActionRegistry *actionRegistry();
         static QAK::QuickActionContext *actionContext();
 
-        static DspxCheckerRegistry *dspxCheckerRegistry();
+        static DspxProject::CheckerRegistry *dspxCheckerRegistry();
 
         static TrackColorSchema *trackColorSchema();
 
@@ -74,7 +77,7 @@ namespace Core {
         static MixedSingerPresets *mixedSingerPresets();
 
         static FileOpenDispatcher *fileOpenDispatcher();
-        static ProjectLifecycleScenario *projectLifecycleScenario();
+        static DspxProject::ProjectLifecycleScenario *projectLifecycleScenario();
 
         static constexpr const char *dspxEditorId() {
             return "org.diffscope.diffscope";

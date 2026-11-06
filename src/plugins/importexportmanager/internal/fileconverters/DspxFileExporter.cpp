@@ -23,7 +23,7 @@
 #include <opendspx/serializer/serializer.h>
 #include <opendspx/singingclip.h>
 
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectFileDialogs.h>
 
 namespace ImportExportManager::Internal {
@@ -99,7 +99,7 @@ namespace ImportExportManager::Internal {
         QFile file(path);
         if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             qCCritical(lcDspxFileExporter) << "Failed to write file:" << path << file.errorString();
-            const Core::ProjectFileError error{Core::ProjectFileError::Write, path, file.errorString()};
+            const DspxProject::ProjectFileError error{DspxProject::ProjectFileError::Write, path, file.errorString()};
             dialogs.reportError(error);
             return false;
         }
@@ -114,7 +114,7 @@ namespace ImportExportManager::Internal {
         auto bytesWritten = file.write(data);
         if (bytesWritten != data.size()) {
             qCCritical(lcDspxFileExporter) << "Failed to write file:" << path << file.errorString();
-            const Core::ProjectFileError error{Core::ProjectFileError::Write, path, file.errorString()};
+            const DspxProject::ProjectFileError error{DspxProject::ProjectFileError::Write, path, file.errorString()};
             dialogs.reportError(error);
             return false;
         }

@@ -34,6 +34,8 @@
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/MessageBox.h>
 
+#include <uishell/DialogPositioner.h>
+
 #include <coreplugin/ActionWindowInterfaceBase.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
@@ -436,7 +438,7 @@ namespace BatchProcess::Internal {
             if (!dialog) {
                 qFatal() << component.errorString();
             }
-            positionDialog(dialog.get(), quickWindow);
+            UIShell::DialogPositioner::positionPopup(dialog.get(), quickWindow);
             const auto accepted = execDialog(dialog.get());
             return success(accepted ? QJSValue(dialog->property("inputText").toString()) : QJSValue(QJSValue::NullValue));
         }
@@ -511,7 +513,7 @@ namespace BatchProcess::Internal {
             if (!dialog) {
                 qFatal() << component.errorString();
             }
-            positionDialog(dialog.get(), quickWindow);
+            UIShell::DialogPositioner::positionPopup(dialog.get(), quickWindow);
             if (!execDialog(dialog.get())) {
                 return success(QJSValue(QJSValue::NullValue));
             }
@@ -649,16 +651,6 @@ namespace BatchProcess::Internal {
             QMetaObject::invokeMethod(dialog, "open");
             eventLoop.exec();
             return dialog->property("result").toInt() == 1;
-        }
-
-        static void positionDialog(QObject *dialog, QQuickWindow *window) {
-            dialog->setProperty("x", window->width() / 2.0 - dialog->property("width").toDouble() / 2.0);
-            const auto topMargin = window->property("popupTopMarginHint");
-            if (topMargin.isValid()) {
-                dialog->setProperty("y", topMargin);
-            } else {
-                dialog->setProperty("y", window->height() / 2.0 - dialog->property("height").toDouble() / 2.0);
-            }
         }
 
         QVariantList formFields(const QJSValue &fieldsValue) const {

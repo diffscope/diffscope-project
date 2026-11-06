@@ -30,8 +30,8 @@
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/TrackColorSchema.h>
 
@@ -98,7 +98,7 @@ namespace AudioVisualizer::Internal {
             return false;
         }
         const auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
-        QPointer<Core::DspxDocument> document = window->projectDocumentContext()->document();
+        QPointer<DspxProject::Document> document = window->projectDocumentContext()->document();
         if (!document || (firstTrack && firstTrack->trackList() != document->model()->tracks())) {
             return false;
         }
@@ -123,7 +123,7 @@ namespace AudioVisualizer::Internal {
         return true;
     }
 
-    void AudioFileDropAddOn::importFilesNow(const QList<QUrl> &urls, QPointer<Core::DspxDocument> document, QPointer<dspx::Track> firstTrack, int position, Core::TransactionController::ScopedReadLock *readLock) {
+    void AudioFileDropAddOn::importFilesNow(const QList<QUrl> &urls, QPointer<DspxProject::Document> document, QPointer<dspx::Track> firstTrack, int position, Core::TransactionController::ScopedReadLock *readLock) {
         QPointer<AudioFileDropAddOn> guard(this);
         const auto resetImporting = qScopeGuard([guard] {
             if (guard) {

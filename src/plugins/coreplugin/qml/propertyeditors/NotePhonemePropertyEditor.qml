@@ -13,6 +13,7 @@ import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
 import DiffScope.DspxModel as DspxModel
+import DiffScope.DspxProject as DspxProject
 
 PropertyEditorGroupBox {
     id: groupBox
@@ -211,18 +212,13 @@ PropertyEditorGroupBox {
         FormGroup {
             Layout.fillWidth: true
             label: qsTr("Edited")
-            InsertItemScenario {
-                id: insertItemScenario
-                window: groupBox.windowHandle?.window ?? null
-                projectTimeline: groupBox.windowHandle?.projectTimeline ?? null
-                document: groupBox.windowHandle?.projectDocumentContext.document ?? null
-            }
+            readonly property DspxProject.InsertItemScenario insertItemScenario: groupBox.windowHandle?.insertItemScenario ?? null
             rowItem: ToolButton {
                 enabled: groupBox.propertyMapper?.editedPhonemes !== undefined
                 text: qsTr("Insert")
                 icon.source: "image://fluent-system-icons/add_circle"
                 display: AbstractButton.IconOnly
-                onClicked: insertItemScenario.insertPhoneme()
+                onClicked: insertItemScenario?.insertPhoneme(groupBox.windowHandle.window)
             }
             columnItem: PhonemeEditor {
                 enabled: groupBox.propertyMapper?.editedPhonemes !== undefined

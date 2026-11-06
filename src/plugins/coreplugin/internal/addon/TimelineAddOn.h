@@ -8,9 +8,12 @@
 
 #include <CoreApi/windowinterface.h>
 
+namespace DspxProject {
+    class KeySignatureAtSpecifiedPositionHelper;
+}
+
 namespace Core::Internal {
 
-    class KeySignatureAtSpecifiedPositionHelper;
 
     class TimelineAddOn : public WindowInterfaceAddOn {
         Q_OBJECT
@@ -79,7 +82,7 @@ namespace Core::Internal {
 
     private:
         bool m_showMusicTime{true};
-        KeySignatureAtSpecifiedPositionHelper *m_keySignatureAtSpecifiedPositionHelper{};
+        DspxProject::KeySignatureAtSpecifiedPositionHelper *m_keySignatureAtSpecifiedPositionHelper{};
     };
 
 }

@@ -15,6 +15,7 @@ import DiffScope.UIShell
 import DiffScope.Core
 import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 import DiffScope.SingerCatalog
+import DiffScope.DspxProject as DspxProject
 
 PropertyEditorGroupBox {
     id: groupBox
@@ -256,11 +257,7 @@ PropertyEditorGroupBox {
         }
     }
 
-    EditSourcesScenario {
-        id: editSourcesScenario
-        window: groupBox.windowHandle?.window ?? null
-        document: groupBox.windowHandle?.projectDocumentContext.document ?? null
-    }
+    readonly property DspxProject.EditSourcesScenario editSourcesScenario: windowHandle?.editSourcesScenario ?? null
 
     SourcesPickerModel {
         id: sourcesPickerModel
@@ -273,8 +270,9 @@ PropertyEditorGroupBox {
         implicitHeight: 60
         onClicked: {
             sourcesPickerModel.fromSources(groupBox.singingClip?.sources ?? null)
-            editSourcesScenario.editSources(
-                sourcesPickerModel,
+            groupBox.editSourcesScenario?.editSources(
+                groupBox.windowHandle.window,
+                sourcesPickerModel.sourcesSelection(),
                 groupBox.selectedSingingClips()
             )
         }
@@ -296,8 +294,9 @@ PropertyEditorGroupBox {
                     drop.accepted = false
                     return
                 }
-                editSourcesScenario.applySources(
-                    sourcesPickerModel,
+                groupBox.editSourcesScenario?.applySources(
+                    groupBox.windowHandle.window,
+                    sourcesPickerModel.sourcesSelection(),
                     clips
                 )
                 drop.acceptProposedAction()

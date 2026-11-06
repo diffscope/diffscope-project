@@ -9,6 +9,7 @@ import QActionKit
 
 import DiffScope.UIShell
 import DiffScope.Core
+import DiffScope.DspxProject as DspxProject
 
 ActionCollection {
     id: d
@@ -16,12 +17,7 @@ ActionCollection {
     required property InsertItemAddOn addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
     readonly property QtObject transactionController: windowHandle?.projectDocumentContext.document?.transactionController ?? null
-    readonly property InsertItemScenario insertItemScenario: InsertItemScenario {
-        id: insertItemScenario
-        window: windowHandle?.window ?? null
-        projectTimeline: windowHandle?.projectTimeline ?? null
-        document: windowHandle?.projectDocumentContext.document ?? null
-    }
+    readonly property DspxProject.InsertItemScenario insertItemScenario: windowHandle?.insertItemScenario ?? null
 
     ActionItem {
         actionId: "org.diffscope.core.insert.addTrack"
@@ -35,7 +31,7 @@ ActionCollection {
         actionId: "org.diffscope.core.insert.insertTrack"
         Action {
             enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
-            onTriggered: Qt.callLater(() => insertItemScenario.insertTrack())
+            onTriggered: Qt.callLater(() => insertItemScenario.insertTrack(d.windowHandle.window))
         }
     }
 
@@ -43,7 +39,7 @@ ActionCollection {
         actionId: "org.diffscope.core.insert.insertLabel"
         Action {
             enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
-            onTriggered: Qt.callLater(() => insertItemScenario.insertLabel())
+            onTriggered: Qt.callLater(() => insertItemScenario.insertLabel(d.windowHandle.window, d.windowHandle.projectTimeline))
         }
     }
 
@@ -51,7 +47,7 @@ ActionCollection {
         actionId: "org.diffscope.core.insert.insertSingingClip"
         Action {
             enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
-            onTriggered: Qt.callLater(() => insertItemScenario.insertSingingClip())
+            onTriggered: Qt.callLater(() => insertItemScenario.insertSingingClip(d.windowHandle.window, d.windowHandle.projectTimeline))
         }
     }
 
@@ -60,7 +56,7 @@ ActionCollection {
         Action {
             enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
                      && Boolean(d.windowHandle?.projectDocumentContext.document.selectionModel.noteSelectionModel.noteSequenceWithSelectedItems)
-            onTriggered: Qt.callLater(() => insertItemScenario.insertNote())
+            onTriggered: Qt.callLater(() => insertItemScenario.insertNote(d.windowHandle.window, d.windowHandle.projectTimeline))
         }
     }
 }

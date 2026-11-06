@@ -3,68 +3,28 @@
 
 #include "CoreModelOperations.h"
 
-#include <cmath>
 #include <memory>
 #include <vector>
 
-#include <QJsonArray>
-#include <QJsonObject>
+#include <QJsonValue>
 #include <QSet>
 #include <QVariant>
 
 #include <opendspx/serializer/jsonconverterv1.h>
 
+#include <stdcorelib/jsonconv_stdcorelib.h>
+
 namespace BatchProcess::Internal {
     namespace {
-        stdc::json::Value nativeJson(const QJsonValue &value) {
-            if (value.isNull() || value.isUndefined()) return {};
-            if (value.isBool()) return value.toBool();
-            if (value.isString()) return value.toString().toStdString();
-            if (value.isDouble()) {
-                const auto number = value.toDouble();
-                if (number >= -2147483648.0 && number <= 2147483647.0 && std::floor(number) == number)
-                    return static_cast<int>(number);
-                return number;
+        bool writeJsonValue(const stdc::json::Value &value, QJsonValue *data) {
+            const auto converted = jsonconv_stdcorelib::toQJsonValue(value, {
+                .rejectNonFinite = true,
+                .unsupportedTypeAsEmptyObject = true,
+            });
+            if (converted.isUndefined()) {
+                return false;
             }
-            if (value.isArray()) {
-                stdc::json::Array array;
-                for (const auto &item : value.toArray()) array.push_back(nativeJson(item));
-                return array;
-            }
-            stdc::json::Object object;
-            const auto source = value.toObject();
-            for (auto it = source.begin(); it != source.end(); ++it)
-                object[it.key().toStdString()] = nativeJson(it.value());
-            return object;
-        }
-
-        bool qtJson(const stdc::json::Value &value, QJsonValue *result) {
-            if (value.isNull()) { *result = QJsonValue(QJsonValue::Null); return true; }
-            if (value.isBool()) { *result = value.toBool(); return true; }
-            if (value.isString()) { *result = QString::fromStdString(value.toString()); return true; }
-            if (value.isNumber()) {
-                const auto number = value.toDouble();
-                if (!std::isfinite(number)) return false;
-                *result = number;
-                return true;
-            }
-            if (value.isArray()) {
-                QJsonArray array;
-                for (const auto &item : value.toArray()) {
-                    QJsonValue converted;
-                    if (!qtJson(item, &converted)) return false;
-                    array.append(converted);
-                }
-                *result = array;
-                return true;
-            }
-            QJsonObject object;
-            for (const auto &[key, item] : value.toObject()) {
-                QJsonValue converted;
-                if (!qtJson(item, &converted)) return false;
-                object.insert(QString::fromStdString(key), converted);
-            }
-            *result = object;
+            *data = converted;
             return true;
         }
 
@@ -72,7 +32,7 @@ namespace BatchProcess::Internal {
         bool writeJson(const T &value, QJsonValue *data) {
             opendspx::SerializationErrorList errors;
             auto converted = opendspx::JsonConverterV1::toJson(value, errors, {opendspx::Serializer::CheckError});
-            return !errors.containsError() && !errors.containsFatal() && qtJson(converted, data);
+            return !errors.containsError() && !errors.containsFatal() && writeJsonValue(converted, data);
         }
 
         QObject *pointerProperty(QObject *object, const char *name) {
@@ -256,15 +216,15 @@ namespace BatchProcess::Internal {
         if (auto *value = qobject_cast<dspx::Label *>(object)) return writeJson(value->toOpenDSPX(), data);
         if (auto *value = qobject_cast<dspx::LabelSequence *>(object)) return writeJson(value->toOpenDSPX(), data);
         if (auto *value = qobject_cast<dspx::VibratoPointDataArray *>(object)) return writeJson(value->toOpenDSPX(), data);
-        if (auto *value = qobject_cast<dspx::KeySignature *>(object)) return qtJson(value->toOpenDSPX(), data);
-        if (auto *value = qobject_cast<dspx::KeySignatureSequence *>(object)) return qtJson(value->toOpenDSPX(), data);
-        if (auto *value = qobject_cast<dspx::AudioDSP *>(object)) return qtJson(value->toOpenDSPX(), data);
-        if (auto *value = qobject_cast<dspx::AudioDSPList *>(object)) return qtJson(value->toOpenDSPX(), data);
+        if (auto *value = qobject_cast<dspx::KeySignature *>(object)) return writeJsonValue(value->toOpenDSPX(), data);
+        if (auto *value = qobject_cast<dspx::KeySignatureSequence *>(object)) return writeJsonValue(value->toOpenDSPX(), data);
+        if (auto *value = qobject_cast<dspx::AudioDSP *>(object)) return writeJsonValue(value->toOpenDSPX(), data);
+        if (auto *value = qobject_cast<dspx::AudioDSPList *>(object)) return writeJsonValue(value->toOpenDSPX(), data);
         return false;
     }
 
     bool importDSPX(QObject *object, const QJsonValue &data, bool checked) {
-        const auto source = nativeJson(data);
+        const auto source = jsonconv_stdcorelib::fromQJsonValue(data, jsonconv_stdcorelib::IntegerConversion::PreserveInt32);
         const opendspx::Serializer::ConversionOption options = checked ? opendspx::Serializer::ConversionOption(opendspx::Serializer::CheckError) : opendspx::Serializer::ConversionOption{};
         if (auto *nodes = qobject_cast<dspx::AnchorNodeSequence *>(object)) {
             opendspx::SerializationErrorList errors;

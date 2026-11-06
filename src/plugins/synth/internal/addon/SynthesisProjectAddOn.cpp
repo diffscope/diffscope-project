@@ -32,9 +32,11 @@
 
 #include <TalcsCore/MixerAudioSource.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <uishell/DialogPositioner.h>
+
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/AudioExporter.h>
@@ -310,7 +312,7 @@ namespace Synth::Internal {
             m_commitPending = true;
             schedulePendingWork();
         });
-        connect(window->projectTimeline(), &Core::ProjectTimeline::positionChanged, this, &SynthesisProjectAddOn::updatePriorities);
+        connect(window->projectTimeline(), &DspxProject::ProjectTimeline::positionChanged, this, &SynthesisProjectAddOn::updatePriorities);
         if (auto audioContext = Audio::ProjectAudioContext::of(window)) {
             connect(audioContext, &Audio::ProjectAudioContext::statusChanged, this, &SynthesisProjectAddOn::updatePriorities);
             connect(audioContext, &Audio::ProjectAudioContext::playbackSuppressedClipChanged, this, [this](dspx::SingingClip *clip) {
@@ -1674,12 +1676,7 @@ namespace Synth::Internal {
         if (!dialog) {
             qFatal() << component.errorString();
         }
-        dialog->setProperty("x", window->width() / 2.0 - dialog->property("width").toDouble() / 2.0);
-        if (const auto topMargin = window->property("popupTopMarginHint"); topMargin.isValid()) {
-            dialog->setProperty("y", topMargin);
-        } else {
-            dialog->setProperty("y", window->height() / 2.0 - dialog->property("height").toDouble() / 2.0);
-        }
+        UIShell::DialogPositioner::positionPopup(dialog.get(), window);
         QEventLoop eventLoop;
         QObject::connect(dialog.get(), SIGNAL(accepted()), &eventLoop, SLOT(quit()));
         QObject::connect(dialog.get(), SIGNAL(rejected()), &eventLoop, SLOT(quit()));

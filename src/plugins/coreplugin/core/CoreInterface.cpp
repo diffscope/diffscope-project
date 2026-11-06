@@ -38,13 +38,14 @@
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/Theme.h>
 
+#include <dspxproject/CheckerRegistry.h>
+#include <dspxproject/ProjectLifecycleScenario.h>
+
 #include <coreplugin/DefaultLyricManager.h>
-#include <coreplugin/DspxCheckerRegistry.h>
 #include <coreplugin/FileOpenDispatcher.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/MixedSingerPresets.h>
 #include <coreplugin/NotificationMessage.h>
-#include <coreplugin/ProjectLifecycleScenario.h>
 #include <coreplugin/TrackColorSchema.h>
 #include <coreplugin/internal/CoreProjectLifecycleStrategy.h>
 #include <coreplugin/internal/NotificationCenter.h>
@@ -64,13 +65,13 @@ namespace Core {
         QQmlEngine *qmlEngine;
         QAK::ActionRegistry *actionRegistry;
         QAK::QuickActionContext *actionContext = nullptr;
-        DspxCheckerRegistry *dspxCheckerRegistry;
+        DspxProject::CheckerRegistry *dspxCheckerRegistry;
         TrackColorSchema *trackColorSchema;
         DefaultLyricManager *defaultLyricManager;
         SingerCatalog::SingerRegistry *singerRegistry;
         MixedSingerPresets *mixedSingerPresets;
         FileOpenDispatcher *fileOpenDispatcher;
-        ProjectLifecycleScenario *projectLifecycleScenario;
+        DspxProject::ProjectLifecycleScenario *projectLifecycleScenario;
         Internal::NotificationCenter *notificationCenter;
 
         void init() {
@@ -79,14 +80,14 @@ namespace Core {
             actionRegistry = new QAK::ActionRegistry(q);
             actionContext = new QAK::QuickActionContext(q);
             actionRegistry->addContext(actionContext);
-            dspxCheckerRegistry = new DspxCheckerRegistry(q);
+            dspxCheckerRegistry = new DspxProject::CheckerRegistry(q);
             trackColorSchema = new TrackColorSchema(q);
             defaultLyricManager = new DefaultLyricManager(q);
             singerRegistry = new SingerCatalog::SingerRegistry(q);
             mixedSingerPresets = new MixedSingerPresets(q);
             fileOpenDispatcher = new FileOpenDispatcher(q);
             auto strategy = new Internal::CoreProjectLifecycleStrategy(dspxCheckerRegistry);
-            projectLifecycleScenario = new ProjectLifecycleScenario(strategy, q);
+            projectLifecycleScenario = new DspxProject::ProjectLifecycleScenario(strategy, q);
             strategy->setParent(projectLifecycleScenario);
             notificationCenter = new Internal::NotificationCenter(q);
             QObject::connect(q, &CoreInterface::resetAllDoNotShowAgainRequested,
@@ -115,7 +116,7 @@ namespace Core {
         return instance()->d_func()->actionContext;
     }
 
-    DspxCheckerRegistry *CoreInterface::dspxCheckerRegistry() {
+    DspxProject::CheckerRegistry *CoreInterface::dspxCheckerRegistry() {
         Q_ASSERT(instance());
         return instance()->d_func()->dspxCheckerRegistry;
     }
@@ -145,7 +146,7 @@ namespace Core {
         return instance()->d_func()->fileOpenDispatcher;
     }
 
-    ProjectLifecycleScenario *CoreInterface::projectLifecycleScenario() {
+    DspxProject::ProjectLifecycleScenario *CoreInterface::projectLifecycleScenario() {
         Q_ASSERT(instance());
         return instance()->d_func()->projectLifecycleScenario;
     }

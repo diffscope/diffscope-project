@@ -15,9 +15,9 @@
 
 #include <dspxmodelORM/Model.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/ProjectViewModelContext.h>
@@ -101,13 +101,13 @@ namespace VisualEditor {
     void PlaybackViewModelContextData::bindPlaybackViewModel() {
         auto projectTimeline = windowHandle->projectTimeline();
         auto documentModel = model;
-        QObject::connect(projectTimeline, &Core::ProjectTimeline::positionChanged, playbackViewModel, [=] {
+        QObject::connect(projectTimeline, &DspxProject::ProjectTimeline::positionChanged, playbackViewModel, [=] {
             if (playbackViewModel->primaryPosition() == projectTimeline->position())
                 return;
             qCDebug(lcPlaybackViewModelContextData) << "Project timeline position updated" << projectTimeline->position();
             playbackViewModel->setPrimaryPosition(projectTimeline->position());
         });
-        QObject::connect(projectTimeline, &Core::ProjectTimeline::lastPositionChanged, playbackViewModel, [=] {
+        QObject::connect(projectTimeline, &DspxProject::ProjectTimeline::lastPositionChanged, playbackViewModel, [=] {
             if (playbackViewModel->secondaryPosition() == projectTimeline->lastPosition())
                 return;
             qCDebug(lcPlaybackViewModelContextData) << "Project timeline last position updated" << projectTimeline->lastPosition();

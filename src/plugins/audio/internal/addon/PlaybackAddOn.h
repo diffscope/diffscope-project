@@ -10,8 +10,11 @@
 
 #include <audio/ProjectAudioContext.h>
 
-namespace Core {
+namespace DspxProject {
     class ProjectTimeline;
+}
+
+namespace Core {
     class ProjectWindowInterface;
 }
 
@@ -66,7 +69,7 @@ namespace Audio::Internal {
         void finishRecordingPlayback(bool stopRequested);
 
         ProjectAudioContext *m_context{};
-        Core::ProjectTimeline *m_projectTimeline{};
+        DspxProject::ProjectTimeline *m_projectTimeline{};
         dspx::Model *m_documentModel{};
         bool m_transportPositionFlag{true};
         Audio::ProjectAudioContext::PlaybackStatus m_lastStatus{};

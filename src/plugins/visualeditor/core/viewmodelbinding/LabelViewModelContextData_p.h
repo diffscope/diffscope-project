@@ -14,6 +14,10 @@ class QStateMachine;
 class QState;
 class QQuickItem;
 
+namespace DspxProject {
+    class Document;
+}
+
 namespace dspx {
     class Label;
     class LabelSelectionModel;
@@ -26,10 +30,6 @@ namespace sflow {
     class PointSequenceViewModel;
 }
 
-namespace Core {
-    class DspxDocument;
-}
-
 namespace VisualEditor {
 
     class LabelSelectionController;
@@ -40,7 +40,7 @@ namespace VisualEditor {
     public:
         ProjectViewModelContext *q_ptr;
 
-        Core::DspxDocument *document;
+        DspxProject::Document *document;
         dspx::LabelSequence *labelSequence;
         dspx::LabelSelectionModel *labelSelectionModel;
 

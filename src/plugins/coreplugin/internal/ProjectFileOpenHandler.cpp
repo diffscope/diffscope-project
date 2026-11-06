@@ -7,7 +7,7 @@
 #include <QWindow>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/ProjectLifecycleScenario.h>
+#include <dspxproject/ProjectLifecycleScenario.h>
 
 namespace Core::Internal {
 

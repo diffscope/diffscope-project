@@ -24,12 +24,12 @@
 
 #include <transactional/TransactionController.h>
 
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/QuickInput.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/internal/KeySignatureAtSpecifiedPositionHelper.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/KeySignatureAtSpecifiedPositionHelper.h>
 
 namespace Core::Internal {
 
@@ -55,7 +55,7 @@ namespace Core::Internal {
     }
 
     TimelineAddOn::TimelineAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
-        m_keySignatureAtSpecifiedPositionHelper = new KeySignatureAtSpecifiedPositionHelper(this);
+        m_keySignatureAtSpecifiedPositionHelper = new DspxProject::KeySignatureAtSpecifiedPositionHelper(this);
 
     }
     TimelineAddOn::~TimelineAddOn() = default;
@@ -75,7 +75,7 @@ namespace Core::Internal {
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
         m_keySignatureAtSpecifiedPositionHelper->setPosition(windowInterface->projectTimeline()->position());
         m_keySignatureAtSpecifiedPositionHelper->setKeySignatureSequence(windowInterface->projectDocumentContext()->document()->model()->keySignatures());
-        connect(windowInterface->projectTimeline(), &ProjectTimeline::positionChanged, this, [this](int position) {
+        connect(windowInterface->projectTimeline(), &DspxProject::ProjectTimeline::positionChanged, this, [this](int position) {
             m_keySignatureAtSpecifiedPositionHelper->setPosition(position);
             Q_EMIT musicTimeTextChanged();
             Q_EMIT longTimeTextChanged();
@@ -89,9 +89,9 @@ namespace Core::Internal {
             Q_EMIT timeSignatureTextChanged();
         });
         connect(windowInterface->projectDocumentContext()->document()->model(), &dspx::Model::loopEnabledChanged, this, &TimelineAddOn::loopEnabledChanged);
-        connect(m_keySignatureAtSpecifiedPositionHelper, &KeySignatureAtSpecifiedPositionHelper::modeChanged, this, &TimelineAddOn::keySignatureTextChanged);
-        connect(m_keySignatureAtSpecifiedPositionHelper, &KeySignatureAtSpecifiedPositionHelper::tonalityChanged, this, &TimelineAddOn::keySignatureTextChanged);
-        connect(m_keySignatureAtSpecifiedPositionHelper, &KeySignatureAtSpecifiedPositionHelper::accidentalTypeChanged, this, &TimelineAddOn::keySignatureTextChanged);
+        connect(m_keySignatureAtSpecifiedPositionHelper, &DspxProject::KeySignatureAtSpecifiedPositionHelper::modeChanged, this, &TimelineAddOn::keySignatureTextChanged);
+        connect(m_keySignatureAtSpecifiedPositionHelper, &DspxProject::KeySignatureAtSpecifiedPositionHelper::tonalityChanged, this, &TimelineAddOn::keySignatureTextChanged);
+        connect(m_keySignatureAtSpecifiedPositionHelper, &DspxProject::KeySignatureAtSpecifiedPositionHelper::accidentalTypeChanged, this, &TimelineAddOn::keySignatureTextChanged);
     }
     void TimelineAddOn::extensionsInitialized() {
     }
@@ -160,7 +160,7 @@ namespace Core::Internal {
         Q_OBJECT
         
     public:
-        explicit QuickJumpParser(QuickInput *quickInput, const ProjectTimeline *timeline, QObject *parent = nullptr)
+        explicit QuickJumpParser(QuickInput *quickInput, const DspxProject::ProjectTimeline *timeline, QObject *parent = nullptr)
             : QObject(parent) , m_quickInput(quickInput) , m_timeline(timeline)
         {
             connect(m_quickInput, &QuickInput::textChanged, this, &QuickJumpParser::onTextChanged);
@@ -468,7 +468,7 @@ namespace Core::Internal {
         };
         
         QuickInput *m_quickInput;
-        const ProjectTimeline *m_timeline;
+        const DspxProject::ProjectTimeline *m_timeline;
         SVS::PersistentMusicTime m_result;
     };
 

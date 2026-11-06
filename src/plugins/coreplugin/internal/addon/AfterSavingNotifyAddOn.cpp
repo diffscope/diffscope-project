@@ -7,7 +7,7 @@
 
 #include <coreplugin/NotificationMessage.h>
 #include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/ProjectDocumentContext.h>
 
 namespace Core::Internal {
 
@@ -21,7 +21,7 @@ namespace Core::Internal {
         m_message = new NotificationMessage(windowInterface->window());
         m_message->setIcon(SVS::SVSCraft::Information);
         m_message->setAllowDoNotShowAgain(false);
-        connect(windowInterface->projectDocumentContext(), &ProjectDocumentContext::saved, this, [=, this] {
+        connect(windowInterface->projectDocumentContext(), &DspxProject::ProjectDocumentContext::saved, this, [=, this] {
             m_message->close();
             if (!windowInterface->projectDocumentContext()->fileLocker())
                 return;

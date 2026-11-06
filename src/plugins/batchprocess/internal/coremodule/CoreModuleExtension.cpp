@@ -8,9 +8,11 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <utility>
 
 #include <QColor>
+#include <QCoreApplication>
 #include <QDataStream>
 #include <QFile>
 #include <QFileInfo>
@@ -21,6 +23,7 @@
 #include <QMetaProperty>
 #include <QPointF>
 #include <QPointer>
+#include <QQuickWindow>
 #include <QSequentialIterable>
 #include <QSet>
 #include <QVariant>
@@ -40,13 +43,16 @@
 #include <dspxmodelSelectionModel/FreeParameterSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
+#include <dspxproject/ClipboardEditScenario.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
-#include <coreplugin/DspxDocument.h>
+#include <dspxproject/Clipboard.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/EditItemsScenario.h>
 #include <coreplugin/HomeWindowInterface.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectLifecycleScenario.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectLifecycleScenario.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/TrackColorSchema.h>
 #include <singercatalog/ArchitectureInfo.h>
@@ -103,11 +109,11 @@ namespace BatchProcess::Internal {
         Q_INVOKABLE QJSValue command(QObject *object, const QString &operation, const QJSValue &arguments);
         Q_INVOKABLE QJSValue service(const QString &operation, const QJSValue &arguments);
         void start(const QJSValue &wrap);
-        void finish(Core::DspxDocument *only = nullptr);
+        void finish(DspxProject::Document *only = nullptr);
 
     private:
         struct Edit {
-            QPointer<Core::DspxDocument> document;
+            QPointer<DspxProject::Document> document;
             Core::TransactionController::TransactionId id{Core::TransactionController::TransactionId::Invalid};
             QString token;
             QHash<quint64, QPointer<dspx::EntityObject>> existingDetached;
@@ -122,18 +128,19 @@ namespace BatchProcess::Internal {
         QJSValue failure(const QString &code, const QString &operation, const QString &message = {}) const;
         QJSValue raw(QObject *object);
         QJSValue values(const QList<QObject *> &objects);
-        Core::DspxDocument *document(QObject *object) const;
+        DspxProject::Document *document(QObject *object) const;
         Edit *edit(QObject *object);
         bool cleanup(Edit &edit);
-        void watch(Core::DspxDocument *document);
+        void watch(DspxProject::Document *document);
         bool orphaned(const Edit &edit) const;
-        void cleanScope(Core::DspxDocument *document);
+        void cleanScope(DspxProject::Document *document);
         void registerProject(Core::ProjectWindowInterface *project);
         QJSValue guarded(QObject *object, const QString &operation, bool mutation, const std::function<QJSValue()> &callback);
         QJSValue propertyValue(const QVariant &value);
         QJSValue registry(const QString &operation, const QJSValue &arguments);
         QJSValue parameter(const SingerCatalog::ParameterInfo &info, const QString &id, bool transform);
         QJSValue projectCommand(Core::ProjectWindowInterface *project, const QString &operation, const QJSValue &arguments);
+        QJSValue editCommand(DspxProject::Document *document, const QString &operation, const QJSValue &args);
         QPointer<DocumentInterface> m_documents;
         QPointer<ScriptExecutionContext> m_context;
         QJSEngine *m_engine;
@@ -232,18 +239,18 @@ namespace BatchProcess::Internal {
         m_associatedProject = wrap.call({raw(project)});
     }
 
-    Core::DspxDocument *CoreModuleBridge::document(QObject *object) const {
+    DspxProject::Document *CoreModuleBridge::document(QObject *object) const {
         if (auto *project = qobject_cast<Core::ProjectWindowInterface *>(object)) return project->projectDocumentContext()->document();
-        if (auto *timeline = qobject_cast<Core::ProjectTimeline *>(object)) {
+        if (auto *timeline = qobject_cast<DspxProject::ProjectTimeline *>(object)) {
             for (auto *window : Core::CoreInterface::windowSystem()->windows()) if (auto *project = qobject_cast<Core::ProjectWindowInterface *>(window); project && project->projectTimeline() == timeline) return project->projectDocumentContext()->document();
         }
         return m_documents ? m_documents->documentForObject(object) : nullptr;
     }
 
     QString CoreModuleBridge::kind(QObject *object) const {
-        if (qobject_cast<Core::DspxDocument *>(object)) return QStringLiteral("Document");
+        if (qobject_cast<DspxProject::Document *>(object)) return QStringLiteral("Document");
         if (qobject_cast<Core::ProjectWindowInterface *>(object)) return QStringLiteral("Project");
-        if (qobject_cast<Core::ProjectTimeline *>(object)) return QStringLiteral("Timeline");
+        if (qobject_cast<DspxProject::ProjectTimeline *>(object)) return QStringLiteral("Timeline");
         if (qobject_cast<dspx::FreeParameterSelectionModel *>(object)) return QStringLiteral("FreeParameterSelection");
         if (qobject_cast<dspx::SelectionModel *>(object)) return QStringLiteral("Selection");
         const auto name = object ? QString::fromLatin1(object->metaObject()->className()).section(QStringLiteral("::"), -1) : QString();
@@ -275,7 +282,7 @@ namespace BatchProcess::Internal {
         if (object && !document(object)) return failure(QStringLiteral("invalidObject"), operation);
         if (auto *entity = qobject_cast<dspx::EntityObject *>(object); entity && !liveEntity(entity)) return failure(QStringLiteral("invalidObject"), operation);
         if (mutation && !edit(object)) return failure(QStringLiteral("transactionConflict"), operation);
-        QPointer<Core::DspxDocument> target(document(object));
+        QPointer<DspxProject::Document> target(document(object));
         if (target) watch(target);
         try {
             const auto value = callback();
@@ -303,7 +310,7 @@ namespace BatchProcess::Internal {
         return true;
     }
 
-    void CoreModuleBridge::watch(Core::DspxDocument *doc) {
+    void CoreModuleBridge::watch(DspxProject::Document *doc) {
         if (!doc || m_scopes.contains(doc->model())) return;
         auto *controller = doc->transactionController();
         if (!m_controllers.contains(controller)) {
@@ -325,7 +332,7 @@ namespace BatchProcess::Internal {
         return false;
     }
 
-    void CoreModuleBridge::cleanScope(Core::DspxDocument *doc) {
+    void CoreModuleBridge::cleanScope(DspxProject::Document *doc) {
         if (!doc || m_edits.contains(doc->model())) return;
         auto state = m_scopes.value(doc->model());
         if (!orphaned(state) || !doc->transactionController()->canBeginTransaction()) return;
@@ -340,7 +347,7 @@ namespace BatchProcess::Internal {
         }
     }
 
-    void CoreModuleBridge::finish(Core::DspxDocument *only) {
+    void CoreModuleBridge::finish(DspxProject::Document *only) {
         if (!only) m_associatedProject = QJSValue(QJSValue::NullValue);
         const auto *onlyController = only ? only->transactionController() : nullptr;
         const auto readLockTokens = m_readLocks.keys();
@@ -420,7 +427,7 @@ namespace BatchProcess::Internal {
         const auto operation = QStringLiteral("tryAcquireReadLock");
         if (!m_context || !m_context->isExecuting())
             return failure(QStringLiteral("invalidState"), operation);
-        QPointer<Core::DspxDocument> doc(document(object));
+        QPointer<DspxProject::Document> doc(document(object));
         if (!doc)
             return failure(QStringLiteral("invalidObject"), operation);
         QPointer<Core::TransactionController> controller(doc->transactionController());
@@ -521,7 +528,7 @@ namespace BatchProcess::Internal {
 
     QJSValue CoreModuleBridge::snapshot(QObject *object) {
         return guarded(object, QStringLiteral("toOpenDSPX"), false, [&] {
-            if (auto *doc = qobject_cast<Core::DspxDocument *>(object)) object = doc->model();
+            if (auto *doc = qobject_cast<DspxProject::Document *>(object)) object = doc->model();
             QJsonValue data;
             return exportDSPX(object, &data) ? success(propertyValue(data.toVariant())) : failure(QStringLiteral("invalidData"), QStringLiteral("toOpenDSPX"));
         });
@@ -733,7 +740,7 @@ namespace BatchProcess::Internal {
         auto *doc = project->projectDocumentContext()->document();
         if (doc->transactionController()->isTransactionActive()) return failure(QStringLiteral("transactionConflict"), operation);
         if (operation == QStringLiteral("close")) {
-            QPointer<Core::DspxDocument> guard(doc);
+            QPointer<DspxProject::Document> guard(doc);
             const auto closed = project->window()->close();
             if (closed && guard) m_documents->unregisterDocument(guard);
             return success(closed);
@@ -745,7 +752,7 @@ namespace BatchProcess::Internal {
         auto *scenario = Core::CoreInterface::projectLifecycleScenario();
         auto *context = project->projectDocumentContext();
         auto *parent = project->window();
-        using Status = Core::ProjectLifecycleScenario::Status;
+        using Status = DspxProject::ProjectLifecycleScenario::Status;
         if (operation == QStringLiteral("save")) return success(scenario->saveProject(context, parent) == Status::Success);
         const auto target = args.property(0);
         QString path;
@@ -789,7 +796,7 @@ namespace BatchProcess::Internal {
             }
             if (operation == QStringLiteral("newProjectFromOpenDSPX")) {
                 // Parse into a temporary native model before initializing a project window.
-                auto temporary = std::make_unique<Core::DspxDocument>();
+                auto temporary = std::make_unique<DspxProject::Document>();
                 const auto transaction = temporary->transactionController()->beginTransaction();
                 if (!importDSPX(temporary->model(), QJsonValue::fromVariant(args.property(0).toVariant()), !args.property(2).toBool())) {
                     temporary->transactionController()->abortTransaction(transaction);
@@ -863,7 +870,12 @@ namespace BatchProcess::Internal {
                 doc->transactionController()->setCurrentStep(args.property(0).toInt());
                 return success();
             }
-            if (operation == QStringLiteral("documentState")) return success(propertyValue(QVariantMap{{"transactionActive", doc->transactionController()->isTransactionActive()}, {"canCopy", doc->anyItemsSelected()}, {"canPaste", doc->pasteAvailable()}, {"canBounceSelection", doc->canSafelyBounce()}, {"selectedClipSingerLayoutIdentical", doc->isClipSingerLayoutIdentical()}}));
+            if (operation == QStringLiteral("documentState")) {
+                const auto type = doc->currentClipboardType();
+                const auto clipboard = DspxProject::Clipboard::instance();
+                const bool canPaste = type && clipboard && clipboard->availablePasteTypes().contains(*type);
+                return success(propertyValue(QVariantMap{{"transactionActive", doc->transactionController()->isTransactionActive()}, {"canCopy", doc->anyItemsSelected()}, {"canPaste", canPaste}, {"canBounceSelection", doc->canSafelyBounce()}, {"selectedClipSingerLayoutIdentical", doc->isClipSingerLayoutIdentical()}}));
+            }
             if (operation == QStringLiteral("selection")) {
                 auto *selection = doc->selectionModel();
                 auto *item = args.property(0).toQObject();
@@ -898,7 +910,7 @@ namespace BatchProcess::Internal {
                 auto *map = qobject_cast<dspx::ParameterMap *>(object);
                 return map && map->moveItem(args.property(0).toString(), map, args.property(1).toString()) ? success() : failure(QStringLiteral("invalidData"), operation);
             }
-            if (auto *timeline = qobject_cast<Core::ProjectTimeline *>(object)) {
+            if (auto *timeline = qobject_cast<DspxProject::ProjectTimeline *>(object)) {
                 if (operation == QStringLiteral("timelineSet")) {
                     const auto name = args.property(0).toString();
                     const auto value = args.property(1).toInt();
@@ -919,20 +931,106 @@ namespace BatchProcess::Internal {
                     return success(propertyValue(QVariantMap{{"tempos", tempos}, {"timeSignatures", signatures}}));
                 }
             }
-            auto *controller = doc->transactionController();
-            if (controller->isTransactionActive() || (operation != QStringLiteral("copy") && !controller->canBeginTransaction()))
-                return failure(QStringLiteral("transactionConflict"), operation);
-            if (operation == QStringLiteral("copy")) doc->copySelection(args.property(0).toInt());
-            else if (operation == QStringLiteral("cut")) doc->cutSelection(args.property(0).toInt());
-            else if (operation == QStringLiteral("paste")) doc->paste(args.property(0).toInt(), static_cast<Core::DspxDocument::PasteMode>(args.property(1).toInt()));
-            else if (operation == QStringLiteral("deleteSelection")) doc->deleteSelection();
-            else if (operation == QStringLiteral("splitSelectionAt")) doc->splitItems(args.property(0).toInt());
-            else if (operation == QStringLiteral("bounceSelectionToClip")) {
-                if (!doc->canSafelyBounce()) return failure(QStringLiteral("invalidData"), operation);
-                doc->bounceToClip();
-            } else return failure(QStringLiteral("unsupportedOperation"), operation);
-            return success();
+            return editCommand(doc, operation, args);
         });
+    }
+
+    QJSValue CoreModuleBridge::editCommand(DspxProject::Document *doc, const QString &operation, const QJSValue &args) {
+        auto *controller = doc->transactionController();
+        if (controller->isTransactionActive() || (operation != QStringLiteral("copy") && !controller->canBeginTransaction()))
+            return failure(QStringLiteral("transactionConflict"), operation);
+        const QPointer<DspxProject::Document> target(doc);
+        if (operation == QStringLiteral("copy")) {
+            if (const auto data = doc->copySelection(args.property(0).toInt())) {
+                DspxProject::Clipboard::instance()->copy({*data}, nullptr);
+            }
+        } else if (operation == QStringLiteral("cut") || operation == QStringLiteral("deleteSelection")) {
+            const bool cut = operation == QStringLiteral("cut");
+            const auto data = cut ? doc->copySelection(args.property(0).toInt()) : std::nullopt;
+            if ((cut && !data) || !doc->anyItemsSelected()) {
+                return success();
+            }
+            if (data) {
+                DspxProject::Clipboard::instance()->copy({*data}, nullptr);
+                if (!target) {
+                    return success();
+                }
+            }
+            const bool freeParameter = doc->selectionModel()->selectionType() == dspx::SelectionModel::ST_FreeParameter;
+            bool changed = false;
+            if (!controller->beginScopedTransaction(DspxProject::ClipboardEditScenario::deleteTransactionName(doc), [&] {
+                    changed = doc->deleteSelection();
+                    return changed;
+                })) {
+                return failure(QStringLiteral("transactionConflict"), operation);
+            }
+            if (changed && target && freeParameter) {
+                doc->selectionModel()->setFreeParameterRange(0, 0);
+            }
+        } else if (operation == QStringLiteral("paste")) {
+            const auto mode = static_cast<DspxProject::Document::PasteMode>(args.property(1).toInt());
+            const int reference = args.property(0).toInt();
+            const auto resample = args.property(2);
+            if (resample.isUndefined()) {
+                for (auto *project : m_projects) {
+                    if (!project->isEffectivelyClosed() && project->projectDocumentContext()->document() == doc) {
+                        project->clipboardEditScenario()->paste(reference, mode, qobject_cast<QQuickWindow *>(project->window()));
+                        return success();
+                    }
+                }
+            }
+            const auto type = doc->currentClipboardType();
+            const auto clipboard = DspxProject::Clipboard::instance();
+            if (!type || !clipboard->availablePasteTypes().contains(*type)) {
+                return success();
+            }
+            bool ok = false;
+            const auto data = clipboard->paste(*type, &ok);
+            if (!ok) {
+                return failure(QStringLiteral("invalidData"), operation);
+            }
+            const int position = doc->pastePosition(data, reference, mode);
+            if (doc->pasteRequiresResampling(data, position) && !resample.toBool()) {
+                return failure(QStringLiteral("invalidData"), operation);
+            }
+            std::optional<DspxProject::Document::PasteResult> result;
+            if (!controller->beginScopedTransaction(DspxProject::ClipboardEditScenario::pasteTransactionName(*type), [&] {
+                    result = doc->paste(data, position, mode);
+                    return result.has_value();
+                })) {
+                return failure(QStringLiteral("transactionConflict"), operation);
+            }
+            if (result && target) {
+                doc->selectPasteResult(*result);
+            }
+        } else if (operation == QStringLiteral("splitSelectionAt")) {
+            const auto name = DspxProject::EditItemsScenario::splitTransactionName(doc);
+            if (name.isEmpty()) {
+                return success();
+            }
+            QList<QObject *> inserted;
+            if (!controller->beginScopedTransaction(name, [&] {
+                    inserted = doc->splitItems(args.property(0).toInt());
+                    return !inserted.isEmpty();
+                })) {
+                return failure(QStringLiteral("transactionConflict"), operation);
+            }
+            if (target) {
+                doc->selectItems(inserted);
+            }
+        } else if (operation == QStringLiteral("bounceSelectionToClip")) {
+            if (!doc->canSafelyBounce()) {
+                return failure(QStringLiteral("invalidData"), operation);
+            }
+            if (!controller->beginScopedTransaction(QCoreApplication::translate("DspxProject::EditItemsScenario", "Bouncing to clip"), [doc] {
+                    return doc->bounceToClip();
+                })) {
+                return failure(QStringLiteral("transactionConflict"), operation);
+            }
+        } else {
+            return failure(QStringLiteral("unsupportedOperation"), operation);
+        }
+        return success();
     }
 
     CoreModuleExtension::CoreModuleExtension(BatchProcessInterface *runtime, DocumentInterface *documents, QObject *parent)
@@ -990,7 +1088,7 @@ namespace BatchProcess::Internal {
         return result.isQObject() ? result.toQObject() : nullptr;
     }
 
-    void CoreModuleExtension::releaseDocument(Core::DspxDocument *document) {
+    void CoreModuleExtension::releaseDocument(DspxProject::Document *document) {
         for (auto bridge : m_bridges) if (bridge) bridge->finish(document);
     }
 }

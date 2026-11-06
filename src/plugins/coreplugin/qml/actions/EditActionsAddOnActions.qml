@@ -17,6 +17,7 @@ import DiffScope.DspxModel.SelectionModel as DspxSelectionModel
 import DiffScope.DspxModel.PropertyMapper
 import DiffScope.SingerCatalog
 import DiffScope.Core
+import DiffScope.DspxProject as DspxProject
 
 ActionCollection {
     id: d
@@ -24,15 +25,8 @@ ActionCollection {
     required property QtObject addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
     readonly property QtObject transactionController: windowHandle?.projectDocumentContext.document?.transactionController ?? null
-    readonly property EditSourcesScenario editSourcesScenario: EditSourcesScenario {
-        window: d.windowHandle?.window ?? null
-        document: d.windowHandle?.projectDocumentContext.document ?? null
-    }
+    readonly property DspxProject.EditSourcesScenario editSourcesScenario: windowHandle?.editSourcesScenario ?? null
     readonly property SourcesPickerModel sourcesPickerModel: SourcesPickerModel {
-    }
-    readonly property ParameterResamplingScenario parameterResamplingScenario: ParameterResamplingScenario {
-        window: d.windowHandle?.window ?? null
-        document: d.windowHandle?.projectDocumentContext.document ?? null
     }
 
     function selectedSingingClips() {
@@ -52,7 +46,7 @@ ActionCollection {
         if (clips.length === 0)
             return
         sourcesPickerModel.fromSources(clips[0].sources ?? null)
-        editSourcesScenario.editSources(sourcesPickerModel, clips)
+        editSourcesScenario.editSources(d.windowHandle.window, sourcesPickerModel.sourcesSelection(), clips)
     }
 
     function setPropertyInTransaction(propertyMapper, propertyName, value, transactionName) {
@@ -86,7 +80,7 @@ ActionCollection {
         Action {
             enabled: d.transactionController?.canBeginTransaction === true
                      && d.windowHandle?.projectDocumentContext.document.anyItemsSelected
-            onTriggered: d.windowHandle.projectDocumentContext.document.cutSelection(d.windowHandle.projectTimeline.position, d.windowHandle)
+            onTriggered: d.windowHandle.clipboardEditScenario.cut(d.windowHandle.projectTimeline.position)
         }
     }
 
@@ -94,7 +88,7 @@ ActionCollection {
         actionId: "org.diffscope.core.edit.copy"
         Action {
             enabled: d.windowHandle?.projectDocumentContext.document.anyItemsSelected ?? false
-            onTriggered: d.windowHandle.projectDocumentContext.document.copySelection(d.windowHandle.projectTimeline.position)
+            onTriggered: d.windowHandle.clipboardEditScenario.copy(d.windowHandle.projectTimeline.position)
         }
     }
 
@@ -102,10 +96,10 @@ ActionCollection {
         actionId: "org.diffscope.core.edit.paste"
         Action {
             enabled: d.transactionController?.canBeginTransaction === true
-                     && d.windowHandle?.projectDocumentContext.document.pasteAvailable
+                     && d.windowHandle?.clipboardEditScenario.pasteAvailable
                      && (d.windowHandle.projectDocumentContext.document.selectionModel.selectionType !== DspxSelectionModel.SelectionModel.ST_FreeParameter
                          || d.transactionController.canAcquireReadLock)
-            onTriggered: Qt.callLater(() => d.windowHandle.projectDocumentContext.document.paste(d.windowHandle.projectTimeline.position, DspxDocument.CurrentPosition, d.windowHandle))
+            onTriggered: Qt.callLater(() => d.windowHandle.clipboardEditScenario.paste(d.windowHandle.projectTimeline.position, DspxProject.Document.CurrentPosition, d.windowHandle.window))
         }
     }
 
@@ -114,7 +108,7 @@ ActionCollection {
         Action {
             enabled: d.transactionController?.canBeginTransaction === true
                      && d.windowHandle?.projectDocumentContext.document.anyItemsSelected
-            onTriggered: d.windowHandle.projectDocumentContext.document.deleteSelection(d.windowHandle)
+            onTriggered: d.windowHandle.clipboardEditScenario.deleteSelection()
         }
     }
 
@@ -275,7 +269,7 @@ ActionCollection {
         Label {
             id: selectionIndicator
 
-            readonly property DspxDocument document: d.windowHandle?.projectDocumentContext.document ?? null
+            readonly property DspxProject.Document document: d.windowHandle?.projectDocumentContext.document ?? null
             readonly property DspxSelectionModel.FreeParameterSelectionModel freeSelection:
                 document?.selectionModel.freeParameterSelectionModel ?? null
 
@@ -344,7 +338,7 @@ ActionCollection {
         Action {
             enabled: d.transactionController?.canBeginTransaction === true
                      && d.windowHandle?.projectDocumentContext.document.anyItemsSelected && (d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip || d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Note)
-            onTriggered: d.windowHandle.projectDocumentContext.document.splitItems(d.windowHandle.projectTimeline.position, d.windowHandle)
+            onTriggered: d.windowHandle.editItemsScenario.splitItems(d.windowHandle.projectTimeline.position)
         }
     }
     ActionItem {
@@ -352,16 +346,7 @@ ActionCollection {
         Action {
             enabled: d.transactionController?.canBeginTransaction === true && d.transactionController.canAcquireReadLock
                      && d.windowHandle?.projectDocumentContext.document.anyItemsSelected && d.windowHandle?.projectDocumentContext.document.selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_Clip && d.windowHandle?.projectDocumentContext.document.selectionModel.clipSelectionModel.selectedSingingClipCount
-            onTriggered: Qt.callLater(() => {
-                if (!d.windowHandle.projectDocumentContext.document.isClipSingerLayoutIdentical()) {
-                    if (d.windowHandle.window.contentItem.MessageBox.warning(qsTr("Warning"), qsTr("The selected clips use different source singer layouts. Bouncing will keep one source singer layout and discard all voice blending anchors.\n\nContinue to bounce?"), SVS.Yes | SVS.No, SVS.No) === SVS.No) {
-                        return
-                    }
-                }
-                if (!d.parameterResamplingScenario.confirmBounce())
-                    return
-                d.windowHandle.projectDocumentContext.document.bounceToClip(d.windowHandle)
-            })
+            onTriggered: Qt.callLater(() => d.windowHandle.editItemsScenario.bounceToClip(d.windowHandle.window))
         }
     }
 

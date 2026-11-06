@@ -14,16 +14,16 @@ class QState;
 class QStateMachine;
 class QQuickItem;
 
+namespace DspxProject {
+    class Document;
+}
+
 namespace sflow {
     class TimelineInteractionController;
 }
 
 namespace dspx {
     class Model;
-}
-
-namespace Core {
-    class DspxDocument;
 }
 
 namespace VisualEditor {
@@ -34,7 +34,7 @@ namespace VisualEditor {
     public:
         ProjectViewModelContext *q_ptr;
 
-        Core::DspxDocument *document;
+        DspxProject::Document *document;
         Core::ProjectWindowInterface *windowHandle;
         dspx::Model *model;
         sflow::PlaybackViewModel *playbackViewModel;

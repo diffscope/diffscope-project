@@ -37,7 +37,8 @@ Do not build parallel service, action, theming, document, or audio frameworks.
 - **ChorusKit / ExtensionSystem / CoreApi:** use the plugin lifecycle, `RuntimeInterface` (QML engine, user/global settings, application services), `CoreInterfaceBase`, window interfaces, registries, and object pools.
 - **QActionKit:** declare action IDs and menu/toolbar insertions in `res/org.diffscope.<plugin>_actions.xml`. Bind behavior with QML `ActionCollection`/`ActionItem`, then register it with the window's `actionContext`. Use `Core::CoreInterface::actionRegistry()` for global action metadata and layouts. Do not hand-create duplicate shortcuts or menus.
 - **SVSCraft:** use its QML controls, `Theme`, `ThemedItem`, dialogs, icons, settings helpers, and music time/timeline types. New UI should visually and behaviorally match these components rather than introducing local substitutes. Avoid hardcoding color values and use colors defined in `Theme`.
-- **Core plugin:** use `CoreInterface` for application commands and registries; `HomeWindowInterface`/`ProjectWindowInterface` for window-scoped behavior; `ProjectDocumentContext` for open/save; `DspxDocument` for model, selection, clipboard, and `TransactionController`; `ProjectTimeline` for playhead/time mapping; and existing scenarios, notifications, singer registries, default-lyric services, and property-editor hooks.
+- **Core plugin:** use `CoreInterface` for application commands and registries, `HomeWindowInterface` and `ProjectWindowInterface` for window-scoped behavior, and the existing notifications, singer registries, default-lyric services, and property-editor hooks.
+- **DspxProject:** use `ProjectDocumentContext` for open and save operations, `Document` for the model, selection, and transaction controller, `Clipboard` for clipboard access, `ProjectTimeline` for playhead and time mapping, and the project lifecycle and editing scenarios for workflow orchestration.
 - **Domain libraries:** use `dspxmodel*` for the live document/selection model, OpenDSPX for serialization/interchange, ScopicFlow for editor view models and interaction controllers, and TALCS/audio-plugin contexts for audio. Keep UI coordinates, document ticks, and audio samples in their owning layers and convert at boundaries.
 
 ## Data Compatibility and Versioning
@@ -54,7 +55,7 @@ CMake's `ck_sync_include` publishes headers into the build include tree and deli
 
 | Source example | Consumer include |
 | --- | --- |
-| `src/plugins/coreplugin/project/document/DspxDocument.h` | `<coreplugin/DspxDocument.h>` |
+| `src/libs/application/dspxproject/src/document/Document.h` | `<dspxproject/Document.h>` |
 | `src/plugins/audio/audiocontext/ProjectAudioContext_p.h` | `<audio/private/ProjectAudioContext_p.h>` |
 | `src/plugins/audio/internal/addon/PlaybackAddOn.h` | `<audio/internal/PlaybackAddOn.h>` |
 | `src/plugins/maintenance/internal/ApplicationUpdateChecker_p.h` | `<maintenance/internal/private/ApplicationUpdateChecker_p.h>` |

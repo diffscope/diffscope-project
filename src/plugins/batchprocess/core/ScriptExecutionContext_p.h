@@ -22,7 +22,7 @@ namespace BatchProcess {
         ScriptMethod *method{};
         QPointer<Core::ActionWindowInterfaceBase> windowInterface;
         QPointer<Core::ProjectWindowInterface> projectWindowInterface;
-        QPointer<Core::ProjectDocumentContext> projectDocumentContext;
+        QPointer<DspxProject::ProjectDocumentContext> projectDocumentContext;
     };
 
 }

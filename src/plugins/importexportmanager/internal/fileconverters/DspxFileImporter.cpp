@@ -20,7 +20,7 @@
 #include <opendspx/serializer/serializer.h>
 #include <opendspx/singingclip.h>
 
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectFileDialogs.h>
 
 namespace ImportExportManager::Internal {
@@ -42,7 +42,7 @@ namespace ImportExportManager::Internal {
         QFile file(path);
         if (!file.open(QIODevice::ReadOnly)) {
             qCCritical(lcDspxFileImporter) << "Failed to read file:" << path << file.errorString();
-            const Core::ProjectFileError error{Core::ProjectFileError::Read, path, file.errorString()};
+            const DspxProject::ProjectFileError error{DspxProject::ProjectFileError::Read, path, file.errorString()};
             dialogs.reportError(error);
             return false;
         }
@@ -52,7 +52,7 @@ namespace ImportExportManager::Internal {
         file.close();
         if (errors.containsFatal() || errors.containsError()) {
             qCCritical(lcDspxFileImporter) << "Failed to deserialize file:" << path;
-            const Core::ProjectFileError error{Core::ProjectFileError::Parse, path, {}};
+            const DspxProject::ProjectFileError error{DspxProject::ProjectFileError::Parse, path, {}};
             dialogs.reportError(error);
             return false;
         }

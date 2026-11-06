@@ -13,8 +13,8 @@
 
 #include <transactional/TransactionController.h>
 
-namespace Core {
-    class DspxDocument;
+namespace DspxProject {
+    class Document;
 }
 
 namespace dspx {
@@ -58,7 +58,7 @@ namespace AudioVisualizer::Internal {
         void importingChanged();
 
     private:
-        void importFilesNow(const QList<QUrl> &urls, QPointer<Core::DspxDocument> document, QPointer<dspx::Track> firstTrack, int position, Core::TransactionController::ScopedReadLock *readLock);
+        void importFilesNow(const QList<QUrl> &urls, QPointer<DspxProject::Document> document, QPointer<dspx::Track> firstTrack, int position, Core::TransactionController::ScopedReadLock *readLock);
 
         bool m_importing{};
     };

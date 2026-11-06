@@ -539,9 +539,11 @@ declare module "diffscope:core" {
          * Pastes through a named undo step. Defaults to currentPosition and the
          * project playhead. Relative mode offsets from the copied playhead.
          * Original mode retains copied positions and, for clips, original tracks.
-         * Parameter paste may display a resampling confirmation. Cancellation is a no-op.
+         * Parameter paste may display a resampling confirmation in an associated project.
+         * Pass allowResampling to make the resampling decision without a dialog.
+         * A standalone document requires explicit approval for parameter resampling.
          */
-        paste(referenceTick?: Tick, mode?: PasteMode): void;
+        paste(referenceTick?: Tick, mode?: PasteMode, allowResampling?: boolean): void;
     }
 
     export interface Document extends OpenDSPXConvertible<DSPX.Model> {
@@ -571,7 +573,7 @@ declare module "diffscope:core" {
         /**
          * Splits selected clips or notes strictly crossing tick through a named
          * undo step. Uses project ticks for clip selection and clip-local content
-         * ticks for note selection, matching DspxDocument::splitItems().
+         * ticks for note selection.
          */
         splitSelectionAt(tick: Tick): void;
         /** Includes singer-layout, overlap, and parameter-resampling restrictions. */

@@ -18,9 +18,10 @@
 
 #include <uishell/USDef.h>
 
+#include <dspxproject/ProjectLifecycleScenario.h>
+
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
-#include <coreplugin/ProjectLifecycleScenario.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/CoreProjectLifecycleStrategy.h>
 
@@ -253,7 +254,7 @@ namespace Core::Internal {
         const auto kind = item->data(RecoveryFileKindRole).toInt();
 
         const bool isProjectCopy = kind == RFK_LatestUnsavedProject;
-        const auto recoverySource = isProjectCopy ? ProjectRecoverySource::ProjectCopy : ProjectRecoverySource::DocumentLog;
+        const auto recoverySource = isProjectCopy ? DspxProject::ProjectRecoverySource::ProjectCopy : DspxProject::ProjectRecoverySource::DocumentLog;
         const auto name = isProjectCopy ? QString() : defaultDocumentNameFromRecoveryName(item->data(UIShell::USDef::RF_NameRole).toString());
         CoreInterface::projectLifecycleScenario()->recoverProject(recoverySource, path, name, windowHandle()->window());
     }

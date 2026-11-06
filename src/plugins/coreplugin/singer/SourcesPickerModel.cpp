@@ -14,8 +14,6 @@
 #include <QJsonObject>
 #include <QVariantMap>
 
-#include <stdcorelib/support/json.h>
-
 #include <opendspx/mixedsinger.h>
 #include <opendspx/singlesinger.h>
 #include <opendspx/serializer/jsonconverterv1.h>
@@ -25,9 +23,11 @@
 #include <dspxmodelORM/Sources.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/internal/jsonutils.h>
+#include <dspxproject/SourcesSelection.h>
+#include <dspxproject/SingerComparison.h>
 #include <singercatalog/SingerInfo.h>
 #include <singercatalog/SingerRegistry.h>
+#include <stdcorelib/jsonconv_stdcorelib.h>
 
 namespace Core {
 
@@ -45,26 +45,6 @@ namespace Core {
 
         QString joinedWarnings(const QStringList &warnings) {
             return warnings.join(QLatin1Char('\n'));
-        }
-
-        bool singerEquals(const opendspx::SingerRef &left, const opendspx::SingerRef &right) {
-            if (!left || !right)
-                return left == right;
-            if (left->type != right->type || left->extra != right->extra || left->workspace != right->workspace)
-                return false;
-            if (left->type == opendspx::Singer::Type::Single) {
-                return static_cast<const opendspx::SingleSinger &>(*left).id
-                       == static_cast<const opendspx::SingleSinger &>(*right).id;
-            }
-            const auto &leftMixed = static_cast<const opendspx::MixedSinger &>(*left);
-            const auto &rightMixed = static_cast<const opendspx::MixedSinger &>(*right);
-            if (leftMixed.ratio != rightMixed.ratio || leftMixed.singers.size() != rightMixed.singers.size())
-                return false;
-            for (std::size_t i = 0; i < leftMixed.singers.size(); ++i) {
-                if (!singerEquals(leftMixed.singers[i], rightMixed.singers[i]))
-                    return false;
-            }
-            return true;
         }
 
         bool singerTreeSerializable(const opendspx::SingerRef &singer) {
@@ -522,6 +502,10 @@ namespace Core {
         d->refreshFromRegistry();
     }
 
+    DspxProject::SourcesSelection SourcesPickerModel::sourcesSelection() const {
+        return {architectureId(), singers()};
+    }
+
     QList<opendspx::SingerRef> SourcesPickerModel::singers() const {
         Q_D(const SourcesPickerModel);
         QList<opendspx::SingerRef> result;
@@ -542,7 +526,7 @@ namespace Core {
         if (singers.size() == static_cast<qsizetype>(d->roots.size())) {
             bool equal = true;
             for (qsizetype i = 0; i < singers.size(); ++i) {
-                if (!singerEquals(singers[i], d->roots[static_cast<std::size_t>(i)]->singer)) {
+                if (!DspxProject::singerDefinitionEquals(singers[i], d->roots[static_cast<std::size_t>(i)]->singer)) {
                     equal = false;
                     break;
                 }
@@ -583,7 +567,7 @@ namespace Core {
         if (d->registry && d->registry->containsSinger(d->architectureId, singerId)) {
             const auto info = d->registry->singerInfo(d->architectureId, singerId);
             defaultSingers.append(std::make_shared<opendspx::SingleSinger>(
-                singerId.toStdString(), Internal::JsonUtils::fromQJsonValue(info.defaultExtra())));
+                singerId.toStdString(), jsonconv_stdcorelib::fromQJsonValue(info.defaultExtra())));
         }
         setSingers(defaultSingers);
     }
@@ -606,7 +590,7 @@ namespace Core {
 
             QJsonObject object;
             object.insert(QStringLiteral("architectureId"), architectureId());
-            object.insert(QStringLiteral("singers"), Internal::JsonUtils::toQJsonValue(singersJson));
+            object.insert(QStringLiteral("singers"), jsonconv_stdcorelib::toQJsonValue(singersJson));
             return QJsonDocument(object).toJson(QJsonDocument::Compact);
         } catch (const std::exception &) {
             return {};
@@ -628,7 +612,7 @@ namespace Core {
         try {
             opendspx::SerializationErrorList errors;
             const auto singerVector = opendspx::JsonConverterV1::fromJson<std::vector<opendspx::SingerRef>>(
-                Internal::JsonUtils::fromQJsonValue(singersValue), errors, {});
+                jsonconv_stdcorelib::fromQJsonValue(singersValue), errors, {});
             if (errors.containsFatal() || errors.containsError()
                 || !std::ranges::all_of(singerVector, singerTreeSerializable)) {
                 return false;
@@ -734,7 +718,7 @@ namespace Core {
             case SingerIdRole:
                 return singerId(index);
             case ExtraRole:
-                return node->singer ? Internal::JsonUtils::toQJsonValue(node->singer->extra) : QJsonValue{};
+                return node->singer ? jsonconv_stdcorelib::toQJsonValue(node->singer->extra) : QJsonValue{};
             case SingerTreeRole: {
                 const QVariant tree = SourcesPickerModelPrivate::singerTree(node);
                 return node->singer && node->singer->type == opendspx::Singer::Type::Single
@@ -809,7 +793,7 @@ namespace Core {
     QJsonValue SourcesPickerModel::singerExtra(const QModelIndex &index) const {
         Q_D(const SourcesPickerModel);
         const auto *node = d->nodeForIndex(index);
-        return node && node->singer ? Internal::JsonUtils::toQJsonValue(node->singer->extra) : QJsonValue{};
+        return node && node->singer ? jsonconv_stdcorelib::toQJsonValue(node->singer->extra) : QJsonValue{};
     }
 
     QString SourcesPickerModel::workspaceName(const QModelIndex &index) const {
@@ -947,7 +931,7 @@ namespace Core {
         if (requiredGroup.isEmpty() || mixGroup != requiredGroup)
             return d->reject(tr("The selected singer is not compatible with the current mix group."));
 
-        if (singerEquals(node->singer, singer))
+        if (DspxProject::singerDefinitionEquals(node->singer, singer))
             return true;
         const int childCount = static_cast<int>(node->children.size());
         if (childCount > 0)
@@ -1078,7 +1062,7 @@ namespace Core {
         auto *node = d->nodeForIndex(index);
         if (!node || !node->singer)
             return false;
-        const auto converted = Internal::JsonUtils::fromQJsonValue(extra);
+        const auto converted = jsonconv_stdcorelib::fromQJsonValue(extra);
         if (node->singer->extra == converted)
             return true;
         node->singer->extra = converted;

@@ -25,7 +25,7 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/DspxInspectorDialog.h>
-#include <coreplugin/ProjectDocumentContext.h>
+#include <dspxproject/ProjectDocumentContext.h>
 
 namespace Core {
 
@@ -34,9 +34,9 @@ namespace Core {
 
     ProjectFileDialogs::~ProjectFileDialogs() = default;
 
-    QString ProjectFileDialogs::requestPath(const ProjectPathRequest &request) {
+    QString ProjectFileDialogs::requestPath(const DspxProject::ProjectPathRequest &request) {
         Q_D(ProjectFileDialogs);
-        const bool saving = request.purpose == ProjectPathRequest::SaveAs || request.purpose == ProjectPathRequest::SaveCopy;
+        const bool saving = request.purpose == DspxProject::ProjectPathRequest::SaveAs || request.purpose == DspxProject::ProjectPathRequest::SaveCopy;
         const auto directoryKey = saving ? QStringLiteral("defaultSaveDir") : QStringLiteral("defaultOpenDir");
         auto state = RuntimeInterface::state();
         state->beginGroup(QStringLiteral("org.diffscope.core.projectFileDialog"));
@@ -50,7 +50,7 @@ namespace Core {
         if (saving && !request.currentPath.isEmpty()) {
             const QFileInfo currentFile(request.currentPath);
             dialog.setDirectory(currentFile.absolutePath());
-            if (request.purpose == ProjectPathRequest::SaveAs) {
+            if (request.purpose == DspxProject::ProjectPathRequest::SaveAs) {
                 dialog.selectFile(currentFile.fileName());
             }
         } else {
@@ -122,11 +122,11 @@ namespace Core {
         SVS::MessageBox::customExec(mb);
     }
 
-    bool ProjectFileDialogs::confirmWarning(const ProjectWarning &warning) {
+    bool ProjectFileDialogs::confirmWarning(const DspxProject::ProjectWarning &warning) {
         Q_D(ProjectFileDialogs);
         auto engine = RuntimeInterface::qmlEngine();
         switch (warning.code) {
-            case ProjectWarning::OtherEditor:
+            case DspxProject::ProjectWarning::OtherEditor:
                 return SVS::MessageBox::question(
                     engine,
                     d->window,
@@ -134,7 +134,7 @@ namespace Core {
                     tr("This project file was created with another application (%1). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
                         .arg(warning.detail.isEmpty() ? tr("name unknown") : warning.detail)
                 ) == SVS::SVSCraft::Yes;
-            case ProjectWarning::IncompatibleVersion:
+            case DspxProject::ProjectWarning::IncompatibleVersion:
                 return SVS::MessageBox::question(
                     engine,
                     d->window,
@@ -142,14 +142,14 @@ namespace Core {
                     tr("This project file was created with a newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
                         .arg(QApplication::applicationDisplayName(), warning.detail)
                 ) == SVS::SVSCraft::Yes;
-            case ProjectWarning::CheckerWarning:
+            case DspxProject::ProjectWarning::CheckerWarning:
                 return SVS::MessageBox::question(
                     engine,
                     d->window,
                     tr("Additional check failed"),
                     tr("%1\n\nThe file can still be opened, but it may cause potential problems.\n\nDo you want to continue opening it?").arg(warning.detail)
                 ) == SVS::SVSCraft::Yes;
-            case ProjectWarning::SaveIntegrity:
+            case DspxProject::ProjectWarning::SaveIntegrity:
                 return SVS::MessageBox::warning(
                     engine,
                     d->window,
@@ -161,7 +161,7 @@ namespace Core {
         Q_UNREACHABLE();
     }
 
-    ProjectLifecycleStrategy::ExternalChangeChoice ProjectFileDialogs::resolveExternalChange(const QString &) {
+    DspxProject::ProjectLifecycleStrategy::ExternalChangeChoice ProjectFileDialogs::resolveExternalChange(const QString &) {
         Q_D(ProjectFileDialogs);
         enum { SaveAs = 1, Overwrite };
         QQmlComponent component(RuntimeInterface::qmlEngine(), "SVSCraft.UIComponents", "MessageBoxDialog");
@@ -189,15 +189,15 @@ namespace Core {
         }
         switch (SVS::MessageBox::customExec(window).toInt()) {
             case SaveAs:
-                return ProjectLifecycleStrategy::ExternalChangeChoice::SaveAs;
+                return DspxProject::ProjectLifecycleStrategy::ExternalChangeChoice::SaveAs;
             case Overwrite:
-                return ProjectLifecycleStrategy::ExternalChangeChoice::Overwrite;
+                return DspxProject::ProjectLifecycleStrategy::ExternalChangeChoice::Overwrite;
             default:
-                return ProjectLifecycleStrategy::ExternalChangeChoice::Cancel;
+                return DspxProject::ProjectLifecycleStrategy::ExternalChangeChoice::Cancel;
         }
     }
 
-    ProjectLifecycleStrategy::CloseChoice ProjectFileDialogs::confirmClose(const QString &, const QString &) {
+    DspxProject::ProjectLifecycleStrategy::CloseChoice ProjectFileDialogs::confirmClose(const QString &, const QString &) {
         Q_D(ProjectFileDialogs);
         const auto button = SVS::MessageBox::warning(
             RuntimeInterface::qmlEngine(),
@@ -209,15 +209,15 @@ namespace Core {
         );
         switch (button) {
             case SVS::SVSCraft::Yes:
-                return ProjectLifecycleStrategy::CloseChoice::Save;
+                return DspxProject::ProjectLifecycleStrategy::CloseChoice::Save;
             case SVS::SVSCraft::No:
-                return ProjectLifecycleStrategy::CloseChoice::Discard;
+                return DspxProject::ProjectLifecycleStrategy::CloseChoice::Discard;
             default:
-                return ProjectLifecycleStrategy::CloseChoice::Cancel;
+                return DspxProject::ProjectLifecycleStrategy::CloseChoice::Cancel;
         }
     }
 
-    void ProjectFileDialogs::notifyPartialRecovery(const ProjectFileError &) {
+    void ProjectFileDialogs::notifyPartialRecovery(const DspxProject::ProjectFileError &) {
         Q_D(ProjectFileDialogs);
         SVS::MessageBox::warning(
             RuntimeInterface::qmlEngine(),
@@ -229,30 +229,30 @@ namespace Core {
         );
     }
 
-    void ProjectFileDialogs::reportError(const ProjectFileError &error) {
+    void ProjectFileDialogs::reportError(const DspxProject::ProjectFileError &error) {
         Q_D(ProjectFileDialogs);
         auto engine = RuntimeInterface::qmlEngine();
         const auto path = QDir::toNativeSeparators(error.path);
         const auto details = path.isEmpty() ? error.detail : (error.detail.isEmpty() ? path : path + QStringLiteral("\n\n") + error.detail);
         switch (error.code) {
-            case ProjectFileError::None:
+            case DspxProject::ProjectFileError::None:
                 return;
-            case ProjectFileError::Read:
+            case DspxProject::ProjectFileError::Read:
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to open file"), details);
                 return;
-            case ProjectFileError::Parse:
+            case DspxProject::ProjectFileError::Parse:
                 d->reportParseError(error.path);
                 return;
-            case ProjectFileError::Load:
+            case DspxProject::ProjectFileError::Load:
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to Load Project"), details);
                 return;
-            case ProjectFileError::Write:
+            case DspxProject::ProjectFileError::Write:
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to save file"), details);
                 return;
-            case ProjectFileError::Restore:
+            case DspxProject::ProjectFileError::Restore:
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to restore recovery file"), tr("Cannot restore the recovery file."));
                 return;
-            case ProjectFileError::Busy:
+            case DspxProject::ProjectFileError::Busy:
                 SVS::MessageBox::warning(
                     engine,
                     d->window,
@@ -260,16 +260,16 @@ namespace Core {
                     QCoreApplication::translate("Core::ProjectWindowInterface", "Please wait until the current operation is complete before proceeding.")
                 );
                 return;
-            case ProjectFileError::InvalidState:
+            case DspxProject::ProjectFileError::InvalidState:
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to save file"), tr("The project cannot be saved in its current state."));
                 return;
-            case ProjectFileError::CopyToCurrentFile:
+            case DspxProject::ProjectFileError::CopyToCurrentFile:
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to save file"), tr("Choose a different path for the project copy."));
                 return;
-            case ProjectFileError::CheckerWarning:
+            case DspxProject::ProjectFileError::CheckerWarning:
                 SVS::MessageBox::warning(engine, d->window, tr("Additional check failed"), details);
                 return;
-            case ProjectFileError::IntegrityWarning:
+            case DspxProject::ProjectFileError::IntegrityWarning:
                 SVS::MessageBox::warning(engine, d->window, tr("Potential document integrity issue"), details);
                 return;
         }

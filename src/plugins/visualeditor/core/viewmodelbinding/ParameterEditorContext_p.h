@@ -25,6 +25,10 @@
 class QState;
 class QStateMachine;
 
+namespace DspxProject {
+    class Document;
+}
+
 namespace dspx {
     class AnchorNode;
     class AnchorNodeSequence;
@@ -42,7 +46,6 @@ namespace SingerCatalog {
 }
 
 namespace Core {
-    class DspxDocument;
     class ProjectWindowInterface;
 }
 
@@ -114,7 +117,7 @@ namespace VisualEditor {
 
         ParameterViewModelBinding *q_ptr{};
         bool editable{};
-        Core::DspxDocument *document{};
+        DspxProject::Document *document{};
         Core::ProjectWindowInterface *windowHandle{};
         dspx::Model *model{};
         dspx::SelectionModel *selectionModel{};
@@ -165,7 +168,7 @@ namespace VisualEditor {
         bool currentOperationTransforms{};
         Core::TransactionController::TransactionId transactionId{};
 
-        void initialize(Core::DspxDocument *document, Core::ProjectWindowInterface *windowHandle);
+        void initialize(DspxProject::Document *document, Core::ProjectWindowInterface *windowHandle);
         void initializeStateMachine();
         void initializeController();
         bool matchesFreeSelection(bool transform) const;
@@ -246,7 +249,7 @@ namespace VisualEditor {
     public:
         ParameterEditorContext *q_ptr{};
         ProjectViewModelContext *projectContext{};
-        Core::DspxDocument *document{};
+        DspxProject::Document *document{};
         SingerCatalog::SingerRegistry *registry{};
         SingerCatalog::ClipSingerIdProvider *singerIdProvider{};
         QPointer<dspx::SingingClip> singingClip;

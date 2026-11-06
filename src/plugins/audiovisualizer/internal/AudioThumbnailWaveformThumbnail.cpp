@@ -16,9 +16,9 @@
 #include <dspxmodelORM/Tempo.h>
 #include <dspxmodelORM/TempoSequence.h>
 
-#include <coreplugin/DspxDocument.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/Document.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audiovisualizer/internal/AudioMipmapAddOn.h>

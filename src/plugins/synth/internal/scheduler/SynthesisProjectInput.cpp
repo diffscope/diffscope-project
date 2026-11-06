@@ -19,7 +19,7 @@
 #include <SVSCraftCore/MusicTime.h>
 #include <SVSCraftCore/MusicTimeline.h>
 
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <dspxmodelORM/DynamicMixingAnchor.h>

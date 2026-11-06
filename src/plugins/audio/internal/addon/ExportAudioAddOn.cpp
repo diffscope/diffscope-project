@@ -38,10 +38,10 @@
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
 
-#include <coreplugin/DspxDocument.h>
+#include <dspxproject/Document.h>
 #include <coreplugin/NotificationMessage.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <transactional/TransactionController.h>

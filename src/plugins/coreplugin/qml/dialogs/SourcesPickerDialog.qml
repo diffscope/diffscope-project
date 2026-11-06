@@ -21,7 +21,7 @@ Window {
     required property SourcesPickerModel sourcesModel
 
     property int currentRow: 0
-    property bool resultSent: false
+    property bool acceptedResult: false
 
     readonly property bool needsInitialPicker: sourcesModel.architectureId === "" || sourcesModel.empty
     readonly property bool addPickerSelected: needsInitialPicker || currentRow === sourcesModel.count
@@ -57,26 +57,12 @@ Window {
     WindowSystem.windowSystem: CoreInterface.windowSystem
     WindowSystem.id: "org.diffscope.core.sourcespickerdialog"
 
-    signal accepted()
-    signal rejected()
     signal finished()
 
     Item {
         id: messageBoxHost
         anchors.fill: parent
         visible: false
-    }
-
-    function acceptDialog() {
-        resultSent = true
-        accepted()
-        close()
-    }
-
-    function rejectDialog() {
-        resultSent = true
-        rejected()
-        close()
     }
 
     function htmlEscape(value) {
@@ -121,17 +107,13 @@ Window {
 
     onVisibleChanged: {
         if (visible) {
-            resultSent = false
+            acceptedResult = false
             currentRow = needsInitialPicker
                          ? sourcesModel.count
                          : Math.min(Math.max(0, currentRow), sourcesModel.count)
         }
     }
-    onClosing: {
-        if (!resultSent)
-            rejected()
-        finished()
-    }
+    onClosing: finished()
 
     Connections {
         target: dialog.sourcesModel
@@ -451,8 +433,11 @@ Window {
             hostWindow: dialog
             standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel
             defaultStandardButton: DialogButtonBox.Ok
-            onAccepted: dialog.acceptDialog()
-            onRejected: dialog.rejectDialog()
+            onAccepted: {
+                dialog.acceptedResult = true
+                dialog.close()
+            }
+            onRejected: dialog.close()
 
             leadingContent: ToolButton {
                 visible: dialog.sourcesModel.validationIssues.length > 0

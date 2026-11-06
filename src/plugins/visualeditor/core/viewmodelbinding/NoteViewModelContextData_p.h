@@ -14,6 +14,10 @@ class QState;
 class QStateMachine;
 class QQuickItem;
 
+namespace DspxProject {
+    class Document;
+}
+
 namespace dspx {
     class Note;
     class NoteSelectionModel;
@@ -29,10 +33,6 @@ namespace sflow {
     class RangeSequenceViewModel;
 }
 
-namespace Core {
-    class DspxDocument;
-}
-
 namespace VisualEditor {
 
     class NoteSelectionController;
@@ -43,7 +43,7 @@ namespace VisualEditor {
     public:
         ProjectViewModelContext *q_ptr;
 
-        Core::DspxDocument *document{};
+        DspxProject::Document *document{};
         dspx::TrackList *trackList{};
         dspx::SelectionModel *selectionModel{};
         dspx::NoteSelectionModel *noteSelectionModel{};

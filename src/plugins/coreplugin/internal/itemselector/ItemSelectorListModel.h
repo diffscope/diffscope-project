@@ -12,6 +12,10 @@
 #include <QString>
 #include <QVariant>
 
+namespace DspxProject {
+    class KeySignatureAtSpecifiedPositionHelper;
+}
+
 namespace SVS {
     class MusicTimeline;
 }
@@ -40,7 +44,6 @@ namespace Core {
 
 namespace Core::Internal {
 
-    class KeySignatureAtSpecifiedPositionHelper;
 
     enum class NodeKind {
         RootTracks,
@@ -176,7 +179,7 @@ namespace Core::Internal {
         QHash<QObject *, SingerCatalog::ParameterInfoProvider *> m_parameterProviders;
         QObject *m_contextSingerResolver = nullptr;
         SingerCatalog::ParameterInfoProvider *m_anchorProvider = nullptr;
-        KeySignatureAtSpecifiedPositionHelper *m_keySignatureHelper = nullptr;
+        DspxProject::KeySignatureAtSpecifiedPositionHelper *m_keySignatureHelper = nullptr;
     };
 
 }

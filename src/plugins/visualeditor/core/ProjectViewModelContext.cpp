@@ -30,7 +30,7 @@
 #include <dspxmodelORM/Label.h>
 #include <dspxmodelORM/Track.h>
 
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <visualeditor/private/TempoSelectionController_p.h>

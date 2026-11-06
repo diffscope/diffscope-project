@@ -14,6 +14,10 @@ class QStateMachine;
 class QState;
 class QQuickItem;
 
+namespace DspxProject {
+    class Document;
+}
+
 namespace dspx {
     class TempoSequence;
     class TempoSelectionModel;
@@ -24,10 +28,6 @@ namespace sflow {
     class LabelSequenceInteractionController;
     class LabelViewModel;
     class PointSequenceViewModel;
-}
-
-namespace Core {
-    class DspxDocument;
 }
 
 namespace VisualEditor {
@@ -41,7 +41,7 @@ namespace VisualEditor {
         ProjectViewModelContext *q_ptr;
 
         // Cached document objects
-        Core::DspxDocument *document;
+        DspxProject::Document *document;
         dspx::TempoSequence *tempoSequence;
         dspx::TempoSelectionModel *tempoSelectionModel;
 

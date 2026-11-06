@@ -9,7 +9,7 @@
 #include <QSet>
 #include <QVariant>
 
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <singercatalog/ArchitectureInfo.h>
 

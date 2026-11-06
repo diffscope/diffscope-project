@@ -11,6 +11,7 @@ import SVSCraft.UIComponents
 import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
+import DiffScope.DspxProject as DspxProject
 
 AbstractPropertyEditorField {
     id: d
@@ -18,7 +19,7 @@ AbstractPropertyEditorField {
     property int to: 127
     property int positionHint: -1
     readonly property MusicPitchSpinBox spinBox: control
-    KeySignatureAtSpecifiedPositionHelper {
+    DspxProject.KeySignatureAtSpecifiedPositionHelper {
         id: keySignatureAtSpecifiedPositionHelper
         position: d.positionHint !== -1 ? d.positionHint : (d.windowHandle?.projectTimeline.position ?? 0)
         keySignatureSequence: d.windowHandle?.projectDocumentContext.document.model.keySignatures ?? null

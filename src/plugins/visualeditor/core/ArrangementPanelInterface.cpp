@@ -29,10 +29,10 @@
 #include <dspxmodelORM/SingingClip.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
-#include <coreplugin/ProjectTimeline.h>
+#include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/ProjectDocumentContext.h>
-#include <coreplugin/DspxDocument.h>
+#include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/Document.h>
 
 #include <visualeditor/AutoPageScrollingManipulator.h>
 #include <visualeditor/PianoRollPanelInterface.h>
@@ -54,7 +54,7 @@ namespace VisualEditor {
         auto projectTimeline = windowHandle->projectTimeline();
         timeViewModel->setTimeline(projectTimeline->musicTimeline());
         timeViewModel->setEnd(projectTimeline->rangeHint());
-        QObject::connect(projectTimeline, &Core::ProjectTimeline::rangeHintChanged, timeViewModel, [=, this] {
+        QObject::connect(projectTimeline, &DspxProject::ProjectTimeline::rangeHintChanged, timeViewModel, [=, this] {
             timeViewModel->setEnd(projectTimeline->rangeHint());
         });
         QObject::connect(timeViewModel, &sflow::TimeViewModel::endChanged, projectTimeline, [=, this] {
