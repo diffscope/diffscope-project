@@ -8,4 +8,4 @@ SPDX-License-Identifier = "CC0-1.0"
 [[annotations]]
 path = ["share/translations/**"]
 SPDX-FileCopyrightText = "Team OpenVPI"
-SPDX-License-Identifier = "Apache-2.0"
+SPDX-License-Identifier = "LGPL-3.0-or-later"

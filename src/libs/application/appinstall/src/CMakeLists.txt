@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: Team OpenVPI
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: LGPL-3.0-or-later
 
 project(appinstall VERSION 0.0.1.0)
 

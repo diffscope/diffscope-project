@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: Team OpenVPI
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: LGPL-3.0-or-later
 
 set(_locales)
 foreach(_locale IN ITEMS en_US zh_CN zh_TW ja_JP)

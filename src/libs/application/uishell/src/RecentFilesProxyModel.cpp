@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "RecentFilesProxyModel_p.h"
 
