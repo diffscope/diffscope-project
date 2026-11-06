@@ -9,9 +9,9 @@
 #include <QSet>
 #include <QVariant>
 
-#include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <singercatalog/ArchitectureInfo.h>
 
 #include <dspxmodelORM/FreeValueDataArray.h>
 #include <dspxmodelORM/Model.h>
@@ -64,7 +64,7 @@ namespace Synth::Internal::DocumentWriter {
                 const auto leftIndex = static_cast<qsizetype>(std::floor(samplePosition));
                 const auto rightIndex = std::min(leftIndex + 1, it->values.size() - 1);
                 const double value = std::lerp(it->values.at(leftIndex), it->values.at(rightIndex), samplePosition - static_cast<double>(leftIndex));
-                values.append(Core::ParameterInfo::toDspxModelValue(value));
+                values.append(SingerCatalog::ParameterInfo::toDspxModelValue(value));
             }
             auto original = modelParameter->original();
             if (original->size() < firstIndex) {

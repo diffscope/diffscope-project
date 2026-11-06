@@ -70,12 +70,12 @@
 #include <dspxmodelSelectionModel/TempoSelectionModel.h>
 #include <dspxmodelSelectionModel/TrackSelectionModel.h>
 
-#include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/DspxClipboard.h>
 #include <coreplugin/FreeParameterSelectionModel.h>
 #include <coreplugin/ParameterResamplingScenario.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/FreeParameterResampling.h>
+#include <singercatalog/ArchitectureInfo.h>
 
 #include <stdcorelib/support/json.h>
 #include <transactional/TransactionController.h>
@@ -484,7 +484,7 @@ namespace Core {
             for (int index = 0; index < sampled.values.size(); ++index) {
                 if (sampled.values.at(index).isValid()) {
                     target.insert(sampled.firstIndex + index,
-                                  ParameterInfo::fromDspxModelValue(sampled.values.at(index).toInt()));
+                                  SingerCatalog::ParameterInfo::fromDspxModelValue(sampled.values.at(index).toInt()));
                 }
             }
         }
@@ -499,7 +499,7 @@ namespace Core {
                     continue;
                 target.insert(node->x() + deltaPosition, {
                     .interpolationMode = node->interpolationMode(),
-                    .value = ParameterInfo::fromDspxModelValue(node->y()),
+                    .value = SingerCatalog::ParameterInfo::fromDspxModelValue(node->y()),
                 });
             }
         }
@@ -547,7 +547,7 @@ namespace Core {
             QList<QVariant> result;
             result.resize(points.lastKey() + 1);
             for (auto it = points.cbegin(); it != points.cend(); ++it)
-                result[it.key()] = ParameterInfo::toDspxModelValue(it.value());
+                result[it.key()] = SingerCatalog::ParameterInfo::toDspxModelValue(it.value());
             return result;
         }
 
@@ -566,7 +566,7 @@ namespace Core {
                 const auto &point = it.value();
                 auto *node = model->createAnchorNode();
                 node->setX(it.key());
-                node->setY(ParameterInfo::toDspxModelValue(point.value));
+                node->setY(SingerCatalog::ParameterInfo::toDspxModelValue(point.value));
                 node->setInterpolationMode(point.interpolationMode);
                 if (!sequence->insertItem(node))
                     model->destroyItem(node);

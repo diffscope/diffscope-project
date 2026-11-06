@@ -8,3 +8,5 @@ add_subdirectory(uishell)
 add_subdirectory(appinstall)
 
 add_subdirectory(transactional)
+
+add_subdirectory(singercatalog)

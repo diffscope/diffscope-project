@@ -25,9 +25,9 @@
 #include <dspxmodelORM/Sources.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/SingerInfo.h>
-#include <coreplugin/SingerRegistry.h>
 #include <coreplugin/internal/jsonutils.h>
+#include <singercatalog/SingerInfo.h>
+#include <singercatalog/SingerRegistry.h>
 
 namespace Core {
 
@@ -220,12 +220,12 @@ namespace Core {
             if (architecture == architectureId)
                 refreshFromRegistry();
         };
-        registryConnections.push_back(QObject::connect(registry, &SingerRegistry::architectureRegistered, q, refreshArchitecture));
-        registryConnections.push_back(QObject::connect(registry, &SingerRegistry::architectureUpdated, q, refreshArchitecture));
-        registryConnections.push_back(QObject::connect(registry, &SingerRegistry::architectureRemoved, q, refreshArchitecture));
-        registryConnections.push_back(QObject::connect(registry, &SingerRegistry::singerRegistered, q, refreshSinger));
-        registryConnections.push_back(QObject::connect(registry, &SingerRegistry::singerUpdated, q, refreshSinger));
-        registryConnections.push_back(QObject::connect(registry, &SingerRegistry::singerRemoved, q, refreshSinger));
+        registryConnections.push_back(QObject::connect(registry, &SingerCatalog::SingerRegistry::architectureRegistered, q, refreshArchitecture));
+        registryConnections.push_back(QObject::connect(registry, &SingerCatalog::SingerRegistry::architectureUpdated, q, refreshArchitecture));
+        registryConnections.push_back(QObject::connect(registry, &SingerCatalog::SingerRegistry::architectureRemoved, q, refreshArchitecture));
+        registryConnections.push_back(QObject::connect(registry, &SingerCatalog::SingerRegistry::singerRegistered, q, refreshSinger));
+        registryConnections.push_back(QObject::connect(registry, &SingerCatalog::SingerRegistry::singerUpdated, q, refreshSinger));
+        registryConnections.push_back(QObject::connect(registry, &SingerCatalog::SingerRegistry::singerRemoved, q, refreshSinger));
         registryConnections.push_back(QObject::connect(registry, &QObject::destroyed, q, [this, q] {
             registryConnections.clear();
             refreshFromRegistry();

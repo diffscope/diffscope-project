@@ -19,7 +19,7 @@
 #include <dspxmodelORM/FreeValueDataArray.h>
 #include <dspxmodelORM/Parameter.h>
 
-#include <coreplugin/ArchitectureInfo.h>
+#include <singercatalog/ArchitectureInfo.h>
 
 namespace Synth::Internal {
 
@@ -80,7 +80,7 @@ namespace Synth::Internal {
                 current.push_back({
                     static_cast<opendspx::AnchorNode::Interpolation>(node->interpolationMode()),
                     node->x(),
-                    Core::ParameterInfo::fromDspxModelValue(node->y()),
+                    SingerCatalog::ParameterInfo::fromDspxModelValue(node->y()),
                 });
                 if (node->interpolationMode() == dspx::AnchorNode::None) {
                     appendSegment();
@@ -105,7 +105,7 @@ namespace Synth::Internal {
             values.reserve(static_cast<std::size_t>(source.size()));
             for (const auto &value : source) {
                 values.push_back(value.isValid() && !value.isNull()
-                                     ? std::optional(Core::ParameterInfo::fromDspxModelValue(value.toInt()))
+                                     ? std::optional(SingerCatalog::ParameterInfo::fromDspxModelValue(value.toInt()))
                                      : std::nullopt);
             }
             return {firstIndex, std::move(values)};

@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "SingerInfoProvider.h"
 #include "SingerInfoProvider_p.h"
@@ -8,9 +8,9 @@
 
 #include <QVariantMap>
 
-#include <coreplugin/SingerRegistry.h>
+#include <singercatalog/SingerRegistry.h>
 
-namespace Core {
+namespace SingerCatalog {
 
     void SingerInfoProviderPrivate::update() {
         Q_Q(SingerInfoProvider);
@@ -23,7 +23,7 @@ namespace Core {
         }
         if (exists != newExists) {
             exists = newExists;
-            emit q->existsChanged(exists);
+            Q_EMIT q->existsChanged(exists);
         }
     }
 
@@ -68,12 +68,12 @@ namespace Core {
                 Q_D(SingerInfoProvider);
                 d->disconnectRegistry();
                 d->registry = nullptr;
-                emit registryChanged(nullptr);
+                Q_EMIT registryChanged(nullptr);
                 d->update();
             }));
         }
 
-        emit registryChanged(registry);
+        Q_EMIT registryChanged(registry);
         d->update();
     }
 
@@ -87,7 +87,7 @@ namespace Core {
         if (d->architectureId == architectureId)
             return;
         d->architectureId = architectureId;
-        emit architectureIdChanged(d->architectureId);
+        Q_EMIT architectureIdChanged(d->architectureId);
         d->update();
     }
 
@@ -101,7 +101,7 @@ namespace Core {
         if (d->singerId == singerId)
             return;
         d->singerId = singerId;
-        emit singerIdChanged(d->singerId);
+        Q_EMIT singerIdChanged(d->singerId);
         d->update();
     }
 

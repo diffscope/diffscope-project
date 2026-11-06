@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_COREPLUGIN_ARCHITECTUREINFO_H
-#define DIFFSCOPE_COREPLUGIN_ARCHITECTUREINFO_H
+#ifndef DIFFSCOPE_SINGERCATALOG_ARCHITECTUREINFO_H
+#define DIFFSCOPE_SINGERCATALOG_ARCHITECTUREINFO_H
 
 #include <QJsonValue>
 #include <QMap>
@@ -12,13 +12,13 @@
 #include <QString>
 #include <QVariant>
 
-#include <coreplugin/coreglobal.h>
+#include <singercatalog/singercatalogglobal.h>
 
-namespace Core {
+namespace SingerCatalog {
 
     class ArchitectureInfoData;
 
-    struct CORE_EXPORT ParameterInfo {
+    struct SINGERCATALOG_EXPORT ParameterInfo {
         Q_GADGET
         Q_PROPERTY(QString displayName MEMBER displayName)
         Q_PROPERTY(double defaultValue MEMBER defaultValue)
@@ -75,10 +75,10 @@ namespace Core {
         bool operator!=(const ParameterInfo &) const = default;
     };
 
-    CORE_EXPORT ParameterInfo pitchParameterInfo();
-    CORE_EXPORT ParameterInfo transformParameterInfo();
+    SINGERCATALOG_EXPORT ParameterInfo pitchParameterInfo();
+    SINGERCATALOG_EXPORT ParameterInfo transformParameterInfo();
 
-    class CORE_EXPORT ArchitectureInfo {
+    class SINGERCATALOG_EXPORT ArchitectureInfo {
         Q_GADGET
         Q_PROPERTY(QString name READ name WRITE setName)
         Q_PROPERTY(ParameterMap parameters READ parameters WRITE setParameters)
@@ -116,8 +116,8 @@ namespace Core {
 
 }
 
-Q_DECLARE_METATYPE(Core::ParameterInfo)
-Q_DECLARE_METATYPE(Core::ArchitectureInfo::ParameterMap)
-Q_DECLARE_METATYPE(Core::ArchitectureInfo)
+Q_DECLARE_METATYPE(SingerCatalog::ParameterInfo)
+Q_DECLARE_METATYPE(SingerCatalog::ArchitectureInfo::ParameterMap)
+Q_DECLARE_METATYPE(SingerCatalog::ArchitectureInfo)
 
-#endif // DIFFSCOPE_COREPLUGIN_ARCHITECTUREINFO_H
+#endif // DIFFSCOPE_SINGERCATALOG_ARCHITECTUREINFO_H

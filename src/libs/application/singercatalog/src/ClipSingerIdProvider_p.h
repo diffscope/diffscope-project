@@ -1,10 +1,10 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_COREPLUGIN_CLIPSINGERIDPROVIDER_P_H
-#define DIFFSCOPE_COREPLUGIN_CLIPSINGERIDPROVIDER_P_H
+#ifndef DIFFSCOPE_SINGERCATALOG_CLIPSINGERIDPROVIDER_P_H
+#define DIFFSCOPE_SINGERCATALOG_CLIPSINGERIDPROVIDER_P_H
 
-#include <coreplugin/ClipSingerIdProvider.h>
+#include <singercatalog/ClipSingerIdProvider.h>
 
 #include <QMetaObject>
 #include <QPointer>
@@ -16,7 +16,7 @@
 #include <dspxmodelORM/SingleSinger.h>
 #include <dspxmodelORM/Sources.h>
 
-namespace Core {
+namespace SingerCatalog {
 
     class ClipSingerIdProviderPrivate {
         Q_DECLARE_PUBLIC(ClipSingerIdProvider)
@@ -42,4 +42,4 @@ namespace Core {
 
 }
 
-#endif // DIFFSCOPE_COREPLUGIN_CLIPSINGERIDPROVIDER_P_H
+#endif // DIFFSCOPE_SINGERCATALOG_CLIPSINGERIDPROVIDER_P_H

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN" sourcelanguage="en_US">
+<context>
+    <name>SingerCatalog::SingerInfoProvider</name>
+    <message>
+        <location filename="../../src/SingerInfoProvider.cpp" line="121"/>
+        <source>Not available</source>
+        <translation type="unfinished">不可用</translation>
+    </message>
+    <message>
+        <location filename="../../src/SingerInfoProvider.cpp" line="135"/>
+        <source>Default language (%1)</source>
+        <translation type="unfinished">默认语言（%1）</translation>
+    </message>
+</context>
+</TS>

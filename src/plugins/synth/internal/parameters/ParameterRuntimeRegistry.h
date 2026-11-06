@@ -11,7 +11,7 @@
 #include <QHash>
 #include <QString>
 
-#include <coreplugin/ArchitectureInfo.h>
+#include <singercatalog/ArchitectureInfo.h>
 
 #include <synth/internal/Dtos.h>
 
@@ -24,7 +24,7 @@ namespace Synth::Internal {
         ParameterRuntimeRegistry(const ParameterRuntimeRegistry &) = delete;
         ParameterRuntimeRegistry &operator=(const ParameterRuntimeRegistry &) = delete;
 
-        bool parameterInfo(const Api::V1::ParameterDefinition &definition, Core::ParameterInfo *result,
+        bool parameterInfo(const Api::V1::ParameterDefinition &definition, SingerCatalog::ParameterInfo *result,
                            QString *errorMessage = nullptr);
         void clear();
 
@@ -35,9 +35,9 @@ namespace Synth::Internal {
         ~ParameterRuntimeRegistry();
 
         std::shared_ptr<Context> context(const QByteArray &handle) const;
-        static double toDisplayValue(const Core::ParameterInfo &self, double value);
-        static double fromDisplayValue(const Core::ParameterInfo &self, double value);
-        static QString toDisplayString(const Core::ParameterInfo &self, double value);
+        static double toDisplayValue(const SingerCatalog::ParameterInfo &self, double value);
+        static double fromDisplayValue(const SingerCatalog::ParameterInfo &self, double value);
+        static QString toDisplayString(const SingerCatalog::ParameterInfo &self, double value);
 
         mutable std::mutex m_mutex;
         QHash<QByteArray, std::shared_ptr<Context>> m_contexts;

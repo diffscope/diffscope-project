@@ -6,6 +6,7 @@ import QtQuick
 
 import DiffScope.Core
 import DiffScope.Synth
+import DiffScope.SingerCatalog
 
 ExtraControlPanel {
     id: control

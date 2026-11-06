@@ -1,16 +1,16 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_COREPLUGIN_PARAMETERINFOPROVIDER_P_H
-#define DIFFSCOPE_COREPLUGIN_PARAMETERINFOPROVIDER_P_H
+#ifndef DIFFSCOPE_SINGERCATALOG_PARAMETERINFOPROVIDER_P_H
+#define DIFFSCOPE_SINGERCATALOG_PARAMETERINFOPROVIDER_P_H
 
-#include <coreplugin/ParameterInfoProvider.h>
+#include <singercatalog/ParameterInfoProvider.h>
 
 #include <QMetaObject>
 #include <QPointer>
 #include <QVector>
 
-namespace Core {
+namespace SingerCatalog {
 
     class ParameterInfoProviderPrivate {
         Q_DECLARE_PUBLIC(ParameterInfoProvider)
@@ -31,4 +31,4 @@ namespace Core {
 
 }
 
-#endif // DIFFSCOPE_COREPLUGIN_PARAMETERINFOPROVIDER_P_H
+#endif // DIFFSCOPE_SINGERCATALOG_PARAMETERINFOPROVIDER_P_H

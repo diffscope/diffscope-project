@@ -12,6 +12,7 @@ import dev.sjimo.ScopicFlow
 
 import DiffScope.DspxModel as DspxModel
 import DiffScope.Core
+import DiffScope.SingerCatalog
 
 Item {
     id: d

@@ -30,8 +30,11 @@ namespace dspx {
     class TrackList;
 }
 
-namespace Core {
+namespace SingerCatalog {
     class ParameterInfoProvider;
+}
+
+namespace Core {
     class ProjectWindowInterface;
 }
 
@@ -171,10 +174,10 @@ namespace Core::Internal {
         QList<QMetaObject::Connection> m_metadataConnections;
         QHash<QObject *, QList<QMetaObject::Connection>> m_objectConnections;
         QHash<QObject *, QObject *> m_singerResolvers;
-        QHash<QObject *, ParameterInfoProvider *> m_parameterProviders;
+        QHash<QObject *, SingerCatalog::ParameterInfoProvider *> m_parameterProviders;
         QObject *m_contextSingerResolver = nullptr;
-        ParameterInfoProvider *m_contextParameterProvider = nullptr;
-        ParameterInfoProvider *m_anchorProvider = nullptr;
+        SingerCatalog::ParameterInfoProvider *m_contextParameterProvider = nullptr;
+        SingerCatalog::ParameterInfoProvider *m_anchorProvider = nullptr;
         KeySignatureAtSpecifiedPositionHelper *m_keySignatureHelper = nullptr;
     };
 

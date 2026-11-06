@@ -47,11 +47,11 @@
 #include <dspxmodelORM/TrackList.h>
 #include <dspxmodelORM/VibratoPointDataArray.h>
 
-#include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <singercatalog/ArchitectureInfo.h>
 
 #include <audio/GlobalAudioContext.h>
 #include <audio/ProjectAudioContext.h>
@@ -110,7 +110,7 @@ namespace Audio::Internal {
                     }
                     const auto localIndex = index - begin;
                     block->values[static_cast<std::size_t>(localIndex)] =
-                        Core::ParameterInfo::fromDspxModelValue(value.toInt());
+                        SingerCatalog::ParameterInfo::fromDspxModelValue(value.toInt());
                     block->valid[static_cast<std::size_t>(localIndex / 64)] |=
                         std::uint64_t{1} << (localIndex % 64);
                 }
@@ -140,7 +140,7 @@ namespace Audio::Internal {
                 current.push_back({
                     static_cast<opendspx::AnchorNode::Interpolation>(node->interpolationMode()),
                     node->x(),
-                    Core::ParameterInfo::fromDspxModelValue(node->y()),
+                    SingerCatalog::ParameterInfo::fromDspxModelValue(node->y()),
                 });
                 if (node->interpolationMode() == dspx::AnchorNode::None) {
                     appendSegment();
@@ -490,7 +490,7 @@ namespace Audio::Internal {
                         word &= ~mask;
                     } else {
                         block->values[static_cast<std::size_t>(localIndex)] =
-                            Core::ParameterInfo::fromDspxModelValue(value.toInt());
+                            SingerCatalog::ParameterInfo::fromDspxModelValue(value.toInt());
                         word |= mask;
                     }
                 }

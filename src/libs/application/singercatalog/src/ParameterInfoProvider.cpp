@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "ParameterInfoProvider.h"
 #include "ParameterInfoProvider_p.h"
@@ -8,9 +8,9 @@
 #include <cmath>
 #include <utility>
 
-#include <coreplugin/SingerRegistry.h>
+#include <singercatalog/SingerRegistry.h>
 
-namespace Core {
+namespace SingerCatalog {
 
     void ParameterInfoProviderPrivate::update() {
         Q_Q(ParameterInfoProvider);

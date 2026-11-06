@@ -32,10 +32,10 @@
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
-#include <coreplugin/SingerInfo.h>
-#include <coreplugin/SingerRegistry.h>
 #include <coreplugin/SourcesPickerModel.h>
 #include <coreplugin/private/DocumentEditScenario_p.h>
+#include <singercatalog/SingerInfo.h>
+#include <singercatalog/SingerRegistry.h>
 
 #include <transactional/TransactionController.h>
 
@@ -205,7 +205,7 @@ namespace Core {
         const QString architectureId = model->architectureId();
         const auto singers = toSingerVector(model->singers());
         const auto *registry = CoreInterface::singerRegistry();
-        const auto languages = registry ? registry->singerInfo(architectureId, firstSingerId(singers)).languages() : SingerInfo::LanguageMap{};
+        const auto languages = registry ? registry->singerInfo(architectureId, firstSingerId(singers)).languages() : SingerCatalog::SingerInfo::LanguageMap{};
         bool hasUnsupportedLanguage = false;
         bool applied = false;
         for (const auto &guardedClip : clips) {

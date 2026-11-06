@@ -38,7 +38,6 @@
 #include <dspxmodelORM/Handle.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
-#include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/DspxDocument.h>
@@ -48,8 +47,9 @@
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/SingerRegistry.h>
 #include <coreplugin/TrackColorSchema.h>
+#include <singercatalog/ArchitectureInfo.h>
+#include <singercatalog/SingerRegistry.h>
 
 #include <batchprocess/BatchProcessInterface.h>
 #include <batchprocess/DocumentInterface.h>
@@ -131,7 +131,7 @@ namespace BatchProcess::Internal {
         QJSValue guarded(QObject *object, const QString &operation, bool mutation, const std::function<QJSValue()> &callback);
         QJSValue propertyValue(const QVariant &value);
         QJSValue registry(const QString &operation, const QJSValue &arguments);
-        QJSValue parameter(const Core::ParameterInfo &info, const QString &id, bool transform);
+        QJSValue parameter(const SingerCatalog::ParameterInfo &info, const QString &id, bool transform);
         QJSValue projectCommand(Core::ProjectWindowInterface *project, const QString &operation, const QJSValue &arguments);
         QPointer<DocumentInterface> m_documents;
         QPointer<ScriptExecutionContext> m_context;
@@ -625,7 +625,7 @@ namespace BatchProcess::Internal {
     class ParameterConversionBridge : public QObject {
         Q_OBJECT
     public:
-        ParameterConversionBridge(Core::ParameterInfo info, QJSEngine *engine) : m_info(std::move(info)), m_engine(engine) {}
+        ParameterConversionBridge(SingerCatalog::ParameterInfo info, QJSEngine *engine) : m_info(std::move(info)), m_engine(engine) {}
         Q_INVOKABLE QJSValue convert(const QString &operation, const QJSValue &input) const {
             auto result = m_engine->newObject();
             result.setPrototype(QJSValue(QJSValue::NullValue));
@@ -647,9 +647,9 @@ namespace BatchProcess::Internal {
         }
     private:
         QJSValue convertValue(const QString &operation, const QJSValue &input) const {
-            if (operation == QStringLiteral("fromDSPXValue")) return input.isNull() ? QJSValue(QJSValue::NullValue) : QJSValue(Core::ParameterInfo::fromDspxModelValue(input.toInt()));
+            if (operation == QStringLiteral("fromDSPXValue")) return input.isNull() ? QJSValue(QJSValue::NullValue) : QJSValue(SingerCatalog::ParameterInfo::fromDspxModelValue(input.toInt()));
             auto number = input.toNumber();
-            if (operation == QStringLiteral("toDSPXValue")) return Core::ParameterInfo::toDspxModelValue(std::isfinite(number) ? number : m_info.defaultValue);
+            if (operation == QStringLiteral("toDSPXValue")) return SingerCatalog::ParameterInfo::toDspxModelValue(std::isfinite(number) ? number : m_info.defaultValue);
             if (operation == QStringLiteral("fromDisplayValue")) {
                 const auto result = m_info.invokeFromDisplayValue(number);
                 return std::isfinite(result) ? QJSValue(std::clamp(result, 0.0, 1.0)) : QJSValue(QJSValue::NullValue);
@@ -660,11 +660,11 @@ namespace BatchProcess::Internal {
             const auto result = m_info.invokeToDisplayValue(number);
             return std::isfinite(result) ? QJSValue(result) : QJSValue(QJSValue::NullValue);
         }
-        Core::ParameterInfo m_info;
+        SingerCatalog::ParameterInfo m_info;
         QJSEngine *m_engine;
     };
 
-    QJSValue CoreModuleBridge::parameter(const Core::ParameterInfo &info, const QString &id, bool transform) {
+    QJSValue CoreModuleBridge::parameter(const SingerCatalog::ParameterInfo &info, const QString &id, bool transform) {
         auto result = record();
         result.setProperty(QStringLiteral("id"), id);
         result.setProperty(QStringLiteral("transform"), transform);
@@ -672,7 +672,7 @@ namespace BatchProcess::Internal {
         result.setProperty(QStringLiteral("defaultValue"), info.defaultValue);
         result.setProperty(QStringLiteral("baselineValue"), info.baselineValue);
         result.setProperty(QStringLiteral("showDefaultValue"), info.showDefaultValue);
-        result.setProperty(QStringLiteral("valueType"), info.valueType == Core::ParameterInfo::Absolute ? QStringLiteral("absolute") : QStringLiteral("relative"));
+        result.setProperty(QStringLiteral("valueType"), info.valueType == SingerCatalog::ParameterInfo::Absolute ? QStringLiteral("absolute") : QStringLiteral("relative"));
         const QStringList fills{QStringLiteral("none"), QStringLiteral("top"), QStringLiteral("bottom"), QStringLiteral("baseline")};
         result.setProperty(QStringLiteral("fillMode"), fills.value(info.fillMode));
         auto *conversion = new ParameterConversionBridge(info, m_engine);
@@ -719,7 +719,7 @@ namespace BatchProcess::Internal {
             const auto transform = args.property(2).toBool();
             const auto parameters = registry->architectureInfo(architectureId).parameters();
             if (id != QStringLiteral("pitch") && (!registry->containsArchitecture(architectureId) || !parameters.contains(id))) return success(QJSValue(QJSValue::NullValue));
-            return success(parameter(transform ? Core::transformParameterInfo() : id == QStringLiteral("pitch") ? Core::pitchParameterInfo() : parameters.value(id), id, transform));
+            return success(parameter(transform ? SingerCatalog::transformParameterInfo() : id == QStringLiteral("pitch") ? SingerCatalog::pitchParameterInfo() : parameters.value(id), id, transform));
         }
         return failure(QStringLiteral("unsupportedOperation"), operation);
     }

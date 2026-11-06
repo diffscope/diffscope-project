@@ -35,12 +35,15 @@ namespace dspx {
     class Sources;
 }
 
-namespace Core {
+namespace SingerCatalog {
     class ClipSingerIdProvider;
+    class SingerRegistry;
+}
+
+namespace Core {
     class DspxDocument;
     class FreeParameterSelectionModel;
     class ProjectWindowInterface;
-    class SingerRegistry;
 }
 
 namespace sflow {
@@ -67,7 +70,7 @@ namespace VisualEditor {
         struct Entry {
             QString parameterId;
             QString displayName;
-            Core::ParameterInfo parameterInfo;
+            SingerCatalog::ParameterInfo parameterInfo;
             bool supported{};
             bool none{};
         };
@@ -119,7 +122,7 @@ namespace VisualEditor {
         QPointer<dspx::SingingClip> singingClip;
         QPointer<dspx::Parameter> parameter;
         QString parameterId;
-        Core::ParameterInfo parameterInfo;
+        SingerCatalog::ParameterInfo parameterInfo;
         bool supported{};
 
         sflow::FreeParameterViewModel *original{};
@@ -166,7 +169,7 @@ namespace VisualEditor {
         void initializeStateMachine();
         void initializeController();
         void setTarget(dspx::SingingClip *clip, const QString &id,
-                       const Core::ParameterInfo &info, bool isSupported);
+                       const SingerCatalog::ParameterInfo &info, bool isSupported);
         void abortActiveEdit();
         void updateControllerDefinition();
 
@@ -181,7 +184,7 @@ namespace VisualEditor {
                         sflow::ParameterAnchorViewModel *existingViewItem = nullptr);
         void unbindAnchor(dspx::AnchorNode *item, sflow::AnchorParameterViewModel *viewModel, bool edited);
 
-        Core::ParameterInfo conversionInfo(bool transform) const;
+        SingerCatalog::ParameterInfo conversionInfo(bool transform) const;
         QList<QVariant> valuesFromDspx(const QList<QVariant> &values) const;
         QList<QVariant> valuesToDspx(const QList<QVariant> &values, bool transform = false) const;
         double canonicalValue(double value, bool transform = false) const;
@@ -242,8 +245,8 @@ namespace VisualEditor {
         ParameterEditorContext *q_ptr{};
         ProjectViewModelContext *projectContext{};
         Core::DspxDocument *document{};
-        Core::SingerRegistry *registry{};
-        Core::ClipSingerIdProvider *singerIdProvider{};
+        SingerCatalog::SingerRegistry *registry{};
+        SingerCatalog::ClipSingerIdProvider *singerIdProvider{};
         QPointer<dspx::SingingClip> singingClip;
         QPointer<dspx::Sources> sources;
         QString architectureId;

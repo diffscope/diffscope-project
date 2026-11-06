@@ -1,10 +1,10 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "SingerRegistry.h"
 #include "SingerRegistry_p.h"
 
-namespace Core {
+namespace SingerCatalog {
 
     SingerRegistry::SingerRegistry(QObject *parent) : QObject(parent), d_ptr(new SingerRegistryPrivate) {
         Q_D(SingerRegistry);
@@ -18,8 +18,8 @@ namespace Core {
         if (architectureId.isEmpty() || d->architectures.contains(architectureId))
             return false;
         d->architectures.insert(architectureId, {info, {}});
-        emit architectureRegistered(architectureId);
-        emit architectureIdsChanged(d->architectures.keys());
+        Q_EMIT architectureRegistered(architectureId);
+        Q_EMIT architectureIdsChanged(d->architectures.keys());
         return true;
     }
 
@@ -31,7 +31,7 @@ namespace Core {
         if (it->info == info)
             return true;
         it->info = info;
-        emit architectureUpdated(architectureId);
+        Q_EMIT architectureUpdated(architectureId);
         return true;
     }
 
@@ -44,9 +44,9 @@ namespace Core {
         const auto singerIds = it->singers.keys();
         d->architectures.erase(it);
         for (const auto &singerId : singerIds)
-            emit singerRemoved(architectureId, singerId);
-        emit architectureRemoved(architectureId);
-        emit architectureIdsChanged(d->architectures.keys());
+            Q_EMIT singerRemoved(architectureId, singerId);
+        Q_EMIT architectureRemoved(architectureId);
+        Q_EMIT architectureIdsChanged(d->architectures.keys());
         return true;
     }
 
@@ -75,7 +75,7 @@ namespace Core {
             return false;
         }
         architectureIt->singers.insert(singerId, info);
-        emit singerRegistered(architectureId, singerId);
+        Q_EMIT singerRegistered(architectureId, singerId);
         return true;
     }
 
@@ -91,7 +91,7 @@ namespace Core {
         if (*singerIt == info)
             return true;
         *singerIt = info;
-        emit singerUpdated(architectureId, singerId);
+        Q_EMIT singerUpdated(architectureId, singerId);
         return true;
     }
 
@@ -102,7 +102,7 @@ namespace Core {
             !architectureIt->singers.remove(singerId)) {
             return false;
         }
-        emit singerRemoved(architectureId, singerId);
+        Q_EMIT singerRemoved(architectureId, singerId);
         return true;
     }
 

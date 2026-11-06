@@ -171,7 +171,7 @@ namespace Synth::Internal {
 
     ParameterRuntimeRegistry::~ParameterRuntimeRegistry() = default;
 
-    bool ParameterRuntimeRegistry::parameterInfo(const Api::V1::ParameterDefinition &definition, Core::ParameterInfo *result, QString *errorMessage) {
+    bool ParameterRuntimeRegistry::parameterInfo(const Api::V1::ParameterDefinition &definition, SingerCatalog::ParameterInfo *result, QString *errorMessage) {
         if (!result || !validateExpression(definition.displayValueMappingExpression)
             || !validateExpression(definition.displayValueInverseMappingExpression)) {
             if (errorMessage)
@@ -186,18 +186,18 @@ namespace Synth::Internal {
             if (!m_contexts.contains(handle))
                 m_contexts.insert(handle, std::make_shared<Context>(Context{definition}));
         }
-        Core::ParameterInfo info;
+        SingerCatalog::ParameterInfo info;
         info.displayName = definition.name;
         info.defaultValue = definition.defaultValue;
         info.baselineValue = definition.baselineValue;
         info.showDefaultValue = definition.showBaseline;
-        info.valueType = definition.fallbackOnDefaultValue ? Core::ParameterInfo::Relative : Core::ParameterInfo::Absolute;
+        info.valueType = definition.fallbackOnDefaultValue ? SingerCatalog::ParameterInfo::Relative : SingerCatalog::ParameterInfo::Absolute;
         if (definition.fillMode == QStringLiteral("top"))
-            info.fillMode = Core::ParameterInfo::TopFill;
+            info.fillMode = SingerCatalog::ParameterInfo::TopFill;
         else if (definition.fillMode == QStringLiteral("bottom"))
-            info.fillMode = Core::ParameterInfo::BottomFill;
+            info.fillMode = SingerCatalog::ParameterInfo::BottomFill;
         else if (definition.fillMode == QStringLiteral("baseline"))
-            info.fillMode = Core::ParameterInfo::BaselineFill;
+            info.fillMode = SingerCatalog::ParameterInfo::BaselineFill;
         info.userData = handle;
         info.toDisplayValue = &ParameterRuntimeRegistry::toDisplayValue;
         info.fromDisplayValue = &ParameterRuntimeRegistry::fromDisplayValue;
@@ -216,19 +216,19 @@ namespace Synth::Internal {
         return m_contexts.value(handle);
     }
 
-    double ParameterRuntimeRegistry::toDisplayValue(const Core::ParameterInfo &self, double value) {
+    double ParameterRuntimeRegistry::toDisplayValue(const SingerCatalog::ParameterInfo &self, double value) {
         const auto runtime = instance().context(self.userData.toByteArray());
         const double result = runtime ? evaluateExpression(runtime->definition.displayValueMappingExpression, value) : value;
         return std::isfinite(result) ? result : value;
     }
 
-    double ParameterRuntimeRegistry::fromDisplayValue(const Core::ParameterInfo &self, double value) {
+    double ParameterRuntimeRegistry::fromDisplayValue(const SingerCatalog::ParameterInfo &self, double value) {
         const auto runtime = instance().context(self.userData.toByteArray());
         const double result = runtime ? evaluateExpression(runtime->definition.displayValueInverseMappingExpression, value) : value;
         return std::clamp(std::isfinite(result) ? result : self.defaultValue, 0.0, 1.0);
     }
 
-    QString ParameterRuntimeRegistry::toDisplayString(const Core::ParameterInfo &self, double value) {
+    QString ParameterRuntimeRegistry::toDisplayString(const SingerCatalog::ParameterInfo &self, double value) {
         const auto runtime = instance().context(self.userData.toByteArray());
         if (!runtime)
             return QLocale().toString(value);

@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_COREPLUGIN_SINGERINFO_H
-#define DIFFSCOPE_COREPLUGIN_SINGERINFO_H
+#ifndef DIFFSCOPE_SINGERCATALOG_SINGERINFO_H
+#define DIFFSCOPE_SINGERCATALOG_SINGERINFO_H
 
 #include <QJsonValue>
 #include <QMap>
@@ -13,13 +13,13 @@
 #include <QUrl>
 #include <QVariant>
 
-#include <coreplugin/coreglobal.h>
+#include <singercatalog/singercatalogglobal.h>
 
-namespace Core {
+namespace SingerCatalog {
 
     class SingerInfoData;
 
-    struct CORE_EXPORT SingerLanguageInfo {
+    struct SINGERCATALOG_EXPORT SingerLanguageInfo {
         Q_GADGET
         Q_PROPERTY(QString name MEMBER name)
         Q_PROPERTY(QString defaultLyric MEMBER defaultLyric)
@@ -32,7 +32,7 @@ namespace Core {
         bool operator!=(const SingerLanguageInfo &) const = default;
     };
 
-    class CORE_EXPORT SingerInfo {
+    class SINGERCATALOG_EXPORT SingerInfo {
         Q_GADGET
         Q_PROPERTY(QString name READ name WRITE setName)
         Q_PROPERTY(QUrl avatarUrl READ avatarUrl WRITE setAvatarUrl)
@@ -90,8 +90,8 @@ namespace Core {
 
 }
 
-Q_DECLARE_METATYPE(Core::SingerLanguageInfo)
-Q_DECLARE_METATYPE(Core::SingerInfo::LanguageMap)
-Q_DECLARE_METATYPE(Core::SingerInfo)
+Q_DECLARE_METATYPE(SingerCatalog::SingerLanguageInfo)
+Q_DECLARE_METATYPE(SingerCatalog::SingerInfo::LanguageMap)
+Q_DECLARE_METATYPE(SingerCatalog::SingerInfo)
 
-#endif // DIFFSCOPE_COREPLUGIN_SINGERINFO_H
+#endif // DIFFSCOPE_SINGERCATALOG_SINGERINFO_H

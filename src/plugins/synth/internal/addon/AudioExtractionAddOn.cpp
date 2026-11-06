@@ -54,13 +54,13 @@
 #include <dspxmodelORM/TrackList.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
-#include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <singercatalog/ArchitectureInfo.h>
 
 #include <audio/AudioClipAudioContext.h>
 #include <synth/internal/TempoExtractionPreview.h>
@@ -135,7 +135,7 @@ namespace Synth::Internal {
                     rightCent = next->cents.first();
                 }
                 const double cent = std::lerp(segment->cents.at(left), rightCent, samplePosition - left);
-                values.append(Core::ParameterInfo::toDspxModelValue(cent / 12800.0));
+                values.append(SingerCatalog::ParameterInfo::toDspxModelValue(cent / 12800.0));
             }
             return values;
         }

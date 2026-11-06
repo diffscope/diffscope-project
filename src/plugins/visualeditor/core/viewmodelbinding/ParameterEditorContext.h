@@ -9,7 +9,7 @@
 #include <QScopedPointer>
 #include <qqmlintegration.h>
 
-#include <coreplugin/ArchitectureInfo.h>
+#include <singercatalog/ArchitectureInfo.h>
 
 #include <visualeditor/visualeditorglobal.h>
 
@@ -35,8 +35,8 @@ namespace VisualEditor {
         QML_UNCREATABLE("")
         Q_DECLARE_PRIVATE(ParameterViewModelBinding)
         Q_PROPERTY(QString parameterId READ parameterId NOTIFY targetChanged)
-        Q_PROPERTY(Core::ParameterInfo parameterInfo READ parameterInfo NOTIFY parameterInfoChanged)
-        Q_PROPERTY(Core::ParameterInfo transformParameterInfo READ transformParameterInfo CONSTANT)
+        Q_PROPERTY(SingerCatalog::ParameterInfo parameterInfo READ parameterInfo NOTIFY parameterInfoChanged)
+        Q_PROPERTY(SingerCatalog::ParameterInfo transformParameterInfo READ transformParameterInfo CONSTANT)
         Q_PROPERTY(bool supported READ isSupported NOTIFY targetChanged)
         Q_PROPERTY(bool available READ isAvailable NOTIFY targetChanged)
         Q_PROPERTY(bool parameterExists READ parameterExists NOTIFY parameterChanged)
@@ -56,8 +56,8 @@ namespace VisualEditor {
         ~ParameterViewModelBinding() override;
 
         QString parameterId() const;
-        Core::ParameterInfo parameterInfo() const;
-        Core::ParameterInfo transformParameterInfo() const;
+        SingerCatalog::ParameterInfo parameterInfo() const;
+        SingerCatalog::ParameterInfo transformParameterInfo() const;
         bool isSupported() const;
         bool isAvailable() const;
         bool parameterExists() const;

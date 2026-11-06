@@ -7,10 +7,10 @@
 #include <QCoreApplication>
 #include <QString>
 
-#include <coreplugin/ArchitectureInfo.h>
-#include <coreplugin/SingerInfo.h>
+#include <singercatalog/ArchitectureInfo.h>
+#include <singercatalog/SingerInfo.h>
 
-namespace Core {
+namespace SingerCatalog {
     class SingerRegistry;
 }
 
@@ -21,10 +21,10 @@ namespace Audio::Internal {
 
     public:
         static QString architectureId();
-        static Core::ArchitectureInfo architectureInfo();
-        static Core::SingerInfo singerInfo();
+        static SingerCatalog::ArchitectureInfo architectureInfo();
+        static SingerCatalog::SingerInfo singerInfo();
 
-        static bool registerAll(Core::SingerRegistry *registry);
+        static bool registerAll(SingerCatalog::SingerRegistry *registry);
     };
 
 }

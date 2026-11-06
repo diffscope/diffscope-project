@@ -18,6 +18,7 @@ import dev.sjimo.ScopicFlow.Internal as ScopicFlowInternal
 
 import DiffScope.Core
 import DiffScope.DspxModel as DspxModel
+import DiffScope.SingerCatalog
 
 QtObject {
     id: d

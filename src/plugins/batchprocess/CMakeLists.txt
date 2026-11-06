@@ -29,6 +29,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         QAKCore
         QAKQuick
         coreplugin
+        singercatalog
         dspxmodelCore
         dspxmodelORM
         dspxmodelSelectionModel

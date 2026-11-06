@@ -10,6 +10,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.Core
+import DiffScope.SingerCatalog
 
 Item {
     id: control

@@ -1,14 +1,14 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "ArchitectureInfoProvider.h"
 #include "ArchitectureInfoProvider_p.h"
 
 #include <utility>
 
-#include <coreplugin/SingerRegistry.h>
+#include <singercatalog/SingerRegistry.h>
 
-namespace Core {
+namespace SingerCatalog {
 
     void ArchitectureInfoProviderPrivate::update() {
         Q_Q(ArchitectureInfoProvider);
@@ -17,15 +17,15 @@ namespace Core {
         const QStringList newSingerIds = newExists ? registry->singerIds(architectureId) : QStringList{};
         if (info != newInfo) {
             info = newInfo;
-            emit q->infoChanged(info);
+            Q_EMIT q->infoChanged(info);
         }
         if (exists != newExists) {
             exists = newExists;
-            emit q->existsChanged(exists);
+            Q_EMIT q->existsChanged(exists);
         }
         if (singerIds != newSingerIds) {
             singerIds = newSingerIds;
-            emit q->singerIdsChanged(singerIds);
+            Q_EMIT q->singerIdsChanged(singerIds);
         }
     }
 
@@ -80,12 +80,12 @@ namespace Core {
                 Q_D(ArchitectureInfoProvider);
                 d->disconnectRegistry();
                 d->registry = nullptr;
-                emit registryChanged(nullptr);
+                Q_EMIT registryChanged(nullptr);
                 d->update();
             }));
         }
 
-        emit registryChanged(registry);
+        Q_EMIT registryChanged(registry);
         d->update();
     }
 
@@ -99,7 +99,7 @@ namespace Core {
         if (d->architectureId == architectureId)
             return;
         d->architectureId = architectureId;
-        emit architectureIdChanged(d->architectureId);
+        Q_EMIT architectureIdChanged(d->architectureId);
         d->update();
     }
 

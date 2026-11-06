@@ -42,6 +42,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         dspxmodelSelectionModel
         dspxmodelPropertyMapper
         coreplugin
+        singercatalog
         opendspx::model
         opendspx::serializer
         ScopicFlowCore

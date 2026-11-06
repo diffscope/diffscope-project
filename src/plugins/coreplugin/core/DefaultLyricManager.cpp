@@ -12,9 +12,9 @@
 #include <dspxmodelORM/Sources.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/SingerInfo.h>
-#include <coreplugin/SingerRegistry.h>
 #include <coreplugin/internal/BehaviorPreference.h>
+#include <singercatalog/SingerInfo.h>
+#include <singercatalog/SingerRegistry.h>
 
 namespace Core {
 

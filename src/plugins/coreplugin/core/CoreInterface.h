@@ -15,6 +15,8 @@
 #include <coreplugin/FileOpenDispatcher.h>
 #include <coreplugin/coreglobal.h>
 
+Q_MOC_INCLUDE(<singercatalog/SingerRegistry.h>)
+
 class QQmlEngine;
 class QJSEngine;
 class QWindow;
@@ -22,6 +24,10 @@ class QWindow;
 namespace QAK {
     class ActionRegistry;
     class QuickActionContext;
+}
+
+namespace SingerCatalog {
+    class SingerRegistry;
 }
 
 namespace Core {
@@ -37,7 +43,6 @@ namespace Core {
     class PropertyEditorManager;
     class TrackColorSchema;
     class DefaultLyricManager;
-    class SingerRegistry;
     class MixedSingerPresets;
 
     class CoreInterfacePrivate;
@@ -51,7 +56,7 @@ namespace Core {
         Q_PROPERTY(QAK::QuickActionContext *actionContext READ actionContext CONSTANT)
         Q_PROPERTY(TrackColorSchema *trackColorSchema READ trackColorSchema CONSTANT)
         Q_PROPERTY(DefaultLyricManager *defaultLyricManager READ defaultLyricManager CONSTANT)
-        Q_PROPERTY(SingerRegistry *singerRegistry READ singerRegistry CONSTANT)
+        Q_PROPERTY(SingerCatalog::SingerRegistry *singerRegistry READ singerRegistry CONSTANT)
         Q_PROPERTY(MixedSingerPresets *mixedSingerPresets READ mixedSingerPresets CONSTANT)
         Q_PROPERTY(FileOpenDispatcher *fileOpenDispatcher READ fileOpenDispatcher CONSTANT)
     public:
@@ -67,7 +72,7 @@ namespace Core {
 
         static DefaultLyricManager *defaultLyricManager();
 
-        static SingerRegistry *singerRegistry();
+        static SingerCatalog::SingerRegistry *singerRegistry();
 
         static MixedSingerPresets *mixedSingerPresets();
 

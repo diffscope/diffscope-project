@@ -13,6 +13,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.Core
+import DiffScope.SingerCatalog
 
 Rectangle {
     id: control

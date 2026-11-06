@@ -44,6 +44,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         appinstall
         transactional
         coreplugin
+        singercatalog
         audio
         dspxmodelCore
         dspxmodelORM

@@ -12,10 +12,10 @@
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <coreplugin/ArchitectureInfo.h>
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/SingerInfo.h>
-#include <coreplugin/SingerRegistry.h>
+#include <singercatalog/ArchitectureInfo.h>
+#include <singercatalog/SingerInfo.h>
+#include <singercatalog/SingerRegistry.h>
 
 #include <synth/internal/ParameterRuntimeRegistry.h>
 
@@ -73,15 +73,15 @@ namespace Synth::Internal {
             return result;
         }
 
-        Core::ArchitectureInfo architectureInfo(const DesiredArchitecture &desired) {
-            Core::ArchitectureInfo info;
+        SingerCatalog::ArchitectureInfo architectureInfo(const DesiredArchitecture &desired) {
+            SingerCatalog::ArchitectureInfo info;
             info.setName(desired.name);
-            Core::ArchitectureInfo::ParameterMap parameters;
+            SingerCatalog::ArchitectureInfo::ParameterMap parameters;
             for (auto parameter = desired.parameters.begin(); parameter != desired.parameters.end(); ++parameter) {
                 if (parameter.key() == QStringLiteral("pitch"))
                     continue;
                 Api::V1::ParameterDefinition definition;
-                Core::ParameterInfo parameterInfo;
+                SingerCatalog::ParameterInfo parameterInfo;
                 QString errorMessage;
                 if (!Api::V1::ParameterDefinition::fromJson(parameter.value(), definition, &errorMessage)
                     || !ParameterRuntimeRegistry::instance().parameterInfo(definition, &parameterInfo, &errorMessage)) {
@@ -94,16 +94,16 @@ namespace Synth::Internal {
             return info;
         }
 
-        Core::SingerInfo singerInfo(const SingerMetadata &source) {
-            Core::SingerInfo info;
+        SingerCatalog::SingerInfo singerInfo(const SingerMetadata &source) {
+            SingerCatalog::SingerInfo info;
             info.setName(source.name());
             info.setAvatarUrl(source.avatarUrl());
             info.setBackgroundUrl(source.backgroundUrl());
             info.setDefaultLanguage(source.defaultLanguage());
-            Core::SingerInfo::LanguageMap languages;
+            SingerCatalog::SingerInfo::LanguageMap languages;
             const auto sourceLanguages = source.languages();
             for (auto it = sourceLanguages.cbegin(); it != sourceLanguages.cend(); ++it) {
-                Core::SingerLanguageInfo language;
+                SingerCatalog::SingerLanguageInfo language;
                 language.name = it->name;
                 language.defaultLyric = it->defaultLyric;
                 languages.insert(it.key(), language);
@@ -125,7 +125,7 @@ namespace Synth::Internal {
         auto registry = Core::CoreInterface::singerRegistry();
         if (!registry)
             return;
-        connect(registry, &Core::SingerRegistry::architectureRemoved, this,
+        connect(registry, &SingerCatalog::SingerRegistry::architectureRemoved, this,
                 [this](const QString &architectureId) {
             if (m_registryMutation)
                 return;
@@ -134,7 +134,7 @@ namespace Synth::Internal {
             if (m_managedArchitectures.remove(architectureId))
                 Q_EMIT managedArchitecturesChanged();
         });
-        connect(registry, &Core::SingerRegistry::architectureUpdated, this,
+        connect(registry, &SingerCatalog::SingerRegistry::architectureUpdated, this,
                 [this](const QString &architectureId) {
             if (m_registryMutation)
                 return;
@@ -145,7 +145,7 @@ namespace Synth::Internal {
             if (m_managedArchitectures.remove(architectureId))
                 Q_EMIT managedArchitecturesChanged();
         });
-        connect(registry, &Core::SingerRegistry::singerRemoved, this,
+        connect(registry, &SingerCatalog::SingerRegistry::singerRemoved, this,
                 [this](const QString &architectureId, const QString &singerId) {
             if (m_registryMutation)
                 return;
@@ -156,7 +156,7 @@ namespace Synth::Internal {
             if (it->isEmpty())
                 m_ownedSingers.erase(it);
         });
-        connect(registry, &Core::SingerRegistry::singerUpdated, this,
+        connect(registry, &SingerCatalog::SingerRegistry::singerUpdated, this,
                 [this](const QString &architectureId, const QString &singerId) {
             if (m_registryMutation)
                 return;
@@ -313,7 +313,7 @@ namespace Synth::Internal {
                 it = m_ownedArchitectures.erase(it);
             } else {
                 auto neutralInfo = registry->architectureInfo(id);
-                neutralInfo.setParameters(Core::ArchitectureInfo::ParameterMap{});
+                neutralInfo.setParameters(SingerCatalog::ArchitectureInfo::ParameterMap{});
                 neutralInfo.setControlPanelComponent(nullptr);
                 mutateRegistry([&] { return registry->updateArchitecture(id, neutralInfo); });
                 qCWarning(lcCoreMetadataRegistry)
@@ -365,7 +365,7 @@ namespace Synth::Internal {
                 mutateRegistry([&] { return registry->removeArchitecture(architectureId); });
             else {
                 auto neutralInfo = registry->architectureInfo(architectureId);
-                neutralInfo.setParameters(Core::ArchitectureInfo::ParameterMap{});
+                neutralInfo.setParameters(SingerCatalog::ArchitectureInfo::ParameterMap{});
                 neutralInfo.setControlPanelComponent(nullptr);
                 mutateRegistry([&] {
                     return registry->updateArchitecture(architectureId, neutralInfo);

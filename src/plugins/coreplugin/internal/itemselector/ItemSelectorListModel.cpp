@@ -50,18 +50,18 @@
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
-#include <coreplugin/ArchitectureInfo.h>
-#include <coreplugin/ClipSingerIdProvider.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
-#include <coreplugin/ParameterInfoProvider.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/SingerInfo.h>
-#include <coreplugin/SingerInfoProvider.h>
 #include <coreplugin/internal/ItemSelectorDialog.h>
 #include <coreplugin/internal/KeySignatureAtSpecifiedPositionHelper.h>
+#include <singercatalog/ArchitectureInfo.h>
+#include <singercatalog/ClipSingerIdProvider.h>
+#include <singercatalog/ParameterInfoProvider.h>
+#include <singercatalog/SingerInfo.h>
+#include <singercatalog/SingerInfoProvider.h>
 
 namespace Core::Internal {
 
@@ -150,9 +150,9 @@ namespace Core::Internal {
 
     public:
         explicit SingerNameResolver(dspx::SingingClip *clip, QObject *parent = nullptr)
-            : QObject(parent), m_clip(clip), m_clipProvider(new ClipSingerIdProvider(this)) {
-            connect(m_clipProvider, &ClipSingerIdProvider::architectureIdChanged, this, &SingerNameResolver::rebuildProviders);
-            connect(m_clipProvider, &ClipSingerIdProvider::singerTreeChanged, this, &SingerNameResolver::rebuildProviders);
+            : QObject(parent), m_clip(clip), m_clipProvider(new SingerCatalog::ClipSingerIdProvider(this)) {
+            connect(m_clipProvider, &SingerCatalog::ClipSingerIdProvider::architectureIdChanged, this, &SingerNameResolver::rebuildProviders);
+            connect(m_clipProvider, &SingerCatalog::ClipSingerIdProvider::singerTreeChanged, this, &SingerNameResolver::rebuildProviders);
             if (m_clip) {
                 connect(m_clip, &dspx::SingingClip::sourcesChanged, this, [this] {
                     m_clipProvider->setSources(m_clip ? m_clip->sources() : nullptr);
@@ -232,13 +232,13 @@ namespace Core::Internal {
                                       : QStringLiteral("%1/%2").arg(parentPath).arg(index);
                 const auto node = tree.at(index);
                 if (node.metaType().id() == QMetaType::QString) {
-                    auto *provider = new SingerInfoProvider(this);
+                    auto *provider = new SingerCatalog::SingerInfoProvider(this);
                     provider->setRegistry(CoreInterface::singerRegistry());
                     provider->setArchitectureId(m_clipProvider->architectureId());
                     provider->setSingerId(node.toString());
-                    connect(provider, &SingerInfoProvider::infoChanged, this, &SingerNameResolver::changed);
-                    connect(provider, &SingerInfoProvider::existsChanged, this, &SingerNameResolver::changed);
-                    connect(provider, &SingerInfoProvider::languageOptionsChanged, this, &SingerNameResolver::changed);
+                    connect(provider, &SingerCatalog::SingerInfoProvider::infoChanged, this, &SingerNameResolver::changed);
+                    connect(provider, &SingerCatalog::SingerInfoProvider::existsChanged, this, &SingerNameResolver::changed);
+                    connect(provider, &SingerCatalog::SingerInfoProvider::languageOptionsChanged, this, &SingerNameResolver::changed);
                     m_providers.insert(path, provider);
                 } else {
                     addProviders(node.toList(), path);
@@ -270,8 +270,8 @@ namespace Core::Internal {
         }
 
         QPointer<dspx::SingingClip> m_clip;
-        ClipSingerIdProvider *m_clipProvider;
-        QHash<QString, SingerInfoProvider *> m_providers;
+        SingerCatalog::ClipSingerIdProvider *m_clipProvider;
+        QHash<QString, SingerCatalog::SingerInfoProvider *> m_providers;
     };
 
     }
@@ -310,7 +310,7 @@ namespace Core::Internal {
                     refreshAll(rolesIncludingDescription());
                 });
             } else if (m_kind == ListKind::AnchorBranches) {
-                m_contextParameterProvider = new ParameterInfoProvider(this);
+                m_contextParameterProvider = new SingerCatalog::ParameterInfoProvider(this);
                 m_contextParameterProvider->setRegistry(CoreInterface::singerRegistry());
                 m_contextParameterProvider->setArchitectureId(parameterArchitectureId());
                 m_contextParameterProvider->setParameterId(m_contextKey);
@@ -665,7 +665,7 @@ namespace Core::Internal {
                 }
                 case NodeKind::Anchor: {
                     const auto *anchor = static_cast<dspx::AnchorNode *>(entry.object.data());
-                    const double normalizedValue = ParameterInfo::fromDspxModelValue(anchor->y());
+                    const double normalizedValue = SingerCatalog::ParameterInfo::fromDspxModelValue(anchor->y());
                     const auto value = m_anchorProvider && m_anchorProvider->exists()
                                            ? m_anchorProvider->displayString(normalizedValue)
                                            : QLocale().toString(normalizedValue);
@@ -1115,12 +1115,12 @@ namespace Core::Internal {
                                                this, refresh));
                     connections.append(connect(parameter->anchorTransform(), &dspx::AnchorNodeSequence::sizeChanged,
                                                this, refresh));
-                    auto *provider = new ParameterInfoProvider(this);
+                    auto *provider = new SingerCatalog::ParameterInfoProvider(this);
                     provider->setRegistry(CoreInterface::singerRegistry());
                     provider->setArchitectureId(parameterArchitectureId());
                     provider->setParameterId(entry.key);
-                    connections.append(connect(provider, &ParameterInfoProvider::infoChanged, this, refresh));
-                    connections.append(connect(provider, &ParameterInfoProvider::existsChanged, this, refresh));
+                    connections.append(connect(provider, &SingerCatalog::ParameterInfoProvider::infoChanged, this, refresh));
+                    connections.append(connect(provider, &SingerCatalog::ParameterInfoProvider::existsChanged, this, refresh));
                     m_parameterProviders.insert(object, provider);
                     break;
                 }
@@ -1260,15 +1260,15 @@ namespace Core::Internal {
                 return;
             }
 
-            m_anchorProvider = new ParameterInfoProvider(this);
+            m_anchorProvider = new SingerCatalog::ParameterInfoProvider(this);
             m_anchorProvider->setRegistry(CoreInterface::singerRegistry());
             m_anchorProvider->setArchitectureId(parameterArchitectureId());
             m_anchorProvider->setParameterId(m_contextKey);
             m_anchorProvider->setTransform(sequence->role() == dspx::AnchorNodeSequence::Transform);
-            connect(m_anchorProvider, &ParameterInfoProvider::infoChanged, this, [this] {
+            connect(m_anchorProvider, &SingerCatalog::ParameterInfoProvider::infoChanged, this, [this] {
                 refreshAll(rolesIncludingDescription());
             });
-            connect(m_anchorProvider, &ParameterInfoProvider::existsChanged, this, [this] {
+            connect(m_anchorProvider, &SingerCatalog::ParameterInfoProvider::existsChanged, this, [this] {
                 refreshAll(rolesIncludingDescription());
             });
         }

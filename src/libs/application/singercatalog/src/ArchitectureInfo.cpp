@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "ArchitectureInfo.h"
 #include "ArchitectureInfo_p.h"
@@ -9,9 +9,7 @@
 
 #include <QLocale>
 
-namespace Core {
-
-    // Note: The coefficient `8064000` is opaque. All conversions should be done by calling `fromDspxModelValue` and `toDspxModelValue`.
+namespace SingerCatalog {
 
     double ParameterInfo::fromDspxModelValue(int value) {
         return std::clamp(static_cast<double>(value) / 8064000.0, 0.0, 1.0);

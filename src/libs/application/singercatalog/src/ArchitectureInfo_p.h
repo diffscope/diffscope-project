@@ -1,14 +1,14 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_COREPLUGIN_ARCHITECTUREINFO_P_H
-#define DIFFSCOPE_COREPLUGIN_ARCHITECTUREINFO_P_H
+#ifndef DIFFSCOPE_SINGERCATALOG_ARCHITECTUREINFO_P_H
+#define DIFFSCOPE_SINGERCATALOG_ARCHITECTUREINFO_P_H
 
-#include <coreplugin/ArchitectureInfo.h>
+#include <singercatalog/ArchitectureInfo.h>
 
 #include <QSharedData>
 
-namespace Core {
+namespace SingerCatalog {
 
     class ArchitectureInfoData : public QSharedData {
     public:
@@ -20,4 +20,4 @@ namespace Core {
 
 }
 
-#endif // DIFFSCOPE_COREPLUGIN_ARCHITECTUREINFO_P_H
+#endif // DIFFSCOPE_SINGERCATALOG_ARCHITECTUREINFO_P_H

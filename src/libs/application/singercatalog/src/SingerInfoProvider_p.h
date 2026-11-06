@@ -1,18 +1,18 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_COREPLUGIN_SINGERINFOPROVIDER_P_H
-#define DIFFSCOPE_COREPLUGIN_SINGERINFOPROVIDER_P_H
+#ifndef DIFFSCOPE_SINGERCATALOG_SINGERINFOPROVIDER_P_H
+#define DIFFSCOPE_SINGERCATALOG_SINGERINFOPROVIDER_P_H
 
-#include <coreplugin/SingerInfoProvider.h>
+#include <singercatalog/SingerInfoProvider.h>
 
 #include <QMetaObject>
 #include <QPointer>
 #include <QVector>
 
-#include <coreplugin/SingerRegistry.h>
+#include <singercatalog/SingerRegistry.h>
 
-namespace Core {
+namespace SingerCatalog {
 
     class SingerInfoProviderPrivate {
         Q_DECLARE_PUBLIC(SingerInfoProvider)
@@ -32,4 +32,4 @@ namespace Core {
 
 }
 
-#endif // DIFFSCOPE_COREPLUGIN_SINGERINFOPROVIDER_P_H
+#endif // DIFFSCOPE_SINGERCATALOG_SINGERINFOPROVIDER_P_H

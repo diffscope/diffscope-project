@@ -4698,19 +4698,6 @@ Do you want to save as a new file or overwrite it?</translation>
     </message>
 </context>
 <context>
-    <name>Core::SingerInfoProvider</name>
-    <message>
-        <location filename="../../singer/SingerInfoProvider.cpp" line="121"/>
-        <source>Not available</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../singer/SingerInfoProvider.cpp" line="135"/>
-        <source>Default language (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Core::SourcesPickerModel</name>
     <message>
         <location filename="../../singer/SourcesPickerModel.cpp" line="270"/>

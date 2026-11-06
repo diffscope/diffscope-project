@@ -5,7 +5,7 @@
 
 #include <dspxmodelORM/FreeValueDataArray.h>
 
-#include <coreplugin/ArchitectureInfo.h>
+#include <singercatalog/ArchitectureInfo.h>
 
 namespace Core::Internal {
 
@@ -31,9 +31,9 @@ namespace Core::Internal {
             if (rightIndex >= data.values.size() || !data.values.at(rightIndex).isValid())
                 return {};
             const double fraction = static_cast<double>(relativePosition % step) / step;
-            const double left = ParameterInfo::fromDspxModelValue(leftValue.toInt());
-            const double right = ParameterInfo::fromDspxModelValue(data.values.at(rightIndex).toInt());
-            return ParameterInfo::toDspxModelValue(left + (right - left) * fraction);
+            const double left = SingerCatalog::ParameterInfo::fromDspxModelValue(leftValue.toInt());
+            const double right = SingerCatalog::ParameterInfo::fromDspxModelValue(data.values.at(rightIndex).toInt());
+            return SingerCatalog::ParameterInfo::toDspxModelValue(left + (right - left) * fraction);
         }
 
     }

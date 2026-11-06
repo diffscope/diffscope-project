@@ -8,6 +8,8 @@ import QtQuick.Controls
 import SVSCraft
 import SVSCraft.UIComponents
 
+import DiffScope.SingerCatalog
+
 Item {
     id: control
 

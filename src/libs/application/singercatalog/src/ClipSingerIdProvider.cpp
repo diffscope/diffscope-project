@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
 #include "ClipSingerIdProvider.h"
 #include "ClipSingerIdProvider_p.h"
 
 #include <utility>
 
-namespace Core {
+namespace SingerCatalog {
 
     void ClipSingerIdProviderPrivate::disconnectSources() {
         for (const auto &connection : std::as_const(sourceConnections))
@@ -64,7 +64,7 @@ namespace Core {
         if (architectureId == newArchitectureId)
             return;
         architectureId = newArchitectureId;
-        emit q->architectureIdChanged(architectureId);
+        Q_EMIT q->architectureIdChanged(architectureId);
     }
 
     void ClipSingerIdProviderPrivate::updateSingerTree() {
@@ -73,7 +73,7 @@ namespace Core {
         if (singerTree == newSingerTree)
             return;
         singerTree = newSingerTree;
-        emit q->singerTreeChanged(singerTree);
+        Q_EMIT q->singerTreeChanged(singerTree);
     }
 
     QVariant ClipSingerIdProviderPrivate::singerToVariant(dspx::Singer *singer) const {
@@ -138,13 +138,13 @@ namespace Core {
                 d->disconnectSources();
                 d->disconnectSingerTree();
                 d->sources = nullptr;
-                emit sourcesChanged(nullptr);
+                Q_EMIT sourcesChanged(nullptr);
                 d->updateArchitectureId();
                 d->updateSingerTree();
             }));
         }
 
-        emit sourcesChanged(sources);
+        Q_EMIT sourcesChanged(sources);
         d->updateArchitectureId();
         d->rebuildSingerTreeBindings();
     }

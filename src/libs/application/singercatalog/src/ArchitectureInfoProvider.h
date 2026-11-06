@@ -1,22 +1,25 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_COREPLUGIN_ARCHITECTUREINFOPROVIDER_H
-#define DIFFSCOPE_COREPLUGIN_ARCHITECTUREINFOPROVIDER_H
+#ifndef DIFFSCOPE_SINGERCATALOG_ARCHITECTUREINFOPROVIDER_H
+#define DIFFSCOPE_SINGERCATALOG_ARCHITECTUREINFOPROVIDER_H
 
 #include <QObject>
+#include <QScopedPointer>
 #include <QStringList>
 #include <qqmlintegration.h>
 
-#include <coreplugin/coreglobal.h>
-#include <coreplugin/ArchitectureInfo.h>
+#include <singercatalog/ArchitectureInfo.h>
+#include <singercatalog/singercatalogglobal.h>
 
-namespace Core {
+Q_MOC_INCLUDE(<singercatalog/SingerRegistry.h>)
+
+namespace SingerCatalog {
 
     class SingerRegistry;
     class ArchitectureInfoProviderPrivate;
 
-    class CORE_EXPORT ArchitectureInfoProvider : public QObject {
+    class SINGERCATALOG_EXPORT ArchitectureInfoProvider : public QObject {
         Q_OBJECT
         QML_ELEMENT
         Q_DECLARE_PRIVATE(ArchitectureInfoProvider)
@@ -53,4 +56,4 @@ namespace Core {
 
 }
 
-#endif // DIFFSCOPE_COREPLUGIN_ARCHITECTUREINFOPROVIDER_H
+#endif // DIFFSCOPE_SINGERCATALOG_ARCHITECTUREINFOPROVIDER_H

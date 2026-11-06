@@ -32,13 +32,13 @@
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
-#include <coreplugin/ClipSingerIdProvider.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/DspxDocument.h>
 #include <coreplugin/FreeParameterSelectionModel.h>
 #include <coreplugin/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/SingerRegistry.h>
+#include <singercatalog/ClipSingerIdProvider.h>
+#include <singercatalog/SingerRegistry.h>
 
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/internal/EditorPreference.h>
@@ -345,7 +345,7 @@ namespace VisualEditor {
                     } else if (auto *documentItem = anchorDocumentItems.value(item)) {
                         updatingView = true;
                         item->setPosition(documentItem->x());
-                        item->setValue(Core::ParameterInfo::fromDspxModelValue(documentItem->y()));
+                        item->setValue(SingerCatalog::ParameterInfo::fromDspxModelValue(documentItem->y()));
                         item->setInterpolationMode(toViewInterpolation(documentItem->interpolationMode()));
                         updatingView = false;
                     }
@@ -360,7 +360,7 @@ namespace VisualEditor {
                     } else if (auto *documentItem = transformAnchorDocumentItems.value(item)) {
                         updatingView = true;
                         item->setPosition(documentItem->x());
-                        item->setValue(Core::ParameterInfo::fromDspxModelValue(documentItem->y()));
+                        item->setValue(SingerCatalog::ParameterInfo::fromDspxModelValue(documentItem->y()));
                         item->setInterpolationMode(toViewInterpolation(documentItem->interpolationMode()));
                         updatingView = false;
                     }
@@ -634,7 +634,7 @@ namespace VisualEditor {
     }
 
     void ParameterViewModelBindingPrivate::setTarget(dspx::SingingClip *clip, const QString &id,
-                                                     const Core::ParameterInfo &info, bool isSupported) {
+                                                     const SingerCatalog::ParameterInfo &info, bool isSupported) {
         const bool targetChanged = singingClip != clip || parameterId != id || supported != isSupported;
         const bool infoChanged = parameterInfo != info;
         if (!targetChanged && !infoChanged)
@@ -711,7 +711,7 @@ namespace VisualEditor {
         interactionController->setReferenceBaseline(canonicalValue(parameterInfo.baselineValue));
         interactionController->setFillMode(
             sflow::ParameterEditorInteractionController::FillMode(parameterInfo.fillMode));
-        interactionController->setDefaultValueEnabled(parameterInfo.valueType == Core::ParameterInfo::Relative);
+        interactionController->setDefaultValueEnabled(parameterInfo.valueType == SingerCatalog::ParameterInfo::Relative);
         interactionController->setReferenceVisible(parameterInfo.showDefaultValue);
         interactionController->setOriginalAndDefaultCurveDisplayMode(
             sflow::ParameterEditorInteractionController::CurveSolid);
@@ -835,7 +835,7 @@ namespace VisualEditor {
         auto *viewItem = existingViewItem ? existingViewItem : new sflow::ParameterAnchorViewModel(viewModel);
         updatingView = true;
         viewItem->setPosition(item->x());
-        viewItem->setValue(Core::ParameterInfo::fromDspxModelValue(item->y()));
+        viewItem->setValue(SingerCatalog::ParameterInfo::fromDspxModelValue(item->y()));
         viewItem->setInterpolationMode(toViewInterpolation(item->interpolationMode()));
         viewItem->setSelected(selectionModel->anchorNodeSelectionModel()->isItemSelected(item));
         if (!existingViewItem)
@@ -856,7 +856,7 @@ namespace VisualEditor {
             if (updatingDocument)
                 return;
             updatingView = true;
-            viewItem->setValue(Core::ParameterInfo::fromDspxModelValue(item->y()));
+            viewItem->setValue(SingerCatalog::ParameterInfo::fromDspxModelValue(item->y()));
             updatingView = false;
         }));
         parameterConnections.append(connect(item, &dspx::AnchorNode::interpolationModeChanged, viewItem,
@@ -885,8 +885,8 @@ namespace VisualEditor {
         viewItem->deleteLater();
     }
 
-    Core::ParameterInfo ParameterViewModelBindingPrivate::conversionInfo(bool transform) const {
-        return transform ? Core::transformParameterInfo() : parameterInfo;
+    SingerCatalog::ParameterInfo ParameterViewModelBindingPrivate::conversionInfo(bool transform) const {
+        return transform ? SingerCatalog::transformParameterInfo() : parameterInfo;
     }
 
     QList<QVariant> ParameterViewModelBindingPrivate::valuesFromDspx(const QList<QVariant> &values) const {
@@ -894,7 +894,7 @@ namespace VisualEditor {
         result.reserve(values.size());
         for (const auto &value : values)
             result.append(value.isValid()
-                              ? QVariant(Core::ParameterInfo::fromDspxModelValue(value.toInt()))
+                              ? QVariant(SingerCatalog::ParameterInfo::fromDspxModelValue(value.toInt()))
                               : QVariant());
         return result;
     }
@@ -905,7 +905,7 @@ namespace VisualEditor {
         result.reserve(values.size());
         for (const auto &value : values)
             result.append(value.isValid()
-                              ? QVariant(Core::ParameterInfo::toDspxModelValue(
+                              ? QVariant(SingerCatalog::ParameterInfo::toDspxModelValue(
                                     canonicalValue(value.toDouble(), transform)))
                               : QVariant());
         return result;
@@ -1152,7 +1152,7 @@ namespace VisualEditor {
             if (!entry.documentItem)
                 entry.documentItem = model->createAnchorNode();
             entry.documentItem->setX(entry.position);
-            entry.documentItem->setY(Core::ParameterInfo::toDspxModelValue(entry.value));
+            entry.documentItem->setY(SingerCatalog::ParameterInfo::toDspxModelValue(entry.value));
             entry.documentItem->setInterpolationMode(entry.interpolation);
             if (!sequence->insertItem(entry.documentItem)) {
                 if (!movingDocumentItems.contains(entry.documentItem))
@@ -1220,8 +1220,8 @@ namespace VisualEditor {
     ParameterViewModelBinding::~ParameterViewModelBinding() = default;
 
     QString ParameterViewModelBinding::parameterId() const { Q_D(const ParameterViewModelBinding); return d->parameterId; }
-    Core::ParameterInfo ParameterViewModelBinding::parameterInfo() const { Q_D(const ParameterViewModelBinding); return d->parameterInfo; }
-    Core::ParameterInfo ParameterViewModelBinding::transformParameterInfo() const { return Core::transformParameterInfo(); }
+    SingerCatalog::ParameterInfo ParameterViewModelBinding::parameterInfo() const { Q_D(const ParameterViewModelBinding); return d->parameterInfo; }
+    SingerCatalog::ParameterInfo ParameterViewModelBinding::transformParameterInfo() const { return SingerCatalog::transformParameterInfo(); }
     bool ParameterViewModelBinding::isSupported() const { Q_D(const ParameterViewModelBinding); return d->supported; }
     bool ParameterViewModelBinding::isAvailable() const { Q_D(const ParameterViewModelBinding); return d->singingClip && !d->parameterId.isEmpty(); }
     bool ParameterViewModelBinding::parameterExists() const { Q_D(const ParameterViewModelBinding); return d->parameter; }
@@ -1301,8 +1301,8 @@ namespace VisualEditor {
         auto *windowHandle = projectContext->windowHandle();
         document = windowHandle->projectDocumentContext()->document();
         registry = Core::CoreInterface::singerRegistry();
-        singerIdProvider = new Core::ClipSingerIdProvider(q);
-        QObject::connect(singerIdProvider, &Core::ClipSingerIdProvider::singerTreeChanged, q, [this] {
+        singerIdProvider = new SingerCatalog::ClipSingerIdProvider(q);
+        QObject::connect(singerIdProvider, &SingerCatalog::ClipSingerIdProvider::singerTreeChanged, q, [this] {
             rebuildParameterModel();
             refreshBindings();
         });
@@ -1326,15 +1326,15 @@ namespace VisualEditor {
             rebuildParameterModel();
             refreshBindings();
         };
-        QObject::connect(registry, &Core::SingerRegistry::architectureRegistered, q, refreshArchitecture);
-        QObject::connect(registry, &Core::SingerRegistry::architectureUpdated, q, refreshArchitecture);
-        QObject::connect(registry, &Core::SingerRegistry::architectureRemoved, q, refreshArchitecture);
+        QObject::connect(registry, &SingerCatalog::SingerRegistry::architectureRegistered, q, refreshArchitecture);
+        QObject::connect(registry, &SingerCatalog::SingerRegistry::architectureUpdated, q, refreshArchitecture);
+        QObject::connect(registry, &SingerCatalog::SingerRegistry::architectureRemoved, q, refreshArchitecture);
         const auto refreshSinger = [refreshArchitecture](const QString &architectureId, const QString &) {
             refreshArchitecture(architectureId);
         };
-        QObject::connect(registry, &Core::SingerRegistry::singerRegistered, q, refreshSinger);
-        QObject::connect(registry, &Core::SingerRegistry::singerUpdated, q, refreshSinger);
-        QObject::connect(registry, &Core::SingerRegistry::singerRemoved, q, refreshSinger);
+        QObject::connect(registry, &SingerCatalog::SingerRegistry::singerRegistered, q, refreshSinger);
+        QObject::connect(registry, &SingerCatalog::SingerRegistry::singerUpdated, q, refreshSinger);
+        QObject::connect(registry, &SingerCatalog::SingerRegistry::singerRemoved, q, refreshSinger);
 
         rebuildParameterModel();
         refreshBindings();
@@ -1441,7 +1441,7 @@ namespace VisualEditor {
         const auto appendFallback = [&](const QString &key) {
             if (key.isEmpty() || included.contains(key))
                 return;
-            Core::ParameterInfo info;
+            SingerCatalog::ParameterInfo info;
             info.displayName = key;
             entries.append({key, key, info, supported.contains(key), false});
             included.insert(key);
@@ -1507,13 +1507,13 @@ namespace VisualEditor {
             if (const auto *definition = entry(id)) {
                 binding->d_func()->setTarget(singingClip, id, definition->parameterInfo, definition->supported);
             } else {
-                Core::ParameterInfo info;
+                SingerCatalog::ParameterInfo info;
                 info.displayName = id;
                 binding->d_func()->setTarget(singingClip, id, info, supportedParameters().contains(id));
             }
         };
         pitchBinding->d_func()->setTarget(singingClip, QStringLiteral("pitch"),
-                                          Core::pitchParameterInfo(), true);
+                                          SingerCatalog::pitchParameterInfo(), true);
         update(editingBinding, editingParameterId);
         if (!referenceParameterId.isEmpty() && referenceParameterId == editingParameterId)
             referenceBinding->d_func()->setTarget(nullptr, {}, {}, false);

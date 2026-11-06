@@ -12,6 +12,7 @@ import SVSCraft.UIComponents.impl
 
 import DiffScope.UIShell
 import DiffScope.Core
+import DiffScope.SingerCatalog
 
 PropertyEditorGroupBox {
     id: groupBox

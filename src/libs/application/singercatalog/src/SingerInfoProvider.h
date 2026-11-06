@@ -1,22 +1,25 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_COREPLUGIN_SINGERINFOPROVIDER_H
-#define DIFFSCOPE_COREPLUGIN_SINGERINFOPROVIDER_H
+#ifndef DIFFSCOPE_SINGERCATALOG_SINGERINFOPROVIDER_H
+#define DIFFSCOPE_SINGERCATALOG_SINGERINFOPROVIDER_H
 
 #include <QObject>
+#include <QScopedPointer>
 #include <QVariantList>
 #include <qqmlintegration.h>
 
-#include <coreplugin/coreglobal.h>
-#include <coreplugin/SingerInfo.h>
+#include <singercatalog/SingerInfo.h>
+#include <singercatalog/singercatalogglobal.h>
 
-namespace Core {
+Q_MOC_INCLUDE(<singercatalog/SingerRegistry.h>)
+
+namespace SingerCatalog {
 
     class SingerRegistry;
     class SingerInfoProviderPrivate;
 
-    class CORE_EXPORT SingerInfoProvider : public QObject {
+    class SINGERCATALOG_EXPORT SingerInfoProvider : public QObject {
         Q_OBJECT
         QML_ELEMENT
         Q_DECLARE_PRIVATE(SingerInfoProvider)
@@ -58,4 +61,4 @@ namespace Core {
 
 }
 
-#endif // DIFFSCOPE_COREPLUGIN_SINGERINFOPROVIDER_H
+#endif // DIFFSCOPE_SINGERCATALOG_SINGERINFOPROVIDER_H

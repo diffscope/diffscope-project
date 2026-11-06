@@ -17,9 +17,11 @@
 
 #include <opendspx/mixedsinger.h>
 
-namespace Core {
-
+namespace SingerCatalog {
     class SingerRegistry;
+}
+
+namespace Core {
 
     class SourcesPickerModelPrivate {
         Q_DECLARE_PUBLIC(SourcesPickerModel)
@@ -43,7 +45,7 @@ namespace Core {
 
         SourcesPickerModel *q_ptr{};
         QString architectureId;
-        QPointer<SingerRegistry> registry;
+        QPointer<SingerCatalog::SingerRegistry> registry;
         NodeList roots;
         quint64 nextNodeId{1};
         QHash<quint64, Node *> nodesById;

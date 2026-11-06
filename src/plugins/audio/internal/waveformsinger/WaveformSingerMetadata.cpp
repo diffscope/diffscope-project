@@ -12,7 +12,7 @@
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <coreplugin/SingerRegistry.h>
+#include <singercatalog/SingerRegistry.h>
 
 #include <audio/internal/WaveformTypeCatalog.h>
 
@@ -22,26 +22,26 @@ namespace Audio::Internal {
         return QStringLiteral("org.diffscope.waveform");
     }
 
-    Core::ArchitectureInfo WaveformSingerMetadata::architectureInfo() {
-        Core::ArchitectureInfo info;
+    SingerCatalog::ArchitectureInfo WaveformSingerMetadata::architectureInfo() {
+        SingerCatalog::ArchitectureInfo info;
         info.setName(tr("Waveform"));
 
-        Core::ArchitectureInfo::ParameterMap parameters;
+        SingerCatalog::ArchitectureInfo::ParameterMap parameters;
         parameters.insert(QStringLiteral("energy"), {
             .displayName = tr("Energy"),
             .defaultValue = 1.0,
             .baselineValue = 1.0,
-            .fillMode = Core::ParameterInfo::FillMode::BottomFill,
-            .valueType = Core::ParameterInfo::ValueType::Relative,
+            .fillMode = SingerCatalog::ParameterInfo::FillMode::BottomFill,
+            .valueType = SingerCatalog::ParameterInfo::ValueType::Relative,
             .showDefaultValue = false,
-            .toDisplayValue = [](const Core::ParameterInfo &, double value) {
+            .toDisplayValue = [](const SingerCatalog::ParameterInfo &, double value) {
                 return value <= 0.0 ? -std::numeric_limits<double>::infinity()
                                     : 20.0 * std::log10(value);
             },
-            .fromDisplayValue = [](const Core::ParameterInfo &, double value) {
+            .fromDisplayValue = [](const SingerCatalog::ParameterInfo &, double value) {
                 return std::pow(10.0, value / 20.0);
             },
-            .toDisplayString = [](const Core::ParameterInfo &, double value) {
+            .toDisplayString = [](const SingerCatalog::ParameterInfo &, double value) {
                 if (value <= 0.0)
                     return QStringLiteral("−∞") + tr(" dB");
                 return QLocale().toString(20.0 * std::log10(value), 'f', 3) + tr(" dB");
@@ -51,8 +51,8 @@ namespace Audio::Internal {
         return info;
     }
 
-    Core::SingerInfo WaveformSingerMetadata::singerInfo() {
-        Core::SingerInfo info;
+    SingerCatalog::SingerInfo WaveformSingerMetadata::singerInfo() {
+        SingerCatalog::SingerInfo info;
         info.setName(tr("Waveform Synthesizer"));
         info.setSupportedParameters(architectureInfo().parameters().keys());
         info.setMixGroup(QStringLiteral("waveform"));
@@ -64,7 +64,7 @@ namespace Audio::Internal {
         return info;
     }
 
-    bool WaveformSingerMetadata::registerAll(Core::SingerRegistry *registry) {
+    bool WaveformSingerMetadata::registerAll(SingerCatalog::SingerRegistry *registry) {
         if (!registry)
             return false;
 

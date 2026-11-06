@@ -60,7 +60,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/TrackColorSchema.h>
 #include <coreplugin/DefaultLyricManager.h>
-#include <coreplugin/SingerRegistry.h>
+#include <singercatalog/SingerRegistry.h>
 
 namespace Core {
 
@@ -78,7 +78,7 @@ namespace Core {
         DspxCheckerRegistry *dspxCheckerRegistry;
         TrackColorSchema *trackColorSchema;
         DefaultLyricManager *defaultLyricManager;
-        SingerRegistry *singerRegistry;
+        SingerCatalog::SingerRegistry *singerRegistry;
         MixedSingerPresets *mixedSingerPresets;
         FileOpenDispatcher *fileOpenDispatcher;
         Internal::NotificationCenter *notificationCenter;
@@ -92,7 +92,7 @@ namespace Core {
             dspxCheckerRegistry = new DspxCheckerRegistry(q);
             trackColorSchema = new TrackColorSchema(q);
             defaultLyricManager = new DefaultLyricManager(q);
-            singerRegistry = new SingerRegistry(q);
+            singerRegistry = new SingerCatalog::SingerRegistry(q);
             mixedSingerPresets = new MixedSingerPresets(q);
             fileOpenDispatcher = new FileOpenDispatcher(q);
             notificationCenter = new Internal::NotificationCenter(q);
@@ -137,7 +137,7 @@ namespace Core {
         return instance()->d_func()->defaultLyricManager;
     }
 
-    SingerRegistry *CoreInterface::singerRegistry() {
+    SingerCatalog::SingerRegistry *CoreInterface::singerRegistry() {
         Q_ASSERT(instance());
         return instance()->d_func()->singerRegistry;
     }

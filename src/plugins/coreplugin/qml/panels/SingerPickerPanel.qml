@@ -11,6 +11,7 @@ import SVSCraft.UIComponents
 
 import DiffScope.UIShell
 import DiffScope.Core
+import DiffScope.SingerCatalog
 
 ActionDockingPane {
     id: pane

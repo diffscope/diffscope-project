@@ -12,7 +12,7 @@
 #include <opendspx/paramcurvefree.h>
 #include <opendspx/singingclip.h>
 
-#include <coreplugin/ArchitectureInfo.h>
+#include <singercatalog/ArchitectureInfo.h>
 
 namespace LibreSVIPFormatConverter::Internal {
 
@@ -23,9 +23,9 @@ namespace LibreSVIPFormatConverter::Internal {
         void mapCurves(std::vector<opendspx::ParamCurveRef> &curves, LibreSVIPPitchMapper::Direction direction) {
             const auto mapValue = [direction](int value) {
                 if (direction == LibreSVIPPitchMapper::Direction::FromLibreSVIP) {
-                    return Core::ParameterInfo::toDspxModelValue(value / maximumPitchValue);
+                    return SingerCatalog::ParameterInfo::toDspxModelValue(value / maximumPitchValue);
                 }
-                return static_cast<int>(std::llround(Core::ParameterInfo::fromDspxModelValue(value) * maximumPitchValue));
+                return static_cast<int>(std::llround(SingerCatalog::ParameterInfo::fromDspxModelValue(value) * maximumPitchValue));
             };
             for (auto &curve : curves) {
                 if (!curve) {
