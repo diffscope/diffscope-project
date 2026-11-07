@@ -147,26 +147,30 @@ namespace Core::Internal {
         if (m_searchText == text) {
             return;
         }
+        beginFilterChange();
         m_searchText = text;
-        invalidateFilter();
+        endFilterChange(Direction::Rows);
         Q_EMIT searchTextChanged();
     }
 
     void ActionCatalogProxyModel::setCommandsOnly(bool commandsOnly) {
+        beginFilterChange();
         m_commandsOnly = commandsOnly;
-        invalidateFilter();
+        endFilterChange(Direction::Rows);
     }
 
     void ActionCatalogProxyModel::setShortcutOverrides(const KeymapOverrides &overrides) {
+        beginFilterChange();
         beginResetModel();
         m_shortcutOverrides = overrides;
         endResetModel();
-        invalidateFilter();
+        endFilterChange(Direction::Rows);
     }
 
     void ActionCatalogProxyModel::setShortcutFilter(const QKeySequence &sequence) {
+        beginFilterChange();
         m_shortcutFilter = sequence;
-        invalidateFilter();
+        endFilterChange(Direction::Rows);
     }
 
     void ActionCatalogProxyModel::refresh() {

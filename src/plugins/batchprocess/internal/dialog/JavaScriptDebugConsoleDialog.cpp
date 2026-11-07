@@ -219,8 +219,9 @@ namespace BatchProcess::Internal {
                 if (m_filterText == filterText) {
                     return;
                 }
+                beginFilterChange();
                 m_filterText = filterText;
-                invalidateRowsFilter();
+                endFilterChange(Direction::Rows);
             }
 
             void setLevelEnabled(JavaScriptConsoleInterface::Level level, bool enabled) {
@@ -228,8 +229,9 @@ namespace BatchProcess::Internal {
                 if (index >= m_enabledLevels.size() || m_enabledLevels[index] == enabled) {
                     return;
                 }
+                beginFilterChange();
                 m_enabledLevels[index] = enabled;
-                invalidateRowsFilter();
+                endFilterChange(Direction::Rows);
             }
 
         protected:

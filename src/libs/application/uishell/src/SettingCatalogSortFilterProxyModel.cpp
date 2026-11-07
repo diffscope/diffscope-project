@@ -25,11 +25,10 @@ namespace UIShell {
             return;
         }
 
+        beginFilterChange();
         m_filterKeyword = keyword;
-        emit filterKeywordChanged();
-
-        // Trigger filter update
-        invalidateFilter();
+        endFilterChange(Direction::Rows);
+        Q_EMIT filterKeywordChanged();
     }
 
     bool SettingCatalogSortFilterProxyModel::lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const {

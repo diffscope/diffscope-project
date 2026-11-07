@@ -24,7 +24,6 @@
 #include <QPointF>
 #include <QPointer>
 #include <QQuickWindow>
-#include <QSequentialIterable>
 #include <QSet>
 #include <QVariant>
 #include <QWindow>
@@ -210,8 +209,8 @@ namespace BatchProcess::Internal {
             result.setProperty(QStringLiteral("y"), point.y());
             return result;
         }
-        if (value.canConvert<QSequentialIterable>()) {
-            const auto sequence = value.value<QSequentialIterable>();
+        if (value.canConvert<QVariantList>()) {
+            const auto sequence = value.toList();
             auto result = array(static_cast<uint>(sequence.size()));
             uint index = 0;
             for (const auto &item : sequence) result.setProperty(index++, propertyValue(item));

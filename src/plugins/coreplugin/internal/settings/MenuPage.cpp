@@ -28,8 +28,9 @@ namespace Core::Internal {
             setAutoAcceptChildRows(true);
         }
         void setSearchText(const QString &text) {
+            beginFilterChange();
             m_text = text.trimmed();
-            invalidateFilter();
+            endFilterChange(Direction::Rows);
         }
     protected:
         bool filterAcceptsRow(int row, const QModelIndex &parent) const override {
