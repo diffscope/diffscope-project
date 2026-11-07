@@ -41,14 +41,16 @@
 #include <dspxproject/CheckerRegistry.h>
 #include <dspxproject/ProjectLifecycleScenario.h>
 
+#include <notifications/NotificationCenter.h>
+#include <notifications/NotificationMessage.h>
+#include <notifications/NotificationModel.h>
+
 #include <coreplugin/FileOpenDispatcher.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/MixedSingerPresets.h>
-#include <coreplugin/NotificationMessage.h>
 #include <coreplugin/TrackColorSchema.h>
+#include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/CoreProjectLifecycleStrategy.h>
-#include <coreplugin/internal/NotificationCenter.h>
-#include <coreplugin/internal/NotificationManager.h>
 #include <singercatalog/DefaultLyricManager.h>
 #include <singercatalog/SingerRegistry.h>
 
@@ -72,7 +74,7 @@ namespace Core {
         MixedSingerPresets *mixedSingerPresets;
         FileOpenDispatcher *fileOpenDispatcher;
         DspxProject::ProjectLifecycleScenario *projectLifecycleScenario;
-        Internal::NotificationCenter *notificationCenter;
+        Notifications::NotificationCenter *notificationCenter;
 
         void init() {
             Q_Q(CoreInterface);
@@ -89,9 +91,25 @@ namespace Core {
             auto strategy = new Internal::CoreProjectLifecycleStrategy(dspxCheckerRegistry);
             projectLifecycleScenario = new DspxProject::ProjectLifecycleScenario(strategy, q);
             strategy->setParent(projectLifecycleScenario);
-            notificationCenter = new Internal::NotificationCenter(q);
+            notificationCenter = new Notifications::NotificationCenter(q);
+            RuntimeInterface::instance()->addObject(notificationCenter);
+            auto settings = RuntimeInterface::settings();
+            settings->beginGroup(QStringLiteral("org.diffscope.core.notification"));
+            notificationCenter->setHiddenMessageIdentifiers(settings->value(QStringLiteral("hiddenMessageIdentifiers"), QStringList()).toStringList());
+            settings->endGroup();
+            QObject::connect(notificationCenter, &Notifications::NotificationCenter::hiddenMessageIdentifiersChanged, q, [this] {
+                auto settings = RuntimeInterface::settings();
+                settings->beginGroup(QStringLiteral("org.diffscope.core.notification"));
+                settings->setValue(QStringLiteral("hiddenMessageIdentifiers"), notificationCenter->hiddenMessageIdentifiers());
+                settings->endGroup();
+            });
+            QObject::connect(notificationCenter, &Notifications::NotificationCenter::notificationPublished, q, [] {
+                if (Internal::BehaviorPreference::hasNotificationSoundAlert()) {
+                    QApplication::beep();
+                }
+            });
             QObject::connect(q, &CoreInterface::resetAllDoNotShowAgainRequested,
-                             notificationCenter, &Internal::NotificationCenter::clearHiddenMessageIdentifiers);
+                             notificationCenter, &Notifications::NotificationCenter::clearHiddenMessageIdentifiers);
         }
     };
 
@@ -151,22 +169,38 @@ namespace Core {
         return instance()->d_func()->projectLifecycleScenario;
     }
 
-    static Internal::NotificationManager::NotificationBubbleMode toInternalNotificationBubbleMode(CoreInterface::NotificationBubbleMode mode) {
-        return static_cast<Internal::NotificationManager::NotificationBubbleMode>(mode);
+    Notifications::NotificationModel *CoreInterface::globalNotifications() {
+        return instance()->d_func()->notificationCenter->globalNotifications();
     }
 
-    void CoreInterface::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
-        Q_ASSERT(instance());
-        Q_ASSERT(message);
-        instance()->d_func()->notificationCenter->globalNotificationManager()->addMessage(message, toInternalNotificationBubbleMode(mode));
+    Notifications::NotificationModel *CoreInterface::allNotifications() {
+        return instance()->d_func()->notificationCenter->allNotifications();
+    }
+
+    void CoreInterface::sendNotification(Notifications::NotificationMessage *message, NotificationBubbleMode mode) {
+        Notifications::NotificationCenter::NotificationBubbleMode bubbleMode;
+        switch (mode) {
+            case NormalBubble:
+                bubbleMode = Notifications::NotificationCenter::NormalBubble;
+                break;
+            case DoNotShowBubble:
+                bubbleMode = Notifications::NotificationCenter::DoNotShowBubble;
+                break;
+            case AutoHide:
+                bubbleMode = Notifications::NotificationCenter::AutoHide;
+                break;
+            default:
+                Q_UNREACHABLE();
+        }
+        instance()->d_func()->notificationCenter->sendNotification(message, bubbleMode);
     }
 
     void CoreInterface::sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode) {
-        auto message = new NotificationMessage(instance());
+        auto message = new Notifications::NotificationMessage(instance());
         message->setIcon(icon);
         message->setTitle(title);
         message->setText(text);
-        connect(message, &NotificationMessage::closed, message, &QObject::deleteLater);
+        connect(message, &Notifications::NotificationMessage::closed, message, &QObject::deleteLater);
         sendNotification(message, mode);
     }
 
@@ -246,9 +280,8 @@ namespace Core {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        auto notificationModel = instance()->d_func()->notificationCenter->globalNotificationManager();
         std::unique_ptr<QObject> object(component.createWithInitialProperties({
-            {"notificationModel", QVariant::fromValue(notificationModel)},
+            {"notificationModel", QVariant::fromValue(globalNotifications())},
         }));
         if (!object) {
             qFatal() << component.errorString();

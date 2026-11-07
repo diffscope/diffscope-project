@@ -30,12 +30,16 @@ namespace QAK {
     class QuickActionContext;
 }
 
+namespace Notifications {
+    class NotificationMessage;
+    class NotificationModel;
+}
+
 class QAbstractItemModel;
 class QJSValue;
 
 namespace Core {
 
-    class NotificationMessage;
     class ProjectWindowInterfacePrivate;
 
     class CORE_EXPORT ProjectWindowInterface : public ActionWindowInterfaceBase {
@@ -53,6 +57,7 @@ namespace Core {
         Q_PROPERTY(DspxProject::FillLyricsScenario *fillLyricsScenario READ fillLyricsScenario CONSTANT)
         Q_PROPERTY(DspxProject::InsertItemScenario *insertItemScenario READ insertItemScenario CONSTANT)
         Q_PROPERTY(DspxProject::PickTrackColorScenario *pickTrackColorScenario READ pickTrackColorScenario CONSTANT)
+        Q_PROPERTY(Notifications::NotificationModel *notifications READ notifications CONSTANT)
         Q_DECLARE_PRIVATE(ProjectWindowInterface)
     public:
         static ProjectWindowInterface *of(const DspxProject::Document *document);
@@ -71,13 +76,16 @@ namespace Core {
         DspxProject::InsertItemScenario *insertItemScenario() const;
         DspxProject::PickTrackColorScenario *pickTrackColorScenario() const;
 
+        // Returns global notifications and notifications for this window.
+        Notifications::NotificationModel *notifications() const;
+
         enum NotificationBubbleMode {
             NormalBubble,
             DoNotShowBubble,
             AutoHide,
         };
         Q_ENUM(NotificationBubbleMode)
-        Q_INVOKABLE void sendNotification(NotificationMessage *message, NotificationBubbleMode mode = NormalBubble);
+        Q_INVOKABLE void sendNotification(Notifications::NotificationMessage *message, NotificationBubbleMode mode = NormalBubble);
         Q_INVOKABLE void sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode = NormalBubble);
 
         Q_INVOKABLE void boundTimelineRangeHint();

@@ -178,6 +178,8 @@ private:
 
 Internal classes under `internal/` do not need PImpl; store their members directly with `m_` names. C++ types meant only for QML may use `Type_p.h` as their primary header; if such a type needs a private implementation/attached helper, use `Type_p_p.h`. QML property notify signals are normally parameterless; regular C++ API signals may carry the new value. Keep declarations ordered as Qt macros/properties, public API, signals/slots, protected API, then private storage.
 
+Only plugins have internal classes; libraries do not.
+
 Prefer ChorusKit registries/object pools over adding a singleton. If lifecycle ownership requires one, assert that no instance exists in the constructor, assign the static instance there, and clear it in the destructor; these objects are main-thread services. Restrict construction with a private/protected constructor and plugin friend where appropriate. A QML singleton additionally uses `QML_SINGLETON` and a static `create(QQmlEngine *, QJSEngine *)` factory.
 
 ## QML, Actions, Settings, and Accessibility

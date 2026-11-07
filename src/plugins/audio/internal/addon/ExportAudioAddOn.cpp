@@ -39,9 +39,11 @@
 #include <dspxmodelORM/TrackList.h>
 
 #include <dspxproject/Document.h>
-#include <coreplugin/NotificationMessage.h>
 #include <dspxproject/ProjectDocumentContext.h>
 #include <dspxproject/ProjectTimeline.h>
+
+#include <notifications/NotificationMessage.h>
+
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <transactional/TransactionController.h>
@@ -124,11 +126,11 @@ namespace Audio::Internal {
     void ExportAudioAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         windowInterface->addObject(this);
-        m_exportCompletedMessage = new Core::NotificationMessage(windowInterface->window());
+        m_exportCompletedMessage = new Notifications::NotificationMessage(windowInterface->window());
         m_exportCompletedMessage->setIcon(SVS::SVSCraft::Success);
         m_exportCompletedMessage->setAllowDoNotShowAgain(true);
         m_exportCompletedMessage->setDoNotShowAgainIdentifier("org.diffscope.audio.exportaudioaddon.message");
-        connect(m_exportCompletedMessage, &Core::NotificationMessage::buttonClicked, this, [this](int index) {
+        connect(m_exportCompletedMessage, &Notifications::NotificationMessage::buttonClicked, this, [this](int index) {
             if (index != 0 || m_exportedFiles.isEmpty()) {
                 return;
             }
@@ -425,8 +427,6 @@ namespace Audio::Internal {
         }
 
         const auto sendExportCompletedNotification = [this, windowInterface, exporter] {
-            m_exportCompletedMessage->close();
-
             const auto fileList = exporter->fileList();
             QStringList exportedFiles;
             if (exporter->config().mixingOption() == AudioExporterConfig::MO_Mixed) {

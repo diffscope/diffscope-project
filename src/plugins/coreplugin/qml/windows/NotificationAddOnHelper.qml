@@ -3,28 +3,16 @@
 
 import QtQml
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQml.Models
 
-import SVSCraft
-import SVSCraft.UIComponents
-
-import QActionKit
-
-import DiffScope.UIShell
-import DiffScope.Core
+import DiffScope.Notifications
 
 QtObject {
-    id: d
     required property QtObject addOn
 
     readonly property Window window: addOn.windowHandle.window
-    readonly property QtObject notificationManager: addOn.notificationManager
-
-    readonly property NotificationBubbleModel bubbleNotificationModel: NotificationBubbleModel {
-        notificationModel: d.notificationManager
+    readonly property NotificationPresentationModel bubbleModel: NotificationPresentationModel {
+        notifications: addOn.windowHandle.notifications.bubbleModel
     }
 
-    Component.onCompleted: window.bubbleNotificationsModel = bubbleNotificationModel.model
+    Component.onCompleted: window.bubbleNotificationsModel = bubbleModel
 }

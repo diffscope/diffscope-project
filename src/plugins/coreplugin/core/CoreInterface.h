@@ -32,13 +32,17 @@ namespace SingerCatalog {
     class SingerRegistry;
 }
 
+namespace Notifications {
+    class NotificationMessage;
+    class NotificationModel;
+}
+
 namespace Core {
 
     namespace Internal {
         class CorePlugin;
     }
 
-    class NotificationMessage;
     class FileOpenDispatcher;
     class PropertyEditorManager;
     class TrackColorSchema;
@@ -59,6 +63,8 @@ namespace Core {
         Q_PROPERTY(MixedSingerPresets *mixedSingerPresets READ mixedSingerPresets CONSTANT)
         Q_PROPERTY(FileOpenDispatcher *fileOpenDispatcher READ fileOpenDispatcher CONSTANT)
         Q_PROPERTY(DspxProject::ProjectLifecycleScenario *projectLifecycleScenario READ projectLifecycleScenario CONSTANT)
+        Q_PROPERTY(Notifications::NotificationModel *globalNotifications READ globalNotifications CONSTANT)
+        Q_PROPERTY(Notifications::NotificationModel *allNotifications READ allNotifications CONSTANT)
     public:
         static CoreInterface *instance();
         static inline CoreInterface *create(QQmlEngine *, QJSEngine *) { return instance(); }
@@ -80,6 +86,10 @@ namespace Core {
 
         static DspxProject::ProjectLifecycleScenario *projectLifecycleScenario();
 
+        static Notifications::NotificationModel *globalNotifications();
+        // Returns active notifications across all scopes.
+        static Notifications::NotificationModel *allNotifications();
+
         static constexpr const char *dspxEditorId() {
             return "org.diffscope.diffscope";
         }
@@ -91,7 +101,7 @@ namespace Core {
         };
         Q_ENUM(NotificationBubbleMode)
 
-        Q_INVOKABLE static void sendNotification(NotificationMessage *message, NotificationBubbleMode mode = NormalBubble);
+        Q_INVOKABLE static void sendNotification(Notifications::NotificationMessage *message, NotificationBubbleMode mode = NormalBubble);
         Q_INVOKABLE static void sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode = NormalBubble);
 
         Q_INVOKABLE static int execSettingsDialog(const QString &id, QWindow *parent);

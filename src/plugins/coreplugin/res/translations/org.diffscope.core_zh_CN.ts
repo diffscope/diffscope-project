@@ -6544,23 +6544,11 @@ Do you want to continue opening it?</source>
     </message>
 </context>
 <context>
-    <name>NotificationListView</name>
-    <message>
-        <location filename="../../qml/panels/NotificationListView.qml" line="67"/>
-        <source>No notification</source>
-        <translation type="unfinished">无通知</translation>
-    </message>
-</context>
-<context>
     <name>NotificationsPanel</name>
     <message>
         <location filename="../../qml/panels/NotificationsPanel.qml" line="53"/>
         <source>Clear All</source>
         <translation>全部清除</translation>
-    </message>
-    <message>
-        <source>No notification</source>
-        <translation type="vanished">无通知</translation>
     </message>
 </context>
 <context>

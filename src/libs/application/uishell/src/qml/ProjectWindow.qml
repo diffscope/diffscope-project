@@ -32,7 +32,7 @@ Window {
     property ObjectModel middleToolButtonsModel: null
     property ObjectModel rightToolButtonsModel: null
     property ObjectModel statusButtonsModel: null
-    property ObjectModel bubbleNotificationsModel: null
+    property var bubbleNotificationsModel: null
     property bool useSeparatedMenu: false
     property bool useLeftSystemButton: false
 

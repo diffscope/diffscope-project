@@ -16,7 +16,7 @@
 class QProcess;
 class QWindow;
 
-namespace Core {
+namespace Notifications {
     class NotificationMessage;
 }
 
@@ -95,7 +95,7 @@ namespace LibreSVIPFormatConverter::Internal {
         QProcess *m_process{};
         AppInstall::InstallationManager *m_installations{};
         bool m_updateCheckPending{};
-        Core::NotificationMessage *m_updateNotification{};
+        Notifications::NotificationMessage *m_updateNotification{};
     };
 
 }

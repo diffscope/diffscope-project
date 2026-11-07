@@ -41,6 +41,8 @@
 
 #include <loadapi/initroutine.h>
 
+#include <notifications/NotificationCenter.h>
+
 #include <coreplugin/CoreInterface.h>
 #include <dspxproject/Clipboard.h>
 #include <coreplugin/FileOpenDispatcher.h>
@@ -356,6 +358,10 @@ namespace Core::Internal {
 
     void CorePlugin::initializeBehaviorPreference() {
         auto behaviorPreference = BehaviorPreference::instance();
+        auto notificationCenter = RuntimeInterface::instance()->getFirstObject<Notifications::NotificationCenter>();
+        QObject::connect(behaviorPreference, &BehaviorPreference::notificationAutoHideTimeoutChanged, notificationCenter, [notificationCenter] {
+            notificationCenter->setAutoHideTimeout(BehaviorPreference::notificationAutoHideTimeout());
+        });
         auto defaultLyricManager = CoreInterface::defaultLyricManager();
         QObject::connect(behaviorPreference, &BehaviorPreference::fallbackLyricTextChanged, defaultLyricManager, [defaultLyricManager] {
             defaultLyricManager->setFallback(BehaviorPreference::fallbackLyricText());

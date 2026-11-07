@@ -59,49 +59,66 @@ HomeWindow {
         }
     }
 
-    bubbleNotificationsModel: ObjectModel {
+    bubbleNotificationsModel: ListModel {
         id: notificationModel
-        QtObject {
-            property string title: "Background task"
-            property string text: "Rendering preview..."
-            property int icon: SVS.Information
-            property list<string> buttons: ["Open"]
-            property int primaryButton: 0
-            property bool closable: true
-            property bool hasProgress: true
-            property double progress: 0.65
-            property bool progressAbortable: true
-            property bool permanentlyHideable: false
-            property int textFormat: Text.AutoText
-            function hideClicked() { notificationModel.remove(ObjectModel.index) }
-            function closeClicked() { notificationModel.remove(ObjectModel.index) }
-            function abortClicked() { console.log("abort") }
-            function permanentlyHideClicked() {}
-            function buttonClicked(index) { console.log("button", index) }
-            function hoverEntered() {}
-            function hoverExited() {}
-            function linkActivated(link) { console.log(link) }
+
+        readonly property list<QtObject> handles: [
+            QtObject {
+                property string title: "Background task"
+                property string text: "Rendering preview..."
+                property int icon: SVS.Information
+                property list<string> buttons: ["Open"]
+                property int primaryButton: 0
+                property bool closable: true
+                property bool hasProgress: true
+                property double progress: 0.65
+                property bool progressAbortable: true
+                property bool permanentlyHideable: false
+                property int textFormat: Text.AutoText
+                function hideClicked() { notificationModel.removeHandle(this) }
+                function closeClicked() { notificationModel.removeHandle(this) }
+                function abortClicked() { console.log("abort") }
+                function permanentlyHideClicked() {}
+                function buttonClicked(index) { console.log("button", index) }
+                function hoverEntered() {}
+                function hoverExited() {}
+                function linkActivated(link) { console.log(link) }
+            },
+            QtObject {
+                property string title: "Warning"
+                property string text: "This is a HomeWindow notification smoke test."
+                property int icon: SVS.Warning
+                property list<string> buttons: []
+                property int primaryButton: -1
+                property bool closable: true
+                property bool hasProgress: false
+                property double progress: 0
+                property bool progressAbortable: false
+                property bool permanentlyHideable: true
+                property int textFormat: Text.AutoText
+                function hideClicked() { notificationModel.removeHandle(this) }
+                function closeClicked() { notificationModel.removeHandle(this) }
+                function abortClicked() {}
+                function permanentlyHideClicked() { notificationModel.removeHandle(this) }
+                function buttonClicked(index) {}
+                function hoverEntered() {}
+                function hoverExited() {}
+                function linkActivated(link) {}
+            }
+        ]
+
+        Component.onCompleted: {
+            for (const handle of handles)
+                append({notificationHandle: handle})
         }
-        QtObject {
-            property string title: "Warning"
-            property string text: "This is a HomeWindow notification smoke test."
-            property int icon: SVS.Warning
-            property list<string> buttons: []
-            property int primaryButton: -1
-            property bool closable: true
-            property bool hasProgress: false
-            property double progress: 0
-            property bool progressAbortable: false
-            property bool permanentlyHideable: true
-            property int textFormat: Text.AutoText
-            function hideClicked() { notificationModel.remove(ObjectModel.index) }
-            function closeClicked() { notificationModel.remove(ObjectModel.index) }
-            function abortClicked() {}
-            function permanentlyHideClicked() { notificationModel.remove(ObjectModel.index) }
-            function buttonClicked(index) {}
-            function hoverEntered() {}
-            function hoverExited() {}
-            function linkActivated(link) {}
+
+        function removeHandle(handle) {
+            for (let index = 0; index < count; ++index) {
+                if (get(index).notificationHandle === handle) {
+                    remove(index)
+                    return
+                }
+            }
         }
     }
 

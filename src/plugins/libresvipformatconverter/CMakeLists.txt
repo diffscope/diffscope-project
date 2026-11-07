@@ -34,6 +34,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         uishell
         appinstall
         coreplugin
+        notifications
         singercatalog
         importexportmanager
         opendspx::model

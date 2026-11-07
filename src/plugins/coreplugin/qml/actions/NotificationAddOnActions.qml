@@ -23,17 +23,17 @@ ActionCollection {
             property bool activated: true
             Accessible.role: Accessible.StaticText
             Layout.fillWidth: false
-            Accessible.name: qsTr("%Ln error(s)", "", d.addOn?.notificationManager.criticalCount ?? 0) + " " + qsTr("%Ln warning(s)", "", d.addOn?.notificationManager.warningCount ?? 0)
+            Accessible.name: qsTr("%Ln error(s)", "", d.addOn?.notificationViewModel.criticalCount ?? 0) + " " + qsTr("%Ln warning(s)", "", d.addOn?.notificationViewModel.warningCount ?? 0)
             IconLabel {
                 icon.source: "image://fluent-system-icons/error_circle"
                 icon.width: 14
                 icon.height: 14
                 leftPadding: 4
                 icon.color: indicator.activated ? Theme.errorColor : Theme.foregroundPrimaryColor
-                text: (d.addOn?.notificationManager.criticalCount ?? 0).toLocaleString()
+                text: (d.addOn?.notificationViewModel.criticalCount ?? 0).toLocaleString()
                 color: indicator.activated ? Theme.errorColor : Theme.foregroundPrimaryColor
                 spacing: 2
-                visible: (d.addOn?.notificationManager.criticalCount ?? 0) > 0
+                visible: (d.addOn?.notificationViewModel.criticalCount ?? 0) > 0
             }
             IconLabel {
                 icon.source: "image://fluent-system-icons/warning"
@@ -41,13 +41,13 @@ ActionCollection {
                 icon.height: 14
                 rightPadding: 4
                 icon.color: indicator.activated ? Theme.warningColor : Theme.foregroundPrimaryColor
-                text: (d.addOn?.notificationManager.warningCount ?? 0).toLocaleString()
+                text: (d.addOn?.notificationViewModel.warningCount ?? 0).toLocaleString()
                 color: indicator.activated ? Theme.warningColor : Theme.foregroundPrimaryColor
                 spacing: 2
-                visible: (d.addOn?.notificationManager.warningCount ?? 0) > 0
+                visible: (d.addOn?.notificationViewModel.warningCount ?? 0) > 0
             }
             Connections {
-                target: d.addOn?.notificationManager ?? null
+                target: d.addOn?.notificationViewModel ?? null
                 function onErrorActivated() {
                     indicator.activated = true
                 }

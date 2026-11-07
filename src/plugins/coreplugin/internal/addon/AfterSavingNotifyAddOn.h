@@ -6,7 +6,7 @@
 
 #include <CoreApi/windowinterface.h>
 
-namespace Core {
+namespace Notifications {
     class NotificationMessage;
 }
 
@@ -23,7 +23,7 @@ namespace Core::Internal {
         bool delayedInitialize() override;
 
     private:
-        NotificationMessage *m_message{};
+        Notifications::NotificationMessage *m_message{};
     };
 
 }

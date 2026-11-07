@@ -5,53 +5,47 @@
 #define DIFFSCOPE_COREPLUGIN_NOTIFICATIONVIEWMODEL_H
 
 #include <QObject>
+#include <QString>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
-namespace Core {
-    class NotificationMessage;
+namespace Notifications {
+    class NotificationCenter;
+    class NotificationModel;
 }
 
 namespace Core::Internal {
 
-    class NotificationManager;
-
     class NotificationViewModel : public QObject {
         Q_OBJECT
-        Q_PROPERTY(QString topMessageTitle READ topMessageTitle NOTIFY topMessageTitleChanged)
-        Q_PROPERTY(int criticalCount READ criticalCount NOTIFY criticalCountChanged)
-        Q_PROPERTY(int warningCount READ warningCount NOTIFY warningCountChanged)
+        Q_PROPERTY(int count READ count NOTIFY summaryChanged)
+        Q_PROPERTY(QString topMessageTitle READ topMessageTitle NOTIFY summaryChanged)
+        Q_PROPERTY(int criticalCount READ criticalCount NOTIFY summaryChanged)
+        Q_PROPERTY(int warningCount READ warningCount NOTIFY summaryChanged)
+        Q_PROPERTY(SVS::SVSCraft::ControlType badgeType READ badgeType NOTIFY summaryChanged)
     public:
-        explicit NotificationViewModel(const QList<NotificationManager *> &notificationManagers, QObject *parent = nullptr);
+        explicit NotificationViewModel(Notifications::NotificationCenter *center, QObject *scope, QObject *parent = nullptr);
         ~NotificationViewModel() override;
 
-        Q_INVOKABLE QList<NotificationMessage *> messages() const;
-        Q_INVOKABLE QList<NotificationMessage *> bubbleMessages() const;
-
+        int count() const;
         QString topMessageTitle() const;
         int criticalCount() const;
         int warningCount() const;
+        SVS::SVSCraft::ControlType badgeType() const;
 
     Q_SIGNALS:
-        void messageAdded(int index, NotificationMessage *message);
-        void messageRemoved(int index, NotificationMessage *message);
-        void messageAddedToBubbles(int index, NotificationMessage *message);
-        void messageRemovedFromBubbles(int index, NotificationMessage *message);
-
-        void topMessageTitleChanged(const QString &title);
-        void criticalCountChanged(int count);
-        void warningCountChanged(int count);
+        void summaryChanged();
         void errorActivated();
 
     private:
-        quint64 messageSequence(NotificationMessage *message) const;
-        int insertMessage(QList<NotificationMessage *> &messages, NotificationMessage *message);
-        void updateTopMessageTitleConnection();
+        void updateSummary();
 
-        QList<NotificationManager *> m_notificationManagers;
-        QList<NotificationMessage *> m_messages;
-        QList<NotificationMessage *> m_bubbleMessages;
-        QMetaObject::Connection m_topMessageTitleConnection;
+        Notifications::NotificationModel *m_notifications{};
+        int m_count{};
+        QString m_topMessageTitle;
+        int m_criticalCount{};
+        int m_warningCount{};
+        SVS::SVSCraft::ControlType m_badgeType{SVS::SVSCraft::CT_Normal};
     };
 
 }

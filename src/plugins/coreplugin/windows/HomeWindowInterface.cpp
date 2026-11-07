@@ -9,10 +9,10 @@
 
 #include <QAKQuick/quickactioncontext.h>
 
+#include <notifications/NotificationModel.h>
+
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/internal/ActionHelper.h>
-#include <coreplugin/internal/NotificationCenter.h>
-#include <coreplugin/internal/NotificationViewModel.h>
 
 namespace Core {
 
@@ -22,11 +22,8 @@ namespace Core {
         Q_DECLARE_PUBLIC(HomeWindowInterface)
     public:
         HomeWindowInterface *q_ptr;
-        Internal::NotificationViewModel *notificationViewModel{};
         void init() {
-            Q_Q(HomeWindowInterface);
             initActionContext();
-            notificationViewModel = new Internal::NotificationViewModel({Internal::NotificationCenter::instance()->globalNotificationManager()}, q);
         }
         void initActionContext() {
             Q_Q(HomeWindowInterface);
@@ -66,14 +63,13 @@ namespace Core {
         return m_instance;
     }
     QWindow *HomeWindowInterface::createWindow(QObject *parent) const {
-        Q_D(const HomeWindowInterface);
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "HomeWindow");
         if (component.isError()) {
             qFatal() << component.errorString();
         }
         auto object = component.createWithInitialProperties({
             {"windowHandle", QVariant::fromValue(this)},
-            {"notificationViewModel", QVariant::fromValue(d->notificationViewModel)},
+            {"notifications", QVariant::fromValue(CoreInterface::globalNotifications())},
         });
         if (!object) {
             qFatal() << component.errorString();

@@ -55,8 +55,11 @@
 #include <dspxproject/ProjectDocumentContext.h>
 #include <dspxproject/ProjectTimeline.h>
 
+#include <notifications/NotificationCenter.h>
+#include <notifications/NotificationMessage.h>
+#include <notifications/NotificationModel.h>
+
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/NotificationMessage.h>
 #include <coreplugin/TrackColorSchema.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/CoreClipboardEditStrategy.h>
@@ -69,7 +72,6 @@
 #include <coreplugin/internal/CoreInsertItemStrategy.h>
 #include <coreplugin/internal/CoreParameterResamplingStrategy.h>
 #include <coreplugin/internal/CorePickTrackColorStrategy.h>
-#include <coreplugin/internal/NotificationManager.h>
 #include <singercatalog/DefaultLyricManager.h>
 
 namespace Core {
@@ -86,7 +88,7 @@ namespace Core {
         Q_Q(ProjectWindowInterface);
         auto document = projectDocumentContext->document();
         Q_ASSERT(!ProjectWindowInterface::of(document));
-        notificationManager = new Internal::NotificationManager(q);
+        notifications = RuntimeInterface::instance()->getFirstObject<Notifications::NotificationCenter>()->notificationsForScope(q);
         projectTimeline = new DspxProject::ProjectTimeline(document, q);
         document->setProperty(ProjectWindowInterface::staticMetaObject.className(), QVariant::fromValue(QPointer(q)));
         initEditScenarios();
@@ -212,16 +214,34 @@ namespace Core {
         return d->pickTrackColorScenario;
     }
 
-    void ProjectWindowInterface::sendNotification(NotificationMessage *message, NotificationBubbleMode mode) {
-        Q_D(ProjectWindowInterface);
-        d->notificationManager->addMessage(message, static_cast<Internal::NotificationManager::NotificationBubbleMode>(mode));
+    Notifications::NotificationModel *ProjectWindowInterface::notifications() const {
+        Q_D(const ProjectWindowInterface);
+        return d->notifications;
+    }
+
+    void ProjectWindowInterface::sendNotification(Notifications::NotificationMessage *message, NotificationBubbleMode mode) {
+        Notifications::NotificationCenter::NotificationBubbleMode bubbleMode;
+        switch (mode) {
+            case NormalBubble:
+                bubbleMode = Notifications::NotificationCenter::NormalBubble;
+                break;
+            case DoNotShowBubble:
+                bubbleMode = Notifications::NotificationCenter::DoNotShowBubble;
+                break;
+            case AutoHide:
+                bubbleMode = Notifications::NotificationCenter::AutoHide;
+                break;
+            default:
+                Q_UNREACHABLE();
+        }
+        RuntimeInterface::instance()->getFirstObject<Notifications::NotificationCenter>()->sendNotification(message, bubbleMode, this);
     }
     void ProjectWindowInterface::sendNotification(SVS::SVSCraft::MessageBoxIcon icon, const QString &title, const QString &text, NotificationBubbleMode mode) {
-        auto message = new NotificationMessage(this);
+        auto message = new Notifications::NotificationMessage(this);
         message->setIcon(icon);
         message->setTitle(title);
         message->setText(text);
-        connect(message, &NotificationMessage::closed, message, &QObject::deleteLater);
+        connect(message, &Notifications::NotificationMessage::closed, message, &QObject::deleteLater);
         sendNotification(message, mode);
     }
 
@@ -254,12 +274,11 @@ namespace Core {
     void ProjectWindowInterface::sendOperationConflictNotification() {
         Q_D(ProjectWindowInterface);
         if (!d->operationConflictMessage) {
-            d->operationConflictMessage = new NotificationMessage(this);
+            d->operationConflictMessage = new Notifications::NotificationMessage(this);
             d->operationConflictMessage->setIcon(SVS::SVSCraft::Warning);
             d->operationConflictMessage->setTitle(tr("Operation Conflict"));
             d->operationConflictMessage->setText(tr("Please wait until the current operation is complete before proceeding."));
         }
-        d->operationConflictMessage->close();
         sendNotification(d->operationConflictMessage, AutoHide);
     }
 

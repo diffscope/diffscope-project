@@ -23,8 +23,9 @@
 #include <TalcsDevice/AudioDriverManager.h>
 #include <TalcsDevice/OutputContext.h>
 
+#include <notifications/NotificationMessage.h>
+
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/NotificationMessage.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/EffectsUnitCollection.h>
@@ -80,13 +81,13 @@ namespace Audio::Internal {
     void AudioPlugin::extensionsInitialized() {
         initializeAudioOutput();
         m_midiInputContext->initialize();
-        auto message = new Core::NotificationMessage(this);
+        auto message = new Notifications::NotificationMessage(this);
         message->setIcon(SVS::SVSCraft::Information);
         message->setTitle(tr("Audio Device Changed"));
         message->setText(tr("A change in audio devices has been detected. You can check or adjust the current device in the audio settings."));
         message->setButtons({tr("Open Audio Output Settings")});
         message->setPrimaryButton(0);
-        connect(message, &Core::NotificationMessage::buttonClicked, message, [message = QPointer<Core::NotificationMessage>(message)](int index) {
+        connect(message, &Notifications::NotificationMessage::buttonClicked, message, [message = QPointer<Notifications::NotificationMessage>(message)](int index) {
             if (index == 0) {
                 Core::CoreInterface::execSettingsDialog(QStringLiteral("audio.AudioOutput"), QApplication::focusWindow());
                 if (message) {

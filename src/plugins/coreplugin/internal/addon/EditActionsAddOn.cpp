@@ -37,8 +37,10 @@
 
 #include <dspxproject/Document.h>
 #include <dspxproject/ProjectDocumentContext.h>
+
+#include <notifications/NotificationMessage.h>
+
 #include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/NotificationMessage.h>
 
 namespace Core::Internal {
 
@@ -92,7 +94,7 @@ namespace Core::Internal {
     }
 
     EditActionsAddOn::EditActionsAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
-        m_pitchOutOfRangeNotification = new NotificationMessage(this);
+        m_pitchOutOfRangeNotification = new Notifications::NotificationMessage(this);
         m_pitchOutOfRangeNotification->setTitle(tr("Cannot Shift Notes"));
         m_pitchOutOfRangeNotification->setText(tr("Pitch out of range"));
         m_pitchOutOfRangeNotification->setIcon(SVS::SVSCraft::Warning);
@@ -201,7 +203,6 @@ namespace Core::Internal {
             for (auto *note : notes) {
                 auto p = note->keyNumber() + semitone;
                 if (p < 0 || p > 127) {
-                    m_pitchOutOfRangeNotification->close();
                     windowInterface->sendNotification(m_pitchOutOfRangeNotification, ProjectWindowInterface::AutoHide);
                     return false;
                 }

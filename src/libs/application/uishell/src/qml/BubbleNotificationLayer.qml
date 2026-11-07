@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
 import QtQml
-import QtQml.Models
 import QtQuick
 
 import SVSCraft.UIComponents
@@ -18,18 +17,6 @@ Item {
     property real bottomMargin: 0
     property real leftMargin: 0
     property real rightMargin: 0
-
-    function removeNotification(handle) {
-        for (let index = 0; index < notificationItemModel.count; ++index) {
-            const notification = notificationItemModel.get(index)
-            if (notification.handle !== handle)
-                continue
-            notificationItemModel.remove(index)
-            proxyItemModel.remove(index)
-            notification.destroy()
-            return
-        }
-    }
 
     Flow {
         id: proxyItemFlow
@@ -56,8 +43,21 @@ Item {
             }
         }
         Repeater {
-            model: ObjectModel {
-                id: proxyItemModel
+            model: layer.model
+            delegate: Item {
+                id: proxyItem
+                required property QtObject notificationHandle
+                width: notification.width
+                height: notification.height
+
+                BubbleNotification {
+                    id: notification
+                    parent: notificationArea
+                    handle: proxyItem.notificationHandle
+                    popupLike: true
+                    x: notificationArea.width - width - proxyItem.x
+                    y: notificationArea.height - height - proxyItem.y
+                }
             }
         }
     }
@@ -69,37 +69,5 @@ Item {
         anchors.bottomMargin: layer.bottomMargin
         anchors.leftMargin: layer.leftMargin
         anchors.rightMargin: layer.rightMargin
-        Repeater {
-            model: ObjectModel {
-                id: notificationItemModel
-            }
-        }
-    }
-
-    Instantiator {
-        id: notificationInstantiator
-        model: layer.model
-        readonly property Component bubbleNotificationComponent: BubbleNotification {
-            id: bubbleNotification
-            popupLike: true
-            property Item proxyItem: Item {
-                readonly property BubbleNotification sourceItem: bubbleNotification
-                width: sourceItem.width
-                height: sourceItem.height
-            }
-            x: parent ? parent.width - width - proxyItem.x : 0
-            y: parent ? parent.height - height - proxyItem.y : 0
-        }
-        onObjectAdded: (index, object) => {
-            const notification = bubbleNotificationComponent.createObject(null, {handle: object})
-            notificationItemModel.insert(index, notification)
-            proxyItemModel.insert(index, notification.proxyItem)
-        }
-        onObjectRemoved: (index, object) => layer.removeNotification(object)
-    }
-
-    Component.onDestruction: () => {
-        // Clear delegates while the sibling ObjectModels are still alive.
-        notificationInstantiator.active = false
     }
 }

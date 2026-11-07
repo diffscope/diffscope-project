@@ -9,6 +9,7 @@ import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.Core
+import DiffScope.Notifications
 
 QtObject {
     id: helper

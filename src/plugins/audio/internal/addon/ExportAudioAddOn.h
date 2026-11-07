@@ -15,8 +15,11 @@
 #include <audio/AudioExporterConfig.h>
 
 namespace Core {
-    class NotificationMessage;
     class ProjectWindowInterface;
+}
+
+namespace Notifications {
+    class NotificationMessage;
 }
 
 namespace Audio {
@@ -115,7 +118,7 @@ namespace Audio::Internal {
     private:
         AudioExporterParameter m_currentParameter;
         AudioExporterConfig m_simpleConfig;
-        Core::NotificationMessage *m_exportCompletedMessage{};
+        Notifications::NotificationMessage *m_exportCompletedMessage{};
         SimplePreviewSoundPlayer *m_completedSound{};
         QStringList m_exportedFiles;
     };

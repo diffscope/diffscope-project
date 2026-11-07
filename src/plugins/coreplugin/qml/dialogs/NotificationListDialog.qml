@@ -8,12 +8,19 @@ import QtQuick.Layouts
 
 import ChorusKit.AppCore
 
+import SVSCraft.UIComponents
+
 import DiffScope.Core
+import DiffScope.Notifications
+import DiffScope.UIShell
 
 Window {
     id: dialog
 
-    required property QtObject notificationModel
+    required property NotificationModel notificationModel
+    readonly property NotificationPresentationModel presentationModel: NotificationPresentationModel {
+        notifications: dialog.notificationModel
+    }
 
     width: 520
     height: 600
@@ -40,7 +47,7 @@ Window {
             id: notificationListView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            notificationModel: dialog.notificationModel
+            model: dialog.presentationModel
         }
 
         Button {
@@ -48,11 +55,7 @@ Window {
             Layout.margins: 12
             enabled: notificationListView.count !== 0
             text: qsTr("Clear All")
-            onClicked: () => {
-                for (const message of dialog.notificationModel.messages()) {
-                    message.close()
-                }
-            }
+            onClicked: dialog.notificationModel.closeAll()
         }
     }
 }

@@ -6438,23 +6438,11 @@ Do you want to save as a new file or overwrite it?</translation>
     </message>
 </context>
 <context>
-    <name>NotificationListView</name>
-    <message>
-        <location filename="../../qml/panels/NotificationListView.qml" line="67"/>
-        <source>No notification</source>
-        <translation type="unfinished">No notification</translation>
-    </message>
-</context>
-<context>
     <name>NotificationsPanel</name>
     <message>
         <location filename="../../qml/panels/NotificationsPanel.qml" line="53"/>
         <source>Clear All</source>
         <translation type="unfinished">Clear All</translation>
-    </message>
-    <message>
-        <source>No notification</source>
-        <translation type="obsolete">No notification</translation>
     </message>
 </context>
 <context>

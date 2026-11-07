@@ -15,11 +15,12 @@ import ChorusKit.AppCore
 
 import DiffScope.UIShell
 import DiffScope.Core
+import DiffScope.Notifications
 
 HomeWindow {
     id: homeWindow
     required property HomeWindowInterface windowHandle
-    required property QtObject notificationViewModel
+    required property NotificationModel notifications
     frameless: BehaviorPreference.uiBehavior & BehaviorPreference.UB_Frameless
     readonly property color lightBannerColor: "#dadada"
     readonly property color darkBannerColor: "#252525"
@@ -35,11 +36,9 @@ HomeWindow {
     WindowSystem.windowSystem: CoreInterface.windowSystem
     WindowSystem.id: "org.diffscope.core.homewindow"
 
-    NotificationBubbleModel {
-        id: notificationBubbleModel
-        notificationModel: homeWindow.notificationViewModel
+    bubbleNotificationsModel: NotificationPresentationModel {
+        notifications: homeWindow.notifications.bubbleModel
     }
-    bubbleNotificationsModel: notificationBubbleModel.model
     notificationEnablesAnimation: true
 
     onNewFileRequested: () => {

@@ -9,7 +9,8 @@
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
-#include <coreplugin/NotificationMessage.h>
+#include <notifications/NotificationMessage.h>
+
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/internal/WorkspaceSession.h>
 
@@ -24,7 +25,7 @@ namespace Core::Internal {
 
     void ProjectStartupTimerAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        m_initializingMessage = new NotificationMessage(windowInterface->window());
+        m_initializingMessage = new Notifications::NotificationMessage(windowInterface->window());
         m_initializingMessage->setIcon(SVS::SVSCraft::Information);
         m_initializingMessage->setTitle(tr("Initializing project window..."));
         m_initializingMessage->setClosable(false);
@@ -36,7 +37,7 @@ namespace Core::Internal {
         auto session = windowInterface->getFirstObject<WorkspaceSession>();
         Q_ASSERT(session);
         connect(session, &WorkspaceSession::restored, this, [this, windowInterface] {
-            m_finishedMessage = new NotificationMessage(windowInterface->window());
+            m_finishedMessage = new Notifications::NotificationMessage(windowInterface->window());
             m_finishedMessage->setIcon(SVS::SVSCraft::Success);
             auto elapsedTime = stopTimerAndGetElapsedTime();
             if (elapsedTime != -1) {

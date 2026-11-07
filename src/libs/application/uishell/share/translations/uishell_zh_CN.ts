@@ -230,6 +230,14 @@ If %1 crashes, automatic recovery files will be displayed here.</source>
     </message>
 </context>
 <context>
+    <name>NotificationListView</name>
+    <message>
+        <location filename="../../src/qml/NotificationListView.qml" line="32"/>
+        <source>No notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PackageManagerView</name>
     <message>
         <location filename="../../src/qml/PackageManagerView.qml" line="153"/>

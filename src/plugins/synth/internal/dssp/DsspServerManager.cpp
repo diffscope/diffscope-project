@@ -22,9 +22,11 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <appinstall/InstallationManager.h>
+
+#include <notifications/NotificationMessage.h>
+
 #include <coreplugin/ChildProcess.h>
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/NotificationMessage.h>
 
 #include <synth/internal/DsspDeviceCatalog.h>
 #include <synth/internal/PackageManagerSettings.h>
@@ -550,7 +552,7 @@ namespace Synth::Internal {
     void DsspServerManager::notifyFailure() {
         if (!m_notificationsReady || m_shutdown || m_failureMessage.isEmpty())
             return;
-        auto message = new Core::NotificationMessage(this);
+        auto message = new Notifications::NotificationMessage(this);
         message->setIcon(SVS::SVSCraft::Critical);
         message->setTitle(tr("DiffSinger Synthesis Program Stopped"));
         message->setText(std::exchange(m_failureMessage, {}));
@@ -558,13 +560,13 @@ namespace Synth::Internal {
         message->setButtons({tr("Restart")});
         message->setPrimaryButton(0);
         message->setClosable(true);
-        connect(message, &Core::NotificationMessage::buttonClicked, this, [this, message](int index) {
+        connect(message, &Notifications::NotificationMessage::buttonClicked, this, [this, message](int index) {
             if (index == 0) {
                 message->close();
                 restart();
             }
         });
-        connect(message, &Core::NotificationMessage::closed, message, &QObject::deleteLater);
+        connect(message, &Notifications::NotificationMessage::closed, message, &QObject::deleteLater);
         Core::CoreInterface::sendNotification(message);
     }
 
@@ -584,13 +586,13 @@ namespace Synth::Internal {
             title = tr("DiffSinger Synthesis Program Fatal");
         else
             return;
-        auto message = new Core::NotificationMessage(this);
+        auto message = new Notifications::NotificationMessage(this);
         message->setIcon(level == QStringLiteral("WARNING") ? SVS::SVSCraft::Warning : SVS::SVSCraft::Critical);
         message->setTitle(title);
         message->setText(tr("Module: %1\n%2").arg(module, text));
         message->setTextFormat(Qt::PlainText);
         message->setClosable(true);
-        connect(message, &Core::NotificationMessage::closed, message, &QObject::deleteLater);
+        connect(message, &Notifications::NotificationMessage::closed, message, &QObject::deleteLater);
         Core::CoreInterface::sendNotification(message);
     }
 

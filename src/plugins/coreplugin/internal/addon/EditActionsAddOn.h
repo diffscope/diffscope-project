@@ -8,7 +8,7 @@
 
 #include <CoreApi/windowinterface.h>
 
-namespace Core {
+namespace Notifications {
     class NotificationMessage;
 }
 
@@ -40,7 +40,7 @@ namespace Core::Internal {
         Q_INVOKABLE void shiftNotes(int semitone);
 
     private:
-        NotificationMessage *m_pitchOutOfRangeNotification;
+        Notifications::NotificationMessage *m_pitchOutOfRangeNotification;
     };
 
 }

@@ -14,24 +14,19 @@
 #include <SVSCraftQuick/DockingContext.h>
 #include <SVSCraftQuick/StatusTextContext.h>
 
-#include <coreplugin/CoreInterface.h>
+#include <notifications/NotificationCenter.h>
+
 #include <coreplugin/ProjectWindowInterface.h>
-#include <coreplugin/internal/NotificationCenter.h>
-#include <coreplugin/internal/NotificationManager.h>
 #include <coreplugin/internal/NotificationViewModel.h>
 #include <coreplugin/internal/WorkspaceSession.h>
 
 namespace Core::Internal {
-    NotificationAddOn::NotificationAddOn(QObject *parent) {
+    NotificationAddOn::NotificationAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
     NotificationAddOn::~NotificationAddOn() = default;
     void NotificationAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        auto localNotificationManager = NotificationManager::of(windowInterface);
-        m_notificationViewModel = new NotificationViewModel({
-            NotificationCenter::instance()->globalNotificationManager(),
-            localNotificationManager,
-        }, this);
+        m_notificationViewModel = new NotificationViewModel(RuntimeInterface::instance()->getFirstObject<Notifications::NotificationCenter>(), windowInterface, this);
         {
             QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "NotificationAddOnHelper");
             if (component.isError()) {
@@ -77,16 +72,15 @@ namespace Core::Internal {
                 return;
             }
             auto statusContext = SVS::StatusTextContext::statusContext(qobject_cast<QQuickWindow *>(windowInterface->window()));
-            if (m_notificationViewModel->messages().isEmpty()) {
+            if (m_notificationViewModel->count() == 0) {
                 statusContext->pop(this);
-            } else if (m_notificationViewModel->messages().size() == 1) {
+            } else if (m_notificationViewModel->count() == 1) {
                 statusContext->update(this, m_notificationViewModel->topMessageTitle());
             } else {
-                statusContext->update(this, tr("%1 (+%Ln notification(s))", nullptr, m_notificationViewModel->messages().size() - 1).arg(m_notificationViewModel->topMessageTitle()));
+                statusContext->update(this, tr("%1 (+%Ln notification(s))", nullptr, m_notificationViewModel->count() - 1).arg(m_notificationViewModel->topMessageTitle()));
             }
         };
-        connect(m_notificationViewModel, &NotificationViewModel::messageAdded, this, updateStatusText);
-        connect(m_notificationViewModel, &NotificationViewModel::messageRemoved, this, updateStatusText);
+        connect(m_notificationViewModel, &NotificationViewModel::summaryChanged, this, updateStatusText);
         updateStatusText();
     }
     void NotificationAddOn::extensionsInitialized() {
@@ -105,7 +99,7 @@ namespace Core::Internal {
         }, Qt::SingleShotConnection);
     }
 
-    NotificationViewModel *NotificationAddOn::notificationManager() const {
+    NotificationViewModel *NotificationAddOn::notificationViewModel() const {
         return m_notificationViewModel;
     }
 }

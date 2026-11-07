@@ -176,7 +176,7 @@ ProjectWindow {
         property int textFormat: Text.AutoText
 
         function hideClicked() {
-            bnm.remove(ObjectModel.index)
+            bnm.removeHandle(this)
         }
 
         function hoverEntered() {
@@ -184,55 +184,69 @@ ProjectWindow {
         }
     }
 
-    bubbleNotificationsModel: ObjectModel {
+    bubbleNotificationsModel: ListModel {
         id: bnm
 
-        QtObject {
-            property string title: "Test"
-            property string text: 'This is a test <a href="aaa">link</a>'
-            property int icon: SVS.Information
-            property list<string> buttons: ["AAA", "BBB"]
-            property int primaryButton: 1
-            property bool closable: true
-            property bool hasProgress: true
-            property double progress: -1
-            property bool progressAbortable: true
-            property bool permanentlyHideable: true
+        readonly property list<QtObject> handles: [
+            QtObject {
+                property string title: "Test"
+                property string text: 'This is a test <a href="aaa">link</a>'
+                property int icon: SVS.Information
+                property list<string> buttons: ["AAA", "BBB"]
+                property int primaryButton: 1
+                property bool closable: true
+                property bool hasProgress: true
+                property double progress: -1
+                property bool progressAbortable: true
+                property bool permanentlyHideable: true
 
-            function buttonClicked(index) {
-                bnm.append(window.bubbleNotificationHandle.createObject())
-            }
+                function buttonClicked(index) {
+                    bnm.append({notificationHandle: window.bubbleNotificationHandle.createObject(window)})
+                }
 
-            function linkActivated(link) {
-                console.log(link)
+                function linkActivated(link) {
+                    console.log(link)
+                }
+                signal hoverEntered()
+            },
+            QtObject {
+                property string title: "Error"
+                property string text: ""
+                property int icon: SVS.Critical
+                property list<string> buttons: []
+                property int primaryButton: 0
+                property bool closable: true
+                property bool hasProgress: false
+                property double progress: 0
+                property bool progressAbortable: false
+                property bool permanentlyHideable: true
+            },
+            QtObject {
+                property string title: "Warning"
+                property string text: "aaa"
+                property int icon: SVS.Warning
+                property list<string> buttons: ["Yes", "No"]
+                property int primaryButton: 0
+                property bool closable: false
+                property bool hasProgress: false
+                property double progress: 0
+                property bool progressAbortable: false
+                property bool permanentlyHideable: false
             }
-            signal hoverEntered()
+        ]
+
+        Component.onCompleted: {
+            for (const handle of handles)
+                append({notificationHandle: handle})
         }
 
-        QtObject {
-            property string title: "Error"
-            property string text: ""
-            property int icon: SVS.Critical
-            property list<string> buttons: []
-            property int primaryButton: 0
-            property bool closable: true
-            property bool hasProgress: false
-            property double progress: 0
-            property bool progressAbortable: false
-            property bool permanentlyHideable: true
-        }
-
-        QtObject {
-            property string title: "Warning"
-            property string text: "aaa"
-            property int icon: SVS.Warning
-            property list<string> buttons: ["Yes", "No"]
-            property int primaryButton: 0
-            property bool closable: false
-            property bool hasProgress: false
-            property double progress: 0
-            property bool progressAbortable: false
-            property bool permanentlyHideable: false
+        function removeHandle(handle) {
+            for (let index = 0; index < count; ++index) {
+                if (get(index).notificationHandle === handle) {
+                    remove(index)
+                    return
+                }
+            }
         }
     }
 }

@@ -1,22 +1,24 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: LGPL-3.0-or-later
 
-#ifndef DIFFSCOPE_COREPLUGIN_NOTIFICATIONMESSAGE_H
-#define DIFFSCOPE_COREPLUGIN_NOTIFICATIONMESSAGE_H
-
-#include <qqmlintegration.h>
+#ifndef DIFFSCOPE_NOTIFICATIONS_NOTIFICATIONMESSAGE_H
+#define DIFFSCOPE_NOTIFICATIONS_NOTIFICATIONMESSAGE_H
 
 #include <QObject>
+#include <QScopedPointer>
+#include <QString>
+#include <QStringList>
+#include <qqmlintegration.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 
-#include <coreplugin/coreglobal.h>
+#include <notifications/notificationsglobal.h>
 
-namespace Core {
+namespace Notifications {
 
     class NotificationMessagePrivate;
 
-    class CORE_EXPORT NotificationMessage : public QObject {
+    class NOTIFICATIONS_EXPORT NotificationMessage : public QObject {
         Q_OBJECT
         QML_ELEMENT
         Q_DECLARE_PRIVATE(NotificationMessage)
@@ -32,7 +34,6 @@ namespace Core {
         Q_PROPERTY(bool allowDoNotShowAgain READ allowDoNotShowAgain WRITE setAllowDoNotShowAgain NOTIFY allowDoNotShowAgainChanged)
         Q_PROPERTY(QString doNotShowAgainIdentifier READ doNotShowAgainIdentifier WRITE setDoNotShowAgainIdentifier NOTIFY doNotShowAgainIdentifierChanged)
         Q_PROPERTY(int textFormat READ textFormat WRITE setTextFormat NOTIFY textFormatChanged)
-        Q_PRIVATE_PROPERTY(NotificationMessage::d_func(), QObject *handle MEMBER handle CONSTANT)
 
     public:
         explicit NotificationMessage(QObject *parent = nullptr);
@@ -66,13 +67,13 @@ namespace Core {
         void setProgressAbortable(bool progressAbortable);
 
         bool allowDoNotShowAgain() const;
-        void setAllowDoNotShowAgain(bool allow);
+        void setAllowDoNotShowAgain(bool allowDoNotShowAgain);
 
         QString doNotShowAgainIdentifier() const;
-        void setDoNotShowAgainIdentifier(const QString &identifier);
+        void setDoNotShowAgainIdentifier(const QString &doNotShowAgainIdentifier);
 
         int textFormat() const;
-        void setTextFormat(int format);
+        void setTextFormat(int textFormat);
 
         Q_INVOKABLE void hide();
         Q_INVOKABLE void close();
@@ -87,9 +88,9 @@ namespace Core {
         void hasProgressChanged(bool hasProgress);
         void progressChanged(double progress);
         void progressAbortableChanged(bool progressAbortable);
-        void allowDoNotShowAgainChanged(bool allow);
-        void doNotShowAgainIdentifierChanged(const QString &identifier);
-        void textFormatChanged(int format);
+        void allowDoNotShowAgainChanged(bool allowDoNotShowAgain);
+        void doNotShowAgainIdentifierChanged(const QString &doNotShowAgainIdentifier);
+        void textFormatChanged(int textFormat);
 
         void hidden();
         void closed();
@@ -104,4 +105,4 @@ namespace Core {
 
 }
 
-#endif //DIFFSCOPE_COREPLUGIN_NOTIFICATIONMESSAGE_H
+#endif // DIFFSCOPE_NOTIFICATIONS_NOTIFICATIONMESSAGE_H

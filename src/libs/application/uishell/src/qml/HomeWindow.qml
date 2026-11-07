@@ -27,7 +27,7 @@ Window {
     property var navigationActionsModel: null
     property var toolActionsModel: null
     property var menusModel: null
-    property ObjectModel bubbleNotificationsModel: null
+    property var bubbleNotificationsModel: null
     property bool notificationEnablesAnimation: false
     property int currentNavIndex: 0
 

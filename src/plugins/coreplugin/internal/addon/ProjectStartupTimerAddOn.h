@@ -6,7 +6,7 @@
 
 #include <CoreApi/windowinterface.h>
 
-namespace Core {
+namespace Notifications {
     class NotificationMessage;
 }
 
@@ -26,8 +26,8 @@ namespace Core::Internal {
         static qint64 stopTimerAndGetElapsedTime();
 
     private:
-        NotificationMessage *m_initializingMessage{};
-        NotificationMessage *m_finishedMessage{};
+        Notifications::NotificationMessage *m_initializingMessage{};
+        Notifications::NotificationMessage *m_finishedMessage{};
     };
 
 }

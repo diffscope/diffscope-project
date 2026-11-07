@@ -3,137 +3,91 @@
 
 #include "NotificationViewModel.h"
 
-#include <algorithm>
+#include <QAbstractItemModel>
 
-#include <coreplugin/NotificationMessage.h>
-#include <coreplugin/internal/NotificationManager.h>
+#include <notifications/NotificationCenter.h>
+#include <notifications/NotificationMessage.h>
+#include <notifications/NotificationModel.h>
 
 namespace Core::Internal {
 
-    NotificationViewModel::NotificationViewModel(const QList<NotificationManager *> &notificationManagers, QObject *parent)
-        : QObject(parent), m_notificationManagers(notificationManagers) {
-        for (auto *notificationManager : m_notificationManagers) {
-            for (auto *message : notificationManager->messages()) {
-                insertMessage(m_messages, message);
+    NotificationViewModel::NotificationViewModel(Notifications::NotificationCenter *center, QObject *scope, QObject *parent)
+        : QObject(parent), m_notifications(center->notificationsForScope(scope)) {
+        connect(m_notifications, &QAbstractItemModel::rowsInserted, this, &NotificationViewModel::updateSummary);
+        connect(m_notifications, &QAbstractItemModel::rowsRemoved, this, &NotificationViewModel::updateSummary);
+        connect(m_notifications, &QAbstractItemModel::rowsMoved, this, &NotificationViewModel::updateSummary);
+        connect(m_notifications, &QAbstractItemModel::dataChanged, this, &NotificationViewModel::updateSummary);
+        connect(m_notifications, &QAbstractItemModel::modelReset, this, &NotificationViewModel::updateSummary);
+        connect(m_notifications, &QAbstractItemModel::layoutChanged, this, &NotificationViewModel::updateSummary);
+        connect(center, &Notifications::NotificationCenter::errorActivated, this, [this, scope](QObject *messageScope) {
+            if (!messageScope || messageScope == scope) {
+                Q_EMIT errorActivated();
             }
-            for (auto *message : notificationManager->bubbleMessages()) {
-                insertMessage(m_bubbleMessages, message);
-            }
-
-            connect(notificationManager, &NotificationManager::messageAdded, this, [this](int, NotificationMessage *message) {
-                const auto index = insertMessage(m_messages, message);
-                emit messageAdded(index, message);
-                updateTopMessageTitleConnection();
-                emit topMessageTitleChanged(topMessageTitle());
-            });
-            connect(notificationManager, &NotificationManager::messageRemoved, this, [this](int, NotificationMessage *message) {
-                const auto index = m_messages.indexOf(message);
-                if (index < 0) {
-                    return;
-                }
-                m_messages.removeAt(index);
-                emit messageRemoved(index, message);
-                updateTopMessageTitleConnection();
-                emit topMessageTitleChanged(topMessageTitle());
-            });
-            connect(notificationManager, &NotificationManager::messageAddedToBubbles, this, [this](int, NotificationMessage *message) {
-                const auto index = insertMessage(m_bubbleMessages, message);
-                emit messageAddedToBubbles(index, message);
-            });
-            connect(notificationManager, &NotificationManager::messageRemovedFromBubbles, this, [this](int, NotificationMessage *message) {
-                const auto index = m_bubbleMessages.indexOf(message);
-                if (index < 0) {
-                    return;
-                }
-                m_bubbleMessages.removeAt(index);
-                emit messageRemovedFromBubbles(index, message);
-            });
-            connect(notificationManager, &NotificationManager::criticalCountChanged, this, [this] {
-                emit criticalCountChanged(criticalCount());
-            });
-            connect(notificationManager, &NotificationManager::warningCountChanged, this, [this] {
-                emit warningCountChanged(warningCount());
-            });
-            connect(notificationManager, &NotificationManager::errorActivated, this, &NotificationViewModel::errorActivated);
-        }
-        updateTopMessageTitleConnection();
+        });
+        updateSummary();
     }
 
     NotificationViewModel::~NotificationViewModel() = default;
 
-    QList<NotificationMessage *> NotificationViewModel::messages() const {
-        return m_messages;
-    }
-
-    QList<NotificationMessage *> NotificationViewModel::bubbleMessages() const {
-        return m_bubbleMessages;
+    int NotificationViewModel::count() const {
+        return m_count;
     }
 
     QString NotificationViewModel::topMessageTitle() const {
-        return m_messages.isEmpty() ? QString() : m_messages.last()->title();
+        return m_topMessageTitle;
     }
 
     int NotificationViewModel::criticalCount() const {
-        int count = 0;
-        for (const auto *notificationManager : m_notificationManagers) {
-            count += notificationManager->criticalCount();
-        }
-        return count;
+        return m_criticalCount;
     }
 
     int NotificationViewModel::warningCount() const {
-        int count = 0;
-        for (const auto *notificationManager : m_notificationManagers) {
-            count += notificationManager->warningCount();
-        }
-        return count;
+        return m_warningCount;
     }
 
-    quint64 NotificationViewModel::messageSequence(NotificationMessage *message) const {
-        for (const auto *notificationManager : m_notificationManagers) {
-            const auto sequence = notificationManager->messageSequence(message);
-            if (sequence != 0) {
-                return sequence;
-            }
-        }
-        return 0;
+    SVS::SVSCraft::ControlType NotificationViewModel::badgeType() const {
+        return m_badgeType;
     }
 
-    int NotificationViewModel::insertMessage(QList<NotificationMessage *> &messages, NotificationMessage *message) {
-        const auto sequence = messageSequence(message);
-        const auto it = std::lower_bound(messages.cbegin(), messages.cend(), sequence, [this](NotificationMessage *existingMessage, quint64 targetSequence) {
-            return messageSequence(existingMessage) < targetSequence;
-        });
-        const auto index = static_cast<int>(std::distance(messages.cbegin(), it));
-        messages.insert(index, message);
-        // A message can outlive the NotificationManager that added it (e.g. on application exit a
-        // window-local manager may be destroyed before its messages). In that case no messageRemoved
-        // signal will reach this view model, so purge the stale pointer here to keep m_messages and
-        // m_bubbleMessages free of dangling pointers. The message is already being destroyed when
-        // this handler runs and must not be dereferenced.
-        connect(message, &QObject::destroyed, this, [this, message] {
-            const bool wasTop = !m_messages.isEmpty() && m_messages.last() == message;
-            if (m_messages.removeAll(message) == 0 && m_bubbleMessages.removeAll(message) == 0) {
-                return;
+    void NotificationViewModel::updateSummary() {
+        const auto count = m_notifications->rowCount();
+        QString topMessageTitle;
+        int criticalCount = 0;
+        int warningCount = 0;
+        bool hasAccent = false;
+        for (int row = 0; row < count; ++row) {
+            auto *message = m_notifications->messageAt(row);
+            if (!message) {
+                continue;
             }
-            if (wasTop) {
-                updateTopMessageTitleConnection();
-                Q_EMIT topMessageTitleChanged(topMessageTitle());
+            if (row == 0) {
+                topMessageTitle = message->title();
             }
-        });
-        return index;
-    }
-
-    void NotificationViewModel::updateTopMessageTitleConnection() {
-        if (m_topMessageTitleConnection) {
-            disconnect(m_topMessageTitleConnection);
-            m_topMessageTitleConnection = {};
+            switch (message->icon()) {
+                case SVS::SVSCraft::Critical:
+                    ++criticalCount;
+                    break;
+                case SVS::SVSCraft::Warning:
+                    ++warningCount;
+                    break;
+                case SVS::SVSCraft::Success:
+                case SVS::SVSCraft::Tip:
+                    hasAccent = true;
+                    break;
+                default:
+                    break;
+            }
         }
-        if (!m_messages.isEmpty()) {
-            m_topMessageTitleConnection = connect(m_messages.last(), &NotificationMessage::titleChanged, this, [this] {
-                emit topMessageTitleChanged(topMessageTitle());
-            });
+        const auto badgeType = criticalCount ? SVS::SVSCraft::CT_Error : warningCount ? SVS::SVSCraft::CT_Warning : hasAccent ? SVS::SVSCraft::CT_Accent : SVS::SVSCraft::CT_Normal;
+        if (m_count == count && m_topMessageTitle == topMessageTitle && m_criticalCount == criticalCount && m_warningCount == warningCount && m_badgeType == badgeType) {
+            return;
         }
+        m_count = count;
+        m_topMessageTitle = topMessageTitle;
+        m_criticalCount = criticalCount;
+        m_warningCount = warningCount;
+        m_badgeType = badgeType;
+        Q_EMIT summaryChanged();
     }
 
 }

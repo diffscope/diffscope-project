@@ -5,7 +5,8 @@
 
 #include <CoreApi/filelocker.h>
 
-#include <coreplugin/NotificationMessage.h>
+#include <notifications/NotificationMessage.h>
+
 #include <coreplugin/ProjectWindowInterface.h>
 #include <dspxproject/ProjectDocumentContext.h>
 
@@ -18,16 +19,19 @@ namespace Core::Internal {
 
     void AfterSavingNotifyAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
-        m_message = new NotificationMessage(windowInterface->window());
+        m_message = new Notifications::NotificationMessage(windowInterface->window());
         m_message->setIcon(SVS::SVSCraft::Information);
         m_message->setAllowDoNotShowAgain(false);
         connect(windowInterface->projectDocumentContext(), &DspxProject::ProjectDocumentContext::saved, this, [=, this] {
-            m_message->close();
-            if (!windowInterface->projectDocumentContext()->fileLocker())
+            if (!windowInterface->projectDocumentContext()->fileLocker()) {
+                m_message->close();
                 return;
+            }
             auto path = windowInterface->projectDocumentContext()->fileLocker()->path();
-            if (path.isEmpty())
+            if (path.isEmpty()) {
+                m_message->close();
                 return;
+            }
             m_message->setTitle(tr("The file has been saved to %1").arg(path));
             m_message->setAllowDoNotShowAgain(true);
             m_message->setDoNotShowAgainIdentifier("org.diffscope.core.aftersavingnotifyaddon.message");

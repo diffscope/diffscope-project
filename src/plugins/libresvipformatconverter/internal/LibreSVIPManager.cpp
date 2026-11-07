@@ -50,9 +50,11 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <appinstall/InstallationManager.h>
+
+#include <notifications/NotificationMessage.h>
+
 #include <coreplugin/ChildProcess.h>
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/NotificationMessage.h>
 
 #include "libresvip.qpb.h"
 #include "libresvip_client.grpc.qpb.h"
@@ -1009,7 +1011,7 @@ namespace LibreSVIPFormatConverter::Internal {
     void LibreSVIPManager::showUpdateNotification(const QString &latestVersion, const QString &installedVersion) {
         Q_UNUSED(installedVersion);
         dismissUpdateNotification();
-        auto *message = new Core::NotificationMessage(this);
+        auto *message = new Notifications::NotificationMessage(this);
         m_updateNotification = message;
         message->setIcon(SVS::SVSCraft::Information);
         message->setTitle(tr("LibreSVIP update available"));
@@ -1018,7 +1020,7 @@ namespace LibreSVIPFormatConverter::Internal {
         message->setPrimaryButton(0);
         message->setClosable(true);
         message->setAllowDoNotShowAgain(true);
-        connect(message, &Core::NotificationMessage::buttonClicked, this, [this, message](int index) {
+        connect(message, &Notifications::NotificationMessage::buttonClicked, this, [this, message](int index) {
             if (index != 0)
                 return;
             if (m_updateNotification == message)
@@ -1027,12 +1029,12 @@ namespace LibreSVIPFormatConverter::Internal {
                 message->close();
             QTimer::singleShot(0, this, [this] { downloadAndConfigure(defaultParentWindow()); });
         });
-        connect(message, &Core::NotificationMessage::doNotShowAgainRequested, this, [this, message] {
+        connect(message, &Notifications::NotificationMessage::doNotShowAgainRequested, this, [this, message] {
             setAutoCheckForUpdates(false);
             if (m_updateNotification == message)
                 dismissUpdateNotification();
         });
-        connect(message, &Core::NotificationMessage::closed, this, [this, message] {
+        connect(message, &Notifications::NotificationMessage::closed, this, [this, message] {
             if (m_updateNotification == message)
                 m_updateNotification = nullptr;
             message->deleteLater();

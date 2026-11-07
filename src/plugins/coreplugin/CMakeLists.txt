@@ -42,6 +42,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         ExtensionSystem::ExtensionSystem
         ChorusKit::AppCore
         loadapi
+        notifications
         singercatalog
         uishell
         QAKCore

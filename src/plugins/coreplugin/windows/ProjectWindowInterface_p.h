@@ -6,17 +6,13 @@
 
 #include <coreplugin/ProjectWindowInterface.h>
 
-namespace Core::Internal {
-    class NotificationManager;
-}
-
 namespace Core {
 
     class ProjectWindowInterfacePrivate {
         Q_DECLARE_PUBLIC(ProjectWindowInterface)
     public:
         ProjectWindowInterface *q_ptr;
-        Internal::NotificationManager *notificationManager;
+        Notifications::NotificationModel *notifications{};
         DspxProject::ProjectTimeline *projectTimeline;
         DspxProject::ProjectDocumentContext *projectDocumentContext;
         DspxProject::ClipboardEditScenario *clipboardEditScenario = nullptr;
@@ -28,7 +24,7 @@ namespace Core {
         DspxProject::FillLyricsScenario *fillLyricsScenario = nullptr;
         DspxProject::InsertItemScenario *insertItemScenario = nullptr;
         DspxProject::PickTrackColorScenario *pickTrackColorScenario = nullptr;
-        NotificationMessage *operationConflictMessage{};
+        Notifications::NotificationMessage *operationConflictMessage{};
 
         void init();
         void initEditScenarios();
