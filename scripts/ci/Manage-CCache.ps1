@@ -40,8 +40,8 @@ if ($Operation -eq 'prepare') {
     $sourceUri = [System.Uri]::new($sourcePath, [System.UriKind]::Absolute).AbsoluteUri
     "CCACHE_REMOTE_STORAGE=$sourceUri @layout=local" >> $env:GITHUB_ENV
     'CCACHE_COMPILERCHECK=content' >> $env:GITHUB_ENV
-    'CCACHE_HARDLINK=false' >> $env:GITHUB_ENV
-    'CCACHE_FILECLONE=false' >> $env:GITHUB_ENV
+    'CCACHE_NOHARDLINK=true' >> $env:GITHUB_ENV
+    'CCACHE_NOFILECLONE=true' >> $env:GITHUB_ENV
     exit 0
 }
 
