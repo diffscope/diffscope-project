@@ -448,7 +448,7 @@ QtObject {
                 icon.source: "image://fluent-system-icons/warning"
                 icon.color: Theme.warningColor
                 color: Theme.warningColor
-                Accessible.name: text
+                Accessible.name: qsTr("Unsupported parameter")
             }
 
             Item {
