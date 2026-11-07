@@ -334,7 +334,7 @@ namespace Core::Internal {
 
         auto windowSystem = CoreInterface::windowSystem();
         connect(windowSystem, &WindowSystem::windowAboutToDestroy, this, [](WindowInterface *windowInterface) {
-            if (!qobject_cast<ProjectWindowInterface *>(windowInterface)) {
+            if (RuntimeInterface::exitInProgress() || !qobject_cast<ProjectWindowInterface *>(windowInterface)) {
                 return;
             }
 
