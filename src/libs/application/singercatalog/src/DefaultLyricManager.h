@@ -20,6 +20,7 @@ namespace SingerCatalog {
     class DefaultLyricManagerPrivate;
     class SingerRegistry;
 
+    /** @brief Resolves default lyrics from singer metadata with a configurable fallback. */
     class SINGERCATALOG_EXPORT DefaultLyricManager : public QObject {
         Q_OBJECT
         QML_ELEMENT
@@ -28,16 +29,30 @@ namespace SingerCatalog {
         Q_PROPERTY(QString fallback READ fallback WRITE setFallback NOTIFY fallbackChanged)
 
     public:
-        // The registry must be non-null and remain valid during lyric queries.
+        /**
+         * @brief Constructs a lyric manager using a borrowed registry and an optional QObject @p parent.
+         * @pre singerRegistry is non-null and remains valid during lyric queries.
+         */
         explicit DefaultLyricManager(const SingerRegistry *singerRegistry, QObject *parent = nullptr);
+        /** @brief Destroys the lyric manager. */
         ~DefaultLyricManager() override;
 
+        /** @brief Returns the fallback lyric, which is initially empty. */
         QString fallback() const;
+        /** @brief Sets the lyric returned if singer metadata provides no default lyric. */
         void setFallback(const QString &fallback);
 
+        /**
+         * @brief Returns the default lyric of the first single singer with a nonempty ID in depth-first list order.
+         *
+         * Uses the singer's default language, or the first language in key order if the default language ID is empty.
+         * Returns fallback() if sources, a matching singer, the selected language, or its default lyric is absent.
+         * @pre targetSingingClip is non-null.
+         */
         Q_INVOKABLE QString getDefaultLyricForSingingClip(dspx::SingingClip *targetSingingClip) const;
 
     Q_SIGNALS:
+        /** @brief Signals a change to the fallback lyric. */
         void fallbackChanged();
 
     private:

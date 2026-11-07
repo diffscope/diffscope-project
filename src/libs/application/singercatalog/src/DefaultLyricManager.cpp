@@ -19,22 +19,15 @@ namespace SingerCatalog {
     namespace {
 
         dspx::SingleSinger *firstLeafSinger(dspx::SingerList *singers) {
-            if (!singers)
-                return nullptr;
-
             for (auto *singer : singers->items()) {
-                if (!singer)
-                    continue;
                 if (singer->kind() == dspx::Singer::Single) {
-                    auto *singleSinger = qobject_cast<dspx::SingleSinger *>(singer);
-                    if (singleSinger && !singleSinger->id().isEmpty())
+                    auto *singleSinger = static_cast<dspx::SingleSinger *>(singer);
+                    if (!singleSinger->id().isEmpty())
                         return singleSinger;
                     continue;
                 }
 
-                auto *mixedSinger = qobject_cast<dspx::MixedSinger *>(singer);
-                if (!mixedSinger)
-                    continue;
+                auto *mixedSinger = static_cast<dspx::MixedSinger *>(singer);
                 if (auto *leafSinger = firstLeafSinger(mixedSinger->singers()))
                     return leafSinger;
             }
@@ -64,7 +57,7 @@ namespace SingerCatalog {
 
     QString DefaultLyricManager::getDefaultLyricForSingingClip(dspx::SingingClip *targetSingingClip) const {
         Q_D(const DefaultLyricManager);
-        if (!targetSingingClip || !targetSingingClip->sources())
+        if (!targetSingingClip->sources())
             return d->fallback;
 
         const auto *leafSinger = firstLeafSinger(targetSingingClip->sources()->singers());

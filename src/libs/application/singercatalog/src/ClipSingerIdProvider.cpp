@@ -29,9 +29,6 @@ namespace SingerCatalog {
 
     void ClipSingerIdProviderPrivate::bindSingerList(dspx::SingerList *singerList) {
         Q_Q(ClipSingerIdProvider);
-        if (!singerList)
-            return;
-
         singerTreeConnections.append(QObject::connect(singerList, &dspx::SingerList::itemsChanged, q, [this] {
             rebuildSingerTreeBindings();
         }));
@@ -39,19 +36,16 @@ namespace SingerCatalog {
         for (auto *singer : singerList->items()) {
             switch (singer->kind()) {
                 case dspx::Singer::Single: {
-                    auto *singleSinger = qobject_cast<dspx::SingleSinger *>(singer);
-                    if (singleSinger) {
-                        singerTreeConnections.append(
-                            QObject::connect(singleSinger, &dspx::SingleSinger::idChanged, q, [this] {
-                                updateSingerTree();
-                            }));
-                    }
+                    auto *singleSinger = static_cast<dspx::SingleSinger *>(singer);
+                    singerTreeConnections.append(
+                        QObject::connect(singleSinger, &dspx::SingleSinger::idChanged, q, [this] {
+                            updateSingerTree();
+                        }));
                     break;
                 }
                 case dspx::Singer::Mixed: {
-                    auto *mixedSinger = qobject_cast<dspx::MixedSinger *>(singer);
-                    if (mixedSinger)
-                        bindSingerList(mixedSinger->singers());
+                    auto *mixedSinger = static_cast<dspx::MixedSinger *>(singer);
+                    bindSingerList(mixedSinger->singers());
                     break;
                 }
             }
@@ -77,17 +71,14 @@ namespace SingerCatalog {
     }
 
     QVariant ClipSingerIdProviderPrivate::singerToVariant(dspx::Singer *singer) const {
-        if (!singer)
-            return {};
-
         switch (singer->kind()) {
             case dspx::Singer::Single: {
-                const auto *singleSinger = qobject_cast<dspx::SingleSinger *>(singer);
-                return singleSinger ? QVariant(singleSinger->id()) : QVariant{};
+                const auto *singleSinger = static_cast<dspx::SingleSinger *>(singer);
+                return singleSinger->id();
             }
             case dspx::Singer::Mixed: {
-                const auto *mixedSinger = qobject_cast<dspx::MixedSinger *>(singer);
-                return mixedSinger ? QVariant(singerListToVariantList(mixedSinger->singers())) : QVariant{};
+                const auto *mixedSinger = static_cast<dspx::MixedSinger *>(singer);
+                return singerListToVariantList(mixedSinger->singers());
             }
         }
         return {};
@@ -95,16 +86,10 @@ namespace SingerCatalog {
 
     QVariantList ClipSingerIdProviderPrivate::singerListToVariantList(dspx::SingerList *singerList) const {
         QVariantList result;
-        if (!singerList)
-            return result;
-
         const auto singers = singerList->items();
         result.reserve(singers.size());
-        for (auto *singer : singers) {
-            const auto value = singerToVariant(singer);
-            if (value.isValid())
-                result.append(value);
-        }
+        for (auto *singer : singers)
+            result.append(singerToVariant(singer));
         return result;
     }
 
