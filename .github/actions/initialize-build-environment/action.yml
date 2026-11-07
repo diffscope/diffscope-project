@@ -12,6 +12,10 @@ inputs:
     description: Restore and save build environment caches
     required: false
     default: 'true'
+  use_ccache:
+    description: Install ccache
+    required: false
+    default: 'true'
 
 runs:
   using: "composite"
@@ -33,12 +37,40 @@ runs:
       run: |
         sudo apt update
         sudo apt-get -y install `
-          build-essential ninja-build ccache file binutils patchelf p7zip-full pkg-config squashfs-tools tar xz-utils zip unzip curl git `
+          build-essential ninja-build file binutils patchelf p7zip-full pkg-config squashfs-tools tar xz-utils zip unzip curl git `
           autoconf autoconf-archive automake libtool libltdl-dev bison flex m4 perl python3 python3-venv `
           libasound2-dev libatopology-dev `
           libxrandr-dev libxinerama-dev libxrender-dev libxcomposite-dev libxcursor-dev `
           libgl1-mesa-dev libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 libxcb-xinerama0 libzstd-dev `
           protobuf-compiler desktop-file-utils
+
+    # TODO remove this after Ubuntu Packages' ccache updated to 4.14.2
+    - name: Install CCache (Linux)
+      if: runner.os == 'Linux' && inputs.use_ccache == 'true'
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        if ($env:RUNNER_ARCH -ne 'X64') {
+          throw 'Unsupported ccache architecture'
+        }
+        $version = '4.14.2'
+        $archiveName = "ccache-$version-linux-x86_64-musl-static.tar.gz"
+        $directory = Join-Path $env:RUNNER_TEMP ("ccache-" + [guid]::NewGuid())
+        New-Item -ItemType Directory -Path $directory | Out-Null
+        $archive = Join-Path $directory $archiveName
+        Invoke-WebRequest -Uri "https://github.com/ccache/ccache/releases/download/v$version/$archiveName" -OutFile $archive
+        if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash -ne 'd540ba01f160addbd3dd5e18eda9bd34005591b095c09ac8ae9d0a1b655e7ef5') {
+          throw 'The ccache archive checksum does not match the release checksum'
+        }
+        & tar -xzf $archive -C $directory
+        if ($LASTEXITCODE -ne 0) {
+          throw 'The ccache archive could not be extracted'
+        }
+        $executables = @(Get-ChildItem -LiteralPath $directory -Recurse -File -Filter ccache)
+        if ($executables.Count -ne 1) {
+          throw 'The ccache archive does not contain exactly one ccache executable'
+        }
+        $executables[0].DirectoryName >> $env:GITHUB_PATH
 
     - name: Install AppImage tools (Linux)
       if: runner.os == 'Linux'

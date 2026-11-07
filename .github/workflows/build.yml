@@ -23,7 +23,7 @@ on:
       use_ccache:
         required: false
         type: boolean
-        default: false
+        default: true
     outputs:
       semver:
         value: ${{ jobs.Prepare.outputs.semver }}
@@ -88,12 +88,14 @@ jobs:
       BUILD_DIR: ${{ github.workspace }}/build/build
       INSTALL_DIR: ${{ github.workspace }}/build/install
       CCACHE_DIR: ${{ github.workspace }}/build/ccache
+      CCACHE_MAXSIZE: '0'
+      CCACHE_KEY_PREFIX: ccache-${{ matrix.os }}-${{ matrix.arch }}-
       BUILD_TYPE: ${{ inputs.build_type }}
       VERSION_IDENTIFIER: ${{ needs.Prepare.outputs.version_identifier }}
       EXPECTED_SEMVER: ${{ needs.Prepare.outputs.semver }}
       ARTIFACT_PLATFORM: ${{ matrix.platform }}
       ARTIFACT_ARCH: ${{ matrix.arch }}
-      USE_CCACHE: ${{ inputs.build_type != 'nightly' && inputs.use_cache && inputs.use_ccache }}
+      USE_CCACHE: ${{ inputs.use_cache && inputs.use_ccache }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -113,7 +115,8 @@ jobs:
         uses: ./.github/actions/initialize-build-environment
         with:
           qt_version: ${{ env.QT_VERSION }}
-          use_cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
+          use_cache: ${{ inputs.use_cache }}
+          use_ccache: ${{ inputs.use_cache && inputs.use_ccache }}
 
       - name: Download dspm
         id: download_dspm
@@ -127,7 +130,7 @@ jobs:
           variant: standalone
           directory: ${{ runner.temp }}/dspm-download
           fail-on-no-match: 'true'
-          cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
+          cache: ${{ inputs.use_cache }}
 
       - name: Download dssp
         id: download_dssp
@@ -141,7 +144,7 @@ jobs:
           variant: portable
           directory: ${{ runner.temp }}/dssp-download
           fail-on-no-match: 'true'
-          cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
+          cache: ${{ inputs.use_cache }}
 
       - name: Extract dssp
         if: steps.download_dssp.outputs.matched == 'true'
@@ -173,16 +176,19 @@ jobs:
           VCPKG_KEEP_ENV_VARS: VCPKG_BUILD_TYPE;MACOSX_DEPLOYMENT_TARGET
         with:
           qt-dir: ${{ env.QT_ROOT_DIR }}
-          cache: ${{ inputs.build_type != 'nightly' && inputs.use_cache }}
+          cache: ${{ inputs.use_cache }}
 
       - name: Restore CCache cache
-        if: inputs.build_type != 'nightly' && inputs.use_cache && inputs.use_ccache
+        if: inputs.use_cache && inputs.use_ccache
         uses: actions/cache/restore@v4
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ${{ runner.os }}-ccache-${{ inputs.source_sha }}
-          restore-keys: |
-            ${{ runner.os }}-ccache-
+          key: ${{ env.CCACHE_KEY_PREFIX }}${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: ${{ env.CCACHE_KEY_PREFIX }}
+
+      - name: Prepare CCache
+        if: inputs.use_cache && inputs.use_ccache
+        run: ./scripts/ci/Manage-CCache.ps1 -Operation prepare
 
       - name: Build
         env:
@@ -213,12 +219,17 @@ jobs:
           "APPLICATION_NAME=$($output.ApplicationName)" >> $env:GITHUB_ENV
           "INSTALLER_FILE_BASE=$($output.InstallerFileBase)" >> $env:GITHUB_ENV
 
+      - name: Prepare CCache snapshot
+        id: ccache_snapshot
+        if: inputs.use_cache && inputs.use_ccache && github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        run: ./scripts/ci/Manage-CCache.ps1 -Operation snapshot
+
       - name: Save CCache cache
-        if: inputs.build_type != 'nightly' && inputs.use_cache && inputs.use_ccache
+        if: steps.ccache_snapshot.outputs.save == 'true'
         uses: actions/cache/save@v4
         with:
           path: ${{ env.CCACHE_DIR }}
-          key: ${{ runner.os }}-ccache-${{ inputs.source_sha }}
+          key: ${{ env.CCACHE_KEY_PREFIX }}${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Collect symbol files
         env:

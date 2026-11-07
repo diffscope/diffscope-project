@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: Team OpenVPI
+# SPDX-License-Identifier: Apache-2.0
+
+name: Clean CCache
+
+on:
+  workflow_run:
+    workflows: [Dev Build, Nightly Build]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: cleanup-ccache
+  cancel-in-progress: false
+
+jobs:
+  Clean:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout cleanup script
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          sparse-checkout: scripts/ci/Clean-CCache.ps1
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+
+      - name: Clean CCache snapshots
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: ./scripts/ci/Clean-CCache.ps1 -Repository $env:GITHUB_REPOSITORY -DefaultBranch $env:DEFAULT_BRANCH
