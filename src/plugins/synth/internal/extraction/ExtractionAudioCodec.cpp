@@ -144,7 +144,7 @@ namespace Synth::Internal::ExtractionAudioCodec {
                 }
                 if (selectedMime.isEmpty())
                     continue;
-                auto result = transcode(*reader, format.majorFormat | subtype.subtype, selectedMime, rate,
+                auto result = transcode(*reader, static_cast<int>(format.majorFormat) | static_cast<int>(subtype.subtype), selectedMime, rate,
                                         input.offsetSeconds, input.durationSeconds, cancelled);
                 if (cancelled->load() || !result.bytes.isEmpty())
                     return result;
@@ -159,7 +159,7 @@ namespace Synth::Internal::ExtractionAudioCodec {
         input.open(QIODevice::ReadOnly);
         talcs::AudioFormatIO reader(&input);
         if (reader.open(talcs::AbstractAudioFormatIO::Read) && reader.sampleRate() > 0 && reader.length() > 0) {
-            return transcode(reader, talcs::AudioFormatIO::WAV | talcs::AudioFormatIO::FLOAT,
+            return transcode(reader, static_cast<int>(talcs::AudioFormatIO::WAV) | static_cast<int>(talcs::AudioFormatIO::FLOAT),
                              QStringLiteral("audio/wav"), reader.sampleRate(), 0,
                              reader.length() / reader.sampleRate(), cancelled);
         }
@@ -173,7 +173,7 @@ namespace Synth::Internal::ExtractionAudioCodec {
             file.close();
             std::unique_ptr<talcs::AbstractAudioFormatIO> decoder(Audio::GlobalAudioContext::formatManager()->getFormatLoad(path));
             if (decoder && decoder->sampleRate() > 0 && decoder->length() > 0) {
-                return transcode(*decoder, talcs::AudioFormatIO::WAV | talcs::AudioFormatIO::FLOAT,
+                return transcode(*decoder, static_cast<int>(talcs::AudioFormatIO::WAV) | static_cast<int>(talcs::AudioFormatIO::FLOAT),
                                  QStringLiteral("audio/wav"), decoder->sampleRate(), 0,
                                  decoder->length() / decoder->sampleRate(), cancelled);
             }
@@ -220,7 +220,7 @@ namespace Synth::Internal::ExtractionAudioCodec {
             return {{}, {}, message(QT_TRANSLATE_NOOP("Synth::Internal::ExtractionAudioCodec", "Could not mix the separated audio."))};
         for (const auto source : mixer.sources())
             length = std::max(length, static_cast<talcs::AudioFormatInputSource *>(source)->length());
-        return writeAudio(mixer, channelCount, sampleRate, length, talcs::AudioFormatIO::WAV | talcs::AudioFormatIO::FLOAT,
+        return writeAudio(mixer, channelCount, sampleRate, length, static_cast<int>(talcs::AudioFormatIO::WAV) | static_cast<int>(talcs::AudioFormatIO::FLOAT),
                           QStringLiteral("audio/wav"), cancelled);
     }
 
