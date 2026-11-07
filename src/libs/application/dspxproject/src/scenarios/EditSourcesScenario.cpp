@@ -99,8 +99,6 @@ namespace DspxProject {
 
         QString firstSingerId(const std::vector<opendspx::SingerRef> &singers) {
             for (const auto &singer : singers) {
-                if (!singer)
-                    continue;
                 if (singer->type == opendspx::Singer::Type::Single) {
                     const auto &single = static_cast<const opendspx::SingleSinger &>(*singer);
                     if (!single.id.empty())

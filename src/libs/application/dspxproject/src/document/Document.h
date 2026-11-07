@@ -34,6 +34,14 @@ namespace DspxProject {
 
     class DocumentPrivate;
 
+    /**
+     * @brief Owns the project model, selection, and transaction controller.
+     *
+     * Model edits require an active transaction. Callers must abort the transaction
+     * if an operation fails. Selection changes do not require a transaction.
+     * Returned model objects are borrowed and remain valid until removed or until
+     * the document is destroyed.
+     */
     class DSPXPROJECT_EXPORT Document : public QObject {
         Q_OBJECT
         QML_ELEMENT
@@ -44,58 +52,120 @@ namespace DspxProject {
         Q_PROPERTY(bool anyItemsSelected READ anyItemsSelected NOTIFY anyItemsSelectedChanged)
         Q_PROPERTY(bool editScopeFocused READ isEditScopeFocused NOTIFY editScopeFocusedChanged)
     public:
+        /** The placement policy for pasted data. */
         enum PasteMode {
-            CurrentPosition,
-            RelativeToCopiedPlayhead,
-            // Clip data retains the original track.
-            OriginalPosition,
+            CurrentPosition, /**< Places the payload origin at the current playhead. */
+            RelativeToCopiedPlayhead, /**< Preserves the offset from the copied playhead. */
+            OriginalPosition, /**< Restores the original position and source track for clips. */
         };
         Q_ENUM(PasteMode)
 
+        /** Creates an empty model with a selection model and transaction controller. */
         explicit Document(QObject *parent = nullptr);
+        /** Destroys the document and its owned services. */
         ~Document() override;
 
+        /** Returns the non-null owned model. */
         dspx::Model *model() const;
+        /** Returns the non-null owned selection model. */
         dspx::SelectionModel *selectionModel() const;
+        /** Returns the non-null owned transaction controller. */
         Core::TransactionController *transactionController() const;
 
+        /** Returns whether the current edit scope contains a selection. */
         bool anyItemsSelected();
+        /** Returns whether an edit scope other than ST_None is active. */
         bool isEditScopeFocused();
+        /** Returns the current scope's clipboard type, or nullopt without a suitable target. */
         std::optional<ClipboardData::Type> currentClipboardType() const;
+        /**
+         * Copies the selection with the playhead in project ticks.
+         * Returns nullopt if no selection can be copied. Does not modify the clipboard.
+         */
         std::optional<ClipboardData> copySelection(int playheadPosition = 0) const;
+        /**
+         * Returns the paste origin for a project playhead position and placement mode.
+         * The result is clamped to [0, INT_MAX] and uses clip content ticks for clip
+         * contents or project ticks otherwise.
+         */
         int pastePosition(const ClipboardData &data, int playheadPosition, PasteMode mode) const;
+        /**
+         * Returns whether a free parameter paste requires interpolation at position.
+         * Returns false for other types. position uses the pastePosition() coordinate system.
+         */
         bool pasteRequiresResampling(const ClipboardData &data, int position) const;
 
+        /** The inserted objects or replaced free parameter interval from a successful paste. */
         struct PasteResult {
+            /** The borrowed inserted objects, empty for a free parameter paste. */
             QList<QObject *> items;
+            /** The half-open interval in clip content ticks, absent for object payloads. */
             std::optional<QPair<int, int>> freeParameterRange;
         };
 
+        /** The risks associated with bouncing selected singing clips. */
         enum class BounceRisk {
-            SingerLayoutMismatch = 0x01,
-            DataLoss = 0x02,
-            ParameterResampling = 0x04,
+            SingerLayoutMismatch = 0x01, /**< Singer definitions differ within a track. */
+            DataLoss = 0x02, /**< Cropping or overlapping data can discard information. */
+            ParameterResampling = 0x04, /**< Free parameter grids require interpolation. */
         };
+        /** The combined bounce risks. */
         Q_DECLARE_FLAGS(BounceRisks, BounceRisk)
         Q_FLAG(BounceRisks)
 
-        // Model writes require an active transaction.
+        /**
+         * Pastes data into the matching edit scope at the specified paste origin.
+         * Returns the inserted objects or replaced interval on success, or nullopt
+         * on failure or no change. Clip groups create destination tracks as needed.
+         * @pre A transaction is active and position is nonnegative.
+         * @pre data satisfies the ClipboardData payload contract.
+         */
         std::optional<PasteResult> paste(const ClipboardData &data, int position, PasteMode mode);
+        /**
+         * Deletes the selection, preserving the sole tempo at tick zero.
+         * Returns whether data changed. @pre A transaction is active.
+         */
         bool deleteSelection();
+        /**
+         * Splits selected clips or notes at position and returns the inserted right parts.
+         * Returns an empty list if no item can be split. position uses project ticks
+         * for clips and clip content ticks for notes. @pre A transaction is active.
+         */
         QList<QObject *> splitItems(int position);
+        /**
+         * Bounces selected singing clips into a single singing clip per track.
+         * Returns false without selected singing clips, or true after processing.
+         * Call bounceRisks() before editing to obtain risks requiring confirmation.
+         * @pre A transaction is active.
+         */
         bool bounceToClip();
+        /** Loads serialized model data. @pre A model storage transaction is active. */
         void loadModel(const opendspx::Model &model);
 
+        /** Selects all items in the active edit scope, or the visible free parameter interval. */
         Q_INVOKABLE void selectAll();
+        /** Clears the selection while retaining the active edit scope. */
         Q_INVOKABLE void deselectAll();
+        /**
+         * Selects items in order and makes each item current.
+         * Clears the previous selection before the first item if clearPrevious is true.
+         * An empty list leaves selection unchanged.
+         * @pre Each item is non-null and is a selectable object in this document.
+         */
         void selectItems(const QList<QObject *> &items, bool clearPrevious = false);
+        /** Selects a successful paste result. @pre result refers to this document's current data. */
         void selectPasteResult(const PasteResult &result);
+        /** Returns whether selected singing clips have identical singer layouts within each track. */
         Q_INVOKABLE bool isClipSingerLayoutIdentical() const;
+        /** Returns whether singing clips are selected and bouncing avoids data loss and resampling. */
         Q_INVOKABLE bool canSafelyBounce() const;
+        /** Returns the bounce risks, or nullopt if no singing clip selection is active. */
         std::optional<BounceRisks> bounceRisks() const;
 
     Q_SIGNALS:
+        /** Notifies that selection availability changed. */
         void anyItemsSelectedChanged();
+        /** Notifies that edit scope focus changed. */
         void editScopeFocusedChanged();
 
     private:

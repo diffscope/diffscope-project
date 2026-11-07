@@ -104,8 +104,6 @@ namespace DspxProject {
         result.m_absolute = json.value("absolute").toInt();
         result.m_track = json.value("track").toInt();
         if (!json.value("data").isArray()) {
-            if (ok)
-                *ok = false;
             return {};
         }
         auto dataArray = json.value("data").toArray();
@@ -181,8 +179,6 @@ namespace DspxProject {
 
         }
         if (errors.containsFatal() || errors.containsError()) {
-            if (ok)
-                *ok = false;
             return {};
         }
         if (ok)

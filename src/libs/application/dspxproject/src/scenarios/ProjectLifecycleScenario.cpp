@@ -216,9 +216,6 @@ namespace DspxProject {
     }
 
     ProjectDocumentContext *ProjectLifecycleScenario::recoverProject(ProjectRecoverySource source, const QString &path, const QString &name, QWindow *parent) {
-        if (path.isEmpty()) {
-            return nullptr;
-        }
         if (source == ProjectRecoverySource::ProjectCopy) {
             return newProjectFromTemplate(path, parent, name);
         }

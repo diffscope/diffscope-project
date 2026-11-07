@@ -21,6 +21,7 @@ namespace DspxProject {
     class EditLoopStrategy;
     class EditLoopScenarioPrivate;
 
+    /** Coordinates loop range editing in a transaction. */
     class DSPXPROJECT_EXPORT EditLoopScenario : public QObject {
         Q_OBJECT
         QML_ELEMENT
@@ -29,9 +30,18 @@ namespace DspxProject {
 
 
     public:
+        /**
+         * Creates a scenario with borrowed dependencies.
+         * @pre document and strategy are non-null and valid during use.
+         */
         EditLoopScenario(Document *document, EditLoopStrategy *strategy, QObject *parent = nullptr);
+        /** Destroys the scenario. */
         ~EditLoopScenario() override;
 
+        /**
+         * Requests loop values with an optional dialog window and commits accepted changes.
+         * @pre timeline is non-null and refers to this document.
+         */
         Q_INVOKABLE void editLoop(QQuickWindow *window, ProjectTimeline *timeline, DocumentEdit::Hints hints = {}) const;
 
     private:

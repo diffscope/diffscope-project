@@ -23,6 +23,7 @@ namespace DspxProject {
     class PickTrackColorStrategy;
     class PickTrackColorScenarioPrivate;
 
+    /** Coordinates track color selection and commits changes in a transaction. */
     class DSPXPROJECT_EXPORT PickTrackColorScenario : public QObject {
         Q_OBJECT
         QML_ELEMENT
@@ -30,9 +31,19 @@ namespace DspxProject {
         Q_DECLARE_PRIVATE(PickTrackColorScenario)
 
     public:
+        /**
+         * Creates a scenario with borrowed dependencies.
+         * @pre document and strategy are non-null and valid during use.
+         */
         PickTrackColorScenario(Document *document, PickTrackColorStrategy *strategy, QObject *parent = nullptr);
+        /** Destroys the scenario. */
         ~PickTrackColorScenario() override;
 
+        /**
+         * Requests a color with an optional dialog window and applies accepted changes.
+         * Performs no operation for a track in another model.
+         * @pre track is non-null.
+         */
         Q_INVOKABLE void pickTrackColor(QQuickWindow *window, dspx::Track *track, DocumentEdit::Hints hints = {}) const;
 
     private:

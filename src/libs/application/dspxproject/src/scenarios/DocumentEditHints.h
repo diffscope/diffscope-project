@@ -12,11 +12,16 @@
 
 namespace DspxProject {
 
+    /** The presentation hints passed from editing commands to interaction strategies. */
     namespace DocumentEdit {
         Q_NAMESPACE_EXPORT(DSPXPROJECT_EXPORT)
         QML_ELEMENT
 
-        enum Hint { AtCursor = 0x01 };
+        /** The optional interaction presentation policies. */
+        enum Hint {
+            AtCursor = 0x01 /**< Positions the interaction at the cursor. */
+        };
+        /** The combined interaction presentation hints. */
         Q_DECLARE_FLAGS(Hints, Hint)
         Q_FLAG_NS(Hints)
         Q_DECLARE_OPERATORS_FOR_FLAGS(Hints)

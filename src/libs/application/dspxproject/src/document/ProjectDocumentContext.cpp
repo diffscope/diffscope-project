@@ -40,7 +40,7 @@ namespace DspxProject {
     }
 
     QString ProjectDocumentContextPrivate::recoveryDisplayName() const {
-        if (document && document->model()) {
+        if (document) {
             auto projectName = document->model()->projectName();
             if (!projectName.isEmpty()) {
                 return projectName;
@@ -84,9 +84,6 @@ namespace DspxProject {
     }
 
     bool ProjectDocumentContextPrivate::lockRecoveryDirectory() {
-        if (recoveryDirPath.isEmpty()) {
-            return false;
-        }
         if (documentLogLock) {
             return true;
         }
@@ -105,16 +102,13 @@ namespace DspxProject {
     }
 
     void ProjectDocumentContextPrivate::unlockRecoveryDirectory() {
-        if (!documentLogLock) {
-            return;
-        }
         documentLogLock->unlock();
         delete documentLogLock;
         documentLogLock = nullptr;
     }
 
     void ProjectDocumentContextPrivate::closeDocumentLogDevice() {
-        if (document && document->model() && document->model()->document()) {
+        if (document) {
             document->model()->document()->setCommitLogDevice(nullptr);
         }
         if (!documentLogDevice) {
@@ -126,9 +120,6 @@ namespace DspxProject {
     }
 
     bool ProjectDocumentContextPrivate::writeRecoverySnapshot() const {
-        if (!document || !document->model() || !document->model()->document() || recoveryDirPath.isEmpty()) {
-            return false;
-        }
         if (!QDir().mkpath(recoveryDirPath)) {
             qCWarning(lcProjectDocumentContext) << "Failed to create recovery directory:" << recoveryDirPath;
             return false;
@@ -143,9 +134,6 @@ namespace DspxProject {
     }
 
     bool ProjectDocumentContextPrivate::openDocumentLogDevice() {
-        if (!document || !document->model() || !document->model()->document() || recoveryDirPath.isEmpty()) {
-            return false;
-        }
         auto *logFile = new QFile(QDir(recoveryDirPath).filePath(QStringLiteral("logs")));
         if (!logFile->open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             qCWarning(lcProjectDocumentContext) << "Failed to open recovery log file:" << logFile->fileName() << logFile->errorString();
@@ -175,7 +163,7 @@ namespace DspxProject {
 
     bool ProjectDocumentContextPrivate::setupDocumentLog() {
         Q_Q(ProjectDocumentContext);
-        if (!document || recoveryDirPath.isEmpty()) {
+        if (recoveryDirPath.isEmpty()) {
             return false;
         }
         if (!lockRecoveryDirectory()) {
@@ -394,14 +382,14 @@ namespace DspxProject {
     }
 
     ProjectFileError ProjectDocumentContextPrivate::validateSave(const QString &path, SaveMode mode) const {
-        if (!document || path.isEmpty() || (!fileLocker && mode != SaveMode::Copy)) {
+        if (!document || (!fileLocker && mode != SaveMode::Copy)) {
             return {ProjectFileError::InvalidState, path, {}};
         }
         if (writing) {
             return {ProjectFileError::Busy, path, {}};
         }
         const auto currentPath = fileLocker ? fileLocker->path() : QString();
-        if (mode == SaveMode::Current && currentPath != path) {
+        if (mode == SaveMode::Current && (path.isEmpty() || currentPath != path)) {
             return {ProjectFileError::InvalidState, path, {}};
         }
         if (mode == SaveMode::Copy && !currentPath.isEmpty() && canonicalOrAbsolutePath(currentPath) == canonicalOrAbsolutePath(path)) {

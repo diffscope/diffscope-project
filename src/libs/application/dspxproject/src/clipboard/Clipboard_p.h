@@ -6,8 +6,6 @@
 
 #include <dspxproject/Clipboard.h>
 
-#include <optional>
-
 #include <QHash>
 #include <QtGlobal>
 
@@ -24,7 +22,7 @@ namespace DspxProject {
 
         Clipboard *q_ptr = nullptr;
         Clipboard::Mode mode = Clipboard::Global;
-        QHash<ClipboardData::Type, std::optional<ClipboardData>> internalData;
+        QHash<ClipboardData::Type, ClipboardData> internalData;
     };
 
 }

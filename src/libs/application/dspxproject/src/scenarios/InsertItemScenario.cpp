@@ -96,7 +96,7 @@ namespace DspxProject {
             qCWarning(lcInsertItemScenario) << "Failed to add track because the transaction could not start.";
             strategy->reportOperationConflict();
         });
-        if (success && newTrack) {
+        if (success) {
             selectionModel->select(newTrack, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
         }
     }
@@ -149,7 +149,7 @@ namespace DspxProject {
             qCWarning(lcInsertItemScenario) << "Failed to insert track because the transaction could not start.";
             strategy->reportOperationConflict();
         });
-        if (success && targetDocument && !newTracks.isEmpty()) {
+        if (success && targetDocument) {
             auto selectionModel = targetDocument->selectionModel();
             bool first = true;
             for (auto track : std::as_const(newTracks)) {
@@ -204,7 +204,7 @@ namespace DspxProject {
             qCWarning(lcInsertItemScenario) << "Failed to insert label because the transaction could not start.";
             strategy->reportOperationConflict();
         });
-        if (success && targetDocument && newLabel) {
+        if (success && targetDocument) {
             auto selectionModel = targetDocument->selectionModel();
             selectionModel->select(newLabel, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
         }
@@ -224,27 +224,22 @@ namespace DspxProject {
 
         auto model = d->document->model();
         auto trackList = model->tracks();
-        if (!trackList || trackList->size() == 0)
+        if (trackList->size() == 0)
             return;
 
         qCInfo(lcInsertItemScenario) << "Inserting singing clip";
 
         auto selectionModel = d->document->selectionModel();
         auto trackSelectionModel = selectionModel->trackSelectionModel();
-        auto currentTrack = trackSelectionModel ? trackSelectionModel->currentItem() : nullptr;
+        auto currentTrack = trackSelectionModel->currentItem();
         if (!currentTrack) {
-            if (auto currentClip = qobject_cast<dspx::Clip *>(selectionModel ? selectionModel->currentItem() : nullptr)) {
-                if (auto clipSequence = currentClip->clipSequence()) {
-                    currentTrack = clipSequence->track();
-                }
+            if (auto currentClip = qobject_cast<dspx::Clip *>(selectionModel->currentItem())) {
+                currentTrack = currentClip->clipSequence()->track();
             }
         }
 
         if (!currentTrack) {
-            const auto tracks = trackList->items();
-            if (!tracks.isEmpty()) {
-                currentTrack = tracks.first();
-            }
+            currentTrack = trackList->items().first();
         }
 
         const auto result = d->strategy->requestClip(trackList, {currentTrack, timeline->position(), 15360, tr("Unnamed clip")},
@@ -256,13 +251,6 @@ namespace DspxProject {
         if (!selectedTrack) {
             selectedTrack = currentTrack;
         }
-        if (!selectedTrack) {
-            const auto tracks = trackList->items();
-            if (!tracks.isEmpty()) {
-                selectedTrack = tracks.first();
-            }
-        }
-
         if (!trackList->items().contains(selectedTrack))
             return;
         const QPointer<dspx::Track> targetTrack(selectedTrack);
@@ -288,7 +276,7 @@ namespace DspxProject {
             newClip->setPosition(clipPosition);
             newClip->setGain(1);
             auto clipSequence = targetTrack->clips();
-            if (!clipSequence || !clipSequence->insertItem(newClip)) {
+            if (!clipSequence->insertItem(newClip)) {
                 model->destroyItem(newClip);
                 newClip = nullptr;
                 return false;
@@ -301,7 +289,7 @@ namespace DspxProject {
             strategy->reportOperationConflict();
         });
 
-        if (success && targetDocument && newClip) {
+        if (success && targetDocument) {
             selectionModel->select(newClip, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
         }
     }
@@ -382,7 +370,7 @@ namespace DspxProject {
             strategy->reportOperationConflict();
         });
 
-        if (success && targetDocument && newNote) {
+        if (success && targetDocument) {
             selectionModel->select(newNote, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
         }
     }

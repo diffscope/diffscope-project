@@ -29,7 +29,7 @@ namespace DspxProject {
     void PickTrackColorScenario::pickTrackColor(QQuickWindow *window, dspx::Track *track, DocumentEdit::Hints hints) const {
         Q_D(const PickTrackColorScenario);
         const QPointer<Document> targetDocument(d->document);
-        if (!track || track->model() != targetDocument->model()) {
+        if (track->model() != targetDocument->model()) {
             return;
         }
         const QPointer<dspx::Track> targetTrack(track);

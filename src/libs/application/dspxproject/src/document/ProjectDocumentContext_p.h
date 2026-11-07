@@ -36,7 +36,6 @@ namespace DspxProject {
         enum class OpenMode { Existing, Template, NonFileTemplate };
         enum class SaveMode { Current, As, Copy };
 
-        // The context must be non-null.
         static ProjectDocumentContextPrivate *get(ProjectDocumentContext *context) { return context->d_func(); }
 
         static OpenCandidate readProjectFile(const QString &path, bool keepFileOpen);
@@ -47,7 +46,6 @@ namespace DspxProject {
         ProjectFileError validateSave(const QString &path, SaveMode mode) const;
         ProjectFileError save(const QString &path, SaveMode mode, const ProjectDocumentContext::SaveOptions &options);
         PreparedSave prepareSave(bool compress) const;
-        // Current and As saves require a file locker.
         ProjectFileError writeSave(const QByteArray &data, const QString &path, SaveMode mode);
 
         ProjectDocumentContext *q_ptr;

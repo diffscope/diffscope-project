@@ -15,11 +15,14 @@
 
 namespace DspxProject {
 
+    /** The architecture and ordered singers to apply to singing clips. */
     struct DSPXPROJECT_EXPORT SourcesSelection {
         Q_GADGET
         QML_VALUE_TYPE(sourcesSelection)
     public:
+        /** The architecture identifier, empty to remove sources. */
         QString architectureId;
+        /** The singer definitions, empty to remove sources. All nested references must be non-null. */
         QList<opendspx::SingerRef> singers;
     };
 

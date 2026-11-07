@@ -116,10 +116,6 @@ namespace DspxProject {
     void KeySignatureAtSpecifiedPositionHelperPrivate::rebuildKeySignatureLookup() {
         keySignatureLookup.clear();
         keySignaturePositions.clear();
-        if (!keySignatureSequence) {
-            return;
-        }
-
         auto *model = keySignatureSequence->model();
         auto *engine = model->document()->engine();
         auto filter = dini::FilterExpression(
@@ -138,9 +134,6 @@ namespace DspxProject {
     }
 
     void KeySignatureAtSpecifiedPositionHelperPrivate::insertKeySignatureIntoLookup(dspx::KeySignature *item) {
-        if (!item) {
-            return;
-        }
         const int position = item->position();
         keySignatureLookup.insert(position, item);
         keySignaturePositions.insert(item, position);

@@ -85,7 +85,7 @@ namespace DspxProject {
         for (const auto &item : data) {
             const auto type = item.type();
             const auto mimeType = ClipboardData::mimeType(type);
-            if (mimeType.isEmpty() || mimeData->hasFormat(mimeType))
+            if (mimeData->hasFormat(mimeType))
                 continue;
             mimeData->setData(mimeType, item.toData());
         }
@@ -101,10 +101,10 @@ namespace DspxProject {
 
         if (d->mode == Internal) {
             const auto it = d->internalData.constFind(expectedType);
-            if (it != d->internalData.cend() && it->has_value()) {
+            if (it != d->internalData.cend()) {
                 if (ok)
                     *ok = true;
-                return it->value();
+                return it.value();
             }
             return {};
         }
@@ -122,11 +122,7 @@ namespace DspxProject {
         Q_D(const Clipboard);
 
         if (d->mode == Internal) {
-            for (auto it = d->internalData.cbegin(); it != d->internalData.cend(); ++it) {
-                if (it.value().has_value())
-                    types.append(it.key());
-            }
-            return types;
+            return d->internalData.keys();
         }
 
         const QMimeData *mimeData = QGuiApplication::clipboard()->mimeData();
@@ -135,7 +131,7 @@ namespace DspxProject {
 
         for (const auto type : supportedTypes()) {
             const auto mimeType = ClipboardData::mimeType(type);
-            if (!mimeType.isEmpty() && mimeData->hasFormat(mimeType))
+            if (mimeData->hasFormat(mimeType))
                 types.append(type);
         }
         return types;

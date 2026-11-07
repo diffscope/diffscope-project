@@ -22,11 +22,11 @@ namespace DspxProject {
             QList<QVariant> values;
         };
 
-        // Returns source samples and boundary neighbors on the source grid.
+        /** Returns source samples and boundary neighbors on the source grid. */
         static FreeParameterClipboardData capture(const dspx::FreeValueDataArray *array, int start, int end);
-        // Returns whether the destination sampling grid requires interpolation of nonempty data.
+        /** Returns whether the destination sampling grid requires interpolation of nonempty data. */
         static bool requiresResampling(const FreeParameterClipboardData &data, int targetStart);
-        // Returns samples in the translated interval using linear interpolation and preserving gaps.
+        /** Returns samples in the translated interval using linear interpolation and preserving gaps. */
         static Result resample(const FreeParameterClipboardData &data, int targetStart);
     };
 

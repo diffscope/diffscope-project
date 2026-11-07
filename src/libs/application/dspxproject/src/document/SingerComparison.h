@@ -10,6 +10,11 @@
 
 namespace DspxProject {
 
+    /**
+     * Returns whether singer definitions, metadata, mixing ratios, and ordered children match.
+     * Null references represent absent definitions. Two absent definitions compare
+     * equal. An absent definition and a present definition compare unequal.
+     */
     DSPXPROJECT_EXPORT bool singerDefinitionEquals(const opendspx::SingerRef &left, const opendspx::SingerRef &right);
 
 }
