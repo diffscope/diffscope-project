@@ -228,26 +228,26 @@ namespace VisualEditor {
     }
 
     void MasterTrackViewModelContextData::bindMasterTrackViewModel() {
-        connect(model, &dspx::Model::muteChanged, masterTrackViewModel, [=](bool mute) {
+        connect(model, &dspx::Model::muteChanged, masterTrackViewModel, [=, this](bool mute) {
             if (masterTrackViewModel->isMute() == mute) {
                 return;
             }
             masterTrackViewModel->setMute(mute);
         });
-        connect(model, &dspx::Model::gainChanged, masterTrackViewModel, [=](double gain) {
+        connect(model, &dspx::Model::gainChanged, masterTrackViewModel, [=, this](double gain) {
             const double db = toDecibel(gain);
             if (qFuzzyCompare(masterTrackViewModel->gain(), db)) {
                 return;
             }
             masterTrackViewModel->setGain(db);
         });
-        connect(model, &dspx::Model::panChanged, masterTrackViewModel, [=](double pan) {
+        connect(model, &dspx::Model::panChanged, masterTrackViewModel, [=, this](double pan) {
             if (qFuzzyCompare(masterTrackViewModel->pan(), pan)) {
                 return;
             }
             masterTrackViewModel->setPan(pan);
         });
-        connect(model, &dspx::Model::multiChannelOutputChanged, this, [=](bool enabled) {
+        connect(model, &dspx::Model::multiChannelOutputChanged, this, [=, this](bool enabled) {
             if (masterTrackViewModel->multiChannelOutput() == enabled) {
                 return;
             }
@@ -256,13 +256,13 @@ namespace VisualEditor {
             syncingFromModel = false;
         });
 
-        connect(masterTrackViewModel, &sflow::TrackViewModel::muteChanged, this, [=] {
+        connect(masterTrackViewModel, &sflow::TrackViewModel::muteChanged, this, [=, this] {
             if (!stateMachine->configuration().contains(muteEditingState)) {
                 masterTrackViewModel->setMute(model->mute());
                 return;
             }
         });
-        connect(masterTrackViewModel, &sflow::TrackViewModel::gainChanged, this, [=] {
+        connect(masterTrackViewModel, &sflow::TrackViewModel::gainChanged, this, [=, this] {
             if (!stateMachine->configuration().contains(gainProgressingState)) {
                 masterTrackViewModel->setGain(toDecibel(model->gain()));
                 return;
@@ -270,7 +270,7 @@ namespace VisualEditor {
             model->setGain(toLinear(masterTrackViewModel->gain()));
             gainChanged = true;
         });
-        connect(masterTrackViewModel, &sflow::TrackViewModel::panChanged, this, [=] {
+        connect(masterTrackViewModel, &sflow::TrackViewModel::panChanged, this, [=, this] {
             if (!stateMachine->configuration().contains(panProgressingState)) {
                 masterTrackViewModel->setPan(model->pan());
                 return;
@@ -278,7 +278,7 @@ namespace VisualEditor {
             model->setPan(masterTrackViewModel->pan());
             panChanged = true;
         });
-        connect(masterTrackViewModel, &sflow::TrackViewModel::multiChannelOutputChanged, this, [=] {
+        connect(masterTrackViewModel, &sflow::TrackViewModel::multiChannelOutputChanged, this, [=, this] {
             if (syncingFromModel) {
                 return;
             }
@@ -308,30 +308,30 @@ namespace VisualEditor {
         controller->setSecondaryItemInteraction(sflow::TrackListInteractionController::None);
         controller->setItemAction(sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan);
 
-        connect(controller, &sflow::TrackListInteractionController::muteEditingStarted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::muteEditingStarted, this, [=, this](QQuickItem *, int) {
             Q_EMIT muteTransactionWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::muteEditingFinished, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::muteEditingFinished, this, [=, this](QQuickItem *, int) {
             Q_EMIT muteTransactionWillFinish();
         });
 
-        connect(controller, &sflow::TrackListInteractionController::gainEditingStarted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::gainEditingStarted, this, [=, this](QQuickItem *, int) {
             Q_EMIT gainTransactionWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::gainEditingCommitted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::gainEditingCommitted, this, [=, this](QQuickItem *, int) {
             Q_EMIT gainTransactionWillCommit();
         });
-        connect(controller, &sflow::TrackListInteractionController::gainEditingAborted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::gainEditingAborted, this, [=, this](QQuickItem *, int) {
             Q_EMIT gainTransactionWillAbort();
         });
 
-        connect(controller, &sflow::TrackListInteractionController::panEditingStarted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::panEditingStarted, this, [=, this](QQuickItem *, int) {
             Q_EMIT panTransactionWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::panEditingCommitted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::panEditingCommitted, this, [=, this](QQuickItem *, int) {
             Q_EMIT panTransactionWillCommit();
         });
-        connect(controller, &sflow::TrackListInteractionController::panEditingAborted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::panEditingAborted, this, [=, this](QQuickItem *, int) {
             Q_EMIT panTransactionWillAbort();
         });
 

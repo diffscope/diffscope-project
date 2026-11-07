@@ -67,7 +67,7 @@ namespace Core::Internal {
             o->setParent(this);
             windowInterface->actionContext()->addAction("org.diffscope.core.panel.notifications", o->property("notificationsPanelComponent").value<QQmlComponent *>());
         }
-        auto updateStatusText = [=] {
+        auto updateStatusText = [=, this] {
             if (windowInterface->isEffectivelyClosed()) {
                 return;
             }

@@ -157,7 +157,7 @@ namespace VisualEditor {
         viewItem->setPosition(item->position());
         viewItem->setContent(QLocale().toString(item->value()));
 
-        connect(viewItem, &sflow::LabelViewModel::positionChanged, item, [=] {
+        connect(viewItem, &sflow::LabelViewModel::positionChanged, item, [=, this] {
             if (viewItem->position() == item->position()) {
                 transactionalUpdatedTempos.remove(viewItem);
                 return;
@@ -210,30 +210,30 @@ namespace VisualEditor {
         controller->setPrimarySelectInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
         controller->setSecondarySelectInteraction(sflow::LabelSequenceInteractionController::RubberBandSelect);
 
-        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingStarted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingCommitted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingCommitted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingAborted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::LabelSequenceInteractionController::rubberBandDraggingAborted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::movingStarted, this, [=](QQuickItem *, sflow::LabelViewModel *) {
+        connect(controller, &sflow::LabelSequenceInteractionController::movingStarted, this, [=, this](QQuickItem *, sflow::LabelViewModel *) {
             Q_EMIT moveTransactionWillStart();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::movingCommitted, this, [=](QQuickItem *, sflow::LabelViewModel *) {
+        connect(controller, &sflow::LabelSequenceInteractionController::movingCommitted, this, [=, this](QQuickItem *, sflow::LabelViewModel *) {
             Q_EMIT moveTransactionWillCommit();
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::movingAborted, this, [=](QQuickItem *, sflow::LabelViewModel *) {
+        connect(controller, &sflow::LabelSequenceInteractionController::movingAborted, this, [=, this](QQuickItem *, sflow::LabelViewModel *) {
             Q_EMIT moveTransactionWillAbort();
         });
 
-        connect(controller, &sflow::LabelSequenceInteractionController::doubleClicked, this, [=](QQuickItem *labelSequenceItem, int position) {
+        connect(controller, &sflow::LabelSequenceInteractionController::doubleClicked, this, [=, this](QQuickItem *labelSequenceItem, int position) {
             qCDebug(lcTempoViewModelContextData) << "Tempo sequence double clicked" << position;
             onDoubleClicked(labelSequenceItem, position);
         });
-        connect(controller, &sflow::LabelSequenceInteractionController::itemDoubleClicked, this, [=](QQuickItem *labelSequenceItem, sflow::LabelViewModel *viewItem) {
+        connect(controller, &sflow::LabelSequenceInteractionController::itemDoubleClicked, this, [=, this](QQuickItem *labelSequenceItem, sflow::LabelViewModel *viewItem) {
             qCDebug(lcTempoViewModelContextData) << "Tempo sequence view item double clicked" << viewItem;
             onItemDoubleClicked(labelSequenceItem, viewItem);
         });

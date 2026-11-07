@@ -668,59 +668,59 @@ namespace VisualEditor {
         controller->setPrimarySelectInteraction(sflow::ClipPaneInteractionController::RubberBandSelect);
         controller->setSecondarySelectInteraction(sflow::ClipPaneInteractionController::TimeRangeSelect);
 
-        connect(controller, &sflow::ClipPaneInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::ClipPaneInteractionController::rubberBandDraggingStarted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();
         });
-        connect(controller, &sflow::ClipPaneInteractionController::rubberBandDraggingCommitted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::ClipPaneInteractionController::rubberBandDraggingCommitted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
-        connect(controller, &sflow::ClipPaneInteractionController::rubberBandDraggingAborted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::ClipPaneInteractionController::rubberBandDraggingAborted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
 
-        connect(controller, &sflow::ClipPaneInteractionController::movingStarted, this, [=](QQuickItem *, sflow::ClipViewModel *, sflow::ClipPaneInteractionController::MoveFlag moveFlag) {
+        connect(controller, &sflow::ClipPaneInteractionController::movingStarted, this, [=, this](QQuickItem *, sflow::ClipViewModel *, sflow::ClipPaneInteractionController::MoveFlag moveFlag) {
             shouldCopyBeforeMove = (moveFlag == sflow::ClipPaneInteractionController::MF_CopyAndMove);
             moveChanged = false;
             Q_EMIT moveTransactionWillStart();
         });
-        connect(controller, &sflow::ClipPaneInteractionController::movingCommitted, this, [=](QQuickItem *, sflow::ClipViewModel *) {
+        connect(controller, &sflow::ClipPaneInteractionController::movingCommitted, this, [=, this](QQuickItem *, sflow::ClipViewModel *) {
             Q_EMIT moveTransactionWillCommit();
         });
-        connect(controller, &sflow::ClipPaneInteractionController::movingAborted, this, [=](QQuickItem *, sflow::ClipViewModel *) {
+        connect(controller, &sflow::ClipPaneInteractionController::movingAborted, this, [=, this](QQuickItem *, sflow::ClipViewModel *) {
             Q_EMIT moveTransactionWillAbort();
         });
 
-        connect(controller, &sflow::ClipPaneInteractionController::adjustLengthStarted, this, [=](QQuickItem *, sflow::ClipViewModel *viewItem) {
+        connect(controller, &sflow::ClipPaneInteractionController::adjustLengthStarted, this, [=, this](QQuickItem *, sflow::ClipViewModel *viewItem) {
             targetClip = clipDocumentItemMap.value(viewItem);
             lengthChanged = false;
             Q_EMIT adjustTransactionWillStart();
         });
-        connect(controller, &sflow::ClipPaneInteractionController::adjustLengthCommitted, this, [=](QQuickItem *, sflow::ClipViewModel *) {
+        connect(controller, &sflow::ClipPaneInteractionController::adjustLengthCommitted, this, [=, this](QQuickItem *, sflow::ClipViewModel *) {
             Q_EMIT adjustTransactionWillCommit();
         });
-        connect(controller, &sflow::ClipPaneInteractionController::adjustLengthAborted, this, [=](QQuickItem *, sflow::ClipViewModel *) {
+        connect(controller, &sflow::ClipPaneInteractionController::adjustLengthAborted, this, [=, this](QQuickItem *, sflow::ClipViewModel *) {
             Q_EMIT adjustTransactionWillAbort();
         });
 
-        connect(controller, &sflow::ClipPaneInteractionController::drawingStarted, this, [=](QQuickItem *clipPane) {
+        connect(controller, &sflow::ClipPaneInteractionController::drawingStarted, this, [=, this](QQuickItem *clipPane) {
             targetClipPane = clipPane;
         });
-        connect(controller, &sflow::ClipPaneInteractionController::drawingCommitted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::ClipPaneInteractionController::drawingCommitted, this, [=, this](QQuickItem *) {
             Q_EMIT drawTransactionWillCommit();
         });
-        connect(controller, &sflow::ClipPaneInteractionController::drawingAborted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::ClipPaneInteractionController::drawingAborted, this, [=, this](QQuickItem *) {
             Q_EMIT drawTransactionWillAbort();
         });
 
-        connect(controller, &sflow::ClipPaneInteractionController::splitStarted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::ClipPaneInteractionController::splitStarted, this, [=, this](QQuickItem *) {
             splitPosition = {};
             Q_EMIT splitWillStart();
         });
-        connect(controller, &sflow::ClipPaneInteractionController::splitCommitted, this, [=](QQuickItem *, int position) {
+        connect(controller, &sflow::ClipPaneInteractionController::splitCommitted, this, [=, this](QQuickItem *, int position) {
             splitPosition = position;
             Q_EMIT splitWillCommit();
         });
-        connect(controller, &sflow::ClipPaneInteractionController::splitAborted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::ClipPaneInteractionController::splitAborted, this, [=, this](QQuickItem *) {
             splitPosition = {};
             Q_EMIT splitWillAbort();
         });
@@ -885,7 +885,7 @@ namespace VisualEditor {
 
         const int defaultClipLength = 15360;
 
-        const bool transactionStarted = document->transactionController()->beginScopedTransaction(VisualEditor::ClipViewModelContextData::tr("Inserting singing clip"), [=, &newClip, &success] {
+        const bool transactionStarted = document->transactionController()->beginScopedTransaction(VisualEditor::ClipViewModelContextData::tr("Inserting singing clip"), [=, this, &newClip, &success] {
             newClip = document->model()->createSingingClip();
             newClip->setName(tr("Unnamed clip"));
             newClip->setClipStart(0);

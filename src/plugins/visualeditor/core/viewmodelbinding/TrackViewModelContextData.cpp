@@ -483,25 +483,25 @@ namespace VisualEditor {
             viewItem->setPan(pan);
         });
 
-        connect(viewItem, &sflow::TrackViewModel::nameChanged, item, [=] {
+        connect(viewItem, &sflow::TrackViewModel::nameChanged, item, [=, this] {
             if (!stateMachine->configuration().contains(nameProgressingState)) {
                 viewItem->setName(item->name());
                 return;
             }
         });
-        connect(viewItem, &sflow::TrackViewModel::muteChanged, item, [=] {
+        connect(viewItem, &sflow::TrackViewModel::muteChanged, item, [=, this] {
             if (!stateMachine->configuration().contains(muteEditingState)) {
                 viewItem->setMute(item->mute());
                 return;
             }
         });
-        connect(viewItem, &sflow::TrackViewModel::soloChanged, item, [=] {
+        connect(viewItem, &sflow::TrackViewModel::soloChanged, item, [=, this] {
             if (!stateMachine->configuration().contains(soloEditingState)) {
                 viewItem->setSolo(item->solo());
                 return;
             }
         });
-        connect(viewItem, &sflow::TrackViewModel::gainChanged, item, [=] {
+        connect(viewItem, &sflow::TrackViewModel::gainChanged, item, [=, this] {
             if (!stateMachine->configuration().contains(gainProgressingState)) {
                 viewItem->setGain(toDecibel(item->gain()));
                 return;
@@ -509,7 +509,7 @@ namespace VisualEditor {
             item->setGain(toLinear(viewItem->gain()));
             gainChanged = true;
         });
-        connect(viewItem, &sflow::TrackViewModel::panChanged, item, [=] {
+        connect(viewItem, &sflow::TrackViewModel::panChanged, item, [=, this] {
             if (!stateMachine->configuration().contains(panProgressingState)) {
                 viewItem->setPan(item->pan());
                 return;
@@ -517,7 +517,7 @@ namespace VisualEditor {
             item->setPan(viewItem->pan());
             panChanged = true;
         });
-        connect(viewItem, &sflow::TrackViewModel::rowHeightChanged, item, [=] {
+        connect(viewItem, &sflow::TrackViewModel::rowHeightChanged, item, [=, this] {
             if (!stateMachine->configuration().contains(heightEditingState)) {
                 viewItem->setRowHeight(getClampedHeight(item));
                 return;
@@ -561,90 +561,90 @@ namespace VisualEditor {
         controller->setSecondaryItemInteraction(sflow::TrackListInteractionController::DragCopy);
         controller->setItemAction(sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditSolo | sflow::TrackListInteractionController::EditName | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan | sflow::TrackListInteractionController::AdjustHeight);
 
-        connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingStarted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingCommitted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingCommitted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
-        connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingAborted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingAborted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
 
-        connect(controller, &sflow::TrackListInteractionController::dragMovingStarted, this, [=](QQuickItem *, int index) {
+        connect(controller, &sflow::TrackListInteractionController::dragMovingStarted, this, [=, this](QQuickItem *, int index) {
             targetTrack = trackList->item(index);
             Q_EMIT moveTransactionWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::dragMovingCommitted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::dragMovingCommitted, this, [=, this](QQuickItem *, int) {
             Q_EMIT moveTransactionWillCommit();
         });
-        connect(controller, &sflow::TrackListInteractionController::dragMovingAborted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::dragMovingAborted, this, [=, this](QQuickItem *, int) {
             Q_EMIT moveTransactionWillAbort();
         });
 
-        connect(controller, &sflow::TrackListInteractionController::muteEditingStarted, this, [=](QQuickItem *, int index) {
+        connect(controller, &sflow::TrackListInteractionController::muteEditingStarted, this, [=, this](QQuickItem *, int index) {
             targetTrack = trackList->item(index);
             Q_EMIT muteTransactionWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::muteEditingFinished, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::muteEditingFinished, this, [=, this](QQuickItem *, int) {
             Q_EMIT muteTransactionWillFinish();
         });
 
-        connect(controller, &sflow::TrackListInteractionController::soloEditingStarted, this, [=](QQuickItem *, int index) {
+        connect(controller, &sflow::TrackListInteractionController::soloEditingStarted, this, [=, this](QQuickItem *, int index) {
             targetTrack = trackList->item(index);
             Q_EMIT soloTransactionWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::soloEditingFinished, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::soloEditingFinished, this, [=, this](QQuickItem *, int) {
             Q_EMIT soloTransactionWillFinish();
         });
 
-        connect(controller, &sflow::TrackListInteractionController::nameEditingStarted, this, [=](QQuickItem *, int index) {
+        connect(controller, &sflow::TrackListInteractionController::nameEditingStarted, this, [=, this](QQuickItem *, int index) {
             targetTrack = trackList->item(index);
             Q_EMIT nameTransactionWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::nameEditingCommitted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::nameEditingCommitted, this, [=, this](QQuickItem *, int) {
             Q_EMIT nameTransactionWillCommit();
         });
-        connect(controller, &sflow::TrackListInteractionController::nameEditingAborted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::nameEditingAborted, this, [=, this](QQuickItem *, int) {
             Q_EMIT nameTransactionWillAbort();
         });
 
-        connect(controller, &sflow::TrackListInteractionController::gainEditingStarted, this, [=](QQuickItem *, int index) {
+        connect(controller, &sflow::TrackListInteractionController::gainEditingStarted, this, [=, this](QQuickItem *, int index) {
             targetTrack = trackList->item(index);
             Q_EMIT gainTransactionWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::gainEditingCommitted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::gainEditingCommitted, this, [=, this](QQuickItem *, int) {
             Q_EMIT gainTransactionWillCommit();
         });
-        connect(controller, &sflow::TrackListInteractionController::gainEditingAborted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::gainEditingAborted, this, [=, this](QQuickItem *, int) {
             Q_EMIT gainTransactionWillAbort();
         });
 
-        connect(controller, &sflow::TrackListInteractionController::panEditingStarted, this, [=](QQuickItem *, int index) {
+        connect(controller, &sflow::TrackListInteractionController::panEditingStarted, this, [=, this](QQuickItem *, int index) {
             targetTrack = trackList->item(index);
             Q_EMIT panTransactionWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::panEditingCommitted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::panEditingCommitted, this, [=, this](QQuickItem *, int) {
             Q_EMIT panTransactionWillCommit();
         });
-        connect(controller, &sflow::TrackListInteractionController::panEditingAborted, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::panEditingAborted, this, [=, this](QQuickItem *, int) {
             Q_EMIT panTransactionWillAbort();
         });
 
-        connect(controller, &sflow::TrackListInteractionController::heightAdjustingStarted, this, [=](QQuickItem *, int index) {
+        connect(controller, &sflow::TrackListInteractionController::heightAdjustingStarted, this, [=, this](QQuickItem *, int index) {
             targetTrack = trackList->item(index);
             Q_EMIT heightTransactionWillStart();
         });
-        connect(controller, &sflow::TrackListInteractionController::heightAdjustingFinished, this, [=](QQuickItem *, int) {
+        connect(controller, &sflow::TrackListInteractionController::heightAdjustingFinished, this, [=, this](QQuickItem *, int) {
             Q_EMIT heightTransactionWillFinish();
         });
 
-        connect(controller, &sflow::TrackListInteractionController::itemColorIndicatorClicked, this, [=](QQuickItem *trackListItem, int index) {
+        connect(controller, &sflow::TrackListInteractionController::itemColorIndicatorClicked, this, [=, this](QQuickItem *trackListItem, int index) {
             qCDebug(lcTrackViewModelContextData) << "Track color indicator clicked" << index;
             onItemColorIndicatorClicked(trackListItem, index);
         });
 
-        connect(controller, &sflow::TrackListInteractionController::itemDoubleClicked, this, [=](QQuickItem *, int index) {
+        connect(controller, &sflow::TrackListInteractionController::itemDoubleClicked, this, [=, this](QQuickItem *, int index) {
             qCDebug(lcTrackViewModelContextData) << "Track item double clicked" << index;
             selectAllClipsOnTrack(index);
         });

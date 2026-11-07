@@ -101,25 +101,25 @@ namespace VisualEditor {
     void PlaybackViewModelContextData::bindPlaybackViewModel() {
         auto projectTimeline = windowHandle->projectTimeline();
         auto documentModel = model;
-        QObject::connect(projectTimeline, &DspxProject::ProjectTimeline::positionChanged, playbackViewModel, [=] {
+        QObject::connect(projectTimeline, &DspxProject::ProjectTimeline::positionChanged, playbackViewModel, [=, this] {
             if (playbackViewModel->primaryPosition() == projectTimeline->position())
                 return;
             qCDebug(lcPlaybackViewModelContextData) << "Project timeline position updated" << projectTimeline->position();
             playbackViewModel->setPrimaryPosition(projectTimeline->position());
         });
-        QObject::connect(projectTimeline, &DspxProject::ProjectTimeline::lastPositionChanged, playbackViewModel, [=] {
+        QObject::connect(projectTimeline, &DspxProject::ProjectTimeline::lastPositionChanged, playbackViewModel, [=, this] {
             if (playbackViewModel->secondaryPosition() == projectTimeline->lastPosition())
                 return;
             qCDebug(lcPlaybackViewModelContextData) << "Project timeline last position updated" << projectTimeline->lastPosition();
             playbackViewModel->setSecondaryPosition(projectTimeline->lastPosition());
         });
-        QObject::connect(playbackViewModel, &sflow::PlaybackViewModel::primaryPositionChanged, projectTimeline, [=] {
+        QObject::connect(playbackViewModel, &sflow::PlaybackViewModel::primaryPositionChanged, projectTimeline, [=, this] {
             if (projectTimeline->position() == playbackViewModel->primaryPosition())
                 return;
             qCDebug(lcPlaybackViewModelContextData) << "Playback view model primary position updated" << playbackViewModel->primaryPosition();
             projectTimeline->setPosition(playbackViewModel->primaryPosition());
         });
-        QObject::connect(playbackViewModel, &sflow::PlaybackViewModel::secondaryPositionChanged, projectTimeline, [=] {
+        QObject::connect(playbackViewModel, &sflow::PlaybackViewModel::secondaryPositionChanged, projectTimeline, [=, this] {
             if (projectTimeline->lastPosition() == playbackViewModel->secondaryPosition())
                 return;
             qCDebug(lcPlaybackViewModelContextData) << "Playback view model secondary position updated" << playbackViewModel->secondaryPosition();
@@ -128,14 +128,14 @@ namespace VisualEditor {
         playbackViewModel->setPrimaryPosition(projectTimeline->position());
         playbackViewModel->setSecondaryPosition(projectTimeline->lastPosition());
 
-        QObject::connect(documentModel, &dspx::Model::loopStartChanged, playbackViewModel, [=] {
+        QObject::connect(documentModel, &dspx::Model::loopStartChanged, playbackViewModel, [=, this] {
             const auto loopStart = documentModel->loopStart();
             if (playbackViewModel->loopStart() == loopStart)
                 return;
             qCDebug(lcPlaybackViewModelContextData) << "Document timeline loop start updated" << loopStart;
             playbackViewModel->setLoopStart(loopStart);
         });
-        QObject::connect(documentModel, &dspx::Model::loopLengthChanged, playbackViewModel, [=] {
+        QObject::connect(documentModel, &dspx::Model::loopLengthChanged, playbackViewModel, [=, this] {
             const int loopLength = documentModel->loopLength();
             const int targetLength = documentModel->loopEnabled() ? loopLength : -1;
             if (playbackViewModel->loopLength() == targetLength)
@@ -143,7 +143,7 @@ namespace VisualEditor {
             qCDebug(lcPlaybackViewModelContextData) << "Document timeline loop length updated" << targetLength;
             playbackViewModel->setLoopLength(targetLength);
         });
-        QObject::connect(documentModel, &dspx::Model::loopEnabledChanged, playbackViewModel, [=](bool enabled) {
+        QObject::connect(documentModel, &dspx::Model::loopEnabledChanged, playbackViewModel, [=, this](bool enabled) {
             const int targetLength = enabled ? documentModel->loopLength() : -1;
             if (playbackViewModel->loopLength() == targetLength)
                 return;
@@ -191,25 +191,25 @@ namespace VisualEditor {
         auto controller = new sflow::TimelineInteractionController(parent);
         controller->setInteraction(sflow::TimelineInteractionController::MovePlayhead | sflow::TimelineInteractionController::ZoomByRubberBand | sflow::TimelineInteractionController::AdjustLoopRange);
 
-        connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingStarted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();
         });
-        connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingCommitted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingCommitted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
-        connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingAborted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TimelineInteractionController::rubberBandDraggingAborted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
-        connect(controller, &sflow::TimelineInteractionController::positionIndicatorMovingStarted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TimelineInteractionController::positionIndicatorMovingStarted, this, [=, this](QQuickItem *) {
             Q_EMIT positionIndicatorMoveWillStart();
         });
-        connect(controller, &sflow::TimelineInteractionController::positionIndicatorMovingFinished, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TimelineInteractionController::positionIndicatorMovingFinished, this, [=, this](QQuickItem *) {
             Q_EMIT positionIndicatorMoveWillFinish();
         });
-        connect(controller, &sflow::TimelineInteractionController::loopRangeAdjustingStarted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TimelineInteractionController::loopRangeAdjustingStarted, this, [=, this](QQuickItem *) {
             Q_EMIT loopRangeTransactionWillStart();
         });
-        connect(controller, &sflow::TimelineInteractionController::loopRangeAdjustingFinished, this, [=](QQuickItem *) {
+        connect(controller, &sflow::TimelineInteractionController::loopRangeAdjustingFinished, this, [=, this](QQuickItem *) {
             Q_EMIT loopRangeTransactionWillFinish();
         });
 

@@ -199,7 +199,7 @@ namespace Core::Internal {
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
         auto noteSelectionModel = windowInterface->projectDocumentContext()->document()->selectionModel()->noteSelectionModel();
         auto notes = noteSelectionModel->selectedItems();
-        windowInterface->projectDocumentContext()->document()->transactionController()->beginScopedTransaction(tr("Shifting note pitch"), [=] {
+        windowInterface->projectDocumentContext()->document()->transactionController()->beginScopedTransaction(tr("Shifting note pitch"), [=, this] {
             for (auto *note : notes) {
                 auto p = note->keyNumber() + semitone;
                 if (p < 0 || p > 127) {

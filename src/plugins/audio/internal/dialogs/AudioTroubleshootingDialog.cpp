@@ -96,11 +96,11 @@ namespace Audio::Internal {
                 parent->helper()->testDevice();
             });
 
-            connect(yesButton, &QAbstractButton::clicked, this, [=] {
+            connect(yesButton, &QAbstractButton::clicked, this, [=, this] {
                 m_nextId = Page_OK;
                 parent->next();
             });
-            connect(noButton, &QAbstractButton::clicked, this, [=] {
+            connect(noButton, &QAbstractButton::clicked, this, [=, this] {
                 m_nextId = Page_Configure;
                 parent->next();
             });
@@ -221,11 +221,11 @@ namespace Audio::Internal {
                 parent->helper()->testDevice();
             });
 
-            connect(yesButton, &QAbstractButton::clicked, this, [=] {
+            connect(yesButton, &QAbstractButton::clicked, this, [=, this] {
                 m_nextId = Page_OK;
                 parent->next();
             });
-            connect(noButton, &QAbstractButton::clicked, this, [=] {
+            connect(noButton, &QAbstractButton::clicked, this, [=, this] {
                 m_nextId = Page_ExternalCheck;
                 parent->next();
             });
@@ -288,7 +288,7 @@ namespace Audio::Internal {
             layout->addWidget(idkButton);
             setLayout(layout);
 
-            connect(goToSettingsButton, &QAbstractButton::clicked, this, [=] {
+            connect(goToSettingsButton, &QAbstractButton::clicked, this, [=, this] {
 #ifdef Q_OS_WINDOWS
                 std::system("mmsys.cpl");
                 return;
@@ -302,15 +302,15 @@ namespace Audio::Internal {
             connect(yesButton, &QAbstractButton::clicked, this, [=] {
                 parent->back();
             });
-            connect(abortButton, &QAbstractButton::clicked, this, [=] {
+            connect(abortButton, &QAbstractButton::clicked, this, [=, this] {
                 m_nextId = Page_Fail;
                 parent->next();
             });
-            connect(noButton, &QAbstractButton::clicked, this, [=] {
+            connect(noButton, &QAbstractButton::clicked, this, [=, this] {
                 m_nextId = Page_Fail;
                 parent->next();
             });
-            connect(idkButton, &QAbstractButton::clicked, this, [=] {
+            connect(idkButton, &QAbstractButton::clicked, this, [=, this] {
                 m_nextId = Page_Fail;
                 parent->next();
             });

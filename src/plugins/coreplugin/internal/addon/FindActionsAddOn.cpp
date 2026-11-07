@@ -85,7 +85,7 @@ namespace Core::Internal {
         }
         auto actionId = m_model->index(i, 0).data().toString();
         qCInfo(lcFindActionsAddOn) << "Triggering action" << actionId;
-        QTimer::singleShot(0, [=] {
+        QTimer::singleShot(0, [=, this] {
             m_model->trigger(i, windowInterface);
         });
         m_priorityActions.removeOne(actionId);

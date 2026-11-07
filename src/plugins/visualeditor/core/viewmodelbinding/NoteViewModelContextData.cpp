@@ -715,73 +715,73 @@ namespace VisualEditor {
         controller->setPrimarySelectInteraction(sflow::NoteEditLayerInteractionController::RubberBandSelect);
         controller->setSecondarySelectInteraction(sflow::NoteEditLayerInteractionController::TimeRangeSelect);
 
-        connect(controller, &sflow::NoteEditLayerInteractionController::rubberBandDraggingStarted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::rubberBandDraggingStarted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();
         });
-        connect(controller, &sflow::NoteEditLayerInteractionController::rubberBandDraggingCommitted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::rubberBandDraggingCommitted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
-        connect(controller, &sflow::NoteEditLayerInteractionController::rubberBandDraggingAborted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::rubberBandDraggingAborted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillFinish();
         });
 
-        connect(controller, &sflow::NoteEditLayerInteractionController::movingStarted, this, [=](QQuickItem *, sflow::NoteViewModel *, sflow::NoteEditLayerInteractionController::MoveFlag flag) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::movingStarted, this, [=, this](QQuickItem *, sflow::NoteViewModel *, sflow::NoteEditLayerInteractionController::MoveFlag flag) {
             shouldCopyBeforeMove = (flag == sflow::NoteEditLayerInteractionController::MF_CopyAndMove);
             moveChanged = false;
             Q_EMIT moveTransactionWillStart();
         });
-        connect(controller, &sflow::NoteEditLayerInteractionController::movingCommitted, this, [=](QQuickItem *, sflow::NoteViewModel *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::movingCommitted, this, [=, this](QQuickItem *, sflow::NoteViewModel *) {
             Q_EMIT moveTransactionWillCommit();
         });
-        connect(controller, &sflow::NoteEditLayerInteractionController::movingAborted, this, [=](QQuickItem *, sflow::NoteViewModel *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::movingAborted, this, [=, this](QQuickItem *, sflow::NoteViewModel *) {
             Q_EMIT moveTransactionWillAbort();
         });
 
-        connect(controller, &sflow::NoteEditLayerInteractionController::adjustLengthStarted, this, [=](QQuickItem *, sflow::NoteViewModel *viewItem, sflow::NoteEditLayerInteractionController::AdjustLengthEdge) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::adjustLengthStarted, this, [=, this](QQuickItem *, sflow::NoteViewModel *viewItem, sflow::NoteEditLayerInteractionController::AdjustLengthEdge) {
             targetNote = noteDocumentItemMap.value(viewItem);
             lengthChanged = false;
             Q_EMIT adjustTransactionWillStart();
         });
-        connect(controller, &sflow::NoteEditLayerInteractionController::adjustLengthCommitted, this, [=](QQuickItem *, sflow::NoteViewModel *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::adjustLengthCommitted, this, [=, this](QQuickItem *, sflow::NoteViewModel *) {
             Q_EMIT adjustTransactionWillCommit();
         });
-        connect(controller, &sflow::NoteEditLayerInteractionController::adjustLengthAborted, this, [=](QQuickItem *, sflow::NoteViewModel *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::adjustLengthAborted, this, [=, this](QQuickItem *, sflow::NoteViewModel *) {
             Q_EMIT adjustTransactionWillAbort();
         });
 
-        connect(controller, &sflow::NoteEditLayerInteractionController::drawingStarted, this, [=](QQuickItem *noteArea) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::drawingStarted, this, [=, this](QQuickItem *noteArea) {
             targetNoteArea = noteArea;
         });
-        connect(controller, &sflow::NoteEditLayerInteractionController::drawingCommitted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::drawingCommitted, this, [=, this](QQuickItem *) {
             Q_EMIT drawTransactionWillCommit();
         });
-        connect(controller, &sflow::NoteEditLayerInteractionController::drawingAborted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::drawingAborted, this, [=, this](QQuickItem *) {
             Q_EMIT drawTransactionWillAbort();
         });
 
-        connect(controller, &sflow::NoteEditLayerInteractionController::splitStarted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::splitStarted, this, [=, this](QQuickItem *) {
             splitPosition = {};
             Q_EMIT splitWillStart();
         });
-        connect(controller, &sflow::NoteEditLayerInteractionController::splitCommitted, this, [=](QQuickItem *, int position) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::splitCommitted, this, [=, this](QQuickItem *, int position) {
             splitPosition = position;
             Q_EMIT splitWillCommit();
         });
-        connect(controller, &sflow::NoteEditLayerInteractionController::splitAborted, this, [=](QQuickItem *) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::splitAborted, this, [=, this](QQuickItem *) {
             splitPosition = {};
             Q_EMIT splitWillAbort();
         });
 
         connect(controller, &sflow::NoteEditLayerInteractionController::doubleClicked, this, &NoteViewModelContextData::onDoubleClicked);
 
-        connect(controller, &sflow::NoteEditLayerInteractionController::itemDoubleClicked, this, [=](QQuickItem *noteArea, sflow::NoteViewModel *viewItem) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::itemDoubleClicked, this, [=, this](QQuickItem *noteArea, sflow::NoteViewModel *viewItem) {
             targetNoteArea = noteArea;
             targetNote = noteDocumentItemMap.value(viewItem);
             lyricChanged = false;
             Q_EMIT lyricTransactionWillStart();
         });
 
-        connect(controller, &sflow::NoteEditLayerInteractionController::itemAdditionalTextDoubleClicked, this, [=](QQuickItem *noteArea, sflow::NoteViewModel *viewItem) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::itemAdditionalTextDoubleClicked, this, [=, this](QQuickItem *noteArea, sflow::NoteViewModel *viewItem) {
             targetNoteArea = noteArea;
             targetNote = noteDocumentItemMap.value(viewItem);
             additionalTextChanged = false;
@@ -790,7 +790,7 @@ namespace VisualEditor {
 
         connect(controller, &sflow::NoteEditLayerInteractionController::rippleDeleteRequested, this, &NoteViewModelContextData::onRippleDeleteRequested);
 
-        connect(controller, &sflow::NoteEditLayerInteractionController::lyricInPlaceEditOperationTriggered, this, [=](QQuickItem *noteArea, sflow::NoteViewModel *viewItem, sflow::NoteEditLayerInteractionController::InPlaceEditOperation operation) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::lyricInPlaceEditOperationTriggered, this, [=, this](QQuickItem *noteArea, sflow::NoteViewModel *viewItem, sflow::NoteEditLayerInteractionController::InPlaceEditOperation operation) {
             targetNoteArea = noteArea;
             targetNote = noteDocumentItemMap.value(viewItem);
             switch (operation) {
@@ -829,7 +829,7 @@ namespace VisualEditor {
             }
         });
 
-        connect(controller, &sflow::NoteEditLayerInteractionController::additionalTextInPlaceEditOperationTriggered, this, [=](QQuickItem *noteArea, sflow::NoteViewModel *viewItem, sflow::NoteEditLayerInteractionController::InPlaceEditOperation operation) {
+        connect(controller, &sflow::NoteEditLayerInteractionController::additionalTextInPlaceEditOperationTriggered, this, [=, this](QQuickItem *noteArea, sflow::NoteViewModel *viewItem, sflow::NoteEditLayerInteractionController::InPlaceEditOperation operation) {
             targetNoteArea = noteArea;
             targetNote = noteDocumentItemMap.value(viewItem);
             switch (operation) {
@@ -1104,7 +1104,7 @@ namespace VisualEditor {
         position = qMax(0, timeManipulator.alignPosition(position + start, sflow::ScopicFlow::AO_Visible) - start);
         auto implicitNoteLength = qMax(1, qMax(PianoRollPanelInterface::of(q->windowHandle())->implicitNoteLength(), timeManipulator.timeLayoutViewModel()->positionAlignment()));
 
-        const bool transactionStarted = document->transactionController()->beginScopedTransaction(VisualEditor::NoteViewModelContextData::tr("Inserting note"), [=, &newNote, &success] {
+        const bool transactionStarted = document->transactionController()->beginScopedTransaction(VisualEditor::NoteViewModelContextData::tr("Inserting note"), [=, this, &newNote, &success] {
             newNote = document->model()->createNote();
             newNote->setPosition(position);
             newNote->setLength(implicitNoteLength);

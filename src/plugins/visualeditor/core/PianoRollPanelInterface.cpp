@@ -403,7 +403,7 @@ namespace VisualEditor {
         keySignatureAtSpecifiedPositionHelper->setPosition(windowHandle->projectTimeline()->position());
         clavierInteractionController->setAccidentalType(static_cast<sflow::ClavierInteractionController::AccidentalType>(keySignatureAtSpecifiedPositionHelper->accidentalType()));
         QObject::connect(windowHandle->projectTimeline(), &DspxProject::ProjectTimeline::positionChanged, keySignatureAtSpecifiedPositionHelper, &DspxProject::KeySignatureAtSpecifiedPositionHelper::setPosition);
-        QObject::connect(keySignatureAtSpecifiedPositionHelper, &DspxProject::KeySignatureAtSpecifiedPositionHelper::accidentalTypeChanged, clavierInteractionController, [=] {
+        QObject::connect(keySignatureAtSpecifiedPositionHelper, &DspxProject::KeySignatureAtSpecifiedPositionHelper::accidentalTypeChanged, clavierInteractionController, [=, this] {
             clavierInteractionController->setAccidentalType(static_cast<sflow::ClavierInteractionController::AccidentalType>(keySignatureAtSpecifiedPositionHelper->accidentalType()));
         });
     }
