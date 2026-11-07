@@ -33,7 +33,7 @@
 #include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/DefaultLyricManager.h>
+#include <singercatalog/DefaultLyricManager.h>
 
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/private/NoteSelectionController_p.h>

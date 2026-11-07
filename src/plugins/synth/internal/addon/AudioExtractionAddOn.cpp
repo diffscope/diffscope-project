@@ -57,12 +57,12 @@
 #include <uishell/DialogPositioner.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/DefaultLyricManager.h>
 #include <dspxproject/Document.h>
 #include <dspxproject/ProjectDocumentContext.h>
 #include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
 #include <singercatalog/ArchitectureInfo.h>
+#include <singercatalog/DefaultLyricManager.h>
 
 #include <audio/AudioClipAudioContext.h>
 #include <synth/internal/TempoExtractionPreview.h>

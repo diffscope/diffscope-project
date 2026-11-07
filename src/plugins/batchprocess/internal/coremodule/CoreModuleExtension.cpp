@@ -45,7 +45,6 @@
 
 #include <dspxproject/ClipboardEditScenario.h>
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/DefaultLyricManager.h>
 #include <dspxproject/Clipboard.h>
 #include <dspxproject/Document.h>
 #include <dspxproject/EditItemsScenario.h>
@@ -56,6 +55,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/TrackColorSchema.h>
 #include <singercatalog/ArchitectureInfo.h>
+#include <singercatalog/DefaultLyricManager.h>
 #include <singercatalog/SingerRegistry.h>
 
 #include <batchprocess/BatchProcessInterface.h>

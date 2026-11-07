@@ -44,7 +44,6 @@
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/DefaultLyricManager.h>
 #include <dspxproject/Document.h>
 #include <dspxproject/ProjectDocumentContext.h>
 #include <dspxproject/ProjectTimeline.h>

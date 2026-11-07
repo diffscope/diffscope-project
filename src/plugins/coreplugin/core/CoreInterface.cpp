@@ -41,7 +41,6 @@
 #include <dspxproject/CheckerRegistry.h>
 #include <dspxproject/ProjectLifecycleScenario.h>
 
-#include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/FileOpenDispatcher.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/MixedSingerPresets.h>
@@ -50,6 +49,7 @@
 #include <coreplugin/internal/CoreProjectLifecycleStrategy.h>
 #include <coreplugin/internal/NotificationCenter.h>
 #include <coreplugin/internal/NotificationManager.h>
+#include <singercatalog/DefaultLyricManager.h>
 #include <singercatalog/SingerRegistry.h>
 
 namespace Core {
@@ -67,7 +67,7 @@ namespace Core {
         QAK::QuickActionContext *actionContext = nullptr;
         DspxProject::CheckerRegistry *dspxCheckerRegistry;
         TrackColorSchema *trackColorSchema;
-        DefaultLyricManager *defaultLyricManager;
+        SingerCatalog::DefaultLyricManager *defaultLyricManager;
         SingerCatalog::SingerRegistry *singerRegistry;
         MixedSingerPresets *mixedSingerPresets;
         FileOpenDispatcher *fileOpenDispatcher;
@@ -82,8 +82,8 @@ namespace Core {
             actionRegistry->addContext(actionContext);
             dspxCheckerRegistry = new DspxProject::CheckerRegistry(q);
             trackColorSchema = new TrackColorSchema(q);
-            defaultLyricManager = new DefaultLyricManager(q);
             singerRegistry = new SingerCatalog::SingerRegistry(q);
+            defaultLyricManager = new SingerCatalog::DefaultLyricManager(singerRegistry, q);
             mixedSingerPresets = new MixedSingerPresets(q);
             fileOpenDispatcher = new FileOpenDispatcher(q);
             auto strategy = new Internal::CoreProjectLifecycleStrategy(dspxCheckerRegistry);
@@ -126,7 +126,7 @@ namespace Core {
         return instance()->d_func()->trackColorSchema;
     }
 
-    DefaultLyricManager *CoreInterface::defaultLyricManager() {
+    SingerCatalog::DefaultLyricManager *CoreInterface::defaultLyricManager() {
         Q_ASSERT(instance());
         return instance()->d_func()->defaultLyricManager;
     }

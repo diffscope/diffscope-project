@@ -28,6 +28,7 @@ namespace QAK {
 }
 
 namespace SingerCatalog {
+    class DefaultLyricManager;
     class SingerRegistry;
 }
 
@@ -41,7 +42,6 @@ namespace Core {
     class FileOpenDispatcher;
     class PropertyEditorManager;
     class TrackColorSchema;
-    class DefaultLyricManager;
     class MixedSingerPresets;
 
     class CoreInterfacePrivate;
@@ -54,7 +54,7 @@ namespace Core {
         Q_PROPERTY(QAK::ActionRegistry *actionRegistry READ actionRegistry CONSTANT)
         Q_PROPERTY(QAK::QuickActionContext *actionContext READ actionContext CONSTANT)
         Q_PROPERTY(TrackColorSchema *trackColorSchema READ trackColorSchema CONSTANT)
-        Q_PROPERTY(DefaultLyricManager *defaultLyricManager READ defaultLyricManager CONSTANT)
+        Q_PROPERTY(SingerCatalog::DefaultLyricManager *defaultLyricManager READ defaultLyricManager CONSTANT)
         Q_PROPERTY(SingerCatalog::SingerRegistry *singerRegistry READ singerRegistry CONSTANT)
         Q_PROPERTY(MixedSingerPresets *mixedSingerPresets READ mixedSingerPresets CONSTANT)
         Q_PROPERTY(FileOpenDispatcher *fileOpenDispatcher READ fileOpenDispatcher CONSTANT)
@@ -70,13 +70,14 @@ namespace Core {
 
         static TrackColorSchema *trackColorSchema();
 
-        static DefaultLyricManager *defaultLyricManager();
+        static SingerCatalog::DefaultLyricManager *defaultLyricManager();
 
         static SingerCatalog::SingerRegistry *singerRegistry();
 
         static MixedSingerPresets *mixedSingerPresets();
 
         static FileOpenDispatcher *fileOpenDispatcher();
+
         static DspxProject::ProjectLifecycleScenario *projectLifecycleScenario();
 
         static constexpr const char *dspxEditorId() {

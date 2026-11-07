@@ -81,6 +81,7 @@
 #include <coreplugin/internal/ViewVisibilityAddOn.h>
 #include <coreplugin/internal/WorkspaceAddOn.h>
 #include <coreplugin/internal/WorkspacePanelCatalog.h>
+#include <singercatalog/DefaultLyricManager.h>
 
 #include <org.diffscope.core_actions.qak.h>
 
@@ -355,6 +356,10 @@ namespace Core::Internal {
 
     void CorePlugin::initializeBehaviorPreference() {
         auto behaviorPreference = BehaviorPreference::instance();
+        auto defaultLyricManager = CoreInterface::defaultLyricManager();
+        QObject::connect(behaviorPreference, &BehaviorPreference::fallbackLyricTextChanged, defaultLyricManager, [defaultLyricManager] {
+            defaultLyricManager->setFallback(BehaviorPreference::fallbackLyricText());
+        });
         const auto updateFont = [=] {
             if (!BehaviorPreference::useCustomFont()) {
                 auto font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);

@@ -56,7 +56,6 @@
 #include <dspxproject/ProjectTimeline.h>
 
 #include <coreplugin/CoreInterface.h>
-#include <coreplugin/DefaultLyricManager.h>
 #include <coreplugin/NotificationMessage.h>
 #include <coreplugin/TrackColorSchema.h>
 #include <coreplugin/internal/BehaviorPreference.h>
@@ -71,6 +70,7 @@
 #include <coreplugin/internal/CoreParameterResamplingStrategy.h>
 #include <coreplugin/internal/CorePickTrackColorStrategy.h>
 #include <coreplugin/internal/NotificationManager.h>
+#include <singercatalog/DefaultLyricManager.h>
 
 namespace Core {
 
