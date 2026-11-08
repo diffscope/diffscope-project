@@ -22,6 +22,7 @@
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectFileDialogs.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/SingerSettings.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/ProjectStartupTimerAddOn.h>
 #include <coreplugin/internal/ProjectWindowNavigatorAddOn.h>
@@ -43,6 +44,7 @@ namespace Core::Internal {
             },
             .defaultTrackName = tr("Unnamed track"),
             .defaultClipName = tr("Unnamed clip"),
+            .defaultClipSources = SingerSettings::defaultSinger(),
             .recoveryCopyPath = recoveryCopyPath(),
             .checker = m_checker,
 #ifdef Q_OS_WIN

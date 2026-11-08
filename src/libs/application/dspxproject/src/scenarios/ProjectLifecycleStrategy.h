@@ -10,6 +10,7 @@
 #include <QStringList>
 
 #include <dspxproject/ProjectDocumentContext.h>
+#include <dspxproject/SourcesSelection.h>
 #include <dspxproject/dspxprojectglobal.h>
 
 class QWindow;
@@ -26,6 +27,8 @@ namespace DspxProject {
         QString defaultTrackName;
         /** The initial singing clip name in a default project. */
         QString defaultClipName;
+        /** The initial singing clip in a default project uses these sources. */
+        SourcesSelection defaultClipSources;
         /** The destination for the recovery copy created when changes are discarded. */
         QString recoveryCopyPath;
         /** The borrowed required checker. @pre Non-null and valid for the operation. */

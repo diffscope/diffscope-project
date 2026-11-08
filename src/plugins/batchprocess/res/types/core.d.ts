@@ -184,6 +184,8 @@ declare module "diffscope:core" {
         singers(architectureId: string): readonly SingerDescriptor[];
         /** Returns null for an unregistered singer. */
         singer(architectureId: string, singerId: string): SingerDescriptor | null;
+        /** Returns a frozen snapshot of configured default sources in DSPX format, or null if unset. Registration is not required. */
+        defaultSources(): Readonly<DSPX.Sources> | null;
         /**
          * Returns a parameter descriptor, or null if unavailable.
          * Built-in pitch is available even without a registered architecture.

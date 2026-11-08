@@ -3051,13 +3051,13 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::DocumentPage</name>
     <message>
-        <location filename="../../internal/settings/DocumentPage.cpp" line="16"/>
+        <location filename="../../internal/settings/DocumentPage.cpp" line="21"/>
         <source>Document</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/DocumentPage.cpp" line="17"/>
-        <source>Configure note and parameter editing behaviors</source>
+        <location filename="../../internal/settings/DocumentPage.cpp" line="22"/>
+        <source>Configure the default singer and editing behaviors for notes and parameters</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4660,27 +4660,32 @@ Do you want to save as a new file or overwrite it?</translation>
 <context>
     <name>DocumentPage</name>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="35"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="52"/>
+        <source>Default Virtual Singer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DocumentPage.qml" line="65"/>
         <source>Notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="43"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="73"/>
         <source>Fallback lyric text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="55"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="85"/>
         <source>Parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="61"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="91"/>
         <source>Skip parameter resampling checks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="70"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="100"/>
         <source>Parameter curves not aligned to step size will be resampled automatically when pasting or bouncing clips.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6632,6 +6637,71 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
     </message>
 </context>
 <context>
+    <name>SingerButton</name>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="31"/>
+        <source>Multiple singing clips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="33"/>
+        <source>No singer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="38"/>
+        <source>Tap to set the singer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="49"/>
+        <source>Singer architecture unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="50"/>
+        <source>The singer architecture &quot;%1&quot; is not registered. Singer information cannot be resolved.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="58"/>
+        <source>Unnamed architecture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="60"/>
+        <source>The following singers are not registered in architecture &quot;%1&quot;:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="62"/>
+        <source>The following singers could not be found:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="67"/>
+        <source>Singer information unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="200"/>
+        <location filename="../../qml/controls/SingerButton.qml" line="212"/>
+        <source>Mixed singer (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="200"/>
+        <location filename="../../qml/controls/SingerButton.qml" line="212"/>
+        <source>, </source>
+        <translation type="unfinished">, </translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="289"/>
+        <source>Singer information warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SingerPicker</name>
     <message>
         <location filename="../../qml/controls/SingerPicker.qml" line="47"/>
@@ -6945,75 +7015,13 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>VirtualSingerPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="54"/>
-        <source>Multiple singing clips</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="56"/>
-        <source>No singer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="61"/>
-        <source>Tap to set the singer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="65"/>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="47"/>
         <source>Virtual Singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="71"/>
-        <source>Singer architecture unavailable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="72"/>
-        <source>The singer architecture &quot;%1&quot; is not registered. Singer information cannot be resolved.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="80"/>
-        <source>Unnamed architecture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="82"/>
-        <source>The following singers are not registered in architecture &quot;%1&quot;:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="84"/>
-        <source>The following singers could not be found:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="89"/>
-        <source>Singer information unavailable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="241"/>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="253"/>
-        <source>Mixed singer (%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="241"/>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="253"/>
-        <source>, </source>
-        <translation type="unfinished">, </translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="310"/>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="121"/>
         <source>Drop to set singer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="376"/>
-        <source>Singer information warning</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

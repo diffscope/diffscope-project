@@ -12,6 +12,8 @@
 
 #include <opendspx/serializer/jsonconverterv1.h>
 
+#include <coreplugin/SingerSettings.h>
+
 #include <stdcorelib/jsonconv_stdcorelib.h>
 
 namespace BatchProcess::Internal {
@@ -221,6 +223,15 @@ namespace BatchProcess::Internal {
         if (auto *value = qobject_cast<dspx::AudioDSP *>(object)) return writeJsonValue(value->toOpenDSPX(), data);
         if (auto *value = qobject_cast<dspx::AudioDSPList *>(object)) return writeJsonValue(value->toOpenDSPX(), data);
         return false;
+    }
+
+    bool exportDefaultSingerSources(QJsonValue *data) {
+        const auto sources = Core::SingerSettings::defaultSinger().toOpenDSPX();
+        if (!sources) {
+            *data = QJsonValue(QJsonValue::Null);
+            return true;
+        }
+        return writeJson(*sources, data);
     }
 
     bool importDSPX(QObject *object, const QJsonValue &data, bool checked) {

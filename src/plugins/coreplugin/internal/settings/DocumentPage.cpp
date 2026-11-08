@@ -4,17 +4,22 @@
 #include "DocumentPage.h"
 
 #include <QQmlComponent>
+#include <QQuickWindow>
 #include <QVariant>
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <coreplugin/SingerSettings.h>
+#include <coreplugin/SourcesPicker.h>
+#include <coreplugin/SourcesPickerModel.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 
 namespace Core::Internal {
 
-    DocumentPage::DocumentPage(QObject *parent) : ISettingPage("org.diffscope.core.Document", parent) {
+    DocumentPage::DocumentPage(QObject *parent)
+        : ISettingPage("org.diffscope.core.Document", parent), m_defaultSingerModel(new SourcesPickerModel(this)) {
         setTitle(tr("Document"));
-        setDescription(tr("Configure note and parameter editing behaviors"));
+        setDescription(tr("Configure document editing behaviors"));
     }
 
     DocumentPage::~DocumentPage() {
@@ -36,7 +41,10 @@ namespace Core::Internal {
         if (component.isError()) {
             qFatal() << component.errorString();
         }
-        m_widget = component.createWithInitialProperties({{"pageHandle", QVariant::fromValue(this)}});
+        m_widget = component.createWithInitialProperties({
+            {"pageHandle", QVariant::fromValue(this)},
+            {"defaultSingerModel", QVariant::fromValue(m_defaultSingerModel)},
+        });
         if (!m_widget) {
             qFatal() << component.errorString();
         }
@@ -46,6 +54,7 @@ namespace Core::Internal {
 
     void DocumentPage::beginSetting() {
         widget();
+        m_defaultSingerModel->setSourcesSelection(SingerSettings::defaultSinger());
         m_widget->setProperty("fallbackLyricText", BehaviorPreference::fallbackLyricText());
         m_widget->setProperty("skipParameterResamplingCheck", BehaviorPreference::skipParameterResamplingCheck());
         m_widget->setProperty("started", true);
@@ -53,6 +62,8 @@ namespace Core::Internal {
     }
 
     bool DocumentPage::accept() {
+        if (!SingerSettings::setDefaultSinger(m_defaultSingerModel->sourcesSelection()))
+            return false;
         BehaviorPreference::setFallbackLyricText(m_widget->property("fallbackLyricText").toString());
         BehaviorPreference::setSkipParameterResamplingCheck(m_widget->property("skipParameterResamplingCheck").toBool());
         BehaviorPreference::instance()->save();
@@ -62,6 +73,12 @@ namespace Core::Internal {
     void DocumentPage::endSetting() {
         m_widget->setProperty("started", false);
         ISettingPage::endSetting();
+    }
+
+    void DocumentPage::editDefaultSinger(QQuickWindow *window) {
+        const auto result = pickSources(m_defaultSingerModel->sourcesSelection(), window);
+        if (result)
+            m_defaultSingerModel->setSourcesSelection(*result);
     }
 
     bool DocumentPage::widgetMatches(const QString &word) {

@@ -779,6 +779,12 @@ namespace BatchProcess::Internal {
                 return success(propertyValue(colors));
             }
             if (operation == QStringLiteral("lyric")) return success(Core::CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(qobject_cast<dspx::SingingClip *>(args.property(0).toQObject())));
+            if (operation == QStringLiteral("defaultSingerSources")) {
+                QJsonValue data;
+                if (!exportDefaultSingerSources(&data))
+                    return failure(QStringLiteral("invalidData"), operation);
+                return data.isNull() ? success(QJSValue(QJSValue::NullValue)) : success(propertyValue(data.toVariant()));
+            }
             if (operation == QStringLiteral("showHome")) { Core::CoreInterface::showHome(); return success(); }
             if (operation == QStringLiteral("homeWindow")) {
                 for (auto *window : Core::CoreInterface::windowSystem()->windows()) if (auto *home = qobject_cast<Core::HomeWindowInterface *>(window)) return success(ShellInterface::instance()->toJavaScriptValue(m_context, home));

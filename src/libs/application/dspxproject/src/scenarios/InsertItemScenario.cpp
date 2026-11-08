@@ -242,7 +242,7 @@ namespace DspxProject {
             currentTrack = trackList->items().first();
         }
 
-        const auto result = d->strategy->requestClip(trackList, {currentTrack, timeline->position(), 15360, tr("Unnamed clip")},
+        const auto result = d->strategy->requestClip(trackList, {currentTrack, timeline->position(), 15360, tr("Unnamed clip"), {}},
                                                      timeline->musicTimeline(), dialogWindow, hints);
         if (!result || !readLock || !targetDocument)
             return;
@@ -275,6 +275,7 @@ namespace DspxProject {
             newClip->setClipLength(clipLength);
             newClip->setPosition(clipPosition);
             newClip->setGain(1);
+            result->sources.applyTo(newClip);
             auto clipSequence = targetTrack->clips();
             if (!clipSequence->insertItem(newClip)) {
                 model->destroyItem(newClip);

@@ -9,6 +9,7 @@
 #include <dspxmodelORM/TrackList.h>
 
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/SingerSettings.h>
 #include <coreplugin/internal/DocumentEditDialog.h>
 
 namespace Core::Internal {
@@ -62,8 +63,13 @@ namespace Core::Internal {
         if (!DocumentEditDialog::execPopup(dialog.get(), window)) {
             return std::nullopt;
         }
-        return ClipInput{qobject_cast<dspx::Track *>(dialog->property("selectedTrack").value<QObject *>()),
-                    dialog->property("clipPosition").toInt(), dialog->property("clipLength").toInt(), dialog->property("clipName").toString()};
+        return ClipInput{
+            .track = qobject_cast<dspx::Track *>(dialog->property("selectedTrack").value<QObject *>()),
+            .position = dialog->property("clipPosition").toInt(),
+            .length = dialog->property("clipLength").toInt(),
+            .name = dialog->property("clipName").toString(),
+            .sources = SingerSettings::defaultSinger(),
+        };
     }
 
     std::optional<DspxProject::InsertItemStrategy::NoteInput> CoreInsertItemStrategy::requestNote(const NoteInput &initial, SVS::MusicTimeline *timeline, QQuickWindow *window, DspxProject::DocumentEdit::Hints hints) {

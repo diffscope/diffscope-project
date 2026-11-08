@@ -35,6 +35,7 @@
 #include <dspxproject/EditItemsScenario.h>
 #include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/SingerSettings.h>
 
 #include <visualeditor/private/ClipSelectionController_p.h>
 #include <visualeditor/PianoRollPanelInterface.h>
@@ -892,6 +893,7 @@ namespace VisualEditor {
             newClip->setClipLength(defaultClipLength);
             newClip->setPosition(position);
             newClip->setGain(1);
+            Core::SingerSettings::applyDefaultSinger(newClip);
             if (!track->clips()->insertItem(newClip)) {
                 document->model()->destroyItem(newClip);
                 newClip = nullptr;
@@ -933,6 +935,7 @@ namespace VisualEditor {
         clip->setClipLength(0);
         clip->setPosition(position);
         clip->setGain(1);
+        Core::SingerSettings::applyDefaultSinger(clip);
 
         track->clips()->insertItem(clip);
 

@@ -10,6 +10,7 @@
 #include <QString>
 
 #include <dspxproject/DocumentEditHints.h>
+#include <dspxproject/SourcesSelection.h>
 #include <dspxproject/dspxprojectglobal.h>
 
 class QQuickWindow;
@@ -62,6 +63,8 @@ namespace DspxProject {
             int length;
             /** The clip name. */
             QString name;
+            /** These sources are applied within the clip insertion transaction. */
+            SourcesSelection sources;
         };
 
         /** The initial or accepted note values. */

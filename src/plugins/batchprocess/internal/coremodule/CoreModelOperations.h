@@ -53,6 +53,7 @@ namespace BatchProcess::Internal {
     QList<QObject *> modelItems(QObject *object);
     QList<QPointer<dspx::EntityObject>> modelEntities(dspx::Model *model);
     bool exportDSPX(QObject *object, QJsonValue *data);
+    bool exportDefaultSingerSources(QJsonValue *data);
     bool importDSPX(QObject *object, const QJsonValue &data, bool checked = true);
     dspx::EntityObject *allocateEntity(dspx::Model *model, const QString &kind, bool original = false);
     bool attachEntity(QObject *container, dspx::EntityObject *entity, int index, const QString &key);

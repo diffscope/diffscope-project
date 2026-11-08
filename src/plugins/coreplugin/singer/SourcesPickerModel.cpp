@@ -506,6 +506,20 @@ namespace Core {
         return {architectureId(), singers()};
     }
 
+    void SourcesPickerModel::setSourcesSelection(const DspxProject::SourcesSelection &sources) {
+        setArchitectureId(sources.architectureId);
+        setSingers(sources.singers);
+    }
+
+    QVariantList SourcesPickerModel::singerTree() const {
+        Q_D(const SourcesPickerModel);
+        QVariantList result;
+        result.reserve(static_cast<qsizetype>(d->roots.size()));
+        for (const auto &root : d->roots)
+            result.append(SourcesPickerModelPrivate::singerTree(root.get()));
+        return result;
+    }
+
     QList<opendspx::SingerRef> SourcesPickerModel::singers() const {
         Q_D(const SourcesPickerModel);
         QList<opendspx::SingerRef> result;

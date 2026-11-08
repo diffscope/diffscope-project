@@ -34,6 +34,7 @@ namespace Core {
         QML_ELEMENT
         Q_DECLARE_PRIVATE(SourcesPickerModel)
         Q_PROPERTY(QString architectureId READ architectureId WRITE setArchitectureId NOTIFY architectureIdChanged)
+        Q_PROPERTY(QVariantList singerTree READ singerTree NOTIFY singersChanged)
         Q_PROPERTY(int count READ count NOTIFY countChanged)
         Q_PROPERTY(bool empty READ empty NOTIFY emptyChanged)
         Q_PROPERTY(bool valid READ valid NOTIFY validationChanged)
@@ -75,7 +76,9 @@ namespace Core {
         QList<opendspx::SingerRef> singers() const;
         opendspx::SingerRef singer(const QModelIndex &index) const;
         void setSingers(const QList<opendspx::SingerRef> &singers);
+        QVariantList singerTree() const;
         Q_INVOKABLE DspxProject::SourcesSelection sourcesSelection() const;
+        Q_INVOKABLE void setSourcesSelection(const DspxProject::SourcesSelection &sources);
         Q_INVOKABLE void fromSources(dspx::Sources *sources);
         Q_INVOKABLE void fromDefaultSinger(const QString &singerId);
         Q_INVOKABLE QByteArray serialize() const;

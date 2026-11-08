@@ -61,6 +61,7 @@
 #include <dspxproject/ProjectDocumentContext.h>
 #include <dspxproject/ProjectTimeline.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/SingerSettings.h>
 #include <singercatalog/ArchitectureInfo.h>
 #include <singercatalog/DefaultLyricManager.h>
 
@@ -598,6 +599,7 @@ namespace Synth::Internal {
             dspx::Clip *clip;
             if (singingExtraction) {
                 auto singing = model->createSingingClip();
+                Core::SingerSettings::applyDefaultSinger(singing);
                 clip = singing;
                 if (operation.type == AudioExtractionTask::Pitch) {
                     auto parameter = model->createParameter();

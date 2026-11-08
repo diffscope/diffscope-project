@@ -9,10 +9,13 @@ import QtQuick.Layouts
 import SVSCraft
 import SVSCraft.UIComponents
 
+import DiffScope.Core
+
 ScrollView {
     id: page
 
     required property QtObject pageHandle
+    required property SourcesPickerModel defaultSingerModel
     property bool started: false
     property string fallbackLyricText
     property bool skipParameterResamplingCheck
@@ -25,12 +28,39 @@ ScrollView {
 
     readonly property TextMatcher matcher: TextMatcher {}
 
+    Connections {
+        target: page.defaultSingerModel
+
+        function onArchitectureIdChanged() {
+            if (page.started)
+                page.pageHandle.markDirty()
+        }
+
+        function onSingersChanged() {
+            if (page.started)
+                page.pageHandle.markDirty()
+        }
+    }
+
     ColumnLayout {
         width: page.width
         ColumnLayout {
             Layout.fillWidth: true
             Layout.margins: 12
             spacing: 32
+            GroupBox {
+                title: qsTr("Default Virtual Singer")
+                Layout.fillWidth: true
+                TextMatcherItem on title { matcher: page.matcher }
+
+                SingerButton {
+                    width: parent.width
+                    architectureId: page.defaultSingerModel.architectureId
+                    singerTree: page.defaultSingerModel.singerTree
+                    hasSources: architectureId !== "" && !page.defaultSingerModel.empty
+                    onClicked: page.pageHandle.editDefaultSinger(page.Window.window)
+                }
+            }
             GroupBox {
                 title: qsTr("Notes")
                 Layout.fillWidth: true

@@ -36,12 +36,14 @@
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/SingerSettings.h>
 #include <dspxproject/ProjectDocumentContext.h>
 #include <dspxproject/ProjectLifecycleScenario.h>
 #include <dspxproject/Document.h>
 
 #include <importexportmanager/ConverterCollection.h>
 #include <importexportmanager/FileConverter.h>
+#include <importexportmanager/internal/DspxFileImporter.h>
 
 #include <transactional/TransactionController.h>
 
@@ -225,6 +227,20 @@ namespace ImportExportManager::Internal {
         if (!converter->execImport(path, model, windowHandle()->window())) {
             qCInfo(lcFileImportExportAddOn) << "Import failed or canceled";
             return false;
+        }
+        if (!qobject_cast<DspxFileImporter *>(converter)) {
+            const auto sources = Core::SingerSettings::defaultSinger().toOpenDSPX();
+            if (sources) {
+                for (const auto &track : model.content.tracks) {
+                    for (const auto &clip : track.clips) {
+                        if (!clip || clip->type != opendspx::Clip::Type::Singing)
+                            continue;
+                        auto &singingClip = static_cast<opendspx::SingingClip &>(*clip);
+                        if (!singingClip.sources)
+                            singingClip.sources = sources;
+                    }
+                }
+            }
         }
         return true;
     }

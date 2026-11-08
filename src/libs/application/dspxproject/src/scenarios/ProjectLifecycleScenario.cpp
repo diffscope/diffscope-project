@@ -63,6 +63,17 @@ namespace DspxProject {
     ProjectDocumentContext *ProjectLifecycleScenario::newProject(const QString &name, QWindow *parent) {
         Q_D(ProjectLifecycleScenario);
         const auto options = d->strategy->projectLifecycleOptions();
+        auto defaultClip = std::make_shared<opendspx::SingingClip>(
+            options.defaultClipName.toStdString(),
+            opendspx::BusControl{},
+            opendspx::ClipTime{
+                .pos = 0,
+                .length = 0,
+                .clipStart = 0,
+                .clipLen = 46080
+            }
+        );
+        defaultClip->sources = options.defaultClipSources.toOpenDSPX();
         const opendspx::Model defaultModel{
             .version = opendspx::Model::Version::V1,
             .content = {
@@ -75,18 +86,7 @@ namespace DspxProject {
                 .tracks = {
                     opendspx::Track{
                         .name = options.defaultTrackName.toStdString(),
-                        .clips = {
-                            std::make_shared<opendspx::SingingClip>(
-                                options.defaultClipName.toStdString(),
-                                opendspx::BusControl{},
-                                opendspx::ClipTime{
-                                    .pos = 0,
-                                    .length = 0,
-                                    .clipStart = 0,
-                                    .clipLen = 46080
-                                }
-                            )
-                        }
+                        .clips = {defaultClip}
                     }
                 },
                 .workspace = {

@@ -649,6 +649,7 @@
         architecture(id) { V.string(id); const value = result(bridge.service("architecture", [id])); if (value === null) return null; value.defaultExtra = V.copy(value.defaultExtra); value.parameters = freeze(mapped(value.parameters, parameterDescriptor)); return deepFreeze(value); },
         singers(architectureId) { V.string(architectureId); return freeze(mapped(result(bridge.service("singers", [architectureId])), id => singers.singer(architectureId, id))); },
         singer(architectureId, id) { V.string(architectureId); V.string(id); return deepFreeze(V.copy(result(bridge.service("singer", [architectureId, id])))); },
+        defaultSources() { return deepFreeze(V.copy(result(bridge.service("defaultSingerSources", [])))); },
         parameter(architectureId, id, transform = false) { V.string(architectureId); V.string(id); V.boolean(transform); return parameterDescriptor(result(bridge.service("parameter", [architectureId, id, transform]))); },
     });
     const lyricDefaults = freeze({ lyricFor(clip) { const entry = state(clip); if (entry.kind !== "SingingClip") throw new Type("A singing clip is required."); return result(bridge.service("lyric", [entry.raw])); } });

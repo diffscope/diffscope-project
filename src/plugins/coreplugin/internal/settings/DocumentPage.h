@@ -6,6 +6,14 @@
 
 #include <CoreApi/isettingpage.h>
 
+Q_MOC_INCLUDE(<QQuickWindow>)
+
+class QQuickWindow;
+
+namespace Core {
+    class SourcesPickerModel;
+}
+
 namespace Core::Internal {
 
     class DocumentPage : public ISettingPage {
@@ -21,9 +29,12 @@ namespace Core::Internal {
         bool accept() override;
         void endSetting() override;
 
+        Q_INVOKABLE void editDefaultSinger(QQuickWindow *window);
+
     private:
         bool widgetMatches(const QString &word);
         QObject *m_widget{};
+        SourcesPickerModel *m_defaultSingerModel{};
     };
 
 }

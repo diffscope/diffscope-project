@@ -3110,14 +3110,14 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::DocumentPage</name>
     <message>
-        <location filename="../../internal/settings/DocumentPage.cpp" line="16"/>
+        <location filename="../../internal/settings/DocumentPage.cpp" line="21"/>
         <source>Document</source>
         <translation type="unfinished">文档</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/DocumentPage.cpp" line="17"/>
-        <source>Configure note and parameter editing behaviors</source>
-        <translation type="unfinished">配置音符和参数的编辑行为</translation>
+        <location filename="../../internal/settings/DocumentPage.cpp" line="22"/>
+        <source>Configure the default singer and editing behaviors for notes and parameters</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4762,27 +4762,32 @@ Do you want to continue opening it?</source>
 <context>
     <name>DocumentPage</name>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="35"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="52"/>
+        <source>Default Virtual Singer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DocumentPage.qml" line="65"/>
         <source>Notes</source>
         <translation type="unfinished">音符</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="43"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="73"/>
         <source>Fallback lyric text</source>
         <translation type="unfinished">后备歌词文本</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="55"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="85"/>
         <source>Parameters</source>
         <translation type="unfinished">参数</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="61"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="91"/>
         <source>Skip parameter resampling checks</source>
         <translation type="unfinished">跳过参数重采样检查</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="70"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="100"/>
         <source>Parameter curves not aligned to step size will be resampled automatically when pasting or bouncing clips.</source>
         <translation type="unfinished">在粘贴或合并剪辑时，未与步长对齐的参数曲线将自动进行重采样。</translation>
     </message>
@@ -6742,6 +6747,71 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</source
     </message>
 </context>
 <context>
+    <name>SingerButton</name>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="31"/>
+        <source>Multiple singing clips</source>
+        <translation type="unfinished">多个歌唱剪辑</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="33"/>
+        <source>No singer</source>
+        <translation type="unfinished">无歌手</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="38"/>
+        <source>Tap to set the singer</source>
+        <translation type="unfinished">点击以设置歌手</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="49"/>
+        <source>Singer architecture unavailable</source>
+        <translation type="unfinished">歌手架构不可用</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="50"/>
+        <source>The singer architecture &quot;%1&quot; is not registered. Singer information cannot be resolved.</source>
+        <translation type="unfinished">歌手架构“%1”尚未注册，无法解析歌手信息。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="58"/>
+        <source>Unnamed architecture</source>
+        <translation type="unfinished">未命名架构</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="60"/>
+        <source>The following singers are not registered in architecture &quot;%1&quot;:</source>
+        <translation type="unfinished">以下歌手未注册到架构“%1”：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="62"/>
+        <source>The following singers could not be found:</source>
+        <translation type="unfinished">未找到以下歌手：</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="67"/>
+        <source>Singer information unavailable</source>
+        <translation type="unfinished">歌手信息不可用</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="200"/>
+        <location filename="../../qml/controls/SingerButton.qml" line="212"/>
+        <source>Mixed singer (%1)</source>
+        <translation type="unfinished">混合歌手（%1）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="200"/>
+        <location filename="../../qml/controls/SingerButton.qml" line="212"/>
+        <source>, </source>
+        <translation type="unfinished">，</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/SingerButton.qml" line="289"/>
+        <source>Singer information warning</source>
+        <translation type="unfinished">歌手信息警告</translation>
+    </message>
+</context>
+<context>
     <name>SingerPicker</name>
     <message>
         <location filename="../../qml/controls/SingerPicker.qml" line="47"/>
@@ -7060,76 +7130,14 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>VirtualSingerPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="54"/>
-        <source>Multiple singing clips</source>
-        <translation type="unfinished">多个歌唱剪辑</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="56"/>
-        <source>No singer</source>
-        <translation type="unfinished">无歌手</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="61"/>
-        <source>Tap to set the singer</source>
-        <translation type="unfinished">点击以设置歌手</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="65"/>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="47"/>
         <source>Virtual Singer</source>
         <translation>虚拟歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="71"/>
-        <source>Singer architecture unavailable</source>
-        <translation type="unfinished">歌手架构不可用</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="72"/>
-        <source>The singer architecture &quot;%1&quot; is not registered. Singer information cannot be resolved.</source>
-        <translation type="unfinished">歌手架构“%1”尚未注册，无法解析歌手信息。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="80"/>
-        <source>Unnamed architecture</source>
-        <translation type="unfinished">未命名架构</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="82"/>
-        <source>The following singers are not registered in architecture &quot;%1&quot;:</source>
-        <translation type="unfinished">以下歌手未注册到架构“%1”：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="84"/>
-        <source>The following singers could not be found:</source>
-        <translation type="unfinished">未找到以下歌手：</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="89"/>
-        <source>Singer information unavailable</source>
-        <translation type="unfinished">歌手信息不可用</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="241"/>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="253"/>
-        <source>Mixed singer (%1)</source>
-        <translation type="unfinished">混合歌手（%1）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="241"/>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="253"/>
-        <source>, </source>
-        <translation type="unfinished">，</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="310"/>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="121"/>
         <source>Drop to set singer</source>
         <translation type="unfinished">拖放以设置歌手</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="376"/>
-        <source>Singer information warning</source>
-        <translation type="unfinished">歌手信息警告</translation>
     </message>
 </context>
 <context>
