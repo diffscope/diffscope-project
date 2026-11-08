@@ -383,12 +383,15 @@ Dialog {
 
             ComboBox {
                 id: comboBox
-                property int lastEnabledIndex: choiceEditorRoot.initialIndex()
+                property int lastEnabledIndex: -1
 
                 Layout.fillWidth: true
                 model: choiceEditorRoot.field ? choiceEditorRoot.field.items : []
                 textRole: "label"
-                currentIndex: choiceEditorRoot.initialIndex()
+                onModelChanged: {
+                    currentIndex = choiceEditorRoot.initialIndex()
+                    lastEnabledIndex = currentIndex
+                }
                 onActivated: index => {
                     if (model[index].enabled)
                         lastEnabledIndex = index
