@@ -148,16 +148,15 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 if ($CCache) {
-    ccache --zero-stats | Write-Host
+    ccache --zero-stats | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw 'The ccache statistics could not be reset'
+    }
 }
 
 cmake --build $(Resolve-Path $BuildDir) --target all | Write-Host
 if ($LASTEXITCODE -ne 0) {
     throw "Build failed"
-}
-
-if ($CCache) {
-    ccache --show-stats | Write-Host
 }
 
 cmake --build $(Resolve-Path $BuildDir) --target install | Write-Host

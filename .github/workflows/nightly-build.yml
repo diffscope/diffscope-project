@@ -43,8 +43,8 @@ jobs:
     with:
       source_sha: ${{ github.sha }}
       build_type: nightly
-      use_cache: false
-      use_ccache: false
+      use_cache: true
+      use_ccache: true
 
   Publish:
     needs: Build

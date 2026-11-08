@@ -79,11 +79,23 @@ if (-not $changed) {
 }
 
 $save = $changed -and $currentEntries.Count -gt 0
-Write-Host "CCache entries: $($sourceEntries.Count) restored, $($currentEntries.Count) retained"
+@(
+    '### CCache Snapshot'
+    ''
+    '| Restored Entries | Retained Entries |'
+    '| ---: | ---: |'
+    "| $($sourceEntries.Count) | $($currentEntries.Count) |"
+) >> $env:GITHUB_STEP_SUMMARY
 if ($save) {
-    ccache --recompress 10 | Write-Host
+    $compressionStatistics = ccache --recompress 10
     if ($LASTEXITCODE -ne 0) {
         throw 'The ccache snapshot could not be recompressed'
     }
+    @(
+        ''
+        '```text'
+        ($compressionStatistics -join "`n")
+        '```'
+    ) >> $env:GITHUB_STEP_SUMMARY
 }
 "save=$($save.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT

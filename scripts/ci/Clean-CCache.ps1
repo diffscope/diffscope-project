@@ -68,7 +68,6 @@ foreach ($cache in $deletions) {
 }
 
 $deletedMiB = ($deletedBytes / 1MB).ToString('F1', [System.Globalization.CultureInfo]::InvariantCulture)
-Write-Host "Deleted $deletedCount ccache snapshots and released $deletedMiB MiB"
 if ($env:GITHUB_STEP_SUMMARY) {
     "Deleted $deletedCount ccache snapshots and released $deletedMiB MiB." >> $env:GITHUB_STEP_SUMMARY
 }

@@ -187,6 +187,7 @@ jobs:
           restore-keys: ${{ env.CCACHE_KEY_PREFIX }}
 
       - name: Prepare CCache
+        id: ccache_prepare
         if: inputs.use_cache && inputs.use_ccache
         run: ./scripts/ci/Manage-CCache.ps1 -Operation prepare
 
@@ -218,6 +219,21 @@ jobs:
           "APPLICATION_DISPLAY_NAME=$($output.ApplicationDisplayName)" >> $env:GITHUB_ENV
           "APPLICATION_NAME=$($output.ApplicationName)" >> $env:GITHUB_ENV
           "INSTALLER_FILE_BASE=$($output.InstallerFileBase)" >> $env:GITHUB_ENV
+
+      - name: Summarize CCache statistics
+        if: ${{ !cancelled() && steps.ccache_prepare.outcome == 'success' }}
+        run: |
+          $statistics = ccache --show-stats
+          if ($LASTEXITCODE -ne 0) {
+            throw 'The ccache statistics could not be read'
+          }
+          @(
+            '### CCache Statistics'
+            ''
+            '```text'
+            ($statistics -join "`n")
+            '```'
+          ) >> $env:GITHUB_STEP_SUMMARY
 
       - name: Prepare CCache snapshot
         id: ccache_snapshot
