@@ -2170,6 +2170,7 @@ namespace Synth::Internal {
                 processAudioWriteback(runtime, writeback, result);
                 break;
         }
+        synchronizeContinuationPronunciations(runtime->clip);
     }
 
     void SynthesisProjectAddOn::processPronunciationWriteback(ClipRuntime *runtime, TaskWriteback *writeback, const QList<dspx::Note *> &notes, const SynthesisTaskResult &result) {
@@ -2280,6 +2281,7 @@ namespace Synth::Internal {
             if (!runtime || !runtime->clip || !runtime->divider || !runtime->watcher) {
                 continue;
             }
+            synchronizeContinuationPronunciations(runtime->clip);
             if (addedClipSet.contains(runtime->clip))
                 continue;
             const bool rebound = std::exchange(runtime->rebound, false);

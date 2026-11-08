@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <optional>
 #include <ranges>
 #include <vector>
 
@@ -166,10 +167,12 @@ namespace Synth::Internal::ProjectInput {
             bool continuation{};
             bool emptySyllableSlice{};
             int syllableOffset{};
+            std::optional<int> syllableSliceEnd;
         };
 
         QList<NoteText> noteTexts(const QList<dspx::Note *> &notes, const QString &defaultLanguage) {
             QList<NoteText> result;
+            qsizetype previousSyllableIndex = -1;
             for (auto note : notes) {
                 NoteText text;
                 text.lyric = note->lyric();
@@ -179,20 +182,26 @@ namespace Synth::Internal::ProjectInput {
                 text.continuation = text.slur || note->lyric() == QStringLiteral("+");
                 text.emptySyllableSlice = text.slur;
                 if (text.continuation) {
-                    if (result.isEmpty()) {
+                    if (previousSyllableIndex < 0) {
                         text.lyric.clear();
                         text.pronunciation.clear();
                         text.emptySyllableSlice = true;
                     } else {
-                        const auto &previous = result.last();
+                        auto &previous = result[previousSyllableIndex];
                         text.lyric = previous.lyric;
                         text.pronunciation = previous.pronunciation;
                         text.language = previous.language;
                         text.emptySyllableSlice = text.slur || previous.emptySyllableSlice;
                         text.syllableOffset = previous.syllableOffset + (text.slur ? 0 : 1);
+                        if (!text.slur) {
+                            previous.syllableSliceEnd = previous.syllableOffset + 1;
+                        }
                     }
                 }
                 result.append(text);
+                if (!text.slur) {
+                    previousSyllableIndex = result.size() - 1;
+                }
             }
             return result;
         }
@@ -430,7 +439,7 @@ namespace Synth::Internal::ProjectInput {
             converted.duration = std::max(0.0, noteEnd - noteStart);
             converted.cent = std::clamp(note->keyNumber() * 100 + note->centShift() + documentCentShift, 0, 12800);
             const auto &text = texts.at(noteIndex++);
-            converted.pronunciation = text.pronunciation;
+            converted.pronunciation = text.continuation ? note->lyric() : text.pronunciation;
             converted.language = text.language;
             converted.slur = text.slur;
             if (converted.slur && (result.score.notes.isEmpty() || converted.gap > 1e-9)) {
@@ -576,8 +585,7 @@ namespace Synth::Internal::ProjectInput {
                     converted.syllableSliceEnd = 0;
                 } else {
                     converted.syllableSliceStart = text.syllableOffset;
-                    if (index + 1 < texts.size() && notes.at(index + 1)->lyric() == QStringLiteral("+"))
-                        converted.syllableSliceEnd = text.syllableOffset + 1;
+                    converted.syllableSliceEnd = text.syllableSliceEnd;
                 }
                 result.request.pronunciationNotes.append(converted);
             }

@@ -7,6 +7,7 @@
 #include <cmath>
 
 #include <QSet>
+#include <QString>
 #include <QVariant>
 
 #include <dspxproject/ProjectTimeline.h>
@@ -16,6 +17,7 @@
 #include <dspxmodelORM/FreeValueDataArray.h>
 #include <dspxmodelORM/Model.h>
 #include <dspxmodelORM/Note.h>
+#include <dspxmodelORM/NoteSequence.h>
 #include <dspxmodelORM/Parameter.h>
 #include <dspxmodelORM/ParameterMap.h>
 #include <dspxmodelORM/Phoneme.h>
@@ -25,6 +27,15 @@
 #include <synth/internal/SynthesisProjectInput.h>
 
 namespace Synth::Internal::DocumentWriter {
+
+    void synchronizeContinuationPronunciations(dspx::SingingClip *clip) {
+        for (auto note : clip->notes()->asRange()) {
+            const auto lyric = note->lyric();
+            if (lyric == QStringLiteral("-") || lyric == QStringLiteral("+")) {
+                note->setOriginalPronunciation(lyric);
+            }
+        }
+    }
 
     void replaceOriginalPhonemes(dspx::Note *note, const QList<SynthesisPhoneme> &phonemes) {
         auto model = note->model();

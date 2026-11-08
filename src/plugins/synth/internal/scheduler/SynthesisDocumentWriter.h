@@ -28,6 +28,7 @@ namespace Synth {
 
 namespace Synth::Internal::DocumentWriter {
 
+    void synchronizeContinuationPronunciations(dspx::SingingClip *clip);
     void replaceOriginalPhonemes(dspx::Note *note, const QList<SynthesisPhoneme> &phonemes);
     void writeParameterOrigins(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, const QMap<QString, SynthesisParameter> &parameters);
     void clearParameterOrigins(dspx::SingingClip *clip, const QList<QPair<double, double>> &ranges, const std::optional<QStringList> &parameterIds);
