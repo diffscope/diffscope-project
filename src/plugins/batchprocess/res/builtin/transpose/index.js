@@ -48,15 +48,12 @@ module.exports = defineScript({
                         }
                     }
                 } else if (selection.type === "note") {
-                    const selectedNotes = selection.notes.items;
-                    if (selectedNotes.length < 1) {
-                        showSelectionWarning(project);
-                        return;
-                    }
-                    for (const note of selectedNotes) {
+                    for (const note of selection.notes.items) {
                         notes.set(note.handle, note);
                     }
-                } else {
+                }
+
+                if (notes.size === 0) {
                     showSelectionWarning(project);
                     return;
                 }
@@ -87,7 +84,7 @@ module.exports = defineScript({
                 const transaction = document.beginTransaction();
 
                 try {
-                    if (semitone === 0 || notes.size === 0) {
+                    if (semitone === 0) {
                         transaction.abort();
                         return;
                     }

@@ -1,0 +1,31 @@
+{
+    "quantize": {
+        "title": "量化",
+        "description": "量化所選歌聲剪輯中的音符或所選音符的起始位置和時長。",
+        "selectionWarning": "請選取一個或多個包含音符的歌聲剪輯，或選取一個或多個音符。",
+        "formDescription": "選擇量化大小、節奏類型和需要量化的音符屬性。",
+        "gridLabel": "量化大小",
+        "rhythmLabel": "節奏類型",
+        "modeLabel": "量化內容",
+        "notes": {
+            "whole": "全音符",
+            "half": "二分音符",
+            "quarter": "四分音符",
+            "eighth": "八分音符",
+            "sixteenth": "16 分音符",
+            "thirtySecond": "32 分音符",
+            "sixtyFourth": "64 分音符",
+            "oneHundredTwentyEighth": "128 分音符"
+        },
+        "rhythms": {
+            "normal": "一般",
+            "triplet": "三連音",
+            "quintuplet": "五連音"
+        },
+        "modes": {
+            "both": "量化起始位置和時長",
+            "start": "僅量化起始位置",
+            "length": "僅量化時長"
+        }
+    }
+}

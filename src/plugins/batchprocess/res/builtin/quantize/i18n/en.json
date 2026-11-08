@@ -1,0 +1,31 @@
+{
+    "quantize": {
+        "title": "Quantize",
+        "description": "Quantizes the start positions and lengths of notes in the selected singing clips or the selected notes.",
+        "selectionWarning": "Select one or more singing clips containing notes, or select one or more notes.",
+        "formDescription": "Choose the grid size, rhythm, and note properties to quantize.",
+        "gridLabel": "Grid size",
+        "rhythmLabel": "Rhythm",
+        "modeLabel": "Apply to",
+        "notes": {
+            "whole": "Whole Note",
+            "half": "Half Note",
+            "quarter": "Quarter Note",
+            "eighth": "8th Note",
+            "sixteenth": "16th Note",
+            "thirtySecond": "32nd Note",
+            "sixtyFourth": "64th Note",
+            "oneHundredTwentyEighth": "128th Note"
+        },
+        "rhythms": {
+            "normal": "Normal",
+            "triplet": "Triplet",
+            "quintuplet": "Quintuplet"
+        },
+        "modes": {
+            "both": "Start and Length",
+            "start": "Start Only",
+            "length": "Length Only"
+        }
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "quantize": {
+        "title": "クオンタイズ",
+        "description": "選択した歌声クリップ内の音符、または選択した音符の開始位置と長さをクオンタイズします。",
+        "selectionWarning": "音符を含む歌声クリップ、または音符を 1 つ以上選択してください。",
+        "formDescription": "グリッドの間隔、リズム、およびクオンタイズする音符の属性を選択してください。",
+        "gridLabel": "グリッドの間隔",
+        "rhythmLabel": "リズム",
+        "modeLabel": "クオンタイズ対象",
+        "notes": {
+            "whole": "全音符",
+            "half": "2分音符",
+            "quarter": "4分音符",
+            "eighth": "8分音符",
+            "sixteenth": "16分音符",
+            "thirtySecond": "32分音符",
+            "sixtyFourth": "64分音符",
+            "oneHundredTwentyEighth": "128分音符"
+        },
+        "rhythms": {
+            "normal": "通常",
+            "triplet": "3連符",
+            "quintuplet": "5連符"
+        },
+        "modes": {
+            "both": "開始位置と長さ",
+            "start": "開始位置のみ",
+            "length": "長さのみ"
+        }
+    }
+}
