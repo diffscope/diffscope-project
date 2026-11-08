@@ -69,9 +69,8 @@ namespace SingerCatalog {
         if (languages.isEmpty())
             return d->fallback;
 
-        const auto languageIt = singerInfo.defaultLanguage().isEmpty()
-                                    ? languages.cbegin()
-                                    : languages.constFind(singerInfo.defaultLanguage());
+        const auto language = targetSingingClip->defaultLanguage().isEmpty() ? singerInfo.defaultLanguage() : targetSingingClip->defaultLanguage();
+        const auto languageIt = language.isEmpty() ? languages.cbegin() : languages.constFind(language);
         if (languageIt == languages.cend())
             return d->fallback;
 

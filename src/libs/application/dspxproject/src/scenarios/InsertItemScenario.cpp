@@ -358,6 +358,7 @@ namespace DspxProject {
             newNote->setLength(noteLength);
             newNote->setKeyNumber(notePitch);
             newNote->setLyric(noteLyric);
+            newNote->setLanguage(targetClip->defaultLanguage());
             if (!noteSequence->insertItem(newNote)) {
                 model->destroyItem(newNote);
                 newNote = nullptr;

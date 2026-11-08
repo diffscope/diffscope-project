@@ -45,7 +45,8 @@ namespace SingerCatalog {
         /**
          * @brief Returns the default lyric of the first single singer with a nonempty ID in depth-first list order.
          *
-         * Uses the singer's default language, or the first language in key order if the default language ID is empty.
+         * Uses the clip's default language if nonempty, otherwise the singer's default language.
+         * Selects the first language in key order if both language IDs are empty.
          * Returns fallback() if sources, a matching singer, the selected language, or its default lyric is absent.
          * @pre targetSingingClip is non-null.
          */

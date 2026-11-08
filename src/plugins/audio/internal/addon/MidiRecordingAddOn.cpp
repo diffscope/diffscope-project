@@ -547,6 +547,7 @@ namespace Audio::Internal {
             note->setLength(0);
             note->setKeyNumber(message.getNoteNumber());
             note->setLyric(Core::CoreInterface::defaultLyricManager()->getDefaultLyricForSingingClip(m_noteSequence->singingClip()));
+            note->setLanguage(m_noteSequence->singingClip()->defaultLanguage());
             if (!m_noteSequence->insertItem(note)) {
                 m_document->model()->destroyItem(note);
                 failRecording("A MIDI recording note could not be inserted.");

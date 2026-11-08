@@ -5771,6 +5771,39 @@ Do you want to continue opening it?</source>
     </message>
 </context>
 <context>
+    <name>LanguagePropertyEditorField</name>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="23"/>
+        <source>Enter Custom Language Code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="27"/>
+        <source>Custom language codes may not be supported by the singer.</source>
+        <translation type="unfinished">歌手可能不支持自定义语言代码。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="33"/>
+        <source>Custom Language Code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="43"/>
+        <source>Language code should not be empty</source>
+        <translation type="unfinished">语言代码不应为空</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="66"/>
+        <source>Multiple values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="69"/>
+        <source>Custom (%1)</source>
+        <translation type="unfinished">自定义（%1）</translation>
+    </message>
+</context>
+<context>
     <name>LoadingFailedFallbackPanel</name>
     <message>
         <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="43"/>
@@ -6309,73 +6342,47 @@ Do you want to continue opening it?</source>
 <context>
     <name>NoteLyricPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="23"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="24"/>
         <source>Lyric and Pronunciation</source>
         <translation>歌词与发音</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="58"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="59"/>
         <source>Lyric</source>
         <translation>歌词</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="59"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="60"/>
         <source>Editing lyric</source>
         <translation>编辑歌词</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="67"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="68"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="68"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="69"/>
         <source>Editing language</source>
         <translation>编辑语言</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="74"/>
-        <source>Enter custom language code</source>
-        <translation type="unfinished">输入自定义语言代码</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="78"/>
-        <source>Custom language codes may not be supported by the singer.</source>
-        <translation type="unfinished">歌手可能不支持自定义语言代码。</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="84"/>
-        <source>Custom language code</source>
-        <translation type="unfinished">自定义语言代码</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="94"/>
-        <source>Language code should not be empty</source>
-        <translation type="unfinished">语言代码不应为空</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="120"/>
-        <source>Custom (%1)</source>
-        <translation type="unfinished">自定义（%1）</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="132"/>
         <source>Pronunciation (original)</source>
         <translation>发音（原始）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="117"/>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="135"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="77"/>
         <source>Multiple values</source>
         <translation>多个值</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="146"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="88"/>
         <source>Pronunciation (edited)</source>
         <translation>发音（已编辑）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="147"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="89"/>
         <source>Editing pronunciation (edited)</source>
         <translation>编辑发音（已编辑）</translation>
     </message>
@@ -7130,14 +7137,24 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>VirtualSingerPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="47"/>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="48"/>
         <source>Virtual Singer</source>
         <translation>虚拟歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="121"/>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="145"/>
         <source>Drop to set singer</source>
         <translation type="unfinished">拖放以设置歌手</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="156"/>
+        <source>Default language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="157"/>
+        <source>Editing default language</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

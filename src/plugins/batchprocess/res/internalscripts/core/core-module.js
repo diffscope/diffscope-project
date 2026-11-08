@@ -23,7 +23,7 @@
         gain: value => V.number(value, 0), pan: value => V.number(value, -1, 1), mute: V.boolean, solo: V.boolean,
         loopEnabled: V.boolean, loopStart: V.int, loopLength: value => V.int(value, 1), name: V.string, colorId: value => V.int(value, -2147483648),
         height: value => V.number(value, 5e-324), position: V.int, length: V.int, clipStart: V.int, clipLength: V.int,
-        centShift: value => V.int(value, -50, 50), keyNumber: value => V.int(value, 0, 127), language: V.string, lyric: V.string,
+        centShift: value => V.int(value, -50, 50), keyNumber: value => V.int(value, 0, 127), language: V.string, defaultLanguage: V.string, lyric: V.string,
         editedPronunciation: V.string, vibratoAmplitude: V.int, vibratoEnd: value => V.number(value, 0, 1), vibratoFrequency: value => V.number(value, 0),
         vibratoOffset: value => V.int(value, -2147483648), vibratoPhase: value => V.number(value, 0, 1), vibratoStart: value => V.number(value, 0, 1),
         start: value => V.int(value, -2147483648), token: V.string, onset: V.boolean, x: V.int, y: value => V.int(value, -2147483648),
@@ -43,7 +43,7 @@
     const entityFields = {
         Track: ["name", "colorId", "height", "gain", "pan", "mute", "solo"],
         AudioClip: ["name", "gain", "pan", "mute", "position", "length", "clipStart", "clipLength", "path"],
-        SingingClip: ["name", "gain", "pan", "mute", "position", "length", "clipStart", "clipLength"],
+        SingingClip: ["name", "gain", "pan", "mute", "position", "length", "clipStart", "clipLength", "defaultLanguage"],
         Note: ["centShift", "keyNumber", "language", "length", "lyric", "position", "editedPronunciation", "vibratoAmplitude", "vibratoEnd", "vibratoFrequency", "vibratoOffset", "vibratoPhase", "vibratoStart"],
         Phoneme: ["language", "start", "token", "onset"], AnchorNode: ["interpolationMode", "x", "y"], Parameter: [],
         Sources: ["category"], SingleSinger: ["id", "extra"], MixedSinger: ["ratio", "extra"], DynamicMixingAnchor: ["position", "ratio"],
@@ -212,7 +212,7 @@
         DspxModel: ["projectName", "projectAuthor", "globalCentShift", "multiChannelOutput", "gain", "pan", "mute", "loopEnabled", "loopStart", "loopLength", "labels", "keySignatures", "tempos", "timeSignatures", "tracks", "audioDSPs", "workspace"],
         Track: ["name", "colorId", "height", "gain", "pan", "mute", "solo", "clips", "audioDSPs", "workspace"],
         AudioClip: ["kind", "name", "position", "length", "clipStart", "clipLength", "gain", "pan", "mute", "workspace", "path"],
-        SingingClip: ["kind", "name", "position", "length", "clipStart", "clipLength", "gain", "pan", "mute", "workspace", "notes", "parameters", "sources"],
+        SingingClip: ["kind", "name", "position", "length", "clipStart", "clipLength", "gain", "pan", "mute", "workspace", "defaultLanguage", "notes", "parameters", "sources"],
         Note: ["position", "length", "keyNumber", "centShift", "lyric", "language", "editedPronunciation", "editedPhonemes", "originalPronunciation", "originalPhonemes", "vibratoAmplitude", "vibratoEnd", "vibratoFrequency", "vibratoOffset", "vibratoPhase", "vibratoStart", "vibratoAmplitudeControlPoints", "vibratoFrequencyControlPoints", "workspace"],
         Phoneme: ["start", "token", "language", "onset"], Parameter: ["original", "freeTransform", "freeEdited", "anchorTransform", "anchorEdited"],
         AnchorNode: ["x", "y", "interpolationMode"], Sources: ["category", "singers", "dynamicMixingAnchors"], SingleSinger: ["kind", "id", "extra", "workspace"], MixedSinger: ["kind", "singers", "ratio", "extra", "workspace"],
@@ -243,25 +243,6 @@
         return curves;
     };
     const append = (left, right) => { for (let i = 0; i < right.length; ++i) V.put(left, left.length, right[i]); return left; };
-    const lyricForSources = sources => {
-        const fallback = result(bridge.service("lyric", [null]));
-        if (!sources) return fallback;
-        let first;
-        const visit = singers => {
-            for (let i = 0; i < singers.length && first === undefined; ++i) {
-                const singer = singers[i];
-                if (singer.type === "single") { if (singer.id.length) first = singer.id; }
-                else visit(singer.singers);
-            }
-        };
-        visit(sources.singers);
-        if (first === undefined) return fallback;
-        const singer = result(bridge.service("singer", [sources.category, first]));
-        if (!singer || !singer.languages.length) return fallback;
-        const language = singer.defaultLanguage || singer.languages[0].id;
-        for (let i = 0; i < singer.languages.length; ++i) if (singer.languages[i].id === language) return singer.languages[i].defaultLyric || fallback;
-        return fallback;
-    };
     const initData = (kind, input = {}, context = {}) => {
         V.object(input);
         const allowed = initNames[kind];
@@ -299,17 +280,19 @@
                 const audio = { relativeDir: defaulted(path, "relativeDir", ""), formatEntryClassName: defaulted(path, "formatEntryClassName", ""), userData: defaulted(path, "serializedUserData", ""), digest: defaulted(path, "digest", "") };
                 extension(w).audio = audio;
             } else {
+                const scope = extension(w);
+                scope.defaultLanguage = d("defaultLanguage", defaulted(scope, "defaultLanguage", ""));
+                V.string(scope.defaultLanguage);
                 value.sources = !own(input, "sources") || input.sources === null ? null : initData("Sources", input.sources);
-                const lyric = lyricForSources(value.sources);
-                value.notes = childList("notes", "Note", { lyric });
+                value.notes = childList("notes", "Note");
                 value.params = create(null);
                 const parameters = d("parameters", {}); V.object(parameters);
                 const ids = keys(parameters);
                 for (let i = 0; i < ids.length; ++i) value.params[ids[i]] = initData("Parameter", parameters[ids[i]]);
             }
         } else if (kind === "Note") {
-            value = { pos: input.position, length: input.length, keyNum: input.keyNumber, centShift: d("centShift", 0), language: d("language", ""), lyric: d("lyric", context.lyric === undefined ? result(bridge.service("lyric", [null])) : context.lyric), pronunciation: { original: d("originalPronunciation", ""), edited: d("editedPronunciation", "") }, phonemes: { original: childList("originalPhonemes", "Phoneme", { language: d("language", "") }), edited: childList("editedPhonemes", "Phoneme", { language: d("language", "") }) }, vibrato: { amp: d("vibratoAmplitude", 0), end: d("vibratoEnd", 0), freq: d("vibratoFrequency", 0), offset: d("vibratoOffset", 0), phase: d("vibratoPhase", 0), start: d("vibratoStart", 0), points: { amp: d("vibratoAmplitudeControlPoints", []), freq: d("vibratoFrequencyControlPoints", []) } }, workspace: w };
-        } else if (kind === "Phoneme") value = { start: input.start, token: input.token, language: d("language", context.language === undefined ? "" : context.language), onset: d("onset", false) };
+            value = { pos: d("position", 0), length: d("length", 0), keyNum: d("keyNumber", 60), centShift: d("centShift", 0), language: d("language", ""), lyric: d("lyric", ""), pronunciation: { original: d("originalPronunciation", ""), edited: d("editedPronunciation", "") }, phonemes: { original: childList("originalPhonemes", "Phoneme"), edited: childList("editedPhonemes", "Phoneme") }, vibrato: { amp: d("vibratoAmplitude", 0), end: d("vibratoEnd", 0), freq: d("vibratoFrequency", 0), offset: d("vibratoOffset", 0), phase: d("vibratoPhase", 0), start: d("vibratoStart", 0), points: { amp: d("vibratoAmplitudeControlPoints", []), freq: d("vibratoFrequencyControlPoints", []) } }, workspace: w };
+        } else if (kind === "Phoneme") value = { start: input.start, token: input.token, language: d("language", ""), onset: d("onset", false) };
         else if (kind === "Parameter") {
             value = {
                 original: freeCurves(d("original", [])),
@@ -332,8 +315,6 @@
         return V.validate(kind, value, true);
     };
     const importContext = entry => {
-        if (entry.kind === "NoteSequence") return { lyric: result(bridge.service("lyric", [readRaw(entry, "singingClip")])) };
-        if (entry.kind === "PhonemeSequence") return { language: result(bridge.read(readRaw(entry, "note"), "language")) };
         if (entry.kind === "SingerList") {
             let source = readRaw(entry, "sources");
             let parent = readRaw(entry, "mixedSinger");

@@ -128,6 +128,7 @@
         }
         if (own(scope, "master")) { object(scope.master); if (own(scope.master, "multiChannelOutput")) boolean(scope.master.multiChannelOutput); }
         if (own(scope, "colorId")) int(scope.colorId, -2147483648);
+        if (own(scope, "defaultLanguage")) string(scope.defaultLanguage);
         if (own(scope, "height")) number(scope.height, 5e-324);
         if (own(scope, "keySignatures")) list("KeySignature", scope.keySignatures, false, "pos");
         if (own(scope, "audioDSP")) list("AudioDSP", scope.audioDSP);

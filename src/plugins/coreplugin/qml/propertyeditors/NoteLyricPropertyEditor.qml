@@ -60,72 +60,13 @@ PropertyEditorGroupBox {
             transactionName: qsTr("Editing lyric")
         }
 
-        AbstractPropertyEditorField {
-            id: languageField
+        LanguagePropertyEditorField {
             windowHandle: groupBox.windowHandle
             propertyMapper: groupBox.propertyMapper
+            languageOptions: groupBox.languageOptions
             key: "language"
             label: qsTr("Language")
             transactionName: qsTr("Editing language")
-
-            FormGroup {
-                Layout.fillWidth: true
-                label: languageField.label
-                rowItem: ToolButton {
-                    text: qsTr("Enter custom language code")
-                    display: AbstractButton.IconOnly
-                    icon.source: "image://fluent-system-icons/edit"
-                    onClicked: () => {
-                        const warningText = qsTr("Custom language codes may not be supported by the singer.")
-                        const currentLanguage = groupBox.propertyMapper?.language
-                        const initialLanguage = typeof currentLanguage === "string"
-                                                ? currentLanguage
-                                                : ""
-                        const languageCode = groupBox.windowHandle.execQuickInput(
-                            qsTr("Custom language code"),
-                            warningText,
-                            initialLanguage,
-                            (text, attempted) => {
-                                const empty = text.trim() === ""
-                                return {
-                                    acceptable: !empty,
-                                    status: empty
-                                            ? (attempted ? SVS.CT_Error : SVS.CT_Normal)
-                                            : SVS.CT_Warning,
-                                    promptText: empty ? qsTr("Language code should not be empty") : warningText
-                                }
-                            }
-                        )
-                        if (typeof languageCode === "string")
-                            languageField.setValue(languageCode)
-                    }
-                }
-                columnItem: ComboBox {
-                    id: languageComboBox
-                    model: groupBox.languageOptions
-                    textRole: "text"
-                    valueRole: "value"
-                    readonly property int modelIndex: {
-                        const language = groupBox.propertyMapper?.language
-                        return typeof language !== "string"
-                                ? -1
-                                : groupBox.languageOptions.findIndex(option => option.value === language)
-                    }
-                    currentIndex: modelIndex
-                    displayText: {
-                        const language = languageField.value
-                        if (typeof language !== "string")
-                            return qsTr("Multiple values")
-
-                        const option = groupBox.languageOptions.find(option => option.value === language)
-                        return option ? option.text : qsTr("Custom (%1)").arg(language)
-                    }
-                    onActivated: (index) => {
-                        if (!languageField.setValue(valueAt(index)))
-                            GlobalHelper.setProperty(languageComboBox, "currentIndex", modelIndex)
-                    }
-                }
-            }
         }
 
         FormGroup {

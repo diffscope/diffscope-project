@@ -625,6 +625,7 @@ namespace Synth::Internal {
                         note->setPosition(start);
                         note->setLength(end - start);
                         note->setLyric(lyric);
+                        note->setLanguage(singing->defaultLanguage());
                         if (!singing->notes()->insertItem(note)) {
                             abort(tr("Could not insert the extracted notes."));
                             return;

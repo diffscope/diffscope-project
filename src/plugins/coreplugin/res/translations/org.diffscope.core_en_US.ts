@@ -5792,6 +5792,39 @@ Do you want to continue opening it?</translation>
     </message>
 </context>
 <context>
+    <name>LanguagePropertyEditorField</name>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="23"/>
+        <source>Enter Custom Language Code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="27"/>
+        <source>Custom language codes may not be supported by the singer.</source>
+        <translation type="unfinished">Custom language codes may not be supported by the singer.</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="33"/>
+        <source>Custom Language Code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="43"/>
+        <source>Language code should not be empty</source>
+        <translation type="unfinished">Language code should not be empty</translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="66"/>
+        <source>Multiple values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/controls/LanguagePropertyEditorField.qml" line="69"/>
+        <source>Custom (%1)</source>
+        <translation type="unfinished">Custom (%1)</translation>
+    </message>
+</context>
+<context>
     <name>LoadingFailedFallbackPanel</name>
     <message>
         <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="43"/>
@@ -6306,73 +6339,47 @@ Do you want to continue opening it?</translation>
 <context>
     <name>NoteLyricPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="23"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="24"/>
         <source>Lyric and Pronunciation</source>
         <translation type="unfinished">Lyric and Pronunciation</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="58"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="59"/>
         <source>Lyric</source>
         <translation type="unfinished">Lyric</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="59"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="60"/>
         <source>Editing lyric</source>
         <translation type="unfinished">Editing lyric</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="67"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="68"/>
         <source>Language</source>
         <translation type="unfinished">Language</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="68"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="69"/>
         <source>Editing language</source>
         <translation type="unfinished">Editing language</translation>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="74"/>
-        <source>Enter custom language code</source>
-        <translation type="unfinished">Enter custom language code</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="78"/>
-        <source>Custom language codes may not be supported by the singer.</source>
-        <translation type="unfinished">Custom language codes may not be supported by the singer.</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="84"/>
-        <source>Custom language code</source>
-        <translation type="unfinished">Custom language code</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="94"/>
-        <source>Language code should not be empty</source>
-        <translation type="unfinished">Language code should not be empty</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="120"/>
-        <source>Custom (%1)</source>
-        <translation type="unfinished">Custom (%1)</translation>
-    </message>
-    <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="132"/>
         <source>Pronunciation (original)</source>
         <translation type="unfinished">Pronunciation (original)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="117"/>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="135"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="77"/>
         <source>Multiple values</source>
         <translation type="unfinished">Multiple values</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="146"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="88"/>
         <source>Pronunciation (edited)</source>
         <translation type="unfinished">Pronunciation (edited)</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="147"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="89"/>
         <source>Editing pronunciation (edited)</source>
         <translation type="unfinished">Editing pronunciation (edited)</translation>
     </message>
@@ -7121,14 +7128,24 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>VirtualSingerPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="47"/>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="48"/>
         <source>Virtual Singer</source>
         <translation type="unfinished">Virtual Singer</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="121"/>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="145"/>
         <source>Drop to set singer</source>
         <translation type="unfinished">Drop to set singer</translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="156"/>
+        <source>Default language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/VirtualSingerPropertyEditor.qml" line="157"/>
+        <source>Editing default language</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

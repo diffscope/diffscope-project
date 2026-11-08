@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 /**
- * Defines plain data for DSPX 1.0.0 and the DiffScope workspace extensions.
+ * Defines plain data for DSPX 1.0.0.
  *
  * Field names follow the serialized JSON representation. Objects and arrays are
  * independently editable data, with no connection to a live document. This module
@@ -38,7 +38,7 @@ declare module "diffscope:dspx" {
         master: Master;
         timeline: Timeline;
         tracks: Track[];
-        workspace: ModelWorkspace;
+        workspace: Workspace;
     }
 
     export interface Global {
@@ -97,7 +97,7 @@ declare module "diffscope:dspx" {
         name: string;
         control: TrackControl;
         clips: Clip[];
-        workspace: TrackWorkspace;
+        workspace: Workspace;
     }
 
     /** Contains non-negative ticks. The visible project interval is [pos, pos + clipLen). */
@@ -125,7 +125,6 @@ declare module "diffscope:dspx" {
         type: "audio";
         /** The path is a string. AudioPathInfo is available through the live model. */
         path: string;
-        workspace: AudioClipWorkspace;
     }
 
     export interface SingingClip extends ClipBase {
@@ -276,70 +275,4 @@ declare module "diffscope:dspx" {
         singers: Singer[];
         ratio: SourceMixingRatio;
     }
-
-    /** Defines DiffScope data inside content.workspace.diffscope. Fields may be absent. */
-    export type DiffScopeModelWorkspace = JsonObject & {
-        loop?: Loop;
-        master?: DiffScopeMaster;
-        keySignatures?: KeySignature[];
-        audioDSP?: AudioDSP[];
-    };
-
-    export type ModelWorkspace = Workspace & { diffscope?: DiffScopeModelWorkspace };
-
-    export type Loop = {
-        enabled: boolean;
-        /** The loop begins at a non-negative project tick. */
-        start: Tick;
-        /** The loop length is a positive duration in ticks. */
-        length: Tick;
-    };
-
-    export type DiffScopeMaster = {
-        /** Routes each track to a separate stereo pair if true. */
-        multiChannelOutput: boolean;
-    };
-
-    /** Defines DiffScope data inside track.workspace.diffscope. */
-    export type DiffScopeTrackWorkspace = JsonObject & {
-        colorId?: number;
-        height?: number;
-        audioDSP?: AudioDSP[];
-    };
-
-    export type TrackWorkspace = Workspace & { diffscope?: DiffScopeTrackWorkspace };
-
-    /** Defines DiffScope data inside audioClip.workspace.diffscope. */
-    export type DiffScopeAudioClipWorkspace = JsonObject & {
-        audio?: AudioPathMetadata;
-    };
-
-    export type AudioClipWorkspace = Workspace & { diffscope?: DiffScopeAudioClipWorkspace };
-
-    export type AudioPathMetadata = {
-        relativeDir: string;
-        formatEntryClassName: string;
-        /** The string contains base64-encoded QVariant data serialized with QDataStream::Qt_5_15. */
-        userData: string;
-        digest: string;
-    };
-
-    /** Defines a DiffScope key signature as a workspace extension. */
-    export type KeySignature = {
-        /** The position is a non-negative project tick. */
-        pos: Tick;
-        /** The mode is an integer from 0 through 4095. Bit n represents semitone offset n from the tonic. */
-        mode: number;
-        /** The tonic is an integer from 0 for C through 11 for B. */
-        tonality: number;
-        /** Zero selects flats. One selects sharps. */
-        accidentalType: 0 | 1;
-    };
-
-    /** Defines a DiffScope audio effect configuration as a workspace extension. */
-    export type AudioDSP = {
-        id: string;
-        data: JsonValue;
-        enabled: boolean;
-    };
 }

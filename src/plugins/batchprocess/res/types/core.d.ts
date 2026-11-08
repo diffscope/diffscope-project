@@ -202,9 +202,10 @@ declare module "diffscope:core" {
     export interface LyricDefaults {
         /**
          * Returns the default lyric using the first non-empty single-singer ID in
-         * depth-first list order. Uses its default language, or first registry
-         * language if the default language is empty. Missing singer, language, or
-         * lyric data uses the application's configured fallback lyric.
+         * depth-first list order. Uses the clip's default language if nonempty,
+         * otherwise the singer's default language. Uses the first registry language
+         * if both language IDs are empty. Missing singer, language, or lyric data
+         * uses the application's configured fallback lyric.
          */
         lyricFor(clip: SingingClip): string;
     }
@@ -586,7 +587,7 @@ declare module "diffscope:core" {
         bounceSelectionToClip(): void;
     }
 
-    export type EntityData = DSPX.Track | DSPX.Clip | DSPX.Note | DSPX.Phoneme | DSPX.Param | DSPX.AnchorNode | DSPX.Sources | DSPX.Singer | DSPX.DynamicMixingAnchor | DSPX.Tempo | DSPX.TimeSignature | DSPX.Label | DSPX.KeySignature | DSPX.AudioDSP;
+    export type EntityData = DSPX.Track | DSPX.Clip | DSPX.Note | DSPX.Phoneme | DSPX.Param | DSPX.AnchorNode | DSPX.Sources | DSPX.Singer | DSPX.DynamicMixingAnchor | DSPX.Tempo | DSPX.TimeSignature | DSPX.Label | KeySignatureData | AudioDSPData;
 
     /** Maps entity type identifiers to their corresponding document entity interfaces. */
     export interface EntityTypeMap {
@@ -757,6 +758,8 @@ declare module "diffscope:core" {
 
     export interface SingingClip extends ClipBase<DSPX.SingingClip> {
         readonly kind: "singing";
+        /** Defines the language used by the editor for new notes. Defaults to an empty string. */
+        defaultLanguage: string;
         readonly notes: NoteSequence;
         readonly parameters: ParameterMap;
         readonly sources: Sources | null;
@@ -799,8 +802,8 @@ declare module "diffscope:core" {
         readonly clip: SingingClip;
         /** Returns notes intersecting the half-open clip-local content range. */
         inRange(start: Tick, length: Tick): readonly Note[];
-        /** Creates and inserts a note. An omitted lyric uses lyricDefaults. */
-        create(initial: NoteInit): Note;
+        /** Creates and inserts a note using model defaults for omitted fields. */
+        create(initial?: NoteInit): Note;
         /** Imports and inserts one note, including pronunciation, phonemes, and vibrato. */
         createFromOpenDSPX(data: DSPX.Note): Note;
         /** Destroys a contained note and its descendants. Returns false if not contained. */
@@ -1188,7 +1191,19 @@ declare module "diffscope:core" {
 
     export type AccidentalType = "flat" | "sharp";
 
-    export interface KeySignature extends Entity<DSPX.KeySignature> {
+    /** Defines a DiffScope key signature as a workspace extension. */
+    export type KeySignatureData = {
+        /** The position is a non-negative project tick. */
+        pos: Tick;
+        /** The mode is an integer from 0 through 4095. Bit n represents semitone offset n from the tonic. */
+        mode: number;
+        /** The tonic is an integer from 0 for C through 11 for B. */
+        tonality: number;
+        /** Zero selects flats. One selects sharps. */
+        accidentalType: 0 | 1;
+    };
+
+    export interface KeySignature extends Entity<KeySignatureData> {
         readonly entityType: "keySignature";
         /** The project tick must be non-negative and unique within the key-signature sequence. */
         position: Tick;
@@ -1202,19 +1217,26 @@ declare module "diffscope:core" {
         readonly keySignatureSequence: KeySignatureSequence | null;
     }
 
-    export interface KeySignatureSequence extends EntityCollection<KeySignature>, OpenDSPXEditable<DSPX.KeySignature[]> {
+    export interface KeySignatureSequence extends EntityCollection<KeySignature>, OpenDSPXEditable<KeySignatureData[]> {
         readonly model: DspxModel;
         /** Returns points within the half-open project range. */
         inRange(start: Tick, length: Tick): readonly KeySignature[];
         /** Creates and inserts a key signature with a unique position. */
         create(initial: KeySignatureInit): KeySignature;
         /** Imports and inserts one DiffScope workspace key signature. */
-        createFromOpenDSPX(data: DSPX.KeySignature): KeySignature;
+        createFromOpenDSPX(data: KeySignatureData): KeySignature;
         /** Destroys a contained key signature. Returns false if not contained. */
         delete(keySignature: KeySignature): boolean;
     }
 
-    export interface AudioDSP extends Entity<DSPX.AudioDSP> {
+    /** Defines a DiffScope audio effect configuration as a workspace extension. */
+    export type AudioDSPData = {
+        id: string;
+        data: JsonValue;
+        enabled: boolean;
+    };
+
+    export interface AudioDSP extends Entity<AudioDSPData> {
         readonly entityType: "audioDSP";
         id: string;
         /** Returns a copy. Assignment replaces the complete effect configuration. */
@@ -1223,7 +1245,7 @@ declare module "diffscope:core" {
         readonly audioDSPList: AudioDSPList | null;
     }
 
-    export interface AudioDSPList extends EntityCollection<AudioDSP>, OpenDSPXEditable<DSPX.AudioDSP[]> {
+    export interface AudioDSPList extends EntityCollection<AudioDSP>, OpenDSPXEditable<AudioDSPData[]> {
         readonly model: DspxModel;
         /** The track is null for the master effect chain. */
         readonly track: Track | null;
@@ -1232,7 +1254,7 @@ declare module "diffscope:core" {
         /** Creates and inserts an effect. The index defaults to length. */
         create(initial: AudioDSPInit, index?: number): AudioDSP;
         /** Imports and inserts one effect configuration. */
-        createFromOpenDSPX(data: DSPX.AudioDSP, index?: number): AudioDSP;
+        createFromOpenDSPX(data: AudioDSPData, index?: number): AudioDSP;
         /** Destroys a contained effect. Returns false if not contained. */
         delete(audioDSP: AudioDSP): boolean;
         /** Rotates adjacent ranges without changing entity identity. Requires a transaction. */
@@ -1266,7 +1288,7 @@ declare module "diffscope:core" {
         readonly timeSignatures?: readonly TimeSignatureInit[];
         readonly tracks?: readonly TrackInit[];
         readonly audioDSPs?: readonly AudioDSPInit[];
-        readonly workspace?: DSPX.ModelWorkspace;
+        readonly workspace?: DSPX.Workspace;
     }
 
     export interface TrackInit {
@@ -1279,7 +1301,7 @@ declare module "diffscope:core" {
         readonly solo?: boolean;
         readonly clips?: readonly ClipInit[];
         readonly audioDSPs?: readonly AudioDSPInit[];
-        readonly workspace?: DSPX.TrackWorkspace;
+        readonly workspace?: DSPX.Workspace;
     }
 
     export interface ClipInitBase {
@@ -1305,23 +1327,26 @@ declare module "diffscope:core" {
         /** The kind may be omitted when calling createAudio(). */
         readonly kind?: "audio";
         readonly path: AudioPathInfo;
-        readonly workspace?: DSPX.AudioClipWorkspace;
     }
 
     export interface SingingClipInit extends ClipInitBase {
         /** The kind may be omitted when calling createSinging(). */
         readonly kind?: "singing";
+        readonly defaultLanguage?: string;
         readonly notes?: readonly NoteInit[];
         readonly parameters?: Readonly<Record<string, ParameterInit>>;
         readonly sources?: SourcesInit | null;
     }
 
     export interface NoteInit {
-        readonly position: Tick;
-        readonly length: Tick;
-        readonly keyNumber: number;
+        /** Defaults to zero. */
+        readonly position?: Tick;
+        /** Defaults to zero. */
+        readonly length?: Tick;
+        /** Defaults to 60. */
+        readonly keyNumber?: number;
         readonly centShift?: number;
-        /** Uses lyricDefaults for the destination clip after initializing its sources if absent. */
+        /** Defaults to an empty string. */
         readonly lyric?: string;
         /** Defaults to an empty string. */
         readonly language?: string;
@@ -1345,7 +1370,7 @@ declare module "diffscope:core" {
         /** The start is an integer millisecond offset from note onset. */
         readonly start: number;
         readonly token: string;
-        /** Uses the destination note's language if absent. */
+        /** Defaults to an empty string. */
         readonly language?: string;
         /** Defaults to false. */
         readonly onset?: boolean;
