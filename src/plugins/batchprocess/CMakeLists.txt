@@ -45,6 +45,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         jsonconv::stdcorelib
     INCLUDE_PRIVATE
         internal/**
+    QML_EXCLUDE_SRC
+        res/builtin/*
 )
 
 file(GLOB_RECURSE _internal_scripts CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/res/internalscripts/*")
@@ -64,8 +66,36 @@ qt_add_resources(${PROJECT_NAME} batchprocess_runtime
     FILES ${_internal_scripts}
 )
 
-qt_add_resources(${PROJECT_NAME} batchprocess_builtin
-    PREFIX "/diffscope/batchprocess/builtin"
-    BASE "${CMAKE_CURRENT_SOURCE_DIR}/res/builtin"
-    FILES ${_builtin_scripts}
+set(_builtin_output_dir $<TARGET_FILE_DIR:${PROJECT_NAME}>/builtin)
+set(_builtin_deploy_stamp_dir ${CMAKE_CURRENT_BINARY_DIR}/deploy-builtin/$<CONFIG>)
+set(_builtin_deploy_stamps)
+foreach(_script IN LISTS _builtin_scripts)
+    file(RELATIVE_PATH _script_relative_path "${CMAKE_CURRENT_SOURCE_DIR}/res/builtin" "${_script}")
+    get_filename_component(_script_relative_dir "${_script_relative_path}" DIRECTORY)
+    set(_script_deploy_stamp "${_builtin_deploy_stamp_dir}/${_script_relative_path}.stamp")
+
+    add_custom_command(
+        OUTPUT "${_script_deploy_stamp}"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${_builtin_output_dir}/${_script_relative_dir}"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${_builtin_deploy_stamp_dir}/${_script_relative_dir}"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${_script}"
+            "${_builtin_output_dir}/${_script_relative_path}"
+        COMMAND ${CMAKE_COMMAND} -E touch "${_script_deploy_stamp}"
+        DEPENDS "${_script}"
+        COMMENT "Deploying built-in script file ${_script_relative_path}"
+        VERBATIM
+    )
+    list(APPEND _builtin_deploy_stamps "${_script_deploy_stamp}")
+endforeach()
+
+add_custom_target(${PROJECT_NAME}_deploy_builtin ALL
+    DEPENDS ${_builtin_deploy_stamps}
+)
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_deploy_builtin)
+add_dependencies(${CK_APPLICATION_TARGET} ${PROJECT_NAME}_deploy_builtin)
+
+ck_add_attached_files(${PROJECT_NAME}
+    SKIP_BUILD
+    SRC "${CMAKE_CURRENT_SOURCE_DIR}/res/builtin" DEST .
 )

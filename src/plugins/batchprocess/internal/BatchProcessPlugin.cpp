@@ -68,7 +68,7 @@ namespace BatchProcess::Internal {
         new CoreModuleExtension(batchProcessInterface, documentInterface, this);
         new RuntimeModuleExtension(batchProcessInterface, this);
 
-        const QDir builtinDirectory(QStringLiteral(":/diffscope/batchprocess/builtin"));
+        const QDir builtinDirectory(pluginSpec()->location() + QStringLiteral("/builtin"));
         const auto builtinProjects = builtinDirectory.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
         for (const auto &builtinProject : builtinProjects) {
             batchProcessInterface->registerBuiltinScriptPath(this, builtinProject.absoluteFilePath());

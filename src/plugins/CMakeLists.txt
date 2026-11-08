@@ -13,7 +13,7 @@ find_package(opendspx CONFIG REQUIRED)
 function(diffscope_add_builtin_plugin _target)
     set(options NO_TRANSLATION NO_QML_MODULE NO_ACTION MACOS_INCLUDE_OBJC_SRC)
     set(oneValueArgs NAME DISPLAY_NAME MACRO_PREFIX QML_MODULE_NAME)
-    set(multiValueArgs QAK_DEFINES WIN_EXCLUDE_SRC MACOS_EXCLUDE_SRC LINUX_EXCLUDE_SRC)
+    set(multiValueArgs QAK_DEFINES QML_EXCLUDE_SRC WIN_EXCLUDE_SRC MACOS_EXCLUDE_SRC LINUX_EXCLUDE_SRC)
     cmake_parse_arguments(FUNC "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     set(_plugin_name ${FUNC_NAME})
@@ -82,6 +82,10 @@ function(diffscope_add_builtin_plugin _target)
         endif()
 
         file(GLOB_RECURSE _qml_files CONFIGURE_DEPENDS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.qml *.js *.mjs)
+        foreach(_pattern IN LISTS FUNC_QML_EXCLUDE_SRC)
+            file(GLOB_RECURSE _qml_excluded CONFIGURE_DEPENDS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${_pattern})
+            list(REMOVE_ITEM _qml_files ${_qml_excluded})
+        endforeach()
 
         qt_add_qml_module(${_target}
             URI DiffScope.${FUNC_QML_MODULE_NAME}
