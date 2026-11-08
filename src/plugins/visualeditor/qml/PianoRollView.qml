@@ -43,7 +43,9 @@ Item {
     property bool noteEndCursorActive: false
     property Item selectionLayer: null
     property bool selectionUsesClavier: false
+    property bool noteSelectionActive: false
     property int selectionTimeCursorPosition: -1
+    property double selectionClavierCursorPosition: -1.0
     property ParameterAnchorViewModel pitchAnchorBeingEdited: null
     property bool pitchAnchorMoving: false
     property bool pitchFreeEditing: false
@@ -52,10 +54,14 @@ Item {
     property double unalignedClavierCursorPosition: -1.0
     property var timeCursorSources: []
 
-    readonly property bool unalignedCursorToolActive:
+    readonly property bool unalignedTimeCursorToolActive:
         (pianoRollPanelInterface?.pitchToolActive ?? false)
         || pianoRollPanelInterface?.tool === PianoRollPanelInterface.SelectTool
         || (selectionLayer !== null && selectionUsesClavier)
+    readonly property bool unalignedClavierCursorActive:
+        !noteSelectionActive
+        && ((pianoRollPanelInterface?.pitchToolActive ?? false)
+            || (selectionLayer !== null && selectionUsesClavier))
     readonly property bool pitchHoverCursorActive:
         pitchEditor.enabled && pitchHovered
         && !(pianoRollPanelInterface?.mouseTrackingDisabled ?? true)
@@ -166,7 +172,7 @@ Item {
                 && view.pianoRollPanelInterface?.timeLayoutViewModel) {
             view.pianoRollPanelInterface.timeLayoutViewModel.cursorPosition = -1
         }
-        if (view.unalignedCursorToolActive) {
+        if (view.unalignedClavierCursorActive) {
             if (!view.pitchAnchorMoving && !view.pitchFreeEditing)
                 view.unalignedClavierCursorPosition = -1.0
         } else if (!noteClavierCursorBinding.when
@@ -194,7 +200,7 @@ Item {
             }
         }
 
-        if (view.unalignedCursorToolActive) {
+        if (view.unalignedClavierCursorActive) {
             view.updateUnalignedClavierCursorPosition(point)
         } else if (!noteClavierCursorBinding.when) {
             if (p.y < 0) {
@@ -225,17 +231,15 @@ Item {
             pianoRollViewContainer, selectionPointerHandler.point.position)
         view.selectionTimeCursorPosition = Math.max(0,
             cursorTimeManipulator.mapToPosition(p.x))
-        view.unalignedClavierCursorPosition = view.selectionUsesClavier
-            ? Math.max(0.0, Math.min(128.0,
-                cursorClavierManipulator.mapToPosition(p.y) - 0.5))
+        const clavierPosition = cursorClavierManipulator.mapToPosition(p.y)
+        view.selectionClavierCursorPosition = view.selectionUsesClavier
+            ? view.noteSelectionActive
+                ? Math.max(0, Math.min(127, Math.floor(clavierPosition)))
+                : Math.max(0.0, Math.min(128.0, clavierPosition - 0.5))
             : -1.0
-        if (!view.unalignedCursorToolActive
-                && view.pianoRollPanelInterface?.clavierViewModel) {
-            view.pianoRollPanelInterface.clavierViewModel.cursorPosition = -1
-        }
     }
 
-    function beginSelection(layer: Item) {
+    function beginSelection(layer: Item, selectsNotes) {
         if (!layer)
             return
         let usesClavier = false
@@ -246,6 +250,7 @@ Item {
             }
         }
         view.selectionUsesClavier = usesClavier
+        view.noteSelectionActive = selectsNotes === true
         view.selectionLayer = layer
         view.updateSelectionCursorPositions()
     }
@@ -253,9 +258,11 @@ Item {
     function endSelection(layer) {
         if (view.selectionLayer !== layer)
             return
-        view.selectionLayer = null
         view.selectionTimeCursorPosition = -1
+        view.selectionClavierCursorPosition = -1.0
         view.selectionUsesClavier = false
+        view.noteSelectionActive = false
+        view.selectionLayer = null
     }
 
     function beginPitchHover(editor) {
@@ -294,7 +301,7 @@ Item {
     }
 
     function usesUnalignedTimeCursorPosition(point): bool {
-        if (view.unalignedCursorToolActive)
+        if (view.unalignedTimeCursorToolActive)
             return true
         for (const source of view.timeCursorSources) {
             if (source?.enabled && source.timeCursorUnaligned
@@ -336,6 +343,14 @@ Item {
     Binding {
         target: view.pianoRollPanelInterface?.clavierViewModel ?? null
         property: "cursorPosition"
+        value: view.selectionClavierCursorPosition
+        when: view.selectionLayer !== null
+        restoreMode: Binding.RestoreNone
+    }
+
+    Binding {
+        target: view.pianoRollPanelInterface?.clavierViewModel ?? null
+        property: "cursorPosition"
         value: view.pitchAnchorMoving
             ? view.pitchPositionFromNormalizedValue(
                   view.pitchAnchorBeingEdited?.value ?? 0.0)
@@ -343,7 +358,7 @@ Item {
                 ? view.pitchPositionFromNormalizedValue(
                       pitchEditor.freeEditPointerValue)
                 : view.unalignedClavierCursorPosition
-        when: view.unalignedCursorToolActive
+        when: view.unalignedClavierCursorActive && view.selectionLayer === null
         restoreMode: Binding.RestoreNone
     }
 
@@ -426,7 +441,7 @@ Item {
         }
 
         function onRubberBandDraggingStarted(noteEditLayer) {
-            view.beginSelection(noteEditLayer)
+            view.beginSelection(noteEditLayer, true)
         }
 
         function onRubberBandDraggingCommitted(noteEditLayer) {
@@ -709,7 +724,7 @@ Item {
                     clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
                     clavierInteractionController: view.pianoRollPanelInterface?.clavierInteractionController ?? null
                     scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
-                    showCentText: view.unalignedCursorToolActive
+                    showCentText: view.unalignedClavierCursorActive
 
                     bottomExpansion: view.bottomExpansion
 
@@ -717,7 +732,7 @@ Item {
                         target: clavier.clavierInteractionController
                         function onHoverEntered(clavier_, key) {
                             if (clavier_ === clavier
-                                    && !view.unalignedCursorToolActive
+                                    && !view.unalignedClavierCursorActive
                                     && !view.selectionLayer) {
                                 clavier.clavierViewModel.cursorPosition = key
                             }
@@ -725,7 +740,8 @@ Item {
 
                         function onHoverExited(clavier_, key) {
                             if (clavier_ === clavier
-                                    && !view.unalignedCursorToolActive) {
+                                    && !view.unalignedClavierCursorActive
+                                    && !view.selectionLayer) {
                                 clavier.clavierViewModel.cursorPosition = -1
                             }
                         }
