@@ -71,6 +71,7 @@ namespace LibreSVIPFormatConverter::Internal {
 
     static LibreSVIPManager *s_instance{};
     static constexpr qint64 kMaximumInputSize = 512ll * 1024ll * 1024ll;
+    static constexpr int kStartupTimeoutMs = 60 * 1000;
     static constexpr int kCatalogTimeoutMs = 15000;
     static constexpr int kConversionTimeoutMs = 10 * 60 * 1000;
     static constexpr int kCacheVersion = 1;
@@ -554,7 +555,7 @@ namespace LibreSVIPFormatConverter::Internal {
         QElapsedTimer startupTimer;
         startupTimer.start();
         QString rpcError;
-        while (startupTimer.elapsed() < kCatalogTimeoutMs) {
+        while (startupTimer.elapsed() < kStartupTimeoutMs) {
             if (cancellationRequested(isCancelled)) {
                 result.cancelled = true;
                 stopProcess(true);
@@ -588,15 +589,11 @@ namespace LibreSVIPFormatConverter::Internal {
             stopProcess(true);
             return result;
         }
-        int remaining = kCatalogTimeoutMs - static_cast<int>(startupTimer.elapsed());
-        if (remaining <= 0) {
-            result.errorMessage = tr("Timed out while querying LibreSVIP plugins.");
-            stopProcess(true);
-            return result;
-        }
+        QElapsedTimer catalogTimer;
+        catalogTimer.start();
         bool rpcCancelled = false;
         if (!queryPluginInfos(client, LibreSVIP::PluginCategoryGadget::PluginCategory::OUTPUT,
-                              &result.catalog.outputs, &rpcError, remaining, isCancelled, &rpcCancelled)) {
+                              &result.catalog.outputs, &rpcError, kCatalogTimeoutMs, isCancelled, &rpcCancelled)) {
             if (rpcCancelled) {
                 result.cancelled = true;
                 stopProcess(true);
@@ -606,7 +603,7 @@ namespace LibreSVIPFormatConverter::Internal {
             stopProcess(true);
             return result;
         }
-        remaining = kCatalogTimeoutMs - static_cast<int>(startupTimer.elapsed());
+        const int remaining = kCatalogTimeoutMs - static_cast<int>(catalogTimer.elapsed());
         rpcCancelled = false;
         if (remaining <= 0 ||
             !queryPluginInfos(client, LibreSVIP::PluginCategoryGadget::PluginCategory::MIDDLEWARE,
@@ -861,7 +858,7 @@ namespace LibreSVIPFormatConverter::Internal {
         startupTimer.start();
         QList<LibreSVIPPluginInfo> ignored;
         QString rpcError;
-        while (startupTimer.elapsed() < kCatalogTimeoutMs && m_process->state() != QProcess::NotRunning) {
+        while (startupTimer.elapsed() < kStartupTimeoutMs && m_process->state() != QProcess::NotRunning) {
             bool rpcCancelled = false;
             if (queryPluginInfos(client, LibreSVIP::PluginCategoryGadget::PluginCategory::INPUT,
                                  &ignored, &rpcError, 1000, conversionCancelled, &rpcCancelled))
