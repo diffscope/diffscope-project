@@ -10,7 +10,7 @@
         },
         {
             "repository": "../../stdware/vcpkg-overlay.git",
-            "ref": "f69a1a6321b36f1abda47ab548b2b9d037e65507"
+            "ref": "4155714011740456527f8ec4bfe53a26b46e54c2"
         }
     ],
     "tasks": {
