@@ -661,72 +661,72 @@
 <context>
     <name>BatchProcess::Internal::JavaScriptDebugConsoleDialog</name>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="542"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="544"/>
         <source>JavaScript Debug Console</source>
         <translation type="unfinished">JavaScript Debug Console</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="554"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="556"/>
         <source>&amp;Clear</source>
         <translation type="unfinished">&amp;Clear</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="558"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="560"/>
         <source>Filter Output</source>
         <translation type="unfinished">Filter Output</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="559"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="561"/>
         <source>Filter console output</source>
         <translation type="unfinished">Filter console output</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="571"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="573"/>
         <source>Error</source>
         <translation type="unfinished">Error</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="572"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="574"/>
         <source>Warning</source>
         <translation type="unfinished">Warning</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="573"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="575"/>
         <source>Info</source>
         <translation type="unfinished">Info</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="574"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="576"/>
         <source>Log</source>
         <translation type="unfinished">Log</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="575"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="577"/>
         <source>Debug</source>
         <translation type="unfinished">Debug</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="584"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="586"/>
         <source>Show %1 messages</source>
         <translation type="unfinished">Show %1 messages</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="609"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="611"/>
         <source>%1 (%L2)</source>
         <translation type="unfinished">%1 (%L2)</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="634"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="636"/>
         <source>Copy Message</source>
         <translation type="unfinished">Copy Message</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="634"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="636"/>
         <source>Copy All Messages</source>
         <translation type="unfinished">Copy All Messages</translation>
     </message>
     <message>
-        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="648"/>
+        <location filename="../../internal/dialog/JavaScriptDebugConsoleDialog.cpp" line="650"/>
         <source>&amp;Output</source>
         <translation type="unfinished">&amp;Output</translation>
     </message>
@@ -1201,23 +1201,30 @@
 <context>
     <name>Core::CoreInterface</name>
     <message>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="790"/>
         <source>Untitled</source>
-        <translation type="unfinished">Untitled</translation>
+        <translation type="obsolete">Untitled</translation>
     </message>
 </context>
 <context>
     <name>DocumentInterface</name>
     <message>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="172"/>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="644"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="179"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="655"/>
         <source>The script document operation is not available in the current state.</source>
         <translation type="unfinished">The script document operation is not available in the current state.</translation>
     </message>
     <message>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="334"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="341"/>
         <source>Cleaning up script objects</source>
         <translation type="unfinished">Cleaning up script objects</translation>
+    </message>
+</context>
+<context>
+    <name>DspxProject::EditItemsScenario</name>
+    <message>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="1030"/>
+        <source>Bouncing to clip</source>
+        <translation type="unfinished">Bouncing to clip</translation>
     </message>
 </context>
 <context>
@@ -1294,13 +1301,13 @@
     <name>QPlatformTheme</name>
     <message>
         <location filename="../../qml/dialogs/ShellTextPromptDialog.qml" line="68"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="209"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="211"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
     <message>
         <location filename="../../qml/dialogs/ShellTextPromptDialog.qml" line="75"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="213"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="215"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>
@@ -1331,69 +1338,69 @@
 <context>
     <name>ShellInterface</name>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="265"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="297"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="634"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="267"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="299"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="636"/>
         <source>The application window handle is no longer valid.</source>
         <translation type="unfinished">The application window handle is no longer valid.</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="288"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="290"/>
         <source>No application window is available for this operation.</source>
         <translation type="unfinished">No application window is available for this operation.</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="406"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="408"/>
         <source>%1
 A value is required.</source>
         <translation type="unfinished">%1
 A value is required.</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="421"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="423"/>
         <source>The application window cannot host this text input dialog.</source>
         <translation type="unfinished">The application window cannot host this text input dialog.</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="496"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="498"/>
         <source>The application window cannot host this form dialog.</source>
         <translation type="unfinished">The application window cannot host this form dialog.</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="546"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="548"/>
         <source>Open File</source>
         <translation type="unfinished">Open File</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="560"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="594"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="562"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="596"/>
         <source>The selected file could not be authorized.</source>
         <translation type="unfinished">The selected file could not be authorized.</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="583"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="585"/>
         <source>Save File</source>
         <translation type="unfinished">Save File</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="607"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="609"/>
         <source>Select Directory</source>
         <translation type="unfinished">Select Directory</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="617"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="619"/>
         <source>The selected directory could not be authorized.</source>
         <translation type="unfinished">The selected directory could not be authorized.</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="638"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="640"/>
         <source>This application window does not support window notifications.</source>
         <translation type="unfinished">This application window does not support window notifications.</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="258"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="294"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="624"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="260"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="296"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="626"/>
         <source>Shell operations are only available while a script is executing.</source>
         <translation type="unfinished">Shell operations are only available while a script is executing.</translation>
     </message>

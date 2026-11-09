@@ -143,54 +143,54 @@
 <context>
     <name>PitchShifter::Internal::PitchShiftAddOn</name>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="176"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="232"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="263"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="277"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="288"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="337"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="351"/>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="354"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="171"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="227"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="258"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="272"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="283"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="332"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="346"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="349"/>
         <source>Failed to stretch and shift pitch</source>
         <translation type="unfinished">伸缩与移调失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="176"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="171"/>
         <source>The audio was saved, but the original clip is no longer available.</source>
         <translation type="unfinished">音频已保存，但原始剪辑已不可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="181"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="176"/>
         <source>Stretching and shifting pitch</source>
         <translation type="unfinished">伸缩与移调</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="232"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="227"/>
         <source>The audio file for the selected clip is unavailable.</source>
         <translation type="unfinished">所选剪辑的音频文件不可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="240"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="235"/>
         <source>Save Stretched and Pitch-Shifted Audio</source>
         <translation type="unfinished">保存伸缩与移调后的音频</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="242"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="237"/>
         <source>WAV Audio (*.wav)</source>
         <translation type="unfinished">WAV 音频 (*.wav)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="277"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="272"/>
         <source>The selected formant mode is invalid.</source>
         <translation type="unfinished">所选共振峰模式无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="288"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="283"/>
         <source>Unable to open the selected clip&apos;s audio file.</source>
         <translation type="unfinished">无法打开所选剪辑的音频文件。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="354"/>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp" line="349"/>
         <source>An unknown error occurred while preparing pitch shifting.</source>
         <translation type="unfinished">准备移调时发生未知错误。</translation>
     </message>

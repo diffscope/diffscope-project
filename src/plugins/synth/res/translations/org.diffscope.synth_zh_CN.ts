@@ -1493,7 +1493,7 @@ X-Custom-Header-2: bar</translation>
 <context>
     <name>Synth::Internal::AudioExtractionAddOn</name>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="199"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="202"/>
         <source>Choose Separated Audio Directory</source>
         <translation type="unfinished">选择分离音频目录</translation>
     </message>
@@ -1502,41 +1502,41 @@ X-Custom-Header-2: bar</translation>
         <translation type="obsolete">音频提取</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="279"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="324"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="453"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="280"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="325"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="454"/>
         <source>The original audio clip is no longer available.</source>
         <translation type="unfinished">原始音频剪辑已不可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="293"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="294"/>
         <source>The audio file for the selected clip is unavailable.</source>
         <translation type="unfinished">所选剪辑的音频文件不可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="302"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="303"/>
         <source>Choose a writable directory for the separated audio.</source>
         <translation type="unfinished">请为分离的音频选择可写目录。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="318"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="319"/>
         <source>Overwrite Separated Audio</source>
         <translation type="unfinished">覆盖分离的音频</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="319"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="320"/>
         <source>The following files may be replaced by the separated tracks. Overwrite matching files?
 %1</source>
         <translation type="unfinished">以下文件可能被分离后的轨道替换。是否覆盖同名文件？
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="464"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="465"/>
         <source>The original audio clip or project tempo changed during extraction. Try again.</source>
         <translation type="unfinished">提取期间，原始音频剪辑或工程曲速发生了更改。请重试。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="523"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="522"/>
         <source>%1
 Some files could not be restored. Backups are in %2.
 %3</source>
@@ -1545,98 +1545,98 @@ Some files could not be restored. Backups are in %2.
 %3</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="536"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="535"/>
         <source>The separated track names produce duplicate file names.</source>
         <translation type="unfinished">分离后的轨道名称产生了重复的文件名。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="546"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="545"/>
         <source>An output file appeared or changed during extraction. Start again to confirm overwriting it.</source>
         <translation type="unfinished">提取期间，某个输出文件被创建或修改。请重新开始以确认覆盖。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="551"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="550"/>
         <source>Could not back up an existing output file.</source>
         <translation type="unfinished">无法备份现有输出文件。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="561"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="560"/>
         <source>Could not save the separated audio files.</source>
         <translation type="unfinished">无法保存分离后的音频文件。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="588"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="587"/>
         <source>%1 (Extracted notes)</source>
         <translation type="unfinished">%1（提取的音符）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="591"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="590"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="597"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="596"/>
         <source>Could not insert the extracted tracks.</source>
         <translation type="unfinished">无法插入提取的轨道。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="629"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="630"/>
         <source>Could not insert the extracted notes.</source>
         <translation type="unfinished">无法插入提取的音符。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="646"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="647"/>
         <source>Could not insert the extracted clips.</source>
         <translation type="unfinished">无法插入提取的剪辑。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="652"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="653"/>
         <source>Extracting notes</source>
         <translation type="unfinished">提取音符</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="654"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="655"/>
         <source>Separating audio</source>
         <translation type="unfinished">分离音频</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="656"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="657"/>
         <source>Could not commit the extracted tracks.</source>
         <translation type="unfinished">无法提交提取的轨道。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="347"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="348"/>
         <source>The audio region exceeds the supported time range.</source>
         <translation type="unfinished">音频区域超出支持的时间范围。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="381"/>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="471"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="382"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="472"/>
         <source>The audio clip or project timeline changed. Extract the tempo again.</source>
         <translation type="unfinished">音频剪辑或工程时间轴已更改。请重新提取曲速。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="412"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="413"/>
         <source>The extracted tempo could not be applied.</source>
         <translation type="unfinished">无法应用提取的曲速。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="441"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="442"/>
         <source>Extracting tempo</source>
         <translation type="unfinished">提取曲速</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="248"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="251"/>
         <source>Extract Tempo</source>
         <translation type="unfinished">提取曲速</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="250"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="253"/>
         <source>Extract Pitch</source>
         <translation type="unfinished">提取音高</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="590"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="589"/>
         <source>%1 (Extracted pitch)</source>
         <translation type="unfinished">%1（提取的音高）</translation>
     </message>
@@ -1646,7 +1646,7 @@ Some files could not be restored. Backups are in %2.
         <translation type="unfinished">无法插入提取的音高。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="653"/>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="654"/>
         <source>Extracting pitch</source>
         <translation type="unfinished">提取音高</translation>
     </message>
@@ -1941,54 +1941,54 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="obsolete">内置</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="125"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="127"/>
         <source>Could not start DiffSinger Synthesis Program:
 %1</source>
         <translation type="unfinished">无法启动 DiffSinger 合成程序：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="401"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="403"/>
         <source>DiffSinger Synthesis Program exited abnormally</source>
         <translation type="unfinished">DiffSinger 合成程序 异常退出</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="142"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="144"/>
         <source>DiffSinger Synthesis Program exited unexpectedly (exit code %L1).</source>
         <translation type="unfinished">DiffSinger 合成程序 意外退出（退出代码为 %L1）。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="394"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="396"/>
         <source>DiffSinger Synthesis Program is not configured</source>
         <translation type="unfinished">未配置 DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="400"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="402"/>
         <source>DiffSinger Synthesis Program is running</source>
         <translation type="unfinished">DiffSinger 合成程序 正在运行</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="398"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="400"/>
         <source>DiffSinger Synthesis Program is starting</source>
         <translation type="unfinished">DiffSinger 合成程序 正在启动</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="401"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="403"/>
         <source>DiffSinger Synthesis Program is stopped</source>
         <translation type="unfinished">DiffSinger 合成程序 已停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="396"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="398"/>
         <source>DiffSinger Synthesis Program is stopping</source>
         <translation type="unfinished">DiffSinger 合成程序 正在停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="555"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="557"/>
         <source>DiffSinger Synthesis Program Stopped</source>
         <translation type="unfinished">DiffSinger 合成程序 已停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="453"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="455"/>
         <source>DiffSinger Synthesis Program was not found:
 %1</source>
         <translation type="unfinished">未找到 DiffSinger 合成程序：
@@ -2003,7 +2003,7 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="obsolete">未选择安装</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="558"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="560"/>
         <source>Restart</source>
         <translation type="unfinished">重新启动</translation>
     </message>
@@ -2020,96 +2020,96 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="obsolete">DiffSinger 合成程序 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="389"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="391"/>
         <source>Error</source>
         <translation type="unfinished">错误</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="382"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="384"/>
         <source>Not Configured</source>
         <translation type="unfinished">未配置</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="388"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="390"/>
         <source>Running</source>
         <translation type="unfinished">运行中</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="386"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="388"/>
         <source>Starting</source>
         <translation type="unfinished">启动中</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="389"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="391"/>
         <source>Stopped</source>
         <translation type="unfinished">已停止</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="384"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="386"/>
         <source>Stopping</source>
         <translation type="unfinished">停止中</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="53"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="55"/>
         <source>DiffSinger Synthesis Program</source>
         <translation type="unfinished">DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="580"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="582"/>
         <source>DiffSinger Synthesis Program Warning</source>
         <translation type="unfinished">DiffSinger 合成程序 警告</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="582"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="584"/>
         <source>DiffSinger Synthesis Program Critical</source>
         <translation type="unfinished">DiffSinger 合成程序 关键性错误</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="584"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="586"/>
         <source>DiffSinger Synthesis Program Fatal</source>
         <translation type="unfinished">DiffSinger 合成程序 致命错误</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="590"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="592"/>
         <source>Module: %1
 %2</source>
         <translation type="unfinished">模块：%1
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="272"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="274"/>
         <source>DiffSinger Synthesis Program will be stopped before this version is uninstalled.</source>
         <translation type="unfinished">卸载此版本之前，将停止 DiffSinger 合成程序。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="260"/>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="338"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="262"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="340"/>
         <source>Could not stop device discovery.</source>
         <translation type="unfinished">无法停止设备发现。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="268"/>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="355"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="270"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="357"/>
         <source>Could not stop DiffSinger Synthesis Program.</source>
         <translation type="unfinished">无法停止 DiffSinger 合成程序。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="314"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="316"/>
         <source>Another operation is using DiffSinger Synthesis Program.</source>
         <translation type="unfinished">其他操作正在使用 DiffSinger 合成程序。</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="327"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="329"/>
         <source>Stop DiffSinger Synthesis Program</source>
         <translation type="unfinished">停止 DiffSinger 合成程序</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="328"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="330"/>
         <source>Installing or uninstalling packages requires stopping the local DiffSinger Synthesis Program. Synthesis tasks in progress will be aborted. Continue?</source>
         <translation type="unfinished">安装或卸载包需要停止本地 DiffSinger 合成程序。正在进行的合成任务将被中止。是否继续？</translation>
     </message>
     <message>
-        <location filename="../../internal/dssp/DsspServerManager.cpp" line="464"/>
+        <location filename="../../internal/dssp/DsspServerManager.cpp" line="466"/>
         <source>Configure the package directory in Settings &gt; Synthesis &gt; Package Manager instead of additional command-line arguments.</source>
         <translation type="unfinished">请在“设置 &gt; 合成 &gt; 包管理器”中配置包目录，不要使用附加命令行参数。</translation>
     </message>
@@ -2691,7 +2691,7 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::SynthPlugin</name>
     <message>
-        <location filename="../../internal/SynthPlugin.cpp" line="55"/>
+        <location filename="../../internal/SynthPlugin.cpp" line="56"/>
         <source>Initializing synthesis plugin...</source>
         <translation type="unfinished">正在初始化合成插件...</translation>
     </message>
@@ -2774,30 +2774,30 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::SynthesisProjectAddOn</name>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="130"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="139"/>
         <source>Synthesized audio could not be prepared for the export sample rate</source>
         <translation type="unfinished">无法为导出采样率准备已合成的音频</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="173"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="182"/>
         <source>Synthesized audio positions could not be updated before export</source>
         <translation type="unfinished">无法在导出前更新已合成音频的位置</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="195"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="204"/>
         <source>The synthesis state could not be checked before audio export</source>
         <translation type="unfinished">无法在音频导出前检查合成状态</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="199"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="208"/>
         <source>Audio synthesis did not complete successfully</source>
         <translation type="unfinished">音频合成未成功完成</translation>
     </message>
     <message>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="111"/>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="248"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="871"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="894"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="882"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="905"/>
         <source>The synthesis piece is no longer available</source>
         <translation type="unfinished">合成片段已不可用</translation>
     </message>
@@ -2843,111 +2843,111 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">无法重新定位合成片段的合成音频</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="937"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="944"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="948"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="955"/>
         <source>Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">编辑进行中时无法开始音频导出。请完成或取消当前编辑后重试</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="963"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="974"/>
         <source>Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">编辑进行中时无法继续音频导出。请完成或取消当前编辑后重试</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="983"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="994"/>
         <source>Audio synthesis could not be started for clip &quot;%1&quot;</source>
         <translation type="unfinished">无法为剪辑“%1”启动音频合成</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="998"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1009"/>
         <source>Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</source>
         <translation type="unfinished">音频导出已停止，因为剪辑“%1”包含尚未完成音频的合成片段</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1004"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1015"/>
         <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</source>
         <translation type="unfinished">音频导出已停止，因为剪辑“%1”中某个合成片段的音频合成已取消</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1016"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1027"/>
         <source>Unknown synthesis error</source>
         <translation type="unfinished">未知的合成错误</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1018"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1029"/>
         <source>Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</source>
         <translation type="unfinished">音频导出已停止，因为剪辑“%1”中某个合成片段的合成失败：%2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1061"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1073"/>
         <source>Synthesis failed</source>
         <translation type="unfinished">合成失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1230"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1249"/>
         <source>The clip has no valid singer source</source>
         <translation type="unfinished">剪辑没有有效的歌手源</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1325"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1436"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1344"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1455"/>
         <source>The synthesis task could not be queued</source>
         <translation type="unfinished">无法将合成任务加入队列</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1406"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1425"/>
         <source>No healthy service can synthesize this synthesis piece</source>
         <translation type="unfinished">没有正常的服务可以合成此合成片段</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1659"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1678"/>
         <source>Resynthesize</source>
         <translation type="unfinished">重新合成</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1660"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1679"/>
         <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</source>
         <translation type="unfinished">以下剪辑无法重新合成，因为它们的源不受合成服务管理：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1911"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1927"/>
         <source>The pronunciation result does not match the requested score</source>
         <translation type="unfinished">发音结果与请求的乐谱不匹配</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1913"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1929"/>
         <source>The phoneme result does not match the requested score</source>
         <translation type="unfinished">音素结果与请求的乐谱不匹配</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1915"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1931"/>
         <source>The duration result does not match the score for the requested synthesis piece</source>
         <translation type="unfinished">时长结果与所请求合成片段的乐谱不匹配</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2141"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2157"/>
         <source>Synthesis was canceled</source>
         <translation type="unfinished">合成已取消</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1236"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1255"/>
         <source>No healthy service supports the singers selected for this clip</source>
         <translation type="unfinished">没有正常的服务支持此剪辑所选的歌手</translation>
     </message>
     <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="437"/>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="446"/>
         <source>A slur note must immediately follow another note</source>
         <translation type="unfinished">连音音符必须紧接在另一音符之后</translation>
     </message>
     <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="425"/>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="434"/>
         <source>Some notes overlap. Move or resize the overlapping notes before synthesizing</source>
         <translation type="unfinished">部分音符重叠。请在合成前移动或调整重叠的音符</translation>
     </message>
     <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="393"/>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="402"/>
         <source>The synthesis piece is no longer attached to a valid clip</source>
         <translation type="unfinished">合成片段已不再附加到有效的剪辑</translation>
     </message>

@@ -340,37 +340,37 @@
 <context>
     <name>Audio::Internal::AudioClipAddOn</name>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="149"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="144"/>
         <source>Open Audio File</source>
         <translation type="unfinished">Open Audio File</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="161"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="156"/>
         <source>Failed to open audio file</source>
         <translation type="unfinished">Failed to open audio file</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="162"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="157"/>
         <source>Unable to open &quot;%1&quot; as an audio file.</source>
         <translation type="unfinished">Unable to open &quot;%1&quot; as an audio file.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="246"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="241"/>
         <source>Inserting audio clip</source>
         <translation type="unfinished">Inserting audio clip</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="271"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="266"/>
         <source>Updating audio clip path</source>
         <translation type="unfinished">Updating audio clip path</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="299"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="294"/>
         <source>Updating audio clip digest</source>
         <translation type="unfinished">Updating audio clip digest</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="337"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="332"/>
         <source>Replacing audio clip</source>
         <translation type="unfinished">Replacing audio clip</translation>
     </message>
@@ -468,32 +468,32 @@
 <context>
     <name>Audio::Internal::AudioPlugin</name>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="67"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="68"/>
         <source>Initializing audio plugin...</source>
         <translation>Initializing audio plugin...</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="85"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="86"/>
         <source>Audio Device Changed</source>
         <translation type="unfinished">Audio Device Changed</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="86"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="87"/>
         <source>A change in audio devices has been detected. You can check or adjust the current device in the audio settings.</source>
         <translation type="unfinished">A change in audio devices has been detected. You can check or adjust the current device in the audio settings.</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="87"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="88"/>
         <source>Open Audio Output Settings</source>
         <translation type="unfinished">Open Audio Output Settings</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="143"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="144"/>
         <source>Failed to initialize audio output system</source>
         <translation>Failed to initialize audio output system</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="144"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="145"/>
         <source>%1 will not play sound because no available audio output device found.
 
 Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device status.</source>
@@ -591,44 +591,44 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::EffectsAddOn</name>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="249"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="248"/>
         <source>Track: %1</source>
         <translation type="unfinished">Track: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="249"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="248"/>
         <source>Track</source>
         <translation type="unfinished">Track</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="273"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="272"/>
         <source>Another audio reading filter is already attached to this track. Effects cannot process audio on this track.</source>
         <translation type="unfinished">Another audio reading filter is already attached to this track. Effects cannot process audio on this track.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="274"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="273"/>
         <source>Another audio reading filter is already attached to the master track. Effects cannot process master audio.</source>
         <translation type="unfinished">Another audio reading filter is already attached to the master track. Effects cannot process master audio.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="334"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="333"/>
         <source>Applying effect preset</source>
         <translation type="unfinished">Applying effect preset</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="398"/>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="410"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="390"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="402"/>
         <source>Effects are unavailable for the master track.</source>
         <translation type="unfinished">Effects are unavailable for the master track.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="434"/>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="536"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="426"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="524"/>
         <source>Effects are unavailable for this track.</source>
         <translation type="unfinished">Effects are unavailable for this track.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EffectsAddOn.cpp" line="526"/>
+        <location filename="../../internal/addon/EffectsAddOn.cpp" line="514"/>
         <source>Effects cannot be edited for multiple tracks.</source>
         <translation type="unfinished">Effects cannot be edited for multiple tracks.</translation>
     </message>
@@ -683,23 +683,23 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
         <translation type="obsolete">Audio export completed</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="261"/>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="294"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="263"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="296"/>
         <source>WAV (*.wav)</source>
         <translation type="unfinished">WAV (*.wav)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="262"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="264"/>
         <source>FLAC (*.flac)</source>
         <translation type="unfinished">FLAC (*.flac)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="263"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="265"/>
         <source>Ogg Container (*.ogg *.opus)</source>
         <translation type="unfinished">Ogg Container (*.ogg *.opus)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="295"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="297"/>
         <source>Ogg Vorbis (*.ogg)</source>
         <translation type="unfinished">Ogg Vorbis (*.ogg)</translation>
     </message>
@@ -724,7 +724,7 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
         <translation type="unfinished">Reveal in %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="264"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="266"/>
         <source>MP3 (*.mp3)</source>
         <translation type="unfinished">MP3 (*.mp3)</translation>
     </message>
@@ -869,7 +869,7 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::MidiRecordingAddOn</name>
     <message>
-        <location filename="../../internal/addon/MidiRecordingAddOn.cpp" line="726"/>
+        <location filename="../../internal/addon/MidiRecordingAddOn.cpp" line="724"/>
         <source>Recording MIDI</source>
         <translation type="unfinished">Recording MIDI</translation>
     </message>

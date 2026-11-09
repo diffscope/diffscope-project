@@ -282,7 +282,7 @@ ActionCollection {
                     return ""
                 if (selectionModel.selectionType === DspxSelectionModel.SelectionModel.ST_FreeParameter) {
                     const freeSelection = selectionIndicator.freeSelection
-                    const parameterName = freeParameterInfo.info.displayName || freeSelection.parameterId
+                    const parameterName = freeSelection.parameterId === "pitch" ? qsTr("Pitch") : freeParameterInfo.info.displayName || freeSelection.parameterId
                     const displayName = freeSelection.role === DspxModel.FreeValueDataArray.Transform
                         ? qsTr("%1 Transform").arg(parameterName) : parameterName
                     if (!freeSelection.hasSelection)

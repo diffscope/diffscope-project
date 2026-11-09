@@ -58,14 +58,13 @@ namespace DspxProject {
 
     void EditSourcesScenarioPrivate::applySources(const SourcesSelection &sources,
                                                  const QList<QPointer<dspx::SingingClip>> &clips, QQuickWindow *window) const {
-        Q_Q(const EditSourcesScenario);
         const QPointer<EditSourcesStrategy> guardedStrategy(strategy);
         const QPointer<QQuickWindow> dialogWindow(window);
         const std::vector<opendspx::SingerRef> singers(sources.singers.cbegin(), sources.singers.cend());
         const auto languages = singerRegistry->singerInfo(sources.architectureId, firstSingerId(singers)).languages();
         const auto targetModel = document->model();
         bool hasUnsupportedLanguage = false;
-        const bool started = document->transactionController()->beginScopedTransaction(q->tr("Editing sources"), [&] {
+        const bool started = document->transactionController()->beginScopedTransaction(EditSourcesScenario::tr("Editing sources"), [&] {
             bool changed = false;
             for (const auto &clip : clips) {
                 if (!clip || clip->model() != targetModel || !sources.applyTo(clip)) {

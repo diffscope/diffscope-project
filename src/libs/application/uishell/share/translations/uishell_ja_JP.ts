@@ -76,7 +76,7 @@
 <context>
     <name>HomeWindow</name>
     <message>
-        <location filename="../../src/qml/HomeWindow.qml" line="105"/>
+        <location filename="../../src/qml/HomeWindow.qml" line="107"/>
         <source>Empty</source>
         <translation type="unfinished">Empty</translation>
     </message>
@@ -635,12 +635,12 @@ If %1 crashes, automatic recovery files will be displayed here.</translation>
 <context>
     <name>ProjectWindow</name>
     <message>
-        <location filename="../../src/qml/ProjectWindow.qml" line="117"/>
+        <location filename="../../src/qml/ProjectWindow.qml" line="119"/>
         <source>Empty</source>
         <translation type="unfinished">Empty</translation>
     </message>
     <message>
-        <location filename="../../src/qml/ProjectWindow.qml" line="271"/>
+        <location filename="../../src/qml/ProjectWindow.qml" line="275"/>
         <source>&amp;Main Menu</source>
         <translation type="unfinished"></translation>
     </message>

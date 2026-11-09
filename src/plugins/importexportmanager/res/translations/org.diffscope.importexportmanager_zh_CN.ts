@@ -127,17 +127,17 @@
 <context>
     <name>ImportExportManager::Internal::DspxFileExporter</name>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="33"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="34"/>
         <source>DSPX</source>
         <translation>DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="34"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="35"/>
         <source>Export as DSPX file compatible with older versions of DiffScope and other editors</source>
         <translation>导出为与旧版 DiffScope 和其他编辑器兼容的 DSPX 文件</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="35"/>
+        <location filename="../../internal/fileconverters/DspxFileExporter.cpp" line="36"/>
         <source>DiffScope Project Exchange Format (*.dspx)</source>
         <translation>DiffScope 工程交换格式 (*.dspx)</translation>
     </message>
@@ -175,37 +175,37 @@
 <context>
     <name>ImportExportManager::Internal::DspxFileImporter</name>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="30"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="31"/>
         <source>DSPX</source>
         <translation>DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="31"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="32"/>
         <source>Import DSPX file compatible with DiffScope</source>
         <translation>导入适用于 DiffScope 的 DSPX 文件</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="32"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="33"/>
         <source>DiffScope Project Exchange Format (*.dspx)</source>
         <translation>DiffScope 工程交换格式 (*.dspx)</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="58"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="60"/>
         <source>Import DSPX</source>
         <translation>导入 DSPX</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="60"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="62"/>
         <source>Keep Workspace data</source>
         <translation>保留“Workspace”数据</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="63"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="65"/>
         <source>Workspace data is not part of the DSPX standard and is editor-specific. Different editors may interpret the same fields differently, which can potentially lead to unexpected behavior or compatibility issues.</source>
         <translation>“Workspace”数据不是 DSPX 标准的一部分，而特定于编辑器。不同的编辑器可能使用不同的方式解读同一字段，这会导致潜在的意外行为或兼容性问题。</translation>
     </message>
     <message>
-        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="69"/>
+        <location filename="../../internal/fileconverters/DspxFileImporter.cpp" line="71"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
@@ -213,27 +213,27 @@
 <context>
     <name>ImportExportManager::Internal::FileImportExportAddOn</name>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="178"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="179"/>
         <source>Replace tempo and time signature</source>
         <translation type="unfinished">替换曲速与拍号</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="179"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="180"/>
         <source>Do you want to replace the current tempo and time signature with those from the imported file?</source>
         <translation type="unfinished">要用导入文件中的曲速与拍号替换当前的曲速与拍号吗？</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="185"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="186"/>
         <source>Importing tracks</source>
         <translation type="unfinished">导入轨道</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="218"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="219"/>
         <source>Import File</source>
         <translation>导入文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="252"/>
+        <location filename="../../internal/addon/FileImportExportAddOn.cpp" line="267"/>
         <source>Export File</source>
         <translation>导出文件</translation>
     </message>

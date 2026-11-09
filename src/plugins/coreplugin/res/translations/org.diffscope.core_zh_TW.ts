@@ -20,47 +20,47 @@
 <context>
     <name>AnchorNodeParameterPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="43"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="44"/>
         <source>Parameter Anchor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="58"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="59"/>
         <source>Editing parameter anchor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="88"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="89"/>
         <source>The selected parameter is not registered for this singer architecture.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="95"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="96"/>
         <source>Position</source>
         <translation type="unfinished">Position</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="108"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="109"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="184"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="185"/>
         <source>Interpolation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="191"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="192"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="192"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="193"/>
         <source>Linear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="193"/>
+        <location filename="../../qml/propertyeditors/AnchorNodeParameterPropertyEditor.qml" line="194"/>
         <source>Hermite</source>
         <translation type="unfinished"></translation>
     </message>
@@ -203,17 +203,17 @@
         <translation type="obsolete">&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="271"/>
+        <location filename="../../core/CoreInterface.cpp" line="303"/>
         <source>&lt;p&gt;A professional singing-voice-synthesis editor powered by DiffSinger&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright © %2-%3 %4. All rights reserved.&lt;/p&gt;&lt;p&gt;Visit &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; for more information.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;A professional singing-voice-synthesis editor powered by DiffSinger&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright © %2-%3 %4. All rights reserved.&lt;/p&gt;&lt;p&gt;Visit &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; for more information.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="287"/>
+        <location filename="../../core/CoreInterface.cpp" line="319"/>
         <source>&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;&lt;p&gt;This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;&lt;p&gt;This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="301"/>
+        <location filename="../../core/CoreInterface.cpp" line="333"/>
         <source>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;br&gt;Target platform: %7&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2289,7 +2289,7 @@
 <context>
     <name>Core::CoreInterface</name>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="321"/>
+        <location filename="../../core/CoreInterface.cpp" line="357"/>
         <source>About %1</source>
         <translation type="unfinished">About %1</translation>
     </message>
@@ -2652,43 +2652,43 @@
 <context>
     <name>Core::Internal::ActionCatalogProxyModel</name>
     <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="208"/>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="222"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="212"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="226"/>
         <source>Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="210"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="214"/>
         <source>Action group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="212"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="216"/>
         <source>Separator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="214"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="218"/>
         <source>Stretch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="219"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="223"/>
         <source>Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="225"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="229"/>
         <source>Widget</source>
         <translation type="unfinished">Widget</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="227"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="231"/>
         <source>Custom component</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="230"/>
+        <location filename="../../internal/settings/ActionCatalogProxyModel.cpp" line="234"/>
         <source>Category</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2696,7 +2696,7 @@
 <context>
     <name>Core::Internal::AfterSavingNotifyAddOn</name>
     <message>
-        <location filename="../../internal/addon/AfterSavingNotifyAddOn.cpp" line="31"/>
+        <location filename="../../internal/addon/AfterSavingNotifyAddOn.cpp" line="35"/>
         <source>The file has been saved to %1</source>
         <translation type="unfinished">The file has been saved to %1</translation>
     </message>
@@ -2937,12 +2937,12 @@ Continue to bounce?</source>
 <context>
     <name>Core::Internal::CoreEditSourcesStrategy</name>
     <message>
-        <location filename="../../internal/scenariostrategies/CoreEditSourcesStrategy.cpp" line="66"/>
+        <location filename="../../internal/scenariostrategies/CoreEditSourcesStrategy.cpp" line="27"/>
         <source>Unsupported Note Languages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/scenariostrategies/CoreEditSourcesStrategy.cpp" line="67"/>
+        <location filename="../../internal/scenariostrategies/CoreEditSourcesStrategy.cpp" line="28"/>
         <source>Some notes use languages that the selected singer does not support. Synthesis may fail. Change the note languages to languages supported by the singer.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2950,12 +2950,12 @@ Continue to bounce?</source>
 <context>
     <name>Core::Internal::CoreFillLyricsStrategy</name>
     <message>
-        <location filename="../../internal/scenariostrategies/CoreFillLyricsStrategy.cpp" line="100"/>
+        <location filename="../../internal/scenariostrategies/CoreFillLyricsStrategy.cpp" line="104"/>
         <source>Invalid Regular Expression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/scenariostrategies/CoreFillLyricsStrategy.cpp" line="101"/>
+        <location filename="../../internal/scenariostrategies/CoreFillLyricsStrategy.cpp" line="105"/>
         <source>The regular expression is invalid:
 
 %1</source>
@@ -3002,34 +3002,34 @@ Continue to bounce?</source>
 <context>
     <name>Core::Internal::CorePlugin</name>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="188"/>
+        <location filename="../../internal/CorePlugin.cpp" line="196"/>
         <source>Initializing core plugin...</source>
         <translation type="unfinished">Initializing core plugin...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="212"/>
+        <location filename="../../internal/CorePlugin.cpp" line="220"/>
         <source>Plugins loading complete, preparing for subsequent initialization...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="236"/>
+        <location filename="../../internal/CorePlugin.cpp" line="244"/>
         <source>Initializing GUI...</source>
         <translation type="unfinished">Initializing GUI...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="499"/>
+        <location filename="../../internal/CorePlugin.cpp" line="515"/>
         <source>Last run terminated abnormally</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="499"/>
+        <location filename="../../internal/CorePlugin.cpp" line="515"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="548"/>
+        <location filename="../../internal/CorePlugin.cpp" line="564"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3038,13 +3038,31 @@ Please go to Plugins to see more details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="551"/>
+        <location filename="../../internal/CorePlugin.cpp" line="567"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="553"/>
+        <location filename="../../internal/CorePlugin.cpp" line="569"/>
         <source>Plugin Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Core::Internal::CoreProjectLifecycleStrategy</name>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="42"/>
+        <source>Untitled</source>
+        <translation type="unfinished">Untitled</translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="45"/>
+        <source>Unnamed track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="46"/>
+        <source>Unnamed clip</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3057,24 +3075,24 @@ Please go to Plugins to see more details.</source>
     </message>
     <message>
         <location filename="../../internal/settings/DocumentPage.cpp" line="22"/>
-        <source>Configure the default singer and editing behaviors for notes and parameters</source>
+        <source>Configure document editing behaviors</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Core::Internal::EditActionsAddOn</name>
     <message>
-        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="96"/>
+        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="98"/>
         <source>Cannot Shift Notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="97"/>
+        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="99"/>
         <source>Pitch out of range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="199"/>
+        <location filename="../../internal/addon/EditActionsAddOn.cpp" line="202"/>
         <source>Shifting note pitch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3149,240 +3167,240 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::ItemSelectorDialog</name>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="232"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="209"/>
         <source>Document Components</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="233"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="210"/>
         <source>Document Components List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="234"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="211"/>
         <source>Select all document components</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="238"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="215"/>
         <source>Tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="239"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="216"/>
         <source>Tracks List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="240"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="217"/>
         <source>Select all tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="244"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="221"/>
         <source>Track Components</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="245"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="222"/>
         <source>Track Components List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="246"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="223"/>
         <source>Select all track components</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="250"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="227"/>
         <source>Clips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="251"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="228"/>
         <source>Clips List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="252"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="229"/>
         <source>Select all clips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="256"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="233"/>
         <source>Clip Components</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="257"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="234"/>
         <source>Clip Components List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="258"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="235"/>
         <source>Select all clip components</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="262"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="239"/>
         <source>Notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="263"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="240"/>
         <source>Notes List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="264"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="241"/>
         <source>Select all notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="268"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="245"/>
         <source>Parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="269"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="246"/>
         <source>Parameters List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="270"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="247"/>
         <source>Select all parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="274"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="251"/>
         <source>Parameter Components</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="275"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="252"/>
         <source>Parameter Components List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="276"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="253"/>
         <source>Select all parameter components</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="282"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="259"/>
         <source>Parameter Transform Anchors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="283"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="260"/>
         <source>Parameter Transform Anchors List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="284"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="261"/>
         <source>Select all parameter transform anchors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="288"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="265"/>
         <source>Parameter Edited Anchors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="289"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="266"/>
         <source>Parameter Edited Anchors List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="290"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="267"/>
         <source>Select all parameter edited anchors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="295"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="272"/>
         <source>Voice Blending Anchors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="296"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="273"/>
         <source>Voice Blending Anchors List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="297"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="274"/>
         <source>Select all voice blending anchors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="301"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="278"/>
         <source>Labels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="302"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="279"/>
         <source>Labels List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="303"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="280"/>
         <source>Select all labels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="307"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="284"/>
         <source>Tempo Markings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="308"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="285"/>
         <source>Tempo Markings List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="309"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="286"/>
         <source>Select all tempo markings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="313"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="290"/>
         <source>Key Signatures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="314"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="291"/>
         <source>Key Signatures List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="315"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="292"/>
         <source>Select all key signatures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="536"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="513"/>
         <source>Item Selector</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="623"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="595"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="814"/>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="815"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="786"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="787"/>
         <source>Range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="826"/>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="829"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="798"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="801"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="827"/>
-        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="830"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="799"/>
+        <location filename="../../internal/itemselector/ItemSelectorDialog.cpp" line="802"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3390,105 +3408,105 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::ItemSelectorListModel</name>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="550"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="537"/>
         <source>Tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="552"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="539"/>
         <source>Labels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="554"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="541"/>
         <source>Tempos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="556"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="543"/>
         <source>Key Signatures</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="558"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="545"/>
         <source>Clips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="560"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="547"/>
         <source>Notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="562"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="549"/>
         <source>Parameters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="564"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="551"/>
         <source>Voice Blending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="566"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="553"/>
         <source>Freeform Edited</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="568"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="555"/>
         <source>Freeform Transform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="570"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="557"/>
         <source>Anchor Edited</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="572"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="559"/>
         <source>Anchor Transform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="575"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="562"/>
         <source>%L1. %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="579"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="566"/>
         <source>Audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="579"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="566"/>
         <source>Singing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="580"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="567"/>
         <source>%1: %2</source>
         <translation type="unfinished">%1: %2</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="592"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="612"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="616"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="579"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="599"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="603"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="601"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="605"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="588"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="592"/>
         <source>Position %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="611"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="598"/>
         <source>%L1 BPM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="627"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="614"/>
         <source>Clip Count: %L1
 Color: %L2
 View Height: %L3
@@ -3499,31 +3517,31 @@ Solo: %7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="637"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="624"/>
         <source>Position: %1
 Starting Offset: %2
 Clip Length: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="642"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="629"/>
         <source>
 Virtual Singer: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="642"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="629"/>
         <source>No singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="645"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="632"/>
         <source>
 File: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="655"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="642"/>
         <source>Onset Position (Relative to Clip): %1
 Duration: %2
 Language: %3
@@ -3532,40 +3550,40 @@ Pronunciation (Edited): %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="661"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="648"/>
         <source>Parameter ID: %1
 Edited Anchor Count: %L2
 Transform Anchor Count: %L3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="672"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="659"/>
         <source>Value: %1
 Interpolation: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="691"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="678"/>
         <source>%1: %L2%</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="697"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="684"/>
         <source>Position: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="706"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="693"/>
         <source>Flat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="707"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="694"/>
         <source>Sharp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="708"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="695"/>
         <source>Position: %1
 Tonality: %2
 Mode: %3
@@ -3664,32 +3682,32 @@ Accidental Type: %4</source>
 <context>
     <name>Core::Internal::MenuPage</name>
     <message>
-        <location filename="../../internal/settings/MenuPage.cpp" line="83"/>
+        <location filename="../../internal/settings/MenuPage.cpp" line="84"/>
         <source>Menus and Toolbars</source>
         <translation type="unfinished">Menus and Toolbars</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/MenuPage.cpp" line="84"/>
+        <location filename="../../internal/settings/MenuPage.cpp" line="85"/>
         <source>Configure the layout of menus and toolbars</source>
         <translation type="unfinished">Configure the layout of menus and toolbars</translation>
     </message>
     <message>
-        <location filename="../../internal/settings/MenuPage.cpp" line="140"/>
+        <location filename="../../internal/settings/MenuPage.cpp" line="141"/>
         <source>The menu and toolbar settings could not be saved.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/MenuPage.cpp" line="299"/>
+        <location filename="../../internal/settings/MenuPage.cpp" line="300"/>
         <source>This item cannot be added because it would create an invalid or recursive menu.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/MenuPage.cpp" line="340"/>
+        <location filename="../../internal/settings/MenuPage.cpp" line="341"/>
         <source>This item cannot be moved to the selected position.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/settings/MenuPage.cpp" line="435"/>
+        <location filename="../../internal/settings/MenuPage.cpp" line="436"/>
         <source>Restoring this menu would create a recursive menu. Restore all layouts or remove the conflicting reference.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3697,7 +3715,7 @@ Accidental Type: %4</source>
 <context>
     <name>Core::Internal::NotificationAddOn</name>
     <message numerus="yes">
-        <location filename="../../internal/addon/NotificationAddOn.cpp" line="85"/>
+        <location filename="../../internal/addon/NotificationAddOn.cpp" line="80"/>
         <source>%1 (+%Ln notification(s))</source>
         <translation type="unfinished">
             <numerusform>%1 (+%Ln notification(s))</numerusform>
@@ -3707,17 +3725,17 @@ Accidental Type: %4</source>
 <context>
     <name>Core::Internal::ProjectStartupTimerAddOn</name>
     <message>
-        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="29"/>
+        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="30"/>
         <source>Initializing project window...</source>
         <translation type="unfinished">Initializing project window...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="44"/>
+        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="45"/>
         <source>Project window initialized in %1 seconds</source>
         <translation type="unfinished">Project window initialized in %1 seconds</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="46"/>
+        <location filename="../../internal/addon/ProjectStartupTimerAddOn.cpp" line="47"/>
         <source>Project window initialized</source>
         <translation type="unfinished">Project window initialized</translation>
     </message>
@@ -3957,12 +3975,12 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
 <context>
     <name>Core::Internal::RecentFileAddOn</name>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="145"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="146"/>
         <source>&lt;i&gt;File moved or deleted&lt;/i&gt;</source>
         <translation type="unfinished">&lt;i&gt;File moved or deleted&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="196"/>
+        <location filename="../../internal/addon/RecentFileAddOn.cpp" line="197"/>
         <source>Unsaved project from last close</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4484,37 +4502,19 @@ Do you want to save as a new file or overwrite it?</translation>
     </message>
 </context>
 <context>
-    <name>Core::Internal::CoreProjectLifecycleStrategy</name>
-    <message>
-        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="45"/>
-        <source>Untitled</source>
-        <translation type="unfinished">Untitled</translation>
-    </message>
-    <message>
-        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="48"/>
-        <source>Unnamed track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="49"/>
-        <source>Unnamed clip</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>Core::ProjectWindowInterface</name>
     <message>
         <source>Untitled</source>
         <translation type="obsolete">Untitled</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="151"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="279"/>
         <location filename="../../project/utils/ProjectFileDialogs.cpp" line="259"/>
         <source>Operation Conflict</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="152"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="280"/>
         <location filename="../../project/utils/ProjectFileDialogs.cpp" line="260"/>
         <source>Please wait until the current operation is complete before proceeding.</source>
         <translation type="unfinished"></translation>
@@ -4523,129 +4523,129 @@ Do you want to save as a new file or overwrite it?</translation>
 <context>
     <name>Core::SourcesPickerModel</name>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="270"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="250"/>
         <source>The singer entry is empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="279"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="259"/>
         <source>The singer ID is empty.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="282"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="262"/>
         <source>Singer &quot;%1&quot; is not registered in the current architecture.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="290"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="270"/>
         <source>The mixed singer has no child singers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="308"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="288"/>
         <source>The mixed singer contains incompatible mix groups.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="313"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="293"/>
         <source>A singer with an empty mix group cannot participate in a mixed singer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="318"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="298"/>
         <source>The mixed singer contains an invalid child singer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="322"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="302"/>
         <source>The mixed singer ratio is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="337"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="317"/>
         <source>Architecture &quot;%1&quot; is not registered.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="364"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="344"/>
         <source>The source singers do not share one non-empty mix group.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="367"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="347"/>
         <source>The source singer is not compatible with the root mix group.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="387"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="367"/>
         <source>Invalid singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="392"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="372"/>
         <source>Unnamed singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="401"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="381"/>
         <source>Mixed singer (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="401"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="381"/>
         <source>, </source>
         <translation type="unfinished">, </translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="861"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="887"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="910"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="943"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="859"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="885"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="908"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="941"/>
         <source>The selected singer is no longer available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="863"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="861"/>
         <source>An initial singer can only be selected for an empty source selection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="883"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="881"/>
         <source>The current source list cannot accept another singer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="889"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="912"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="945"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="887"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="910"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="943"/>
         <source>The selected singer belongs to a different architecture.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="891"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="915"/>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="948"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="889"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="913"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="946"/>
         <source>The selected singer is not compatible with the current mix group.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="906"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="904"/>
         <source>The current mixed singer cannot accept entries while it is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="939"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="937"/>
         <source>The current mixed singer cannot replace entries while it is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="982"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="980"/>
         <source>A mixed singer must retain at least one child singer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../singer/SourcesPickerModel.cpp" line="1037"/>
+        <location filename="../../singer/SourcesPickerModel.cpp" line="1035"/>
         <source>This singer cannot participate in a mixed singer.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4693,33 +4693,33 @@ Do you want to save as a new file or overwrite it?</translation>
 <context>
     <name>DynamicMixingAnchorPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="26"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="27"/>
         <source>Voice blending anchor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="44"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="45"/>
         <source>Editing voice blending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="59"/>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="104"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="60"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="105"/>
         <source>Unnamed singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="71"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="72"/>
         <source>Position</source>
         <translation type="unfinished">Position</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="102"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="103"/>
         <source>Mixed singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="157"/>
+        <location filename="../../qml/propertyeditors/DynamicMixingAnchorPropertyEditor.qml" line="158"/>
         <source>%1%</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4727,89 +4727,94 @@ Do you want to save as a new file or overwrite it?</translation>
 <context>
     <name>EditActionsAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="207"/>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="209"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="203"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="205"/>
         <source>Toggling mute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="222"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="218"/>
         <source>Toggling solo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="293"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="285"/>
+        <source>Pitch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="287"/>
         <source>%1 Transform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="285"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="290"/>
         <source>%1 (%2 - %3)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="292"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="297"/>
         <source>No selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="294"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="299"/>
         <source>%Ln parameter anchor(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="296"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="301"/>
         <source>%Ln clip(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="298"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="303"/>
         <source>%Ln label(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="300"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="305"/>
         <source>%Ln note(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="302"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="307"/>
         <source>%Ln tempo(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="304"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="309"/>
         <source>%Ln track(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="306"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="311"/>
         <source>%Ln key signature(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="308"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="313"/>
         <source>%Ln voice blending anchor(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="318"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="323"/>
         <source> (%Ln selected)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -5015,55 +5020,55 @@ Do you want to save as a new file or overwrite it?</translation>
 <context>
     <name>FillLyricsDialog</name>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="28"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="29"/>
         <source>Fill Lyrics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="51"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="52"/>
         <source>Edit</source>
         <translation type="unfinished">Edit</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="55"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="56"/>
         <source>Preview</source>
         <translation type="unfinished">Preview</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="118"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="120"/>
         <source>%Ln word(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="130"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="131"/>
         <source>Split mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="138"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="139"/>
         <source>Auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="143"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="144"/>
         <source>Character</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="148"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="149"/>
         <source>Word</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="160"/>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="160"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="154"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="161"/>
         <source>Regex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="175"/>
+        <location filename="../../qml/dialogs/FillLyricsDialog.qml" line="176"/>
         <source>Truncate to selection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6284,57 +6289,57 @@ Do you want to save as a new file or overwrite it?</translation>
 <context>
     <name>NotePhonemePropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="21"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="22"/>
         <source>Phoneme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="45"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="46"/>
         <source>Editing phoneme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="56"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="57"/>
         <source>Token</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="61"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="62"/>
         <source>Start (ms)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="66"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="67"/>
         <source>Language</source>
         <translation type="unfinished">Language</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="71"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="72"/>
         <source>Onset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="187"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="188"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="187"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="188"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="203"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="204"/>
         <source>Original</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="213"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="214"/>
         <source>Edited</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="222"/>
+        <location filename="../../qml/propertyeditors/NotePhonemePropertyEditor.qml" line="218"/>
         <source>Insert</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6439,12 +6444,12 @@ Do you want to save as a new file or overwrite it?</translation>
 <context>
     <name>NotificationListDialog</name>
     <message>
-        <location filename="../../qml/dialogs/NotificationListDialog.qml" line="22"/>
+        <location filename="../../qml/dialogs/NotificationListDialog.qml" line="29"/>
         <source>Notifications</source>
         <translation type="unfinished">Notifications</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/NotificationListDialog.qml" line="50"/>
+        <location filename="../../qml/dialogs/NotificationListDialog.qml" line="57"/>
         <source>Clear All</source>
         <translation type="unfinished">Clear All</translation>
     </message>
@@ -6452,7 +6457,7 @@ Do you want to save as a new file or overwrite it?</translation>
 <context>
     <name>NotificationsPanel</name>
     <message>
-        <location filename="../../qml/panels/NotificationsPanel.qml" line="53"/>
+        <location filename="../../qml/panels/NotificationsPanel.qml" line="42"/>
         <source>Clear All</source>
         <translation type="unfinished">Clear All</translation>
     </message>
@@ -6711,38 +6716,38 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
 <context>
     <name>SingerPicker</name>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="47"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="48"/>
         <source>Single Singers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="52"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="53"/>
         <source>Mixed Singers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="61"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="62"/>
         <source>Search</source>
         <translation type="unfinished">Search</translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="173"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="174"/>
         <source>Architecture &quot;%1&quot; is unavailable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="238"/>
-        <location filename="../../qml/controls/SingerPicker.qml" line="354"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="239"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="355"/>
         <source>Drag to set singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="410"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="411"/>
         <source>Rename Preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SingerPicker.qml" line="421"/>
+        <location filename="../../qml/controls/SingerPicker.qml" line="422"/>
         <source>Delete Preset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6750,7 +6755,7 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
 <context>
     <name>SingerPickerPanel</name>
     <message>
-        <location filename="../../qml/panels/SingerPickerPanel.qml" line="27"/>
+        <location filename="../../qml/panels/SingerPickerPanel.qml" line="28"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6763,8 +6768,8 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="445"/>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="445"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="80"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="446"/>
         <source>Source singer warnings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6774,42 +6779,42 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="231"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="232"/>
         <source>Remove singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="305"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="306"/>
         <source>Move up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="314"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="315"/>
         <source>Move down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="325"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="326"/>
         <source>Remove</source>
         <translation type="unfinished">Remove</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="337"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="338"/>
         <source>Create mixed singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="352"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="353"/>
         <source>Add singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="380"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="381"/>
         <source>Add</source>
         <translation type="unfinished">Add</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="385"/>
+        <location filename="../../qml/dialogs/SourcesPickerDialog.qml" line="386"/>
         <source>The current source list cannot accept another singer.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6821,17 +6826,17 @@ If %1 exits abnormally, automatic recovery files will be displayed here.</transl
 <context>
     <name>SourcesSingerControlPanel</name>
     <message>
-        <location filename="../../qml/controls/SourcesSingerControlPanel.qml" line="74"/>
+        <location filename="../../qml/controls/SourcesSingerControlPanel.qml" line="75"/>
         <source>The current singer architecture is unavailable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SourcesSingerControlPanel.qml" line="76"/>
+        <location filename="../../qml/controls/SourcesSingerControlPanel.qml" line="77"/>
         <source>The current singer is unavailable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/controls/SourcesSingerControlPanel.qml" line="77"/>
+        <location filename="../../qml/controls/SourcesSingerControlPanel.qml" line="78"/>
         <source>The current singer requires no additional configuration.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6935,12 +6940,12 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>TimelineAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="47"/>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="33"/>
         <source>Current project time</source>
         <translation type="unfinished">Current project time</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="89"/>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="75"/>
         <source>Slide to adjust current project time</source>
         <translation type="unfinished">Slide to adjust current project time</translation>
     </message>
@@ -7078,52 +7083,52 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>WorkspaceAddOnHelper</name>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="31"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="32"/>
         <source>The current workspace does not contain any panels</source>
         <translation type="unfinished">The current workspace does not contain any panels</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="32"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="33"/>
         <source>Workspace data might be erroneous. You can try restoring the default workspace.</source>
         <translation type="unfinished">Workspace data might be erroneous. You can try restoring the default workspace.</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="34"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="35"/>
         <source>Restore Default Workspace</source>
         <translation type="unfinished">Restore Default Workspace</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="62"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="63"/>
         <source>Workspace Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="113"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="114"/>
         <source>Name should not be empty</source>
         <translation type="unfinished">Name should not be empty</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="119"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="120"/>
         <source>New name should not be the same as old name</source>
         <translation type="unfinished">New name should not be the same as old name</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="125"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="126"/>
         <source>Custom presets with the same name will be overwritten</source>
         <translation type="unfinished">Custom presets with the same name will be overwritten</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="140"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="141"/>
         <source>Delete Layout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="140"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="141"/>
         <source>Delete layout &quot;%1&quot;?</source>
         <translation type="unfinished">Delete layout &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="104"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="105"/>
         <source>Custom Layout Name</source>
         <translation type="unfinished"></translation>
     </message>

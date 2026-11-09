@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-SPDX-FileCopyrightText: Team OpenVPI
-SPDX-License-Identifier: LGPL-3.0-or-later
--->
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US" sourcelanguage="en-US">
 <context>
@@ -140,7 +136,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
 <context>
     <name>DspxProject::EditSourcesScenario</name>
     <message>
-        <location filename="../../src/scenarios/EditSourcesScenario.cpp" line="177"/>
+        <location filename="../../src/scenarios/EditSourcesScenario.cpp" line="67"/>
         <source>Editing sources</source>
         <translation type="unfinished">Editing sources</translation>
     </message>
@@ -190,22 +186,22 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <translation type="unfinished">Inserting label</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="250"/>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="245"/>
         <source>Unnamed clip</source>
         <translation type="unfinished">Unnamed clip</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="280"/>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="268"/>
         <source>Inserting singing clip</source>
         <translation type="unfinished">Inserting singing clip</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="363"/>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="352"/>
         <source>Inserting note</source>
         <translation type="unfinished">Inserting note</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="441"/>
+        <location filename="../../src/scenarios/InsertItemScenario.cpp" line="431"/>
         <source>Inserting phoneme</source>
         <translation type="unfinished">Inserting phoneme</translation>
     </message>

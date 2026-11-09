@@ -101,17 +101,17 @@
 <context>
     <name>SynthesisPieceTrack</name>
     <message>
-        <location filename="../../qml/SynthesisPieceTrack.qml" line="110"/>
+        <location filename="../../qml/SynthesisPieceTrack.qml" line="116"/>
         <source>Resynthesize...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/SynthesisPieceTrack.qml" line="116"/>
+        <location filename="../../qml/SynthesisPieceTrack.qml" line="122"/>
         <source>Terminate Task</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/SynthesisPieceTrack.qml" line="123"/>
+        <location filename="../../qml/SynthesisPieceTrack.qml" line="129"/>
         <source>View Diagnostics</source>
         <translation type="unfinished"></translation>
     </message>

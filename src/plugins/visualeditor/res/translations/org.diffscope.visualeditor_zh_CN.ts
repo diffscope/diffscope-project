@@ -729,17 +729,17 @@
 <context>
     <name>ClipSingerLayer</name>
     <message>
-        <location filename="../../qml/ClipSingerLayer.qml" line="31"/>
+        <location filename="../../qml/ClipSingerLayer.qml" line="37"/>
         <source>No singer</source>
         <translation type="unfinished">无歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/ClipSingerLayer.qml" line="33"/>
+        <location filename="../../qml/ClipSingerLayer.qml" line="39"/>
         <source>Mixed singer</source>
         <translation type="unfinished">混合歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/ClipSingerLayer.qml" line="135"/>
+        <location filename="../../qml/ClipSingerLayer.qml" line="163"/>
         <source>Drop to set singer</source>
         <translation type="unfinished">拖放以设置歌手</translation>
     </message>
@@ -762,37 +762,37 @@
 <context>
     <name>DynamicMixingTrack</name>
     <message>
-        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="109"/>
+        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="110"/>
         <source>Pointer</source>
         <translation type="unfinished">指针</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="111"/>
+        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="112"/>
         <source>Add anchor</source>
         <translation type="unfinished">添加锚点</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="113"/>
+        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="114"/>
         <source>Delete anchor</source>
         <translation type="unfinished">删除锚点</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="115"/>
+        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="116"/>
         <source>Rubber-band select</source>
         <translation type="unfinished">框选</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="161"/>
+        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="162"/>
         <source>Mixed singer</source>
         <translation type="unfinished">混合歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="163"/>
+        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="164"/>
         <source>Unnamed singer</source>
         <translation type="unfinished">未命名歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="225"/>
+        <location filename="../../qml/additionaltracks/DynamicMixingTrack.qml" line="226"/>
         <source>Voice blending is unavailable for this clip.</source>
         <translation type="unfinished">此剪辑无法使用声线融合。</translation>
     </message>
@@ -800,175 +800,175 @@
 <context>
     <name>EditorPage</name>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="644"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="657"/>
         <source>Parameter Transforms</source>
         <translation type="unfinished">参数变换</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="654"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="667"/>
         <source>Preferred shift operation</source>
         <translation type="unfinished">首选平移操作</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="659"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="672"/>
         <source>Translate values</source>
         <translation type="unfinished">平移数值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="659"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="672"/>
         <source>Scale absolute values</source>
         <translation type="unfinished">缩放绝对值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="666"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="679"/>
         <source>Preferred scale operation</source>
         <translation type="unfinished">首选缩放操作</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="671"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="684"/>
         <source>Endpoint line</source>
         <translation type="unfinished">端点连线</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="671"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="684"/>
         <source>Arithmetic mean</source>
         <translation type="unfinished">算术平均值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="100"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="113"/>
         <source>Move and Zoom</source>
         <translation>移动和缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="109"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="122"/>
         <source>Horizontal scroll</source>
         <translation>水平滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="122"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="135"/>
         <source>Zoom</source>
         <translation>缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="136"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="149"/>
         <source>Scroll by page</source>
         <translation>按页滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="142"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="155"/>
         <source>Horizontal zoom</source>
         <translation>水平缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="157"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="170"/>
         <source>Middle button/hand tool scroll mode</source>
         <translation>中键/手型工具滚动模式</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="164"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="177"/>
         <source>Dragging</source>
         <translation>拖动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="164"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="177"/>
         <source>Auto scrolling</source>
         <translation>自动滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="172"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="185"/>
         <source>Snap</source>
         <translation>对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="183"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="196"/>
         <source>Auto-snap length</source>
         <translation>自动对齐长度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="192"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="205"/>
         <source>More compact</source>
         <translation>更紧凑</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="205"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="218"/>
         <source>More spacious</source>
         <translation>更宽敞</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="211"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="224"/>
         <source>Temporarily disable snap when pressing %1</source>
         <translation>当按下 %1 时临时禁用对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="221"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="234"/>
         <source>Arrangement</source>
         <translation>编曲</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="232"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="245"/>
         <source>Track list position</source>
         <translation>轨道列表位置</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="239"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="457"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="252"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="470"/>
         <source>Left</source>
         <translation>左侧</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="239"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="457"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="252"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="470"/>
         <source>Right</source>
         <translation>右侧</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="245"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="258"/>
         <source>Center piano roll when double-clicking a singing clip</source>
         <translation type="unfinished">双击歌声剪辑时使钢琴卷帘居中</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="255"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="268"/>
         <source>Piano Roll</source>
         <translation>钢琴卷帘</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="266"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="279"/>
         <source>Adjust vertical view during automatic page scrolling</source>
         <translation type="unfinished">自动逐页滚动期间调整垂直视图</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="281"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="294"/>
         <source>If notes exceed the view height</source>
         <translation type="unfinished">音符超出视图高度时</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="289"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="302"/>
         <source>Align Top</source>
         <translation type="unfinished">顶部对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="289"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="302"/>
         <source>Align Bottom</source>
         <translation type="unfinished">底部对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="289"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="457"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="302"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="470"/>
         <source>Center</source>
         <translation type="unfinished">居中</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="289"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="302"/>
         <source>Zoom to Fit</source>
         <translation type="unfinished">缩放至适合</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="297"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="310"/>
         <source>Black key width</source>
         <translation type="unfinished">黑键宽度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="324"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="337"/>
         <source>Pronunciation display position</source>
         <translation type="unfinished">发音显示位置</translation>
     </message>
@@ -985,22 +985,22 @@
         <translation type="vanished">简单</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="311"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="324"/>
         <source>Display piano key label on</source>
         <translation>在钢琴键上显示标签</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="318"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="331"/>
         <source>All keys</source>
         <translation>所有琴键</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="318"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="331"/>
         <source>C keys only</source>
         <translation>仅 C 键</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="318"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="331"/>
         <source>None</source>
         <translation>无</translation>
     </message>
@@ -1009,102 +1009,102 @@
         <translation type="vanished">发音位置</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="331"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="344"/>
         <source>Above note</source>
         <translation>音符上方</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="331"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="344"/>
         <source>Below note</source>
         <translation>音符下方</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="337"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="350"/>
         <source>Pitch curve display in note edit mode</source>
         <translation type="unfinished">音符编辑模式下的音高曲线显示</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="344"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="357"/>
         <source>Automatic</source>
         <translation type="unfinished">自动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="344"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="357"/>
         <source>Always show</source>
         <translation type="unfinished">总是显示</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="344"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="357"/>
         <source>Always hide</source>
         <translation type="unfinished">总是隐藏</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="356"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="369"/>
         <source>Automatic display zoom threshold</source>
         <translation type="unfinished">自动显示的缩放阈值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="372"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="385"/>
         <source>Short note threshold</source>
         <translation>短音符阈值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="386"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="399"/>
         <source>Warn of overlapping notes</source>
         <translation type="unfinished">音符重叠时发出警告</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="394"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="407"/>
         <source>Show singer background</source>
         <translation type="unfinished">显示歌手背景</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="410"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="423"/>
         <source>Singer background opacity</source>
         <translation type="unfinished">歌手背景不透明度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="449"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="462"/>
         <source>Background alignment</source>
         <translation type="unfinished">背景对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="475"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="488"/>
         <source>Horizontal margin</source>
         <translation type="unfinished">水平边距</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="510"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="523"/>
         <source>Horizontal offset</source>
         <translation type="unfinished">水平偏移</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="543"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="556"/>
         <source>Vertical margin</source>
         <translation type="unfinished">垂直边距</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="570"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="583"/>
         <source>Show all singer backgrounds when blending voices</source>
         <translation type="unfinished">混合声线时显示所有歌手背景</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="589"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="602"/>
         <source>Singer background spacing</source>
         <translation type="unfinished">歌手背景间距</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="615"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="628"/>
         <source>Bottom panel opacity</source>
         <translation type="unfinished">底部面板不透明度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="680"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="693"/>
         <source>Miscellaneous</source>
         <translation>杂项</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="691"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="704"/>
         <source>Track cursor position</source>
         <translation>跟踪光标位置</translation>
     </message>
@@ -1131,42 +1131,42 @@
         <translation type="unfinished">配置编辑器视口的移动与缩放行为，并在演练场中实际试用</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="53"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="67"/>
         <source>Horizontal scroll</source>
         <translation type="unfinished">水平滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="68"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="79"/>
         <source>Zoom</source>
         <translation type="unfinished">缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="84"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="92"/>
         <source>Scroll by page</source>
         <translation type="unfinished">按页滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="92"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="100"/>
         <source>Horizontal zoom</source>
         <translation type="unfinished">水平缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="113"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="118"/>
         <source>Middle button/hand tool scroll mode</source>
         <translation type="unfinished">中键/手型工具滚动模式</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="119"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="124"/>
         <source>Dragging</source>
         <translation type="unfinished">拖动</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="119"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="124"/>
         <source>Auto scrolling</source>
         <translation type="unfinished">自动滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="129"/>
+        <location filename="../../qml/welcomewizardpages/MoveAndZoomWelcomeWizardPage.qml" line="134"/>
         <source>Playground</source>
         <translation type="unfinished">演练场</translation>
     </message>
@@ -1268,6 +1268,7 @@
     </message>
     <message>
         <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="447"/>
+        <location filename="../../qml/additionaltracks/ParameterTrack.qml" line="451"/>
         <source>Unsupported parameter</source>
         <translation type="unfinished">不支持的参数</translation>
     </message>
@@ -1389,32 +1390,32 @@
 <context>
     <name>PianoRollView</name>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="643"/>
+        <location filename="../../qml/PianoRollView.qml" line="659"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1034"/>
+        <location filename="../../qml/PianoRollView.qml" line="1051"/>
         <source>No clip selected</source>
         <translation>未选择剪辑</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1040"/>
+        <location filename="../../qml/PianoRollView.qml" line="1057"/>
         <source>Activate a clip to edit</source>
         <translation>激活剪辑以编辑</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1073"/>
+        <location filename="../../qml/PianoRollView.qml" line="1090"/>
         <source>Move Up</source>
         <translation>上移</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1080"/>
+        <location filename="../../qml/PianoRollView.qml" line="1097"/>
         <source>Move Down</source>
         <translation>下移</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1086"/>
+        <location filename="../../qml/PianoRollView.qml" line="1103"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
@@ -1501,23 +1502,23 @@
 <context>
     <name>TimelineContextMenuHelper</name>
     <message>
-        <location filename="../../qml/TimelineContextMenuHelper.qml" line="51"/>
+        <location filename="../../qml/TimelineContextMenuHelper.qml" line="53"/>
         <source>Insert Time Signature</source>
         <translation>插入拍号</translation>
     </message>
     <message>
-        <location filename="../../qml/TimelineContextMenuHelper.qml" line="60"/>
-        <location filename="../../qml/TimelineContextMenuHelper.qml" line="107"/>
+        <location filename="../../qml/TimelineContextMenuHelper.qml" line="62"/>
+        <location filename="../../qml/TimelineContextMenuHelper.qml" line="109"/>
         <source>Move Playhead Here</source>
         <translation>移动播放头至此处</translation>
     </message>
     <message>
-        <location filename="../../qml/TimelineContextMenuHelper.qml" line="77"/>
+        <location filename="../../qml/TimelineContextMenuHelper.qml" line="79"/>
         <source>Edit Time Signature</source>
         <translation>编辑拍号</translation>
     </message>
     <message>
-        <location filename="../../qml/TimelineContextMenuHelper.qml" line="84"/>
+        <location filename="../../qml/TimelineContextMenuHelper.qml" line="86"/>
         <source>Remove Time Signature</source>
         <translation>移除拍号</translation>
     </message>
@@ -1525,7 +1526,7 @@
 <context>
     <name>VisualEditor::ClipPaneInteractionControllerProxy</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="930"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="933"/>
         <source>Unnamed clip</source>
         <translation>未命名剪辑</translation>
     </message>
@@ -1533,27 +1534,27 @@
 <context>
     <name>VisualEditor::ClipViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="748"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="750"/>
         <source>Moving clip</source>
         <translation>移动剪辑</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="790"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="792"/>
         <source>Adjusting clip length</source>
         <translation>调整剪辑长度</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="839"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="841"/>
         <source>Drawing clip</source>
         <translation>绘制剪辑</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="887"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="889"/>
         <source>Inserting singing clip</source>
         <translation type="unfinished">插入歌声剪辑</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="889"/>
+        <location filename="../../core/viewmodelbinding/ClipViewModelContextData.cpp" line="891"/>
         <source>Unnamed clip</source>
         <translation>未命名剪辑</translation>
     </message>
@@ -1626,29 +1627,29 @@
         <translation type="unfinished">快速水平缩放</translation>
     </message>
     <message>
-        <location filename="../../internal/EditorInteractionHelper.cpp" line="92"/>
+        <location filename="../../internal/EditorInteractionHelper.cpp" line="88"/>
         <source>Wheel</source>
         <translation type="unfinished">滚轮</translation>
     </message>
     <message>
-        <location filename="../../internal/EditorInteractionHelper.cpp" line="99"/>
+        <location filename="../../internal/EditorInteractionHelper.cpp" line="95"/>
         <source>Middle button drag</source>
         <translation type="unfinished">中键拖动</translation>
     </message>
     <message>
+        <location filename="../../internal/EditorInteractionHelper.cpp" line="98"/>
         <location filename="../../internal/EditorInteractionHelper.cpp" line="102"/>
-        <location filename="../../internal/EditorInteractionHelper.cpp" line="106"/>
         <source>Auto-scrolling move</source>
         <translation type="unfinished">自动滚动式移动</translation>
     </message>
     <message>
+        <location filename="../../internal/EditorInteractionHelper.cpp" line="98"/>
         <location filename="../../internal/EditorInteractionHelper.cpp" line="102"/>
-        <location filename="../../internal/EditorInteractionHelper.cpp" line="106"/>
         <source>Dragging move</source>
         <translation type="unfinished">拖拽式移动</translation>
     </message>
     <message>
-        <location filename="../../internal/EditorInteractionHelper.cpp" line="110"/>
+        <location filename="../../internal/EditorInteractionHelper.cpp" line="106"/>
         <source>Zoom</source>
         <translation type="unfinished">缩放</translation>
     </message>
@@ -1673,12 +1674,12 @@
 <context>
     <name>VisualEditor::KeySignatureViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/KeySignatureViewModelContextData.cpp" line="53"/>
+        <location filename="../../core/viewmodelbinding/KeySignatureViewModelContextData.cpp" line="54"/>
         <source>Custom Mode</source>
         <translation>自定义调式</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/KeySignatureViewModelContextData.cpp" line="354"/>
+        <location filename="../../core/viewmodelbinding/KeySignatureViewModelContextData.cpp" line="355"/>
         <source>Moving key signature</source>
         <translation>移动调号</translation>
     </message>
@@ -1732,38 +1733,38 @@
 <context>
     <name>VisualEditor::NoteViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="889"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="890"/>
         <source>Moving note</source>
         <translation>移动音符</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="928"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="929"/>
         <source>Adjusting note length</source>
         <translation>调整音符长度</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="977"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="978"/>
         <source>Drawing note</source>
         <translation>绘制音符</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1019"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1020"/>
         <source>Editing lyric</source>
         <translation>编辑歌词</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1062"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1063"/>
         <source>Editing pronunciation</source>
         <translation>编辑发音</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1106"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1107"/>
         <source>Inserting note</source>
         <translation type="unfinished">插入音符</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1159"/>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1166"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1161"/>
+        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1168"/>
         <source>Filling gap</source>
         <translation>填充间隙</translation>
     </message>
@@ -1775,8 +1776,8 @@
 <context>
     <name>VisualEditor::ParameterEditorContext</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1427"/>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1547"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1399"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1518"/>
         <source>None</source>
         <translation type="unfinished">无</translation>
     </message>
@@ -1784,12 +1785,12 @@
 <context>
     <name>VisualEditor::ParameterViewModelBindingPrivate</name>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1003"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="988"/>
         <source>Editing parameter transform</source>
         <translation type="unfinished">编辑参数变换</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="1004"/>
+        <location filename="../../core/viewmodelbinding/ParameterEditorContext.cpp" line="989"/>
         <source>Editing parameter</source>
         <translation type="unfinished">编辑参数</translation>
     </message>
@@ -1818,7 +1819,7 @@
 <context>
     <name>VisualEditor::TempoViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/TempoViewModelContextData.cpp" line="327"/>
+        <location filename="../../core/viewmodelbinding/TempoViewModelContextData.cpp" line="328"/>
         <source>Moving tempo</source>
         <translation>移动曲速</translation>
     </message>
@@ -1826,37 +1827,37 @@
 <context>
     <name>VisualEditor::TrackViewModelContextData</name>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="670"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="671"/>
         <source>Moving track</source>
         <translation>移动轨道</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="707"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="708"/>
         <source>Editing track mute</source>
         <translation>编辑轨道静音</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="736"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="737"/>
         <source>Editing track solo</source>
         <translation>编辑轨道独奏</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="764"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="765"/>
         <source>Renaming track</source>
         <translation>重命名轨道</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="799"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="800"/>
         <source>Adjusting track gain</source>
         <translation>调整轨道增益</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="835"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="836"/>
         <source>Adjusting track pan</source>
         <translation>调整轨道声像</translation>
     </message>
     <message>
-        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="871"/>
+        <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="872"/>
         <source>Resizing track</source>
         <translation>调整轨道大小</translation>
     </message>
