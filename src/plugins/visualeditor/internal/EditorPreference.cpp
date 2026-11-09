@@ -68,11 +68,18 @@ namespace VisualEditor::Internal {
         Q_D(EditorPreference);
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(QStringLiteral("org.diffscope.visualeditor.preference"));
-        d->alternateAxisModifier = settings->value("alternateAxisModifier", QVariant::fromValue(SM_Alt)).value<ScrollModifier>();
+#ifdef Q_OS_MACOS
+        constexpr auto defaultAlternateAxisModifier = SM_Shift;
+        constexpr auto defaultPageModifier = SM_Alt;
+#else
+        constexpr auto defaultAlternateAxisModifier = SM_Alt;
+        constexpr auto defaultPageModifier = SM_Shift;
+#endif
+        d->alternateAxisModifier = settings->value("alternateAxisModifier", QVariant::fromValue(defaultAlternateAxisModifier)).value<ScrollModifier>();
         emit alternateAxisModifierChanged();
         d->zoomModifier = settings->value("zoomModifier", QVariant::fromValue(SM_Control)).value<ScrollModifier>();
         emit zoomModifierChanged();
-        d->pageModifier = settings->value("pageModifier", QVariant::fromValue(SM_Shift)).value<ScrollModifier>();
+        d->pageModifier = settings->value("pageModifier", QVariant::fromValue(defaultPageModifier)).value<ScrollModifier>();
         emit pageModifierChanged();
         d->usePageModifierAsAlternateAxisZoom = settings->value("usePageModifierAsAlternateAxisZoom", false).toBool();
         emit usePageModifierAsAlternateAxisZoomChanged();

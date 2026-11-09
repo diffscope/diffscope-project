@@ -82,11 +82,7 @@ namespace VisualEditor::Internal {
                 behavior |= 4;
             if (scrollBehaviorViewModel.isPage(modifiers))
                 behavior |= 2;
-            // Do not use ScrollBehaviorViewModel::isAlternateAxis() here: it contains a
-            // platform-specific event-axis adjustment (FIXME), while the hints present the
-            // configured semantics — holding the alternate-axis modifier (or the page
-            // modifier in horizontal zoom mode) means horizontal.
-            if ((modifiers & alternateAxis) || (usePageModifierAsAlternateAxisZoom && (modifiers & page)))
+            if (scrollBehaviorViewModel.isAlternateAxis(modifiers))
                 behavior |= 1;
             hints.append(QVariantMap{
                 {QStringLiteral("combination"), modifierText(modifiers) + tr("Wheel")},

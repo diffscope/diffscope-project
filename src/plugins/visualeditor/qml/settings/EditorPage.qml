@@ -89,6 +89,19 @@ ScrollView {
     readonly property double defaultAutoPitchCurveDisplayPixelDensityThreshold:
         Math.sqrt(minAutoPitchCurveDisplayPixelDensityThreshold * maxAutoPitchCurveDisplayPixelDensityThreshold)
 
+    function selectScrollModifier(propertyName: string, modifier: int) {
+        const previousModifier = page[propertyName]
+        if (previousModifier === modifier)
+            return
+        for (const otherProperty of ["alternateAxisModifier", "zoomModifier", "pageModifier"]) {
+            if (otherProperty !== propertyName && page[otherProperty] === modifier) {
+                page[otherProperty] = previousModifier
+                break
+            }
+        }
+        page[propertyName] = modifier
+    }
+
     ColumnLayout {
         width: page.width
         ColumnLayout {
@@ -115,7 +128,7 @@ ScrollView {
                     ComboBox {
                         model: EditorInteractionHelper.scrollModifierTexts
                         currentIndex: page.alternateAxisModifier
-                        onActivated: (index) => page.alternateAxisModifier = index
+                        onActivated: (index) => page.selectScrollModifier("alternateAxisModifier", index)
                     }
 
                     Label {
@@ -128,7 +141,7 @@ ScrollView {
                     ComboBox {
                         model: EditorInteractionHelper.scrollModifierTexts
                         currentIndex: page.zoomModifier
-                        onActivated: (index) => page.zoomModifier = index
+                        onActivated: (index) => page.selectScrollModifier("zoomModifier", index)
                     }
 
                     RowLayout {
@@ -151,7 +164,7 @@ ScrollView {
                     ComboBox {
                         model: EditorInteractionHelper.scrollModifierTexts
                         currentIndex: page.pageModifier
-                        onActivated: (index) => page.pageModifier = index
+                        onActivated: (index) => page.selectScrollModifier("pageModifier", index)
                     }
                     Label {
                         text: qsTr("Middle button/hand tool scroll mode")

@@ -28,6 +28,20 @@ WelcomeWizardPage {
         EditorPreference.usePageModifierAsAlternateAxisZoom,
         EditorPreference.middleButtonAutoScroll)
 
+    function selectScrollModifier(propertyName: string, modifier: int) {
+        const previousModifier = EditorPreference[propertyName]
+        if (previousModifier === modifier)
+            return
+        for (const otherProperty of ["alternateAxisModifier", "zoomModifier", "pageModifier"]) {
+            if (otherProperty !== propertyName && EditorPreference[otherProperty] === modifier) {
+                EditorPreference[otherProperty] = previousModifier
+                break
+            }
+        }
+        EditorPreference[propertyName] = modifier
+        EditorPreference.save()
+    }
+
     RowLayout {
         anchors.fill: parent
         anchors.margins: 32
@@ -58,10 +72,7 @@ WelcomeWizardPage {
                 ComboBox {
                     model: EditorInteractionHelper.scrollModifierTexts
                     currentIndex: EditorPreference.alternateAxisModifier
-                    onActivated: index => {
-                        EditorPreference.alternateAxisModifier = index
-                        EditorPreference.save()
-                    }
+                    onActivated: index => page.selectScrollModifier("alternateAxisModifier", index)
                 }
 
                 Label {
@@ -73,10 +84,7 @@ WelcomeWizardPage {
                 ComboBox {
                     model: EditorInteractionHelper.scrollModifierTexts
                     currentIndex: EditorPreference.zoomModifier
-                    onActivated: index => {
-                        EditorPreference.zoomModifier = index
-                        EditorPreference.save()
-                    }
+                    onActivated: index => page.selectScrollModifier("zoomModifier", index)
                 }
 
                 RowLayout {
@@ -103,10 +111,7 @@ WelcomeWizardPage {
                 ComboBox {
                     model: EditorInteractionHelper.scrollModifierTexts
                     currentIndex: EditorPreference.pageModifier
-                    onActivated: index => {
-                        EditorPreference.pageModifier = index
-                        EditorPreference.save()
-                    }
+                    onActivated: index => page.selectScrollModifier("pageModifier", index)
                 }
 
                 Label {
