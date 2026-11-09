@@ -62,6 +62,7 @@
 #include <dspxmodelSelectionModel/ClipSelectionModel.h>
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
+#include <notifications/NotificationMessage.h>
 #include <synth/ProjectSynthesisContext.h>
 #include <synth/SynthInterface.h>
 #include <synth/SynthesisPiece.h>
@@ -82,6 +83,12 @@ namespace Synth::Internal {
     using namespace ProjectInput;
 
     namespace {
+
+        void closeFailureNotification(SynthesisPiece *piece) {
+            auto notification = std::exchange(SynthesisPiecePrivate::get(piece)->failureNotification, nullptr);
+            if (notification)
+                notification->close();
+        }
 
         void synchronizePieceTask(SynthesisPiece *piece, const SynthesisTask *task) {
             auto d = SynthesisPiecePrivate::get(piece);
@@ -536,6 +543,7 @@ namespace Synth::Internal {
             }
             m_pieceTasks.remove(piece);
             removeAudio(piece);
+            closeFailureNotification(piece);
             piece->deleteLater();
         }
         runtime->pieces.clear();
@@ -617,6 +625,7 @@ namespace Synth::Internal {
             }
             m_pieceTasks.remove(piece);
             removeAudio(piece);
+            closeFailureNotification(piece);
             piece->deleteLater();
             changed = true;
         }
@@ -1051,18 +1060,25 @@ namespace Synth::Internal {
             return;
         removeAudio(piece);
         auto d = SynthesisPiecePrivate::get(piece);
+        const bool newFailure = d->state != SynthesisPiece::Failed || d->errorMessage != message;
         d->state = SynthesisPiece::Failed;
         d->errorMessage = message;
         d->diagnosticFilePath = diagnosticFilePath;
+        if (newFailure)
+            closeFailureNotification(piece);
         publishPieceState(piece);
-        const auto now = QDateTime::currentDateTimeUtc();
-        const auto previous = m_lastNotifications.value(message);
-        if (!previous.isValid() || previous.msecsTo(now) > 2000) {
-            m_lastNotifications.insert(message, now);
-            windowHandle()->cast<Core::ProjectWindowInterface>()->sendNotification(
-                SVS::SVSCraft::Critical, tr("Synthesis failed"), message,
-                Core::ProjectWindowInterface::AutoHide
-            );
+        if (newFailure) {
+            auto notification = new Notifications::NotificationMessage(piece);
+            notification->setIcon(SVS::SVSCraft::Critical);
+            notification->setTitle(tr("Synthesis failed"));
+            notification->setText(message);
+            d->failureNotification = notification;
+            connect(notification, &Notifications::NotificationMessage::closed, piece, [d, notification] {
+                if (d->failureNotification == notification)
+                    d->failureNotification = nullptr;
+                notification->deleteLater();
+            });
+            windowHandle()->cast<Core::ProjectWindowInterface>()->sendNotification(notification, Core::ProjectWindowInterface::AutoHide);
         }
         updateCounts();
     }
@@ -1185,9 +1201,10 @@ namespace Synth::Internal {
                     m_taskManager->cancel(old);
                 }
                 toSchedule.append(piece);
-                Q_EMIT piece->stateChanged();
+                publishPieceState(piece);
+            } else {
+                Q_EMIT m_context->pieceChanged(piece);
             }
-            Q_EMIT m_context->pieceChanged(piece);
         }
         if (fromType <= SynthesisTaskType::Phoneme) {
             for (auto piece : toSchedule)
@@ -1889,6 +1906,8 @@ namespace Synth::Internal {
         if (!piece) {
             return;
         }
+        if (piece->state() != SynthesisPiece::Failed)
+            closeFailureNotification(piece);
         Q_EMIT piece->stateChanged();
         Q_EMIT m_context->pieceChanged(piece);
     }

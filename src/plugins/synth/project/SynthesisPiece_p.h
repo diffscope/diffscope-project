@@ -8,6 +8,10 @@
 
 #include <QPointer>
 
+namespace Notifications {
+    class NotificationMessage;
+}
+
 namespace Synth {
 
     class SynthesisPiecePrivate {
@@ -29,6 +33,7 @@ namespace Synth {
         QString audioFilePath;
         QString errorMessage;
         QString diagnosticFilePath;
+        QPointer<Notifications::NotificationMessage> failureNotification;
         quint64 revision{};
     };
 

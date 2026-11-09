@@ -9,6 +9,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import SVSCraft
+import SVSCraft.UIComponents
 
 import dev.sjimo.ScopicFlow
 import dev.sjimo.ScopicFlow.Views
@@ -37,6 +38,7 @@ QtObject {
                 control.contextObject?.editingClip?.clipSequence?.track ?? null) ?? null
 
         property QtObject hoveredPiece: null
+        readonly property string hoveredErrorMessage: hoveredPiece?.errorMessage ?? ""
 
         Layout.fillWidth: true
         Theme.accentColor: editingTrackViewModel?.color ?? Qt.rgba(0, 0, 0, 0)
@@ -55,10 +57,13 @@ QtObject {
             value: control.contextObject?.editingClip ?? null
         }
 
-        ToolTip.visible:
-            control.hoveredPiece !== null
-            && control.hoveredPiece.errorMessage.length > 0
-        ToolTip.text: control.hoveredPiece?.errorMessage ?? ""
+        onHoveredErrorMessageChanged: {
+            control.DescriptiveText.activated = false
+            if (!control.hoveredErrorMessage.length)
+                return
+            control.DescriptiveText.toolTip = control.hoveredErrorMessage
+            control.DescriptiveText.activated = true
+        }
 
         Connections {
             target: control.rangeIndicatorInteractionController
@@ -70,12 +75,13 @@ QtObject {
                     control.pieceModel?.pieceForRangeIndicator(viewItem) ?? null
             }
 
-            function onItemHoverExited(rangeIndicatorSequence, viewItem) {
-                if (rangeIndicatorSequence !== control)
-                    return
-                const piece =
-                    control.pieceModel?.pieceForRangeIndicator(viewItem) ?? null
-                if (control.hoveredPiece === piece)
+            function onItemHoverExited(rangeIndicatorSequence) {
+                if (rangeIndicatorSequence === control)
+                    control.hoveredPiece = null
+            }
+
+            function onHoverExited(rangeIndicatorSequence) {
+                if (rangeIndicatorSequence === control)
                     control.hoveredPiece = null
             }
 

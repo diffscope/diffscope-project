@@ -7,7 +7,6 @@
 #include <functional>
 #include <optional>
 
-#include <QDateTime>
 #include <QHash>
 #include <QList>
 #include <QPointer>
@@ -146,7 +145,6 @@ namespace Synth {
             bool m_processingPendingWork{};
             bool m_closing{};
             bool m_retryFailedPiecesPending{};
-            QHash<QString, QDateTime> m_lastNotifications;
         };
 
     }
