@@ -7,7 +7,7 @@ import QtQuick.Controls
 
 import SVSCraft.UIComponents
 
-TreeView {
+TabFocusTreeView {
     id: treeView
 
     signal indexSelected(var index)

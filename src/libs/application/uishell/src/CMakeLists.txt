@@ -5,7 +5,7 @@ project(uishell VERSION 0.0.1.0)
 
 qm_import(QtQml)
 
-file(GLOB_RECURSE _src *.h *.cpp)
+file(GLOB_RECURSE _src CONFIGURE_DEPENDS *.h *.cpp)
 
 find_package(QWindowKit REQUIRED)
 find_package(ExtensionSystem REQUIRED)

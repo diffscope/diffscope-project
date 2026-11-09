@@ -247,7 +247,7 @@ Window {
                             ThemedItem.foregroundLevel: SVS.FL_Secondary
                             visible: false
                         }
-                        TreeView {
+                        TabFocusTreeView {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             Accessible.role: Accessible.Tree

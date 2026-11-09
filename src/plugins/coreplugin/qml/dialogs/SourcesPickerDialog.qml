@@ -220,12 +220,13 @@ Window {
                                 }
 
                                 ToolButton {
+                                    id: removeSingerButton
                                     anchors.right: parent.right
                                     anchors.top: parent.top
                                     anchors.margins: -8
                                     width: 24
                                     height: 24
-                                    visible: sourceButton.hovered
+                                    opacity: sourceButton.hovered || activeFocus ? 1 : 0
                                     flat: false
                                     display: AbstractButton.IconOnly
                                     text: qsTr("Remove singer")
