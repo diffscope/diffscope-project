@@ -6,6 +6,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 
+	<key>CFBundleAllowMixedLocalizations</key>
+	<true/>
+
 	<key>CFBundleExecutable</key>
 	<string>@APPLICATION_NAME@</string>
 
