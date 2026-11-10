@@ -1,0 +1,39 @@
+diff --git a/RtMidi.cpp b/RtMidi.cpp
+--- a/RtMidi.cpp
++++ b/RtMidi.cpp
+@@ -149,7 +149,7 @@ class MidiInCore: public MidiInApi
+   std::string getPortName( unsigned int portNumber );
+ 
+  protected:
+-  MIDIClientRef getCoreMidiClientSingleton(const std::string& clientName) throw();
++  MIDIClientRef getCoreMidiClientSingleton(const std::string& clientName);
+   void initialize( const std::string& clientName );
+ };
+ 
+@@ -169,7 +169,7 @@ class MidiOutCore: public MidiOutApi
+   void sendMessage( const unsigned char *message, size_t size );
+ 
+  protected:
+-  MIDIClientRef getCoreMidiClientSingleton(const std::string& clientName) throw();
++  MIDIClientRef getCoreMidiClientSingleton(const std::string& clientName);
+   void initialize( const std::string& clientName );
+ };
+ 
+@@ -1465,7 +1465,7 @@ MidiInCore :: ~MidiInCore( void )
+   delete data;
+ }
+ 
+-MIDIClientRef MidiInCore::getCoreMidiClientSingleton(const std::string& clientName) throw() {
++MIDIClientRef MidiInCore::getCoreMidiClientSingleton(const std::string& clientName) {
+ 
+   if (CoreMidiClientSingleton == 0){
+       // Set up our client.
+@@ -1804,7 +1804,7 @@ MidiOutCore :: ~MidiOutCore( void )
+   delete data;
+ }
+ 
+-MIDIClientRef MidiOutCore::getCoreMidiClientSingleton(const std::string& clientName) throw() {
++MIDIClientRef MidiOutCore::getCoreMidiClientSingleton(const std::string& clientName) {
+ 
+   if (CoreMidiClientSingleton == 0){
+       // Set up our client.
