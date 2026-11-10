@@ -406,7 +406,7 @@ Window {
                     currentIndex: dialog.needsInitialPicker || dialog.addPickerSelected ? 0 : 1
 
                     SingerPicker {
-                        architectureId: dialog.sourcesModel.architectureId !== ""
+                        architectureId: !dialog.needsInitialPicker
                                         && dialog.sourcesModel.architectureExists
                                         ? dialog.sourcesModel.architectureId
                                         : ""
