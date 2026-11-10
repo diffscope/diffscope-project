@@ -70,8 +70,9 @@ try {
         throw 'Failed to make AppRun executable'
     }
     & $appImageTool --no-appstream `
-        --comp xz `
+        --comp zstd `
         --mksquashfs-opt=-b --mksquashfs-opt=1M `
+        --mksquashfs-opt=-Xcompression-level --mksquashfs-opt=22 `
         --runtime-file $runtime $appDir $appImageFullPath | Write-Host
     if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $appImageFullPath -PathType Leaf)) {
         throw 'AppImage creation failed'
