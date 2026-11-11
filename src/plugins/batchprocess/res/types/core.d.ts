@@ -533,6 +533,7 @@ declare module "diffscope:core" {
     /** Uses the system DSPX clipboard. Operations require no active transaction. Cut and paste also require write access. */
     export interface DocumentClipboard {
         readonly canCopy: boolean;
+        /** Indicates whether the clipboard has a resolved target for currentPosition. */
         readonly canPaste: boolean;
         /** Copies current selection using the project playhead if referenceTick is omitted. */
         copy(referenceTick?: Tick): void;

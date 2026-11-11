@@ -36,7 +36,7 @@ namespace DspxProject {
         /** Destroys the scenario. */
         ~ClipboardEditScenario() override;
 
-        /** Returns whether the clipboard advertises the current edit scope's payload type. */
+        /** Returns whether ordinary paste has a resolved target and can acquire any required read lock. */
         bool pasteAvailable() const;
 
         /** Copies the selection with a project playhead tick and returns whether copying succeeded. */

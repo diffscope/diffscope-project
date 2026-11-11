@@ -10,8 +10,12 @@
 #include <QList>
 #include <QObject>
 #include <QPair>
+#include <QPointer>
 #include <QScopedPointer>
+#include <QString>
 #include <qqmlintegration.h>
+
+#include <dspxmodelORM/FreeValueDataArray.h>
 
 #include <dspxproject/ClipboardData.h>
 #include <dspxproject/dspxprojectglobal.h>
@@ -20,6 +24,9 @@ namespace dspx {
     class Document;
     class Model;
     class SelectionModel;
+    class SingingClip;
+    class Sources;
+    class Track;
 }
 
 namespace opendspx {
@@ -76,19 +83,51 @@ namespace DspxProject {
         bool anyItemsSelected();
         /** Returns whether an edit scope other than ST_None is active. */
         bool isEditScopeFocused();
-        /** Returns the current scope's clipboard type, or nullopt without a suitable target. */
-        std::optional<ClipboardData::Type> currentClipboardType() const;
         /**
          * Copies the selection with the playhead in project ticks.
          * Returns nullopt if no selection can be copied. Does not modify the clipboard.
          */
         std::optional<ClipboardData> copySelection(int playheadPosition = 0) const;
+
+        /** A resolved destination for one clipboard type and placement mode. */
+        class PasteTarget {
+        public:
+            /** Returns the clipboard type. */
+            ClipboardData::Type type() const {
+                return m_type;
+            }
+
+        private:
+            friend class Document;
+            friend class DocumentPrivate;
+
+            PasteTarget(ClipboardData::Type type, PasteMode mode) : m_type(type), m_mode(mode) {
+            }
+            bool operator==(const PasteTarget &other) const;
+
+            ClipboardData::Type m_type;
+            PasteMode m_mode;
+            QPointer<dspx::SingingClip> m_clip;
+            QPointer<dspx::Sources> m_sources;
+            std::optional<QPointer<dspx::Track>> m_track;
+            QString m_parameterId;
+            dspx::FreeValueDataArray::FreeValueRole m_parameterRole = dspx::FreeValueDataArray::Edited;
+        };
+
         /**
-         * Returns the paste origin for a project playhead position and placement mode.
+         * Returns the destination for the active selection type if available.
+         * Otherwise returns the sole valid destination, or nullopt if absent or ambiguous.
+         */
+        std::optional<PasteTarget> resolvePasteTarget(const QList<ClipboardData::Type> &types, PasteMode mode = CurrentPosition) const;
+        /** Returns whether the current selection still resolves to target for its type and mode. */
+        bool isPasteTargetValid(const PasteTarget &target) const;
+        /**
+         * Returns the paste origin for target and a project playhead position.
          * The result is clamped to [0, INT_MAX] and uses clip content ticks for clip
          * contents or project ticks otherwise.
+         * @pre target was resolved for this document and data.type() == target.type().
          */
-        int pastePosition(const ClipboardData &data, int playheadPosition, PasteMode mode) const;
+        int pastePosition(const ClipboardData &data, int playheadPosition, const PasteTarget &target) const;
         /**
          * Returns whether a free parameter paste requires interpolation at position.
          * Returns false for other types. position uses the pastePosition() coordinate system.
@@ -114,13 +153,13 @@ namespace DspxProject {
         Q_FLAG(BounceRisks)
 
         /**
-         * Pastes data into the matching edit scope at the specified paste origin.
+         * Pastes data into target at the specified paste origin.
          * Returns the inserted objects or replaced interval on success, or nullopt
          * on failure or no change. Clip groups create destination tracks as needed.
          * @pre A transaction is active and position is nonnegative.
          * @pre data satisfies the ClipboardData payload contract.
          */
-        std::optional<PasteResult> paste(const ClipboardData &data, int position, PasteMode mode);
+        std::optional<PasteResult> paste(const ClipboardData &data, int position, const PasteTarget &target);
         /**
          * Deletes the selection, preserving the sole tempo at tick zero.
          * Returns whether data changed. @pre A transaction is active.
@@ -153,8 +192,8 @@ namespace DspxProject {
          * @pre Each item is non-null and is a selectable object in this document.
          */
         void selectItems(const QList<QObject *> &items, bool clearPrevious = false);
-        /** Selects a successful paste result. @pre result refers to this document's current data. */
-        void selectPasteResult(const PasteResult &result);
+        /** Selects a successful paste result from target. @pre result refers to this document's current data. */
+        void selectPasteResult(const PasteResult &result, const PasteTarget &target);
         /** Returns whether selected singing clips have identical singer layouts within each track. */
         Q_INVOKABLE bool isClipSingerLayoutIdentical() const;
         /** Returns whether singing clips are selected and bouncing avoids data loss and resampling. */
@@ -167,6 +206,8 @@ namespace DspxProject {
         void anyItemsSelectedChanged();
         /** Notifies that edit scope focus changed. */
         void editScopeFocusedChanged();
+        /** Notifies that selection changes may affect paste targets. */
+        void pasteTargetsChanged();
 
     private:
         QScopedPointer<DocumentPrivate> d_ptr;

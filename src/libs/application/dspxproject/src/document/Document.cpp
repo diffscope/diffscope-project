@@ -671,6 +671,22 @@ namespace DspxProject {
         QObject::connect(selectionModel, &dspx::SelectionModel::selectionTypeChanged, q_ptr, [this] {
             updateEditScopeFocused();
         });
+        QObject::connect(selectionModel, &dspx::SelectionModel::selectionTypeChanged,
+                         q_ptr, &Document::pasteTargetsChanged);
+        QObject::connect(selectionModel->trackSelectionModel(), &dspx::TrackSelectionModel::selectedItemsChanged,
+                         q_ptr, &Document::pasteTargetsChanged);
+        QObject::connect(selectionModel->clipSelectionModel(), &dspx::ClipSelectionModel::selectedItemsChanged,
+                         q_ptr, &Document::pasteTargetsChanged);
+        QObject::connect(selectionModel->clipSelectionModel(), &dspx::ClipSelectionModel::clipSequencesWithSelectedItemsChanged,
+                         q_ptr, &Document::pasteTargetsChanged);
+        QObject::connect(selectionModel->noteSelectionModel(), &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged,
+                         q_ptr, &Document::pasteTargetsChanged);
+        QObject::connect(selectionModel->anchorNodeSelectionModel(), &dspx::AnchorNodeSelectionModel::anchorNodeSequenceWithSelectedItemsChanged,
+                         q_ptr, &Document::pasteTargetsChanged);
+        QObject::connect(selectionModel->dynamicMixingAnchorSelectionModel(), &dspx::DynamicMixingAnchorSelectionModel::dynamicMixingAnchorSequenceWithSelectedItemsChanged,
+                         q_ptr, &Document::pasteTargetsChanged);
+        QObject::connect(selectionModel->freeParameterSelectionModel(), &dspx::FreeParameterSelectionModel::contextChanged,
+                         q_ptr, &Document::pasteTargetsChanged);
     }
 
     bool DocumentPrivate::updateEditScopeFocused() {
@@ -678,64 +694,34 @@ namespace DspxProject {
         return emitOnChange(value, editScopeFocused, &Document::editScopeFocusedChanged);
     }
 
-    int DocumentPrivate::currentTrackIndex() const {
-        dspx::Track *currentTrack = nullptr;
-        dspx::SingingClip *associatedSingingClip = nullptr;
-        switch (selectionModel->selectionType()) {
-            case dspx::SelectionModel::ST_Track:
-                currentTrack = selectionModel->trackSelectionModel()->currentItem();
-                break;
-            case dspx::SelectionModel::ST_Clip: {
-                auto *clip = selectionModel->clipSelectionModel()->currentItem();
-                currentTrack = clip ? clip->clipSequence()->track() : nullptr;
-                break;
-            }
-            case dspx::SelectionModel::ST_Note: {
-                auto *noteSelectionModel = selectionModel->noteSelectionModel();
-                auto *note = noteSelectionModel->currentItem();
-                auto *noteSequence = note ? note->noteSequence()
-                                          : noteSelectionModel->noteSequenceWithSelectedItems();
-                associatedSingingClip = noteSequence ? noteSequence->singingClip() : nullptr;
-                break;
-            }
-            case dspx::SelectionModel::ST_AnchorNode: {
-                auto *anchorNodeSelectionModel = selectionModel->anchorNodeSelectionModel();
-                auto *anchorNode = anchorNodeSelectionModel->currentItem();
-                auto *anchorNodeSequence = anchorNode ? anchorNode->anchorNodeSequence()
-                                                      : anchorNodeSelectionModel->anchorNodeSequenceWithSelectedItems();
-                auto *parameterMap = anchorNodeSequence ? anchorNodeSequence->parameter()->parameterMap() : nullptr;
-                associatedSingingClip = parameterMap ? parameterMap->singingClip() : nullptr;
-                break;
-            }
-            case dspx::SelectionModel::ST_DynamicMixingAnchor: {
-                auto *anchorSelectionModel = selectionModel->dynamicMixingAnchorSelectionModel();
-                auto *anchor = anchorSelectionModel->currentItem();
-                auto *anchorSequence = anchor ? anchor->dynamicMixingAnchorSequence()
-                                              : anchorSelectionModel->dynamicMixingAnchorSequenceWithSelectedItems();
-                associatedSingingClip = anchorSequence ? anchorSequence->sources()->singingClip() : nullptr;
-                break;
-            }
-            case dspx::SelectionModel::ST_FreeParameter:
-                associatedSingingClip = selectionModel->freeParameterSelectionModel()->singingClip();
-                break;
-            case dspx::SelectionModel::ST_None:
-            case dspx::SelectionModel::ST_Label:
-            case dspx::SelectionModel::ST_Tempo:
-            case dspx::SelectionModel::ST_KeySignature:
-                break;
-        }
-
-        if (!currentTrack && associatedSingingClip) {
-            auto *clipSequence = associatedSingingClip->clipSequence();
-            currentTrack = clipSequence ? clipSequence->track() : nullptr;
-        }
-
-        const auto tracks = model->tracks()->items();
-        const int index = tracks.indexOf(currentTrack);
-        return index >= 0 ? index : 0;
+    static dspx::Track *trackForClip(const dspx::Clip *clip) {
+        auto *sequence = clip ? clip->clipSequence() : nullptr;
+        return sequence ? sequence->track() : nullptr;
     }
 
-    std::optional<ClipboardData::Type> DocumentPrivate::currentClipboardType() const {
+    dspx::Track *DocumentPrivate::selectionTrack() const {
+        dspx::Track *track = nullptr;
+        switch (selectionModel->selectionType()) {
+            case dspx::SelectionModel::ST_Track: {
+                const auto tracks = selectionModel->trackSelectionModel()->selectedItems();
+                if (tracks.size() == 1)
+                    track = tracks.first();
+                break;
+            }
+            case dspx::SelectionModel::ST_Clip: {
+                const auto sequences = selectionModel->clipSelectionModel()->clipSequencesWithSelectedItems();
+                if (sequences.size() == 1)
+                    track = sequences.first()->track();
+                break;
+            }
+            default:
+                track = trackForClip(selectionSingingClip());
+                break;
+        }
+        return track && track->trackList() == model->tracks() ? track : nullptr;
+    }
+
+    std::optional<ClipboardData::Type> DocumentPrivate::selectionClipboardType() const {
         switch (selectionModel->selectionType()) {
             case dspx::SelectionModel::ST_FreeParameter:
                 return ClipboardData::FreeParameter;
@@ -750,19 +736,27 @@ namespace DspxProject {
             case dspx::SelectionModel::ST_Clip:
                 return ClipboardData::Clip;
             case dspx::SelectionModel::ST_Note:
-                return clipboardSingingClip() ? std::optional(ClipboardData::Note) : std::nullopt;
+                return selectionSingingClip() ? std::optional(ClipboardData::Note) : std::nullopt;
             case dspx::SelectionModel::ST_AnchorNode:
-                return clipboardSingingClip() ? std::optional(ClipboardData::AnchorNode) : std::nullopt;
+                return selectionSingingClip() ? std::optional(ClipboardData::AnchorNode) : std::nullopt;
             case dspx::SelectionModel::ST_DynamicMixingAnchor:
-                return clipboardSingingClip() ? std::optional(ClipboardData::DynamicMixingAnchor) : std::nullopt;
+                return selectionSingingClip() ? std::optional(ClipboardData::DynamicMixingAnchor) : std::nullopt;
             case dspx::SelectionModel::ST_None:
                 return std::nullopt;
         }
         return std::nullopt;
     }
 
-    dspx::SingingClip *DocumentPrivate::clipboardSingingClip() const {
+    dspx::SingingClip *DocumentPrivate::selectionSingingClip() const {
         switch (selectionModel->selectionType()) {
+            case dspx::SelectionModel::ST_Clip: {
+                const auto *clips = selectionModel->clipSelectionModel();
+                if (clips->selectedSingingClipCount() != 1)
+                    return nullptr;
+                const auto items = clips->selectedItems();
+                const auto it = std::ranges::find(items, dspx::Clip::Singing, &dspx::Clip::kind);
+                return it != items.end() ? static_cast<dspx::SingingClip *>(*it) : nullptr;
+            }
             case dspx::SelectionModel::ST_FreeParameter:
                 return selectionModel->freeParameterSelectionModel()->singingClip();
             case dspx::SelectionModel::ST_Note: {
@@ -783,8 +777,74 @@ namespace DspxProject {
         }
     }
 
+    std::optional<Document::PasteTarget> DocumentPrivate::resolvePasteTarget(ClipboardData::Type type, Document::PasteMode mode) const {
+        Document::PasteTarget target(type, mode);
+        switch (type) {
+            case ClipboardData::Tempo:
+            case ClipboardData::Label:
+            case ClipboardData::KeySignature:
+                return target;
+            case ClipboardData::Clip:
+                if (mode == Document::OriginalPosition)
+                    return target;
+                [[fallthrough]];
+            case ClipboardData::Track:
+                if (auto *track = selectionTrack())
+                    target.m_track.emplace(track);
+                else if (type == ClipboardData::Clip)
+                    return std::nullopt;
+                return target;
+            case ClipboardData::Note:
+            case ClipboardData::DynamicMixingAnchor:
+            case ClipboardData::AnchorNode:
+            case ClipboardData::FreeParameter:
+                break;
+        }
+
+        auto *clip = selectionSingingClip();
+        auto *track = trackForClip(clip);
+        if (!track || track->trackList() != model->tracks())
+            return std::nullopt;
+        target.m_clip = clip;
+        if (type == ClipboardData::Note)
+            return target;
+        if (type == ClipboardData::DynamicMixingAnchor) {
+            auto *sources = clip->sources();
+            if (!sources || sources->singers()->size() == 0)
+                return std::nullopt;
+            target.m_sources = sources;
+            return target;
+        }
+
+        switch (selectionModel->selectionType()) {
+            case dspx::SelectionModel::ST_AnchorNode: {
+                const auto *sequence = selectionModel->anchorNodeSelectionModel()->anchorNodeSequenceWithSelectedItems();
+                const auto *parameters = clip->parameters();
+                const auto keys = parameters->keys();
+                const auto it = std::ranges::find_if(keys, [parameters, sequence](const QString &key) {
+                    return parameters->item(key) == sequence->parameter();
+                });
+                if (it == keys.end())
+                    return std::nullopt;
+                target.m_parameterId = *it;
+                target.m_parameterRole = sequence->role() == dspx::AnchorNodeSequence::Transform
+                    ? dspx::FreeValueDataArray::Transform : dspx::FreeValueDataArray::Edited;
+                break;
+            }
+            case dspx::SelectionModel::ST_FreeParameter: {
+                const auto *selection = selectionModel->freeParameterSelectionModel();
+                target.m_parameterId = selection->parameterId();
+                target.m_parameterRole = selection->role();
+                break;
+            }
+            default:
+                return std::nullopt;
+        }
+        return target.m_parameterId.isEmpty() ? std::nullopt : std::optional(target);
+    }
+
     std::optional<ClipboardData> DocumentPrivate::buildClipboardData(int playheadPosition) const {
-        const auto type = currentClipboardType();
+        const auto type = selectionClipboardType();
         return type ? (this->*clipboardHandler(*type).copy)(playheadPosition) : std::nullopt;
     }
 
@@ -801,17 +861,17 @@ namespace DspxProject {
     }
 
     std::optional<ClipboardData> DocumentPrivate::buildNoteClipboardData(int playheadPosition) const {
-        auto *clip = clipboardSingingClip();
+        auto *clip = selectionSingingClip();
         return buildSequenceData(selectionModel->noteSelectionModel()->selectedItems(), playheadPosition - clip->start(), &ClipboardData::setNotes);
     }
 
     std::optional<ClipboardData> DocumentPrivate::buildDynamicMixingAnchorClipboardData(int playheadPosition) const {
-        auto *clip = clipboardSingingClip();
+        auto *clip = selectionSingingClip();
         return buildSequenceData(selectionModel->dynamicMixingAnchorSelectionModel()->selectedItems(), playheadPosition - clip->start(), &ClipboardData::setDynamicMixingAnchors);
     }
 
     std::optional<ClipboardData> DocumentPrivate::buildAnchorNodeClipboardData(int playheadPosition) const {
-        auto *clip = clipboardSingingClip();
+        auto *clip = selectionSingingClip();
         return buildSequenceData(selectionModel->anchorNodeSelectionModel()->selectedItems(), playheadPosition - clip->start(), &ClipboardData::setAnchorNodes);
     }
 
@@ -882,23 +942,6 @@ namespace DspxProject {
         return data;
     }
 
-    int DocumentPrivate::pastePosition(const ClipboardData &data, int playheadPosition, Document::PasteMode mode) const {
-        const auto *clip = clipboardSingingClip();
-        const qint64 playhead = static_cast<qint64>(playheadPosition) - (clip ? clip->start() : 0);
-        qint64 position = playhead;
-        switch (mode) {
-            case Document::CurrentPosition:
-                break;
-            case Document::RelativeToCopiedPlayhead:
-                position -= data.playhead();
-                break;
-            case Document::OriginalPosition:
-                position = data.absolute();
-                break;
-        }
-        return static_cast<int>(std::clamp<qint64>(position, 0, std::numeric_limits<int>::max()));
-    }
-
     bool DocumentPrivate::pasteTempos(const ClipboardData &data, PasteContext &context) {
         return pasteSequenceData(data.tempos(), model->tempos(), model, context, [this] { return model->createTempo(); }, true);
     }
@@ -912,34 +955,50 @@ namespace DspxProject {
     }
 
     bool DocumentPrivate::pasteNotes(const ClipboardData &data, PasteContext &context) {
-        auto *sequence = selectionModel->noteSelectionModel()->noteSequenceWithSelectedItems();
+        auto *sequence = context.target.m_clip->notes();
         return pasteSequenceData(data.notes(), sequence, model, context, [this] { return model->createNote(); }, false);
     }
 
     bool DocumentPrivate::pasteDynamicMixingAnchors(const ClipboardData &data, PasteContext &context) {
-        auto *sequence = selectionModel->dynamicMixingAnchorSelectionModel()->dynamicMixingAnchorSequenceWithSelectedItems();
-        const int singerCount = sequence->sources()->singers()->size();
-        if (singerCount <= 0)
-            return false;
+        auto *sources = context.target.m_sources.data();
+        const int singerCount = sources->singers()->size();
         auto anchors = data.dynamicMixingAnchors();
         for (auto &anchor : anchors)
             anchor.ratio.resize(static_cast<std::size_t>(singerCount - 1), 0.0);
-        return pasteSequenceData(std::move(anchors), sequence, model, context, [this] { return model->createDynamicMixingAnchor(); }, true);
+        return pasteSequenceData(std::move(anchors), sources->dynamicMixingAnchors(), model, context, [this] { return model->createDynamicMixingAnchor(); }, true);
+    }
+
+    dspx::Parameter *DocumentPrivate::pasteParameter(const Document::PasteTarget &target, bool createIfMissing) {
+        auto *parameters = target.m_clip->parameters();
+        if (auto *parameter = parameters->item(target.m_parameterId))
+            return parameter;
+        if (!createIfMissing)
+            return nullptr;
+        auto *parameter = model->createParameter();
+        if (!parameters->insertItem(target.m_parameterId, parameter)) {
+            model->destroyItem(parameter);
+            return nullptr;
+        }
+        return parameter;
     }
 
     bool DocumentPrivate::pasteAnchorNodes(const ClipboardData &data, PasteContext &context) {
-        auto *sequence = selectionModel->anchorNodeSelectionModel()->anchorNodeSequenceWithSelectedItems();
-        return pasteSequenceData(data.anchorNodes(), sequence, model, context, [this] { return model->createAnchorNode(); }, true);
+        auto nodes = data.anchorNodes();
+        if (nodes.isEmpty())
+            return false;
+        auto *parameter = pasteParameter(context.target, true);
+        if (!parameter)
+            return false;
+        auto *sequence = context.target.m_parameterRole == dspx::FreeValueDataArray::Transform
+            ? parameter->anchorTransform() : parameter->anchorEdited();
+        return pasteSequenceData(std::move(nodes), sequence, model, context, [this] { return model->createAnchorNode(); }, true);
     }
 
     bool DocumentPrivate::pasteTracks(const ClipboardData &data, PasteContext &context) {
         auto *list = model->tracks();
         int insertionIndex = list->size();
-        if (auto *current = selectionModel->trackSelectionModel()->currentItem()) {
-            const int index = list->items().indexOf(current);
-            if (index >= 0)
-                insertionIndex = index + 1;
-        }
+        if (context.target.m_track)
+            insertionIndex = list->items().indexOf(context.target.m_track->data()) + 1;
         for (const auto &value : data.tracks()) {
             auto *track = model->createTrack();
             track->fromOpenDSPX(value);
@@ -959,9 +1018,10 @@ namespace DspxProject {
         });
         if (!hasClip)
             return false;
-        const int firstTrack = std::max(0, context.mode == Document::OriginalPosition ? data.track() : currentTrackIndex());
         auto *tracks = model->tracks();
-        if (clips.size() > std::numeric_limits<int>::max() - firstTrack)
+        const int firstTrack = context.target.m_mode == Document::OriginalPosition
+            ? std::max(0, data.track()) : tracks->items().indexOf(context.target.m_track->data());
+        if (firstTrack < 0 || clips.size() > std::numeric_limits<int>::max() - firstTrack)
             return false;
         const int requiredTrackCount = firstTrack + static_cast<int>(clips.size());
         while (tracks->size() < requiredTrackCount) {
@@ -1006,23 +1066,11 @@ namespace DspxProject {
         const auto sampled = FreeParameterResampling::resample(range, context.position);
         if (sampled.values.isEmpty())
             return false;
-        const auto *freeSelection = selectionModel->freeParameterSelectionModel();
-        auto *clip = freeSelection->singingClip();
-        auto *parameters = clip->parameters();
-        const auto id = freeSelection->parameterId();
-        const auto role = freeSelection->role();
-        auto *parameter = parameters->item(id);
         const bool hasValues = std::ranges::any_of(sampled.values, [](const auto &value) { return value.isValid(); });
-        if (!parameter && !hasValues)
+        auto *parameter = pasteParameter(context.target, hasValues);
+        if (!parameter)
             return false;
-        if (!parameter) {
-            parameter = model->createParameter();
-            if (!parameters->insertItem(id, parameter)) {
-                model->destroyItem(parameter);
-                return false;
-            }
-        }
-        auto *array = role == dspx::FreeValueDataArray::Transform
+        auto *array = context.target.m_parameterRole == dspx::FreeValueDataArray::Transform
             ? parameter->freeTransform() : parameter->freeEdited();
         auto current = array->slice(sampled.firstIndex, sampled.values.size());
         current.resize(sampled.values.size());
@@ -1406,19 +1454,56 @@ namespace DspxProject {
         return d->editScopeFocused;
     }
 
-    std::optional<ClipboardData::Type> Document::currentClipboardType() const {
-        Q_D(const Document);
-        return d->currentClipboardType();
-    }
-
     std::optional<ClipboardData> Document::copySelection(int playheadPosition) const {
         Q_D(const Document);
         return d->selectionModel->hasSelection() ? d->buildClipboardData(playheadPosition) : std::nullopt;
     }
 
-    int Document::pastePosition(const ClipboardData &data, int playheadPosition, PasteMode mode) const {
+    bool Document::PasteTarget::operator==(const PasteTarget &other) const = default;
+
+    std::optional<Document::PasteTarget> Document::resolvePasteTarget(const QList<ClipboardData::Type> &types, PasteMode mode) const {
         Q_D(const Document);
-        return d->pastePosition(data, playheadPosition, mode);
+        if (types.isEmpty())
+            return std::nullopt;
+        const auto preferredType = d->selectionClipboardType();
+        if (preferredType && types.contains(*preferredType)) {
+            if (auto target = d->resolvePasteTarget(*preferredType, mode))
+                return target;
+        }
+        std::optional<PasteTarget> result;
+        for (const auto type : types) {
+            if (type == preferredType)
+                continue;
+            if (auto target = d->resolvePasteTarget(type, mode)) {
+                if (result && result->type() != type)
+                    return std::nullopt;
+                result = std::move(target);
+            }
+        }
+        return result;
+    }
+
+    bool Document::isPasteTargetValid(const PasteTarget &target) const {
+        Q_D(const Document);
+        const auto current = d->resolvePasteTarget(target.m_type, target.m_mode);
+        return current && *current == target;
+    }
+
+    int Document::pastePosition(const ClipboardData &data, int playheadPosition, const PasteTarget &target) const {
+        qint64 position = playheadPosition;
+        if (target.m_clip)
+            position -= target.m_clip->start();
+        switch (target.m_mode) {
+            case CurrentPosition:
+                break;
+            case RelativeToCopiedPlayhead:
+                position -= data.playhead();
+                break;
+            case OriginalPosition:
+                position = data.absolute();
+                break;
+        }
+        return static_cast<int>(std::clamp<qint64>(position, 0, std::numeric_limits<int>::max()));
     }
 
     bool Document::pasteRequiresResampling(const ClipboardData &data, int position) const {
@@ -1426,13 +1511,13 @@ namespace DspxProject {
                FreeParameterResampling::requiresResampling(data.freeParameter(), position);
     }
 
-    std::optional<Document::PasteResult> Document::paste(const ClipboardData &data, int position, PasteMode mode) {
+    std::optional<Document::PasteResult> Document::paste(const ClipboardData &data, int position, const PasteTarget &target) {
         Q_D(Document);
-        const auto &handler = clipboardHandler(data.type());
-        if (currentClipboardType() != data.type()) {
+        if (target.type() != data.type() || !isPasteTargetValid(target)) {
             return std::nullopt;
         }
-        DocumentPrivate::PasteContext context{.position = position, .mode = mode};
+        const auto &handler = clipboardHandler(data.type());
+        DocumentPrivate::PasteContext context{.target = target, .position = position};
         if (!(d->*handler.paste)(data, context)) {
             return std::nullopt;
         }
@@ -1460,10 +1545,12 @@ namespace DspxProject {
         }
     }
 
-    void Document::selectPasteResult(const PasteResult &result) {
+    void Document::selectPasteResult(const PasteResult &result, const PasteTarget &target) {
         Q_D(Document);
         if (result.freeParameterRange) {
-            d->selectionModel->setFreeParameterRange(result.freeParameterRange->first, result.freeParameterRange->second);
+            if (d->selectionModel->setFreeParameterContext(target.m_clip.data(), target.m_parameterId, target.m_parameterRole)) {
+                d->selectionModel->setFreeParameterRange(result.freeParameterRange->first, result.freeParameterRange->second);
+            }
         } else {
             selectItems(result.items, true);
         }

@@ -876,9 +876,8 @@ namespace BatchProcess::Internal {
                 return success();
             }
             if (operation == QStringLiteral("documentState")) {
-                const auto type = doc->currentClipboardType();
                 const auto clipboard = DspxProject::Clipboard::instance();
-                const bool canPaste = type && clipboard && clipboard->availablePasteTypes().contains(*type);
+                const bool canPaste = clipboard && doc->resolvePasteTarget(clipboard->availablePasteTypes()).has_value();
                 return success(propertyValue(QVariantMap{{"transactionActive", doc->transactionController()->isTransactionActive()}, {"canCopy", doc->anyItemsSelected()}, {"canPaste", canPaste}, {"canBounceSelection", doc->canSafelyBounce()}, {"selectedClipSingerLayoutIdentical", doc->isClipSingerLayoutIdentical()}}));
             }
             if (operation == QStringLiteral("selection")) {
@@ -984,29 +983,38 @@ namespace BatchProcess::Internal {
                     }
                 }
             }
-            const auto type = doc->currentClipboardType();
             const auto clipboard = DspxProject::Clipboard::instance();
-            if (!type || !clipboard->availablePasteTypes().contains(*type)) {
+            const auto types = clipboard->availablePasteTypes();
+            if (!target) {
+                return success();
+            }
+            const auto destination = doc->resolvePasteTarget(types, mode);
+            if (!destination) {
                 return success();
             }
             bool ok = false;
-            const auto data = clipboard->paste(*type, &ok);
+            const auto data = clipboard->paste(destination->type(), &ok);
             if (!ok) {
                 return failure(QStringLiteral("invalidData"), operation);
             }
-            const int position = doc->pastePosition(data, reference, mode);
+            if (!target || !doc->isPasteTargetValid(*destination)) {
+                return success();
+            }
+            const int position = doc->pastePosition(data, reference, *destination);
             if (doc->pasteRequiresResampling(data, position) && !resample.toBool()) {
                 return failure(QStringLiteral("invalidData"), operation);
             }
             std::optional<DspxProject::Document::PasteResult> result;
-            if (!controller->beginScopedTransaction(DspxProject::ClipboardEditScenario::pasteTransactionName(*type), [&] {
-                    result = doc->paste(data, position, mode);
+            if (!controller->beginScopedTransaction(DspxProject::ClipboardEditScenario::pasteTransactionName(destination->type()), [&] {
+                    if (target && doc->pastePosition(data, reference, *destination) == position) {
+                        result = doc->paste(data, position, *destination);
+                    }
                     return result.has_value();
                 })) {
                 return failure(QStringLiteral("transactionConflict"), operation);
             }
             if (result && target) {
-                doc->selectPasteResult(*result);
+                doc->selectPasteResult(*result, *destination);
             }
         } else if (operation == QStringLiteral("splitSelectionAt")) {
             const auto name = DspxProject::EditItemsScenario::splitTransactionName(doc);

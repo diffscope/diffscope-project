@@ -7,15 +7,10 @@
 #include <QPointer>
 #include <QQuickWindow>
 
-#include <dspxmodelORM/SingingClip.h>
-#include <dspxmodelSelectionModel/AnchorNodeSelectionModel.h>
-#include <dspxmodelSelectionModel/DynamicMixingAnchorSelectionModel.h>
-#include <dspxmodelSelectionModel/FreeParameterSelectionModel.h>
-#include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
 
-#include <dspxproject/ClipboardEditStrategy.h>
 #include <dspxproject/Clipboard.h>
+#include <dspxproject/ClipboardEditStrategy.h>
 #include <dspxproject/ParameterResamplingScenario.h>
 #include <transactional/TransactionController.h>
 
@@ -24,21 +19,19 @@ namespace DspxProject {
     ClipboardEditScenario::ClipboardEditScenario(Document *document, ClipboardEditStrategy *strategy, Clipboard *clipboard, ParameterResamplingScenario *resampling, QObject *parent)
         : QObject(parent), d_ptr(new ClipboardEditScenarioPrivate{.q_ptr = this, .document = document, .strategy = strategy, .clipboard = clipboard, .resampling = resampling}) {
         Q_D(ClipboardEditScenario);
-        auto selection = document->selectionModel();
         const auto update = [d] { d->updatePasteAvailable(); };
         connect(clipboard, &Clipboard::changed, this, update);
-        connect(selection, &dspx::SelectionModel::selectionTypeChanged, this, update);
-        connect(selection->noteSelectionModel(), &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged, this, update);
-        connect(selection->anchorNodeSelectionModel(), &dspx::AnchorNodeSelectionModel::anchorNodeSequenceWithSelectedItemsChanged, this, update);
-        connect(selection->dynamicMixingAnchorSelectionModel(), &dspx::DynamicMixingAnchorSelectionModel::dynamicMixingAnchorSequenceWithSelectedItemsChanged, this, update);
+        connect(document, &Document::pasteTargetsChanged, this, update);
+        connect(document->transactionController(), &Core::TransactionController::accessStateChanged, this, update);
         d->updatePasteAvailable();
     }
 
     ClipboardEditScenario::~ClipboardEditScenario() = default;
 
     void ClipboardEditScenarioPrivate::updatePasteAvailable() {
-        const auto type = document->currentClipboardType();
-        const bool available = type && clipboard->availablePasteTypes().contains(*type);
+        const auto target = document->resolvePasteTarget(clipboard->availablePasteTypes());
+        const bool available = target && (target->type() != ClipboardData::FreeParameter ||
+                                          document->transactionController()->canAcquireReadLock());
         if (pasteAvailable != available) {
             pasteAvailable = available;
             Q_EMIT q_ptr->pasteAvailableChanged();
@@ -71,53 +64,59 @@ namespace DspxProject {
         const QPointer<Document> document(d->document);
         const QPointer<const ClipboardEditScenario> scenario(this);
         const QPointer<QQuickWindow> dialogWindow(window);
-        const auto type = document->currentClipboardType();
-        if (!type || !pasteAvailable()) {
+        const auto operationValid = [&] { return document && scenario && (!window || dialogWindow); };
+        const auto types = d->clipboard->availablePasteTypes();
+        if (!operationValid()) {
             return;
         }
+        const auto target = document->resolvePasteTarget(types, mode);
+        if (!target) {
+            return;
+        }
+        const auto type = target->type();
         bool ok = false;
-        const auto data = d->clipboard->paste(*type, &ok);
+        const auto data = d->clipboard->paste(type, &ok);
+        if (!operationValid()) {
+            return;
+        }
         if (!ok) {
             d->strategy->reportPasteFailure(window);
             return;
         }
-
-        const int position = document->pastePosition(data, playheadPosition, mode);
-        const auto selection = document->selectionModel();
-        const auto freeSelection = selection->freeParameterSelectionModel();
-        const bool freeParameter = *type == ClipboardData::FreeParameter;
-        const QPointer<dspx::SingingClip> clip(freeSelection->singingClip());
-        const auto parameterId = freeSelection->parameterId();
-        const auto role = freeSelection->role();
-        const auto targetValid = [&] {
-            return document && scenario && (!window || dialogWindow) && document->currentClipboardType() == type &&
-                   (!freeParameter || (clip && freeSelection->singingClip() == clip &&
-                                       freeSelection->parameterId() == parameterId && freeSelection->role() == role));
-        };
-        if (freeParameter) {
+        if (!document->isPasteTargetValid(*target)) {
+            return;
+        }
+        const int position = document->pastePosition(data, playheadPosition, *target);
+        if (type == ClipboardData::FreeParameter) {
             Core::TransactionController::ScopedReadLock readLock(document->transactionController());
+            if (!operationValid()) {
+                return;
+            }
             if (!readLock) {
                 d->strategy->reportOperationConflict();
                 return;
             }
-            if (!targetValid() || !d->resampling->confirmPaste(dialogWindow, document->pasteRequiresResampling(data, position)) || !readLock) {
+            if (!document->isPasteTargetValid(*target) ||
+                !d->resampling->confirmPaste(dialogWindow, document->pasteRequiresResampling(data, position)) || !readLock) {
                 return;
             }
         }
-        if (!targetValid()) {
+        if (!operationValid() || !document->isPasteTargetValid(*target)) {
             return;
         }
         std::optional<Document::PasteResult> result;
-        document->transactionController()->beginScopedTransaction(pasteTransactionName(*type), [&] {
-            if (targetValid()) {
-                result = document->paste(data, position, mode);
+        document->transactionController()->beginScopedTransaction(pasteTransactionName(type), [&] {
+            if (operationValid() && document->pastePosition(data, playheadPosition, *target) == position) {
+                result = document->paste(data, position, *target);
             }
             return result.has_value();
-        }, [strategy = d->strategy] {
-            strategy->reportOperationConflict();
+        }, [strategy = QPointer(d->strategy)] {
+            if (strategy) {
+                strategy->reportOperationConflict();
+            }
         });
         if (result && document && scenario) {
-            document->selectPasteResult(*result);
+            document->selectPasteResult(*result, *target);
         }
     }
 

@@ -13,7 +13,7 @@
 #include <dspxproject/ClipboardData.h>
 
 namespace dspx {
-    class SingingClip;
+    class Parameter;
 }
 
 namespace DspxProject {
@@ -25,9 +25,11 @@ namespace DspxProject {
 
         bool updateEditScopeFocused();
 
-        std::optional<ClipboardData::Type> currentClipboardType() const;
-        dspx::SingingClip *clipboardSingingClip() const;
-        int currentTrackIndex() const;
+        std::optional<ClipboardData::Type> selectionClipboardType() const;
+        dspx::SingingClip *selectionSingingClip() const;
+        dspx::Track *selectionTrack() const;
+        std::optional<Document::PasteTarget> resolvePasteTarget(ClipboardData::Type type, Document::PasteMode mode) const;
+        dspx::Parameter *pasteParameter(const Document::PasteTarget &target, bool createIfMissing);
 
         std::optional<ClipboardData> buildClipboardData(int playheadPosition) const;
         std::optional<ClipboardData> buildTempoClipboardData(int playheadPosition) const;
@@ -41,14 +43,13 @@ namespace DspxProject {
         std::optional<ClipboardData> buildFreeParameterClipboardData(int playheadPosition) const;
 
         struct PasteContext {
+            const Document::PasteTarget &target;
             int position{};
-            Document::PasteMode mode{Document::CurrentPosition};
             QList<QObject *> items;
             int rangeStart{};
             int rangeEnd{};
         };
 
-        int pastePosition(const ClipboardData &data, int playheadPosition, Document::PasteMode mode) const;
         bool pasteTempos(const ClipboardData &data, PasteContext &context);
         bool pasteLabels(const ClipboardData &data, PasteContext &context);
         bool pasteKeySignatures(const ClipboardData &data, PasteContext &context);

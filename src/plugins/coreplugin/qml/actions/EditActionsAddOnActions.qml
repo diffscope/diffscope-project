@@ -97,8 +97,6 @@ ActionCollection {
         Action {
             enabled: d.transactionController?.canBeginTransaction === true
                      && d.windowHandle?.clipboardEditScenario.pasteAvailable
-                     && (d.windowHandle.projectDocumentContext.document.selectionModel.selectionType !== DspxSelectionModel.SelectionModel.ST_FreeParameter
-                         || d.transactionController.canAcquireReadLock)
             onTriggered: Qt.callLater(() => d.windowHandle.clipboardEditScenario.paste(d.windowHandle.projectTimeline.position, DspxProject.Document.CurrentPosition, d.windowHandle.window))
         }
     }
