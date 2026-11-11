@@ -65,20 +65,20 @@ ActionCollection {
             }
         }
     }
-    ActionItem {
-        actionId: "org.diffscope.importexportmanager.edit.copySpecial"
-        Action {
-            onTriggered: () => {
-
-            }
-        }
-    }
-    ActionItem {
-        actionId: "org.diffscope.importexportmanager.edit.pasteSpecial"
-        Action {
-            onTriggered: () => {
-
-            }
-        }
-    }
+    // ActionItem {
+    //     actionId: "org.diffscope.importexportmanager.edit.copySpecial"
+    //     Action {
+    //         onTriggered: () => {
+    //
+    //         }
+    //     }
+    // }
+    // ActionItem {
+    //     actionId: "org.diffscope.importexportmanager.edit.pasteSpecial"
+    //     Action {
+    //         onTriggered: () => {
+    //
+    //         }
+    //     }
+    // }
 }
