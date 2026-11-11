@@ -1,0 +1,22 @@
+{
+    "lrcLabels": {
+        "title": "LRC Labels",
+        "description": "Imports and exports project labels in LRC format.",
+        "fileFilter": "LRC Lyrics",
+        "startPositionLabel": "Start position",
+        "import": {
+            "title": "Import LRC as Labels",
+            "description": "Imports timestamped lyrics from an LRC file as project labels.",
+            "openTitle": "Open LRC Lyrics",
+            "failureTitle": "LRC Import Failed",
+            "invalidLine": "The LRC file contains an invalid entry on line {{line}}.",
+            "noTimestampedLines": "The LRC file contains no timestamped lines."
+        },
+        "export": {
+            "title": "Export Labels to LRC",
+            "description": "Exports project labels as timestamped lyrics in an LRC file.",
+            "saveTitle": "Save LRC Lyrics",
+            "noLabels": "The project contains no labels to export."
+        }
+    }
+}

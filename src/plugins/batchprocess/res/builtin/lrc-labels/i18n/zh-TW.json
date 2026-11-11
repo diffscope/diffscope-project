@@ -1,0 +1,22 @@
+{
+    "lrcLabels": {
+        "title": "LRC 標籤",
+        "description": "以 LRC 格式匯入及匯出專案標籤。",
+        "fileFilter": "LRC 歌詞檔案",
+        "startPositionLabel": "起始位置",
+        "import": {
+            "title": "將 LRC 匯入為標籤",
+            "description": "將 LRC 檔案中帶有時間戳記的歌詞匯入為專案標籤。",
+            "openTitle": "開啟 LRC 歌詞檔案",
+            "failureTitle": "LRC 匯入失敗",
+            "invalidLine": "LRC 檔案的第 {{line}} 行包含無效項目。",
+            "noTimestampedLines": "LRC 檔案中沒有帶有時間戳記的行。"
+        },
+        "export": {
+            "title": "將標籤匯出為 LRC",
+            "description": "將專案標籤以帶有時間戳記的歌詞形式匯出至 LRC 檔案。",
+            "saveTitle": "儲存 LRC 歌詞檔案",
+            "noLabels": "專案中沒有可匯出的標籤。"
+        }
+    }
+}

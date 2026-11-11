@@ -3,7 +3,6 @@
         "title": "量化",
         "description": "量化所選歌聲剪輯中的音符或所選音符的起始位置和時長。",
         "selectionWarning": "請選取一個或多個包含音符的歌聲剪輯，或選取一個或多個音符。",
-        "formDescription": "選擇量化大小、節奏類型和需要量化的音符屬性。",
         "gridLabel": "量化大小",
         "rhythmLabel": "節奏類型",
         "modeLabel": "量化內容",

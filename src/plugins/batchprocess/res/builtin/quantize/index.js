@@ -87,7 +87,6 @@ module.exports = defineScript({
 
                 const result = dialogs.form({
                     title: t("quantize.title"),
-                    description: t("quantize.formDescription"),
                     fields: [
                         // TODO use editor's snap options as default value
                         {
@@ -146,58 +145,52 @@ module.exports = defineScript({
                 const changes = [];
                 transaction = document.beginTransaction();
 
-                try {
-                    for (const note of notes.values()) {
-                        const sequence = note.noteSequence;
-                        if (sequence === null) {
-                            transaction.abort();
-                            showSelectionWarning(project);
-                            return;
-                        }
-
-                        const clipStart = sequence.clip.start;
-                        let position = note.position;
-                        let length = note.length;
-
-                        if (quantizeStart) {
-                            const absoluteStart = clipStart + position;
-                            const snapped = snapToGrid(absoluteStart, grid, timeline);
-                            position = Math.max(0, snapped - clipStart);
-                        }
-
-                        if (quantizeLength) {
-                            length = Math.max(grid, roundToNearestMultiple(length, grid));
-                        }
-
-                        if (position !== note.position || length !== note.length) {
-                            changes.push({ note, position, length });
-                        }
-                    }
-
-                    if (changes.length === 0) {
+                for (const note of notes.values()) {
+                    const sequence = note.noteSequence;
+                    if (sequence === null) {
                         transaction.abort();
+                        showSelectionWarning(project);
                         return;
                     }
 
-                    for (const { note, position, length } of changes) {
-                        if (length < note.length) {
-                            note.length = length;
-                        }
-                        if (position !== note.position) {
-                            note.position = position;
-                        }
-                        if (length > note.length) {
-                            note.length = length;
-                        }
+                    const clipStart = sequence.clip.start;
+                    let position = note.position;
+                    let length = note.length;
+
+                    if (quantizeStart) {
+                        const absoluteStart = clipStart + position;
+                        const snapped = snapToGrid(absoluteStart, grid, timeline);
+                        position = Math.max(0, snapped - clipStart);
                     }
 
-                    transaction.commit(t("quantize.title"));
-                } catch (error) {
-                    if (transaction !== null && transaction.active) {
-                        transaction.abort();
+                    if (quantizeLength) {
+                        length = Math.max(grid, roundToNearestMultiple(length, grid));
                     }
-                    throw error;
+
+                    if (position !== note.position || length !== note.length) {
+                        changes.push({ note, position, length });
+                    }
                 }
+
+                if (changes.length === 0) {
+                    transaction.abort();
+                    return;
+                }
+
+                for (const { note, position, length } of changes) {
+                    if (length < note.length) {
+                        note.length = length;
+                    }
+                    if (position !== note.position) {
+                        note.position = position;
+                    }
+                    if (length > note.length) {
+                        note.length = length;
+                    }
+                }
+
+                transaction.commit(t("quantize.title"));
+
             }
         }
     ]

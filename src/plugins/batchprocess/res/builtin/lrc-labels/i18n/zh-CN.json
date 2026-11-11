@@ -1,0 +1,22 @@
+{
+    "lrcLabels": {
+        "title": "LRC 标签",
+        "description": "以 LRC 格式导入和导出工程标签。",
+        "fileFilter": "LRC 歌词文件",
+        "startPositionLabel": "起始位置",
+        "import": {
+            "title": "将 LRC 导入为标签",
+            "description": "将 LRC 文件中带时间戳的歌词导入为工程标签。",
+            "openTitle": "打开 LRC 歌词文件",
+            "failureTitle": "LRC 导入失败",
+            "invalidLine": "LRC 文件的第 {{line}} 行包含无效条目。",
+            "noTimestampedLines": "LRC 文件中没有带时间戳的行。"
+        },
+        "export": {
+            "title": "将标签导出为 LRC",
+            "description": "将工程标签作为带时间戳的歌词导出到 LRC 文件。",
+            "saveTitle": "保存 LRC 歌词文件",
+            "noLabels": "工程中没有可导出的标签。"
+        }
+    }
+}

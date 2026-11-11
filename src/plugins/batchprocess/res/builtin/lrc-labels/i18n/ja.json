@@ -1,0 +1,22 @@
+{
+    "lrcLabels": {
+        "title": "LRCラベル",
+        "description": "プロジェクトのラベルをLRC形式でインポートおよびエクスポートします。",
+        "fileFilter": "LRC歌詞ファイル",
+        "startPositionLabel": "開始位置",
+        "import": {
+            "title": "LRCをラベルとしてインポート",
+            "description": "LRCファイルのタイムスタンプ付き歌詞をプロジェクトのラベルとしてインポートします。",
+            "openTitle": "LRC歌詞ファイルを開く",
+            "failureTitle": "LRCのインポートに失敗しました",
+            "invalidLine": "LRCファイルの{{line}}行目に無効な項目があります。",
+            "noTimestampedLines": "LRCファイルにタイムスタンプ付きの行がありません。"
+        },
+        "export": {
+            "title": "ラベルをLRCにエクスポート",
+            "description": "プロジェクトのラベルをタイムスタンプ付きの歌詞としてLRCファイルにエクスポートします。",
+            "saveTitle": "LRC歌詞ファイルを保存",
+            "noLabels": "プロジェクトにエクスポートできるラベルがありません。"
+        }
+    }
+}

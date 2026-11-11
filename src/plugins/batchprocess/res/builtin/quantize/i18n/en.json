@@ -3,7 +3,6 @@
         "title": "Quantize",
         "description": "Quantizes the start positions and lengths of notes in the selected singing clips or the selected notes.",
         "selectionWarning": "Select one or more singing clips containing notes, or select one or more notes.",
-        "formDescription": "Choose the grid size, rhythm, and note properties to quantize.",
         "gridLabel": "Grid size",
         "rhythmLabel": "Rhythm",
         "modeLabel": "Apply to",

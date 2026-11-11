@@ -5,7 +5,6 @@
         "selectionWarning": "Select one or more singing clips containing notes, or select one or more notes.",
         "rangeWarningTitle": "Transposition Failed",
         "rangeWarning": "At least one note would be outside the valid key range from 0 through 127 after transposition.",
-        "formDescription": "Enter the number of semitones to shift each note. Use a negative value to transpose down.",
         "semitoneLabel": "Semitone"
     }
 }

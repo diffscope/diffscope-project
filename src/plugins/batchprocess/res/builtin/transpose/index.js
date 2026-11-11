@@ -60,7 +60,6 @@ module.exports = defineScript({
 
                 const result = dialogs.form({
                     title: t("transpose.title"),
-                    description: t("transpose.formDescription"),
                     fields: [
                         {
                             type: "integer",
@@ -83,32 +82,25 @@ module.exports = defineScript({
                 const semitone = result.semitone;
                 const transaction = document.beginTransaction();
 
-                try {
-                    if (semitone === 0) {
+                if (semitone === 0) {
+                    transaction.abort();
+                    return;
+                }
+
+                for (const note of notes.values()) {
+                    const keyNumber = note.keyNumber + semitone;
+                    if (keyNumber < 0 || keyNumber > 127) {
                         transaction.abort();
+                        showRangeWarning(project);
                         return;
                     }
-
-                    for (const note of notes.values()) {
-                        const keyNumber = note.keyNumber + semitone;
-                        if (keyNumber < 0 || keyNumber > 127) {
-                            transaction.abort();
-                            showRangeWarning(project);
-                            return;
-                        }
-                    }
-
-                    for (const note of notes.values()) {
-                        note.keyNumber = note.keyNumber + semitone;
-                    }
-
-                    transaction.commit(t("transpose.title"));
-                } catch (error) {
-                    if (transaction.active) {
-                        transaction.abort();
-                    }
-                    throw error;
                 }
+
+                for (const note of notes.values()) {
+                    note.keyNumber = note.keyNumber + semitone;
+                }
+
+                transaction.commit(t("transpose.title"));
             }
         }
     ]
