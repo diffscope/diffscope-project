@@ -154,21 +154,9 @@ namespace VisualEditor {
     }
 
     void ArrangementPanelInterfacePrivate::bindPositionAlignmentManipulator() const {
-        Q_Q(const ArrangementPanelInterface);
         positionAlignmentManipulator->setAutoDurationPositionAlignment(Internal::EditorPreference::autoDurationPositionAlignment());
         QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::autoDurationPositionAlignmentChanged, positionAlignmentManipulator, [=, this] {
             positionAlignmentManipulator->setAutoDurationPositionAlignment(Internal::EditorPreference::autoDurationPositionAlignment());
-        });
-        QObject::connect(q, &ArrangementPanelInterface::snapTemporarilyDisabledChanged, positionAlignmentManipulator, [=, this] {
-            if (isSnapTemporarilyDisabled) {
-                previousDuration = positionAlignmentManipulator->duration();
-                previousPositionAlignment = timeLayoutViewModel->positionAlignment();
-                positionAlignmentManipulator->setDuration(PositionAlignmentManipulator::Unset);
-                timeLayoutViewModel->setDisplayPositionAlignment(previousPositionAlignment);
-            } else {
-                positionAlignmentManipulator->setDuration(previousDuration);
-                timeLayoutViewModel->resetDisplayPositionAlignment();
-            }
         });
     }
 
@@ -448,6 +436,7 @@ namespace VisualEditor {
         Q_D(ArrangementPanelInterface);
         if (d->isSnapTemporarilyDisabled != disabled) {
             d->isSnapTemporarilyDisabled = disabled;
+            d->positionAlignmentManipulator->setTemporarilyDisabled(disabled);
             Q_EMIT snapTemporarilyDisabledChanged();
         }
     }

@@ -22,23 +22,13 @@ QtObject {
     readonly property Component mixerPanelComponent: ActionDockingPane {
         preferredSize: Qt.size(1152, 480)
 
-        function validateState(state) {
-            if (!state || typeof state !== "object" || Array.isArray(state)
-                || (state.tool !== undefined && (!Number.isInteger(state.tool) || state.tool < MixerPanelInterface.PointerTool || state.tool > MixerPanelInterface.HandTool)))
-                throw new Error(qsTr("The mixer panel state is invalid."))
-        }
-
         function loadState(state) {
-            if (!state)
-                return
-            if (state.tool !== undefined)
-                d.addOn.mixerPanelInterface.tool = state.tool
+            d.addOn.mixerPanelInterface.tool = state?.tool === MixerPanelInterface.HandTool
+                ? MixerPanelInterface.HandTool : MixerPanelInterface.PointerTool
         }
 
         function saveState() {
-            return {
-                tool: d.addOn?.mixerPanelInterface.tool,
-            }
+            return {tool: d.addOn.mixerPanelInterface.tool}
         }
 
         Docking.onActivated: d.scrollAddOn.activeEditingArea = 2

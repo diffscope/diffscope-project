@@ -63,9 +63,6 @@ namespace VisualEditor {
         int implicitNoteLength{480};
         QMetaObject::Connection currentNoteConnection;
 
-        mutable PositionAlignmentManipulator::Duration previousDuration{};
-        mutable int previousPositionAlignment{};
-
         void bindTimeViewModel() const;
         void bindTimeLayoutViewModel() const;
         void bindTimelineInteractionController() const;

@@ -25,6 +25,7 @@ namespace VisualEditor {
         PositionAlignmentManipulator::Duration duration;
         PositionAlignmentManipulator::Tuplet tuplet;
         int autoDurationPositionAlignment;
+        bool temporarilyDisabled{};
 
         void updatePositionAlignment();
         void connectTimeLayoutViewModel();

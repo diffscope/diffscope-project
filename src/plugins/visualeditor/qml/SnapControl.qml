@@ -40,10 +40,10 @@ Item {
             ]
             textRole: "text"
             valueRole: "data"
-            Component.onCompleted: currentIndex = Qt.binding(() => indexOfValue(control.positionAlignmentManipulator?.duration ?? 0))
-            onCurrentValueChanged: () => {
+            Component.onCompleted: currentIndex = Qt.binding(() => indexOfValue(control.positionAlignmentManipulator?.duration ?? PositionAlignmentManipulator.Auto))
+            onActivated: (index) => {
                 if (control.positionAlignmentManipulator) {
-                    control.positionAlignmentManipulator.duration = currentValue
+                    control.positionAlignmentManipulator.duration = valueAt(index)
                 }
             }
         }

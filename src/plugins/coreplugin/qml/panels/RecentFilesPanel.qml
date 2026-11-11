@@ -28,15 +28,8 @@ QtObject {
         badgeType: SVS.CT_Warning
         badgeNumber: d.isRecovery ? (d.addOn?.recoveryFileCount ?? 0) : 0
 
-        function validateState(state) {
-            if (!state || typeof state !== "object" || Array.isArray(state)
-                || (state.recentFilesIsListView !== undefined && typeof state.recentFilesIsListView !== "boolean"))
-                throw new Error(qsTr("The recent files panel state is invalid."))
-        }
-
         function loadState(state) {
-            if (state.recentFilesIsListView !== undefined)
-                recentFilesIsListView = state.recentFilesIsListView
+            recentFilesIsListView = state?.recentFilesIsListView === true
         }
 
         function saveState() {

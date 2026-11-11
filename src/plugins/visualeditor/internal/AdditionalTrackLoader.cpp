@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <utility>
 
 #include <QLoggingCategory>
 #include <QQmlComponent>
@@ -58,8 +59,6 @@ namespace VisualEditor::Internal {
     }
 
     void AdditionalTrackLoader::moveUp(const QString &id) {
-        if (m_prepared)
-            return;
         auto it = std::ranges::find_if(m_loaded, [&id](const auto &p) {
             return p.first == id;
         });
@@ -74,8 +73,6 @@ namespace VisualEditor::Internal {
     }
 
     void AdditionalTrackLoader::moveDown(const QString &id) {
-        if (m_prepared)
-            return;
         auto it = std::ranges::find_if(m_loaded, [&id](const auto &p) {
             return p.first == id;
         });
@@ -90,12 +87,10 @@ namespace VisualEditor::Internal {
     }
 
     void AdditionalTrackLoader::loadItem(const QString &id) {
-        if (m_prepared)
-            return;
         if (std::ranges::any_of(m_loaded, [&id](const auto &p) { return p.first == id; }))
             return;
 
-        QQuickItem *item = createItem(id);
+        QQuickItem *item = createItem(id, true);
         if (!item)
             return;
 
@@ -105,8 +100,6 @@ namespace VisualEditor::Internal {
     }
 
     void AdditionalTrackLoader::removeItem(const QString &id) {
-        if (m_prepared)
-            return;
         auto it = std::ranges::find_if(m_loaded, [&id](const auto &p) {
             return p.first == id;
         });
@@ -136,7 +129,7 @@ namespace VisualEditor::Internal {
         m_components = actions;
     }
 
-    QQuickItem *AdditionalTrackLoader::createItem(const QString &id) {
+    QQuickItem *AdditionalTrackLoader::createItem(const QString &id, bool reportErrors) {
         if (!m_contextObject)
             return nullptr;
         auto windowInterface = m_contextObject->property("windowHandle").value<Core::ProjectWindowInterface *>();
@@ -144,7 +137,8 @@ namespace VisualEditor::Internal {
             return nullptr;
         auto component = windowInterface->actionContext()->action(id);
         if (!component || !component->isReady()) {
-            qCWarning(lcAdditionalTrackLoader) << "Component" << id << "not found";
+            if (reportErrors)
+                qCWarning(lcAdditionalTrackLoader) << "Component" << id << "not found";
             return nullptr;
         }
         std::unique_ptr<QObject> object(component->createWithInitialProperties({
@@ -152,12 +146,14 @@ namespace VisualEditor::Internal {
                                                                                },
                                                                                component->creationContext()));
         if (!object) {
-            qCWarning(lcAdditionalTrackLoader) << "Failed to create component" << id << component->errorString();
+            if (reportErrors)
+                qCWarning(lcAdditionalTrackLoader) << "Failed to create component" << id << component->errorString();
             return nullptr;
         }
         windowInterface->actionContext()->attachActionInfo(id, object.get());
         if (!qobject_cast<QQuickItem *>(object.get())) {
-            qCWarning(lcAdditionalTrackLoader) << "Component" << id << "is not a QuickItem";
+            if (reportErrors)
+                qCWarning(lcAdditionalTrackLoader) << "Component" << id << "is not a QuickItem";
             return nullptr;
         }
         auto item = qobject_cast<QQuickItem *>(object.release());
@@ -172,10 +168,7 @@ namespace VisualEditor::Internal {
         return item;
     }
 
-    bool AdditionalTrackLoader::prepareItems(const QStringList &ids) {
-        if (m_prepared)
-            return false;
-
+    bool AdditionalTrackLoader::replaceItems(const QStringList &ids) {
         QSet<QString> unique;
         for (const auto &id : ids) {
             if (!m_components.contains(id) || unique.contains(id))
@@ -183,77 +176,36 @@ namespace VisualEditor::Internal {
             unique.insert(id);
         }
 
-        m_prepared = true;
-        m_originalLoaded = m_loaded;
+        decltype(m_loaded) replacement;
+        replacement.reserve(ids.size());
+        QList<QPointer<QQuickItem>> createdItems;
         for (const auto &id : ids) {
             auto it = std::ranges::find_if(m_loaded, [&](const auto &entry) { return entry.first == id && entry.second; });
-            bool existing = it != m_loaded.end();
-            QPointer<QQuickItem> item = existing ? it->second.data() : createItem(id);
-            if (!item) {
-                abortPreparedItems();
-                return false;
-            }
+            const bool existing = it != m_loaded.end();
+            QPointer<QQuickItem> item = existing ? it->second.data() : createItem(id, false);
+            if (!item)
+                break;
             if (!existing)
-                m_createdItems.append(item);
-            m_preparedLoaded.append({id, item});
+                createdItems.append(item);
+            replacement.append({id, item});
         }
-        return true;
-    }
-
-    bool AdditionalTrackLoader::commitPreparedItems() {
-        if (!m_prepared || m_committed)
+        if (replacement.size() != ids.size() || std::ranges::any_of(replacement, [](const auto &entry) { return entry.second.isNull(); })) {
+            for (const auto &item : createdItems)
+                if (item)
+                    item->deleteLater();
             return false;
-        if (std::ranges::any_of(m_preparedLoaded, [](const auto &entry) { return entry.second.isNull(); }))
-            return false;
-
-        bool changed = m_loaded != m_preparedLoaded;
-        m_loaded = m_preparedLoaded;
-        m_committed = true;
-        if (changed) {
-            Q_EMIT loadedComponentsChanged();
-            Q_EMIT loadedItemsChanged();
         }
-        return true;
-    }
+        if (m_loaded == replacement)
+            return true;
 
-    void AdditionalTrackLoader::finishPreparedItems() {
-        if (!m_prepared || !m_committed)
-            return;
-
-        for (const auto &entry : m_originalLoaded) {
-            if (!entry.second)
-                continue;
-            if (std::ranges::none_of(m_loaded, [&](const auto &current) { return current.second == entry.second; }))
-                entry.second->deleteLater();
-        }
-
-        m_originalLoaded.clear();
-        m_preparedLoaded.clear();
-        m_createdItems.clear();
-        m_prepared = false;
-        m_committed = false;
-    }
-
-    void AdditionalTrackLoader::abortPreparedItems() {
-        if (!m_prepared)
-            return;
-
-        bool changed = m_committed && m_loaded != m_originalLoaded;
-        if (m_committed)
-            m_loaded = m_originalLoaded;
-        for (auto item : m_createdItems)
-            if (item)
+        const auto previousItems = std::exchange(m_loaded, std::move(replacement));
+        for (const auto &[id, item] : previousItems)
+            if (item && !unique.contains(id))
                 item->deleteLater();
 
-        m_originalLoaded.clear();
-        m_preparedLoaded.clear();
-        m_createdItems.clear();
-        m_prepared = false;
-        m_committed = false;
-        if (changed) {
-            Q_EMIT loadedComponentsChanged();
-            Q_EMIT loadedItemsChanged();
-        }
+        Q_EMIT loadedComponentsChanged();
+        Q_EMIT loadedItemsChanged();
+        return true;
     }
 
 }

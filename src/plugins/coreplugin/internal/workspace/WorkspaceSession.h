@@ -9,7 +9,7 @@
 #include <QHash>
 #include <QObject>
 #include <QPointer>
-#include <QVariantList>
+#include <QVariantMap>
 
 #include <coreplugin/internal/ProjectWindowWorkspaceLayout.h>
 
@@ -62,6 +62,7 @@ namespace Core {
             SVS::DockingPanel *ensurePanel(const QString &id);
             void ensureContent(SVS::DockingPanel *panel, bool placeholder, std::function<void(bool)> completion);
             void floatRequest(SVS::DockingRequest *request);
+            QQuickWindow *floatingWindowForPanel(const SVS::DockingPanel *panel) const;
             SVS::DockingHost *createFloatingHost(const QVariantMap &spec, bool deferRegistration = false);
             void restoreWindowGeometry(QQuickWindow *window, const QVariantMap &spec);
             void disposeFloatingHosts();
@@ -72,6 +73,7 @@ namespace Core {
             QHash<QString, QPointer<QQuickItem>> m_contents;
             QHash<QString, QList<std::function<void(bool)>>> m_pending;
             QHash<SVS::DockingHost *, QPointer<QQuickWindow>> m_floatingWindows;
+            QVariantMap m_panelFloatingGeometries;
             QVariantMap m_panelStates;
             ProjectWindowWorkspaceLayout m_pendingLayout;
             bool m_busy = false;

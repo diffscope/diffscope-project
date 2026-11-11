@@ -135,53 +135,16 @@ namespace Core::Internal {
         completion(item, error);
     }
 
-    bool WorkspacePanelLoader::invokeStateMethod(QQuickItem *item, const QString &method, const QVariant &state, bool withState, QString *error) {
-        if (!item || (withState && !state.isValid()))
-            return true;
+    void WorkspacePanelLoader::loadState(QQuickItem *item, const QVariant &state) {
+        if (!item)
+            return;
         auto engine = RuntimeInterface::qmlEngine();
         auto object = engine->newQObject(item);
-        auto function = object.property(method);
+        auto function = object.property("loadState");
         if (!function.isCallable())
-            return true;
+            return;
 
-        auto result = function.callWithInstance(object, withState ? QJSValueList{stateToScriptValue(engine, state)} : QJSValueList{});
-        if (!result.isError() && !(result.isBool() && !result.toBool()))
-            return true;
-        if (error)
-            *error = item->property("panelKey").toString() + " [" + method + "]: " + (result.isError() ? result.toString() : tr("The panel rejected the workspace state in %1.").arg(method));
-        return false;
-    }
-
-    bool WorkspacePanelLoader::validateState(QQuickItem *item, const QVariant &state, QString *error) {
-        return invokeStateMethod(item, "validateState", state, true, error);
-    }
-
-    bool WorkspacePanelLoader::prepareState(QQuickItem *item, const QVariant &state, QString *error) {
-        return invokeStateMethod(item, "prepareState", state, true, error);
-    }
-
-    bool WorkspacePanelLoader::applyState(QQuickItem *item, const QVariant &state, QString *error) {
-        return invokeStateMethod(item, "loadState", state, true, error);
-    }
-
-    bool WorkspacePanelLoader::finishState(QQuickItem *item, QString *error) {
-        return invokeStateMethod(item, "finishState", {}, false, error);
-    }
-
-    bool WorkspacePanelLoader::abortState(QQuickItem *item, QString *error) {
-        return invokeStateMethod(item, "abortState", {}, false, error);
-    }
-
-    bool WorkspacePanelLoader::loadState(QQuickItem *item, const QVariant &state, QString *error) {
-        if (!validateState(item, state, error))
-            return false;
-        if (!prepareState(item, state, error) || !applyState(item, state, error)) {
-            QString abortError;
-            if (!abortState(item, &abortError) && error)
-                *error += '\n' + abortError;
-            return false;
-        }
-        return finishState(item, error);
+        function.callWithInstance(object, {state.isValid() ? stateToScriptValue(engine, state) : QJSValue(QJSValue::UndefinedValue)});
     }
 
     QVariant WorkspacePanelLoader::saveState(QQuickItem *item, QString *error) {

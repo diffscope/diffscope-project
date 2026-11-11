@@ -90,8 +90,8 @@ HomeWindow {
                 homeWindow.panelsModel.insert(index, object)
                 const key = homeWindow.panelKey(object, index)
                 const stateData = homeWindow.panelStateCache.find(o => o.id === key.id && o.occurrence === key.occurrence)
-                if (stateData && object.loadState)
-                    object.loadState(stateData.state)
+                if (object.loadState)
+                    object.loadState(stateData?.state)
                 Qt.callLater(homeWindow.finishPanelUpdate)
             }
             onObjectRemoved: (index, object) => {
@@ -157,16 +157,8 @@ HomeWindow {
     }
 
     onClosing: () => {
-        let a = []
-        for (let i = 0; i < homeWindow.panelsModel.count; i++) {
-            let pane = homeWindow.panelsModel.get(i)
-            let state = pane.saveState ? pane.saveState() : null
-            a.push({
-                id: pane.ActionInstantiator.id,
-                occurrence: homeWindow.panelKey(pane, i).occurrence,
-                state
-            })
-        }
-        stateSettings.setValue("panelData", a)
+        for (let i = 0; i < homeWindow.panelsModel.count; ++i)
+            homeWindow.savePanelState(homeWindow.panelsModel.get(i), i)
+        stateSettings.setValue("panelData", homeWindow.panelStateCache)
     }
 }

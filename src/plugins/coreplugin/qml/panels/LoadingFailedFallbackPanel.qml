@@ -24,15 +24,6 @@ DockingPane {
     icon.source: "image://fluent-system-icons/error_circle"
     icon.color: Theme.errorColor
 
-    property var state
-    function loadState(s) {
-        state = s
-    }
-
-    function saveState() {
-        return state
-    }
-
     ColumnLayout {
         anchors.top: parent.top
         anchors.left: parent.left

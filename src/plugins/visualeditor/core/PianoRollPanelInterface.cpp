@@ -138,21 +138,9 @@ namespace VisualEditor {
     }
 
     void PianoRollPanelInterfacePrivate::bindPositionAlignmentManipulator() const {
-        Q_Q(const PianoRollPanelInterface);
         positionAlignmentManipulator->setAutoDurationPositionAlignment(Internal::EditorPreference::autoDurationPositionAlignment());
         QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::autoDurationPositionAlignmentChanged, positionAlignmentManipulator, [=, this] {
             positionAlignmentManipulator->setAutoDurationPositionAlignment(Internal::EditorPreference::autoDurationPositionAlignment());
-        });
-        QObject::connect(q, &PianoRollPanelInterface::snapTemporarilyDisabledChanged, positionAlignmentManipulator, [=, this] {
-            if (isSnapTemporarilyDisabled) {
-                previousDuration = positionAlignmentManipulator->duration();
-                previousPositionAlignment = timeLayoutViewModel->positionAlignment();
-                positionAlignmentManipulator->setDuration(PositionAlignmentManipulator::Unset);
-                timeLayoutViewModel->setDisplayPositionAlignment(previousPositionAlignment);
-            } else {
-                positionAlignmentManipulator->setDuration(previousDuration);
-                timeLayoutViewModel->resetDisplayPositionAlignment();
-            }
         });
     }
 
@@ -739,6 +727,7 @@ namespace VisualEditor {
         Q_D(PianoRollPanelInterface);
         if (d->isSnapTemporarilyDisabled != disabled) {
             d->isSnapTemporarilyDisabled = disabled;
+            d->positionAlignmentManipulator->setTemporarilyDisabled(disabled);
             Q_EMIT snapTemporarilyDisabledChanged();
         }
     }

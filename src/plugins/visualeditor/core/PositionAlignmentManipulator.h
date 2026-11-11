@@ -48,6 +48,7 @@ namespace VisualEditor {
         Q_ENUM(Duration)
         Duration duration() const;
         void setDuration(Duration duration);
+        void setTemporarilyDisabled(bool disabled);
 
         enum Tuplet {
             None = 2,

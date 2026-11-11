@@ -43,7 +43,7 @@ namespace VisualEditor {
         Q_D(PositionAlignmentManipulator);
         d->q_ptr = this;
         d->timeLayoutViewModel = nullptr;
-        d->duration = Note8th;
+        d->duration = Auto;
         d->tuplet = None;
         d->autoDurationPositionAlignment = 48;
     }
@@ -60,6 +60,10 @@ namespace VisualEditor {
         if (d->timeLayoutViewModel == timeLayoutViewModel)
             return;
 
+        if (d->timeLayoutViewModel && d->temporarilyDisabled) {
+            d->timeLayoutViewModel->setPositionAlignment(d->timeLayoutViewModel->displayPositionAlignment());
+            d->timeLayoutViewModel->resetDisplayPositionAlignment();
+        }
         // Disconnect old connections
         d->disconnectTimeLayoutViewModel();
 
@@ -87,6 +91,17 @@ namespace VisualEditor {
         d->duration = duration;
         d->updatePositionAlignment();
         Q_EMIT durationChanged();
+    }
+
+    void PositionAlignmentManipulator::setTemporarilyDisabled(bool disabled) {
+        Q_D(PositionAlignmentManipulator);
+        if (d->temporarilyDisabled == disabled)
+            return;
+
+        d->temporarilyDisabled = disabled;
+        d->updatePositionAlignment();
+        if (!disabled && d->timeLayoutViewModel)
+            d->timeLayoutViewModel->resetDisplayPositionAlignment();
     }
 
     PositionAlignmentManipulator::Tuplet PositionAlignmentManipulator::tuplet() const {
@@ -144,7 +159,12 @@ namespace VisualEditor {
             }
         }
 
-        timeLayoutViewModel->setPositionAlignment(newAlignment);
+        if (temporarilyDisabled) {
+            timeLayoutViewModel->setPositionAlignment(1);
+            timeLayoutViewModel->setDisplayPositionAlignment(newAlignment);
+        } else {
+            timeLayoutViewModel->setPositionAlignment(newAlignment);
+        }
     }
 
     void PositionAlignmentManipulatorPrivate::connectTimeLayoutViewModel() {

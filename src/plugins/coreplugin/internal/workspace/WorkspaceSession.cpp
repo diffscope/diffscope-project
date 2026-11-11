@@ -16,6 +16,7 @@
 #include <QScreen>
 #include <QSet>
 #include <QTimer>
+#include <QVariantList>
 
 #include <CoreApi/executiveinterface.h>
 #include <CoreApi/runtimeinterface.h>
@@ -32,6 +33,14 @@
 #include <coreplugin/internal/WorkspacePanelLoader.h>
 
 namespace Core::Internal {
+    static QVariantMap floatingWindowGeometry(const QQuickWindow *window) {
+        auto normalGeometry = window->windowState() == Qt::WindowNoState ? window->geometry() : window->property("savedNormalGeometry").toRect();
+        if (!normalGeometry.isValid())
+            normalGeometry = window->geometry();
+        const auto windowState = window->windowStates().testFlag(Qt::WindowMaximized) ? Qt::WindowMaximized : Qt::WindowNoState;
+        return {{"normalGeometry", normalGeometry}, {"windowState", int(windowState)}, {"screenName", window->screen() ? window->screen()->name() : QString{}}};
+    }
+
     WorkspaceSession::WorkspaceSession(ProjectWindowInterface *window, QObject *parent)
         : QObject(parent), m_window(window), m_context(new SVS::DockingContext(this)), m_embeddedHost(new SVS::DockingHost(this)), m_loader(new WorkspacePanelLoader(window, this)) {
         m_embeddedHost->setHostId("main");
@@ -109,6 +118,12 @@ namespace Core::Internal {
         auto p = new SVS::DockingPanel(this);
         p->setKey(id);
         p->setTitle(id);
+        connect(p, &SVS::DockingPanel::placementChanged, this, [this, p, previousWindow = QPointer<QQuickWindow>{}]() mutable {
+            auto window = floatingWindowForPanel(p);
+            if (previousWindow && previousWindow.data() != window)
+                m_panelFloatingGeometries.insert(p->key(), floatingWindowGeometry(previousWindow));
+            previousWindow = window;
+        });
         m_context->registerPanel(p);
         return p;
     }
@@ -128,18 +143,11 @@ namespace Core::Internal {
         m_loader->load(panel, placeholder, [this, id](QQuickItem *item, const QString &error) {
             if (m_shuttingDown)
                 return;
-            if (item && !m_busy && m_panelStates.contains(id)) {
-                QString stateError;
-                if (!WorkspacePanelLoader::loadState(item, m_panelStates.value(id), &stateError)) {
-                    if (auto panel = m_context->panel(id))
-                        panel->setContentItem(nullptr);
-                    item->deleteLater();
-                    item = nullptr;
-                    Q_EMIT errorOccurred(stateError);
-                }
-            }
-            if (item)
+            if (item) {
                 m_contents.insert(id, item);
+                if (!m_busy)
+                    WorkspacePanelLoader::loadState(item, m_panelStates.value(id));
+            }
             if (!error.isEmpty())
                 Q_EMIT errorOccurred(error);
 
@@ -188,8 +196,10 @@ namespace Core::Internal {
 
             QList<SVS::DockingHost *> preparedHosts;
             QList<SVS::DockingHost *> targetHosts;
+            const auto floatingHosts = state.value("floatingHosts").toList();
+            const auto activePanelId = state.value("activePanelId").toString();
             if (*success) {
-                for (const auto &value : state.value("floatingHosts").toList()) {
+                for (const auto &value : floatingHosts) {
                     auto host = m_context->host(value.toMap().value("hostId").toString());
                     if (!host) {
                         host = createFloatingHost(value.toMap(), true);
@@ -197,127 +207,59 @@ namespace Core::Internal {
                     }
                     targetHosts.append(host);
                 }
+                for (auto host : preparedHosts)
+                    host->setContext(m_context);
+
+                QVariantMap roots;
+                for (auto host : m_context->hosts())
+                    roots.insert(host->hostId(), QVariantMap{});
+                roots.insert(m_embeddedHost->hostId(), state.value("mainRoot"));
+                for (const auto &value : floatingHosts) {
+                    const auto spec = value.toMap();
+                    roots.insert(spec.value("hostId").toString(), spec.value("root"));
+                }
+                if (!m_context->restoreLayouts(roots, activePanelId).accepted()) {
+                    Q_EMIT errorOccurred(tr("The workspace layout could not be restored."));
+                    *success = false;
+                }
             }
 
             if (*success) {
-                QVariantMap previousStates;
-                for (auto p : m_context->panelObjects()) {
-                    auto panel = p.value<SVS::DockingPanel *>();
-                    if (!panel || !panel->contentItem())
-                        continue;
-                    QString error;
-                    previousStates.insert(panel->key(), WorkspacePanelLoader::saveState(panel->contentItem(), &error));
-                    if (!error.isEmpty()) {
-                        Q_EMIT errorOccurred(error);
-                        *success = false;
-                    }
-                }
-                auto panelStates = state.value("panelStates").toMap();
-                QList<QPointer<QQuickItem>> preparedItems;
-                bool statesApplied = false;
+                m_panelFloatingGeometries.clear();
+                const auto savedGeometries = state.value("panelFloatingGeometries").toMap();
+                for (auto it = savedGeometries.cbegin(); it != savedGeometries.cend(); ++it)
+                    if (it.value().toMap().value("normalGeometry").toRect().isValid())
+                        m_panelFloatingGeometries.insert(it.key(), it.value());
 
-                for (auto it = panelStates.cbegin(); it != panelStates.cend() && *success; ++it) {
-                    auto panel = m_context->panel(it.key());
-                    QString error;
-                    if (panel && !WorkspacePanelLoader::validateState(panel->contentItem(), it.value(), &error)) {
-                        Q_EMIT errorOccurred(error);
-                        *success = false;
-                    }
-                }
+                m_panelStates = state.value("panelStates").toMap();
+                for (auto it = m_contents.cbegin(); it != m_contents.cend(); ++it)
+                    WorkspacePanelLoader::loadState(it.value(), m_panelStates.value(it.key()));
 
-                for (auto it = panelStates.cbegin(); it != panelStates.cend() && *success; ++it) {
-                    auto panel = m_context->panel(it.key());
-                    if (!panel || !panel->contentItem() || !it.value().isValid())
-                        continue;
-                    auto item = panel->contentItem();
-                    preparedItems.append(item);
-                    QString error;
-                    if (!WorkspacePanelLoader::prepareState(item, it.value(), &error)) {
-                        Q_EMIT errorOccurred(error);
-                        *success = false;
-                    }
-                }
-
-                for (auto it = panelStates.cbegin(); it != panelStates.cend() && *success; ++it) {
-                    auto panel = m_context->panel(it.key());
-                    QString error;
-                    statesApplied = true;
-                    if (panel && !WorkspacePanelLoader::applyState(panel->contentItem(), it.value(), &error)) {
-                        Q_EMIT errorOccurred(error);
-                        *success = false;
-                    }
-                }
-
-                if (*success) {
-                    for (auto host : preparedHosts)
-                        host->setContext(m_context);
-
-                    QVariantMap roots;
-                    for (auto host : m_context->hosts())
-                        roots.insert(host->hostId(), QVariantMap{});
-                    roots.insert(m_embeddedHost->hostId(), state.value("mainRoot"));
-                    for (const auto &value : state.value("floatingHosts").toList()) {
-                        const auto spec = value.toMap();
-                        roots.insert(spec.value("hostId").toString(), spec.value("root"));
-                    }
-                    if (!m_context->restoreLayouts(roots, state.value("activePanelId").toString()).accepted()) {
-                        Q_EMIT errorOccurred(tr("The workspace layout could not be restored."));
-                        *success = false;
-                    }
-                }
-
-                if (!*success) {
-                    for (auto item : preparedItems) {
-                        QString error;
-                        WorkspacePanelLoader::abortState(item, &error);
-                        if (!error.isEmpty())
-                            Q_EMIT errorOccurred(error);
-                    }
-
-                    for (auto it = previousStates.cbegin(); statesApplied && it != previousStates.cend(); ++it) {
-                        QString error;
-                        if (auto panel = m_context->panel(it.key()))
-                            WorkspacePanelLoader::loadState(panel->contentItem(), it.value(), &error);
-                        if (!error.isEmpty())
-                            Q_EMIT errorOccurred(error);
-                    }
-                } else {
-                    m_panelStates = panelStates;
-                    for (auto host : m_context->hosts())
-                        if (host != m_embeddedHost && !targetHosts.contains(host)) {
-                            if (auto window = m_floatingWindows.take(host)) {
-                                window->hide();
-                                window->deleteLater();
-                            }
-                            m_context->unregisterHost(host, true);
-                            host->deleteLater();
+                for (auto host : m_context->hosts())
+                    if (host != m_embeddedHost && !targetHosts.contains(host)) {
+                        if (auto window = m_floatingWindows.take(host)) {
+                            window->hide();
+                            window->deleteLater();
                         }
-                    auto values = state.value("floatingHosts").toList();
-                    for (int i = 0; i < targetHosts.size(); ++i) {
-                        auto spec = values[i].toMap();
-                        if (auto window = m_floatingWindows.value(targetHosts[i])) {
-                            restoreWindowGeometry(window, spec);
-                            window->show();
-                        }
+                        m_context->unregisterHost(host, true);
+                        host->deleteLater();
                     }
-                    auto active = m_context->panel(state.value("activePanelId").toString());
-                    if (active && active->isShown())
-                        m_context->activate(active);
-
-                    for (auto item : preparedItems) {
-                        QString error;
-                        WorkspacePanelLoader::finishState(item, &error);
-                        if (!error.isEmpty())
-                            Q_EMIT errorOccurred(error);
+                for (qsizetype i = 0; i < targetHosts.size(); ++i) {
+                    if (auto window = m_floatingWindows.value(targetHosts[i])) {
+                        restoreWindowGeometry(window, floatingHosts[i].toMap());
+                        window->setVisible(true);
                     }
                 }
-            }
-            if (!*success)
+                auto active = m_context->panel(activePanelId);
+                if (active && active->isShown())
+                    m_context->activate(active);
+            } else {
                 for (auto host : preparedHosts) {
                     if (auto window = m_floatingWindows.take(host))
                         delete window;
                     delete host;
                 }
+            }
             m_busy = false;
             if (!m_ready) {
                 m_ready = true;
@@ -342,6 +284,11 @@ namespace Core::Internal {
                 if (--*remaining == 0)
                     finish();
             });
+    }
+
+    QQuickWindow *WorkspaceSession::floatingWindowForPanel(const SVS::DockingPanel *panel) const {
+        const auto group = panel->group();
+        return group ? m_floatingWindows.value(group->layout()->host()).data() : nullptr;
     }
 
     SVS::DockingHost *WorkspaceSession::createFloatingHost(const QVariantMap &spec, bool deferRegistration) {
@@ -434,13 +381,18 @@ namespace Core::Internal {
                 return;
             }
             auto panel = guard->panel();
-            auto hint = panel->effectivePreferredSize().expandedTo(panel->minimumSize());
-            QVariantMap spec{{"normalGeometry", QRect(m_window->window()->position() + QPoint(40, 40), QSize(std::max(400, int(hint.width())), std::max(300, int(hint.height()) + 64)))}};
+            auto spec = m_panelFloatingGeometries.value(panel->key()).toMap();
+            if (auto window = floatingWindowForPanel(panel))
+                spec = floatingWindowGeometry(window);
+            if (!spec.value("normalGeometry").toRect().isValid()) {
+                auto hint = panel->effectivePreferredSize().expandedTo(panel->minimumSize());
+                spec.insert("normalGeometry", QRect(m_window->window()->position() + QPoint(40, 40), QSize(std::max(400, int(hint.width())), std::max(300, int(hint.height()) + 64))));
+            }
             auto host = createFloatingHost(spec);
             auto result = guard->accept(host);
             if (result.accepted()) {
                 if (auto window = m_floatingWindows.value(host))
-                    window->show();
+                    window->setVisible(true);
             } else {
                 host->close();
                 Q_EMIT errorOccurred(tr("The panel could not be moved to a floating window."));
@@ -460,20 +412,28 @@ namespace Core::Internal {
                 Q_EMIT const_cast<WorkspaceSession *>(this)->errorOccurred(error);
         }
         QVariantList floats;
+        auto floatingGeometries = m_panelFloatingGeometries;
         for (auto host : m_context->hosts())
             if (host != m_embeddedHost && !host->isEmpty()) {
                 auto window = m_floatingWindows.value(host);
                 if (!window)
                     continue;
-                auto normal = window->windowState() == Qt::WindowNoState ? window->geometry() : window->property("savedNormalGeometry").toRect();
-                if (!normal.isValid())
-                    normal = window->geometry();
-                floats.append(QVariantMap{{"hostId", host->hostId()}, {"root", host->layout()->save()}, {"normalGeometry", normal}, {"windowState", int(window->windowState())}, {"screenName", window->screen() ? window->screen()->name() : QString{}}, {"savedAvailableGeometry", window->screen() ? window->screen()->availableGeometry() : QRect{}}});
+                const auto geometry = floatingWindowGeometry(window);
+                for (auto group : host->layout()->groups())
+                    for (auto side : {SVS::DockingGroup::Leading, SVS::DockingGroup::Trailing})
+                        for (auto panel : group->panels(side))
+                            floatingGeometries.insert(panel->key(), geometry);
+
+                auto spec = geometry;
+                spec.insert("hostId", host->hostId());
+                spec.insert("root", host->layout()->save());
+                spec.insert("savedAvailableGeometry", window->screen() ? window->screen()->availableGeometry() : QRect{});
+                floats.append(spec);
             }
 
         ProjectWindowWorkspaceLayout layout;
         layout.setName(name);
-        layout.setState({{"mainRoot", m_embeddedHost->layout()->save()}, {"floatingHosts", floats}, {"panelStates", states}, {"activePanelId", m_context->activePanel() ? m_context->activePanel()->key() : QString{}}});
+        layout.setState({{"mainRoot", m_embeddedHost->layout()->save()}, {"floatingHosts", floats}, {"panelFloatingGeometries", floatingGeometries}, {"panelStates", states}, {"activePanelId", m_context->activePanel() ? m_context->activePanel()->key() : QString{}}});
         return layout;
     }
 

@@ -20,74 +20,76 @@ QtObject {
     required property QtObject addOn
     required property QtObject scrollAddOn
 
+    property var initialState
+    Component.onCompleted: initialState = snapshot()
+
+    function snapshot() {
+        const pianoRollPanelInterface = addOn.pianoRollPanelInterface
+        const splitView = pianoRollPanelInterface.pianoRollView.noteAreaSplitView
+        const bottomPanelHeights = []
+        for (let i = 1; i < splitView.count; ++i) {
+            const height = splitView.itemAt(i).SplitView.preferredHeight
+            bottomPanelHeights.push(height >= 0 ? height : null)
+        }
+        return {
+            tool: pianoRollPanelInterface.tool,
+            duration: pianoRollPanelInterface.positionAlignmentManipulator.duration,
+            tuplet: pianoRollPanelInterface.positionAlignmentManipulator.tuplet,
+            isAutoPageScrollingEnabled: pianoRollPanelInterface.autoPageScrollingManipulator.enabled,
+            scaleHighlightEnabled: pianoRollPanelInterface.scaleHighlightEnabled,
+            additionalTracks: Array.from(addOn.additionalTrackLoader.loadedComponents),
+            bottomAdditionalTracks: Array.from(addOn.bottomAdditionalTrackLoader.loadedComponents),
+            bottomPanelHeights: bottomPanelHeights
+        }
+    }
+
     readonly property Component pianoRollPanelComponent: ActionDockingPane {
         id: pane
         preferredSize: Qt.size(1152, 480)
 
-        function validateState(state) {
+        function loadState(state) {
+            const initial = d.initialState
+            state = state ?? {}
             const durations = [PositionAlignmentManipulator.Auto, PositionAlignmentManipulator.Unset, PositionAlignmentManipulator.Note1st, PositionAlignmentManipulator.Note2nd, PositionAlignmentManipulator.Note4th, PositionAlignmentManipulator.Note8th, PositionAlignmentManipulator.Note16th, PositionAlignmentManipulator.Note32nd, PositionAlignmentManipulator.Note64th, PositionAlignmentManipulator.Note128th]
             const tuplets = [PositionAlignmentManipulator.None, PositionAlignmentManipulator.Triplet, PositionAlignmentManipulator.Quintuplet]
-            const validTracks = ids => Array.isArray(ids) && !ids.some((id, index) => typeof id !== "string" || !id.length || ids.indexOf(id) !== index)
-            if (!state || typeof state !== "object" || Array.isArray(state)
+            const validTracks = ids => Array.isArray(ids) && ids.every(id => typeof id === "string")
+            const heights = state.bottomPanelHeights
+            if (typeof state !== "object" || Array.isArray(state)
                 || (state.tool !== undefined && (!Number.isInteger(state.tool) || state.tool < PianoRollPanelInterface.PointerTool || state.tool > PianoRollPanelInterface.PitchAnchorSelectTool))
                 || (state.duration !== undefined && !durations.includes(state.duration))
                 || (state.tuplet !== undefined && !tuplets.includes(state.tuplet))
                 || (state.isAutoPageScrollingEnabled !== undefined && typeof state.isAutoPageScrollingEnabled !== "boolean")
                 || (state.scaleHighlightEnabled !== undefined && typeof state.scaleHighlightEnabled !== "boolean")
                 || (state.additionalTracks !== undefined && !validTracks(state.additionalTracks))
-                || (state.bottomAdditionalTracks !== undefined && !validTracks(state.bottomAdditionalTracks)))
-                throw new Error(qsTr("The piano roll panel state is invalid."))
-        }
+                || (state.bottomAdditionalTracks !== undefined && !validTracks(state.bottomAdditionalTracks))
+                || (heights !== undefined && (!Array.isArray(heights)
+                    || heights.length !== (state.bottomAdditionalTracks ?? initial.bottomAdditionalTracks).length
+                    || !heights.every(height => height === null || (Number.isFinite(height) && height >= 0)))))
+                state = initial
 
-        function prepareState(state) {
-            if (!d.addOn.additionalTrackLoader.prepareItems(state.additionalTracks ?? d.addOn.additionalTrackLoader.loadedComponents)
-                || !d.addOn.bottomAdditionalTrackLoader.prepareItems(state.bottomAdditionalTracks ?? d.addOn.bottomAdditionalTrackLoader.loadedComponents))
-                throw new Error(qsTr("The piano roll panel tracks could not be prepared."))
-        }
+            const loader = d.addOn.additionalTrackLoader
+            const bottomLoader = d.addOn.bottomAdditionalTrackLoader
+            if (!loader.replaceItems(state.additionalTracks ?? initial.additionalTracks)
+                || !bottomLoader.replaceItems(state.bottomAdditionalTracks ?? initial.bottomAdditionalTracks)) {
+                state = initial
+                loader.replaceItems(initial.additionalTracks)
+                bottomLoader.replaceItems(initial.bottomAdditionalTracks)
+            }
 
-        function finishState() {
-            d.addOn.additionalTrackLoader.finishPreparedItems()
-            d.addOn.bottomAdditionalTrackLoader.finishPreparedItems()
-        }
+            const pianoRollPanelInterface = d.addOn.pianoRollPanelInterface
+            pianoRollPanelInterface.tool = state.tool ?? initial.tool
+            pianoRollPanelInterface.positionAlignmentManipulator.duration = state.duration ?? initial.duration
+            pianoRollPanelInterface.positionAlignmentManipulator.tuplet = state.tuplet ?? initial.tuplet
+            pianoRollPanelInterface.autoPageScrollingManipulator.enabled = state.isAutoPageScrollingEnabled ?? initial.isAutoPageScrollingEnabled
+            pianoRollPanelInterface.scaleHighlightEnabled = state.scaleHighlightEnabled ?? initial.scaleHighlightEnabled
 
-        function abortState() {
-            d.addOn.additionalTrackLoader.abortPreparedItems()
-            d.addOn.bottomAdditionalTrackLoader.abortPreparedItems()
-        }
-
-        function loadState(state) {
-            if (!d.addOn.additionalTrackLoader.commitPreparedItems()
-                || !d.addOn.bottomAdditionalTrackLoader.commitPreparedItems())
-                throw new Error(qsTr("The piano roll panel tracks could not be restored."))
-            let pianoRollPanelInterface = addOn.pianoRollPanelInterface
-            if (state.tool !== undefined)
-                pianoRollPanelInterface.tool = state.tool
-            if (state.duration !== undefined)
-                pianoRollPanelInterface.positionAlignmentManipulator.duration = state.duration
-            if (state.tuplet !== undefined)
-                pianoRollPanelInterface.positionAlignmentManipulator.tuplet = state.tuplet
-            if (state.isAutoPageScrollingEnabled !== undefined)
-                pianoRollPanelInterface.autoPageScrollingManipulator.enabled = state.isAutoPageScrollingEnabled
-            if (state.scaleHighlightEnabled !== undefined)
-                pianoRollPanelInterface.scaleHighlightEnabled = state.scaleHighlightEnabled
-            if (state.noteAreaSplitViewState !== undefined)
-                if (!pianoRollPanelInterface.pianoRollView.noteAreaSplitView.restoreState(state.noteAreaSplitViewState))
-                    throw new Error(qsTr("The piano roll split view state is invalid."))
+            const splitView = pianoRollPanelInterface.pianoRollView.noteAreaSplitView
+            for (let i = 1; i < splitView.count; ++i)
+                splitView.itemAt(i).SplitView.preferredHeight = state.bottomPanelHeights?.[i - 1] ?? undefined
         }
 
         function saveState() {
-            let pianoRollPanelInterface = addOn.pianoRollPanelInterface
-
-            return {
-                tool: pianoRollPanelInterface.tool,
-                duration: pianoRollPanelInterface.positionAlignmentManipulator.duration,
-                tuplet: pianoRollPanelInterface.positionAlignmentManipulator.tuplet,
-                isAutoPageScrollingEnabled: pianoRollPanelInterface.autoPageScrollingManipulator.enabled,
-                scaleHighlightEnabled: pianoRollPanelInterface.scaleHighlightEnabled,
-                additionalTracks: d.addOn.additionalTrackLoader.loadedComponents,
-                bottomAdditionalTracks: d.addOn.bottomAdditionalTrackLoader.loadedComponents,
-                noteAreaSplitViewState: pianoRollPanelInterface.pianoRollView.noteAreaSplitView.saveState()
-            }
+            return d.snapshot()
         }
 
         Component {

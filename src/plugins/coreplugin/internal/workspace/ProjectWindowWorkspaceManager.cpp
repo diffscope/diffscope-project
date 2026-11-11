@@ -103,6 +103,7 @@ namespace Core::Internal {
         layout.setState({
             {"mainRoot", root.toVariant()},
             {"floatingHosts", QVariantList{}},
+            {"panelFloatingGeometries", QVariantMap{}},
             {"panelStates", QVariantMap{}},
             {"activePanelId", "org.diffscope.visualeditor.panel.arrangement"}
         });

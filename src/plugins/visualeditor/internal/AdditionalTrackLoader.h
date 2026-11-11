@@ -38,10 +38,7 @@ namespace VisualEditor::Internal {
         Q_INVOKABLE void moveDown(const QString &id);
         Q_INVOKABLE void loadItem(const QString &id);
         Q_INVOKABLE void removeItem(const QString &id);
-        Q_INVOKABLE bool prepareItems(const QStringList &ids);
-        Q_INVOKABLE bool commitPreparedItems();
-        Q_INVOKABLE void finishPreparedItems();
-        Q_INVOKABLE void abortPreparedItems();
+        Q_INVOKABLE bool replaceItems(const QStringList &ids);
 
         Q_INVOKABLE static QString componentName(const QString &id);
         Q_INVOKABLE static QUrl componentIcon(const QString &id);
@@ -52,18 +49,13 @@ namespace VisualEditor::Internal {
 
     private:
         void updateComponentIdList();
-        QQuickItem *createItem(const QString &id);
+        QQuickItem *createItem(const QString &id, bool reportErrors);
 
     private:
         QStringList m_components;
         QString m_categoryId;
         QPointer<QObject> m_contextObject;
         QList<QPair<QString, QPointer<QQuickItem>>> m_loaded;
-        QList<QPair<QString, QPointer<QQuickItem>>> m_originalLoaded;
-        QList<QPair<QString, QPointer<QQuickItem>>> m_preparedLoaded;
-        QList<QPointer<QQuickItem>> m_createdItems;
-        bool m_prepared = false;
-        bool m_committed = false;
     };
 
 }

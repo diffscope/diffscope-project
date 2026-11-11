@@ -28,16 +28,10 @@ namespace Core {
             explicit WorkspacePanelLoader(ProjectWindowInterface *window, QObject *parent = nullptr);
             void load(SVS::DockingPanel *panel, bool placeholder, Completion completion);
             void cancel();
-            static bool validateState(QQuickItem *item, const QVariant &state, QString *error);
-            static bool prepareState(QQuickItem *item, const QVariant &state, QString *error);
-            static bool applyState(QQuickItem *item, const QVariant &state, QString *error);
-            static bool finishState(QQuickItem *item, QString *error);
-            static bool abortState(QQuickItem *item, QString *error);
-            static bool loadState(QQuickItem *item, const QVariant &state, QString *error);
+            static void loadState(QQuickItem *item, const QVariant &state);
             static QVariant saveState(QQuickItem *item, QString *error);
 
         private:
-            static bool invokeStateMethod(QQuickItem *item, const QString &method, const QVariant &state, bool withState, QString *error);
             void create(QQmlComponent *component, SVS::DockingPanel *panel, bool placeholder, Completion completion);
             ProjectWindowInterface *m_window;
             bool m_cancelled = false;
