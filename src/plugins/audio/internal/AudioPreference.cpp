@@ -41,7 +41,7 @@ namespace Audio::Internal {
         d->playbackBehavior = settings->value("playbackBehavior", QVariant::fromValue(PB_ReturnToStart)).value<PlayheadBehavior>();
         d->playbackTogglingAction = settings->value("playbackTogglingAction", QVariant::fromValue(PTA_PlayStop)).value<PlaybackTogglingAction>();
         d->audioExporterClippingCheckEnabled = settings->value("audioExporterClippingCheckEnabled", true).toBool();
-        d->audioExporterEnableAdvancedOptions = settings->value("audioExporterEnableAdvancedOptions", true).toBool();
+        d->audioExporterEnableAdvancedOptions = settings->value("audioExporterEnableAdvancedOptions", false).toBool();
         d->audioExporterUseTemporaryFile = settings->value("audioExporterUseTemporaryFile", true).toBool();
         d->shouldPlayNotificationSoundWhenExportCompleted = settings->value("shouldPlayNotificationSoundWhenExportCompleted", true).toBool();
         emit playbackBehaviorChanged();

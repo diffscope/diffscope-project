@@ -25,16 +25,42 @@ Window {
     property int trackSelectionRevision: 0
 
     readonly property bool isMacOS: Qt.platform.os === "osx" || Qt.platform.os === "macos"
+    readonly property int modeWidth: AudioPreference.audioExporterEnableAdvancedOptions ? 800 : 480
+    property int appliedModeWidth: 0
 
-    width: AudioPreference.audioExporterEnableAdvancedOptions ? 800 : 480
-    minimumHeight: windowLayout.implicitHeight
-    height: Math.max(minimumHeight, windowLayout.implicitHeight)
     flags: Qt.Dialog | Qt.CustomizeWindowHint | Qt.WindowTitleHint | Qt.WindowSystemMenuHint | Qt.WindowCloseButtonHint
     modality: Qt.WindowModal
     title: qsTr("Export Audio")
 
     signal finished()
     onClosing: finished()
+    onModeWidthChanged: Qt.callLater(dialog.resizeToContent)
+
+    function resizeToContent() {
+        const modeChanged = modeWidth !== appliedModeWidth
+        const targetWidth = modeChanged ? modeWidth : width
+        if (modeChanged) {
+            mainLayout.ensurePolished()
+            windowLayout.ensurePolished()
+        }
+        const targetHeight = Math.ceil(windowLayout.implicitHeight)
+        if (!modeChanged && targetHeight === minimumHeight)
+            return
+        appliedModeWidth = modeWidth
+
+        // A higher minimum height can resize the window at its current position.
+        if (targetHeight < minimumHeight)
+            minimumHeight = targetHeight
+        if (visible) {
+            const targetX = x + Math.floor(width / 2) - Math.floor(targetWidth / 2)
+            const targetY = y + Math.floor(height / 2) - Math.floor(targetHeight / 2)
+            dialog.setGeometry(targetX, targetY, targetWidth, targetHeight)
+        } else {
+            width = targetWidth
+            height = targetHeight
+        }
+        minimumHeight = targetHeight
+    }
 
     function numberFromText(text) {
         return Number.fromLocaleString(Qt.locale(), text)
@@ -80,6 +106,8 @@ Window {
 
     Component.onCompleted: () => {
         sampleRateCombo.editText = AudioExporterPresets.currentConfig.formatSampleRate.toLocaleString()
+        width = modeWidth
+        resizeToContent()
     }
 
     component AssistantButton: IconImage {
@@ -220,6 +248,8 @@ Window {
         id: windowLayout
         anchors.fill: parent
         spacing: 0
+        onImplicitHeightChanged: Qt.callLater(dialog.resizeToContent)
+
         Rectangle {
             color: Theme.backgroundPrimaryColor
             Layout.fillWidth: true
