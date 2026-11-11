@@ -21,7 +21,7 @@ Item {
     }
     function confirmRestore() {
         if (MessageBox.question(qsTr("Restore Shortcuts"), qsTr("Restore all shortcuts in this preset to their defaults?"),
-                                SVSCraft.Yes | SVSCraft.No, SVSCraft.No) === SVSCraft.Yes)
+                                SVS.Yes | SVS.No, SVS.No) === SVS.Yes)
             pageHandle.restoreAll()
     }
 
@@ -87,7 +87,7 @@ Item {
                 enabled: page.pageHandle.currentPresetId.length > 0
                 onClicked: {
                     if (page.MessageBox.question(qsTr("Delete Preset"), qsTr('Delete preset "%1"?').arg(presetCombo.currentText),
-                                                 SVSCraft.Yes | SVSCraft.No, SVSCraft.No) === SVSCraft.Yes)
+                                                 SVS.Yes | SVS.No, SVS.No) === SVS.Yes)
                         page.pageHandle.deletePreset()
                 }
             }

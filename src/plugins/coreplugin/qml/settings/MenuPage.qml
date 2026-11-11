@@ -27,7 +27,7 @@ Item {
         const text = all
             ? qsTr("Restore all menu and toolbar layouts to their defaults?")
             : qsTr("Restore the selected item to its defaults?")
-        if (MessageBox.question(qsTr("Restore Layout"), text, SVSCraft.Yes | SVSCraft.No, SVSCraft.No) === SVSCraft.Yes) {
+        if (MessageBox.question(qsTr("Restore Layout"), text, SVS.Yes | SVS.No, SVS.No) === SVS.Yes) {
             if (all)
                 pageHandle.restoreAll()
             else
