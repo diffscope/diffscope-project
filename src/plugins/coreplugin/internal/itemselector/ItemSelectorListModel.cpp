@@ -180,19 +180,20 @@ namespace Core::Internal {
         }
 
         QString languageName(const QString &languageCode) const {
+            const auto language = languageCode.isEmpty() && m_clip ? m_clip->defaultLanguage() : languageCode;
             const auto firstPath = firstLeafPath(m_clipProvider->singerTree(), QString{});
             auto *provider = m_providers.value(firstPath);
             if (!provider) {
-                return languageCode.isEmpty() ? tr("Not available") : tr("Custom (%1)").arg(languageCode);
+                return language.isEmpty() ? tr("Not available") : tr("Custom (%1)").arg(language);
             }
 
             const auto options = provider->languageOptions();
             for (const auto &option : options) {
                 const auto values = option.toMap();
-                if (values.value(QStringLiteral("value")).toString() == languageCode)
+                if (values.value(QStringLiteral("value")).toString() == language)
                     return values.value(QStringLiteral("text")).toString();
             }
-            return tr("Custom (%1)").arg(languageCode);
+            return tr("Custom (%1)").arg(language);
         }
 
         QStringList dynamicSingerNames() const {
@@ -299,6 +300,9 @@ namespace Core::Internal {
                             refreshAll({Qt::DisplayRole});
                         });
                 if (clip) {
+                    connect(clip, &dspx::SingingClip::defaultLanguageChanged, this, [this] {
+                        refreshAll(rolesIncludingDescription());
+                    });
                     connect(clip, &dspx::Clip::startChanged, this, [this] {
                         refreshAll({Qt::DisplayRole});
                     });

@@ -170,7 +170,9 @@ namespace Synth::Internal::ProjectInput {
             std::optional<int> syllableSliceEnd;
         };
 
-        QList<NoteText> noteTexts(const QList<dspx::Note *> &notes, const QString &defaultLanguage) {
+        QList<NoteText> noteTexts(const QList<dspx::Note *> &notes, const dspx::SingingClip *clip, const QString &singerDefaultLanguage) {
+            const auto clipDefaultLanguage = clip->defaultLanguage();
+            const auto &defaultLanguage = clipDefaultLanguage.isEmpty() ? singerDefaultLanguage : clipDefaultLanguage;
             QList<NoteText> result;
             qsizetype previousSyllableIndex = -1;
             for (auto note : notes) {
@@ -414,7 +416,7 @@ namespace Synth::Internal::ProjectInput {
         for (auto note : clip->notes()->asRange())
             allNotes.append(note);
         std::sort(allNotes.begin(), allNotes.end(), [](auto left, auto right) { return left->position() < right->position(); });
-        const auto allTexts = noteTexts(allNotes, pipeline.defaultLanguage);
+        const auto allTexts = noteTexts(allNotes, clip, pipeline.defaultLanguage);
         QList<dspx::Note *> notes;
         QList<NoteText> texts;
         for (qsizetype index = 0; index < allNotes.size(); ++index) {
@@ -561,7 +563,7 @@ namespace Synth::Internal::ProjectInput {
         for (auto note : clip->notes()->asRange())
             notes.append(note);
         std::sort(notes.begin(), notes.end(), [](auto left, auto right) { return left->position() < right->position(); });
-        const auto texts = noteTexts(notes, pipeline.defaultLanguage);
+        const auto texts = noteTexts(notes, clip, pipeline.defaultLanguage);
         const double pieceEnd = piecePosition + pieceLength;
         for (qsizetype index = 0; index < notes.size(); ++index) {
             const auto note = notes.at(index);

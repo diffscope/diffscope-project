@@ -20,7 +20,16 @@ PropertyEditorGroupBox {
     required property QtObject propertyMapper
     readonly property var singingClip: propertyMapper?.singingClip ?? null
     readonly property string firstLeafSingerId: findFirstLeafSingerId(clipSingerIdProvider.singerTree)
-    readonly property var languageOptions: singerInfoProvider.languageOptions
+    readonly property var languageOptions: {
+        const options = singerInfoProvider.languageOptions
+        const defaultLanguage = singingClip?.defaultLanguage ?? ""
+        if (defaultLanguage === "")
+            return options
+
+        const option = options.find(option => option.value === defaultLanguage)
+        const text = qsTr("Default language (%1)").arg(option?.text ?? defaultLanguage)
+        return options.map(entry => entry.value === "" ? { text, value: entry.value } : entry)
+    }
     title: qsTr("Lyric and Pronunciation")
 
     function findFirstLeafSingerId(singerTree) {

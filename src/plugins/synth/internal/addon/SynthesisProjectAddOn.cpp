@@ -477,6 +477,7 @@ namespace Synth::Internal {
         runtime->watcher->setSingingClip(clip);
         runtime->divider->update();
         runtime->synthesisContextSnapshot = buildSynthesisContext(clip);
+        runtime->defaultLanguageSnapshot = clip->defaultLanguage();
         m_clips.insert(runtime->clipHandle, runtime);
         watchClipLifetime(runtime);
         synchronizePieces(runtime);
@@ -2309,8 +2310,11 @@ namespace Synth::Internal {
             const bool audioTrackChanged = runtime->audioSeries &&
                                            runtime->audioTrackContext != (track ? Audio::TrackAudioContext::of(track) : nullptr);
             const auto currentContext = buildSynthesisContext(runtime->clip);
-            const bool synthesisContextChanged = currentContext != runtime->synthesisContextSnapshot;
+            const auto currentDefaultLanguage = runtime->clip->defaultLanguage();
+            const bool synthesisContextChanged = currentContext != runtime->synthesisContextSnapshot ||
+                                                 currentDefaultLanguage != runtime->defaultLanguageSnapshot;
             runtime->synthesisContextSnapshot = currentContext;
+            runtime->defaultLanguageSnapshot = currentDefaultLanguage;
             const auto change = runtime->watcher->takeChanges();
             if (!rebound && !audioTrackChanged &&
                 !synthesisContextChanged && change.isEmpty() && !globalCentShiftChanged)

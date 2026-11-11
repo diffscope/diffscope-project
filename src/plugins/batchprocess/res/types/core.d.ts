@@ -758,7 +758,7 @@ declare module "diffscope:core" {
 
     export interface SingingClip extends ClipBase<DSPX.SingingClip> {
         readonly kind: "singing";
-        /** Defines the language used by the editor for new notes. Defaults to an empty string. */
+        /** Defines the default language for the clip. An empty string uses the singer's default language or the first registered language. */
         defaultLanguage: string;
         readonly notes: NoteSequence;
         readonly parameters: ParameterMap;
@@ -843,7 +843,7 @@ declare module "diffscope:core" {
         centShift: number;
         /** The MIDI key number is an integer from 0 through 127. */
         keyNumber: number;
-        /** An empty string delegates default-language resolution to the synthesis workflow. */
+        /** An empty string uses the clip's default language for synthesis. */
         language: string;
         length: Tick;
         lyric: string;

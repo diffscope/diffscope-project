@@ -72,8 +72,10 @@ namespace DspxProject {
                 }
                 changed = true;
                 if (!languages.isEmpty() && !hasUnsupportedLanguage) {
-                    hasUnsupportedLanguage = std::ranges::any_of(clip->notes()->asRange(), [&languages](const dspx::Note *note) {
-                        const auto language = note->language();
+                    const auto defaultLanguage = clip->defaultLanguage();
+                    hasUnsupportedLanguage = std::ranges::any_of(clip->notes()->asRange(), [&languages, &defaultLanguage](const dspx::Note *note) {
+                        const auto noteLanguage = note->language();
+                        const auto &language = noteLanguage.isEmpty() ? defaultLanguage : noteLanguage;
                         return !language.isEmpty() && !languages.contains(language);
                     });
                 }

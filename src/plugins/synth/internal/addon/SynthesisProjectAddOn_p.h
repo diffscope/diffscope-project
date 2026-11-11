@@ -60,6 +60,7 @@ namespace Synth::Internal {
         talcs::FutureAudioSourceClipSeries *audioSeries{};
         QList<LanguageContinuation> languageContinuations;
         std::optional<SynthesisContext> synthesisContextSnapshot;
+        QString defaultLanguageSnapshot;
         bool rebound{};
     };
 

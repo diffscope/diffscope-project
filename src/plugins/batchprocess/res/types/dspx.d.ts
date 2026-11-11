@@ -143,7 +143,7 @@ declare module "diffscope:dspx" {
         keyNum: number;
         /** The shift is an integer from -50 through 50, in cents. */
         centShift: number;
-        /** An empty language identifier permits singer-specific language resolution. */
+        /** In DiffScope, an empty language identifier uses the clip's default language for synthesis. */
         language: string;
         lyric: string;
         pronunciation: Pronunciation;

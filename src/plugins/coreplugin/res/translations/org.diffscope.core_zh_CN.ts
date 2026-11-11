@@ -6347,6 +6347,11 @@ Do you want to continue opening it?</source>
 <context>
     <name>NoteLyricPropertyEditor</name>
     <message>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="30"/>
+        <source>Default language (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="24"/>
         <source>Lyric and Pronunciation</source>
         <translation>歌词与发音</translation>
