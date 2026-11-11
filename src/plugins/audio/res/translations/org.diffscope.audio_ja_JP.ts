@@ -1091,38 +1091,38 @@ To: %3</source>
 <context>
     <name>AudioExportDialog</name>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="34"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="33"/>
         <source>Export Audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="109"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="137"/>
         <source>Save Preset As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="117"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="145"/>
         <source>Preset name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="128"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="156"/>
         <source>The preset with the same name will be overwritten.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="136"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="164"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="157"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="664"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="185"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="694"/>
         <source>Dry Run</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="169"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="197"/>
         <source>%Ln %1 file(s)
 Duration: %2
 Estimated size of each file: %3</source>
@@ -1131,298 +1131,298 @@ Estimated size of each file: %3</source>
         </translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="185"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="213"/>
         <source>File List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="196"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="261"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="420"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="224"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="291"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="450"/>
         <source>WAV</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="196"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="421"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="224"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="451"/>
         <source>FLAC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="262"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="292"/>
         <source>Ogg Vorbis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="196"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="423"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="224"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="453"/>
         <source>MP3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="196"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="422"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="224"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="452"/>
         <source>Ogg Container</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="203"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="231"/>
         <source>N/A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="238"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="268"/>
         <source>Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="249"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="343"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="279"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="373"/>
         <source>&amp;Browse...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="255"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="408"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="285"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="438"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="274"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="304"/>
         <source>Sample Rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="280"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="281"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="310"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="311"/>
         <source>%L1 Hz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="295"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="325"/>
         <source>Export using mono</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="302"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="332"/>
         <source>Separate tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="313"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="343"/>
         <source>Preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="326"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="356"/>
         <source>Save &amp;As...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="330"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="360"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="338"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="368"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="352"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="382"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="356"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="386"/>
         <source>Templates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="361"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="391"/>
         <source>Project name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="365"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="395"/>
         <source>Track name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="370"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="400"/>
         <source>Track number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="390"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="420"/>
         <source>Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="392"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="422"/>
         <source>(Project directory)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="416"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="446"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="432"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="462"/>
         <source>Option</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="446"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="476"/>
         <source>Channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="449"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="479"/>
         <source>Stereo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="450"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="480"/>
         <source>Mono</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="458"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="488"/>
         <source>Sample rate (Hz)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="479"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="509"/>
         <source>Quality (%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="506"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="536"/>
         <source>Mixer</source>
         <translation type="unfinished">Mixer</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="515"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="545"/>
         <source>Mixing option</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="518"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="548"/>
         <source>Mixed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="519"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="549"/>
         <source>Separated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="520"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="550"/>
         <source>Separated (through master track)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="528"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="558"/>
         <source>Source</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="531"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="561"/>
         <source>All tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="532"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="562"/>
         <source>Selected tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="533"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="617"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="563"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="647"/>
         <source>Custom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="541"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="571"/>
         <source>Mute/Solo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="544"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="556"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="574"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="586"/>
         <source>Enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="545"/>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="557"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="575"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="587"/>
         <source>Bypass</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="553"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="583"/>
         <source>Effects</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="582"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="612"/>
         <source>%L1: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="602"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="632"/>
         <source>Time Range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="607"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="637"/>
         <source>Whole project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="612"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="642"/>
         <source>Loop section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="658"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="688"/>
         <source>Action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="669"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="699"/>
         <source>Keep this dialog open after successful export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="687"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="717"/>
         <source>Simple Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="687"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="717"/>
         <source>Advanced Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="694"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="724"/>
         <source>Warnings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="701"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="731"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="707"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="737"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="707"/>
+        <location filename="../../qml/dialogs/AudioExportDialog.qml" line="737"/>
         <source>Continue to export?</source>
         <translation type="unfinished"></translation>
     </message>

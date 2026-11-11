@@ -2797,8 +2797,8 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
     <message>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="111"/>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="248"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="882"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="905"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="883"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="906"/>
         <source>The synthesis piece is no longer available</source>
         <translation type="unfinished">The synthesis piece is no longer available</translation>
     </message>
@@ -2844,111 +2844,111 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">Synthesized audio for the synthesis piece could not be repositioned</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="948"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="955"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="949"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="956"/>
         <source>Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="974"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="975"/>
         <source>Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="994"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="995"/>
         <source>Audio synthesis could not be started for clip &quot;%1&quot;</source>
         <translation type="unfinished">Audio synthesis could not be started for clip &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1009"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1010"/>
         <source>Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</source>
         <translation type="unfinished">Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1015"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1016"/>
         <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</source>
         <translation type="unfinished">Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1027"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1028"/>
         <source>Unknown synthesis error</source>
         <translation type="unfinished">Unknown synthesis error</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1029"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1030"/>
         <source>Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</source>
         <translation type="unfinished">Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1073"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1074"/>
         <source>Synthesis failed</source>
         <translation type="unfinished">Synthesis failed</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1249"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1250"/>
         <source>The clip has no valid singer source</source>
         <translation type="unfinished">The clip has no valid singer source</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1344"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1455"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1345"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1456"/>
         <source>The synthesis task could not be queued</source>
         <translation type="unfinished">The synthesis task could not be queued</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1425"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1426"/>
         <source>No healthy service can synthesize this synthesis piece</source>
         <translation type="unfinished">No healthy service can synthesize this synthesis piece</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1678"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1679"/>
         <source>Resynthesize</source>
         <translation type="unfinished">Resynthesize</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1679"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1680"/>
         <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</source>
         <translation type="unfinished">The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1927"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1928"/>
         <source>The pronunciation result does not match the requested score</source>
         <translation type="unfinished">The pronunciation result does not match the requested score</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1929"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1930"/>
         <source>The phoneme result does not match the requested score</source>
         <translation type="unfinished">The phoneme result does not match the requested score</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1931"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1932"/>
         <source>The duration result does not match the score for the requested synthesis piece</source>
         <translation type="unfinished">The duration result does not match the score for the requested synthesis piece</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2157"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2158"/>
         <source>Synthesis was canceled</source>
         <translation type="unfinished">Synthesis was canceled</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1255"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1256"/>
         <source>No healthy service supports the singers selected for this clip</source>
         <translation type="unfinished">No healthy service supports the singers selected for this clip</translation>
     </message>
     <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="446"/>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="448"/>
         <source>A slur note must immediately follow another note</source>
         <translation type="unfinished">A slur note must immediately follow another note</translation>
     </message>
     <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="434"/>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="436"/>
         <source>Some notes overlap. Move or resize the overlapping notes before synthesizing</source>
         <translation type="unfinished">Some notes overlap. Move or resize the overlapping notes before synthesizing</translation>
     </message>
     <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="402"/>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="404"/>
         <source>The synthesis piece is no longer attached to a valid clip</source>
         <translation type="unfinished">The synthesis piece is no longer attached to a valid clip</translation>
     </message>

@@ -24,22 +24,21 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="604"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="494"/>
         <source>File</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="605"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="495"/>
         <source>Project</source>
         <translation>工程</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="606"/>
         <source>Edit</source>
-        <translation>编辑</translation>
+        <translation type="vanished">编辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="607"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="496"/>
         <source>Panel</source>
         <translation>面板</translation>
     </message>
@@ -47,17 +46,17 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="610"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="499"/>
         <source>Choose a file format to import as a new project.</source>
         <translation type="unfinished">选择文件格式并将其导入为新工程。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="611"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="500"/>
         <source>Choose a file format for exporting the current project.</source>
         <translation type="unfinished">选择用于导出当前工程的文件格式。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="612"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="501"/>
         <source>Choose a file format to add tracks to the current project.</source>
         <translation type="unfinished">选择文件格式以向当前工程添加轨道。</translation>
     </message>
@@ -65,12 +64,12 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="590"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="482"/>
         <source>&amp;Import</source>
         <translation>导入(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="591"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="483"/>
         <source>&amp;Export</source>
         <translation>导出(&amp;E)</translation>
     </message>
@@ -79,47 +78,45 @@
         <translation type="vanished">导入为轨道...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="589"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="481"/>
         <source>Main Menu</source>
         <translation type="unfinished">主菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="592"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="484"/>
         <source>Import Tracks from File</source>
         <translation type="unfinished">从文件导入轨道</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="593"/>
         <source>Copy Special...</source>
-        <translation>选择性复制...</translation>
+        <translation type="vanished">选择性复制...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="594"/>
         <source>Paste Special...</source>
-        <translation>选择性粘贴...</translation>
+        <translation type="vanished">选择性粘贴...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="595"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="485"/>
         <source>Import</source>
         <translation>导入</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="596"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="486"/>
         <source>Import Export Actions</source>
         <translation>导入导出操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="597"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="487"/>
         <source>Import Actions</source>
         <translation>导入操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="598"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="488"/>
         <source>Import Tracks Actions</source>
         <translation type="unfinished">导入轨道操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="599"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/importexportmanager/res/qak_org.diffscope.importexportmanager_actions.cpp" line="489"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished">工作区面板小部件</translation>
     </message>

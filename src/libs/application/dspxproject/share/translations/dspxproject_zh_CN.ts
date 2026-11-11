@@ -4,97 +4,97 @@
 <context>
     <name>DspxProject::ClipboardEditScenario</name>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="147"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="146"/>
         <source>Pasting tempo</source>
         <translation>粘贴曲速</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="149"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="148"/>
         <source>Pasting label</source>
         <translation>粘贴标签</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="151"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="150"/>
         <source>Pasting key signature</source>
         <translation>粘贴调号</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="153"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="152"/>
         <source>Pasting track</source>
         <translation>粘贴轨道</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="155"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="154"/>
         <source>Pasting clip</source>
         <translation>粘贴剪辑</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="157"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="156"/>
         <source>Pasting note</source>
         <translation>粘贴音符</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="159"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="158"/>
         <source>Pasting voice blending anchor</source>
         <translation type="unfinished">粘贴声线融合锚点</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="161"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="160"/>
         <source>Pasting anchor node</source>
         <translation type="unfinished">粘贴锚点</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="163"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="162"/>
         <source>Pasting parameter data</source>
         <translation type="unfinished">粘贴参数数据</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="171"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="170"/>
         <source>Deleting parameter data</source>
         <translation type="unfinished">删除参数数据</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="173"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="172"/>
         <source>Deleting tempo</source>
         <translation>删除曲速</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="175"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="174"/>
         <source>Deleting label</source>
         <translation>删除标签</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="177"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="176"/>
         <source>Deleting key signature</source>
         <translation>删除调号</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="179"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="178"/>
         <source>Deleting track</source>
         <translation>删除轨道</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="181"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="180"/>
         <source>Deleting clip</source>
         <translation>删除剪辑</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="183"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="182"/>
         <source>Deleting note</source>
         <translation>删除音符</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="185"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="184"/>
         <source>Deleting anchor node</source>
         <translation>删除锚点</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="187"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="186"/>
         <source>Deleting voice blending anchor</source>
         <translation type="unfinished">删除声线融合锚点</translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="189"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="188"/>
         <source>Deleting selection</source>
         <translation>删除选区</translation>
     </message>

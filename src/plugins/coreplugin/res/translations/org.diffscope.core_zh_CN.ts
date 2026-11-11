@@ -3467,105 +3467,105 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::ItemSelectorListModel</name>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="537"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="541"/>
         <source>Tracks</source>
         <translation type="unfinished">轨道</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="539"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="543"/>
         <source>Labels</source>
         <translation type="unfinished">标签</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="541"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="545"/>
         <source>Tempos</source>
         <translation type="unfinished">曲速</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="543"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="547"/>
         <source>Key Signatures</source>
         <translation type="unfinished">调号</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="545"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="549"/>
         <source>Clips</source>
         <translation type="unfinished">剪辑</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="547"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="551"/>
         <source>Notes</source>
         <translation type="unfinished">音符</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="549"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="553"/>
         <source>Parameters</source>
         <translation type="unfinished">参数</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="551"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="555"/>
         <source>Voice Blending</source>
         <translation type="unfinished">声线融合</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="553"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="557"/>
         <source>Freeform Edited</source>
         <translation type="unfinished">自由曲线编辑</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="555"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="559"/>
         <source>Freeform Transform</source>
         <translation type="unfinished">自由曲线变换</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="557"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="561"/>
         <source>Anchor Edited</source>
         <translation type="unfinished">锚点编辑</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="559"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="563"/>
         <source>Anchor Transform</source>
         <translation type="unfinished">锚点变换</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="562"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="566"/>
         <source>%L1. %2</source>
         <translation type="unfinished">%L1. %2</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="566"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="570"/>
         <source>Audio</source>
         <translation type="unfinished">音频</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="566"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="570"/>
         <source>Singing</source>
         <translation type="unfinished">歌声</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="567"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="571"/>
         <source>%1: %2</source>
         <translation type="unfinished">%1：%2</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="579"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="599"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="583"/>
         <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="603"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="607"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="588"/>
         <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="592"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="596"/>
         <source>Position %1</source>
         <translation type="unfinished">位置 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="598"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="602"/>
         <source>%L1 BPM</source>
         <translation type="unfinished">%L1 BPM</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="614"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="618"/>
         <source>Clip Count: %L1
 Color: %L2
 View Height: %L3
@@ -3582,7 +3582,7 @@ Solo: %7</source>
 独奏：%7</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="624"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="628"/>
         <source>Position: %1
 Starting Offset: %2
 Clip Length: %3</source>
@@ -3591,26 +3591,26 @@ Clip Length: %3</source>
 剪辑长度：%3</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="629"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="633"/>
         <source>
 Virtual Singer: %1</source>
         <translation type="unfinished">
 虚拟歌手：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="629"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="633"/>
         <source>No singer</source>
         <translation type="unfinished">无歌手</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="632"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="636"/>
         <source>
 File: %1</source>
         <translation type="unfinished">
 文件：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="642"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="646"/>
         <source>Onset Position (Relative to Clip): %1
 Duration: %2
 Language: %3
@@ -3623,7 +3623,7 @@ Pronunciation (Edited): %5</source>
 发音（编辑）：%5</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="648"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="652"/>
         <source>Parameter ID: %1
 Edited Anchor Count: %L2
 Transform Anchor Count: %L3</source>
@@ -3632,34 +3632,34 @@ Transform Anchor Count: %L3</source>
 变换锚点数量：%L3</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="659"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="663"/>
         <source>Value: %1
 Interpolation: %2</source>
         <translation type="unfinished">值：%1
 插值：%2</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="678"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="682"/>
         <source>%1: %L2%</source>
         <translation type="unfinished">%1：%L2%</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="684"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="688"/>
         <source>Position: %1</source>
         <translation type="unfinished">位置：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="693"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="697"/>
         <source>Flat</source>
         <translation type="unfinished">降号</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="694"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="698"/>
         <source>Sharp</source>
         <translation type="unfinished">升号</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="695"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="699"/>
         <source>Position: %1
 Tonality: %2
 Mode: %3
@@ -4074,29 +4074,29 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
     </message>
     <message>
         <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="177"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="260"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="261"/>
         <source>Mixed singer (%1)</source>
         <translation type="unfinished">混合歌手（%1）</translation>
     </message>
     <message>
         <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="177"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="260"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="261"/>
         <source>, </source>
         <translation type="unfinished">，</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="186"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="187"/>
         <source>Not available</source>
         <translation type="unfinished">不可用</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="186"/>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="195"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="187"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="196"/>
         <source>Custom (%1)</source>
         <translation type="unfinished">自定义（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="207"/>
+        <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="208"/>
         <source>Mixed singer</source>
         <translation type="unfinished">混合歌手</translation>
     </message>
@@ -4375,30 +4375,29 @@ Continue?</source>
         <translation type="unfinished">面板组件必须提供 DockingPane。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="151"/>
         <source>The panel rejected the workspace state in %1.</source>
-        <translation type="unfinished">面板拒绝了 %1 中的工作区状态。</translation>
+        <translation type="obsolete">面板拒绝了 %1 中的工作区状态。</translation>
     </message>
 </context>
 <context>
     <name>Core::Internal::WorkspaceSession</name>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="62"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="71"/>
         <source>The panel could not be placed in the selected location.</source>
         <translation type="unfinished">无法将面板放置在所选位置。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="156"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="164"/>
         <source>The workspace layout is invalid.</source>
         <translation type="unfinished">工作区布局无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="264"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="222"/>
         <source>The workspace layout could not be restored.</source>
         <translation type="unfinished">无法恢复工作区布局。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="446"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="398"/>
         <source>The panel could not be moved to a floating window.</source>
         <translation type="unfinished">无法将面板移动至浮动窗口。</translation>
     </message>
@@ -4833,94 +4832,94 @@ Do you want to continue opening it?</source>
         <translation type="obsolete">%1 [%2, %3)</translation>
     </message>
     <message>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="201"/>
         <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="203"/>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="205"/>
         <source>Toggling mute</source>
         <translation type="unfinished">切换静音</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="218"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="216"/>
         <source>Toggling solo</source>
         <translation type="unfinished">切换独奏</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="285"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="283"/>
         <source>Pitch</source>
         <translation type="unfinished">音高</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="287"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="285"/>
         <source>%1 Transform</source>
         <translation type="unfinished">%1 变换</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="290"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="288"/>
         <source>%1 (%2 - %3)</source>
         <translation type="unfinished">%1（%2 - %3）</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="297"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="295"/>
         <source>No selection</source>
         <translation>未选择</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="299"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="297"/>
         <source>%Ln parameter anchor(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln 个参数锚点</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="301"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="299"/>
         <source>%Ln clip(s)</source>
         <translation>
             <numerusform>%Ln 个剪辑</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="303"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="301"/>
         <source>%Ln label(s)</source>
         <translation>
             <numerusform>%Ln 个标签</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="305"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="303"/>
         <source>%Ln note(s)</source>
         <translation>
             <numerusform>%Ln 个音符</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="307"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="305"/>
         <source>%Ln tempo(s)</source>
         <translation>
             <numerusform>%Ln 个曲速</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="309"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="307"/>
         <source>%Ln track(s)</source>
         <translation>
             <numerusform>%Ln 个轨道</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="311"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="309"/>
         <source>%Ln key signature(s)</source>
         <translation>
             <numerusform>%Ln 个调号</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="313"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="311"/>
         <source>%Ln voice blending anchor(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln 个声线融合锚点</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="323"/>
+        <location filename="../../qml/actions/EditActionsAddOnActions.qml" line="321"/>
         <source> (%Ln selected)</source>
         <translation>
             <numerusform>（已选择 %Ln 个）</numerusform>
@@ -5811,27 +5810,27 @@ Do you want to continue opening it?</source>
 <context>
     <name>LoadingFailedFallbackPanel</name>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="43"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="34"/>
         <source>Failed to load component</source>
         <translation>组件加载失败</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="53"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="44"/>
         <source>This component cannot be loaded because it is not registered to the application. The plugin providing this component might be disabled or no longer available.</source>
         <translation>此组件无法加载，因为它未注册到应用程序中。提供此组件的插件可能已被禁用或不可用。</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="59"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="50"/>
         <source>An error occurred while loading this component.</source>
         <translation>加载此组件时发生错误。</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="65"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="56"/>
         <source>Component identifier</source>
         <translation>组件标识符</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="73"/>
+        <location filename="../../qml/panels/LoadingFailedFallbackPanel.qml" line="64"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
@@ -6349,50 +6348,50 @@ Do you want to continue opening it?</source>
     <message>
         <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="30"/>
         <source>Default language (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">默认语言（%1）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="24"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="33"/>
         <source>Lyric and Pronunciation</source>
         <translation>歌词与发音</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="59"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="68"/>
         <source>Lyric</source>
         <translation>歌词</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="60"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="69"/>
         <source>Editing lyric</source>
         <translation>编辑歌词</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="68"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="77"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="69"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="78"/>
         <source>Editing language</source>
         <translation>编辑语言</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="74"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="83"/>
         <source>Pronunciation (original)</source>
         <translation>发音（原始）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="77"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="86"/>
         <source>Multiple values</source>
         <translation>多个值</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="88"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="97"/>
         <source>Pronunciation (edited)</source>
         <translation>发音（已编辑）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="89"/>
+        <location filename="../../qml/propertyeditors/NoteLyricPropertyEditor.qml" line="98"/>
         <source>Editing pronunciation (edited)</source>
         <translation>编辑发音（已编辑）</translation>
     </message>
@@ -6682,77 +6681,76 @@ Do you want to continue opening it?</source>
 <context>
     <name>RecentFilesPanel</name>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="53"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="54"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="109"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="110"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="46"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="47"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="102"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="103"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="64"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="118"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="57"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="111"/>
         <source>Refresh</source>
         <translation type="unfinished">刷新</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="75"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="129"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="68"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="122"/>
         <source>Grid view</source>
         <translation type="unfinished">网格视图</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="85"/>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="139"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="78"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="132"/>
         <source>List view</source>
         <translation>列表视图</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="93"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="86"/>
         <source>Clear Recovery Files</source>
         <translation>清空恢复文件</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="93"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="86"/>
         <source>Clear Recent Files</source>
         <translation>清空最近文件</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="151"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="144"/>
         <source>No recovery file
 If %1 exits abnormally, automatic recovery files will be displayed here.</source>
         <translation>没有恢复文件
 如果 %1 异常退出，此处将显示自动恢复文件。</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="151"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="144"/>
         <source>No recent files</source>
         <translation>无最近文件</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="172"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="165"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="183"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="176"/>
         <source>Reveal in %1</source>
         <translation>在 %1 中显示</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="191"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="184"/>
         <source>Remove from &quot;Recovery Files&quot;</source>
         <translation>从“恢复文件”中移除</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="191"/>
+        <location filename="../../qml/panels/RecentFilesPanel.qml" line="184"/>
         <source>Remove from &quot;Recent Files&quot;</source>
         <translation>从“最近文件”中移除</translation>
     </message>
     <message>
-        <location filename="../../qml/panels/RecentFilesPanel.qml" line="34"/>
         <source>The recent files panel state is invalid.</source>
-        <translation type="unfinished">最近使用的文件面板状态无效。</translation>
+        <translation type="obsolete">最近使用的文件面板状态无效。</translation>
     </message>
 </context>
 <context>

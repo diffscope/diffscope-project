@@ -1222,7 +1222,7 @@
 <context>
     <name>DspxProject::EditItemsScenario</name>
     <message>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="1030"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="1038"/>
         <source>Bouncing to clip</source>
         <translation type="unfinished">合并到剪辑</translation>
     </message>
