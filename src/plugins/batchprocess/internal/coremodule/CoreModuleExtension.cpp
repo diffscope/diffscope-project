@@ -195,6 +195,9 @@ namespace BatchProcess::Internal {
     QJSValue CoreModuleBridge::propertyValue(const QVariant &value) {
         if (!value.isValid()) return QJSValue(QJSValue::NullValue);
         if (value.metaType() == QMetaType::fromType<std::nullptr_t>()) return QJSValue(QJSValue::NullValue);
+        if (value.metaType() == QMetaType::fromType<QString>()) {
+            return QJSValue(value.toString());
+        }
         if (value.metaType().flags().testFlag(QMetaType::PointerToQObject)) return raw(value.value<QObject *>());
         if (value.metaType() == QMetaType::fromType<QVariantMap>()) {
             auto result = record();
