@@ -21,6 +21,7 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QList>
+#include <QLocale>
 #include <QLoggingCategory>
 #include <QMetaObject>
 #include <QNetworkAccessManager>
@@ -103,7 +104,6 @@ namespace {
         QByteArray method;
         QStringList route;
         RequestQuery query;
-        QString displayLanguage;
         QByteArray body;
         RequestCategory category{RequestCategory::None};
         ApiVersion apiVersion{ApiVersion::V1};
@@ -376,8 +376,6 @@ namespace {
             request.setRawHeader("Accept", task.category == RequestCategory::None
                                              ? "application/json"
                                              : "application/x-ndjson, application/json;q=0.9");
-            if (!task.displayLanguage.isEmpty())
-                request.setRawHeader("Accept-Language", task.displayLanguage.toUtf8());
             if (task.method == QByteArrayLiteral("POST"))
                 request.setRawHeader("Content-Type", "application/json");
             if (task.service.authenticationEnabled) {
@@ -408,6 +406,8 @@ namespace {
                  ++it) {
                 request.setRawHeader(it.key().toLatin1(), it.value().toUtf8());
             }
+            if (request.rawHeader("Accept-Language").isEmpty())
+                request.setRawHeader("Accept-Language", QLocale().bcp47Name().toUtf8());
             return request;
         }
 
@@ -857,7 +857,7 @@ public:
     QFuture<ApiResult<T>> request(const ServiceInstanceConfiguration &service, const QByteArray &method,
                                   const QStringList &route, const RequestQuery &query,
                                   const QByteArray &body, RequestCategory category,
-                                  ApiVersion apiVersion = ApiVersion::V1, const QString &displayLanguage = {},
+                                  ApiVersion apiVersion = ApiVersion::V1,
                                   StreamUpdateHandler update = {}) {
         // Pending is a real, waitable Qt future state used by continuations. Until
         // reportStarted() is called by the network scheduler, isStarted()/isRunning() remain
@@ -873,7 +873,6 @@ public:
         task->method = method;
         task->route = route;
         task->query = query;
-        task->displayLanguage = displayLanguage;
         task->body = body;
         task->category = category;
         task->apiVersion = apiVersion;
@@ -959,80 +958,80 @@ ApiClient::getInfo(const ServiceInstanceConfiguration &service) {
 }
 
 QFuture<ApiResult<V1::ArchitectureMetadataList>>
-ApiClient::getArchitectures(const ServiceInstanceConfiguration &service, const QString &displayLanguage) {
+ApiClient::getArchitectures(const ServiceInstanceConfiguration &service) {
     RequestQuery query;
     return d->request<V1::ArchitectureMetadataList>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("arch")}, query, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("arch")}, query, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::ArchitectureMetadata>>
-ApiClient::getArchitecture(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &displayLanguage) {
+ApiClient::getArchitecture(const ServiceInstanceConfiguration &service, const QString &architectureId) {
     RequestQuery query;
     return d->request<V1::ArchitectureMetadata>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("arch"), architectureId}, query, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("arch"), architectureId}, query, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::GroupMetadataList>>
-ApiClient::getArchitectureGroups(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &displayLanguage) {
+ApiClient::getArchitectureGroups(const ServiceInstanceConfiguration &service, const QString &architectureId) {
     RequestQuery query;
     return d->request<V1::GroupMetadataList>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("arch"), architectureId, QStringLiteral("group")}, query, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("arch"), architectureId, QStringLiteral("group")}, query, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::GroupMetadata>>
-ApiClient::getGroup(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &groupId, const QString &displayLanguage) {
+ApiClient::getGroup(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &groupId) {
     RequestQuery query;
     return d->request<V1::GroupMetadata>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("arch"), architectureId, QStringLiteral("group"), groupId}, query, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("arch"), architectureId, QStringLiteral("group"), groupId}, query, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::SingerInfoList>>
-ApiClient::getGroupSingers(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &groupId, const QString &displayLanguage) {
+ApiClient::getGroupSingers(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &groupId) {
     RequestQuery query;
     return d->request<V1::SingerInfoList>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("arch"), architectureId, QStringLiteral("group"), groupId, QStringLiteral("singer")}, query, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("arch"), architectureId, QStringLiteral("group"), groupId, QStringLiteral("singer")}, query, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::SingerInfoList>>
-ApiClient::getSingers(const ServiceInstanceConfiguration &service, const QString &displayLanguage) {
+ApiClient::getSingers(const ServiceInstanceConfiguration &service) {
     RequestQuery query;
     return d->request<V1::SingerInfoList>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("singer")}, query, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("singer")}, query, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::SingerInfoList>>
-ApiClient::getArchitectureSingers(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &displayLanguage) {
+ApiClient::getArchitectureSingers(const ServiceInstanceConfiguration &service, const QString &architectureId) {
     RequestQuery query;
     return d->request<V1::SingerInfoList>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("arch"), architectureId, QStringLiteral("singer")}, query, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("arch"), architectureId, QStringLiteral("singer")}, query, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::SingerInfo>>
-ApiClient::getSinger(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId, const QString &displayLanguage) {
+ApiClient::getSinger(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId) {
     RequestQuery query;
     return d->request<V1::SingerInfo>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId}, query, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId}, query, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::SingerAvatarResponse>>
-ApiClient::getSingerAvatar(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId, const QString &displayLanguage) {
+ApiClient::getSingerAvatar(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId) {
     const auto query = mediaQuery(QImageReader::supportedMimeTypes());
     return d->request<V1::SingerAvatarResponse>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId, QStringLiteral("avatar")}, query, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId, QStringLiteral("avatar")}, query, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::SingerBackgroundResponse>>
-ApiClient::getSingerBackground(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId, const QString &displayLanguage) {
+ApiClient::getSingerBackground(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId) {
     const auto query = mediaQuery(QImageReader::supportedMimeTypes());
     return d->request<V1::SingerBackgroundResponse>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId, QStringLiteral("background")}, query, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId, QStringLiteral("background")}, query, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::SingerDemoAudioList>>
-ApiClient::getSingerDemoAudio(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId, const QString &displayLanguage) {
+ApiClient::getSingerDemoAudio(const ServiceInstanceConfiguration &service, const QString &architectureId, const QString &singerId) {
     const auto query = mediaQuery();
     return d->request<V1::SingerDemoAudioList>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId, QStringLiteral("demo-audio")}, query, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("arch"), architectureId, QStringLiteral("singer"), singerId, QStringLiteral("demo-audio")}, query, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::EnvTagResponse>>
@@ -1048,7 +1047,7 @@ ApiClient::synthesizePronunciation(const ServiceInstanceConfiguration &service,
                                    const V1::PronunciationRequest &request, StreamUpdateHandler update) {
     return d->request<V1::PronunciationResponse>(
         service, QByteArrayLiteral("POST"), {QStringLiteral("synth"), QStringLiteral("pronunciation")}, {},
-        jsonBody(request.toJson()), RequestCategory::Pronunciation, ApiVersion::V1, {}, std::move(update));
+        jsonBody(request.toJson()), RequestCategory::Pronunciation, ApiVersion::V1, std::move(update));
 }
 
 QFuture<ApiResult<V1::PhonemeResponse>>
@@ -1056,7 +1055,7 @@ ApiClient::synthesizePhoneme(const ServiceInstanceConfiguration &service,
                              const V1::PhonemeRequest &request, StreamUpdateHandler update) {
     return d->request<V1::PhonemeResponse>(service, QByteArrayLiteral("POST"),
                                           {QStringLiteral("synth"), QStringLiteral("phoneme")}, {},
-                                          jsonBody(request.toJson()), RequestCategory::Phoneme, ApiVersion::V1, {}, std::move(update));
+                                          jsonBody(request.toJson()), RequestCategory::Phoneme, ApiVersion::V1, std::move(update));
 }
 
 QFuture<ApiResult<V1::DurationResponse>>
@@ -1064,7 +1063,7 @@ ApiClient::synthesizeDuration(const ServiceInstanceConfiguration &service,
                               const V1::DurationRequest &request, StreamUpdateHandler update) {
     return d->request<V1::DurationResponse>(service, QByteArrayLiteral("POST"),
                                            {QStringLiteral("synth"), QStringLiteral("duration")}, {},
-                                           jsonBody(request.toJson()), RequestCategory::Duration, ApiVersion::V1, {}, std::move(update));
+                                           jsonBody(request.toJson()), RequestCategory::Duration, ApiVersion::V1, std::move(update));
 }
 
 QFuture<ApiResult<V1::ParameterResponse>>
@@ -1072,7 +1071,7 @@ ApiClient::synthesizeParameter(const ServiceInstanceConfiguration &service,
                                const V1::ParameterRequest &request, StreamUpdateHandler update) {
     return d->request<V1::ParameterResponse>(service, QByteArrayLiteral("POST"),
                                             {QStringLiteral("synth"), QStringLiteral("parameter")}, {},
-                                            jsonBody(request.toJson()), RequestCategory::Parameter, ApiVersion::V1, {}, std::move(update));
+                                            jsonBody(request.toJson()), RequestCategory::Parameter, ApiVersion::V1, std::move(update));
 }
 
 QFuture<ApiResult<V1::AudioResponse>>
@@ -1080,61 +1079,61 @@ ApiClient::synthesizeAudio(const ServiceInstanceConfiguration &service,
                            const V1::AudioRequest &request, StreamUpdateHandler update) {
     return d->request<V1::AudioResponse>(service, QByteArrayLiteral("POST"),
                                         {QStringLiteral("synth"), QStringLiteral("audio")}, {},
-                                        jsonBody(request.toJson()), RequestCategory::Audio, ApiVersion::V1, {}, std::move(update));
+                                        jsonBody(request.toJson()), RequestCategory::Audio, ApiVersion::V1, std::move(update));
 }
 
 QFuture<ApiResult<V1::ExtractorList>>
-ApiClient::getExtractors(const ServiceInstanceConfiguration &service, const QString &displayLanguage) {
+ApiClient::getExtractors(const ServiceInstanceConfiguration &service) {
     return d->request<V1::ExtractorList>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("extractor")}, {}, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("extractor")}, {}, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::ExtractorInfo>>
-ApiClient::getNoteExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId, const QString &displayLanguage) {
+ApiClient::getNoteExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId) {
     return d->request<V1::ExtractorInfo>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("extractor"), QStringLiteral("note"), extractorId}, {}, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("extractor"), QStringLiteral("note"), extractorId}, {}, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::ExtractorInfo>>
-ApiClient::getTempoExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId, const QString &displayLanguage) {
+ApiClient::getTempoExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId) {
     return d->request<V1::ExtractorInfo>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("extractor"), QStringLiteral("tempo"), extractorId}, {}, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("extractor"), QStringLiteral("tempo"), extractorId}, {}, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::ExtractorInfo>>
-ApiClient::getPitchExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId, const QString &displayLanguage) {
+ApiClient::getPitchExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId) {
     return d->request<V1::ExtractorInfo>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("extractor"), QStringLiteral("pitch"), extractorId}, {}, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("extractor"), QStringLiteral("pitch"), extractorId}, {}, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::SeparationExtractorInfo>>
-ApiClient::getSeparationExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId, const QString &displayLanguage) {
+ApiClient::getSeparationExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId) {
     return d->request<V1::SeparationExtractorInfo>(service, QByteArrayLiteral("GET"),
-        {QStringLiteral("extractor"), QStringLiteral("separation"), extractorId}, {}, {}, RequestCategory::None, ApiVersion::V1, displayLanguage);
+        {QStringLiteral("extractor"), QStringLiteral("separation"), extractorId}, {}, {}, RequestCategory::None);
 }
 
 QFuture<ApiResult<V1::NoteExtractionResponse>>
 ApiClient::extractNotes(const ServiceInstanceConfiguration &service, const V1::NoteExtractionRequest &request, StreamUpdateHandler update) {
     return d->request<V1::NoteExtractionResponse>(service, QByteArrayLiteral("POST"),
-        {QStringLiteral("extract"), QStringLiteral("note")}, {}, jsonBody(request.toJson()), RequestCategory::NoteExtraction, ApiVersion::V1, {}, std::move(update));
+        {QStringLiteral("extract"), QStringLiteral("note")}, {}, jsonBody(request.toJson()), RequestCategory::NoteExtraction, ApiVersion::V1, std::move(update));
 }
 
 QFuture<ApiResult<V1::TempoExtractionResponse>>
 ApiClient::extractTempo(const ServiceInstanceConfiguration &service, const V1::TempoExtractionRequest &request, StreamUpdateHandler update) {
     return d->request<V1::TempoExtractionResponse>(service, QByteArrayLiteral("POST"),
-        {QStringLiteral("extract"), QStringLiteral("tempo")}, {}, jsonBody(request.toJson()), RequestCategory::TempoExtraction, ApiVersion::V1, {}, std::move(update));
+        {QStringLiteral("extract"), QStringLiteral("tempo")}, {}, jsonBody(request.toJson()), RequestCategory::TempoExtraction, ApiVersion::V1, std::move(update));
 }
 
 QFuture<ApiResult<V1::PitchExtractionResponse>>
 ApiClient::extractPitch(const ServiceInstanceConfiguration &service, const V1::PitchExtractionRequest &request, StreamUpdateHandler update) {
     return d->request<V1::PitchExtractionResponse>(service, QByteArrayLiteral("POST"),
-        {QStringLiteral("extract"), QStringLiteral("pitch")}, {}, jsonBody(request.toJson()), RequestCategory::PitchExtraction, ApiVersion::V1, {}, std::move(update));
+        {QStringLiteral("extract"), QStringLiteral("pitch")}, {}, jsonBody(request.toJson()), RequestCategory::PitchExtraction, ApiVersion::V1, std::move(update));
 }
 
 QFuture<ApiResult<V1::SeparationExtractionResponse>>
-ApiClient::extractSeparation(const ServiceInstanceConfiguration &service, const V1::SeparationExtractionRequest &request, const QString &displayLanguage, StreamUpdateHandler update) {
+ApiClient::extractSeparation(const ServiceInstanceConfiguration &service, const V1::SeparationExtractionRequest &request, StreamUpdateHandler update) {
     return d->request<V1::SeparationExtractionResponse>(service, QByteArrayLiteral("POST"),
-        {QStringLiteral("extract"), QStringLiteral("separation")}, {}, jsonBody(request.toJson()), RequestCategory::SeparationExtraction, ApiVersion::V1, displayLanguage, std::move(update));
+        {QStringLiteral("extract"), QStringLiteral("separation")}, {}, jsonBody(request.toJson()), RequestCategory::SeparationExtraction, ApiVersion::V1, std::move(update));
 }
 
 void ApiClient::cancelAll() { d->cancelAll(); }

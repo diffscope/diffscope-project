@@ -9,7 +9,6 @@
 
 #include <QDir>
 #include <QFile>
-#include <QLocale>
 #include <QLoggingCategory>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -89,7 +88,7 @@ namespace Synth::Internal {
         for (const auto &service : services) {
             if (!service.isEnabled())
                 continue;
-            watch(m_client.getExtractors(service, QLocale().bcp47Name()), [this, service](const auto &result) {
+            watch(m_client.getExtractors(service), [this, service](const auto &result) {
                 if (result.hasError()) {
                     m_refreshErrors.append(tr("%1: %2").arg(service.name(), result.error().message));
                 } else {
@@ -182,7 +181,6 @@ namespace Synth::Internal {
         qCDebug(lcAudioExtractionTask) << "Entered negotiating state";
         const auto &service = m_activeExtractor.service;
         const auto &id = m_activeExtractor.info.id;
-        const auto language = QLocale().bcp47Name();
         const auto handleMetadata = [this, input](const auto &result) {
             if (result.hasError()) {
                 fail(result.error().message);
@@ -196,7 +194,7 @@ namespace Synth::Internal {
             prepare(m_activeExtractor, input);
         };
         if (m_type == Separation) {
-            watch(m_client.getSeparationExtractor(service, id, language), [this, handleMetadata](const auto &result) {
+            watch(m_client.getSeparationExtractor(service, id), [this, handleMetadata](const auto &result) {
                 if (!result.hasError()) {
                     QStringList trackNames;
                     for (const auto &track : result.value().tracks)
@@ -209,9 +207,9 @@ namespace Synth::Internal {
                 handleMetadata(result);
             });
         } else {
-            auto future = m_type == Notes ? m_client.getNoteExtractor(service, id, language)
-                : m_type == Tempo ? m_client.getTempoExtractor(service, id, language)
-                : m_client.getPitchExtractor(service, id, language);
+            auto future = m_type == Notes ? m_client.getNoteExtractor(service, id)
+                : m_type == Tempo ? m_client.getTempoExtractor(service, id)
+                : m_client.getPitchExtractor(service, id);
             watch(future, handleMetadata);
         }
     }
@@ -312,7 +310,7 @@ namespace Synth::Internal {
             separation.input.audioUrl = audioUrl;
             // An empty format list accepts any server output format; transport is explicit.
             separation.acceptableSchemes = {QStringLiteral("data"), QStringLiteral("http"), QStringLiteral("https")};
-            watch(m_client.extractSeparation(extractor.service, separation, QLocale().bcp47Name(), update), [this](const auto &result) {
+            watch(m_client.extractSeparation(extractor.service, separation, update), [this](const auto &result) {
                 if (result.hasError()) {
                     fail(result.error().message);
                     return;

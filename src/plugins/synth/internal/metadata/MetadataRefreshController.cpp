@@ -14,7 +14,6 @@
 #include <QElapsedTimer>
 #include <QFutureWatcher>
 #include <QHash>
-#include <QLocale>
 #include <QLoggingCategory>
 #include <QPointer>
 #include <QSet>
@@ -422,14 +421,12 @@ namespace Synth::Internal {
             state->groupErrors.clear();
             state->architecturesResult.reset();
             state->singersResult.reset();
-            const auto displayLanguage = QLocale().bcp47Name();
             qCDebug(lcMetadataRefreshController)
                 << "Requesting DSSP architecture and singer metadata"
-                << "service=" << state->configuration.name()
-                << "displayLanguage=" << displayLanguage;
+                << "service=" << state->configuration.name();
 
             watch(state, generation,
-                  apiClient->getArchitectures(state->configuration, displayLanguage),
+                  apiClient->getArchitectures(state->configuration),
                   [this, state, generation](
                       std::optional<Api::ApiResult<Api::V1::ArchitectureMetadataList>> result) {
                 if (!isCurrent(state, generation))
@@ -438,7 +435,7 @@ namespace Synth::Internal {
                 state->architecturesResult = std::move(result);
                 finishMetadataLists(state, generation);
             });
-            watch(state, generation, apiClient->getSingers(state->configuration, displayLanguage),
+            watch(state, generation, apiClient->getSingers(state->configuration),
                   [this, state, generation](
                       std::optional<Api::ApiResult<Api::V1::SingerInfoList>> result) {
                 if (!isCurrent(state, generation))
@@ -456,9 +453,8 @@ namespace Synth::Internal {
             if (state->architecturesResult && state->architecturesResult->hasValue() && !state->groupsRequested) {
                 state->groupsRequested = true;
                 state->pendingGroups = state->architecturesResult->value().items.size();
-                const auto displayLanguage = QLocale().bcp47Name();
                 for (const auto &architecture : state->architecturesResult->value().items) {
-                    watch(state, generation, apiClient->getArchitectureGroups(state->configuration, architecture.id, displayLanguage),
+                    watch(state, generation, apiClient->getArchitectureGroups(state->configuration, architecture.id),
                           [this, state, generation, architectureId = architecture.id](std::optional<Api::ApiResult<Api::V1::GroupMetadataList>> result) {
                         if (!isCurrent(state, generation))
                             return;
@@ -576,13 +572,11 @@ namespace Synth::Internal {
                 return;
             }
 
-            const auto displayLanguage = QLocale().bcp47Name();
             for (qsizetype index = 0; index < state->refreshedSingers.size(); ++index) {
                 const auto architectureId = state->refreshedSingers.at(index).architectureId();
                 const auto singerId = state->refreshedSingers.at(index).id();
                 watch(state, generation,
-                      apiClient->getSingerAvatar(state->configuration, architectureId, singerId,
-                                                 displayLanguage),
+                      apiClient->getSingerAvatar(state->configuration, architectureId, singerId),
                       [this, state, generation, index](
                           std::optional<Api::ApiResult<Api::V1::SingerAvatarResponse>> result) {
                     if (!stopping && !state->removed && generation == state->generation && result &&
@@ -596,8 +590,7 @@ namespace Synth::Internal {
                     finishAsset(state, generation);
                 });
                 watch(state, generation,
-                      apiClient->getSingerBackground(state->configuration, architectureId, singerId,
-                                                     displayLanguage),
+                      apiClient->getSingerBackground(state->configuration, architectureId, singerId),
                       [this, state, generation, index](
                           std::optional<Api::ApiResult<Api::V1::SingerBackgroundResponse>> result) {
                     if (!stopping && !state->removed && generation == state->generation && result &&
@@ -611,8 +604,7 @@ namespace Synth::Internal {
                     finishAsset(state, generation);
                 });
                 watch(state, generation,
-                      apiClient->getSingerDemoAudio(state->configuration, architectureId, singerId,
-                                                    displayLanguage),
+                      apiClient->getSingerDemoAudio(state->configuration, architectureId, singerId),
                       [this, state, generation, index](
                           std::optional<Api::ApiResult<Api::V1::SingerDemoAudioList>> result) {
                     if (!stopping && !state->removed && generation == state->generation && result &&

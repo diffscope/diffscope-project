@@ -24,41 +24,34 @@ namespace Synth::Internal::Api {
         QFuture<ApiResult<V1::ApplicationInfoResponse>>
             getInfo(const ServiceInstanceConfiguration &service);
         QFuture<ApiResult<V1::ArchitectureMetadataList>>
-            getArchitectures(const ServiceInstanceConfiguration &service,
-                             const QString &displayLanguage = {});
+            getArchitectures(const ServiceInstanceConfiguration &service);
         QFuture<ApiResult<V1::ArchitectureMetadata>>
-            getArchitecture(const ServiceInstanceConfiguration &service, const QString &architectureId,
-                            const QString &displayLanguage = {});
+            getArchitecture(const ServiceInstanceConfiguration &service, const QString &architectureId);
         QFuture<ApiResult<V1::GroupMetadataList>>
-            getArchitectureGroups(const ServiceInstanceConfiguration &service, const QString &architectureId,
-                                  const QString &displayLanguage = {});
+            getArchitectureGroups(const ServiceInstanceConfiguration &service, const QString &architectureId);
         QFuture<ApiResult<V1::GroupMetadata>>
             getGroup(const ServiceInstanceConfiguration &service, const QString &architectureId,
-                     const QString &groupId, const QString &displayLanguage = {});
+                     const QString &groupId);
         QFuture<ApiResult<V1::SingerInfoList>>
             getGroupSingers(const ServiceInstanceConfiguration &service, const QString &architectureId,
-                            const QString &groupId, const QString &displayLanguage = {});
+                            const QString &groupId);
         QFuture<ApiResult<V1::SingerInfoList>>
-            getSingers(const ServiceInstanceConfiguration &service,
-                       const QString &displayLanguage = {});
+            getSingers(const ServiceInstanceConfiguration &service);
         QFuture<ApiResult<V1::SingerInfoList>>
             getArchitectureSingers(const ServiceInstanceConfiguration &service,
-                                   const QString &architectureId,
-                                   const QString &displayLanguage = {});
+                                   const QString &architectureId);
         QFuture<ApiResult<V1::SingerInfo>>
             getSinger(const ServiceInstanceConfiguration &service, const QString &architectureId,
-                      const QString &singerId, const QString &displayLanguage = {});
+                      const QString &singerId);
         QFuture<ApiResult<V1::SingerAvatarResponse>>
             getSingerAvatar(const ServiceInstanceConfiguration &service, const QString &architectureId,
-                            const QString &singerId, const QString &displayLanguage = {});
+                            const QString &singerId);
         QFuture<ApiResult<V1::SingerBackgroundResponse>>
             getSingerBackground(const ServiceInstanceConfiguration &service,
-                                const QString &architectureId, const QString &singerId,
-                                const QString &displayLanguage = {});
+                                const QString &architectureId, const QString &singerId);
         QFuture<ApiResult<V1::SingerDemoAudioList>>
             getSingerDemoAudio(const ServiceInstanceConfiguration &service,
-                               const QString &architectureId, const QString &singerId,
-                               const QString &displayLanguage = {});
+                               const QString &architectureId, const QString &singerId);
 
         QFuture<ApiResult<V1::EnvTagResponse>>
             createEnvironmentTag(const ServiceInstanceConfiguration &service,
@@ -85,20 +78,15 @@ namespace Synth::Internal::Api {
                             StreamUpdateHandler update = {});
 
         QFuture<ApiResult<V1::ExtractorList>>
-            getExtractors(const ServiceInstanceConfiguration &service,
-                          const QString &displayLanguage = {});
+            getExtractors(const ServiceInstanceConfiguration &service);
         QFuture<ApiResult<V1::ExtractorInfo>>
-            getNoteExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId,
-                             const QString &displayLanguage = {});
+            getNoteExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId);
         QFuture<ApiResult<V1::ExtractorInfo>>
-            getTempoExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId,
-                              const QString &displayLanguage = {});
+            getTempoExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId);
         QFuture<ApiResult<V1::ExtractorInfo>>
-            getPitchExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId,
-                              const QString &displayLanguage = {});
+            getPitchExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId);
         QFuture<ApiResult<V1::SeparationExtractorInfo>>
-            getSeparationExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId,
-                                   const QString &displayLanguage = {});
+            getSeparationExtractor(const ServiceInstanceConfiguration &service, const QString &extractorId);
 
         QFuture<ApiResult<V1::NoteExtractionResponse>>
             extractNotes(const ServiceInstanceConfiguration &service,
@@ -115,7 +103,6 @@ namespace Synth::Internal::Api {
         QFuture<ApiResult<V1::SeparationExtractionResponse>>
             extractSeparation(const ServiceInstanceConfiguration &service,
                               const V1::SeparationExtractionRequest &request,
-                              const QString &displayLanguage = {},
                               StreamUpdateHandler update = {});
 
         void cancelAll();
