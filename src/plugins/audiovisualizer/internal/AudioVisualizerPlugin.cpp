@@ -21,6 +21,8 @@
 #include <audiovisualizer/internal/MasterTrackAddOn.h>
 #include <audiovisualizer/internal/MidiRecordingQuantizationAddOn.h>
 
+#include <visualeditor/ViewLayerRegistry.h>
+
 #include <org.diffscope.audiovisualizer_actions.qak.h>
 
 namespace AudioVisualizer::Internal {
@@ -33,16 +35,6 @@ namespace AudioVisualizer::Internal {
     bool AudioVisualizerPlugin::initialize(const QStringList &arguments, QString *errorMessage) {
         Core::RuntimeInterface::translationManager()->addTranslationPath(pluginSpec()->location() + QStringLiteral("/translations"));
         Core::CoreInterface::actionRegistry()->addExtension(::audiovisualizerActionExtension());
-        auto audioThumbnailComponent = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.AudioVisualizer", "AudioThumbnail", this);
-        if (audioThumbnailComponent->isError()) {
-            qFatal() << audioThumbnailComponent->errorString();
-        }
-        Core::RuntimeInterface::instance()->addObject("org.diffscope.visualeditor.audiothumbnailcomponent", audioThumbnailComponent);
-        auto audioFileDropComponent = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.AudioVisualizer", "AudioFileDropArea", this);
-        if (audioFileDropComponent->isError()) {
-            qFatal() << audioFileDropComponent->errorString();
-        }
-        Core::RuntimeInterface::instance()->addObject("org.diffscope.visualeditor.arrangementdropareacomponent", audioFileDropComponent);
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioFileDropAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<AudioMipmapAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MasterTrackAddOn>();
@@ -53,6 +45,17 @@ namespace AudioVisualizer::Internal {
     }
 
     void AudioVisualizerPlugin::extensionsInitialized() {
+        auto registry = VisualEditor::ViewLayerRegistry::instance();
+        auto audioThumbnailComponent = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.AudioVisualizer", "AudioThumbnail", this);
+        if (audioThumbnailComponent->isError()) {
+            qFatal() << audioThumbnailComponent->errorString();
+        }
+        registry->registerLayer(VisualEditor::ViewLayerPoint::ArrangementClipContent, audioThumbnailComponent);
+        auto audioFileDropComponent = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.AudioVisualizer", "AudioFileDropArea", this);
+        if (audioFileDropComponent->isError()) {
+            qFatal() << audioFileDropComponent->errorString();
+        }
+        registry->registerLayer(VisualEditor::ViewLayerPoint::ArrangementForeground, audioFileDropComponent);
     }
 
     bool AudioVisualizerPlugin::delayedInitialize() {

@@ -15,6 +15,7 @@
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
+#include <visualeditor/ViewLayerRegistry.h>
 #include <synthvisualizer/internal/SynthesisPieceTrackAddOn.h>
 
 #include <org.diffscope.synthvisualizer_actions.qak.h>
@@ -29,22 +30,19 @@ namespace SynthVisualizer::Internal {
             pluginSpec()->location() + QStringLiteral("/translations")
         );
         Core::CoreInterface::actionRegistry()->addExtension(::synthvisualizerActionExtension());
-        auto phonemePanelBackgroundComponent = new QQmlComponent(
-            Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.SynthVisualizer"),
-            QStringLiteral("SynthesisWaveformBackground"), this
-        );
-        if (phonemePanelBackgroundComponent->isError()) {
-            qFatal() << phonemePanelBackgroundComponent->errorString();
-        }
-        Core::RuntimeInterface::instance()->addObject(
-            QStringLiteral("org.diffscope.visualeditor.phonemepanelbackgroundcomponent"),
-            phonemePanelBackgroundComponent
-        );
         Core::ProjectWindowInterfaceRegistry::instance()->attach<SynthesisPieceTrackAddOn>();
         return true;
     }
 
     void SynthVisualizerPlugin::extensionsInitialized() {
+        auto waveform = new QQmlComponent(
+            Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.SynthVisualizer"),
+            QStringLiteral("SynthesisWaveformBackground"), this
+        );
+        if (waveform->isError()) {
+            qFatal() << waveform->errorString();
+        }
+        VisualEditor::ViewLayerRegistry::instance()->registerLayer(VisualEditor::ViewLayerPoint::PhonemeBackground, waveform);
     }
 
     bool SynthVisualizerPlugin::delayedInitialize() {

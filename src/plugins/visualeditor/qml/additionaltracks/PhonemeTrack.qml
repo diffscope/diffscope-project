@@ -84,36 +84,19 @@ QtObject {
         phonemeSequenceInteractionController:
             contextObject?.phonemeSequenceInteractionController ?? null
 
-        Item {
-            id: backgroundContainer
-
+        ViewLayerHost {
             anchors.fill: parent
             z: -1
+            point: ViewLayer.PhonemeBackground
+            pianoRollPanelInterface: control.contextObject
+            clipViewModel: control.clipViewModel
+        }
 
-            property Item item: null
-            data: [item]
-
-            Component.onCompleted: Qt.callLater(() => {
-                const component = d.addOn?.phonemePanelBackgroundComponent
-                if (!component)
-                    return
-                item = component.createObject(backgroundContainer, {
-                    clipViewModel: control.clipViewModel,
-                    projectViewModelContext: d.projectViewModelContext,
-                    timeViewModel: control.timeViewModel,
-                    timeLayoutViewModel: control.timeLayoutViewModel
-                })
-                if (!item)
-                    return
-                item.width = Qt.binding(() => backgroundContainer.width)
-                item.height = Qt.binding(() => backgroundContainer.height)
-                item.clipViewModel = Qt.binding(() => control.clipViewModel)
-                item.projectViewModelContext = Qt.binding(
-                    () => d.projectViewModelContext)
-                item.timeViewModel = Qt.binding(() => control.timeViewModel)
-                item.timeLayoutViewModel = Qt.binding(
-                    () => control.timeLayoutViewModel)
-            })
+        ViewLayerHost {
+            anchors.fill: parent
+            point: ViewLayer.PhonemeForeground
+            pianoRollPanelInterface: control.contextObject
+            clipViewModel: control.clipViewModel
         }
 
         Connections {

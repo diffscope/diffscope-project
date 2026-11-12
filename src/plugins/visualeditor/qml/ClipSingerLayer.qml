@@ -21,10 +21,8 @@ Item {
 
     readonly property string sourcesPickerModelMimeType: "application/x.diffscope.sourcespickermodel"
 
-    required property ClipViewModel clipViewModel
-    required property bool visualVisible
-    required property ProjectViewModelContext projectViewModelContext
-    required property double viewportOffset
+    readonly property ClipViewModel clipViewModel: ViewLayer.clipViewModel
+    readonly property ProjectViewModelContext projectViewModelContext: ViewLayer.windowHandle?.ProjectViewModelContext.context ?? null
 
     readonly property QtObject documentClip: projectViewModelContext?.getClipDocumentItemFromViewItem(clipViewModel) ?? null
     readonly property QtObject singingClip: documentClip?.kind === DspxModel.Clip.Singing ? documentClip : null
@@ -133,7 +131,7 @@ Item {
     }
 
     RowLayout {
-        x: Math.min(Math.max(8, d.viewportOffset * d.width / (d.clipViewModel?.length ?? 0) + 8), d.width - width - 8)
+        x: Math.min(Math.max(8, d.ViewLayer.visibleRect.x + 8), d.width - width - 8)
         width: Math.min(implicitWidth, Math.max(0, d.width - 16))
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 4

@@ -13,35 +13,29 @@ import DiffScope.VisualEditor
 DropArea {
     id: dropArea
 
-    required property ArrangementPanelInterface contextObject
+    readonly property ArrangementPanelInterface arrangementPanelInterface: ViewLayer.arrangementPanelInterface
 
-    readonly property ProjectViewModelContext projectViewModelContext: contextObject?.windowHandle.ProjectViewModelContext.context ?? null
-    readonly property AudioFileDropAddOn addOn: contextObject?.windowHandle.AudioFileDropAddOn.addOn ?? null
-    readonly property TimeLayoutViewModel timeLayoutViewModel: contextObject?.timeLayoutViewModel ?? null
-    property bool cursorPositionActive: false
+    readonly property ProjectViewModelContext projectViewModelContext: arrangementPanelInterface?.windowHandle.ProjectViewModelContext.context ?? null
+    readonly property AudioFileDropAddOn addOn: arrangementPanelInterface?.windowHandle.AudioFileDropAddOn.addOn ?? null
+    readonly property TimeLayoutViewModel timeLayoutViewModel: arrangementPanelInterface?.timeLayoutViewModel ?? null
+    property bool timeCursorActive: false
     property point pointerPosition: Qt.point(0, 0)
-    property int targetPosition: 0
+    property int timeCursorPosition: 0
 
     anchors.fill: parent
     z: 1
     enabled: !(addOn?.importing ?? true)
 
     function updateCursorPosition() {
-        if (!cursorPositionActive)
+        if (!timeCursorActive)
             return
-        targetPosition = Math.max(0, timeManipulator.alignPosition(timeManipulator.mapToPosition(pointerPosition.x), ScopicFlow.AO_Visible))
-        if (timeLayoutViewModel)
-            timeLayoutViewModel.cursorPosition = targetPosition
+        timeCursorPosition = Math.max(0, timeManipulator.alignPosition(timeManipulator.mapToPosition(pointerPosition.x), ScopicFlow.AO_Visible))
     }
 
     function finishDrag() {
         if (dragScroller)
             dragScroller.running = false
-        if (cursorPositionActive) {
-            cursorPositionActive = false
-            if (timeLayoutViewModel)
-                timeLayoutViewModel.cursorPosition = -1
-        }
+        timeCursorActive = false
     }
 
     function updateDrag(drag) {
@@ -51,7 +45,7 @@ DropArea {
             return
         }
         drag.accept(Qt.CopyAction)
-        cursorPositionActive = true
+        timeCursorActive = true
         pointerPosition = Qt.point(drag.x, drag.y)
         updateCursorPosition()
         const marginX = Math.min(32, width / 2)
@@ -63,7 +57,7 @@ DropArea {
     TimeManipulator {
         id: timeManipulator
         target: dropArea
-        timeViewModel: dropArea.contextObject?.timeViewModel ?? null
+        timeViewModel: dropArea.arrangementPanelInterface?.timeViewModel ?? null
         timeLayoutViewModel: dropArea.timeLayoutViewModel
     }
 
@@ -71,7 +65,7 @@ DropArea {
         id: trackListManipulator
         target: dropArea
         trackListViewModel: dropArea.projectViewModelContext?.trackListViewModel ?? null
-        trackListLayoutViewModel: dropArea.contextObject?.trackListLayoutViewModel ?? null
+        trackListLayoutViewModel: dropArea.arrangementPanelInterface?.trackListLayoutViewModel ?? null
     }
 
     ScopicFlowInternal.DragScroller {
@@ -84,7 +78,7 @@ DropArea {
     }
 
     Connections {
-        target: dropArea.contextObject?.timeViewModel ?? null
+        target: dropArea.arrangementPanelInterface?.timeViewModel ?? null
         function onStartChanged() {
             dropArea.updateCursorPosition()
         }
@@ -114,13 +108,13 @@ DropArea {
     onDropped: drop => {
         drop.accepted = false
         if (drop.hasUrls && (drop.supportedActions & Qt.CopyAction) && addOn?.acceptsUrls(drop.urls)) {
-            cursorPositionActive = true
+            timeCursorActive = true
             pointerPosition = Qt.point(drop.x, drop.y)
             updateCursorPosition()
             const index = trackListManipulator.mapToPosition(drop.y)
             const trackViewModel = projectViewModelContext.trackListViewModel.items[index]
             const track = trackViewModel ? projectViewModelContext.getTrackDocumentItemFromViewItem(trackViewModel) : null
-            if (addOn.importFiles(drop.urls, track, targetPosition))
+            if (addOn.importFiles(drop.urls, track, timeCursorPosition))
                 drop.accept(Qt.CopyAction)
         }
         finishDrag()

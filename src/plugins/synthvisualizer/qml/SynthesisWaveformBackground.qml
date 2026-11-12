@@ -18,10 +18,10 @@ import DiffScope.VisualEditor
 Item {
     id: control
 
-    required property ClipViewModel clipViewModel
-    required property ProjectViewModelContext projectViewModelContext
-    required property TimeViewModel timeViewModel
-    required property TimeLayoutViewModel timeLayoutViewModel
+    readonly property ClipViewModel clipViewModel: ViewLayer.clipViewModel
+    readonly property ProjectViewModelContext projectViewModelContext: ViewLayer.windowHandle?.ProjectViewModelContext.context ?? null
+    readonly property TimeViewModel timeViewModel: ViewLayer.pianoRollPanelInterface?.timeViewModel ?? null
+    readonly property TimeLayoutViewModel timeLayoutViewModel: ViewLayer.pianoRollPanelInterface?.timeLayoutViewModel ?? null
 
     readonly property DspxModel.SingingClip singingClip:
         projectViewModelContext?.getClipDocumentItemFromViewItem(

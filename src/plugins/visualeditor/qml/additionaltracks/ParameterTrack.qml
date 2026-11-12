@@ -478,6 +478,12 @@ QtObject {
             acceptedButtons: Qt.LeftButton | Qt.rightButton
         }
 
+        ViewLayerHost {
+            anchors.fill: parent
+            point: ViewLayer.ParameterBackground
+            pianoRollPanelInterface: control.contextObject
+        }
+
         ScopicFlowInternal.ParameterEditorContent {
             id: referenceLayer
             anchors.fill: parent
@@ -623,6 +629,13 @@ QtObject {
             Theme.foregroundPrimaryColor: control.transformCurveColor
             Theme.foregroundSecondaryColor: control.transformCurveColor
             SFPalette.scaleSecondaryColor: control.defaultReferenceColor
+        }
+
+        ViewLayerHost {
+            anchors.fill: parent
+            z: 2
+            point: ViewLayer.ParameterForeground
+            pianoRollPanelInterface: control.contextObject
         }
 
         Item {

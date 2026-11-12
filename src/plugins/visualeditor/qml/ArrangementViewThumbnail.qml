@@ -1,124 +1,54 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-import QtQml
-import QtQml.Models
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Controls.impl
-import QtQuick.Effects
-
-import SVSCraft
-import SVSCraft.UIComponents
 
 import dev.sjimo.ScopicFlow
-import dev.sjimo.ScopicFlow.Views
 
 Item {
-    id: d
+    id: thumbnail
+
     required property ClipViewModel clipViewModel
     required property bool visualVisible
     required property ArrangementPanelInterface arrangementPanelInterface
     required property PianoRollPanelInterface pianoRollPanelInterface
-    required property ProjectViewModelContext projectViewModelContext
-    required property Component audioThumbnailComponent
+    required property Item viewport
+    required property real trackTop
 
-    StackLayout {
-        id: audioThumbnailContainer
+    readonly property rect visibleRect: {
+        if (!visualVisible || !viewport || !clipViewModel || width <= 0 || height <= 0)
+            return Qt.rect(0, 0, 0, 0)
+
+        const viewportOffset = arrangementPanelInterface?.trackListLayoutViewModel?.viewportOffset ?? 0
+        if (trackTop - viewportOffset >= viewport.height)
+            return Qt.rect(0, 0, 0, 0)
+
+        const start = arrangementPanelInterface?.timeViewModel?.start ?? 0
+        const pixelDensity = arrangementPanelInterface?.timeLayoutViewModel?.pixelDensity ?? 0
+        const clipX = (clipViewModel.position - start) * pixelDensity
+        const clipY = mapToItem(viewport, 0, 0).y
+        const left = Math.max(0, -clipX)
+        const right = Math.min(width, viewport.width - clipX)
+        const top = Math.max(0, -clipY)
+        const bottom = Math.min(height, viewport.height - clipY)
+        return Qt.rect(left, top, Math.max(0, right - left), Math.max(0, bottom - top))
+    }
+
+    ViewLayerHost {
         anchors.fill: parent
-        property Item item: null
-        Component.onCompleted: Qt.callLater(() => {
-            if (d.clipViewModel?.associatedNoteSequence)
-                return
-            if (!d.audioThumbnailComponent)
-                return
-            item = d.audioThumbnailComponent.createObject(this, {
-                clipViewModel: d.clipViewModel,
-                visualVisible: d.visualVisible,
-                projectViewModelContext: d.projectViewModelContext,
-                viewportOffset: d.arrangementPanelInterface.timeViewModel.start - d.clipViewModel.position,
-                viewportLength: d.arrangementPanelInterface.arrangementView.width / d.width * d.clipViewModel.length,
-            })
-            if (item) {
-                item.visualVisible = Qt.binding(() => d.visualVisible)
-                item.viewportOffset = Qt.binding(() => {
-                    if (!d.clipViewModel || !d.arrangementPanelInterface?.timeViewModel)
-                        return 0
-                    return d.arrangementPanelInterface.timeViewModel.start - d.clipViewModel.position
-                })
-                item.viewportLength = Qt.binding(() => {
-                    if (!d.clipViewModel || !d.arrangementPanelInterface?.arrangementView)
-                        return 0
-                    return d.arrangementPanelInterface.arrangementView.width / d.width * d.clipViewModel.length
-                })
-            }
-        })
-        data: [item]
+        point: ViewLayer.ArrangementClipContent
+        arrangementPanelInterface: thumbnail.arrangementPanelInterface
+        pianoRollPanelInterface: thumbnail.pianoRollPanelInterface
+        clipViewModel: thumbnail.clipViewModel
+        visibleRect: thumbnail.visibleRect
     }
 
-    Item {
-        id: noteThumbnailViewport
-        width: (d.clipViewModel?.length ?? 0) * noteThumbnail.horizontalFactor
-        height: Math.max(10, noteThumbnail.maxKey - noteThumbnail.minKey + 1)
-        clip: true
-        NoteThumbnail {
-            id: noteThumbnail
-            color: Theme.foregroundPrimaryColor
-            noteSequenceViewModel: d.clipViewModel?.associatedNoteSequence ?? null
-            x: (-d.clipViewModel?.clipStart ?? 0) * horizontalFactor
-            y: -0.5 * (127 - maxKey + 128 - minKey) + 0.5 * noteThumbnailViewport.height
-        }
-        transform: [
-            Scale {
-                origin.x: 0
-                origin.y: 0
-                xScale: d.width / noteThumbnailViewport.width
-                yScale: d.height / noteThumbnailViewport.height
-            }
-        ]
-    }
-
-    Item {
-        id: pianoRollRangeIndicator
-        visible: d.pianoRollPanelInterface?.editingClip === d.projectViewModelContext?.getClipDocumentItemFromViewItem(d.clipViewModel)
-        Binding {
-            when: pianoRollRangeIndicator.visible
-            pianoRollRangeIndicator.x: {
-                if (!d.clipViewModel || !d.pianoRollPanelInterface?.timeViewModel)
-                    return 0
-                return (d.pianoRollPanelInterface.timeViewModel.start - d.clipViewModel.position) * d.width / d.clipViewModel.length
-            }
-            pianoRollRangeIndicator.width: {
-                if (!d.clipViewModel || !d.pianoRollPanelInterface?.pianoRollView || !d.pianoRollPanelInterface?.timeLayoutViewModel)
-                    return 0
-                return (d.pianoRollPanelInterface.pianoRollView.centerEditArea.width / d.pianoRollPanelInterface.timeLayoutViewModel.pixelDensity) * d.width / d.clipViewModel.length
-            }
-            pianoRollRangeIndicator.y: {
-                if (!d.pianoRollPanelInterface?.clavierViewModel || noteThumbnail.maxKey === -1)
-                    return 0
-                return (128 + noteThumbnail.y - d.pianoRollPanelInterface.clavierViewModel.start) * d.height / noteThumbnailViewport.height
-            }
-            pianoRollRangeIndicator.height: {
-                if (!d.pianoRollPanelInterface?.pianoRollView || !d.pianoRollPanelInterface?.clavierViewModel)
-                    return 0
-                if (noteThumbnail.maxKey === -1)
-                    return d.height
-                return (d.pianoRollPanelInterface.pianoRollView.centerEditArea.height / d.pianoRollPanelInterface.clavierViewModel.pixelDensity) * d.height / noteThumbnailViewport.height
-            }
-        }
-        Rectangle {
-            color: Qt.rgba(Theme.foregroundPrimaryColor.r, Theme.foregroundPrimaryColor.g, Theme.foregroundPrimaryColor.b, 0.25 * Theme.foregroundPrimaryColor.a)
-            border.color: Theme.foregroundPrimaryColor
-            anchors.fill: parent
-        }
-    }
-
-    ClipSingerLayer {
+    ViewLayerHost {
         anchors.fill: parent
-        clipViewModel: d.clipViewModel
-        visualVisible: d.visualVisible
-        projectViewModelContext: d.projectViewModelContext
-        viewportOffset: (d.arrangementPanelInterface?.timeViewModel.start ?? 0) - (d.clipViewModel?.position ?? 0)
+        point: ViewLayer.ArrangementClipAdornment
+        arrangementPanelInterface: thumbnail.arrangementPanelInterface
+        pianoRollPanelInterface: thumbnail.pianoRollPanelInterface
+        clipViewModel: thumbnail.clipViewModel
+        visibleRect: thumbnail.visibleRect
     }
 }

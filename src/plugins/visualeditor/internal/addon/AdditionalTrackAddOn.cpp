@@ -145,12 +145,6 @@ namespace VisualEditor::Internal {
         return WindowInterfaceAddOn::delayedInitialize();
     }
 
-    QQmlComponent *AdditionalTrackAddOn::phonemePanelBackgroundComponent() {
-        // TODO: Support multiple phoneme panel background components.
-        return qobject_cast<QQmlComponent *>(Core::RuntimeInterface::instance()->getFirstObject(
-            QStringLiteral("org.diffscope.visualeditor.phonemepanelbackgroundcomponent")
-        ));
-    }
 }
 
 #include "moc_AdditionalTrackAddOn.cpp"

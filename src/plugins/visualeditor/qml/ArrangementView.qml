@@ -31,10 +31,13 @@ Item {
 
     property Item selectionLayer: null
     property int selectionTimeCursorPosition: -1
+    readonly property ArrangementClipEditLayer clipPane:
+        contentLayers.items.find(item => item instanceof ArrangementClipEditLayer) ?? null
+    readonly property Item timeCursorSource:
+        foregroundLayers.items.find(item => item.visible && item.enabled && item.timeCursorActive === true) ?? null
     readonly property bool timeCursorBoundByEdit:
-        selectionLayer !== null || clipStartBinding.when || clipEndBinding.when
-        || timeline.dragging || timeline.adjustingLoop
-        || (clipViewContainer.dropArea?.cursorPositionActive ?? false)
+        selectionLayer !== null || (clipPane?.clipCursorActive ?? false)
+        || timeline.dragging || timeline.adjustingLoop || timeCursorSource !== null
 
     onTimeCursorBoundByEditChanged: refreshCursorPosition()
 
@@ -85,6 +88,28 @@ Item {
         value: view.selectionTimeCursorPosition
         when: view.selectionLayer !== null
         restoreMode: Binding.RestoreNone
+    }
+
+    Binding {
+        target: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
+        property: "cursorPosition"
+        value: view.timeCursorSource?.timeCursorPosition ?? -1
+        when: view.timeCursorSource !== null && view.selectionLayer === null
+            && !(view.clipPane?.clipCursorActive ?? false)
+            && !timeline.dragging && !timeline.adjustingLoop
+        restoreMode: Binding.RestoreNone
+    }
+
+    Connections {
+        target: view.clipPane
+
+        function onSelectionStarted() {
+            view.beginSelection(view.clipPane)
+        }
+
+        function onSelectionFinished() {
+            view.endSelection(view.clipPane)
+        }
     }
 
     Connections {
@@ -248,7 +273,7 @@ Item {
             ColumnLayout {
                 anchors.fill: parent
                 spacing: 0
-                Timeline {
+                EditorTimeline {
                     id: timeline
                     Layout.fillWidth: true
                     timeViewModel: view.arrangementPanelInterface?.timeViewModel ?? null
@@ -256,75 +281,10 @@ Item {
                     playbackViewModel: view.projectViewModelContext?.playbackViewModel ?? null
                     scrollBehaviorViewModel: view.arrangementPanelInterface?.scrollBehaviorViewModel ?? null
                     timelineInteractionController: view.arrangementPanelInterface?.timelineInteractionController ?? null
-
-                    property bool dragging: false
-                    property bool adjustingLoop: false
-                    property int loopAdjustmentOperation: 0
-
-                    // TODO move this to C++ code
-                    Connections {
-                        target: timeline.playbackViewModel
-                        enabled: timeline.dragging
-                        function onPrimaryPositionChanged() {
-                            timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.primaryPosition
-                        }
-                    }
-
-                    Connections {
-                        target: timeline.playbackViewModel
-                        enabled: timeline.adjustingLoop
-                        function onLoopStartChanged() {
-                            if (timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustRange || timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustStart) {
-                                timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.loopStart
-                            } else if (timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustEnd) {
-                                timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.loopStart + timeline.playbackViewModel.loopLength
-                            }
-                        }
-
-                        function onLoopLengthChanged() {
-                            if (timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustEnd) {
-                                timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.loopStart + timeline.playbackViewModel.loopLength
-                            }
-                        }
-                    }
-
-                    Connections {
-                        target: timeline.timelineInteractionController
-                        function onPositionIndicatorMovingStarted(timeline_) {
-                            if (timeline_ === timeline) {
-                                timeline.dragging = true
-                            }
-                        }
-                        function onPositionIndicatorMovingFinished(timeline_) {
-                            if (timeline_ === timeline) {
-                                timeline.dragging = false
-                            }
-                        }
-
-                        function onRubberBandDraggingStarted(timeline_) {
-                            if (timeline_ === timeline)
-                                view.beginSelection(timeline)
-                        }
-
-                        function onRubberBandDraggingCommitted(timeline_) {
-                            if (timeline_ === timeline)
-                                view.endSelection(timeline)
-                        }
-
-                        function onRubberBandDraggingAborted(timeline_) {
-                            if (timeline_ === timeline)
-                                view.endSelection(timeline)
-                        }
-
-                        function onLoopRangeAdjustingStarted(_, adjustmentOperation) {
-                            timeline.adjustingLoop = true
-                            timeline.loopAdjustmentOperation = adjustmentOperation
-                        }
-
-                        function onLoopRangeAdjustingFinished() {
-                            timeline.adjustingLoop = false
-                        }
-                    }
+                    layerPoint: ViewLayer.ArrangementTimelineForeground
+                    arrangementPanelInterface: view.arrangementPanelInterface
+                    onSelectionStarted: view.beginSelection(timeline)
+                    onSelectionFinished: view.endSelection(timeline)
                 }
                 AdditionalTrackPane {
                     id: additionalTrackPane
@@ -335,145 +295,42 @@ Item {
                     id: clipViewContainer
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    // Drop components set cursorPositionActive while controlling the time cursor.
-                    property Item dropArea: null
-
-                    Component.onCompleted: {
-                        const component = view.addOn?.dropAreaComponent
-                        if (component) {
-                            dropArea = component.createObject(clipViewContainer, {
-                                "contextObject": view.arrangementPanelInterface
-                            })
-                        }
-                    }
-
-                    ClipPane {
-                        id: clipPane
+                    ClipPaneBackground {
                         anchors.fill: parent
                         trackListViewModel: view.projectViewModelContext?.trackListViewModel ?? null
                         trackListLayoutViewModel: view.arrangementPanelInterface?.trackListLayoutViewModel ?? null
-                        scrollBehaviorViewModel: view.arrangementPanelInterface?.scrollBehaviorViewModel ?? null
-                        selectionController: view.projectViewModelContext?.clipSelectionController ?? null
                         timeViewModel: view.arrangementPanelInterface?.timeViewModel ?? null
                         timeLayoutViewModel: view.arrangementPanelInterface?.timeLayoutViewModel ?? null
-                        clipSequenceViewModel: view.projectViewModelContext?.clipSequenceViewModel ?? null
-                        clipPaneInteractionController: view.arrangementPanelInterface?.clipPaneInteractionController ?? null
-                        thumbnailComponent: ArrangementViewThumbnail {
-                            arrangementPanelInterface: view.arrangementPanelInterface
-                            pianoRollPanelInterface: view.addOn?.pianoRollPanelInterface ?? null
-                            projectViewModelContext: view.projectViewModelContext
-                            audioThumbnailComponent: view.addOn?.audioThumbnailComponent ?? null
-                        }
-
-                        property ClipViewModel activeClip: null
-                        property bool drawingClip: false
-
-                        Binding {
-                            id: clipStartBinding
-                            when: false
-                            restoreMode: Binding.RestoreNone
-                            clipPane.timeLayoutViewModel.cursorPosition: clipPane.activeClip.position
-                        }
-
-                        Binding {
-                            id: clipEndBinding
-                            when: false
-                            restoreMode: Binding.RestoreNone
-                            clipPane.timeLayoutViewModel.cursorPosition: clipPane.activeClip.position + clipPane.activeClip.length
-                        }
-
-                        Connections {
-                            target: clipPane.clipSequenceViewModel
-                            enabled: clipPane.drawingClip
-
-                            function onItemInserted(item) {
-                                if (!clipPane.drawingClip || clipPane.activeClip)
-                                    return
-                                clipPane.activeClip = item
-                                clipEndBinding.when = true
-                            }
-                        }
-
-                        Connections {
-                            target: clipPane.clipPaneInteractionController
-                            function onMovingStarted(clipPane_, clipViewModel) {
-                                if (clipPane_ === clipPane) {
-                                    clipPane.activeClip = clipViewModel
-                                    clipStartBinding.when = true
-                                }
-                            }
-                            function onMovingCommitted(clipPane_) {
-                                if (clipPane_ === clipPane) {
-                                    clipStartBinding.when = false
-                                    clipPane.activeClip = null
-                                }
-                            }
-                            function onMovingAborted(clipPane_) {
-                                if (clipPane_ === clipPane) {
-                                    clipStartBinding.when = false
-                                    clipPane.activeClip = null
-                                }
-                            }
-                            function onAdjustLengthStarted(clipPane_, clipViewModel, edge) {
-                                if (clipPane_ === clipPane) {
-                                    clipPane.activeClip = clipViewModel
-                                    if (edge === ClipPaneInteractionController.LeftEdge) {
-                                        clipStartBinding.when = true
-                                    } else {
-                                        clipEndBinding.when = true
-                                    }
-                                }
-                            }
-                            function onAdjustLengthCommitted(clipPane_) {
-                                if (clipPane_ === clipPane) {
-                                    clipStartBinding.when = clipEndBinding.when = false
-                                    clipPane.activeClip = null
-                                }
-                            }
-                            function onAdjustLengthAborted(clipPane_) {
-                                if (clipPane_ === clipPane) {
-                                    clipStartBinding.when = clipEndBinding.when = false
-                                    clipPane.activeClip = null
-                                }
-                            }
-                            function onSplitStarted(clipPane_, position) {
-                                if (clipPane_ === clipPane) {
-                                    clipPane.timeLayoutViewModel.cursorPosition = position
-                                }
-                            }
-                            function onDrawingStarted(clipPane_) {
-                                if (clipPane_ === clipPane) {
-                                    clipPane.drawingClip = true
-                                    clipPane.activeClip = null
-                                }
-                            }
-                            function onDrawingCommitted(clipPane_) {
-                                if (clipPane_ === clipPane) {
-                                    clipPane.drawingClip = false
-                                    clipEndBinding.when = false
-                                    clipPane.activeClip = null
-                                }
-                            }
-                            function onDrawingAborted(clipPane_) {
-                                if (clipPane_ === clipPane) {
-                                    clipPane.drawingClip = false
-                                    clipEndBinding.when = false
-                                    clipPane.activeClip = null
-                                }
-                            }
-                            function onRubberBandDraggingStarted(clipPane_) {
-                                if (clipPane_ === clipPane)
-                                    view.beginSelection(clipPane)
-                            }
-                            function onRubberBandDraggingCommitted(clipPane_) {
-                                if (clipPane_ === clipPane)
-                                    view.endSelection(clipPane)
-                            }
-                            function onRubberBandDraggingAborted(clipPane_) {
-                                if (clipPane_ === clipPane)
-                                    view.endSelection(clipPane)
-                            }
-                        }
+                    }
+                    ViewLayerHost {
+                        anchors.fill: parent
+                        point: ViewLayer.ArrangementBackground
+                        arrangementPanelInterface: view.arrangementPanelInterface
+                    }
+                    ViewLayerHost {
+                        id: contentLayers
+                        anchors.fill: parent
+                        point: ViewLayer.ArrangementContent
+                        arrangementPanelInterface: view.arrangementPanelInterface
+                        pianoRollPanelInterface: view.addOn?.pianoRollPanelInterface ?? null
+                    }
+                    ViewLayerHost {
+                        id: foregroundLayers
+                        anchors.fill: parent
+                        point: ViewLayer.ArrangementForeground
+                        arrangementPanelInterface: view.arrangementPanelInterface
+                    }
+                    Item {
+                        id: selectionOverlay
+                        anchors.fill: parent
+                        clip: true
+                    }
+                    Binding {
+                        target: view.clipPane
+                        property: "selectionOverlayParent"
+                        value: selectionOverlay
+                        when: view.clipPane !== null
+                        restoreMode: Binding.RestoreNone
                     }
                 }
             }

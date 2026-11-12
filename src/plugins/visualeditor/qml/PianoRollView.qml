@@ -12,13 +12,11 @@ import QActionKit
 
 import dev.sjimo.ScopicFlow
 import dev.sjimo.ScopicFlow.Views
-import dev.sjimo.ScopicFlow.Internal as ScopicFlowInternal
 
 import SVSCraft
 import SVSCraft.UIComponents
 
 import DiffScope.Core
-import DiffScope.SingerCatalog
 
 Item {
     id: view
@@ -50,7 +48,10 @@ Item {
     property bool pitchAnchorMoving: false
     property bool pitchFreeEditing: false
     property bool pitchHovered: false
-    readonly property int pitchHoverPosition: pitchEditor.pointerTimePosition
+    readonly property PianoRollPitchLayer pitchLayer:
+        contentLayers.items.find(item => item instanceof PianoRollPitchLayer) ?? null
+    readonly property ParameterEditor pitchEditor: pitchLayer?.editor ?? null
+    readonly property int pitchHoverPosition: pitchEditor?.pointerTimePosition ?? 0
     property double unalignedClavierCursorPosition: -1.0
     property var timeCursorSources: []
 
@@ -63,7 +64,7 @@ Item {
         && ((pianoRollPanelInterface?.pitchToolActive ?? false)
             || (selectionLayer !== null && selectionUsesClavier))
     readonly property bool pitchHoverCursorActive:
-        pitchEditor.enabled && pitchHovered
+        (pitchEditor?.enabled ?? false) && pitchHovered
         && !(pianoRollPanelInterface?.mouseTrackingDisabled ?? true)
     readonly property Item activeTimeCursorSource: {
         let hoveredSource = null
@@ -93,45 +94,18 @@ Item {
         if (pitchAnchorMoving || pitchFreeEditing) {
             return mapClipPositionToTimeline(
                 pitchAnchorMoving ? (pitchAnchorBeingEdited?.position ?? 0)
-                    : pitchEditor.freeEditPointerPosition,
-                pitchProxyTimeViewModel.clipViewModel)
+                    : (pitchEditor?.freeEditPointerPosition ?? 0),
+                view.pitchLayer?.clipViewModel ?? null)
         }
         if (activeTimeCursorSource)
             return activeTimeCursorSource.timeCursorPosition
         if (pitchHoverCursorActive)
-            return mapClipPositionToTimeline(pitchHoverPosition, pitchProxyTimeViewModel.clipViewModel)
+            return mapClipPositionToTimeline(pitchHoverPosition, view.pitchLayer?.clipViewModel ?? null)
         return -1
     }
 
     onActiveTimeCursorSourceChanged: refreshCursorPositions()
     onSelectionLayerChanged: refreshCursorPositions()
-
-    readonly property var singerBackgroundIds:
-        flattenUniqueSingerIds(singerBackgroundIdProvider.singerTree)
-
-    function flattenUniqueSingerIds(singerTree) {
-        const singerIds = []
-
-        function appendSingerIds(node) {
-            if (typeof node === "string") {
-                if (node !== "" && !singerIds.includes(node))
-                    singerIds.push(node)
-                return
-            }
-            if (!node || typeof node.length !== "number")
-                return
-            for (let index = 0; index < node.length; ++index)
-                appendSingerIds(node[index])
-        }
-
-        appendSingerIds(singerTree)
-        return singerIds
-    }
-
-    ClipSingerIdProvider {
-        id: singerBackgroundIdProvider
-        sources: view.pianoRollPanelInterface?.editingClip?.sources ?? null
-    }
 
     function mapClipPositionToTimeline(position: int, clipViewModel): int {
         return position + (clipViewModel?.position ?? 0)
@@ -147,7 +121,7 @@ Item {
 
     function updateUnalignedClavierCursorPosition(point) {
         if (((view.pianoRollPanelInterface?.pitchToolActive ?? false)
-                && (!pitchEditor.visible || pitchEditor.height <= 0))
+                && (!pitchEditor?.visible || pitchEditor.height <= 0))
                 || !view.itemContainsPoint(pianoRollViewContainerSplitViewport, point)) {
             view.unalignedClavierCursorPosition = -1.0
             return
@@ -266,7 +240,7 @@ Item {
     }
 
     function beginPitchHover(editor) {
-        if (editor !== pitchEditor
+        if (!pitchEditor || editor !== pitchEditor
                 || !pitchEditor.enabled
                 || (view.pianoRollPanelInterface?.mouseTrackingDisabled ?? true))
             return
@@ -274,7 +248,7 @@ Item {
     }
 
     function endPitchHover(editor) {
-        if (editor !== pitchEditor || editor.hasPointerHover())
+        if (!pitchEditor || editor !== pitchEditor || editor.hasPointerHover())
             return
         view.pitchHovered = false
         view.refreshCursorPositions()
@@ -356,7 +330,7 @@ Item {
                   view.pitchAnchorBeingEdited?.value ?? 0.0)
             : view.pitchFreeEditing
                 ? view.pitchPositionFromNormalizedValue(
-                      pitchEditor.freeEditPointerValue)
+                      pitchEditor?.freeEditPointerValue ?? 0.0)
                 : view.unalignedClavierCursorPosition
         when: view.unalignedClavierCursorActive && view.selectionLayer === null
         restoreMode: Binding.RestoreNone
@@ -728,6 +702,12 @@ Item {
 
                     bottomExpansion: view.bottomExpansion
 
+                    ViewLayerHost {
+                        anchors.fill: parent
+                        point: ViewLayer.PianoRollKeyboardForeground
+                        pianoRollPanelInterface: view.pianoRollPanelInterface
+                    }
+
                     Connections {
                         target: clavier.clavierInteractionController
                         function onHoverEntered(clavier_, key) {
@@ -757,7 +737,7 @@ Item {
             ColumnLayout {
                 anchors.fill: parent
                 spacing: 0
-                Timeline {
+                EditorTimeline {
                     id: timeline
                     Layout.fillWidth: true
                     timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
@@ -765,75 +745,10 @@ Item {
                     playbackViewModel: view.projectViewModelContext?.playbackViewModel ?? null
                     scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
                     timelineInteractionController: view.pianoRollPanelInterface?.timelineInteractionController ?? null
-
-                    property bool dragging: false
-                    property bool adjustingLoop: false
-                    property int loopAdjustmentOperation: 0
-
-                    // TODO move this to C++ code
-                    Connections {
-                        target: timeline.playbackViewModel
-                        enabled: timeline.dragging
-                        function onPrimaryPositionChanged() {
-                            timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.primaryPosition
-                        }
-                    }
-
-                    Connections {
-                        target: timeline.playbackViewModel
-                        enabled: timeline.adjustingLoop
-                        function onLoopStartChanged() {
-                            if (timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustRange || timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustStart) {
-                                timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.loopStart
-                            } else if (timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustEnd) {
-                                timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.loopStart + timeline.playbackViewModel.loopLength
-                            }
-                        }
-
-                        function onLoopLengthChanged() {
-                            if (timeline.loopAdjustmentOperation === TimelineInteractionController.AdjustEnd) {
-                                timeline.timeLayoutViewModel.cursorPosition = timeline.playbackViewModel.loopStart + timeline.playbackViewModel.loopLength
-                            }
-                        }
-                    }
-
-                    Connections {
-                        target: timeline.timelineInteractionController
-                        function onPositionIndicatorMovingStarted(timeline_) {
-                            if (timeline_ === timeline) {
-                                timeline.dragging = true
-                            }
-                        }
-                        function onPositionIndicatorMovingFinished(timeline_) {
-                            if (timeline_ === timeline) {
-                                timeline.dragging = false
-                            }
-                        }
-
-                        function onRubberBandDraggingStarted(timeline_) {
-                            if (timeline_ === timeline)
-                                view.beginSelection(timeline)
-                        }
-
-                        function onRubberBandDraggingCommitted(timeline_) {
-                            if (timeline_ === timeline)
-                                view.endSelection(timeline)
-                        }
-
-                        function onRubberBandDraggingAborted(timeline_) {
-                            if (timeline_ === timeline)
-                                view.endSelection(timeline)
-                        }
-
-                        function onLoopRangeAdjustingStarted(_, adjustmentOperation) {
-                            timeline.adjustingLoop = true
-                            timeline.loopAdjustmentOperation = adjustmentOperation
-                        }
-
-                        function onLoopRangeAdjustingFinished() {
-                            timeline.adjustingLoop = false
-                        }
-                    }
+                    layerPoint: ViewLayer.PianoRollTimelineForeground
+                    pianoRollPanelInterface: view.pianoRollPanelInterface
+                    onSelectionStarted: view.beginSelection(timeline)
+                    onSelectionFinished: view.endSelection(timeline)
                 }
                 AdditionalTrackPane {
                     id: additionalTrackPane
@@ -861,180 +776,17 @@ Item {
                                 clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
                                 scaleHighlightSequenceViewModel: view.pianoRollPanelInterface?.scaleHighlightEnabled ? (view.projectViewModelContext?.scaleHighlightSequenceViewModel ?? null) : null
                             }
-                            RowLayout {
-                                id: singerBackgroundRow
-
-                                anchors.top: parent.top
-                                anchors.bottom: parent.bottom
-                                anchors.topMargin: EditorPreference.singerBackgroundVerticalMargin
-                                anchors.bottomMargin: EditorPreference.singerBackgroundVerticalMargin
-                                x: {
-                                    switch (EditorPreference.singerBackgroundAlignment) {
-                                    case EditorPreference.SBA_Left:
-                                        return EditorPreference.singerBackgroundHorizontalMargin
-                                    case EditorPreference.SBA_Center:
-                                        return (parent.width - width) / 2
-                                            + EditorPreference.singerBackgroundHorizontalOffset
-                                    default:
-                                        return parent.width - width
-                                            - EditorPreference.singerBackgroundHorizontalMargin
-                                    }
-                                }
-                                spacing: EditorPreference.singerBackgroundSpacing
-                                visible: EditorPreference.showSingerBackground
-                                opacity: EditorPreference.singerBackgroundOpacity
-
-                                Repeater {
-                                    model: EditorPreference.showAllSingerBackgrounds
-                                           ? view.singerBackgroundIds
-                                           : view.singerBackgroundIds.slice(0, 1)
-
-                                    delegate: Image {
-                                        id: singerBackgroundImage
-
-                                        required property string modelData
-
-                                        readonly property url backgroundUrl:
-                                            singerInfoProvider.info.backgroundUrl
-                                        readonly property bool hasBackground:
-                                            singerInfoProvider.exists
-                                            && String(backgroundUrl).length > 0
-
-                                        Layout.fillHeight: true
-                                        Layout.preferredWidth: hasBackground
-                                                               && sourceSize.height > 0
-                                                               ? singerBackgroundRow.height
-                                                                 * sourceSize.width
-                                                                 / sourceSize.height
-                                                               : 0
-
-                                        visible: hasBackground
-                                        source: hasBackground ? backgroundUrl : ""
-                                        fillMode: Image.PreserveAspectFit
-                                        asynchronous: true
-                                        mipmap: true
-
-                                        SingerInfoProvider {
-                                            id: singerInfoProvider
-                                            registry: CoreInterface.singerRegistry
-                                            architectureId: singerBackgroundIdProvider.architectureId
-                                            singerId: singerBackgroundImage.modelData
-                                        }
-                                    }
-                                }
-                            }
-                            Item {
-                                id: noteEditLayerSequenceStack
+                            ViewLayerHost {
                                 anchors.fill: parent
-                                enabled: !(view.pianoRollPanelInterface?.pitchToolActive ?? false)
-                                Repeater {
-                                    model: DelegateModel {
-                                        model: view.pianoRollPanelInterface?.trackOverlaySelectorModel ?? null
-                                        delegate: NoteEditLayerSequence {
-                                            required property int index
-                                            required property var modelData
-                                            readonly property bool isEditingTrack:view.pianoRollPanelInterface?.editingClip?.clipSequence?.track === modelData.display.track
-                                            anchors.fill: parent
-                                            selectionController: view.projectViewModelContext?.noteSelectionController ?? null
-                                            timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
-                                            timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
-                                            clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
-                                            noteEditLayerInteractionController: view.pianoRollPanelInterface?.noteEditLayerInteractionController ?? null
-                                            // TODO this should not depend on signal connection order
-                                            clipSequenceViewModel: view.projectViewModelContext?.getSingingClipPerTrackSequenceViewModel(modelData.display.track) ?? null
-                                            trackListViewModel: view.projectViewModelContext?.trackListViewModel ?? null
-                                            editingItem: view.projectViewModelContext?.getClipViewItemFromDocumentItem(view.pianoRollPanelInterface?.editingClip ?? null) ?? null
-                                            z: isEditingTrack ? 1 : 0
-                                            active: modelData.display.overlayVisible || isEditingTrack
-                                            transparentDisplay: view.pianoRollPanelInterface?.pitchToolActive ?? false
-                                            bottomExpansion: view.bottomExpansion
-                                        }
-                                    }
-                                }
+                                point: ViewLayer.PianoRollBackground
+                                pianoRollPanelInterface: view.pianoRollPanelInterface
                             }
-                            ScopicFlowInternal.ClipMappedProxyTimeViewModel {
-                                id: pitchProxyTimeViewModel
-                                timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
-                                clipViewModel: view.projectViewModelContext?.getClipViewItemFromDocumentItem(view.pianoRollPanelInterface?.editingClip ?? null) ?? null
-                            }
-                            Item {
-                                id: pitchEditorViewport
-                                width: parent.width
-                                height: pianoRollViewContainerSplitViewport.height
-                                z: 2
-                                clip: true
-
-                                ClavierManipulator {
-                                    id: pitchClavierManipulator
-                                    clavierViewModel: view.pianoRollPanelInterface?.clavierViewModel ?? null
-                                    target: pitchEditorViewport
-                                }
-                                ParameterEditor {
-                                    id: pitchEditor
-                                    verticalManipulator: pitchClavierManipulator
-                                    verticalViewport: pitchEditorViewport
-                                    readonly property ParameterViewModelBinding binding:
-                                        view.projectViewModelContext?.parameterEditorContext.pitchBinding ?? null
-                                    readonly property real keyHeight:
-                                        view.pianoRollPanelInterface?.clavierViewModel?.pixelDensity ?? 0
-                                    readonly property real timePixelDensity:
-                                        view.pianoRollPanelInterface?.timeLayoutViewModel?.pixelDensity ?? 0
-                                    readonly property real clavierStart:
-                                        view.pianoRollPanelInterface?.clavierViewModel?.start ?? 0
-                                    readonly property real key128CenterY:
-                                        (clavierStart - 128.5) * keyHeight
-                                    readonly property real key0CenterY:
-                                        (clavierStart - 0.5) * keyHeight
-                                    readonly property bool noteEditPitchCurveVisible: {
-                                        if (EditorPreference.noteEditPitchCurveDisplayMode === EditorPreference.PCDM_AlwaysShow)
-                                            return true
-                                        if (EditorPreference.noteEditPitchCurveDisplayMode === EditorPreference.PCDM_AlwaysHide)
-                                            return false
-                                        return timePixelDensity >= EditorPreference.autoPitchCurveDisplayPixelDensityThreshold
-                                    }
-                                    readonly property real noteEditPitchCurveOpacityFactor: {
-                                        if (EditorPreference.noteEditPitchCurveDisplayMode !== EditorPreference.PCDM_Automatic)
-                                            return 1.0
-                                        const ratio = timePixelDensity / EditorPreference.autoPitchCurveDisplayPixelDensityThreshold
-                                        return Math.max(0.0, Math.min(1.0, 2 * Math.log2(ratio)))
-                                    }
-                                    x: 0
-                                    width: parent.width
-                                    y: key128CenterY
-                                    height: key0CenterY - key128CenterY
-                                    visible: (binding?.available ?? false) && (enabled || noteEditPitchCurveVisible)
-                                    enabled: view.pianoRollPanelInterface?.pitchToolActive ?? false
-                                    opacity: enabled ? 1.0 : 0.5 * noteEditPitchCurveOpacityFactor
-                                    freeParameterViewModel: binding?.freeEdited ?? null
-                                    anchorParameterViewModel: binding?.anchorEdited ?? null
-                                    originalParameterViewModel: binding?.original ?? null
-                                    freeTransformParameterViewModel: binding?.freeTransform ?? null
-                                    anchorTransformParameterViewModel: binding?.anchorTransform ?? null
-                                    freeParameterSelectionViewModel: binding?.freeSelection ?? null
-                                    anchorSelectionController: binding?.anchorSelectionController ?? null
-                                    interactionController: binding?.interactionController ?? null
-                                    timeViewModel: pitchProxyTimeViewModel
-                                    timeLayoutViewModel: view.pianoRollPanelInterface?.timeLayoutViewModel ?? null
-                                    Theme.accentColor: Theme.foregroundPrimaryColor
-                                }
-                            }
-                            Item {
-                                id: clipOutsideLayer
+                            ViewLayerHost {
+                                id: contentLayers
                                 anchors.fill: parent
-                                visible: Boolean(view.pianoRollPanelInterface?.editingClip)
-                                readonly property ClipViewModel clipViewModel: view.projectViewModelContext?.getClipViewItemFromDocumentItem(view.pianoRollPanelInterface?.editingClip ?? null) ?? null
-                                Rectangle {
-                                    x: 0
-                                    width: Math.min(parent.width, ((clipOutsideLayer.clipViewModel?.position ?? 0) - (view.pianoRollPanelInterface?.timeViewModel?.start ?? 0)) * (view.pianoRollPanelInterface?.timeLayoutViewModel?.pixelDensity ?? 0))
-                                    height: parent.height
-                                    color: Qt.rgba(Theme.backgroundPrimaryColor.r, Theme.backgroundPrimaryColor.g, Theme.backgroundPrimaryColor.b, 0.5 * Theme.backgroundPrimaryColor.a)
-                                }
-                                Rectangle {
-                                    x: parent.width - width
-                                    width: Math.min(parent.width, parent.width - ((clipOutsideLayer.clipViewModel?.position ?? 0) + (clipOutsideLayer.clipViewModel?.length ?? 0) - (view.pianoRollPanelInterface?.timeViewModel?.start ?? 0)) * (view.pianoRollPanelInterface?.timeLayoutViewModel?.pixelDensity ?? 0))
-                                    height: parent.height
-                                    color: Qt.rgba(Theme.backgroundPrimaryColor.r, Theme.backgroundPrimaryColor.g, Theme.backgroundPrimaryColor.b, 0.5 * Theme.backgroundPrimaryColor.a)
-                                }
+                                point: ViewLayer.PianoRollContent
+                                pianoRollPanelInterface: view.pianoRollPanelInterface
+                                visibleRect: Qt.rect(0, 0, width, pianoRollViewContainerSplitViewport.height)
                             }
                             Rectangle {
                                 id: noClipMessageLayer
@@ -1060,6 +812,12 @@ Item {
                                         }
                                     }
                                 }
+                            }
+                            ViewLayerHost {
+                                width: parent.width
+                                height: pianoRollViewContainerSplitViewport.height
+                                point: ViewLayer.PianoRollForeground
+                                pianoRollPanelInterface: view.pianoRollPanelInterface
                             }
                             PianoRollScrollLayer {
                                 anchors.fill: parent

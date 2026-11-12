@@ -3,6 +3,7 @@
 
 #include "VisualEditorPlugin.h"
 
+#include <QAnyStringView>
 #include <QQmlComponent>
 #include <QSettings>
 
@@ -15,20 +16,21 @@
 #include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
 
+#include <ScopicFlowCore/Palette.h>
+
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
-#include <ScopicFlowCore/Palette.h>
-
-#include <visualeditor/internal/ArrangementAddOn.h>
-#include <visualeditor/internal/PianoRollAddOn.h>
-#include <visualeditor/internal/EditorPreference.h>
-#include <visualeditor/internal/ProjectAddOn.h>
+#include <visualeditor/ViewLayerRegistry.h>
 #include <visualeditor/internal/AdditionalTrackAddOn.h>
-#include <visualeditor/internal/MixerAddOn.h>
-#include <visualeditor/internal/ScrollAddOn.h>
+#include <visualeditor/internal/ArrangementAddOn.h>
 #include <visualeditor/internal/EditorPage.h>
+#include <visualeditor/internal/EditorPreference.h>
+#include <visualeditor/internal/MixerAddOn.h>
+#include <visualeditor/internal/PianoRollAddOn.h>
+#include <visualeditor/internal/ProjectAddOn.h>
+#include <visualeditor/internal/ScrollAddOn.h>
 
 #include <org.diffscope.visualeditor_actions.qak.h>
 
@@ -53,6 +55,22 @@ namespace VisualEditor::Internal {
     }
 
     void VisualEditorPlugin::extensionsInitialized() {
+        auto registry = ViewLayerRegistry::instance();
+        const auto registerLayer = [this, registry](ViewLayerPoint point, QAnyStringView typeName) {
+            auto component = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", typeName, this);
+            if (component->isError()) {
+                qFatal() << component->errorString();
+            }
+            registry->registerLayer(point, component);
+        };
+
+        registerLayer(ViewLayerPoint::PianoRollBackground, "PianoRollSingerBackgroundLayer");
+        registerLayer(ViewLayerPoint::PianoRollContent, "PianoRollNoteLayer");
+        registerLayer(ViewLayerPoint::PianoRollContent, "PianoRollPitchLayer");
+        registerLayer(ViewLayerPoint::PianoRollContent, "PianoRollClipRangeLayer");
+        registerLayer(ViewLayerPoint::ArrangementContent, "ArrangementClipEditLayer");
+        registerLayer(ViewLayerPoint::ArrangementClipContent, "SingingClipThumbnailLayer");
+        registerLayer(ViewLayerPoint::ArrangementClipAdornment, "ClipSingerLayer");
     }
 
     bool VisualEditorPlugin::delayedInitialize() {
@@ -61,6 +79,7 @@ namespace VisualEditor::Internal {
 
     void VisualEditorPlugin::initializeSingletons() {
         new EditorPreference(this);
+        Core::RuntimeInterface::instance()->addObject(new ViewLayerRegistry(this));
         Core::RuntimeInterface::instance()->addObject("org.diffscope.visualeditor.sfdefaultpalette", sflow::Palette::defaultPalette());
     }
 
