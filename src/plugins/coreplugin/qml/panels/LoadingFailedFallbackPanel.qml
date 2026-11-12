@@ -14,13 +14,12 @@ import DiffScope.UIShell
 DockingPane {
     id: panel
 
-    required property string actionId
-    required property string actionText
+    required property string panelTitle
     required property bool componentRegistered
     required property string errorString
 
     preferredSize: Qt.size(600, 400)
-    title: qsTr("%1 (Failed to Load)").arg(actionText)
+    title: qsTr("%1 (Failed to Load)").arg(panelTitle)
     icon.source: "image://fluent-system-icons/error_circle"
     icon.color: Theme.errorColor
 
@@ -55,7 +54,7 @@ DockingPane {
             Layout.fillWidth: true
             label: qsTr("Component identifier")
             columnItem: TextField {
-                text: panel.actionId
+                text: panel.panelKey
                 readOnly: true
             }
         }

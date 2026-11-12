@@ -6,24 +6,29 @@
 #include <algorithm>
 #include <ranges>
 
+#include <QColor>
 #include <QDebug>
 #include <QQmlComponent>
+#include <QQuickItem>
 #include <QQuickWindow>
 #include <QSet>
 #include <QStandardItemModel>
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
 
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/DockingContext.h>
 #include <SVSCraftQuick/DockingPanel.h>
 
+#include <coreplugin/CoreInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/WorkspacePanelRegistry.h>
 #include <coreplugin/internal/ProjectWindowWorkspaceLayout.h>
 #include <coreplugin/internal/ProjectWindowWorkspaceManager.h>
-#include <coreplugin/internal/WorkspacePanelCatalog.h>
+#include <coreplugin/internal/WorkspacePanelHistory.h>
 #include <coreplugin/internal/WorkspaceSession.h>
 
 namespace Core::Internal {
@@ -58,7 +63,7 @@ namespace Core::Internal {
         }
         m_helper = helper.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}});
         if (!m_helper) {
-            qFatal() << "WorkspaceAddOnHelper could not be created." << helper.errorString();
+            qFatal() << helper.errorString();
         }
         m_helper->setParent(this);
 
@@ -68,7 +73,7 @@ namespace Core::Internal {
         }
         auto object = actions.createWithInitialProperties({{"addOn", QVariant::fromValue(this)}, {"helper", QVariant::fromValue(m_helper.data())}});
         if (!object) {
-            qFatal() << "WorkspaceAddOnActions could not be created." << actions.errorString();
+            qFatal() << actions.errorString();
         }
         object->setParent(this);
         m_actions = object;
@@ -86,10 +91,25 @@ namespace Core::Internal {
             }
             window->actionContext()->addAction(id, component);
         }
+        auto registry = window->workspacePanelRegistry();
+        auto history = RuntimeInterface::instance()->getFirstObject<WorkspacePanelHistory>();
+        connect(registry, &WorkspacePanelRegistry::registrationChanged, this, [this, registry, history = QPointer(history)](const QString &id) {
+            m_actionPanels.remove(id);
+            if (m_panelRegistrationInitialized && history)
+                history->observe(registry->panelIds());
+        });
+        if (history)
+            connect(history, &WorkspacePanelHistory::presentedChanged, this, &WorkspaceAddOn::panelEntriesChanged);
+        connect(m_session, &WorkspaceSession::panelContentCreated, this, [this, window, registry](const QString &id, QQuickItem *item) {
+            const auto component = m_actionPanels.value(id);
+            if (component && component == registry->component(id))
+                window->actionContext()->attachActionInfo(id, item);
+        });
         connect(m_session->context(), &SVS::DockingContext::changed, this, [this] {
             if (!m_session->isBusy() && !m_session->isShuttingDown())
                 Q_EMIT panelEntriesChanged();
         });
+        connect(m_session, &WorkspaceSession::panelsChanged, this, &WorkspaceAddOn::panelEntriesChanged);
         connect(m_session, &WorkspaceSession::restored, this, &WorkspaceAddOn::panelEntriesChanged);
         connect(m_workspaceManager, &ProjectWindowWorkspaceManager::currentLayoutChanged, this, [this] {
             if (!m_initialLayoutPending)
@@ -98,8 +118,28 @@ namespace Core::Internal {
     }
 
     void WorkspaceAddOn::extensionsInitialized() {
-        m_session->initialize();
-        Q_EMIT panelEntriesChanged();
+        auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        auto registry = windowInterface->workspacePanelRegistry();
+        auto actionRegistry = CoreInterface::actionRegistry();
+        const auto ids = actionRegistry->catalog().children(QStringLiteral("org.diffscope.core.workspacePanelWidgets"));
+        for (const auto &id : ids) {
+            const auto info = actionRegistry->actionInfo(id);
+            auto component = windowInterface->actionContext()->action(id);
+            if (!info || !component)
+                continue;
+            const auto icon = actionRegistry->actionIcon("", id, info->icon()).value_or(QAK::ActionIcon());
+            const WorkspacePanelRegistry::Metadata metadata{
+                info->text().toString(),
+                info->description().toString(),
+                icon.url(),
+                QColor::fromString(icon.currentColor()),
+            };
+            if (registry->registerPanel(id, component, metadata) && registry->component(id) == component)
+                m_actionPanels.insert(id, component);
+        }
+        m_panelRegistrationInitialized = true;
+        if (auto history = RuntimeInterface::instance()->getFirstObject<WorkspacePanelHistory>())
+            history->observe(registry->panelIds());
 
         auto window = qobject_cast<QQuickWindow *>(windowHandle()->window());
         Q_ASSERT(window);
@@ -127,9 +167,12 @@ namespace Core::Internal {
     }
 
     void WorkspaceAddOn::markNewPanelsPresented() {
-        if (auto catalog = RuntimeInterface::instance()->getFirstObject<WorkspacePanelCatalog>())
-            catalog->markPresented();
-        Q_EMIT panelEntriesChanged();
+        if (auto history = RuntimeInterface::instance()->getFirstObject<WorkspacePanelHistory>()) {
+            QStringList ids;
+            for (const auto &entry : newPanelEntries())
+                ids.append(entry.toMap().value("id").toString());
+            history->markPresented(ids);
+        }
     }
 
     void WorkspaceAddOn::saveCustomLayoutFromJavaScript(const ProjectWindowWorkspaceLayout &layout_, const QString &originName, const QString &name) const {
@@ -233,29 +276,42 @@ namespace Core::Internal {
     }
 
     QVariantList WorkspaceAddOn::panelEntries() const {
-        auto catalog = RuntimeInterface::instance()->getFirstObject<WorkspacePanelCatalog>();
-        QVariantList result = catalog ? catalog->entries() : QVariantList{};
-        if (!m_session)
+        QVariantList result;
+        if (!m_session || m_session->isShuttingDown())
             return result;
-        QSet<QString> included;
-        for (auto &entry : result) {
-            auto map = entry.toMap();
-            auto panel = m_session->context()->panel(map.value("id").toString());
-            included.insert(map.value("id").toString());
-            map.insert("panel", QVariant::fromValue(panel));
-            entry = map;
+        auto registry = windowHandle()->cast<ProjectWindowInterface>()->workspacePanelRegistry();
+        for (const auto &id : registry->panelIds()) {
+            auto panel = m_session->context()->panel(id);
+            if (!panel || !registry->component(id))
+                continue;
+            const auto metadata = registry->metadata(id);
+            result.append(QVariantMap{
+                {"id", id},
+                {"text", metadata.title.isEmpty() ? id : metadata.title},
+                {"iconSource", metadata.iconSource},
+                {"iconColor", metadata.iconColor},
+                {"panel", QVariant::fromValue(panel)},
+                {"registered", true},
+            });
         }
         for (const auto &value : m_session->context()->panelObjects()) {
             auto panel = value.value<SVS::DockingPanel *>();
-            if (!included.contains(panel->key()) && panel->group())
-                result.append(QVariantMap{{"id", panel->key()}, {"text", panel->title()}, {"iconSource", panel->iconSource()}, {"iconColor", panel->iconColor()}, {"panel", QVariant::fromValue(panel)}});
+            if (!registry->component(panel->key()) && panel->group())
+                result.append(QVariantMap{{"id", panel->key()}, {"text", panel->title()}, {"iconSource", panel->iconSource()}, {"iconColor", panel->iconColor()}, {"panel", QVariant::fromValue(panel)}, {"registered", false}});
         }
         return result;
     }
 
     QVariantList WorkspaceAddOn::newPanelEntries() const {
-        auto catalog = RuntimeInterface::instance()->getFirstObject<WorkspacePanelCatalog>();
-        return catalog ? catalog->pendingEntries() : QVariantList{};
+        QVariantList result;
+        if (auto history = RuntimeInterface::instance()->getFirstObject<WorkspacePanelHistory>()) {
+            for (const auto &entry : panelEntries()) {
+                const auto map = entry.toMap();
+                if (map.value("registered").toBool() && history->isPending(map.value("id").toString()))
+                    result.append(entry);
+            }
+        }
+        return result;
     }
 }
 

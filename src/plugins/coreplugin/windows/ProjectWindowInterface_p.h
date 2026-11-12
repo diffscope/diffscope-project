@@ -15,6 +15,7 @@ namespace Core {
         Notifications::NotificationModel *notifications{};
         DspxProject::ProjectTimeline *projectTimeline;
         DspxProject::ProjectDocumentContext *projectDocumentContext;
+        WorkspacePanelRegistry *workspacePanelRegistry = nullptr;
         DspxProject::ClipboardEditScenario *clipboardEditScenario = nullptr;
         DspxProject::EditItemsScenario *editItemsScenario = nullptr;
         DspxProject::EditKeySignatureScenario *editKeySignatureScenario = nullptr;

@@ -87,6 +87,13 @@ QtObject {
             newPanels.open()
     }
 
+    readonly property Connections addOnConnections: Connections {
+        target: helper.addOn
+        function onPanelEntriesChanged() {
+            Qt.callLater(helper.presentNewPanels)
+        }
+    }
+
     readonly property Connections windowConnections: Connections {
         target: helper.window
 
@@ -146,5 +153,6 @@ QtObject {
         parent: helper.window?.contentItem ?? null
         anchors.centerIn: parent
         addOn: helper.addOn
+        onClosed: Qt.callLater(helper.presentNewPanels)
     }
 }

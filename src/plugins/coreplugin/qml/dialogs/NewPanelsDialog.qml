@@ -23,6 +23,17 @@ Dialog {
         entries = dialog.addOn.newPanelEntries
         dialog.addOn.markNewPanelsPresented()
     }
+    Connections {
+        target: dialog.addOn
+        function onPanelEntriesChanged() {
+            if (!dialog.visible)
+                return
+            const registeredPanels = dialog.addOn.panelEntries.filter(entry => entry.registered)
+            const remaining = dialog.entries.filter(entry => registeredPanels.some(registered => registered.panel === entry.panel))
+            if (remaining.length !== dialog.entries.length)
+                dialog.entries = remaining
+        }
+    }
     contentItem: ColumnLayout {
         Label {
             text: qsTr("Drag a panel to the workspace to place it.")
@@ -35,7 +46,7 @@ Dialog {
             delegate: ItemDelegate {
                 id: entry
                 required property var modelData
-                readonly property DockingPanel panel: dialog.addOn?.session?.context?.panel(modelData.id) ?? null
+                readonly property DockingPanel panel: modelData.panel
                 text: modelData.text
                 icon.source: modelData.iconSource
 

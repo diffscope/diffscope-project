@@ -4,12 +4,17 @@
 #ifndef DIFFSCOPE_COREPLUGIN_WORKSPACEADDON_H
 #define DIFFSCOPE_COREPLUGIN_WORKSPACEADDON_H
 
+#include <QHash>
 #include <QPointer>
+#include <QString>
+#include <QVariantList>
 
 #include <CoreApi/windowinterface.h>
 
 Q_MOC_INCLUDE(<coreplugin / internal / ProjectWindowWorkspaceManager.h>)
 Q_MOC_INCLUDE(<coreplugin / internal / WorkspaceSession.h>)
+
+class QQmlComponent;
 
 namespace Core::Internal {
     class ProjectWindowWorkspaceManager;
@@ -45,6 +50,8 @@ namespace Core::Internal {
         WorkspaceSession *m_session = nullptr;
         QPointer<QObject> m_helper;
         QPointer<QObject> m_actions;
+        QHash<QString, QPointer<QQmlComponent>> m_actionPanels;
+        bool m_panelRegistrationInitialized = false;
         bool m_initialLayoutPending = true;
     };
 }

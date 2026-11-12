@@ -61,6 +61,7 @@
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/TrackColorSchema.h>
+#include <coreplugin/WorkspacePanelRegistry.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/CoreClipboardEditStrategy.h>
 #include <coreplugin/internal/CoreEditItemsStrategy.h>
@@ -90,6 +91,8 @@ namespace Core {
         Q_ASSERT(!ProjectWindowInterface::of(document));
         notifications = RuntimeInterface::instance()->getFirstObject<Notifications::NotificationCenter>()->notificationsForScope(q);
         projectTimeline = new DspxProject::ProjectTimeline(document, q);
+        workspacePanelRegistry = new WorkspacePanelRegistry(q);
+        q->addObject(workspacePanelRegistry);
         document->setProperty(ProjectWindowInterface::staticMetaObject.className(), QVariant::fromValue(QPointer(q)));
         initEditScenarios();
         initActionContext();
@@ -167,6 +170,11 @@ namespace Core {
     DspxProject::ProjectDocumentContext *ProjectWindowInterface::projectDocumentContext() const {
         Q_D(const ProjectWindowInterface);
         return d->projectDocumentContext;
+    }
+
+    WorkspacePanelRegistry *ProjectWindowInterface::workspacePanelRegistry() const {
+        Q_D(const ProjectWindowInterface);
+        return d->workspacePanelRegistry;
     }
 
     DspxProject::ClipboardEditScenario *ProjectWindowInterface::clipboardEditScenario() const {

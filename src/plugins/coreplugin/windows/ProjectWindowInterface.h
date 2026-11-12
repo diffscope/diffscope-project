@@ -41,6 +41,7 @@ class QJSValue;
 namespace Core {
 
     class ProjectWindowInterfacePrivate;
+    class WorkspacePanelRegistry;
 
     class CORE_EXPORT ProjectWindowInterface : public ActionWindowInterfaceBase {
         Q_OBJECT
@@ -65,6 +66,7 @@ namespace Core {
         DspxProject::ProjectTimeline *projectTimeline() const;
 
         DspxProject::ProjectDocumentContext *projectDocumentContext() const;
+        WorkspacePanelRegistry *workspacePanelRegistry() const;
 
         DspxProject::ClipboardEditScenario *clipboardEditScenario() const;
         DspxProject::EditItemsScenario *editItemsScenario() const;
