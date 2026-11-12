@@ -4,6 +4,17 @@
         "description": "以 LRC 格式匯入及匯出專案標籤。",
         "fileFilter": "LRC 歌詞檔案",
         "startPositionLabel": "起始位置",
+        "karaoke": {
+            "title": "卡拉 OK 歌詞",
+            "noLyrics": "沒有歌詞",
+            "addTitle": "新增歌詞",
+            "editTitle": "編輯歌詞",
+            "positionLabel": "位置",
+            "textLabel": "歌詞",
+            "fontSizeTitle": "字型大小",
+            "fontSizeLabel": "字型大小",
+            "projectBusy": "專案正在處理其他操作。"
+        },
         "import": {
             "title": "將 LRC 匯入為標籤",
             "description": "將 LRC 檔案中帶有時間戳記的歌詞匯入為專案標籤。",

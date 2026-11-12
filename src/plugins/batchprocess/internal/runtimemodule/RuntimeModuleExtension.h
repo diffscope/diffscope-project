@@ -11,6 +11,7 @@ class QJSValue;
 
 namespace BatchProcess {
     class BatchProcessInterface;
+    class Script;
     class ScriptExecutionContext;
 }
 
@@ -23,6 +24,8 @@ namespace BatchProcess::Internal {
     public:
         explicit RuntimeModuleExtension(BatchProcessInterface *batchProcessInterface, QObject *parent = nullptr);
         ~RuntimeModuleExtension() override;
+
+        static QString scriptIdentity(const Script *script);
 
     private:
         friend class RuntimeModuleBridge;

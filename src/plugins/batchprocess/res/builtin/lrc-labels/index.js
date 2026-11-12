@@ -1,7 +1,8 @@
 const { application } = require("diffscope:core");
 const { parse: parsePath } = require("diffscope:fs");
-const { loadI18n, t } = require("diffscope:runtime");
+const { loadI18n, MethodLogicError, t } = require("diffscope:runtime");
 const { dialogs } = require("diffscope:shell");
+const { storage } = require("diffscope:storage");
 
 loadI18n("i18n");
 
@@ -9,6 +10,11 @@ const lrcFileFilters = [{ name: t("lrcLabels.fileFilter"), patterns: ["*.lrc"] }
 const timestampPattern = /^\[(\d+):([0-5]\d)(?:\.(\d{1,3}))?\]/;
 const wordTimestampPattern = /<\d+:[0-5]\d(?:\.\d{1,3})?>/g;
 const metadataPattern = /^\[([a-z][a-z\d_-]*|#):(.*)\]$/i;
+const karaokeFontSizeStorageId = "org.diffscope.lrc-labels";
+const karaokeFontSizeStorageKey = "karaokeFontSize";
+const karaokeFontSizeMinimum = 16;
+const karaokeFontSizeMaximum = 64;
+const karaokeFontSizeDefault = 48;
 
 function parseLrc(contents) {
     const entries = [];
@@ -69,13 +75,11 @@ function promptStartTick(project, title, maximum = 2147483647) {
         title,
         fields: [
             {
-                // TODO Replace this field with a musical position input when available.
-                type: "integer",
+                type: "musicTime",
                 name: "startTick",
                 label: t("lrcLabels.startPositionLabel"),
                 value: Math.min(project.timeline.playhead, maximum),
-                maximum,
-                control: "spinBox"
+                maximum
             }
         ],
         parent: project.window
@@ -165,6 +169,97 @@ function exportLrc() {
     file.writeText(lines.join("\n") + "\n");
 }
 
+function karaokeFontSizeStorage() {
+    return storage.persistent(karaokeFontSizeStorageId);
+}
+
+function readKaraokeFontSize() {
+    const value = Number(karaokeFontSizeStorage().getItem(karaokeFontSizeStorageKey));
+    return Number.isInteger(value) && value >= karaokeFontSizeMinimum && value <= karaokeFontSizeMaximum
+        ? value
+        : karaokeFontSizeDefault;
+}
+
+function getKaraokeFontSize() {
+    return readKaraokeFontSize();
+}
+
+function editKaraokeFontSize() {
+    const project = application.project;
+    const form = dialogs.form({
+        title: t("lrcLabels.karaoke.fontSizeTitle"),
+        fields: [
+            {
+                type: "integer",
+                name: "fontSize",
+                label: t("lrcLabels.karaoke.fontSizeLabel"),
+                value: readKaraokeFontSize(),
+                minimum: karaokeFontSizeMinimum,
+                maximum: karaokeFontSizeMaximum,
+                step: 1,
+                required: true
+            }
+        ],
+        parent: project.window
+    });
+    if (form === null) {
+        return null;
+    }
+    karaokeFontSizeStorage().setItem(karaokeFontSizeStorageKey, String(form.fontSize));
+    return form.fontSize;
+}
+
+function editKaraokeLyrics({ add, position }) {
+    const project = application.project;
+    const document = project.document;
+    const labels = document.model.labels;
+    const title = t(add ? "lrcLabels.karaoke.addTitle" : "lrcLabels.karaoke.editTitle");
+    const fields = [];
+    if (add) {
+        fields.push({
+            type: "musicTime",
+            name: "position",
+            label: t("lrcLabels.karaoke.positionLabel"),
+            value: position
+        });
+    }
+
+    const readLock = document.tryAcquireReadLock();
+    if (readLock === null) {
+        throw new MethodLogicError(t("lrcLabels.karaoke.projectBusy"));
+    }
+
+    let label;
+    let originalText;
+    let form;
+    try {
+        if (!add) {
+            label = labels.toArray().filter(item => item.position === position).pop();
+        }
+        originalText = add ? "" : label.text;
+        fields.push({
+            type: "text",
+            name: "text",
+            label: t("lrcLabels.karaoke.textLabel"),
+            value: originalText
+        });
+        form = dialogs.form({ title, fields, parent: project.window });
+    } finally {
+        readLock.release();
+    }
+    if (form === null || (!add && form.text === originalText)) {
+        return;
+    }
+
+    const transaction = document.beginTransaction();
+    if (add) {
+        labels.create({ position: form.position, text: form.text });
+    } else {
+        label.text = form.text;
+    }
+    transaction.commit(title);
+}
+
 module.exports = defineScript({
     id: "org.diffscope.lrc-labels",
     name: t("lrcLabels.title"),
@@ -182,6 +277,45 @@ module.exports = defineScript({
             description: t("lrcLabels.export.description"),
             requiresProject: true,
             execute: exportLrc
+        }
+    ],
+    methods: [
+        {
+            name: "karaoke.editLyrics",
+            internal: true,
+            params: [
+                { name: "add", schema: { type: "boolean" }, required: true },
+                { name: "position", schema: { type: "integer", minimum: 0, maximum: 2147483647 }, required: true }
+            ],
+            execute: editKaraokeLyrics
+        },
+        {
+            name: "karaoke.fontSize",
+            internal: true,
+            params: [],
+            result: {
+                name: "fontSize",
+                schema: { type: "integer", minimum: karaokeFontSizeMinimum, maximum: karaokeFontSizeMaximum }
+            },
+            annotations: { readOnlyHint: true },
+            execute: getKaraokeFontSize
+        },
+        {
+            name: "karaoke.editFontSize",
+            internal: true,
+            params: [],
+            result: {
+                name: "fontSize",
+                schema: { type: ["integer", "null"], minimum: karaokeFontSizeMinimum, maximum: karaokeFontSizeMaximum }
+            },
+            execute: editKaraokeFontSize
+        }
+    ],
+    panels: [
+        {
+            name: t("lrcLabels.karaoke.title"),
+            description: "",
+            component: "./KaraokeLyricsPanel.qml"
         }
     ]
 });

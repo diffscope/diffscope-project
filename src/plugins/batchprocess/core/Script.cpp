@@ -49,6 +49,11 @@ namespace BatchProcess {
         return d->methods;
     }
 
+    QList<Script::Panel> Script::panels() const {
+        Q_D(const Script);
+        return d->panels;
+    }
+
 }
 
 #include "moc_Script.cpp"

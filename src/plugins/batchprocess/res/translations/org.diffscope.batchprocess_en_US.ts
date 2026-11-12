@@ -891,7 +891,8 @@
         <translation type="unfinished">Script property %1 must be a string when provided.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="838"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="847"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="914"/>
         <source>Script property %1 must be an array.</source>
         <translation type="unfinished">Script property %1 must be an array.</translation>
     </message>
@@ -1137,6 +1138,90 @@
         <source>No script is currently executing.</source>
         <translation type="unfinished">No script is currently executing.</translation>
     </message>
+    <message>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="924"/>
+        <source>Script panel %L1 must be an object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="935"/>
+        <source>Script panel name %1 is duplicated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="941"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1163"/>
+        <source>Panel component %1 does not resolve to a file the script can access.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/ScriptPanel.cpp" line="49"/>
+        <source>The QML component could not be loaded or created.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/ScriptPanel.cpp" line="50"/>
+        <source>Failed to load panel %1 from script %2:
+
+%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/BatchProcessAddOn.cpp" line="196"/>
+        <source>The QML root object must be a ScriptPanel.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/BatchProcessAddOn.cpp" line="201"/>
+        <source>The ScriptPanel does not provide a panel component.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/BatchProcessAddOn.cpp" line="231"/>
+        <source>The panel could not be registered in the workspace.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1358"/>
+        <location filename="../../internal/ScriptPanelContext.cpp" line="68"/>
+        <source>The panel script is no longer active.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/ScriptPanelContext.cpp" line="86"/>
+        <source>Failed to translate script panel text.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/ScriptPanelContext.cpp" line="99"/>
+        <source>Translation arguments must be serializable as JSON.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/ScriptPanelContext.cpp" line="125"/>
+        <source>Failed to invoke method %1 in script %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/ScriptPanelContext.cpp" line="137"/>
+        <source>Method arguments must be a JSON object.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/ScriptPanelContext.cpp" line="147"/>
+        <source>The panel window is no longer active.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/ScriptPanelContext.cpp" line="157"/>
+        <source>The target script is not loaded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/ScriptPanelContext.cpp" line="164"/>
+        <source>The target script does not define this method.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>BatchProcessPage</name>
@@ -1365,6 +1450,11 @@ A value is required.</translation>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="498"/>
         <source>The application window cannot host this form dialog.</source>
         <translation type="unfinished">The application window cannot host this form dialog.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="508"/>
+        <source>Music time fields require a project window.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="548"/>

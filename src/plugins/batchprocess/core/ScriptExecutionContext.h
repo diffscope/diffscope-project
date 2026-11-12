@@ -23,6 +23,7 @@ namespace BatchProcess {
 
     namespace Internal {
         class BatchProcessRuntime;
+        class RuntimeModuleExtension;
     }
 
     class Script;
@@ -48,6 +49,7 @@ namespace BatchProcess {
 
     private:
         friend class Internal::BatchProcessRuntime;
+        friend class Internal::RuntimeModuleExtension;
         explicit ScriptExecutionContext(QObject *parent = nullptr);
 
         QScopedPointer<ScriptExecutionContextPrivate> d_ptr;

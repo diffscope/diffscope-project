@@ -243,7 +243,7 @@ namespace BatchProcess {
 
     bool BatchProcessInterface::reloadScripts() {
         Q_D(BatchProcessInterface);
-        if (d->reloading || (d->runtime && d->runtime->currentScript())) {
+        if (d->reloading || d->creatingPanel || (d->runtime && d->runtime->currentScript())) {
             qCWarning(lcBatchProcessInterface) << "Rejected reentrant script reload";
             return false;
         }
@@ -265,6 +265,7 @@ namespace BatchProcess {
         oldRuntime.reset();
         d->reloading = false;
         qCInfo(lcBatchProcessInterface) << "Scripts reloaded" << d->runtime->scripts().size();
+        Q_EMIT scriptsReloaded();
         return true;
     }
 

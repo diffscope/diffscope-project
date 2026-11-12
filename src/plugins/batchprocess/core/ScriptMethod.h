@@ -26,6 +26,7 @@ namespace BatchProcess {
     class BATCH_PROCESS_EXPORT ScriptMethod : public QObject {
         Q_OBJECT
         Q_DECLARE_PRIVATE(ScriptMethod)
+        Q_PROPERTY(bool internal READ isInternal CONSTANT)
     public:
         ~ScriptMethod() override;
 
@@ -33,6 +34,7 @@ namespace BatchProcess {
         QString name() const;
         QString summary() const;
         QString description() const;
+        bool isInternal() const;
         QJsonArray params() const;
         /** Returns the result descriptor, or an undefined value if omitted. */
         QJsonValue result() const;

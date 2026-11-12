@@ -90,8 +90,9 @@ interface ScriptMethodAnnotations {
 
 interface ScriptMethodMetadata {
     /**
-     * Must consist of one or more JavaScript IdentifierName segments separated by
-     * dots and be unique within the containing script's methods.
+     * Must be unique within the script and consist of one or more ASCII
+     * identifiers separated by dots. Each identifier starts with a letter,
+     * underscore, or dollar sign. Subsequent characters may also be digits.
      */
     readonly name: string;
 
@@ -100,6 +101,9 @@ interface ScriptMethodMetadata {
 
     /** Supports GitHub Flavored Markdown. */
     readonly description?: string;
+
+    /** Records the internal flag in method metadata. Defaults to `false`. */
+    readonly internal?: boolean;
 
     /** Must be present and may be empty. */
     readonly params: readonly ScriptMethodParameterDescriptor[];
@@ -123,6 +127,23 @@ interface ScriptMethod extends ScriptMethodMetadata {
     readonly execute: ScriptMethodHandler;
 }
 
+interface ScriptPanel {
+    /** Must be non-empty and unique within the containing script's panels. */
+    readonly name: string;
+
+    readonly description: string;
+
+    /**
+     * An existing file within the script's file access scope for `require`.
+     * Relative paths resolve against the script root directory. The host checks
+     * the canonical path and uses the file name as specified, including its
+     * extension if present. The QML root must be a `ScriptPanel` from
+     * `DiffScope.BatchProcess`. The panel component it provides must have
+     * a `DockingPane` root.
+     */
+    readonly component: string;
+}
+
 interface ScriptDefinition extends ScriptMetadata {
     /**
      * The host preserves declaration order and freezes this array and each of its
@@ -135,13 +156,19 @@ interface ScriptDefinition extends ScriptMetadata {
      * elements after validation.
      */
     readonly methods?: readonly ScriptMethod[];
+
+    /**
+     * The host preserves declaration order and freezes this array and each of its
+     * elements after validation.
+     */
+    readonly panels?: readonly ScriptPanel[];
 }
 
 /**
  * Validates and registers a script definition during entry-script evaluation.
- * On success, the host freezes the definition, its actions array, its methods
- * array if present, and every action and method, then returns the original
- * object. The entry script must export that returned object.
+ * On success, the host freezes the definition and every declared action,
+ * method, and panel array and element, then returns the original object.
+ * The entry script must export that returned object.
  *
  * Invalid definitions cause a `TypeError` and are not registered. Top-level code
  * must not perform user interaction, modify documents, or access files other
@@ -172,14 +199,19 @@ declare module "diffscope:runtime" {
 
     export type ScriptActionMetadata = Omit<ScriptAction, "execute">;
 
-    export type ScriptMethodMetadata = Omit<ScriptMethod, "execute">;
+    export type ScriptMethodMetadata = Omit<ScriptMethod, "execute" | "internal"> & {
+        readonly internal: boolean;
+    };
 
-    export type ScriptMetadata = Omit<ScriptDefinition, "actions" | "methods"> & {
+    export type ScriptMetadata = Omit<ScriptDefinition, "actions" | "methods" | "panels"> & {
         /** Preserves declaration order. */
         readonly actions: readonly ScriptActionMetadata[];
 
         /** Preserves declaration order. */
         readonly methods: readonly ScriptMethodMetadata[];
+
+        /** Preserves declaration order. Component paths are canonical and absolute. */
+        readonly panels: readonly ScriptPanel[];
     };
 
     /**
@@ -197,8 +229,8 @@ declare module "diffscope:runtime" {
 
     export interface ScriptRuntimeBase {
         /**
-         * A frozen snapshot. Its action and method arrays and their metadata
-         * objects are frozen as well.
+         * A frozen snapshot. Its action, method, and panel arrays and their
+         * metadata objects are frozen as well.
          */
         readonly metadata: Readonly<ScriptMetadata>;
 

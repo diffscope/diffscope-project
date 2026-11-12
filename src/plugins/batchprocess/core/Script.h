@@ -6,9 +6,14 @@
 
 #include <QList>
 #include <QObject>
+#include <QPointer>
+#include <QScopedPointer>
+#include <QString>
 
 #include <batchprocess/ScriptMetadata.h>
 #include <batchprocess/batchprocessglobal.h>
+
+class QQmlComponent;
 
 namespace BatchProcess {
 
@@ -24,6 +29,13 @@ namespace BatchProcess {
         Q_OBJECT
         Q_DECLARE_PRIVATE(Script)
     public:
+        struct Panel {
+            QString name;
+            QString description;
+            QString component;
+            QPointer<QQmlComponent> qmlComponent;
+        };
+
         ~Script() override;
 
         /** Returns whether the script is registered as a built-in script. */
@@ -35,6 +47,8 @@ namespace BatchProcess {
         ScriptMetadata metadata() const;
         QList<ScriptAction *> actions() const;
         QList<ScriptMethod *> methods() const;
+        /** Returns the panels in declaration order, including components with load errors. The script owns the components. */
+        QList<Panel> panels() const;
 
     private:
         friend class Internal::BatchProcessRuntime;

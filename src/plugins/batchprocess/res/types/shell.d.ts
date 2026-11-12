@@ -245,6 +245,38 @@ declare module "diffscope:shell" {
         readonly control?: NumberFormFieldControl;
     }
 
+    interface MusicFormFieldBase extends FormFieldBase {
+        /** An integer within the effective range. Defaults to `minimum`. */
+        readonly value?: number;
+
+        /** A non-negative integer no greater than `maximum`. Defaults to `0`. */
+        readonly minimum?: number;
+
+        /** An integer no greater than the field's upper limit. Defaults to that limit. */
+        readonly maximum?: number;
+
+        /** A positive signed 32-bit integer. Defaults to `1`. */
+        readonly step?: number;
+    }
+
+    /**
+     * A project position in ticks with an upper limit of 2147483647.
+     * The dialog's owning project window supplies the timeline.
+     */
+    export interface MusicTimeFormField extends MusicFormFieldBase {
+        readonly type: "musicTime";
+    }
+
+    /** A relative position or duration in ticks with an upper limit of 2147483647. */
+    export interface MusicTimeOffsetFormField extends MusicFormFieldBase {
+        readonly type: "musicTimeOffset";
+    }
+
+    /** A MIDI note number with an upper limit of 127. */
+    export interface MusicPitchFormField extends MusicFormFieldBase {
+        readonly type: "musicPitch";
+    }
+
     export interface BooleanFormField extends FormFieldBase {
         readonly type: "boolean";
 
@@ -289,13 +321,15 @@ declare module "diffscope:shell" {
         readonly alpha?: boolean;
     }
 
-    export type FormField = TextFormField | IntegerFormField | NumberFormField | BooleanFormField | ChoiceFormField | ColorFormField;
+    export type FormField = TextFormField | IntegerFormField | NumberFormField
+        | MusicTimeFormField | MusicTimeOffsetFormField | MusicPitchFormField
+        | BooleanFormField | ChoiceFormField | ColorFormField;
 
     export type FormValue = string | number | boolean | Color;
 
     export type FormFieldValue<TField extends FormField> =
         TField extends TextFormField ? string
-            : TField extends IntegerFormField | NumberFormField ? number
+            : TField extends IntegerFormField | NumberFormField | MusicTimeFormField | MusicTimeOffsetFormField | MusicPitchFormField ? number
                 : TField extends BooleanFormField ? boolean
                     : TField extends ChoiceFormField ? string
                         : TField extends ColorFormField ? Color
@@ -431,7 +465,8 @@ declare module "diffscope:shell" {
          *
          * @returns A frozen result keyed by field name, or `null` when canceled.
          * @throws {TypeError} If the schema or an initial value is invalid.
-         * @throws {WindowError} If the selected window is invalid or no application window is available.
+         * @throws {WindowError} If the selected window is invalid, no application window is available,
+         * or a music time field is used outside a project window.
          */
         form<const TFields extends readonly FormField[]>(options: FormDialogOptions<TFields>): FormResult<TFields> | null;
 

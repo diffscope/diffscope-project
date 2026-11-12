@@ -15,11 +15,13 @@ namespace BatchProcess {
 
         Script *q_ptr;
         bool builtin{};
+        bool singleFile{};
         QString filePath;
         QString rootPath;
         ScriptMetadata metadata;
         QList<ScriptAction *> actions;
         QList<ScriptMethod *> methods;
+        QList<Script::Panel> panels;
     };
 
 }

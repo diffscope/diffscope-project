@@ -4,6 +4,17 @@
         "description": "以 LRC 格式导入和导出工程标签。",
         "fileFilter": "LRC 歌词文件",
         "startPositionLabel": "起始位置",
+        "karaoke": {
+            "title": "卡拉 OK 歌词",
+            "noLyrics": "无歌词",
+            "addTitle": "添加歌词",
+            "editTitle": "编辑歌词",
+            "positionLabel": "位置",
+            "textLabel": "歌词",
+            "fontSizeTitle": "字体大小",
+            "fontSizeLabel": "字体大小",
+            "projectBusy": "工程正在处理其他操作。"
+        },
         "import": {
             "title": "将 LRC 导入为标签",
             "description": "将 LRC 文件中带时间戳的歌词导入为工程标签。",

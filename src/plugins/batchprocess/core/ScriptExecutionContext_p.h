@@ -6,6 +6,7 @@
 
 #include <batchprocess/ScriptExecutionContext.h>
 
+#include <QJSValue>
 #include <QPointer>
 
 namespace BatchProcess {
@@ -17,6 +18,7 @@ namespace BatchProcess {
 
         ScriptExecutionContext *q_ptr;
         QJSEngine *engine{};
+        QJSValue translate;
         Script *script{};
         ScriptAction *action{};
         ScriptMethod *method{};

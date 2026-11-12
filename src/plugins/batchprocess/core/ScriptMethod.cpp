@@ -37,6 +37,11 @@ namespace BatchProcess {
         return d->metadata.value(QStringLiteral("description")).toString();
     }
 
+    bool ScriptMethod::isInternal() const {
+        Q_D(const ScriptMethod);
+        return d->metadata.value(QStringLiteral("internal")).toBool();
+    }
+
     QJsonArray ScriptMethod::params() const {
         Q_D(const ScriptMethod);
         return d->metadata.value(QStringLiteral("params")).toArray();

@@ -24,6 +24,7 @@
 #include <batchprocess/ScriptExecutionContext.h>
 #include <batchprocess/ScriptMethod.h>
 #include <batchprocess/internal/FileSystemPathUtils.h>
+#include <batchprocess/private/ScriptExecutionContext_p.h>
 #include <batchprocess/private/Script_p.h>
 
 namespace BatchProcess::Internal {
@@ -98,12 +99,7 @@ namespace BatchProcess::Internal {
         }
 
         Q_INVOKABLE QString currentScriptIdentity() const {
-            const auto script = m_context ? m_context->script() : nullptr;
-            if (!script) {
-                return {};
-            }
-            const auto filePath = script->filePath();
-            return filePath.isEmpty() ? script->metadata().id() : filePath;
+            return RuntimeModuleExtension::scriptIdentity(m_context ? m_context->script() : nullptr);
         }
 
         Q_INVOKABLE QJSValue prepareI18n(const QString &directory, const QString &fallbackLanguage) const;
@@ -301,6 +297,14 @@ namespace BatchProcess::Internal {
 
     RuntimeModuleExtension::~RuntimeModuleExtension() = default;
 
+    QString RuntimeModuleExtension::scriptIdentity(const Script *script) {
+        if (!script) {
+            return {};
+        }
+        const auto filePath = script->filePath();
+        return filePath.isEmpty() ? script->metadata().id() : filePath;
+    }
+
     QJSValue RuntimeModuleExtension::createModule(ScriptExecutionContext *context) {
         if (!context || !context->engine()) {
             qFatal("The Batch Process runtime module factory received an invalid execution context");
@@ -321,16 +325,19 @@ namespace BatchProcess::Internal {
         }
 
         auto bridge = new RuntimeModuleBridge(this, context, engine, engine);
-        const auto runtimeModule = factory.call({engine->newQObject(bridge)});
+        const auto bundle = factory.call({engine->newQObject(bridge)});
         if (engine->hasError()) {
             qFatal() << "Failed to create the Batch Process runtime module:" << javaScriptErrorText(engine->catchError());
         }
-        if (runtimeModule.isError()) {
-            qFatal() << "Failed to create the Batch Process runtime module:" << javaScriptErrorText(runtimeModule);
+        if (bundle.isError()) {
+            qFatal() << "Failed to create the Batch Process runtime module:" << javaScriptErrorText(bundle);
         }
-        if (!runtimeModule.isObject()) {
-            qFatal("The embedded Batch Process runtime module factory returned an invalid module object");
+        const auto runtimeModule = bundle.property(QStringLiteral("exports"));
+        const auto translate = bundle.property(QStringLiteral("translate"));
+        if (!runtimeModule.isObject() || !translate.isCallable()) {
+            qFatal("The embedded Batch Process runtime module factory returned an invalid module bundle");
         }
+        context->d_func()->translate = translate;
         qCDebug(lcRuntimeModuleExtension) << "Created runtime module for script engine" << engine;
         return runtimeModule;
     }
@@ -388,6 +395,18 @@ namespace BatchProcess::Internal {
             }
         }
         metadata.setProperty(QStringLiteral("methods"), methodMetadataArray);
+
+        const auto panels = script->panels();
+        auto panelMetadataArray = engine->newArray(static_cast<quint32>(panels.size()));
+        for (qsizetype index = 0; index < panels.size(); ++index) {
+            const auto &panel = panels.at(index);
+            auto panelMetadata = engine->newObject();
+            panelMetadata.setProperty(QStringLiteral("name"), panel.name);
+            panelMetadata.setProperty(QStringLiteral("description"), panel.description);
+            panelMetadata.setProperty(QStringLiteral("component"), panel.component);
+            panelMetadataArray.setProperty(static_cast<quint32>(index), panelMetadata);
+        }
+        metadata.setProperty(QStringLiteral("panels"), panelMetadataArray);
 
         auto runtime = engine->newObject();
         runtime.setProperty(QStringLiteral("metadata"), metadata);

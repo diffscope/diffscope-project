@@ -115,8 +115,8 @@
         translationInstances.set(scriptKey, instance);
     }
 
-    function t(...args) {
-        const instance = translationInstances.get(currentScriptKey());
+    function translate(scriptKey, ...args) {
+        const instance = translationInstances.get(scriptKey);
         if (instance) {
             return instance.t(...args);
         }
@@ -124,12 +124,19 @@
         return typeof key === "string" ? key : "";
     }
 
-    return freeze({
-        environment,
-        MethodLogicError,
-        script,
-        abort,
-        loadI18n,
-        t,
-    });
+    function t(...args) {
+        return translate(currentScriptKey(), ...args);
+    }
+
+    return {
+        exports: freeze({
+            environment,
+            MethodLogicError,
+            script,
+            abort,
+            loadI18n,
+            t,
+        }),
+        translate,
+    };
 })

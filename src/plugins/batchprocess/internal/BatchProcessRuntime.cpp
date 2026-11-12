@@ -12,10 +12,12 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QJSEngine>
+#include <QJSManagedValue>
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QJsonValue>
 #include <QLoggingCategory>
+#include <QQmlComponent>
 #include <QStringList>
 #include <QUrl>
 #include <QVariant>
@@ -37,6 +39,8 @@
 #include <batchprocess/ScriptExecutionContext.h>
 #include <batchprocess/ScriptMethod.h>
 #include <batchprocess/internal/JavaScriptEngineHelper.h>
+#include <batchprocess/internal/RuntimeModuleExtension.h>
+#include <batchprocess/internal/ScriptPanel.h>
 #include <batchprocess/private/BatchProcessInterface_p.h>
 #include <batchprocess/private/ScriptAction_p.h>
 #include <batchprocess/private/ScriptExecutionContext_p.h>
@@ -90,6 +94,11 @@ namespace BatchProcess::Internal {
 
         bool isFileSpecifier(const QString &specifier) {
             return specifier.startsWith(QLatin1Char('.')) || QDir::isAbsolutePath(specifier);
+        }
+
+        QString canonicalFilePath(const QString &path) {
+            const QFileInfo fileInfo(QDir::cleanPath(path));
+            return fileInfo.isFile() ? fileInfo.canonicalFilePath() : QString();
         }
 
         QString nativeScriptPath(const QString &path) {
@@ -152,21 +161,18 @@ namespace BatchProcess::Internal {
     class RequireBridge : public QObject {
         Q_OBJECT
     public:
-        RequireBridge(BatchProcessRuntime *runtime, Script *script, QString rootPath, QString entryPath, QString currentPath, bool singleFile, QObject *parent)
-            : QObject(parent), m_runtime(runtime), m_script(script), m_rootPath(std::move(rootPath)), m_entryPath(std::move(entryPath)), m_currentPath(std::move(currentPath)), m_singleFile(singleFile) {
+        RequireBridge(BatchProcessRuntime *runtime, Script *script, QString currentPath, QObject *parent)
+            : QObject(parent), m_runtime(runtime), m_script(script), m_currentPath(std::move(currentPath)) {
         }
 
         Q_INVOKABLE QJSValue load(const QString &specifier) {
-            return m_runtime->require(m_script.data(), m_rootPath, m_entryPath, m_currentPath, specifier, m_singleFile);
+            return m_runtime->require(m_script.data(), m_currentPath, specifier);
         }
 
     private:
         BatchProcessRuntime *m_runtime;
         QPointer<Script> m_script;
-        QString m_rootPath;
-        QString m_entryPath;
         QString m_currentPath;
-        bool m_singleFile;
     };
 
     class BuiltinRequireBridge : public QObject {
@@ -244,6 +250,7 @@ namespace BatchProcess::Internal {
         ScriptMetadata metadata;
         QVector<ActionDefinition> actions;
         QVector<MethodDefinition> methods;
+        QList<Script::Panel> panels;
     };
 
     struct BatchProcessRuntime::ModuleRecord {
@@ -578,7 +585,7 @@ namespace BatchProcess::Internal {
         return true;
     }
 
-    QJSValue BatchProcessRuntime::require(Script *script, const QString &rootPath, const QString &entryPath, const QString &currentPath, const QString &specifier, bool singleFile) {
+    QJSValue BatchProcessRuntime::require(Script *script, const QString &currentPath, const QString &specifier) {
         if (!script) {
             m_engine->throwError(QJSValue::GenericError, BatchProcessInterface::tr("The script package that created this require() function is no longer active."));
             return QJSValue(QJSValue::UndefinedValue);
@@ -595,12 +602,12 @@ namespace BatchProcess::Internal {
 
         QString resolvedPath;
         QString resolveError;
-        if (!resolveFile(rootPath, entryPath, currentPath, specifier, singleFile, &resolvedPath, &resolveError)) {
+        if (!resolveFile(script, currentPath, specifier, &resolvedPath, &resolveError)) {
             m_engine->throwError(QJSValue::TypeError, resolveError);
             return QJSValue(QJSValue::UndefinedValue);
         }
         ErrorInfo error;
-        const auto value = loadFileModule(script, rootPath, entryPath, resolvedPath, singleFile, &error);
+        const auto value = loadFileModule(script, resolvedPath, &error);
         if (!error.isEmpty()) {
             if (error.hasErrorValue) {
                 JavaScriptEngineHelper::throwError(m_engine.get(), error.errorValue, error.stackTrace);
@@ -673,7 +680,15 @@ namespace BatchProcess::Internal {
         return {};
     }
 
-    bool BatchProcessRuntime::resolveFile(const QString &rootPath, const QString &entryPath, const QString &currentPath, const QString &specifier, bool singleFile, QString *resolvedPath, QString *errorMessage) const {
+    bool BatchProcessRuntime::isFileAllowed(const Script *script, const QString &canonicalPath) {
+        if (script->d_func()->singleFile) {
+            return pathsEqual(canonicalPath, script->filePath());
+        }
+        const auto rootPath = script->rootPath();
+        return !rootPath.isEmpty() && isWithinDirectory(rootPath, canonicalPath);
+    }
+
+    bool BatchProcessRuntime::resolveFile(const Script *script, const QString &currentPath, const QString &specifier, QString *resolvedPath, QString *errorMessage) const {
         QString basePath;
         if (QDir::isAbsolutePath(specifier)) {
             basePath = specifier;
@@ -697,15 +712,11 @@ namespace BatchProcess::Internal {
         }
 
         for (const auto &path : std::as_const(pathsToTry)) {
-            const QFileInfo fileInfo(QDir::cleanPath(path));
-            if (!fileInfo.isFile()) {
-                continue;
-            }
-            const auto canonicalPath = fileInfo.canonicalFilePath();
+            const auto canonicalPath = canonicalFilePath(path);
             if (canonicalPath.isEmpty()) {
                 continue;
             }
-            if (singleFile ? !pathsEqual(canonicalPath, entryPath) : !isWithinDirectory(rootPath, canonicalPath)) {
+            if (!isFileAllowed(script, canonicalPath)) {
                 *errorMessage = BatchProcessInterface::tr("Module %1 resolves outside the script package.").arg(quoted(specifier));
                 return false;
             }
@@ -718,7 +729,7 @@ namespace BatchProcess::Internal {
         return false;
     }
 
-    QJSValue BatchProcessRuntime::loadFileModule(Script *script, const QString &rootPath, const QString &entryPath, const QString &filePath, bool singleFile, ErrorInfo *errorMessage) {
+    QJSValue BatchProcessRuntime::loadFileModule(Script *script, const QString &filePath, ErrorInfo *errorMessage) {
         auto &scriptModules = m_fileModules[script];
         const auto cached = scriptModules.constFind(filePath);
         if (cached != scriptModules.cend()) {
@@ -757,7 +768,7 @@ namespace BatchProcess::Internal {
             if (record->factory.isError()) {
                 *errorMessage = errorInfo(record->factory, filePath);
             } else {
-                auto requireBridge = new RequireBridge(this, script, rootPath, entryPath, filePath, singleFile, m_engine.get());
+                auto requireBridge = new RequireBridge(this, script, filePath, m_engine.get());
                 auto defineScriptBridge = new DefineScriptBridge(this, script, m_engine.get());
                 record->requireFunction = m_runtimeHelpers.property(QStringLiteral("makeRequire")).call({m_engine->newQObject(requireBridge)});
                 record->defineScriptFunction = m_runtimeHelpers.property(QStringLiteral("makeDefineScript")).call({m_engine->newQObject(defineScriptBridge)});
@@ -899,6 +910,43 @@ namespace BatchProcess::Internal {
             record.methods.append(std::move(methodDefinition));
         }
 
+        const auto panels = definition.property(QStringLiteral("panels"));
+        if (!panels.isUndefined()) {
+            if (!panels.isArray()) {
+                return throwDefinitionError(BatchProcessInterface::tr("Script property %1 must be an array.").arg(quoted(QStringLiteral("panels"))));
+            }
+
+            const auto rootPath = script->rootPath();
+            QSet<QString> panelNames;
+            const auto panelCount = panels.property(QStringLiteral("length")).toUInt();
+            record.panels.reserve(static_cast<qsizetype>(panelCount));
+            for (quint32 index = 0; index < panelCount; ++index) {
+                const auto panel = panels.property(index);
+                if (!panel.isObject() || panel.isArray() || panel.isCallable()) {
+                    return throwDefinitionError(BatchProcessInterface::tr("Script panel %L1 must be an object.").arg(index + 1));
+                }
+
+                Script::Panel panelDefinition;
+                QString component;
+                if (!requiredString(panel, QStringLiteral("name"), false, &panelDefinition.name, &validationError) ||
+                    !requiredString(panel, QStringLiteral("description"), true, &panelDefinition.description, &validationError) ||
+                    !requiredString(panel, QStringLiteral("component"), false, &component, &validationError)) {
+                    return validationError;
+                }
+                if (panelNames.contains(panelDefinition.name)) {
+                    return throwDefinitionError(BatchProcessInterface::tr("Script panel name %1 is duplicated.").arg(quoted(panelDefinition.name)));
+                }
+                panelNames.insert(panelDefinition.name);
+
+                const auto componentPath = rootPath.isEmpty() || component.contains(QChar::Null) ? QString() : canonicalFilePath(QDir(rootPath).absoluteFilePath(component));
+                if (componentPath.isEmpty() || !isFileAllowed(script, componentPath)) {
+                    return throwDefinitionError(BatchProcessInterface::tr("Panel component %1 does not resolve to a file the script can access.").arg(quoted(component)));
+                }
+                panelDefinition.component = nativeScriptPath(componentPath);
+                record.panels.append(std::move(panelDefinition));
+            }
+        }
+
         if (!script->d_func()->metadata.isValid()) {
             script->d_func()->metadata = record.metadata;
         }
@@ -945,10 +993,11 @@ namespace BatchProcess::Internal {
 
     bool BatchProcessRuntime::loadCandidate(const ScriptCandidate &candidate, QSet<QString> *loadedIds) {
         std::unique_ptr<Script> script(new Script(nativeScriptPath(candidate.scriptPath), nativeScriptPath(candidate.rootPath), candidate.builtin));
+        script->d_func()->singleFile = candidate.singleFile;
         setCurrentScript(script.get());
 
         ErrorInfo error;
-        const auto entryExports = loadFileModule(script.get(), candidate.rootPath, candidate.entryPath, candidate.entryPath, candidate.singleFile, &error);
+        const auto entryExports = loadFileModule(script.get(), candidate.entryPath, &error);
         if (!error.isEmpty()) {
             rejectScript(script.get(), error);
             return false;
@@ -1093,13 +1142,43 @@ namespace BatchProcess::Internal {
             method->d_func()->executeFunction = methodDefinition.execute;
             script->d_func()->methods.append(method);
         }
+        script->d_func()->panels = definition.panels;
+        loadScriptPanels(script.get());
 
         loadedIds->insert(definition.metadata.id());
-        qCInfo(lcBatchProcessRuntime) << "Loaded script" << definition.metadata.id() << script->filePath() << "actions" << script->actions().size() << "methods" << script->methods().size();
+        qCInfo(lcBatchProcessRuntime) << "Loaded script" << definition.metadata.id() << script->filePath() << "actions" << script->actions().size() << "methods" << script->methods().size() << "panels" << definition.panels.size();
         m_definitions.remove(script.get());
         m_scripts.append(script.release());
         clearExecutionContext();
         return true;
+    }
+
+    void BatchProcessRuntime::loadScriptPanels(Script *script) {
+        const auto scriptId = script->metadata().id();
+        for (auto &panel : script->d_func()->panels) {
+            auto component = new QQmlComponent(Core::RuntimeInterface::qmlEngine(), script);
+            panel.qmlComponent = component;
+
+            const auto path = canonicalFilePath(panel.component);
+            if (path.isEmpty() || !isFileAllowed(script, path)) {
+                ScriptPanel::reportError(scriptId, panel.name, JavaScriptEngineHelper::filePathToSourceUrl(panel.component),
+                                         BatchProcessInterface::tr("Panel component %1 does not resolve to a file the script can access.").arg(quoted(panel.component)));
+                continue;
+            }
+
+            const auto source = JavaScriptEngineHelper::filePathToSourceUrl(path);
+            const auto reportError = [component, scriptId, name = panel.name, source] {
+                if (!component->isReady()) {
+                    ScriptPanel::reportError(scriptId, name, source, component->errorString().trimmed());
+                }
+            };
+            component->loadUrl(source);
+            if (component->isLoading()) {
+                QObject::connect(component, &QQmlComponent::statusChanged, component, reportError, Qt::SingleShotConnection);
+            } else {
+                reportError();
+            }
+        }
     }
 
     void BatchProcessRuntime::setCurrentScript(Script *script) {
@@ -1272,6 +1351,35 @@ namespace BatchProcess::Internal {
         clearExecutionContext();
         m_executing = false;
         return result;
+    }
+
+    ScriptMethodResult BatchProcessRuntime::translate(Script *script, const QList<QJsonValue> &arguments) {
+        if (!m_scripts.contains(script)) {
+            return ScriptMethodResult::internalError(QStringLiteral("ReferenceError"), BatchProcessInterface::tr("The panel script is no longer active."));
+        }
+
+        QString errorMessage;
+        loadRegisteredModule(QStringLiteral("diffscope:runtime"), &errorMessage);
+        if (!errorMessage.isEmpty()) {
+            return ScriptMethodResult::internalError(QStringLiteral("Error"), errorMessage);
+        }
+
+        QJSValueList values{QJSValue(RuntimeModuleExtension::scriptIdentity(script))};
+        values.reserve(arguments.size() + 1);
+        for (const auto &argument : arguments) {
+            values.append(argument.isUndefined() ? QJSValue() : m_engine->toScriptValue(argument.toVariant()));
+        }
+        const QJSManagedValue translate(m_context->d_func()->translate, m_engine.get());
+        const auto value = translate.call(values);
+        if (m_engine->hasError()) {
+            const auto error = m_engine->catchError();
+            JavaScriptEngineHelper::takeExceptionStackTrace(m_engine.get());
+            if (error.isError()) {
+                return ScriptMethodResult::internalError(error.property(QStringLiteral("name")).toString(), error.property(QStringLiteral("message")).toString());
+            }
+            return ScriptMethodResult::internalError({}, error.toString());
+        }
+        return ScriptMethodResult::success(value.isUndefined() ? QJsonValue(QJsonValue::Undefined) : QJsonValue::fromVariant(value.toVariant()));
     }
 
     void BatchProcessRuntime::runExecutionCallbacks(bool starting) {

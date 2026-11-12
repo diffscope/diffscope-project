@@ -12,7 +12,7 @@
     const stringify = JSON.stringify;
     const string = String;
     const Type = TypeError;
-    const methodNamePattern = /^[$_\p{ID_Start}][$_\u200C\u200D\p{ID_Continue}]*(?:\.[$_\p{ID_Start}][$_\u200C\u200D\p{ID_Continue}]*)*(?![\s\S])/u;
+    const methodNamePattern = /^[A-Za-z_$][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)*$/;
 
     function freezeTree(value) {
         if (value === null || typeof value !== "object" || Object.isFrozen(value)) {
@@ -39,6 +39,13 @@
                 freeze(method);
             }
             freeze(definition.methods);
+        }
+        const panels = definition.panels;
+        if (panels !== undefined) {
+            for (let index = 0; index < panels.length; ++index) {
+                freeze(panels[index]);
+            }
+            freeze(panels);
         }
         return freeze(definition);
     }
@@ -101,7 +108,7 @@
             }
             const name = method.name;
             if (typeof name !== "string" || !methodNamePattern.test(name)) {
-                throw new Type("Method names must be JavaScript identifier names separated by dots.");
+                throw new Type("Method names must be ASCII identifiers separated by dots.");
             }
             if (names.has(name)) {
                 throw new Type("Method names must be unique within a script.");
@@ -117,6 +124,7 @@
             const metadata = { name, params: [] };
             optionalText(method, metadata, "summary");
             optionalText(method, metadata, "description");
+            metadata.internal = booleanValue(method, "internal", false);
             const parameterNames = new Set();
             for (const param of method.params) {
                 const parameter = descriptor(param, true);

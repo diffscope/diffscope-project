@@ -14,6 +14,7 @@ Dialog {
 
     property string descriptionText
     property var fieldDefinitions: []
+    property MusicTimeline timeline
     property string acceptText
     property string cancelText
     property var resultValues: []
@@ -78,6 +79,7 @@ Dialog {
                         property var fieldData: modelData
                         sourceComponent: fieldData.type === "text" ? textEditor
                             : fieldData.type === "integer" || fieldData.type === "number" ? numberEditor
+                            : fieldData.type === "musicTime" || fieldData.type === "musicTimeOffset" || fieldData.type === "musicPitch" ? musicEditor
                             : fieldData.type === "boolean" ? booleanEditor
                             : fieldData.type === "choice" ? choiceEditor
                             : colorEditor
@@ -295,6 +297,97 @@ Dialog {
                 text: numberEditorRoot.field ? numberEditorRoot.field.description : ""
                 wrapMode: Text.Wrap
                 ThemedItem.foregroundLevel: SVS.FL_Secondary
+            }
+        }
+    }
+
+    Component {
+        id: musicEditor
+
+        ColumnLayout {
+            id: musicEditorRoot
+            property var field
+
+            Layout.fillWidth: true
+            spacing: 4
+
+            function validate() {
+                return true
+            }
+
+            function resultValue() {
+                const spinBox = inputLoader.item
+                if (spinBox.activeFocus || spinBox.contentItem.activeFocus)
+                    submitButton.forceActiveFocus()
+                return spinBox.value
+            }
+
+            function focusEditor() {
+                inputLoader.item.forceActiveFocus()
+            }
+
+            Label {
+                id: fieldLabel
+                Layout.fillWidth: true
+                text: musicEditorRoot.field ? musicEditorRoot.field.label : ""
+                wrapMode: Text.Wrap
+            }
+
+            Loader {
+                id: inputLoader
+                Layout.fillWidth: true
+                sourceComponent: !musicEditorRoot.field ? null
+                    : musicEditorRoot.field.type === "musicTime" ? musicTimeInput
+                    : musicEditorRoot.field.type === "musicTimeOffset" ? musicTimeOffsetInput
+                    : musicPitchInput
+            }
+
+            Label {
+                Layout.fillWidth: true
+                visible: text.length !== 0
+                text: musicEditorRoot.field ? musicEditorRoot.field.description : ""
+                wrapMode: Text.Wrap
+                ThemedItem.foregroundLevel: SVS.FL_Secondary
+            }
+
+            Component {
+                id: musicTimeInput
+
+                MusicTimeSpinBox {
+                    Accessible.labelledBy: fieldLabel
+                    Accessible.name: fieldLabel.text
+                    timeline: dialog.timeline
+                    from: musicEditorRoot.field.minimum
+                    to: musicEditorRoot.field.maximum
+                    stepSize: musicEditorRoot.field.step
+                    value: musicEditorRoot.field.value
+                }
+            }
+
+            Component {
+                id: musicTimeOffsetInput
+
+                MusicTimeOffsetSpinBox {
+                    Accessible.labelledBy: fieldLabel
+                    Accessible.name: fieldLabel.text
+                    from: musicEditorRoot.field.minimum
+                    to: musicEditorRoot.field.maximum
+                    stepSize: musicEditorRoot.field.step
+                    value: musicEditorRoot.field.value
+                }
+            }
+
+            Component {
+                id: musicPitchInput
+
+                MusicPitchSpinBox {
+                    Accessible.labelledBy: fieldLabel
+                    Accessible.name: fieldLabel.text
+                    from: musicEditorRoot.field.minimum
+                    to: musicEditorRoot.field.maximum
+                    stepSize: musicEditorRoot.field.step
+                    value: musicEditorRoot.field.value
+                }
             }
         }
     }

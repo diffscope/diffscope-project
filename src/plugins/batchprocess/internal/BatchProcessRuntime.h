@@ -67,6 +67,7 @@ namespace BatchProcess {
             bool initialize(const QString &scriptDirectory);
             bool executeAction(ScriptAction *action, Core::ActionWindowInterfaceBase *windowInterface);
             ScriptMethodResult executeMethod(ScriptMethod *method, const QJsonObject &params, Core::ActionWindowInterfaceBase *windowInterface);
+            ScriptMethodResult translate(Script *script, const QList<QJsonValue> &arguments);
             void removeOwner(QObject *owner);
 
             QList<Script *> scripts() const;
@@ -88,19 +89,21 @@ namespace BatchProcess {
             friend class BuiltinRequireBridge;
             friend class DefineScriptBridge;
 
-            QJSValue require(Script *script, const QString &rootPath, const QString &entryPath, const QString &currentPath, const QString &specifier, bool singleFile);
+            QJSValue require(Script *script, const QString &currentPath, const QString &specifier);
             QJSValue requireBuiltin(const QString &specifier);
             QJSValue defineScript(Script *script, const QJSValue &definition);
-            QJSValue loadFileModule(Script *script, const QString &rootPath, const QString &entryPath, const QString &filePath, bool singleFile, ErrorInfo *errorInfo);
+            QJSValue loadFileModule(Script *script, const QString &filePath, ErrorInfo *errorInfo);
             QJSValue loadRegisteredModule(const QString &name, QString *errorMessage);
 
             bool resolveCandidate(const QString &path, const QString &scriptDirectory, ScriptCandidate *candidate, ErrorInfo *errorInfo) const;
             bool loadCandidate(const ScriptCandidate &candidate, QSet<QString> *loadedIds);
             bool loadBuiltinScript(const BuiltinScriptRegistration &registration, QSet<QString> *loadedIds);
             bool commitScript(std::unique_ptr<Script> script, const DefinitionRecord &definition, QSet<QString> *loadedIds);
+            void loadScriptPanels(Script *script);
             bool applyEngineExtensions();
             void installBuiltinRequire();
-            bool resolveFile(const QString &rootPath, const QString &entryPath, const QString &currentPath, const QString &specifier, bool singleFile, QString *resolvedPath, QString *errorMessage) const;
+            static bool isFileAllowed(const Script *script, const QString &canonicalPath);
+            bool resolveFile(const Script *script, const QString &currentPath, const QString &specifier, QString *resolvedPath, QString *errorMessage) const;
             void setCurrentScript(Script *script);
             void rejectScript(Script *script, const ErrorInfo &errorInfo);
             void purgeScriptModules(Script *script);

@@ -27,6 +27,7 @@ namespace BatchProcess {
         class BatchProcessAddOn;
         class BatchProcessPlugin;
         class BatchProcessRuntime;
+        class ScriptPanelContext;
     }
 
     class BatchProcessInterfacePrivate;
@@ -84,10 +85,14 @@ namespace BatchProcess {
         /** Requests a one-shot interruption of the currently executing script. This method may be called from another thread. */
         void interruptCurrentExecution();
 
+    Q_SIGNALS:
+        void scriptsReloaded();
+
     private:
         friend class Internal::BatchProcessAddOn;
         friend class Internal::BatchProcessPlugin;
         friend class Internal::BatchProcessRuntime;
+        friend class Internal::ScriptPanelContext;
 
         explicit BatchProcessInterface(QObject *parent = nullptr);
 

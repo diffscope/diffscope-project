@@ -75,6 +75,7 @@ namespace BatchProcess {
         Internal::BatchProcessRuntime *loadingRuntime{};
         Internal::ScriptActionModel *actionModel{};
         bool reloading{};
+        bool creatingPanel{};
     };
 
 }

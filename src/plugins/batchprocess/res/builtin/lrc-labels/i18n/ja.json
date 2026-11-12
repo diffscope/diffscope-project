@@ -4,6 +4,17 @@
         "description": "プロジェクトのラベルをLRC形式でインポートおよびエクスポートします。",
         "fileFilter": "LRC歌詞ファイル",
         "startPositionLabel": "開始位置",
+        "karaoke": {
+            "title": "カラオケ歌詞",
+            "noLyrics": "歌詞がありません",
+            "addTitle": "歌詞を追加",
+            "editTitle": "歌詞を編集",
+            "positionLabel": "位置",
+            "textLabel": "歌詞",
+            "fontSizeTitle": "フォントサイズ",
+            "fontSizeLabel": "フォントサイズ",
+            "projectBusy": "プロジェクトで別の操作が進行中です。"
+        },
         "import": {
             "title": "LRCをラベルとしてインポート",
             "description": "LRCファイルのタイムスタンプ付き歌詞をプロジェクトのラベルとしてインポートします。",

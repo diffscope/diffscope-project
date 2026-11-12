@@ -30,12 +30,12 @@
 
 #include <CoreApi/runtimeinterface.h>
 #include <CoreApi/windowsystem.h>
-
+#include <SVSCraftCore/MusicTimeline.h>
 #include <SVSCraftCore/SVSCraftNamespace.h>
 #include <SVSCraftQuick/MessageBox.h>
 
+#include <dspxproject/ProjectTimeline.h>
 #include <uishell/DialogPositioner.h>
-
 #include <coreplugin/ActionWindowInterfaceBase.h>
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
@@ -498,6 +498,17 @@ namespace BatchProcess::Internal {
                 return windowFailure(QStringLiteral("unsupportedOperation"), ShellInterface::tr("The application window cannot host this form dialog."));
             }
             const auto fields = formFields(fieldsValue);
+            const auto hasMusicTimeField = std::ranges::any_of(fields, [](const QVariant &field) {
+                return field.toMap().value(QStringLiteral("type")).toString() == QStringLiteral("musicTime");
+            });
+            SVS::MusicTimeline *timeline = nullptr;
+            if (hasMusicTimeField) {
+                const auto projectWindow = qobject_cast<Core::ProjectWindowInterface *>(windowInterface);
+                if (!projectWindow) {
+                    return windowFailure(QStringLiteral("unsupportedOperation"), ShellInterface::tr("Music time fields require a project window."));
+                }
+                timeline = projectWindow->projectTimeline()->musicTimeline();
+            }
             QQmlComponent component(Core::RuntimeInterface::qmlEngine(), QStringLiteral("DiffScope.BatchProcess"), QStringLiteral("ShellFormDialog"));
             if (component.isError()) {
                 qFatal() << component.errorString();
@@ -507,6 +518,7 @@ namespace BatchProcess::Internal {
                 {QStringLiteral("title"), title},
                 {QStringLiteral("descriptionText"), description},
                 {QStringLiteral("fieldDefinitions"), fields},
+                {QStringLiteral("timeline"), QVariant::fromValue(timeline)},
                 {QStringLiteral("acceptText"), acceptText},
                 {QStringLiteral("cancelText"), cancelText},
             }));
@@ -681,6 +693,11 @@ namespace BatchProcess::Internal {
                     value.insert(QStringLiteral("step"), field.property(QStringLiteral("step")).toNumber());
                     value.insert(QStringLiteral("decimals"), type == QStringLiteral("integer") ? 0 : field.property(QStringLiteral("decimals")).toInt());
                     value.insert(QStringLiteral("control"), field.property(QStringLiteral("control")).toString());
+                } else if (type == QStringLiteral("musicTime") || type == QStringLiteral("musicTimeOffset") || type == QStringLiteral("musicPitch")) {
+                    value.insert(QStringLiteral("value"), field.property(QStringLiteral("value")).toInt());
+                    value.insert(QStringLiteral("minimum"), field.property(QStringLiteral("minimum")).toInt());
+                    value.insert(QStringLiteral("maximum"), field.property(QStringLiteral("maximum")).toInt());
+                    value.insert(QStringLiteral("step"), field.property(QStringLiteral("step")).toInt());
                 } else if (type == QStringLiteral("boolean")) {
                     value.insert(QStringLiteral("value"), field.property(QStringLiteral("value")).toBool());
                 } else if (type == QStringLiteral("choice")) {

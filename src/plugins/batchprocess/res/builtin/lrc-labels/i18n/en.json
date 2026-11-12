@@ -4,6 +4,17 @@
         "description": "Imports and exports project labels in LRC format.",
         "fileFilter": "LRC Lyrics",
         "startPositionLabel": "Start position",
+        "karaoke": {
+            "title": "Karaoke Lyrics",
+            "noLyrics": "No lyrics",
+            "addTitle": "Add Lyrics",
+            "editTitle": "Edit Lyrics",
+            "positionLabel": "Position",
+            "textLabel": "Lyrics",
+            "fontSizeTitle": "Font Size",
+            "fontSizeLabel": "Font size",
+            "projectBusy": "The project is busy."
+        },
         "import": {
             "title": "Import LRC as Labels",
             "description": "Imports timestamped lyrics from an LRC file as project labels.",

@@ -297,6 +297,25 @@
                 control: enumValue(value.control, numberControls, `fields[${index}].control`, "both"),
             });
         }
+        if (type === "musicTime" || type === "musicTimeOffset" || type === "musicPitch") {
+            const upperLimit = type === "musicPitch" ? 127 : 2147483647;
+            const minimum = value.minimum === undefined ? 0 : safeInteger(value.minimum, `fields[${index}].minimum`);
+            const maximum = value.maximum === undefined ? upperLimit : safeInteger(value.maximum, `fields[${index}].maximum`);
+            const step = value.step === undefined ? 1 : safeInteger(value.step, `fields[${index}].step`);
+            if (minimum < 0 || minimum > maximum || maximum > upperLimit || step <= 0 || step > 2147483647) {
+                throw new TypeError(`fields[${index}] has an invalid integer range or step.`);
+            }
+            const initialValue = value.value === undefined ? minimum : safeInteger(value.value, `fields[${index}].value`);
+            if (initialValue < minimum || initialValue > maximum) {
+                throw new TypeError(`fields[${index}].value is outside its allowed range.`);
+            }
+            return createFormField(base, type, {
+                value: initialValue,
+                minimum,
+                maximum,
+                step,
+            });
+        }
         if (type === "boolean") {
             return createFormField(base, type, {
                 value: optionalBoolean(value.value, `fields[${index}].value`),
