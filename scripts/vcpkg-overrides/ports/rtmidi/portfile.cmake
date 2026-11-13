@@ -11,6 +11,7 @@ vcpkg_from_github(
     PATCHES
         fix-build-testing.patch
         fix-coremidi-exception-specification.patch
+        suppress-winmm-empty-input-warning.patch
 )
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
