@@ -251,19 +251,21 @@ namespace Audio::Internal {
         }
     }
 
-    void AudioClipAddOn::updateAudioClipToIdenticallyMovedPath(dspx::AudioClip *clip, const QString &filePath) {
+    bool AudioClipAddOn::updateAudioClipToIdenticallyMovedPath(dspx::AudioClip *clip, const QString &filePath) {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         if (!windowInterface || !clip || filePath.isEmpty())
-            return;
+            return false;
 
         auto documentContext = windowInterface->projectDocumentContext();
         auto document = documentContext ? documentContext->document() : nullptr;
         if (!document)
-            return;
+            return false;
 
         auto path = clip->path();
         AudioClipImporter::updateAudioPathLocation(windowInterface, &path, filePath);
-        document->transactionController()->beginScopedTransaction(tr("Updating audio clip path"), [=] {
+        if (path == clip->path())
+            return false;
+        return document->transactionController()->beginScopedTransaction(tr("Updating audio clip path"), [=] {
             clip->setPath(path);
             return true;
         }, [windowInterface] {
@@ -272,26 +274,30 @@ namespace Audio::Internal {
         });
     }
 
-    void AudioClipAddOn::updateAudioClipDigest(dspx::AudioClip *clip) {
+    bool AudioClipAddOn::updateAudioClipDigest(dspx::AudioClip *clip) {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         if (!windowInterface || !clip)
-            return;
+            return false;
 
         auto documentContext = windowInterface->projectDocumentContext();
         auto document = documentContext ? documentContext->document() : nullptr;
         if (!document)
-            return;
+            return false;
 
         auto path = clip->path();
         const auto filePath = QDir(path.absoluteDir).filePath(path.fileName);
         const auto sha512 = HashHelper::digest(filePath);
         if (sha512.isEmpty()) {
             qCWarning(lcAudioClipAddOn) << "Failed to update audio clip digest from absolute path" << clip << filePath;
-            return;
+            return false;
+        }
+        if (path.digest.compare(sha512, Qt::CaseInsensitive) == 0) {
+            ProjectAudioAddOn::of(windowInterface)->reloadAudioClip(clip);
+            return true;
         }
 
         path.digest = sha512;
-        document->transactionController()->beginScopedTransaction(tr("Updating audio clip digest"), [=] {
+        return document->transactionController()->beginScopedTransaction(tr("Updating audio clip digest"), [=] {
             clip->setPath(path);
             return true;
         }, [windowInterface] {
@@ -326,8 +332,15 @@ namespace Audio::Internal {
         }
 
         const auto path = AudioClipImporter::createAudioPath(windowInterface, fileName, userData, entryClassName);
-        io->open(talcs::AbstractAudioFormatIO::Read);
         auto projectAudioAddOn = ProjectAudioAddOn::of(windowInterface);
+        if (path == clip->path()) {
+            if (projectAudioAddOn)
+                projectAudioAddOn->reloadAudioClip(clip);
+            return;
+        }
+        if (!io->open(talcs::AbstractAudioFormatIO::Read)) {
+            return;
+        }
         readLock.release();
         document->transactionController()->beginScopedTransaction(tr("Replacing audio clip"), [=, &io] {
             if (projectAudioAddOn) {

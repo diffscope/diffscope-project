@@ -4,6 +4,8 @@
 #ifndef DIFFSCOPE_VISUAL_EDITOR_SCROLLADDON_H
 #define DIFFSCOPE_VISUAL_EDITOR_SCROLLADDON_H
 
+#include <optional>
+
 #include <CoreApi/windowinterface.h>
 
 namespace VisualEditor::Internal {
@@ -27,6 +29,8 @@ namespace VisualEditor::Internal {
         Q_ENUM(ActiveEditingArea)
         ActiveEditingArea activeEditingArea() const;
         void setActiveEditingArea(ActiveEditingArea area);
+        void revealInArrangement(std::optional<double> tick, double tickLength, int trackIndex);
+        void revealInPianoRoll(double tick, double tickLength, std::optional<double> key = {}, double keyLength = 0);
 
     Q_SIGNALS:
         void activeEditingAreaChanged();

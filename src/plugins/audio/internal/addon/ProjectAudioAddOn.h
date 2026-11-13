@@ -4,19 +4,24 @@
 #ifndef DIFFSCOPE_AUDIO_PROJECTAUDIOADDON_H
 #define DIFFSCOPE_AUDIO_PROJECTAUDIOADDON_H
 
-#include <CoreApi/windowinterface.h>
+#include <memory>
 
 #include <QHash>
 #include <QMutex>
+#include <QPointer>
 #include <QSet>
 #include <QVector>
 
-#include <TalcsCore/MetronomeAudioSource.h>
+#include <CoreApi/windowinterface.h>
 
-#include <memory>
+#include <TalcsCore/MetronomeAudioSource.h>
 
 namespace Core {
     class ProjectWindowInterface;
+}
+
+namespace DspxProject {
+    class DocumentProblemManager;
 }
 
 namespace dspx {
@@ -58,6 +63,7 @@ namespace Audio::Internal {
 
         void addAudioClipCache(dspx::AudioClip *clip, talcs::AbstractAudioFormatIO *io);
         talcs::AbstractAudioFormatIO *takeAudioClipCache(dspx::AudioClip *clip);
+        void reloadAudioClip(dspx::AudioClip *clip);
 
     Q_SIGNALS:
         void audioClipAudioContextChanged(dspx::AudioClip *clip, AudioClipAudioContext *context);
@@ -75,8 +81,7 @@ namespace Audio::Internal {
         void removeClip(dspx::Clip *clip);
         void syncAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context);
         void loadAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context);
-        void reloadAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context);
-        void notifyAudioClipStatus(dspx::AudioClip *clip, AudioClipAudioContext *context);
+        void updateAudioClipProblem(AudioClipAudioContext *context);
 
         void handleTempoInsertedOrUpdated(dspx::Tempo *tempo);
         void handleTempoRemoved(dspx::Tempo *tempo);
@@ -87,6 +92,7 @@ namespace Audio::Internal {
         talcs::MetronomeAudioSourceDetectorMessage nextMessage() override;
 
         ProjectAudioContext *m_context{};
+        QPointer<DspxProject::DocumentProblemManager> m_problemManager;
         QHash<dspx::AudioClip *, talcs::AbstractAudioFormatIO *> m_audioClipCache;
 
         std::unique_ptr<SVS::MusicTimeline> m_musicTimeline;

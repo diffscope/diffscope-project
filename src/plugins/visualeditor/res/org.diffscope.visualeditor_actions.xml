@@ -88,6 +88,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <action id="org.diffscope.visualeditor.panel.arrangement" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="gantt_chart" triggerable="false" diffscope:componentType="custom"/>
         <action id="org.diffscope.visualeditor.panel.mixer" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="options_vertical" triggerable="false" diffscope:componentType="custom"/>
         <action id="org.diffscope.visualeditor.panel.pianoRoll" category="Panel" catalog="org.diffscope.core.workspacePanelWidgets" icon="midi" triggerable="false" diffscope:componentType="custom"/>
+        <action id="org.diffscope.visualeditor.panel.problems" category="Panel" text="Problems" catalog="org.diffscope.core.workspacePanelWidgets" icon="error_circle" triggerable="false" diffscope:componentType="custom"/>
 
         <phony id="org.diffscope.visualeditor.arrangementPanel.additionalTrackWidgets" />
         <phony id="org.diffscope.visualeditor.pianoRollPanel.additionalTrackWidgets" />

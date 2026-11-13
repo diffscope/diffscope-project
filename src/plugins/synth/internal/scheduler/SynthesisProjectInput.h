@@ -38,6 +38,7 @@ namespace Synth::Internal::ProjectInput {
         SynthesisScore score;
         QList<dspx::Handle> noteHandles;
         QString error;
+        QList<dspx::Handle> errorNoteHandles;
     };
 
     struct BuiltLanguageRequest {
@@ -51,6 +52,7 @@ namespace Synth::Internal::ProjectInput {
     bool sameSynthesisInput(SynthesisTaskRequest left, SynthesisTaskRequest right);
 
     SynthesisPipeline pipelineFor(const SynthesisContext &context);
+    bool canResolveWithDifferentSinger(const SynthesisContext &context);
     QStringList downstreamIndirectParameters(const SynthesisPipeline &pipeline, const QStringList &changedParameters);
     std::optional<SynthesisContext> buildSynthesisContext(dspx::SingingClip *clip);
 

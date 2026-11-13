@@ -71,14 +71,7 @@ PropertyEditorGroupBox {
             Annotation {
                 Layout.fillWidth: true
                 ThemedItem.controlType: SVS.CT_Error
-                label: qsTr("Audio file not specified")
-                visible: groupBox.audioClipAudioContext?.status === AudioClipAudioContext.FileNotFound
-                         && (!groupBox.audioClip?.path.absoluteDir || !groupBox.audioClip?.path.fileName)
-            }
-            Annotation {
-                Layout.fillWidth: true
-                ThemedItem.controlType: SVS.CT_Error
-                label: qsTr("Audio file not found")
+                label: audioFilePathFormGroup.path ? qsTr("Audio file not found") : qsTr("Audio file not specified")
                 visible: groupBox.audioClipAudioContext?.status === AudioClipAudioContext.FileNotFound
             }
             Annotation {
@@ -89,7 +82,6 @@ PropertyEditorGroupBox {
             }
             Annotation {
                 Layout.fillWidth: true
-                ThemedItem.controlType: SVS.CT_Warning
                 label: qsTr("Audio file moved")
                 visible: groupBox.audioClipAudioContext?.status === AudioClipAudioContext.FileMoved
                 display: AbstractButton.TextBesideIcon

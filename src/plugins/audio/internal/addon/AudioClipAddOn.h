@@ -36,8 +36,8 @@ namespace Audio::Internal {
         static AudioClipAddOn *of(Core::ProjectWindowInterface *windowHandle);
 
         Q_INVOKABLE void insertAudioClip();
-        Q_INVOKABLE void updateAudioClipToIdenticallyMovedPath(dspx::AudioClip *clip, const QString &filePath);
-        Q_INVOKABLE void updateAudioClipDigest(dspx::AudioClip *clip);
+        Q_INVOKABLE bool updateAudioClipToIdenticallyMovedPath(dspx::AudioClip *clip, const QString &filePath);
+        Q_INVOKABLE bool updateAudioClipDigest(dspx::AudioClip *clip);
         Q_INVOKABLE void replaceAudioClip(dspx::AudioClip *clip);
 
     private:

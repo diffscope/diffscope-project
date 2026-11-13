@@ -4111,6 +4111,25 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
     </message>
 </context>
 <context>
+    <name>Core::Internal::SourcesProblemAddOn</name>
+    <message>
+        <location filename="../../internal/addon/SourcesProblemAddOn.cpp" line="133"/>
+        <source>No singer architecture is configured.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SourcesProblemAddOn.cpp" line="135"/>
+        <source>No singers are configured.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/SourcesProblemAddOn.cpp" line="147"/>
+        <source>The singer configuration for &quot;%1&quot; is invalid.
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Core::Internal::TimeIndicatorPage</name>
     <message>
         <location filename="../../internal/settings/TimeIndicatorPage.cpp" line="20"/>

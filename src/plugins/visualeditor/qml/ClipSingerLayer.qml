@@ -1,15 +1,12 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
-import QtQml
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
-
-import SVSCraft
-import SVSCraft.UIComponents
 
 import dev.sjimo.ScopicFlow
+
+import SVSCraft.UIComponents
 
 import DiffScope.DspxModel as DspxModel
 import DiffScope.Core
@@ -27,9 +24,6 @@ Item {
     readonly property QtObject documentClip: projectViewModelContext?.getClipDocumentItemFromViewItem(clipViewModel) ?? null
     readonly property QtObject singingClip: documentClip?.kind === DspxModel.Clip.Singing ? documentClip : null
     readonly property var singerIds: flattenSingerIds(clipSingerIdProvider.singerTree)
-    readonly property bool hasSingerResolutionWarning: Boolean(singingClip?.sources)
-        && ((Boolean(clipSingerIdProvider.architectureId) && !architectureInfoProvider.exists)
-            || singerIds.some(singerId => !architectureInfoProvider.singerIds.includes(singerId)))
     readonly property string singerName: {
         if (!singingClip?.sources || singerIds.length === 0)
             return qsTr("No singer")
@@ -61,12 +55,6 @@ Item {
     ClipSingerIdProvider {
         id: clipSingerIdProvider
         sources: d.singingClip?.sources ?? null
-    }
-
-    ArchitectureInfoProvider {
-        id: architectureInfoProvider
-        registry: CoreInterface.singerRegistry
-        architectureId: clipSingerIdProvider.architectureId
     }
 
     SingerInfoProvider {
@@ -130,35 +118,14 @@ Item {
         }
     }
 
-    RowLayout {
+    Label {
         x: Math.min(Math.max(8, d.ViewLayer.visibleRect.x + 8), d.width - width - 8)
         width: Math.min(implicitWidth, Math.max(0, d.width - 16))
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 4
-        spacing: 6
-
-        Control {
-            visible: d.hasSingerResolutionWarning
-            implicitWidth: implicitContentWidth + leftPadding + rightPadding
-            implicitHeight: implicitContentHeight + topPadding + bottomPadding
-            Layout.minimumWidth: implicitWidth
-            padding: 4
-            contentItem: IconLabel {
-                icon.source: "image://fluent-system-icons/warning"
-                icon.color: Theme.warningColor
-            }
-            background: Rectangle {
-                color: Theme.backgroundQuaternaryColor
-            }
-        }
-
-        Label {
-            id: singerNameLabel
-            Layout.fillWidth: true
-            color: Theme.foregroundPrimaryColor
-            elide: Text.ElideRight
-            font: Theme.font
-            text: singerDropArea.containsDrag ? qsTr("Drop to set singer") : d.singerName
-        }
+        color: Theme.foregroundPrimaryColor
+        elide: Text.ElideRight
+        font: Theme.font
+        text: singerDropArea.containsDrag ? qsTr("Drop to set singer") : d.singerName
     }
 }

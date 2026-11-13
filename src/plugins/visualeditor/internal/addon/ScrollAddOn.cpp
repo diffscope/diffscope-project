@@ -62,4 +62,12 @@ namespace VisualEditor::Internal {
             Q_EMIT activeEditingAreaChanged();
         }
     }
+
+    void ScrollAddOn::revealInArrangement(std::optional<double> tick, double tickLength, int trackIndex) {
+        QMetaObject::invokeMethod(m_actionsObject, "revealInArrangement", tick.value_or(0), tickLength, tick.has_value(), trackIndex);
+    }
+
+    void ScrollAddOn::revealInPianoRoll(double tick, double tickLength, std::optional<double> key, double keyLength) {
+        QMetaObject::invokeMethod(m_actionsObject, "revealInPianoRoll", tick, tickLength, key.value_or(0), keyLength, key.has_value());
+    }
 }

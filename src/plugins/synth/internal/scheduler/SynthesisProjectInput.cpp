@@ -338,6 +338,32 @@ namespace Synth::Internal::ProjectInput {
         return {};
     }
 
+    bool canResolveWithDifferentSinger(const SynthesisContext &context) {
+        const auto *interface = SynthInterface::instance();
+        if (!interface)
+            return false;
+
+        bool hasAlternative = false;
+        for (const auto &service : interface->serviceInstances()) {
+            const auto details = interface->serviceInstanceDetails(service.id());
+            const auto metadata = details.metadata();
+            if (SynthesisMetadataAccess::resolve(metadata, context))
+                return false;
+
+            if (hasAlternative || !service.isEnabled() || details.healthStatus() != ServiceInstanceDetails::Healthy || details.metadataStale())
+                continue;
+
+            hasAlternative = std::ranges::any_of(metadata.singers(), [&metadata](const SingerMetadata &singer) {
+                const SynthesisContext alternative{
+                    .architectureId = singer.architectureId(),
+                    .singers = {{singer.id()}},
+                };
+                return SynthesisMetadataAccess::resolve(metadata, alternative).has_value();
+            });
+        }
+        return hasAlternative;
+    }
+
     QStringList downstreamIndirectParameters(const SynthesisPipeline &pipeline, const QStringList &changedParameters) {
         const QSet<QString> editedParameters(changedParameters.cbegin(), changedParameters.cend());
         QSet<QString> affectedParameters = editedParameters;
@@ -428,13 +454,23 @@ namespace Synth::Internal::ProjectInput {
         }
         qsizetype noteIndex{};
         double previousEnd = pieceStartSeconds;
+        double latestEnd = pieceStartSeconds;
+        dspx::Handle latestEndingNote{};
+        QSet<dspx::Handle> errorNotes;
         const int documentCentShift = globalCentShift(clip);
         for (auto note : notes) {
             const double noteStart = tickSeconds(timeline, clip->start() + note->position());
             const double noteEnd = tickSeconds(timeline, clip->start() + note->position() + note->length());
-            if (noteStart + 1e-9 < previousEnd) {
-                result.error = Synth::Internal::SynthesisProjectAddOn::tr("Some notes overlap. Move or resize the overlapping notes before synthesizing");
-                return result;
+            if (noteStart + 1e-9 < latestEnd) {
+                if (result.error.isEmpty())
+                    result.error = Synth::Internal::SynthesisProjectAddOn::tr("Some notes overlap. Move or resize the overlapping notes before synthesizing");
+                if (latestEndingNote)
+                    errorNotes.insert(latestEndingNote);
+                errorNotes.insert(note->handle());
+            }
+            if (!latestEndingNote || noteEnd > latestEnd) {
+                latestEnd = noteEnd;
+                latestEndingNote = note->handle();
             }
             SynthesisScoreNote converted;
             converted.gap = std::max(0.0, noteStart - previousEnd);
@@ -445,8 +481,9 @@ namespace Synth::Internal::ProjectInput {
             converted.language = text.language;
             converted.slur = text.slur;
             if (converted.slur && (result.score.notes.isEmpty() || converted.gap > 1e-9)) {
-                result.error = Synth::Internal::SynthesisProjectAddOn::tr("A slur note must immediately follow another note");
-                return result;
+                if (result.error.isEmpty())
+                    result.error = Synth::Internal::SynthesisProjectAddOn::tr("A slur note must immediately follow another note");
+                errorNotes.insert(note->handle());
             }
             if (converted.slur)
                 converted.gap = 0.0;
@@ -463,6 +500,10 @@ namespace Synth::Internal::ProjectInput {
             result.score.notes.append(converted);
             result.noteHandles.append(note->handle());
             previousEnd = noteEnd;
+        }
+        if (!result.error.isEmpty()) {
+            result.errorNoteHandles = errorNotes.values();
+            return result;
         }
 
         QList<FlattenedSinger> leaves;

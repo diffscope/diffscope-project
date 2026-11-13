@@ -92,6 +92,7 @@ namespace DspxProject {
         dspx::Model *model = nullptr;
         dspx::SelectionModel *selectionModel = nullptr;
         Core::TransactionController *transactionController = nullptr;
+        DocumentProblemManager *problemManager = nullptr;
         bool editScopeFocused{false};
     };
 }

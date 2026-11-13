@@ -3,9 +3,22 @@
 
 #include "ProjectAudioAddOn.h"
 
+#include <initializer_list>
+
+#include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
 #include <QLoggingCategory>
+#include <QMetaObject>
+
+#include <CoreApi/filelocker.h>
+
+#include <QAKCore/actionregistry.h>
+
+#include <SVSCraftCore/MusicTime.h>
+#include <SVSCraftCore/MusicTimeSignature.h>
+#include <SVSCraftCore/MusicTimeline.h>
+#include <SVSCraftGui/DesktopServices.h>
 
 #include <TalcsCore/MetronomeAudioSource.h>
 #include <TalcsCore/MixerAudioSource.h>
@@ -15,10 +28,6 @@
 #include <TalcsDspx/DspxProjectContext.h>
 #include <TalcsFormat/AbstractAudioFormatIO.h>
 #include <TalcsFormat/FormatManager.h>
-
-#include <SVSCraftCore/MusicTime.h>
-#include <SVSCraftCore/MusicTimeline.h>
-#include <SVSCraftCore/MusicTimeSignature.h>
 
 #include <dspxmodelORM/AudioClip.h>
 #include <dspxmodelORM/Clip.h>
@@ -31,25 +40,39 @@
 #include <dspxmodelORM/Track.h>
 #include <dspxmodelORM/TrackList.h>
 
+#include <coreplugin/CoreInterface.h>
+#include <coreplugin/ProjectWindowInterface.h>
+
 #include <audio/AudioClipAudioContext.h>
-#include <audio/private/AudioClipAudioContext_p.h>
 #include <audio/GlobalAudioContext.h>
 #include <audio/ProjectAudioContext.h>
-#include <audio/private/ProjectAudioContext_p.h>
 #include <audio/TrackAudioContext.h>
-#include <audio/private/TrackAudioContext_p.h>
-#include <audio/internal/HashHelper.h>
+#include <audio/internal/AudioClipAddOn.h>
 #include <audio/internal/AudioSystem.h>
+#include <audio/internal/HashHelper.h>
+#include <audio/private/AudioClipAudioContext_p.h>
+#include <audio/private/ProjectAudioContext_p.h>
+#include <audio/private/TrackAudioContext_p.h>
 
 #include <dspxproject/Document.h>
+#include <dspxproject/DocumentProblemManager.h>
 #include <dspxproject/ProjectDocumentContext.h>
 #include <dspxproject/ProjectTimeline.h>
-#include <coreplugin/ProjectWindowInterface.h>
-#include <CoreApi/filelocker.h>
+
+#include <transactional/TransactionController.h>
 
 namespace Audio::Internal {
 
     Q_STATIC_LOGGING_CATEGORY(lcProjectAudioAddOn, "diffscope.audio.projectaudioaddon")
+
+    namespace {
+        const auto audioFileNotSpecified = QStringLiteral("org.diffscope.audio.clip.fileNotSpecified");
+        const auto audioFileNotFound = QStringLiteral("org.diffscope.audio.clip.fileNotFound");
+        const auto audioFileLoadFailed = QStringLiteral("org.diffscope.audio.clip.fileLoadFailed");
+        const auto audioFileMoved = QStringLiteral("org.diffscope.audio.clip.fileMoved");
+        const auto audioFileContentChanged = QStringLiteral("org.diffscope.audio.clip.fileContentChanged");
+        const auto audioFileConsistencyUnknown = QStringLiteral("org.diffscope.audio.clip.fileConsistencyUnknown");
+    }
 
     static QString normalizedAbsolutePath(const QString &filePath) {
         return QDir::cleanPath(QFileInfo(filePath).absoluteFilePath());
@@ -102,7 +125,9 @@ namespace Audio::Internal {
             return static_cast<qint64>(std::round(msec * sampleRate / 1000));
         });
 
-        auto model = windowInterface->projectDocumentContext()->document()->model();
+        auto document = windowInterface->projectDocumentContext()->document();
+        m_problemManager = document->problemManager();
+        auto model = document->model();
         auto tempoSequence = model->tempos();
         auto timeSignatureSequence = model->timeSignatures();
         for (auto tempo : tempoSequence->asRange()) {
@@ -166,6 +191,53 @@ namespace Audio::Internal {
     }
 
     void ProjectAudioAddOn::extensionsInitialized() {
+        using DspxProject::DocumentProblem;
+
+        auto *window = windowHandle()->cast<Core::ProjectWindowInterface>();
+        auto *clipAddOn = AudioClipAddOn::of(window);
+        auto *controller = window->projectDocumentContext()->document()->transactionController();
+        const auto fileExists = [](const DocumentProblem &problem) {
+            return QFileInfo(problem.info.data.toString()).isFile();
+        };
+        const auto replaceAction = Core::CoreInterface::actionRegistry()->actionInfo(QStringLiteral("org.diffscope.audio.edit.replaceAudioClip"));
+        const auto replaceText = replaceAction->text().toString();
+        const auto replace = [clipAddOn](const DocumentProblem &problem) {
+            const auto clip = QPointer(qobject_cast<dspx::AudioClip *>(problem.info.entity.data()));
+            return QMetaObject::invokeMethod(clipAddOn, [clipAddOn, clip] {
+                if (clip && clip->clipSequence() && clip->clipSequence()->track()->trackList())
+                    clipAddOn->replaceAudioClip(clip);
+            }, Qt::QueuedConnection);
+        };
+        const auto canReplace = [controller](const DocumentProblem &) {
+            return controller->canBeginTransaction() && controller->canAcquireReadLock();
+        };
+        for (const auto &type : {audioFileNotSpecified, audioFileNotFound, audioFileLoadFailed}) {
+            m_problemManager->registerAction(clipAddOn, type, replaceText, replace, canReplace);
+        }
+
+        const auto canEditExistingFile = [controller, fileExists](const DocumentProblem &problem) {
+            return controller->canBeginTransaction() && fileExists(problem);
+        };
+        const auto updatePath = [clipAddOn](const DocumentProblem &problem) {
+            return clipAddOn->updateAudioClipToIdenticallyMovedPath(
+                qobject_cast<dspx::AudioClip *>(problem.info.entity.data()), problem.info.data.toString());
+        };
+        const auto confirmFile = [clipAddOn](const DocumentProblem &problem) {
+            return clipAddOn->updateAudioClipDigest(qobject_cast<dspx::AudioClip *>(problem.info.entity.data()));
+        };
+        m_problemManager->registerAction(clipAddOn, audioFileMoved, QCoreApplication::translate("AudioPropertyEditor", "Update Path"),
+                                         updatePath, canEditExistingFile);
+        m_problemManager->registerAction(clipAddOn, audioFileContentChanged, QCoreApplication::translate("AudioPropertyEditor", "Confirm the Change"),
+                                         confirmFile, canEditExistingFile);
+        m_problemManager->registerAction(clipAddOn, audioFileConsistencyUnknown, QCoreApplication::translate("AudioPropertyEditor", "Confirm Current File"),
+                                         confirmFile, canEditExistingFile);
+
+        const auto revealText = QCoreApplication::translate("AudioPropertyEditor", "Reveal in %1").arg(SVS::DesktopServices::fileManagerName());
+        for (const auto &type : {audioFileLoadFailed, audioFileMoved, audioFileContentChanged, audioFileConsistencyUnknown}) {
+            m_problemManager->registerAction(this, type, revealText, [](const DocumentProblem &problem) {
+                return SVS::DesktopServices::reveal(problem.info.data.toString());
+            }, fileExists);
+        }
     }
 
     bool ProjectAudioAddOn::delayedInitialize() {
@@ -497,21 +569,27 @@ namespace Audio::Internal {
         loadAudioClip(clip, context);
         clipContext->updatePosition();
 
-        connect(clip, &dspx::AudioClip::pathChanged, context, [this, clip, context] {
-            reloadAudioClip(clip, context);
+        connect(clip, &dspx::AudioClip::pathChanged, context, [this, clip] {
+            reloadAudioClip(clip);
         });
+        connect(clip, &dspx::Clip::nameChanged, context, [addOn = QPointer(this), context] {
+            if (addOn)
+                addOn->updateAudioClipProblem(context);
+        }, Qt::QueuedConnection);
     }
 
     void ProjectAudioAddOn::loadAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context) {
         auto contextPrivate = AudioClipAudioContextPrivate::of(context);
         auto io = takeAudioClipCache(clip);
-        if (!io) {
-            const auto path = clip->path();
-            qCInfo(lcProjectAudioAddOn) << "Loading audio clip:" << path.absoluteDir << path.relativeDir << path.fileName;
-            const auto absoluteFilePath = normalizedAbsolutePath(QDir(path.absoluteDir).filePath(path.fileName));
-            QString filePath;
-            auto status = AudioClipAudioContext::Ready;
+        const auto path = clip->path();
+        const auto absoluteFilePath = normalizedAbsolutePath(QDir(path.absoluteDir).filePath(path.fileName));
+        QString filePath;
+        auto status = AudioClipAudioContext::Ready;
 
+        if (io) {
+            filePath = absoluteFilePath;
+        } else {
+            qCInfo(lcProjectAudioAddOn) << "Loading audio clip:" << path.absoluteDir << path.relativeDir << path.fileName;
             if (QFileInfo(absoluteFilePath).isFile()) {
                 filePath = absoluteFilePath;
                 if (!sha512Matches(filePath, path.digest)) {
@@ -539,33 +617,32 @@ namespace Audio::Internal {
             }
 
             if (filePath.isEmpty()) {
-                contextPrivate->setRealAudioPath({});
-                contextPrivate->setStatus(AudioClipAudioContext::FileNotFound);
-                notifyAudioClipStatus(clip, context);
-                return;
+                qCWarning(lcProjectAudioAddOn) << "Audio clip file not found:" << clip->name() << path.absoluteDir << path.relativeDir << path.fileName;
+                status = AudioClipAudioContext::FileNotFound;
+            } else {
+                io = GlobalAudioContext::formatManager()->getFormatLoad(filePath, path.userData, path.formatEntryClassName);
+                if (!io) {
+                    qCWarning(lcProjectAudioAddOn) << "Audio clip file load failed:" << clip->name() << filePath;
+                    status = AudioClipAudioContext::FileLoadFailed;
+                }
             }
-
-            contextPrivate->setRealAudioPath(filePath);
-            io = GlobalAudioContext::formatManager()->getFormatLoad(filePath, path.userData, path.formatEntryClassName);
-            if (!io) {
-                contextPrivate->setStatus(AudioClipAudioContext::FileLoadFailed);
-                notifyAudioClipStatus(clip, context);
-                return;
-            }
-            contextPrivate->setStatus(status);
-        } else {
-            const auto path = clip->path();
-            contextPrivate->setRealAudioPath(normalizedAbsolutePath(QDir(path.absoluteDir).filePath(path.fileName)));
-            contextPrivate->setStatus(AudioClipAudioContext::Ready);
         }
 
-        contextPrivate->clipContext->loadAudio(io);
-        if (context->status() != AudioClipAudioContext::Ready) {
-            notifyAudioClipStatus(clip, context);
+        contextPrivate->setRealAudioPath(filePath);
+        contextPrivate->setStatus(status);
+        if (io) {
+            contextPrivate->clipContext->loadAudio(io);
         }
+        QMetaObject::invokeMethod(this, [this, context = QPointer(context)] {
+            if (context)
+                updateAudioClipProblem(context);
+        }, Qt::QueuedConnection);
     }
 
-    void ProjectAudioAddOn::reloadAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context) {
+    void ProjectAudioAddOn::reloadAudioClip(dspx::AudioClip *clip) {
+        auto *context = AudioClipAudioContext::of(clip);
+        if (!context)
+            return;
         auto clipContext = AudioClipAudioContextPrivate::of(context)->clipContext;
         if (context->contentSource()) {
             delete clipContext->takeAudio();
@@ -574,28 +651,57 @@ namespace Audio::Internal {
         clipContext->updatePosition();
     }
 
-    void ProjectAudioAddOn::notifyAudioClipStatus(dspx::AudioClip *clip, AudioClipAudioContext *context) {
-        auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
-        auto path = QDir::toNativeSeparators(QDir(clip->path().absoluteDir).filePath(clip->path().fileName));
-        if (context->status() == AudioClipAudioContext::FileNotFound) {
-            qCWarning(lcProjectAudioAddOn) << "Audio clip file not found:" << clip->name() << clip->path().absoluteDir << clip->path().relativeDir << clip->path().fileName;
-            if (clip->path().absoluteDir.isEmpty() || clip->path().fileName.isEmpty()) {
-                windowInterface->sendNotification(SVS::SVSCraft::Critical, tr("Audio file not specified"), tr("Audio clip \"%1\" has no file specified").arg(clip->name()));
-            }
-            windowInterface->sendNotification(SVS::SVSCraft::Critical, tr("Audio file not found"), tr("The file in audio clip \"%1\" is not found:\n%2").arg(clip->name(), path));
-        } else if (context->status() == AudioClipAudioContext::FileLoadFailed) {
-            qCWarning(lcProjectAudioAddOn) << "Audio clip file load failed:" << clip->name() << clip->path().absoluteDir << clip->path().relativeDir << clip->path().fileName;
-            windowInterface->sendNotification(SVS::SVSCraft::Critical, tr("Audio file failed to load"), tr("Failed to load audio file in audio clip \"%1\":\n%2").arg(clip->name(), path));
-        } else if (context->status() == AudioClipAudioContext::FileMoved) {
-            qCWarning(lcProjectAudioAddOn) << "Audio clip file moved:" << clip->name() << clip->path().absoluteDir << clip->path().relativeDir << clip->path().fileName << "to" << context->realAudioPath();
-            windowInterface->sendNotification(SVS::SVSCraft::Warning, tr("Audio file moved"), tr("The file in audio clip \"%1\" has been moved.\nFrom: %2\nTo: %3").arg(clip->name(), path, QDir::toNativeSeparators(context->realAudioPath())));
-        } else if (context->status() == AudioClipAudioContext::FileContentChanged) {
-            qCWarning(lcProjectAudioAddOn) << "Audio clip file content changed:" << clip->name() << clip->path().absoluteDir << clip->path().relativeDir << clip->path().fileName;
-            if (!clip->path().digest.isEmpty()) {
-                // Empty file digest suggests that the project file might be created by another editor. We do not explicitly notify user in this case.
-                windowInterface->sendNotification(SVS::SVSCraft::Warning, tr("Audio file content changed"), tr("The file in audio clip \"%1\" has been changed:\n%2").arg(clip->name(), path));
-            }
+    void ProjectAudioAddOn::updateAudioClipProblem(AudioClipAudioContext *context) {
+        using DspxProject::DocumentProblemSeverity;
+
+        if (!m_problemManager)
+            return;
+
+        auto *clip = context->clip();
+        const auto path = clip->path();
+        const auto recordedPath = QDir::toNativeSeparators(QDir(path.absoluteDir).filePath(path.fileName));
+        const auto realAudioPath = context->realAudioPath();
+        const auto actualPath = QDir::toNativeSeparators(realAudioPath);
+        const auto name = clip->name();
+
+        DspxProject::DocumentProblemInfo info;
+        info.entity = clip;
+        switch (context->status()) {
+            case AudioClipAudioContext::FileNotFound:
+                if (path.absoluteDir.isEmpty() || path.fileName.isEmpty()) {
+                    info.type = audioFileNotSpecified;
+                    info.message = tr("Audio clip \"%1\" has no file specified").arg(name);
+                } else {
+                    info.type = audioFileNotFound;
+                    info.message = tr("The file in audio clip \"%1\" is not found:\n%2").arg(name, recordedPath);
+                }
+                break;
+            case AudioClipAudioContext::FileLoadFailed:
+                info.type = audioFileLoadFailed;
+                info.message = tr("Failed to load audio file in audio clip \"%1\":\n%2").arg(name, actualPath);
+                break;
+            case AudioClipAudioContext::FileMoved:
+                info.type = audioFileMoved;
+                info.severity = DocumentProblemSeverity::Notice;
+                info.message = tr("The file in audio clip \"%1\" has been moved.\nFrom: %2\nTo: %3").arg(name, recordedPath, actualPath);
+                break;
+            case AudioClipAudioContext::FileContentChanged:
+                info.severity = DocumentProblemSeverity::Warning;
+                if (path.digest.isEmpty()) {
+                    info.type = audioFileConsistencyUnknown;
+                    info.message = tr("No checksum is recorded for the file in audio clip \"%1\".\n%2").arg(name, actualPath);
+                } else {
+                    info.type = audioFileContentChanged;
+                    info.message = tr("The file in audio clip \"%1\" has been changed:\n%2").arg(name, actualPath);
+                }
+                break;
+            case AudioClipAudioContext::Ready:
+            case AudioClipAudioContext::Unknown:
+                m_problemManager->replaceProblems(context, {});
+                return;
         }
+        info.data = realAudioPath;
+        m_problemManager->replaceProblems(context, {{QStringLiteral("audioFile"), info}});
     }
 
 }

@@ -8,10 +8,12 @@
 #include <optional>
 
 #include <QHash>
+#include <QJsonValue>
 #include <QList>
 #include <QPointer>
 #include <QSet>
 #include <QStringList>
+#include <QVariant>
 
 #include <CoreApi/windowinterface.h>
 
@@ -27,6 +29,10 @@ namespace dspx {
     class Note;
     class Piece;
     class SingingClip;
+}
+
+namespace DspxProject {
+    class DocumentProblemManager;
 }
 
 namespace Synth {
@@ -122,12 +128,16 @@ namespace Synth {
             bool installAudio(ClipRuntime *runtime, SynthesisPiece *piece, const QString &filePath, QString *errorMessage);
             bool refreshAudioRanges(double sampleRate, QString *errorMessage = nullptr);
             bool waitForAudioSynthesis(QString *errorMessage);
-            void notifyFailure(SynthesisPiece *piece, const QString &message, const QString &diagnosticFilePath = {});
+            void notifyFailure(SynthesisPiece *piece, const QString &message, const QVariant &problemData = {},
+                               const QList<dspx::Handle> &errorNotes = {},
+                               const QJsonValue &payload = QJsonValue::Undefined,
+                               const QList<dspx::Handle> &inputNotes = {});
 
             ProjectSynthesisContext *m_context{};
             SynthesisTaskManager *m_taskManager{};
             SynthesisAudioController *m_audioController{};
             QPointer<Core::TransactionController> m_transactionController;
+            QPointer<DspxProject::DocumentProblemManager> m_problemManager;
             QHash<dspx::Handle, ClipRuntime *> m_clips;
             QHash<SynthesisPiece *, QPointer<SynthesisTask>> m_pieceTasks;
             QList<ClipRuntime *> m_retiredClips;

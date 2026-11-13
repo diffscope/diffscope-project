@@ -780,6 +780,7 @@ Item {
                                 anchors.fill: parent
                                 point: ViewLayer.PianoRollBackground
                                 pianoRollPanelInterface: view.pianoRollPanelInterface
+                                visibleRect: Qt.rect(0, 0, width, pianoRollViewContainerSplitViewport.height)
                             }
                             ViewLayerHost {
                                 id: contentLayers
@@ -813,12 +814,6 @@ Item {
                                     }
                                 }
                             }
-                            ViewLayerHost {
-                                width: parent.width
-                                height: pianoRollViewContainerSplitViewport.height
-                                point: ViewLayer.PianoRollForeground
-                                pianoRollPanelInterface: view.pianoRollPanelInterface
-                            }
                             PianoRollScrollLayer {
                                 anchors.fill: parent
                                 timeViewModel: view.pianoRollPanelInterface?.timeViewModel ?? null
@@ -827,6 +822,13 @@ Item {
                                 scrollBehaviorViewModel: view.pianoRollPanelInterface?.scrollBehaviorViewModel ?? null
 
                                 bottomExpansion: view.bottomExpansion
+                            }
+                            ViewLayerHost {
+                                width: parent.width
+                                height: pianoRollViewContainerSplitViewport.height
+                                point: ViewLayer.PianoRollForeground
+                                pianoRollPanelInterface: view.pianoRollPanelInterface
+                                visibleRect: Qt.rect(0, 0, width, height)
                             }
                         }
                     }

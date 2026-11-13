@@ -46,13 +46,11 @@ namespace SynthVisualizer::Internal {
             AbsolutePositionRole = Qt::UserRole + 1,
             DurationRole,
             StatusTextRole,
-            ErrorMessageRole,
             ActiveRole,
             ReadyRole,
             FailedRole,
             AudioFilePathRole,
             PieceRole,
-            DiagnosticFilePathRole,
         };
 
         explicit SynthesisPieceModel(QObject *parent = nullptr);
@@ -75,7 +73,6 @@ namespace SynthVisualizer::Internal {
         Q_INVOKABLE void resynthesizePiece(QObject *piece, int fromType, bool readCache, bool writeCache);
         Q_INVOKABLE QObject *pieceForRangeIndicator(sflow::RangeIndicatorViewModel *viewItem) const;
         Q_INVOKABLE bool isPieceTaskActive(QObject *piece) const;
-        Q_INVOKABLE QString verifiedDiagnosticFilePath(QObject *piece) const;
 
     Q_SIGNALS:
         void windowHandleChanged();

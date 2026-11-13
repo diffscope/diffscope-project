@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <utility>
 
-#include <QFileInfo>
 #include <QSet>
 #include <QVariant>
 
@@ -116,8 +115,6 @@ namespace SynthVisualizer::Internal {
                 return duration;
             case StatusTextRole:
                 return statusText(piece);
-            case ErrorMessageRole:
-                return piece->errorMessage();
             case ActiveRole:
                 return piece->state() == Synth::SynthesisPiece::Queued ||
                        piece->state() == Synth::SynthesisPiece::AwaitingResponse ||
@@ -131,10 +128,6 @@ namespace SynthVisualizer::Internal {
                 return piece->audioFilePath();
             case PieceRole:
                 return QVariant::fromValue(static_cast<QObject *>(piece));
-            case DiagnosticFilePathRole: {
-                const auto path = piece->diagnosticFilePath();
-                return path.isEmpty() || !QFileInfo::exists(path) ? QString() : path;
-            }
             default:
                 return {};
         }
@@ -145,13 +138,11 @@ namespace SynthVisualizer::Internal {
             {AbsolutePositionRole, QByteArrayLiteral("absolutePosition")},
             {DurationRole, QByteArrayLiteral("duration")},
             {StatusTextRole, QByteArrayLiteral("statusText")},
-            {ErrorMessageRole, QByteArrayLiteral("errorMessage")},
             {ActiveRole, QByteArrayLiteral("active")},
             {ReadyRole, QByteArrayLiteral("ready")},
             {FailedRole, QByteArrayLiteral("failed")},
             {AudioFilePathRole, QByteArrayLiteral("audioFilePath")},
             {PieceRole, QByteArrayLiteral("piece")},
-            {DiagnosticFilePathRole, QByteArrayLiteral("diagnosticFilePath")},
         };
     }
 
@@ -185,15 +176,6 @@ namespace SynthVisualizer::Internal {
                          piece->state() == Synth::SynthesisPiece::AwaitingResponse ||
                          piece->state() == Synth::SynthesisPiece::StreamingQueued ||
                          piece->state() == Synth::SynthesisPiece::Synthesizing);
-    }
-
-    QString SynthesisPieceModel::verifiedDiagnosticFilePath(QObject *pieceObject) const {
-        auto piece = qobject_cast<Synth::SynthesisPiece *>(pieceObject);
-        if (!piece) {
-            return {};
-        }
-        const auto path = piece->diagnosticFilePath();
-        return path.isEmpty() || !QFileInfo::exists(path) ? QString() : path;
     }
 
     void SynthesisPieceModel::setSynthesisContext(Synth::ProjectSynthesisContext *context) {
@@ -276,13 +258,11 @@ namespace SynthVisualizer::Internal {
                 AbsolutePositionRole,
                 DurationRole,
                 StatusTextRole,
-                ErrorMessageRole,
                 ActiveRole,
                 ReadyRole,
                 FailedRole,
                 AudioFilePathRole,
                 PieceRole,
-                DiagnosticFilePathRole,
             });
             return;
         }

@@ -48,15 +48,6 @@ namespace Synth {
         Q_D(const SynthesisPiece);
         return d->audioFilePath;
     }
-    QString SynthesisPiece::errorMessage() const {
-        Q_D(const SynthesisPiece);
-        return d->errorMessage;
-    }
-    QString SynthesisPiece::diagnosticFilePath() const {
-        Q_D(const SynthesisPiece);
-        return d->diagnosticFilePath;
-    }
-
 }
 
 #include "moc_SynthesisPiece.cpp"

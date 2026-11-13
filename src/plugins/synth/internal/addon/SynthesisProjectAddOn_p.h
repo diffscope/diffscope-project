@@ -49,6 +49,9 @@ namespace Synth::Internal {
             bool canceled{};
             QString errorMessage;
             SynthesisTaskType failedType{SynthesisTaskType::Pronunciation};
+            QJsonValue errorPayload{QJsonValue::Undefined};
+            QList<dspx::Handle> errorInputNotes;
+            QString diagnosticFilePath;
         };
 
         dspx::Handle clipHandle{};

@@ -95,6 +95,11 @@ namespace Synth {
         Q_D(const SynthesisTask);
         return d->errorMessage;
     }
+
+    QJsonValue SynthesisTask::errorPayload() const {
+        Q_D(const SynthesisTask);
+        return d->errorPayload;
+    }
     QVariantList SynthesisTask::diagnostics() const {
         Q_D(const SynthesisTask);
         if (!d->diagnostics.isEmpty() || d->diagnosticFilePath.isEmpty())

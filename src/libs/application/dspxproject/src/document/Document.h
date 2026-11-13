@@ -39,6 +39,7 @@ namespace Core {
 
 namespace DspxProject {
 
+    class DocumentProblemManager;
     class DocumentPrivate;
 
     /**
@@ -78,6 +79,8 @@ namespace DspxProject {
         dspx::SelectionModel *selectionModel() const;
         /** Returns the non-null owned transaction controller. */
         Core::TransactionController *transactionController() const;
+        /** Returns the non-null owned problem manager. */
+        DocumentProblemManager *problemManager() const;
 
         /** Returns whether the current edit scope contains a selection. */
         bool anyItemsSelected();

@@ -117,10 +117,28 @@
         <source>Terminate Task</source>
         <translation type="unfinished">终止任务</translation>
     </message>
+</context>
+<context>
+    <name>SynthVisualizer::Internal::SynthesisVisualizationPage</name>
     <message>
-        <location filename="../../qml/SynthesisPieceTrack.qml" line="129"/>
-        <source>View Diagnostics</source>
-        <translation type="unfinished">查看诊断信息</translation>
+        <location filename="../../internal/settings/SynthesisVisualizationPage.cpp" line="19"/>
+        <source>Configure the display of synthesis waveforms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Synthesis Visualization</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SynthesisVisualizationPage</name>
+    <message>
+        <source>Show waveforms in the phoneme panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show waveforms on singing clips</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

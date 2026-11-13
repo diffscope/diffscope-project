@@ -3,71 +3,26 @@
 
 pragma ComponentBehavior: Bound
 
-import QtQml
 import QtQuick
 
-import SVSCraft
 import SVSCraft.UIComponents
 
-import dev.sjimo.ScopicFlow
-
-import DiffScope.Core
-import DiffScope.DspxModel as DspxModel
 import DiffScope.VisualEditor
 
-Item {
+Loader {
     id: control
 
-    readonly property ClipViewModel clipViewModel: ViewLayer.clipViewModel
-    readonly property ProjectViewModelContext projectViewModelContext: ViewLayer.windowHandle?.ProjectViewModelContext.context ?? null
-    readonly property TimeViewModel timeViewModel: ViewLayer.pianoRollPanelInterface?.timeViewModel ?? null
-    readonly property TimeLayoutViewModel timeLayoutViewModel: ViewLayer.pianoRollPanelInterface?.timeLayoutViewModel ?? null
+    active: SynthesisVisualizerSettings.showPhonemeWaveforms
 
-    readonly property DspxModel.SingingClip singingClip:
-        projectViewModelContext?.getClipDocumentItemFromViewItem(
-            clipViewModel) ?? null
-    readonly property var editingTrackViewModel:
-        projectViewModelContext?.getTrackViewItemFromDocumentItem(
-            singingClip?.clipSequence?.track ?? null) ?? null
-    readonly property color trackColor:
-        editingTrackViewModel?.color ?? Theme.accentColor
+    sourceComponent: SynthesisWaveformLayer {
+        id: waveforms
 
-    clip: true
-
-    SynthesisPieceModel {
-        id: pieceModel
-
-        windowHandle: control.projectViewModelContext?.windowHandle ?? null
-        singingClip: control.singingClip
-    }
-
-    Repeater {
-        model: pieceModel
-
-        delegate: SynthesisWaveformThumbnail {
-            id: waveformDelegate
-
-            required property real absolutePosition
-            required property real duration
-            required property bool ready
-            required property string audioFilePath
-
-            x: (absolutePosition - (control.timeViewModel?.start ?? 0))
-               * (control.timeLayoutViewModel?.pixelDensity ?? 0)
-            width: duration
-                   * (control.timeLayoutViewModel?.pixelDensity ?? 0)
-            y: (control.height - height) / 2
-            height: control.height * verticalScaleFactor
-            visible: ready && audioFilePath.length > 0
-                     && width > 0 && x < control.width && x + width > 0
-
-            projectWindowInterface:
-                control.projectViewModelContext?.windowHandle ?? null
-            sourceFilePath: audioFilePath
-            startTick: absolutePosition
-            durationTicks: duration
-            color: control.trackColor
-            opacity: 0.25
-        }
+        projectViewModelContext: control.ViewLayer.windowHandle?.ProjectViewModelContext.context ?? null
+        clipViewModel: control.ViewLayer.clipViewModel
+        startTick: control.ViewLayer.pianoRollPanelInterface?.timeViewModel?.start ?? 0
+        pixelDensity: control.ViewLayer.pianoRollPanelInterface?.timeLayoutViewModel?.pixelDensity ?? 0
+        foregroundColor: waveforms.trackViewModel?.color ?? Theme.accentColor
+        normalizeAmplitude: true
+        waveformOpacity: 0.25
     }
 }

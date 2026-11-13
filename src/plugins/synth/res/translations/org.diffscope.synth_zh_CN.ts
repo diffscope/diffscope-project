@@ -2774,6 +2774,11 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::SynthesisProjectAddOn</name>
     <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="295"/>
+        <source>View Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="139"/>
         <source>Synthesized audio could not be prepared for the export sample rate</source>
         <translation type="unfinished">无法为导出采样率准备已合成的音频</translation>
@@ -2879,11 +2884,6 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">音频导出已停止，因为剪辑“%1”中某个合成片段的合成失败：%2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1074"/>
-        <source>Synthesis failed</source>
-        <translation type="unfinished">合成失败</translation>
-    </message>
-    <message>
         <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1250"/>
         <source>The clip has no valid singer source</source>
         <translation type="unfinished">剪辑没有有效的歌手源</translation>
@@ -2900,12 +2900,12 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">没有正常的服务可以合成此合成片段</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1679"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1721"/>
         <source>Resynthesize</source>
         <translation type="unfinished">重新合成</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1680"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1722"/>
         <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</source>
         <translation type="unfinished">以下剪辑无法重新合成，因为它们的源不受合成服务管理：

@@ -77,6 +77,48 @@ ActionCollection {
         target: d.mixerPanelInterface?.mixerView.centerEditArea ?? null
     }
 
+    function intersectsViewport(start: double, length: double, viewLength: double): bool {
+        return start < viewLength && (length > 0 ? start + length > 0 : start >= 0)
+    }
+
+    function centeringOffset(bounds: rect, area: Item): point {
+        const right = bounds.x + bounds.width
+        const bottom = bounds.y + bounds.height
+        const intersects = intersectsViewport(bounds.x, bounds.width, area.width)
+            && intersectsViewport(bounds.y, bounds.height, area.height)
+        const fullyVisible = bounds.x >= 0 && right <= area.width && bounds.y >= 0 && bottom <= area.height
+        const tooLarge = bounds.width > area.width || bounds.height > area.height
+        if (intersects && (fullyVisible || tooLarge))
+            return Qt.point(0, 0)
+        return Qt.point((bounds.x + right - area.width) / 2, (bounds.y + bottom - area.height) / 2)
+    }
+
+    function revealInArrangement(tick: double, tickLength: double, hasTick: bool, trackIndex: int): void {
+        const area = arrangementPanelTimeManipulator.target
+        const pixelDensity = arrangementPanelInterface.timeLayoutViewModel.pixelDensity
+        const left = hasTick ? (tick - arrangementPanelInterface.timeViewModel.start) * pixelDensity : area.width / 2
+        const top = trackIndex >= 0 ? trackListManipulator.mapToY(trackIndex) : area.height / 2
+        const height = trackIndex >= 0 ? trackListManipulator.mapToY(trackIndex + 1) - top : 0
+        const offset = centeringOffset(Qt.rect(left, top, tickLength * pixelDensity, height), area)
+        if (offset.x)
+            arrangementPanelTimeManipulator.moveViewBy(offset.x, true)
+        if (offset.y)
+            trackListManipulator.moveViewBy(offset.y, true)
+    }
+
+    function revealInPianoRoll(tick: double, tickLength: double, key: double, keyLength: double, hasKey: bool): void {
+        const area = pianoRollPanelTimeManipulator.target
+        const pixelDensity = pianoRollPanelInterface.timeLayoutViewModel.pixelDensity
+        const left = (tick - pianoRollPanelInterface.timeViewModel.start) * pixelDensity
+        const clavier = pianoRollPanelInterface.clavierViewModel
+        const top = hasKey ? (clavier.start - key - keyLength) * clavier.pixelDensity : area.height / 2
+        const offset = centeringOffset(Qt.rect(left, top, tickLength * pixelDensity, keyLength * clavier.pixelDensity), area)
+        if (offset.x)
+            pianoRollPanelTimeManipulator.moveViewBy(offset.x, true)
+        if (offset.y)
+            clavierManipulator.moveViewBy(offset.y, true)
+    }
+
     function handleWheel(x, y, isZoom, isPage) {
         let item = d.horizontalManipulator.target
         wheelManipulator.handleWheel(

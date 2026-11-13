@@ -2775,6 +2775,11 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::SynthesisProjectAddOn</name>
     <message>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="295"/>
+        <source>View Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="139"/>
         <source>Synthesized audio could not be prepared for the export sample rate</source>
         <translation type="unfinished">Synthesized audio could not be prepared for the export sample rate</translation>
@@ -2880,11 +2885,6 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1074"/>
-        <source>Synthesis failed</source>
-        <translation type="unfinished">Synthesis failed</translation>
-    </message>
-    <message>
         <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1250"/>
         <source>The clip has no valid singer source</source>
         <translation type="unfinished">The clip has no valid singer source</translation>
@@ -2901,12 +2901,12 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">No healthy service can synthesize this synthesis piece</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1679"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1721"/>
         <source>Resynthesize</source>
         <translation type="unfinished">Resynthesize</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1680"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1722"/>
         <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</source>
         <translation type="unfinished">The following clips cannot be resynthesized because their sources are not managed by a synthesis service:

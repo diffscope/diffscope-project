@@ -220,15 +220,16 @@ namespace Synth {
         }
     }
 
-    void SynthesisTaskManagerPrivate::setState(SynthesisTask *task, SynthesisTask::State state, const QString &error) {
+    void SynthesisTaskManagerPrivate::setState(SynthesisTask *task, SynthesisTask::State state, const QString &error, const QJsonValue &errorPayload) {
         const auto resources = SynthesisTaskPrivate::retainResources(task);
         auto d = SynthesisTaskPrivate::get(task);
-        if (d->state == state && d->errorMessage == error) {
+        if (d->state == state && d->errorMessage == error && d->errorPayload == errorPayload) {
             return;
         }
         const bool wasQueued = d->state == SynthesisTask::Queued;
         d->state = state;
         d->errorMessage = error;
+        d->errorPayload = errorPayload;
         if (wasQueued && task->isActive()) {
             d->startedAt = QDateTime::currentDateTimeUtc();
         }
@@ -348,13 +349,13 @@ namespace Synth {
         releaseSlot(task);
     }
 
-    void SynthesisTaskManagerPrivate::fail(SynthesisTask *task, const QString &message) {
+    void SynthesisTaskManagerPrivate::fail(SynthesisTask *task, const QString &message, const QJsonValue &payload) {
         if (!task->isActive()) {
             return;
         }
         publishDiagnostics(task);
         persistDiagnostics(task, message);
-        setState(task, SynthesisTask::Failed, message);
+        setState(task, SynthesisTask::Failed, message, payload);
         releaseSlot(task);
     }
 
@@ -525,6 +526,10 @@ namespace Synth {
 
     }
 
+    void SynthesisTaskManagerPrivate::fail(SynthesisTask *task, const ApiError &error) {
+        fail(task, apiErrorText(error), error.rawJsonResponse);
+    }
+
     QByteArray SynthesisTaskManagerPrivate::environmentKey(const ServiceInstanceConfiguration &service, const SynthesisContext &context) const {
         const auto details = SynthInterface::instance()->serviceInstanceDetails(service.id());
         return digest({
@@ -610,7 +615,7 @@ namespace Synth {
                 for (const auto &task : validTasks) {
                     if (task) {
                         cancelFunctions.remove(task);
-                        fail(task, apiErrorText(result.error()));
+                        fail(task, result.error());
                     }
                 }
                 return;
@@ -693,7 +698,7 @@ namespace Synth {
         }
         watch(task, apiClient->synthesizePronunciation(service, request, streamUpdateHandler(task)), [this, task, key](ApiResult<V1::PronunciationResponse> response) {
             if (!response) {
-                fail(task, apiErrorText(response.error()));
+                fail(task, response.error());
                 return;
             }
             SynthesisTaskResult result;
@@ -712,7 +717,7 @@ namespace Synth {
         }
         watch(task, apiClient->synthesizePhoneme(service, request, streamUpdateHandler(task)), [this, task, key](ApiResult<V1::PhonemeResponse> response) {
             if (!response) {
-                fail(task, apiErrorText(response.error()));
+                fail(task, response.error());
                 return;
             }
             SynthesisTaskResult result;
@@ -749,7 +754,7 @@ namespace Synth {
         }
         watch(task, apiClient->synthesizeDuration(service, request, streamUpdateHandler(task)), [this, task, key](ApiResult<V1::DurationResponse> response) {
             if (!response) {
-                fail(task, apiErrorText(response.error()));
+                fail(task, response.error());
                 return;
             }
             SynthesisTaskResult result;
@@ -836,7 +841,7 @@ namespace Synth {
         }
         watch(task, apiClient->synthesizeParameter(service, request, streamUpdateHandler(task)), [this, task, service, environmentTag, requestModel, combined = std::move(combined)](ApiResult<V1::ParameterResponse> response) mutable {
             if (!response) {
-                fail(task, apiErrorText(response.error()));
+                fail(task, response.error());
                 return;
             }
             auto available = requestModel.score.parameters;
@@ -877,7 +882,7 @@ namespace Synth {
         }
         watch(task, apiClient->synthesizeAudio(service, request, streamUpdateHandler(task)), [this, task, service, key](ApiResult<V1::AudioResponse> response) {
             if (!response) {
-                fail(task, apiErrorText(response.error()));
+                fail(task, response.error());
                 return;
             }
             materializeAudio(task, service, key, response.value().output.audioUrl);
@@ -886,13 +891,8 @@ namespace Synth {
 
     namespace {
 
-        QString problemDetailsText(const QByteArray &body) {
-            QJsonParseError parseError;
-            const auto document = QJsonDocument::fromJson(body, &parseError);
-            if (parseError.error != QJsonParseError::NoError || !document.isObject()) {
-                return {};
-            }
-            const auto object = document.object();
+        QString problemDetailsText(const QJsonValue &payload) {
+            const auto object = payload.toObject();
             const auto title = object.value(QStringLiteral("title")).toString().trimmed();
             const auto detail = object.value(QStringLiteral("detail")).toString().trimmed();
             if (title.isEmpty()) {
@@ -904,7 +904,7 @@ namespace Synth {
             return title + u'\n' + detail;
         }
 
-        QString audioDownloadErrorText(QNetworkReply *reply, const QByteArray &body) {
+        QString audioDownloadErrorText(QNetworkReply *reply, const QJsonValue &payload) {
             const auto statusAttribute = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
             if (!statusAttribute.isValid()) {
                 return Synth::SynthesisTaskManager::tr("The synthesis service request failed: %1")
@@ -921,7 +921,7 @@ namespace Synth {
                                : Synth::SynthesisTaskManager::tr("The synthesis service returned HTTP status %1: %2")
                                      .arg(status)
                                      .arg(reason);
-            const auto problem = problemDetailsText(body);
+            const auto problem = problemDetailsText(payload);
             if (!problem.isEmpty()) {
                 message += u'\n' + problem;
             } else if (!reply->errorString().isEmpty()) {
@@ -1050,9 +1050,12 @@ namespace Synth {
             }
             if (reply->error() != QNetworkReply::NoError) {
                 const auto body = reply->readAll();
+                QJsonParseError parseError;
+                const auto json = QJsonValue::fromJson(body, &parseError);
+                const auto payload = parseError.error == QJsonParseError::NoError ? json : QJsonValue(QJsonValue::Undefined);
                 const auto message = reply->property("synthDownloadTooLarge").toBool()
                                          ? Synth::SynthesisTaskManager::tr("The synthesized audio exceeds the configured download size limit")
-                                         : audioDownloadErrorText(reply, body);
+                                         : audioDownloadErrorText(reply, payload);
                 Internal::Api::ApiExchange exchange;
                 exchange.serviceInstanceId = service.id();
                 exchange.method = QByteArrayLiteral("GET");
@@ -1066,7 +1069,7 @@ namespace Synth {
                 exchange.errorMessage = message;
                 appendExchange(task, exchange);
                 reply->deleteLater();
-                fail(task, message);
+                fail(task, message, payload);
                 return;
             }
             const auto bytes = reply->readAll();

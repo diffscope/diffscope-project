@@ -241,6 +241,11 @@
 <context>
     <name>Application::ActionText</name>
     <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml" line="91"/>
+        <source>Problems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3930"/>
         <source>Pitch Transform Tool</source>
         <translation type="unfinished">音高变换工具</translation>
@@ -726,17 +731,17 @@
 <context>
     <name>ClipSingerLayer</name>
     <message>
-        <location filename="../../qml/ClipSingerLayer.qml" line="37"/>
+        <location filename="../../qml/ClipSingerLayer.qml" line="29"/>
         <source>No singer</source>
         <translation type="unfinished">无歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/ClipSingerLayer.qml" line="39"/>
+        <location filename="../../qml/ClipSingerLayer.qml" line="31"/>
         <source>Mixed singer</source>
         <translation type="unfinished">混合歌手</translation>
     </message>
     <message>
-        <location filename="../../qml/ClipSingerLayer.qml" line="163"/>
+        <location filename="../../qml/ClipSingerLayer.qml" line="129"/>
         <source>Drop to set singer</source>
         <translation type="unfinished">拖放以设置歌手</translation>
     </message>
@@ -1852,6 +1857,49 @@
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="872"/>
         <source>Resizing track</source>
         <translation>调整轨道大小</translation>
+    </message>
+</context>
+<context>
+    <name>ClipProblemLayer</name>
+    <message numerus="yes">
+        <location filename="../../qml/ClipProblemLayer.qml" line="67"/>
+        <source>%Ln error(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../qml/ClipProblemLayer.qml" line="67"/>
+        <source>%Ln warning(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+</context>
+<context>
+    <name>ProblemHoverCard</name>
+    <message>
+        <location filename="../../qml/ProblemHoverCard.qml" line="232"/>
+        <source>Previous Problem</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ProblemHoverCard.qml" line="237"/>
+        <source>%L1 of %L2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ProblemHoverCard.qml" line="242"/>
+        <source>Next Problem</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PianoRollProblemForeground</name>
+    <message>
+        <location filename="../../qml/PianoRollProblemForeground.qml" line="75"/>
+        <source>Jump to Problem</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -4,7 +4,14 @@
 #ifndef DIFFSCOPE_VISUAL_EDITOR_PROJECTADDON_H
 #define DIFFSCOPE_VISUAL_EDITOR_PROJECTADDON_H
 
+#include <QList>
+#include <QMetaObject>
+
 #include <CoreApi/windowinterface.h>
+
+namespace DspxProject {
+    struct DocumentProblem;
+}
 
 namespace VisualEditor::Internal {
 
@@ -17,6 +24,12 @@ namespace VisualEditor::Internal {
         void initialize() override;
         void extensionsInitialized() override;
         bool delayedInitialize() override;
+
+    private:
+        bool navigateToProblem(const DspxProject::DocumentProblem &problem);
+        void clearPendingNavigation();
+
+        QList<QMetaObject::Connection> m_pendingNavigation;
     };
 
 }

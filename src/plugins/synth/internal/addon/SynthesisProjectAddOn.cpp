@@ -12,22 +12,30 @@
 #include <utility>
 
 #include <QEventLoop>
+#include <QFileInfo>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QLoggingCategory>
+#include <QMetaObject>
 #include <QMutex>
 #include <QPointer>
 #include <QQmlComponent>
 #include <QQuickItem>
 #include <QQuickWindow>
+#include <QRegularExpression>
 #include <QSet>
+#include <QStringList>
 #include <QThread>
 #include <QTimer>
 #include <QVariant>
+#include <QVariantMap>
 
 #include <CoreApi/runtimeinterface.h>
 
+#include <QAKCore/actionregistry.h>
 #include <QAKQuick/quickactioncontext.h>
 
-#include <SVSCraftCore/SVSCraftNamespace.h>
+#include <SVSCraftGui/DesktopServices.h>
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <TalcsCore/MixerAudioSource.h>
@@ -35,9 +43,14 @@
 #include <uishell/DialogPositioner.h>
 
 #include <dspxproject/Document.h>
+#include <dspxproject/DocumentProblemManager.h>
+#include <dspxproject/EditSourcesScenario.h>
 #include <dspxproject/ProjectDocumentContext.h>
 #include <dspxproject/ProjectTimeline.h>
+#include <dspxproject/SourcesSelection.h>
+#include <coreplugin/CoreInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/SourcesPickerModel.h>
 
 #include <audio/AudioExporter.h>
 #include <audio/GlobalAudioContext.h>
@@ -62,7 +75,6 @@
 #include <dspxmodelSelectionModel/ClipSelectionModel.h>
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
 #include <dspxmodelSelectionModel/SelectionModel.h>
-#include <notifications/NotificationMessage.h>
 #include <synth/ProjectSynthesisContext.h>
 #include <synth/SynthInterface.h>
 #include <synth/SynthesisPiece.h>
@@ -84,10 +96,33 @@ namespace Synth::Internal {
 
     namespace {
 
-        void closeFailureNotification(SynthesisPiece *piece) {
-            auto notification = std::exchange(SynthesisPiecePrivate::get(piece)->failureNotification, nullptr);
-            if (notification)
-                notification->close();
+        const auto synthesisFailureType = QStringLiteral("org.diffscope.synth.failure");
+        const auto editSingersKey = QStringLiteral("editSingers");
+        const QVariant editSingersProblemData = QVariantMap{{editSingersKey, true}};
+
+        QList<qsizetype> dsspErrorNoteIndexes(const QJsonValue &payload) {
+            const auto problem = payload.toObject();
+            const auto type = problem.value(QStringLiteral("type")).toString();
+            QList<qsizetype> indexes;
+            if (type == QStringLiteral("urn:dssp:error:validation")) {
+                static const QRegularExpression notePointer(QStringLiteral(R"(^/input/notes/([0-9]+)(?:/|$))"));
+                for (const auto &issue : problem.value(QStringLiteral("errors")).toArray()) {
+                    const auto match = notePointer.match(issue.toObject().value(QStringLiteral("pointer")).toString());
+                    bool ok = false;
+                    const auto index = match.capturedView(1).toLongLong(&ok);
+                    if (ok && index <= std::numeric_limits<qsizetype>::max())
+                        indexes.append(static_cast<qsizetype>(index));
+                }
+            } else if (type == QStringLiteral("urn:dssp:error:invalid-input")) {
+                static const QRegularExpression noteDetail(QStringLiteral(
+                    R"(^(?:Note|音符|延音音符) ([0-9]+)(?: |$))"));
+                const auto match = noteDetail.match(problem.value(QStringLiteral("detail")).toString());
+                bool ok = false;
+                const auto index = match.capturedView(1).toLongLong(&ok);
+                if (ok && index <= std::numeric_limits<qsizetype>::max())
+                    indexes.append(static_cast<qsizetype>(index));
+            }
+            return indexes;
         }
 
         void synchronizePieceTask(SynthesisPiece *piece, const SynthesisTask *task) {
@@ -257,7 +292,6 @@ namespace Synth::Internal {
                 auto d = SynthesisPiecePrivate::get(piece);
                 d->state = SynthesisPiece::Ready;
                 d->errorMessage.clear();
-                d->diagnosticFilePath.clear();
                 publishPieceState(piece);
                 updateCounts();
             });
@@ -267,6 +301,15 @@ namespace Synth::Internal {
         window->addObject(m_context);
         auto document = window->projectDocumentContext()->document();
         m_transactionController = document->transactionController();
+        m_problemManager = document->problemManager();
+        m_problemManager->registerAction(
+            this, synthesisFailureType, tr("View Diagnostics"),
+            [](const DspxProject::DocumentProblem &problem) {
+                return SVS::DesktopServices::reveal(problem.info.data.toString());
+            },
+            [](const DspxProject::DocumentProblem &problem) {
+                return QFileInfo(problem.info.data.toString()).isFile();
+            });
         connect(document->model(), &dspx::Model::globalCentShiftChanged, this, [this] {
             if (!m_internalCommit) {
                 m_globalCentShiftPending = true;
@@ -336,6 +379,29 @@ namespace Synth::Internal {
     }
 
     void SynthesisProjectAddOn::extensionsInitialized() {
+        auto *window = windowHandle()->cast<Core::ProjectWindowInterface>();
+        const auto action = Core::CoreInterface::actionRegistry()->actionInfo(QStringLiteral("org.diffscope.core.edit.editSingers"));
+        m_problemManager->registerAction(
+            this, synthesisFailureType, action->text().toString(),
+            [this, window](const DspxProject::DocumentProblem &problem) {
+                return QMetaObject::invokeMethod(this, [this, window, id = problem.id] {
+                    if (!m_problemManager)
+                        return;
+                    const auto current = m_problemManager->problem(id);
+                    if (!current || !current->info.data.toMap().value(editSingersKey).toBool())
+                        return;
+                    auto *clip = qobject_cast<dspx::SingingClip *>(current->info.entity.data());
+                    if (!clip)
+                        return;
+                    Core::SourcesPickerModel picker;
+                    picker.fromSources(clip->sources());
+                    window->editSourcesScenario()->editSources(qobject_cast<QQuickWindow *>(window->window()), picker.sourcesSelection(), {clip});
+                }, Qt::QueuedConnection);
+            },
+            [this](const DspxProject::DocumentProblem &problem) {
+                return problem.info.data.toMap().value(editSingersKey).toBool() && m_transactionController &&
+                       m_transactionController->canBeginTransaction() && m_transactionController->canAcquireReadLock();
+            });
     }
 
     bool SynthesisProjectAddOn::delayedInitialize() {
@@ -544,7 +610,8 @@ namespace Synth::Internal {
             }
             m_pieceTasks.remove(piece);
             removeAudio(piece);
-            closeFailureNotification(piece);
+            if (m_problemManager)
+                m_problemManager->replaceProblems(piece, {});
             piece->deleteLater();
         }
         runtime->pieces.clear();
@@ -596,7 +663,6 @@ namespace Synth::Internal {
                     d->state = SynthesisPiece::Stale;
                     d->progress = 0;
                     d->errorMessage.clear();
-                    d->diagnosticFilePath.clear();
                 }
                 d->position = source->position();
                 d->length = source->length();
@@ -626,7 +692,7 @@ namespace Synth::Internal {
             }
             m_pieceTasks.remove(piece);
             removeAudio(piece);
-            closeFailureNotification(piece);
+            m_problemManager->replaceProblems(piece, {});
             piece->deleteLater();
             changed = true;
         }
@@ -700,7 +766,6 @@ namespace Synth::Internal {
         }
         removeAudio(piece);
         d->errorMessage.clear();
-        d->diagnosticFilePath.clear();
         if (running) {
             connect(task, &SynthesisTask::finished, this, [this, piece = QPointer<SynthesisPiece>(piece), revision] {
                 queueFinalizer([this, piece, revision] {
@@ -1024,9 +1089,8 @@ namespace Synth::Internal {
                         }
                         case SynthesisPiece::Failed:
                             if (errorMessage) {
-                                const auto detail = piece->errorMessage().isEmpty()
-                                                        ? tr("Unknown synthesis error")
-                                                        : piece->errorMessage();
+                                const auto &message = SynthesisPiecePrivate::get(piece)->errorMessage;
+                                const auto detail = message.isEmpty() ? tr("Unknown synthesis error") : message;
                                 *errorMessage = tr("Audio export was stopped because synthesis failed for a synthesis piece in clip \"%1\": %2")
                                                     .arg(clip->name(), detail);
                             }
@@ -1056,31 +1120,44 @@ namespace Synth::Internal {
         }
     }
 
-    void SynthesisProjectAddOn::notifyFailure(SynthesisPiece *piece, const QString &message, const QString &diagnosticFilePath) {
+    void SynthesisProjectAddOn::notifyFailure(SynthesisPiece *piece, const QString &message, const QVariant &problemData,
+                                              const QList<dspx::Handle> &errorNotes, const QJsonValue &payload,
+                                              const QList<dspx::Handle> &inputNotes) {
         if (!piece)
             return;
         removeAudio(piece);
         auto d = SynthesisPiecePrivate::get(piece);
-        const bool newFailure = d->state != SynthesisPiece::Failed || d->errorMessage != message;
         d->state = SynthesisPiece::Failed;
         d->errorMessage = message;
-        d->diagnosticFilePath = diagnosticFilePath;
-        if (newFailure)
-            closeFailureNotification(piece);
-        publishPieceState(piece);
-        if (newFailure) {
-            auto notification = new Notifications::NotificationMessage(piece);
-            notification->setIcon(SVS::SVSCraft::Critical);
-            notification->setTitle(tr("Synthesis failed"));
-            notification->setText(message);
-            d->failureNotification = notification;
-            connect(notification, &Notifications::NotificationMessage::closed, piece, [d, notification] {
-                if (d->failureNotification == notification)
-                    d->failureNotification = nullptr;
-                notification->deleteLater();
-            });
-            windowHandle()->cast<Core::ProjectWindowInterface>()->sendNotification(notification, Core::ProjectWindowInterface::AutoHide);
+
+        auto *clip = piece->singingClip();
+        QList<DspxProject::DocumentProblemReport> reports;
+        if (clip && clip->clipSequence() && clip->clipSequence()->track()->trackList()) {
+            QSet<dspx::Handle> handles(errorNotes.begin(), errorNotes.end());
+            for (const auto index : dsspErrorNoteIndexes(payload)) {
+                if (index < inputNotes.size())
+                    handles.insert(inputNotes.at(index));
+            }
+            const auto addReport = [&](dspx::EntityObject *entity) {
+                reports.append({
+                    QString::number(entity->handle().d),
+                    {synthesisFailureType, DspxProject::DocumentProblemSeverity::Error,
+                     message, entity, problemData},
+                });
+            };
+            for (const auto handle : handles) {
+                auto *note = clip->model()->find<dspx::Note>(handle);
+                if (note && note->noteSequence() == clip->notes() &&
+                    (errorNotes.contains(handle) ||
+                     (note->position() >= piece->position() && note->position() < piece->position() + piece->length()))) {
+                    addReport(note);
+                }
+            }
+            if (reports.isEmpty())
+                addReport(clip);
         }
+        m_problemManager->replaceProblems(piece, reports);
+        publishPieceState(piece);
         updateCounts();
     }
 
@@ -1104,7 +1181,6 @@ namespace Synth::Internal {
             }
             auto d = SynthesisPiecePrivate::get(piece);
             d->errorMessage.clear();
-            d->diagnosticFilePath.clear();
             if (fromType <= SynthesisTaskType::Audio) {
                 QString audioError;
                 if (!prepareAudio(runtime, piece, &audioError)) {
@@ -1162,13 +1238,13 @@ namespace Synth::Internal {
                 if (!blockedLanguageCoverage->errorMessage.isEmpty()) {
                     d->currentTaskType = blockedLanguageCoverage->failedType;
                     d->taskOptions = blockedLanguageCoverage->options;
-                    notifyFailure(piece, blockedLanguageCoverage->errorMessage);
+                    notifyFailure(piece, blockedLanguageCoverage->errorMessage, blockedLanguageCoverage->diagnosticFilePath, {},
+                                  blockedLanguageCoverage->errorPayload, blockedLanguageCoverage->errorInputNotes);
                     continue;
                 }
                 removeAudio(piece);
                 d->state = SynthesisPiece::Stale;
                 d->errorMessage.clear();
-                d->diagnosticFilePath.clear();
                 publishPieceState(piece);
                 continue;
             }
@@ -1247,13 +1323,14 @@ namespace Synth::Internal {
         const auto context = buildSynthesisContext(runtime->clip);
         if (!context) {
             for (auto piece : affectedPieces)
-                notifyFailure(piece, tr("The clip has no valid singer source"));
+                notifyFailure(piece, tr("The clip has no valid singer source"), editSingersProblemData);
             return;
         }
         const auto pipeline = pipelineFor(*context);
         if (pipeline.architecture.id().isEmpty()) {
+            const auto data = canResolveWithDifferentSinger(*context) ? editSingersProblemData : QVariant{};
             for (auto piece : affectedPieces)
-                notifyFailure(piece, tr("No healthy service supports the singers selected for this clip"));
+                notifyFailure(piece, tr("No healthy service supports the singers selected for this clip"), data);
             return;
         }
         QList<ClipRuntime::LanguageContinuation> preservedContinuations;
@@ -1351,7 +1428,6 @@ namespace Synth::Internal {
             synchronizePieceTask(piece, task);
             d->currentTaskType = fromType;
             d->errorMessage.clear();
-            d->diagnosticFilePath.clear();
             m_pieceTasks.insert(piece, task);
             publishPieceState(piece);
         }
@@ -1423,7 +1499,8 @@ namespace Synth::Internal {
         const auto context = buildSynthesisContext(runtime->clip);
         const auto pipeline = context ? pipelineFor(*context) : SynthesisPipeline{};
         if (!context || pipeline.architecture.id().isEmpty()) {
-            notifyFailure(piece, tr("No healthy service can synthesize this synthesis piece"));
+            const auto data = !context || canResolveWithDifferentSinger(*context) ? editSingersProblemData : QVariant{};
+            notifyFailure(piece, tr("No healthy service can synthesize this synthesis piece"), data);
             return;
         }
         const auto executableType = executableStage(pipeline, type);
@@ -1434,7 +1511,7 @@ namespace Synth::Internal {
         const bool forAudio = type == SynthesisTaskType::Audio;
         auto built = buildScore(windowHandle()->cast<Core::ProjectWindowInterface>(), runtime->clip, piece, pipeline, forAudio, requestedParameters);
         if (!built.error.isEmpty()) {
-            notifyFailure(piece, built.error);
+            notifyFailure(piece, built.error, {}, built.errorNoteHandles);
             return;
         }
         if (type == SynthesisTaskType::Parameter && built.score.requestedParameters.isEmpty()) {
@@ -1487,7 +1564,6 @@ namespace Synth::Internal {
         d->currentTaskType = task->type();
         d->taskOptions = options;
         d->errorMessage.clear();
-        d->diagnosticFilePath.clear();
         publishPieceState(piece);
         const auto updateTask = [this, clipHandle = runtime->clipHandle, piece = QPointer<SynthesisPiece>(piece), task = QPointer<SynthesisTask>(task), revision] {
             if (!task || !task->isActive())
@@ -1564,7 +1640,7 @@ namespace Synth::Internal {
             schedulePendingWork();
             return;
         }
-        if (clip && !isManagedClip(clip)) {
+        if (!isManagedClip(clip)) {
             removeClip(clip->handle());
             return;
         }
@@ -1766,6 +1842,9 @@ namespace Synth::Internal {
                 }
                 continuation.canceled = true;
                 continuation.errorMessage.clear();
+                continuation.errorPayload = QJsonValue::Undefined;
+                continuation.errorInputNotes.clear();
+                continuation.diagnosticFilePath.clear();
                 canceledContinuation = true;
             }
             for (auto writeback : m_taskWritebacks) {
@@ -1814,7 +1893,6 @@ namespace Synth::Internal {
             ++d->revision;
             d->state = SynthesisPiece::Stale;
             d->errorMessage.clear();
-            d->diagnosticFilePath.clear();
             removeAudio(affected);
             if (tasks.contains(m_pieceTasks.value(affected)))
                 m_pieceTasks.remove(affected);
@@ -1907,8 +1985,9 @@ namespace Synth::Internal {
         if (!piece) {
             return;
         }
-        if (piece->state() != SynthesisPiece::Failed)
-            closeFailureNotification(piece);
+        if (piece->state() != SynthesisPiece::Failed) {
+            m_problemManager->replaceProblems(piece, {});
+        }
         Q_EMIT piece->stateChanged();
         Q_EMIT m_context->pieceChanged(piece);
     }
@@ -2089,7 +2168,6 @@ namespace Synth::Internal {
                     d->currentTaskType = coverage->type;
                     d->taskOptions = coverage->options;
                     d->errorMessage.clear();
-                    d->diagnosticFilePath.clear();
                     m_pieceTasks.insert(piece, coverage->task);
                     publishPieceState(piece);
                 } else {
@@ -2104,8 +2182,9 @@ namespace Synth::Internal {
         auto runtime = m_clips.value(writeback->clipHandle);
         auto task = writeback->task.data();
         auto piece = writeback->piece.data();
-        const auto fail = [this, runtime, piece, writeback, task](const QString &message) {
-            const auto diagnosticFilePath = task ? task->diagnosticFilePath() : QString();
+        const auto fail = [this, runtime, piece, writeback, task](const QString &message, const QJsonValue &payload = QJsonValue::Undefined) {
+            const auto diagnosticFilePath = task->diagnosticFilePath();
+            const auto inputNotes = payload.isUndefined() ? QList<dspx::Handle>{} : writeback->noteHandles;
             if (writeback->scope == TaskWriteback::Language) {
                 runtime->languageContinuations.append({
                     writeback->piecePosition,
@@ -2116,6 +2195,9 @@ namespace Synth::Internal {
                     false,
                     message,
                     writeback->type,
+                    payload,
+                    inputNotes,
+                    diagnosticFilePath,
                 });
                 const auto affectedPieces = synthesisPiecesIn(runtime, piecesInRange(runtime->clip, writeback->piecePosition, writeback->pieceLength));
                 for (auto affected : affectedPieces) {
@@ -2139,6 +2221,9 @@ namespace Synth::Internal {
                                 false,
                                 message,
                                 candidate->type,
+                                payload,
+                                inputNotes,
+                                diagnosticFilePath,
                             });
                         }
                         discardTaskWriteback(candidate);
@@ -2148,14 +2233,14 @@ namespace Synth::Internal {
                     auto d = SynthesisPiecePrivate::get(affected);
                     d->currentTaskType = writeback->type;
                     d->taskOptions = writeback->options;
-                    notifyFailure(affected, message, diagnosticFilePath);
+                    notifyFailure(affected, message, diagnosticFilePath, {}, payload, inputNotes);
                 }
                 return;
             }
-            notifyFailure(piece, message, diagnosticFilePath);
+            notifyFailure(piece, message, diagnosticFilePath, {}, payload, inputNotes);
         };
         if (task->state() != SynthesisTask::Succeeded) {
-            fail(task->errorMessage().isEmpty() ? tr("Synthesis was canceled") : task->errorMessage());
+            fail(task->errorMessage().isEmpty() ? tr("Synthesis was canceled") : task->errorMessage(), task->errorPayload());
             return;
         }
         if (!writeback->responseShapeError.isEmpty()) {
@@ -2223,7 +2308,6 @@ namespace Synth::Internal {
             d->progress = 0;
             d->currentTaskType = next;
             d->errorMessage.clear();
-            d->diagnosticFilePath.clear();
             if (m_pieceTasks.value(affected) == writeback->task) {
                 m_pieceTasks.remove(affected);
             }
@@ -2514,14 +2598,13 @@ namespace Synth::Internal {
                     ++d->revision;
                     d->state = SynthesisPiece::Stale;
                     d->errorMessage.clear();
-                    d->diagnosticFilePath.clear();
                     removeAudio(piece);
                     publishPieceState(piece);
                 } else {
                     auto d = SynthesisPiecePrivate::get(piece);
                     d->currentTaskType = failed->failedType;
                     d->taskOptions = failed->options;
-                    notifyFailure(piece, failed->errorMessage);
+                    notifyFailure(piece, failed->errorMessage, failed->diagnosticFilePath, {}, failed->errorPayload, failed->errorInputNotes);
                 }
                 continue;
             }

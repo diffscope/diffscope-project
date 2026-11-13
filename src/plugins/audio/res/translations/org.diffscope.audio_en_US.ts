@@ -890,46 +890,26 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::ProjectAudioAddOn</name>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="583"/>
-        <source>Audio file not specified</source>
-        <translation type="unfinished">Audio file not specified</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="583"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="673"/>
         <source>Audio clip &quot;%1&quot; has no file specified</source>
         <translation type="unfinished">Audio clip &quot;%1&quot; has no file specified</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="585"/>
-        <source>Audio file not found</source>
-        <translation type="unfinished">Audio file not found</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="585"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="676"/>
         <source>The file in audio clip &quot;%1&quot; is not found:
 %2</source>
         <translation type="unfinished">The file in audio clip &quot;%1&quot; is not found:
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="588"/>
-        <source>Audio file failed to load</source>
-        <translation type="unfinished">Audio file failed to load</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="588"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="681"/>
         <source>Failed to load audio file in audio clip &quot;%1&quot;:
 %2</source>
         <translation type="unfinished">Failed to load audio file in audio clip &quot;%1&quot;:
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="591"/>
-        <source>Audio file moved</source>
-        <translation type="unfinished">Audio file moved</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="591"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="686"/>
         <source>The file in audio clip &quot;%1&quot; has been moved.
 From: %2
 To: %3</source>
@@ -938,16 +918,17 @@ From: %2
 To: %3</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="596"/>
-        <source>Audio file content changed</source>
-        <translation type="unfinished">Audio file content changed</translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="596"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="695"/>
         <source>The file in audio clip &quot;%1&quot; has been changed:
 %2</source>
         <translation type="unfinished">The file in audio clip &quot;%1&quot; has been changed:
 %2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="692"/>
+        <source>No checksum is recorded for the file in audio clip &quot;%1&quot;.
+%2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1707,7 +1688,8 @@ Estimated size of each file: %3</numerusform>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="59"/>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="113"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="105"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="235"/>
         <source>Reveal in %1</source>
         <translation type="unfinished">Reveal in %1</translation>
     </message>
@@ -1717,47 +1699,50 @@ Estimated size of each file: %3</numerusform>
         <translation type="unfinished">Audio file not specified</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="81"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="74"/>
         <source>Audio file not found</source>
         <translation type="unfinished">Audio file not found</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="87"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="80"/>
         <source>Audio file failed to load</source>
         <translation type="unfinished">Audio file failed to load</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="93"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="85"/>
         <source>Audio file moved</source>
         <translation type="unfinished">Audio file moved</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="98"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="90"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="228"/>
         <source>Update Path</source>
         <translation type="unfinished">Update Path</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="109"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="101"/>
         <source>Actual path</source>
         <translation type="unfinished">Actual path</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="128"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="120"/>
         <source>Audio file content changed</source>
         <translation type="unfinished">Audio file content changed</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="134"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="126"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="230"/>
         <source>Confirm the Change</source>
         <translation type="unfinished">Confirm the Change</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="143"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="135"/>
         <source>Audio file content consistency unknown</source>
         <translation type="unfinished">Audio file content consistency unknown</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="149"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="141"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="232"/>
         <source>Confirm Current File</source>
         <translation type="unfinished">Confirm Current File</translation>
     </message>

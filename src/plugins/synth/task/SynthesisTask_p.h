@@ -38,6 +38,7 @@ namespace Synth {
         QDateTime startedAt;
         QDateTime finishedAt;
         QString errorMessage;
+        QJsonValue errorPayload{QJsonValue::Undefined};
         QVariantList diagnostics;
         QString diagnosticFilePath;
         int resourceUsers{};

@@ -72,14 +72,15 @@ namespace Synth {
         QByteArray parameterCacheKey(const ServiceInstanceConfiguration &service, const SynthesisTaskRequest &request, const QString &environmentTag, const QString &target, const QMap<QString, SynthesisParameter> &parameters, const QSet<QString> &unavailableParameters = {}) const;
 
         void setService(SynthesisTask *task, const ServiceInstanceConfiguration &service);
-        void setState(SynthesisTask *task, SynthesisTask::State state, const QString &error = {});
+        void setState(SynthesisTask *task, SynthesisTask::State state, const QString &error = {}, const QJsonValue &errorPayload = QJsonValue::Undefined);
         Internal::Api::StreamUpdateHandler streamUpdateHandler(SynthesisTask *task);
         bool canStart(const ServiceInstanceConfiguration &service, SynthesisTaskType type) const;
         void pump();
         void start(SynthesisTask *task, const ServiceInstanceConfiguration &service);
         void releaseSlot(SynthesisTask *task);
         void complete(SynthesisTask *task, SynthesisTaskResult result);
-        void fail(SynthesisTask *task, const QString &message);
+        void fail(SynthesisTask *task, const QString &message, const QJsonValue &payload = QJsonValue::Undefined);
+        void fail(SynthesisTask *task, const Internal::Api::ApiError &error);
         void finishCanceled(SynthesisTask *task);
         void requeue(SynthesisTask *task, const std::optional<ServiceInstanceConfiguration> &service = std::nullopt);
         void appendExchanges(SynthesisTask *task, const QList<Internal::Api::ApiExchange> &exchanges);

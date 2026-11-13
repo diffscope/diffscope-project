@@ -37,8 +37,6 @@ QtObject {
             d.projectViewModelContext?.getTrackViewItemFromDocumentItem(
                 control.contextObject?.editingClip?.clipSequence?.track ?? null) ?? null
 
-        property QtObject hoveredPiece: null
-        readonly property string hoveredErrorMessage: hoveredPiece?.errorMessage ?? ""
 
         Layout.fillWidth: true
         Theme.accentColor: editingTrackViewModel?.color ?? Qt.rgba(0, 0, 0, 0)
@@ -57,33 +55,8 @@ QtObject {
             value: control.contextObject?.editingClip ?? null
         }
 
-        onHoveredErrorMessageChanged: {
-            control.DescriptiveText.activated = false
-            if (!control.hoveredErrorMessage.length)
-                return
-            control.DescriptiveText.toolTip = control.hoveredErrorMessage
-            control.DescriptiveText.activated = true
-        }
-
         Connections {
             target: control.rangeIndicatorInteractionController
-
-            function onItemHoverEntered(rangeIndicatorSequence, viewItem) {
-                if (rangeIndicatorSequence !== control)
-                    return
-                control.hoveredPiece =
-                    control.pieceModel?.pieceForRangeIndicator(viewItem) ?? null
-            }
-
-            function onItemHoverExited(rangeIndicatorSequence) {
-                if (rangeIndicatorSequence === control)
-                    control.hoveredPiece = null
-            }
-
-            function onHoverExited(rangeIndicatorSequence) {
-                if (rangeIndicatorSequence === control)
-                    control.hoveredPiece = null
-            }
 
             function onItemContextMenuRequested(rangeIndicatorSequence, viewItem) {
                 if (rangeIndicatorSequence !== control)
@@ -95,8 +68,6 @@ QtObject {
                 pieceMenu.piece = piece
                 pieceMenu.canTerminate =
                     control.pieceModel?.isPieceTaskActive(piece) ?? false
-                pieceMenu.pieceDiagnosticFilePath =
-                    control.pieceModel?.verifiedDiagnosticFilePath(piece) ?? ""
                 pieceMenu.popup()
                 pieceMenu.anchorX = pieceMenu.x
                 pieceMenu.anchorY = pieceMenu.y
@@ -108,7 +79,6 @@ QtObject {
 
             property QtObject piece: null
             property bool canTerminate: false
-            property string pieceDiagnosticFilePath: ""
             property double anchorX: 0
             property double anchorY: 0
 
@@ -123,14 +93,6 @@ QtObject {
                 icon.source: "image://fluent-system-icons/stop"
                 enabled: pieceMenu.canTerminate && pieceMenu.piece !== null
                 onTriggered: control.pieceModel.cancelPieceTask(pieceMenu.piece)
-            }
-
-            Action {
-                text: qsTr("View Diagnostics")
-                icon.source: "image://fluent-system-icons/document_search"
-                enabled: pieceMenu.pieceDiagnosticFilePath.length > 0
-                onTriggered: DesktopServices.reveal(
-                    pieceMenu.pieceDiagnosticFilePath)
             }
         }
 

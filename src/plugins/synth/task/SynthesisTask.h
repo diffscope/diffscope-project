@@ -5,6 +5,7 @@
 #define DIFFSCOPE_SYNTH_SYNTHESISTASK_H
 
 #include <QDateTime>
+#include <QJsonValue>
 #include <QObject>
 #include <QScopedPointer>
 #include <QUuid>
@@ -35,6 +36,7 @@ namespace Synth {
         Q_PROPERTY(QDateTime startedAt READ startedAt NOTIFY stateChanged)
         Q_PROPERTY(QDateTime finishedAt READ finishedAt NOTIFY stateChanged)
         Q_PROPERTY(QString errorMessage READ errorMessage NOTIFY stateChanged)
+        Q_PROPERTY(QJsonValue errorPayload READ errorPayload NOTIFY stateChanged)
         Q_PROPERTY(QVariantList diagnostics READ diagnostics NOTIFY diagnosticsChanged)
         Q_PROPERTY(QString diagnosticFilePath READ diagnosticFilePath NOTIFY diagnosticsChanged)
 
@@ -68,6 +70,8 @@ namespace Synth {
         QDateTime startedAt() const;
         QDateTime finishedAt() const;
         QString errorMessage() const;
+        /// Returns the service error JSON, or an undefined value if absent.
+        QJsonValue errorPayload() const;
         QVariantList diagnostics() const;
         QString diagnosticFilePath() const;
         /// Returns the request while execution data is retained, or an empty request after release.

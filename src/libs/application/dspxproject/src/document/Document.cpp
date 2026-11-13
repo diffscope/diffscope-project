@@ -64,6 +64,7 @@
 #include <dspxmodelSelectionModel/TempoSelectionModel.h>
 #include <dspxmodelSelectionModel/TrackSelectionModel.h>
 
+#include <dspxproject/DocumentProblemManager.h>
 #include <dspxproject/private/FreeParameterResampling_p.h>
 
 #include <singercatalog/ArchitectureInfo.h>
@@ -1423,11 +1424,15 @@ namespace DspxProject {
         auto transactionalStrategy = new TransactionalModelStrategy(d->dspxDocument);
         d->transactionController = new Core::TransactionController(transactionalStrategy, this);
         transactionalStrategy->setParent(d->transactionController);
+        d->problemManager = new DocumentProblemManager(this);
 
         d->initConnections();
     }
 
-    Document::~Document() = default;
+    Document::~Document() {
+        Q_D(Document);
+        delete d->problemManager;
+    }
 
     dspx::Model *Document::model() const {
         Q_D(const Document);
@@ -1442,6 +1447,11 @@ namespace DspxProject {
     Core::TransactionController *Document::transactionController() const {
         Q_D(const Document);
         return d->transactionController;
+    }
+
+    DocumentProblemManager *Document::problemManager() const {
+        Q_D(const Document);
+        return d->problemManager;
     }
 
     bool Document::anyItemsSelected() {
