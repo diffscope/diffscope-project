@@ -1197,7 +1197,7 @@ X-Custom-Header-2: bar</translation>
 <context>
     <name>Synth::Internal::Api::ApiClient</name>
     <message>
-        <location filename="../../internal/api/ApiClient.cpp" line="918"/>
+        <location filename="../../internal/api/ApiClient.cpp" line="917"/>
         <source>The synthesis service returned data that does not match the DSSP schema: %1</source>
         <translation type="unfinished">合成服务返回的数据与 DSSP 模式不匹配：%1</translation>
     </message>
@@ -1654,7 +1654,7 @@ Some files could not be restored. Backups are in %2.
 <context>
     <name>Synth::Internal::AudioExtractionTask</name>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="475"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="473"/>
         <source>, </source>
         <translation type="unfinished">， </translation>
     </message>
@@ -1664,106 +1664,106 @@ Some files could not be restored. Backups are in %2.
         <translation type="unfinished">提取请求未返回结果。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="69"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="68"/>
         <source>%1 — %2</source>
         <translation type="unfinished">%1：%2</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="94"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="93"/>
         <source>%1: %2</source>
         <translation type="unfinished">%1：%2</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="118"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="117"/>
         <source>No extractors are available. Check your synthesis services.</source>
         <translation type="unfinished">没有可用的提取器。请检查合成服务。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="123"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="122"/>
         <source>No enabled synthesis services are available.</source>
         <translation type="unfinished">没有已启用的可用合成服务。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="143"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="142"/>
         <source>The extraction request failed.</source>
         <translation type="unfinished">提取请求失败。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="192"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="190"/>
         <source>The service returned inconsistent extractor metadata.</source>
         <translation type="unfinished">服务返回的提取器元数据不一致。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="261"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="259"/>
         <source>The extractor returned invalid note data.</source>
         <translation type="unfinished">提取器返回的音符数据无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="277"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="275"/>
         <source>The extractor returned invalid beat data.</source>
         <translation type="unfinished">提取器返回的节拍数据无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="293"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="300"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="291"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="298"/>
         <source>The extractor returned invalid pitch data.</source>
         <translation type="unfinished">提取器返回的音高数据无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="322"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="320"/>
         <source>The extractor returned no separated audio tracks.</source>
         <translation type="unfinished">提取器未返回分离后的音频轨道。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="355"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="363"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="353"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="361"/>
         <source>The extractor returned an invalid audio data URL.</source>
         <translation type="unfinished">提取器返回的音频数据 URL 无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="377"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="375"/>
         <source>The extractor returned an unsupported audio URL.</source>
         <translation type="unfinished">提取器返回了不受支持的音频 URL。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="411"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="409"/>
         <source>The audio download redirected to an insecure URL.</source>
         <translation type="unfinished">音频下载重定向到了不安全的 URL。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="419"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="417"/>
         <source>Could not download separated audio: %1</source>
         <translation type="unfinished">无法下载分离后的音频：%1</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="442"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="502"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="440"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="500"/>
         <source>Could not store separated audio.</source>
         <translation type="unfinished">无法存储分离后的音频。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="154"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="153"/>
         <source>The extractor has an invalid track layout.</source>
         <translation type="unfinished">提取器的轨道布局无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="159"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="158"/>
         <source>The output routing is invalid.</source>
         <translation type="unfinished">输出路由无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="205"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="203"/>
         <source>The extractor track layout changed. Refresh the extractors and configure the output routing again.</source>
         <translation type="unfinished">提取器的轨道布局已更改。请刷新提取器并重新配置输出路由。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="326"/>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="333"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="324"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="331"/>
         <source>The separated tracks do not match the extractor track layout.</source>
         <translation type="unfinished">分离后的轨道与提取器的轨道布局不匹配。</translation>
     </message>
     <message>
-        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="164"/>
+        <location filename="../../internal/extraction/AudioExtractionTask.cpp" line="163"/>
         <source>Assign at least one extractor track to each output track.</source>
         <translation type="unfinished">为每个输出轨道至少分配一个提取器轨道。</translation>
     </message>
@@ -2227,59 +2227,59 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::MetadataRefreshController</name>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="38"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="37"/>
         <source>The synthesis service returned HTTP status %1</source>
         <translation type="unfinished">合成服务返回了 HTTP 状态 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="39"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="38"/>
         <source>The synthesis service request failed: network error %1</source>
         <translation type="unfinished">合成服务请求失败：网络错误 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="357"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="356"/>
         <source>The health check was canceled</source>
         <translation type="unfinished">健康检查已取消</translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="361"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="360"/>
         <source>The service does not support DSSP API version 1</source>
         <translation type="unfinished">此服务不支持 DSSP API 版本 1</translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="490"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="486"/>
         <source>The architecture request was canceled</source>
         <translation type="unfinished">架构请求已取消</translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="495"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="491"/>
         <source>The singer request was canceled</source>
         <translation type="unfinished">歌手请求已取消</translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="594"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="588"/>
         <source>Could not refresh a singer avatar</source>
         <translation type="unfinished">无法刷新歌手头像</translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="609"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="602"/>
         <source>Could not refresh a singer background</source>
         <translation type="unfinished">无法刷新歌手背景</translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="624"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="616"/>
         <source>Could not refresh singer demo audio</source>
         <translation type="unfinished">无法刷新歌手试听音频</translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="467"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="463"/>
         <source>The group request was canceled</source>
         <translation type="unfinished">分组请求已取消</translation>
     </message>
     <message>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="473"/>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="542"/>
-        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="559"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="469"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="538"/>
+        <location filename="../../internal/metadata/MetadataRefreshController.cpp" line="555"/>
         <source>The synthesis service returned inconsistent group metadata</source>
         <translation type="unfinished">合成服务返回的分组元数据不一致</translation>
     </message>
@@ -2774,35 +2774,35 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::Internal::SynthesisProjectAddOn</name>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="295"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="306"/>
         <source>View Diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">查看诊断信息</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="139"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="174"/>
         <source>Synthesized audio could not be prepared for the export sample rate</source>
         <translation type="unfinished">无法为导出采样率准备已合成的音频</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="182"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="217"/>
         <source>Synthesized audio positions could not be updated before export</source>
         <translation type="unfinished">无法在导出前更新已合成音频的位置</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="204"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="239"/>
         <source>The synthesis state could not be checked before audio export</source>
         <translation type="unfinished">无法在音频导出前检查合成状态</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="208"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="243"/>
         <source>Audio synthesis did not complete successfully</source>
         <translation type="unfinished">音频合成未成功完成</translation>
     </message>
     <message>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="111"/>
         <location filename="../../internal/scheduler/SynthesisAudioController.cpp" line="248"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="883"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="906"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="948"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="971"/>
         <source>The synthesis piece is no longer available</source>
         <translation type="unfinished">合成片段已不可用</translation>
     </message>
@@ -2848,106 +2848,106 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">无法重新定位合成片段的合成音频</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="949"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="956"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1014"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1021"/>
         <source>Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">编辑进行中时无法开始音频导出。请完成或取消当前编辑后重试</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="975"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1040"/>
         <source>Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again</source>
         <translation type="unfinished">编辑进行中时无法继续音频导出。请完成或取消当前编辑后重试</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="995"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1060"/>
         <source>Audio synthesis could not be started for clip &quot;%1&quot;</source>
         <translation type="unfinished">无法为剪辑“%1”启动音频合成</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1010"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1075"/>
         <source>Audio export was stopped because clip &quot;%1&quot; contains a synthesis piece without completed audio</source>
         <translation type="unfinished">音频导出已停止，因为剪辑“%1”包含尚未完成音频的合成片段</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1016"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1081"/>
         <source>Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip &quot;%1&quot;</source>
         <translation type="unfinished">音频导出已停止，因为剪辑“%1”中某个合成片段的音频合成已取消</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1028"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1093"/>
         <source>Unknown synthesis error</source>
         <translation type="unfinished">未知的合成错误</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1030"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1094"/>
         <source>Audio export was stopped because synthesis failed for a synthesis piece in clip &quot;%1&quot;: %2</source>
         <translation type="unfinished">音频导出已停止，因为剪辑“%1”中某个合成片段的合成失败：%2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1250"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1326"/>
         <source>The clip has no valid singer source</source>
         <translation type="unfinished">剪辑没有有效的歌手源</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1345"/>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1456"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1422"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1533"/>
         <source>The synthesis task could not be queued</source>
         <translation type="unfinished">无法将合成任务加入队列</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1426"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1503"/>
         <source>No healthy service can synthesize this synthesis piece</source>
         <translation type="unfinished">没有正常的服务可以合成此合成片段</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1721"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1755"/>
         <source>Resynthesize</source>
         <translation type="unfinished">重新合成</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1722"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1756"/>
         <source>The following clips cannot be resynthesized because their sources are not managed by a synthesis service:
 %1</source>
         <translation type="unfinished">以下剪辑无法重新合成，因为它们的源不受合成服务管理：
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1928"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2007"/>
         <source>The pronunciation result does not match the requested score</source>
         <translation type="unfinished">发音结果与请求的乐谱不匹配</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1930"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2009"/>
         <source>The phoneme result does not match the requested score</source>
         <translation type="unfinished">音素结果与请求的乐谱不匹配</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1932"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2011"/>
         <source>The duration result does not match the score for the requested synthesis piece</source>
         <translation type="unfinished">时长结果与所请求合成片段的乐谱不匹配</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2158"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="2243"/>
         <source>Synthesis was canceled</source>
         <translation type="unfinished">合成已取消</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1256"/>
+        <location filename="../../internal/addon/SynthesisProjectAddOn.cpp" line="1333"/>
         <source>No healthy service supports the singers selected for this clip</source>
         <translation type="unfinished">没有正常的服务支持此剪辑所选的歌手</translation>
     </message>
     <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="448"/>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="485"/>
         <source>A slur note must immediately follow another note</source>
         <translation type="unfinished">连音音符必须紧接在另一音符之后</translation>
     </message>
     <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="436"/>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="466"/>
         <source>Some notes overlap. Move or resize the overlapping notes before synthesizing</source>
         <translation type="unfinished">部分音符重叠。请在合成前移动或调整重叠的音符</translation>
     </message>
     <message>
-        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="404"/>
+        <location filename="../../internal/scheduler/SynthesisProjectInput.cpp" line="430"/>
         <source>The synthesis piece is no longer attached to a valid clip</source>
         <translation type="unfinished">合成片段已不再附加到有效的剪辑</translation>
     </message>
@@ -3237,19 +3237,19 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
 <context>
     <name>Synth::SynthesisTaskManager</name>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="298"/>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="581"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="299"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="586"/>
         <source>No healthy synthesis service supports the selected architecture and all required singers</source>
         <translation type="unfinished">没有正常的合成服务同时支持所选架构和所有必需的歌手</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="520"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="521"/>
         <location filename="../../task/SynthesisTaskManager.cpp" line="919"/>
         <source>The synthesis service returned HTTP status %1</source>
         <translation type="unfinished">合成服务返回了 HTTP 状态 %1</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="523"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="524"/>
         <source>The synthesis service request failed</source>
         <translation type="unfinished">合成服务请求失败</translation>
     </message>
@@ -3289,22 +3289,22 @@ Please install dspm and configure it in Settings &gt; Synthesis &gt; Package Man
         <translation type="unfinished">已合成音频 URL 的重定向次数过多</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="1054"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="1057"/>
         <source>The synthesized audio exceeds the configured download size limit</source>
         <translation type="unfinished">已合成音频超过配置的下载大小限制</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="654"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="659"/>
         <source>Audio request contains an invalid parameter value</source>
         <translation type="unfinished">音频请求包含无效的参数值</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="774"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="779"/>
         <source>Parameter request contains an invalid value</source>
         <translation type="unfinished">参数请求包含无效值</translation>
     </message>
     <message>
-        <location filename="../../task/SynthesisTaskManager.cpp" line="781"/>
+        <location filename="../../task/SynthesisTaskManager.cpp" line="786"/>
         <source>The selected singer cannot predict parameter %1</source>
         <translation type="unfinished">所选歌手无法预测参数 %1</translation>
     </message>

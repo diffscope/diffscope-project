@@ -360,17 +360,17 @@
         <translation type="unfinished">插入音频剪辑</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="266"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="268"/>
         <source>Updating audio clip path</source>
         <translation type="unfinished">更新音频剪辑路径</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="294"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="300"/>
         <source>Updating audio clip digest</source>
         <translation type="unfinished">更新音频剪辑摘要</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="332"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="345"/>
         <source>Replacing audio clip</source>
         <translation type="unfinished">替换音频剪辑</translation>
     </message>
@@ -890,26 +890,26 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::ProjectAudioAddOn</name>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="673"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="674"/>
         <source>Audio clip &quot;%1&quot; has no file specified</source>
         <translation type="unfinished">音频剪辑“%1”未指定文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="676"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="677"/>
         <source>The file in audio clip &quot;%1&quot; is not found:
 %2</source>
         <translation type="unfinished">未找到音频剪辑“%1”中的文件：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="681"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="682"/>
         <source>Failed to load audio file in audio clip &quot;%1&quot;:
 %2</source>
         <translation type="unfinished">加载音频剪辑“%1”中的音频文件失败：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="686"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="687"/>
         <source>The file in audio clip &quot;%1&quot; has been moved.
 From: %2
 To: %3</source>
@@ -918,17 +918,18 @@ To: %3</source>
 新位置：%3</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="695"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="696"/>
         <source>The file in audio clip &quot;%1&quot; has been changed:
 %2</source>
         <translation type="unfinished">音频剪辑“%1”中的文件已更改：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="692"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="693"/>
         <source>No checksum is recorded for the file in audio clip &quot;%1&quot;.
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音频剪辑“%1”中的文件未记录校验和。
+%2</translation>
     </message>
 </context>
 <context>

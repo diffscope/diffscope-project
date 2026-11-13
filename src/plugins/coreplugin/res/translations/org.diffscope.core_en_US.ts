@@ -262,77 +262,77 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6540"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6580"/>
         <source>File</source>
         <translation>File</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6541"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6581"/>
         <source>Preferences</source>
         <translation>Preferences</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6542"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6582"/>
         <source>Window</source>
         <translation>Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6543"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6583"/>
         <source>Application</source>
         <translation>Application</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6544"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6584"/>
         <source>Home</source>
         <translation>Home</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6545"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6585"/>
         <source>Edit</source>
         <translation>Edit</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6546"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6586"/>
         <source>Time Indicator</source>
         <translation>Time Indicator</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6547"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6587"/>
         <source>Timeline</source>
         <translation>Timeline</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6550"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6590"/>
         <source>Insert</source>
         <translation type="unfinished">Insert</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6552"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6592"/>
         <source>Core</source>
         <translation>Core</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6553"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6593"/>
         <source>Panel</source>
         <translation>Panel</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6554"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6594"/>
         <source>Widget</source>
         <translation>Widget</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6549"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6589"/>
         <source>View</source>
         <translation>View</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6548"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6588"/>
         <source>Workspace</source>
         <translation>Workspace</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6551"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6591"/>
         <source>Help</source>
         <translation>Help</translation>
     </message>
@@ -456,222 +456,222 @@
         <translation type="vanished">Show information about Qt</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6557"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6597"/>
         <source>Create a project in a new window.</source>
         <translation type="unfinished">Create a project in a new window.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6558"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6598"/>
         <source>Create a project from an existing file in a new window.</source>
         <translation type="unfinished">Create a project from an existing file in a new window.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6559"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6599"/>
         <source>Open a project or switch to it if already open.</source>
         <translation type="unfinished">Open a project or switch to it if already open.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6560"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6600"/>
         <source>Choose a recently used project to open.</source>
         <translation type="unfinished">Choose a recently used project to open.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6561"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6601"/>
         <source>Save under a new name and continue editing the new file.</source>
         <translation type="unfinished">Save under a new name and continue editing the new file.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6562"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6602"/>
         <source>Save a separate copy while continuing to edit the current file.</source>
         <translation type="unfinished">Save a separate copy while continuing to edit the current file.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6563"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6603"/>
         <source>View plugin details and choose which plugins are enabled.</source>
         <translation type="unfinished">View plugin details and choose which plugins are enabled.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6564"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6604"/>
         <source>Paste timed items at the playhead or tracks after the current track.</source>
         <translation type="unfinished">Paste timed items at the playhead or tracks after the current track.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6565"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6605"/>
         <source>Select all items in the current editing scope.</source>
         <translation type="unfinished">Select all items in the current editing scope.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6566"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6606"/>
         <source>Select only the item under the editing cursor.</source>
         <translation type="unfinished">Select only the item under the editing cursor.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6567"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6607"/>
         <source>Toggle the current item&apos;s selection without clearing other selections.</source>
         <translation type="unfinished">Toggle the current item&apos;s selection without clearing other selections.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6568"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6608"/>
         <source>Browse project items in a tree and change the selection.</source>
         <translation type="unfinished">Browse project items in a tree and change the selection.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6569"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6609"/>
         <source>Move the editing cursor to the previous item without changing selection.</source>
         <translation type="unfinished">Move the editing cursor to the previous item without changing selection.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6570"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6610"/>
         <source>Move the editing cursor to the next item without changing selection.</source>
         <translation type="unfinished">Move the editing cursor to the next item without changing selection.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6571"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6611"/>
         <source>Mute or unmute the selected tracks or clips.</source>
         <translation type="unfinished">Mute or unmute the selected tracks or clips.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6572"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6612"/>
         <source>Play only the tracks marked as solo.</source>
         <translation type="unfinished">Play only the tracks marked as solo.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6573"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6613"/>
         <source>Raise the selected notes by a semitone.</source>
         <translation type="unfinished">Raise the selected notes by a semitone.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6574"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6614"/>
         <source>Lower the selected notes by a semitone.</source>
         <translation type="unfinished">Lower the selected notes by a semitone.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6575"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6615"/>
         <source>Raise the selected notes by an octave.</source>
         <translation type="unfinished">Raise the selected notes by an octave.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6576"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6616"/>
         <source>Lower the selected notes by an octave.</source>
         <translation type="unfinished">Lower the selected notes by an octave.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6577"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6617"/>
         <source>Split text into lyrics and apply them to the selected notes.</source>
         <translation type="unfinished">Split text into lyrics and apply them to the selected notes.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6578"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6618"/>
         <source>Split the selected clips or notes at the playhead.</source>
         <translation type="unfinished">Split the selected clips or notes at the playhead.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6579"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6619"/>
         <source>Merge the selected singing clips within each track.</source>
         <translation type="unfinished">Merge the selected singing clips within each track.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6580"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6620"/>
         <source>Edit notes in the current singing clip.</source>
         <translation type="unfinished">Edit notes in the current singing clip.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6581"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6621"/>
         <source>Choose source singers for the selected singing clips.</source>
         <translation type="unfinished">Choose source singers for the selected singing clips.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6582"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6622"/>
         <source>Display time as measures, beats, and ticks.</source>
         <translation type="unfinished">Display time as measures, beats, and ticks.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6583"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6623"/>
         <source>Display time as minutes, seconds, and milliseconds.</source>
         <translation type="unfinished">Display time as minutes, seconds, and milliseconds.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6584"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6624"/>
         <source>Jump to a position, time, or relative offset entered as text.</source>
         <translation type="unfinished">Jump to a position, time, or relative offset entered as text.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6585"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6625"/>
         <source>Fit the timeline range to project content and the loop range.</source>
         <translation type="unfinished">Fit the timeline range to project content and the loop range.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6586"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6626"/>
         <source>Edit the tempo at the playhead.</source>
         <translation type="unfinished">Edit the tempo at the playhead.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6587"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6627"/>
         <source>Edit the time signature at the playhead.</source>
         <translation type="unfinished">Edit the time signature at the playhead.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6588"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6628"/>
         <source>Set the start and end of the playback loop.</source>
         <translation type="unfinished">Set the start and end of the playback loop.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6589"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6629"/>
         <source>Choose a workspace layout for the current window.</source>
         <translation type="unfinished">Choose a workspace layout for the current window.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6590"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6630"/>
         <source>Manage saved workspace layouts.</source>
         <translation type="unfinished">Manage saved workspace layouts.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6591"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6631"/>
         <source>Choose which panels are included in the workspace.</source>
         <translation type="unfinished">Choose which panels are included in the workspace.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6592"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6632"/>
         <source>Choose which open workspace panel is active.</source>
         <translation type="unfinished">Choose which open workspace panel is active.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6593"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6633"/>
         <source>Keep the menu bar visible without pressing Alt.</source>
         <translation type="unfinished">Keep the menu bar visible without pressing Alt.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6594"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6634"/>
         <source>Add a track after the current track, or at the end if none is current.</source>
         <translation type="unfinished">Add a track after the current track, or at the end if none is current.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6595"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6635"/>
         <source>Choose the number, name, and insertion position of new tracks.</source>
         <translation type="unfinished">Choose the number, name, and insertion position of new tracks.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6596"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6636"/>
         <source>Choose an open project window to switch to.</source>
         <translation type="unfinished">Choose an open project window to switch to.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6597"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6637"/>
         <source>View global notifications.</source>
         <translation type="unfinished">View global notifications.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6598"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6638"/>
         <source>Find a command by name and run it.</source>
         <translation type="unfinished">Find a command by name and run it.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6599"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6639"/>
         <source>Check a DSPX file for format and data errors.</source>
         <translation type="unfinished">Check a DSPX file for format and data errors.</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6600"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6640"/>
         <source>Choose which page to display in the home window.</source>
         <translation type="unfinished">Choose which page to display in the home window.</translation>
     </message>
@@ -679,47 +679,47 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6383"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6422"/>
         <source>&amp;New</source>
         <translation>&amp;New</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6384"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6423"/>
         <source>New from Template...</source>
         <translation type="unfinished">New from Template...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6385"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6424"/>
         <source>&amp;Open...</source>
         <translation>&amp;Open...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6386"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6425"/>
         <source>Open &amp;Recent File</source>
         <translation type="unfinished">Open &amp;Recent File</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6387"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6426"/>
         <source>&amp;Save</source>
         <translation>&amp;Save</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6388"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6427"/>
         <source>Save &amp;As...</source>
         <translation type="unfinished">Save &amp;As...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6389"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6428"/>
         <source>Save Copy As...</source>
         <translation type="unfinished">Save Copy As...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6390"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6429"/>
         <source>Se&amp;ttings...</source>
         <translation>Se&amp;ttings...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6391"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6430"/>
         <source>Pl&amp;ugins...</source>
         <translation>Pl&amp;ugins...</translation>
     </message>
@@ -728,57 +728,57 @@
         <translation type="obsolete">Metadata...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6392"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6431"/>
         <source>Show &amp;Home Window</source>
         <translation>Show &amp;Home Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6393"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6432"/>
         <source>E&amp;xit</source>
         <translation>E&amp;xit</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6394"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6433"/>
         <source>Recent Files</source>
         <translation>Recent Files</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6395"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6434"/>
         <source>Recovery Files</source>
         <translation>Recovery Files</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6396"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6435"/>
         <source>Grid View</source>
         <translation>Grid View</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6397"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6436"/>
         <source>List View</source>
         <translation>List View</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6398"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6437"/>
         <source>&amp;Undo</source>
         <translation>&amp;Undo</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6399"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6438"/>
         <source>&amp;Redo</source>
         <translation>&amp;Redo</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6400"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6439"/>
         <source>Cu&amp;t</source>
         <translation>Cu&amp;t</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6401"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6440"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copy</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6402"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6441"/>
         <source>&amp;Paste</source>
         <translation>&amp;Paste</translation>
     </message>
@@ -787,22 +787,22 @@
         <translation type="vanished">Paste Special...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6403"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6442"/>
         <source>&amp;Delete</source>
         <translation>&amp;Delete</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6404"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6443"/>
         <source>Select &amp;All</source>
         <translation>Select &amp;All</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6405"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6444"/>
         <source>Dese&amp;lect</source>
         <translation>Dese&amp;lect</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6406"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6445"/>
         <source>Select Current</source>
         <translation>Select Current</translation>
     </message>
@@ -943,62 +943,62 @@
         <translation type="vanished">Scroll to Current Time</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6425"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6464"/>
         <source>Show &amp;Music Time</source>
         <translation>Show &amp;Music Time</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6426"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6465"/>
         <source>Show &amp;Absolute Time</source>
         <translation>Show &amp;Absolute Time</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6427"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6466"/>
         <source>&amp;Go To...</source>
         <translation>&amp;Go To...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6428"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6467"/>
         <source>&amp;Quick Jump...</source>
         <translation>&amp;Quick Jump...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6429"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6468"/>
         <source>Go to &amp;Start</source>
         <translation>Go to &amp;Start</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6430"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6469"/>
         <source>Go to Previous Measure</source>
         <translation>Go to Previous Measure</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6431"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6470"/>
         <source>Go to Previous Beat</source>
         <translation>Go to Previous Beat</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6432"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6471"/>
         <source>Go to Previous Tick</source>
         <translation>Go to Previous Tick</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6433"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6472"/>
         <source>Go to &amp;End</source>
         <translation>Go to &amp;End</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6434"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6473"/>
         <source>Go to Next Measure</source>
         <translation>Go to Next Measure</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6435"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6474"/>
         <source>Go to Next Beat</source>
         <translation>Go to Next Beat</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6436"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6475"/>
         <source>Go to Next Tick</source>
         <translation>Go to Next Tick</translation>
     </message>
@@ -1007,47 +1007,46 @@
         <translation type="vanished">Go Inside View Range</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6442"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6481"/>
         <source>Workspace Layout...</source>
         <translation>Workspace Layout...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6448"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6487"/>
         <source>Always Show &amp;Menu Bar</source>
         <translation type="unfinished">Always Show &amp;Menu Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6489"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6528"/>
         <source>Selection Indicator</source>
         <translation type="unfinished">Selection Indicator</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6490"/>
         <source>Notification Error Indicator</source>
-        <translation type="unfinished">Notification Error Indicator</translation>
+        <translation type="obsolete">Notification Error Indicator</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6505"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6545"/>
         <source>Select</source>
         <translation type="unfinished">Select</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6506"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6546"/>
         <source>Select All Actions</source>
         <translation type="unfinished">Select All Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6507"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6547"/>
         <source>Select Current Actions</source>
         <translation type="unfinished">Select Current Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6508"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6548"/>
         <source>Shift Cursor Actions</source>
         <translation type="unfinished">Shift Cursor Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6510"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6550"/>
         <source>Track Select Actions</source>
         <translation type="unfinished">Track Select Actions</translation>
     </message>
@@ -1056,32 +1055,32 @@
         <translation type="obsolete">Note Shift Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6513"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6553"/>
         <source>Bounce Actions</source>
         <translation type="unfinished">Bounce Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6514"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6554"/>
         <source>Edit Current Clip Actions</source>
         <translation type="unfinished">Edit Current Clip Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6515"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6555"/>
         <source>&amp;Timeline</source>
         <translation type="unfinished">&amp;Timeline</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6520"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6560"/>
         <source>Timeline Edit Actions</source>
         <translation type="unfinished">Timeline Edit Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6521"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6561"/>
         <source>&amp;Insert</source>
         <translation type="unfinished">&amp;Insert</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6532"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6572"/>
         <source>Home Menu</source>
         <translation type="unfinished">Home Menu</translation>
     </message>
@@ -1090,242 +1089,252 @@
         <translation type="obsolete">Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6437"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6476"/>
         <source>&amp;Reset Project Time Range</source>
         <translation>&amp;Reset Project Time Range</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6407"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6446"/>
         <source>Multiple Select Current</source>
         <translation type="unfinished">Multiple Select Current</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6408"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6447"/>
         <source>Item Selector...</source>
         <translation type="unfinished">Item Selector...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6409"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6448"/>
         <source>Shift Cursor Up</source>
         <translation type="unfinished">Shift Cursor Up</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6410"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6449"/>
         <source>Shift Cursor Down</source>
         <translation type="unfinished">Shift Cursor Down</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6411"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6450"/>
         <source>Shift Cursor Left</source>
         <translation type="unfinished">Shift Cursor Left</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6412"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6451"/>
         <source>Shift Cursor Right</source>
         <translation type="unfinished">Shift Cursor Right</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6413"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6452"/>
         <source>Mute</source>
         <translation type="unfinished">Mute</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6414"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6453"/>
         <source>Solo</source>
         <translation type="unfinished">Solo</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6415"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6454"/>
         <source>Select All Clips on Current Track</source>
         <translation type="unfinished">Select All Clips on Current Track</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6416"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6455"/>
         <source>Shift up by a Semitone</source>
         <translation type="unfinished">Shift up by a Semitone</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6417"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6456"/>
         <source>Shift down by a Semitone</source>
         <translation type="unfinished">Shift down by a Semitone</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6418"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6457"/>
         <source>Shift up by an Octave</source>
         <translation type="unfinished">Shift up by an Octave</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6419"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6458"/>
         <source>Shift down by an Octave</source>
         <translation type="unfinished">Shift down by an Octave</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6420"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6459"/>
         <source>Fill &amp;Lyrics...</source>
         <translation type="unfinished">Fill &amp;Lyrics...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6421"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6460"/>
         <source>Split</source>
         <translation type="unfinished">Split</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6422"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6461"/>
         <source>Bounce to Clip</source>
         <translation type="unfinished">Bounce to Clip</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6423"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6462"/>
         <source>Edit Current Clip</source>
         <translation type="unfinished">Edit Current Clip</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6424"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6463"/>
         <source>Edit Singers...</source>
         <translation type="unfinished">Edit Singers...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6438"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6477"/>
         <source>Edit Tempo...</source>
         <translation type="unfinished">Edit Tempo...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6439"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6478"/>
         <source>Edit Time Signature...</source>
         <translation type="unfinished">Edit Time Signature...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6440"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6479"/>
         <source>Edit Loop...</source>
         <translation type="unfinished">Edit Loop...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6441"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6480"/>
         <source>Enable Loop</source>
         <translation type="unfinished">Enable Loop</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6443"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6482"/>
         <source>Default &amp;Layout</source>
         <translation>Default &amp;Layout</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6444"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6483"/>
         <source>&amp;Custom Layouts</source>
         <translation>&amp;Custom Layouts</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6445"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6484"/>
         <source>&amp;Save Current Layout As...</source>
         <translation>&amp;Save Current Layout As...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6446"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6485"/>
         <source>&amp;All Panels</source>
         <translation>&amp;All Panels</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6460"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6499"/>
         <source>&amp;Notification List...</source>
         <translation type="unfinished">&amp;Notification List...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6493"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6529"/>
+        <source>Problem Indicator</source>
+        <translation type="unfinished">Problem Indicator</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6532"/>
         <source>Singers</source>
         <translation type="unfinished">Singers</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6509"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6534"/>
+        <source>Problems</source>
+        <translation type="unfinished">Problems</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6549"/>
         <source>Control</source>
         <translation type="unfinished">Control</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6511"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6551"/>
         <source>Transpose</source>
         <translation type="unfinished">Transpose</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6512"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6552"/>
         <source>Fill Lyrics Actions</source>
         <translation type="unfinished">Fill Lyrics Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6528"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6568"/>
         <source>Notification Actions</source>
         <translation type="unfinished">Notification Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6533"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6573"/>
         <source>Generic Item Context Menu Actions</source>
         <translation type="unfinished">Generic Item Context Menu Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6534"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6574"/>
         <source>Generic Scene Context Menu Actions</source>
         <translation type="unfinished">Generic Scene Context Menu Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6473"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6512"/>
         <source>Clip Item Context Menu</source>
         <translation type="unfinished">Clip Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6535"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6575"/>
         <source>Clip Control Actions</source>
         <translation type="unfinished">Clip Control Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6474"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6513"/>
         <source>Clip Scene Context Menu</source>
         <translation type="unfinished">Clip Scene Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6475"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6514"/>
         <source>Label Item Context Menu</source>
         <translation type="unfinished">Label Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6476"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6515"/>
         <source>Label Scene Context Menu</source>
         <translation type="unfinished">Label Scene Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6479"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6518"/>
         <source>Tempo Item Context Menu</source>
         <translation type="unfinished">Tempo Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6482"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6521"/>
         <source>Key Signature Scene Context Menu</source>
         <translation type="unfinished">Key Signature Scene Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6481"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6520"/>
         <source>Key Signature Item Context Menu</source>
         <translation type="unfinished">Key Signature Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6480"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6519"/>
         <source>Tempo Scene Context Menu</source>
         <translation type="unfinished">Tempo Scene Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6483"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6522"/>
         <source>Track Item Context Menu</source>
         <translation type="unfinished">Track Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6484"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6523"/>
         <source>Track Scene Context Menu</source>
         <translation type="unfinished">Track Scene Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6477"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6516"/>
         <source>Note Item Context Menu</source>
         <translation type="unfinished">Note Item Context Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6478"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6517"/>
         <source>Note Scene Context Menu</source>
         <translation type="unfinished">Note Scene Context Menu</translation>
     </message>
@@ -1334,127 +1343,127 @@
         <translation type="vanished">Show &amp;Menu Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6449"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6488"/>
         <source>Show Too&amp;l Bar</source>
         <translation>Show Too&amp;l Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6450"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6489"/>
         <source>Show &amp;Status Bar</source>
         <translation>Show &amp;Status Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6451"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6490"/>
         <source>Add Track</source>
         <translation type="unfinished">Add Track</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6452"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6491"/>
         <source>Insert Track...</source>
         <translation type="unfinished">Insert Track...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6453"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6492"/>
         <source>Insert Label...</source>
         <translation type="unfinished">Insert Label...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6454"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6493"/>
         <source>Insert Singing Clip...</source>
         <translation type="unfinished">Insert Singing Clip...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6455"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6494"/>
         <source>Insert Note...</source>
         <translation type="unfinished">Insert Note...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6456"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6495"/>
         <source>&amp;Next Project Window</source>
         <translation>&amp;Next Project Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6457"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6496"/>
         <source>&amp;Previous Project Window</source>
         <translation>&amp;Previous Project Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6458"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6497"/>
         <source>Pro&amp;ject Windows</source>
         <translation>Pro&amp;ject Windows</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6459"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6498"/>
         <source>&amp;Help</source>
         <translation>&amp;Help</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6461"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6500"/>
         <source>&amp;Find Actions...</source>
         <translation>&amp;Find Actions...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6462"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6501"/>
         <source>&amp;About DiffScope</source>
         <translation>&amp;About DiffScope</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6463"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6502"/>
         <source>About &amp;Qt</source>
         <translation>About &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6464"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6503"/>
         <source>Run DSPX Inspector</source>
         <translation type="unfinished">Run DSPX Inspector</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6465"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6504"/>
         <source>Main Menu</source>
         <translation>Main Menu</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6466"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6505"/>
         <source>Main Tool Bar Left</source>
         <translation>Main Tool Bar Left</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6467"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6506"/>
         <source>Main Tool Bar Middle</source>
         <translation>Main Tool Bar Middle</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6468"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6507"/>
         <source>Main Tool Bar Right</source>
         <translation>Main Tool Bar Right</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6469"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6508"/>
         <source>Main Status Bar</source>
         <translation>Main Status Bar</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6470"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6509"/>
         <source>Home Panels</source>
         <translation type="unfinished">Home Panels</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6471"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6510"/>
         <source>Home Navigation</source>
         <translation>Home Navigation</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6472"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6511"/>
         <source>Home Tool</source>
         <translation>Home Tool</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6485"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6524"/>
         <source>Navigation Panels</source>
         <translation type="unfinished">Navigation Panels</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6486"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6525"/>
         <source>Preferences</source>
         <translation>Preferences</translation>
     </message>
@@ -1463,22 +1472,22 @@
         <translation type="vanished">Help</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6487"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6526"/>
         <source>Workspace Panel Widgets</source>
         <translation>Workspace Panel Widgets</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6488"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6527"/>
         <source>Status Text</source>
         <translation>Status Text</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6491"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6530"/>
         <source>Properties</source>
         <translation>Properties</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6492"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6531"/>
         <source>Plugins</source>
         <translation>Plugins</translation>
     </message>
@@ -1495,12 +1504,12 @@
         <translation type="vanished">Piano Roll</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6494"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6533"/>
         <source>Notifications</source>
         <translation>Notifications</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6495"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6535"/>
         <source>Tips</source>
         <translation>Tips</translation>
     </message>
@@ -1509,32 +1518,32 @@
         <translation type="obsolete">Metadata</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6496"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6536"/>
         <source>Digital Clock</source>
         <translation>Digital Clock</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6497"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6537"/>
         <source>Tempo Time Signature Indicator</source>
         <translation type="unfinished">Tempo Time Signature Indicator</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6498"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6538"/>
         <source>&amp;File</source>
         <translation>&amp;File</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6499"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6539"/>
         <source>File Open Actions</source>
         <translation>File Open Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6500"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6540"/>
         <source>File Save Actions</source>
         <translation type="unfinished">File Save Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6501"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6541"/>
         <source>Preference Actions</source>
         <translation>Preference Actions</translation>
     </message>
@@ -1543,17 +1552,17 @@
         <translation type="obsolete">File Metadata Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6502"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6542"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edit</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6503"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6543"/>
         <source>Undo Actions</source>
         <translation>Undo Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6504"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6544"/>
         <source>Generic</source>
         <translation>Generic</translation>
     </message>
@@ -1586,32 +1595,32 @@
         <translation type="vanished">Timeline</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6516"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6556"/>
         <source>Time Indicator Timecode Format Actions</source>
         <translation>Time Indicator Timecode Format Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6517"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6557"/>
         <source>Timeline Go to Actions</source>
         <translation>Timeline Go to Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6518"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6558"/>
         <source>Timeline Back Navigation Actions</source>
         <translation>Timeline Back Navigation Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6519"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6559"/>
         <source>Timeline Forward Navigation Actions</source>
         <translation>Timeline Forward Navigation Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6522"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6562"/>
         <source>&amp;View</source>
         <translation>&amp;View</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6523"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6563"/>
         <source>Workspace Actions</source>
         <translation>Workspace Actions</translation>
     </message>
@@ -1620,7 +1629,7 @@
         <translation type="vanished">&amp;Workspace</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6524"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6564"/>
         <source>Workspace Layouts</source>
         <translation>Workspace Layouts</translation>
     </message>
@@ -1641,37 +1650,37 @@
         <translation type="vanished">Scroll To</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6525"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6565"/>
         <source>View Visibility Actions</source>
         <translation>View Visibility Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6526"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6566"/>
         <source>&amp;Window</source>
         <translation>&amp;Window</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6527"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6567"/>
         <source>Project Window Actions</source>
         <translation>Project Window Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6529"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6569"/>
         <source>About Actions</source>
         <translation>About Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6530"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6570"/>
         <source>Dspx Inspector Actions</source>
         <translation type="unfinished">Dspx Inspector Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6531"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6571"/>
         <source>Tool Bar Timeline Navigation Actions</source>
         <translation>Tool Bar Timeline Navigation Actions</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6447"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6486"/>
         <source>Active &amp;Panel</source>
         <translation type="unfinished">Active &amp;Panel</translation>
     </message>
@@ -2233,7 +2242,7 @@
     <name>ColorSchemeWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="17"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6382"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6421"/>
         <source>Color Scheme</source>
         <translation>Color Scheme</translation>
     </message>
@@ -3055,7 +3064,7 @@ Continue to bounce?</translation>
 <context>
     <name>Core::Internal::CorePlugin</name>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="196"/>
+        <location filename="../../internal/CorePlugin.cpp" line="198"/>
         <source>Initializing core plugin...</source>
         <translation>Initializing core plugin...</translation>
     </message>
@@ -3070,12 +3079,12 @@ Continue to bounce?</translation>
         <translation>Initializing GUI...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="515"/>
+        <location filename="../../internal/CorePlugin.cpp" line="517"/>
         <source>Last run terminated abnormally</source>
         <translation type="unfinished">Last run terminated abnormally</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="515"/>
+        <location filename="../../internal/CorePlugin.cpp" line="517"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
@@ -3084,7 +3093,7 @@ To check for unsaved files, please go to Recovery Files.</source>
 To check for unsaved files, please go to Recovery Files.</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="564"/>
+        <location filename="../../internal/CorePlugin.cpp" line="566"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3097,12 +3106,12 @@ Please go to Plugins to see more details.</source>
 Please go to Plugins to see more details.</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="567"/>
+        <location filename="../../internal/CorePlugin.cpp" line="569"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="569"/>
+        <location filename="../../internal/CorePlugin.cpp" line="571"/>
         <source>Plugin Error</source>
         <translation type="unfinished">Plugin Error</translation>
     </message>
@@ -3795,7 +3804,7 @@ Accidental Type: %4</translation>
 <context>
     <name>Core::Internal::NotificationAddOn</name>
     <message numerus="yes">
-        <location filename="../../internal/addon/NotificationAddOn.cpp" line="80"/>
+        <location filename="../../internal/addon/NotificationAddOn.cpp" line="66"/>
         <source>%1 (+%Ln notification(s))</source>
         <translation>
             <numerusform>%1 (+%Ln notification)</numerusform>
@@ -4115,18 +4124,19 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
     <message>
         <location filename="../../internal/addon/SourcesProblemAddOn.cpp" line="133"/>
         <source>No singer architecture is configured.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No singer architecture is configured.</translation>
     </message>
     <message>
         <location filename="../../internal/addon/SourcesProblemAddOn.cpp" line="135"/>
         <source>No singers are configured.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">No singers are configured.</translation>
     </message>
     <message>
         <location filename="../../internal/addon/SourcesProblemAddOn.cpp" line="147"/>
         <source>The singer configuration for &quot;%1&quot; is invalid.
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The singer configuration for &quot;%1&quot; is invalid.
+%2</translation>
     </message>
 </context>
 <context>
@@ -4341,42 +4351,42 @@ Continue?</translation>
 <context>
     <name>Core::Internal::WorkspaceAddOn</name>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="168"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="211"/>
         <source>Save Current Layout As...</source>
         <translation>Save Current Layout As...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="174"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="217"/>
         <source>Default Layout</source>
         <translation>Default Layout</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="184"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="227"/>
         <source>custom layout</source>
         <translation>custom layout</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="188"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="231"/>
         <source>Workspace layout actions</source>
         <translation>Workspace layout actions</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="208"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="251"/>
         <source>Apply</source>
         <translation>Apply</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="211"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="254"/>
         <source>Rename</source>
         <translation>Rename</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="214"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="257"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="216"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="259"/>
         <source>Custom layout &quot;%1&quot; actions</source>
         <translation>Custom layout &quot;%1&quot; actions</translation>
     </message>
@@ -4384,27 +4394,25 @@ Continue?</translation>
 <context>
     <name>Core::Internal::WorkspacePanelLoader</name>
     <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="76"/>
         <source>The panel request expired.</source>
-        <translation type="unfinished">The panel request expired.</translation>
+        <translation type="obsolete">The panel request expired.</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="80"/>
         <source>The panel component was destroyed.</source>
-        <translation type="unfinished">The panel component was destroyed.</translation>
+        <translation type="obsolete">The panel component was destroyed.</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="96"/>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="43"/>
         <source>The panel component is not registered.</source>
         <translation type="unfinished">The panel component is not registered.</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="98"/>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="47"/>
         <source>The panel component is not ready.</source>
         <translation type="unfinished">The panel component is not ready.</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="107"/>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="61"/>
         <source>The panel component must provide a DockingPane.</source>
         <translation type="unfinished">The panel component must provide a DockingPane.</translation>
     </message>
@@ -4416,22 +4424,22 @@ Continue?</translation>
 <context>
     <name>Core::Internal::WorkspaceSession</name>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="71"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="82"/>
         <source>The panel could not be placed in the selected location.</source>
         <translation type="unfinished">The panel could not be placed in the selected location.</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="164"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="337"/>
         <source>The workspace layout is invalid.</source>
         <translation type="unfinished">The workspace layout is invalid.</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="222"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="413"/>
         <source>The workspace layout could not be restored.</source>
         <translation type="unfinished">The workspace layout could not be restored.</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="398"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="584"/>
         <source>The panel could not be moved to a floating window.</source>
         <translation type="unfinished">The panel could not be moved to a floating window.</translation>
     </message>
@@ -4639,13 +4647,13 @@ Do you want to continue opening it?</translation>
 <context>
     <name>Core::ProjectWindowInterface</name>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="279"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="287"/>
         <location filename="../../project/utils/ProjectFileDialogs.cpp" line="259"/>
         <source>Operation Conflict</source>
         <translation type="unfinished">Operation Conflict</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="280"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="288"/>
         <location filename="../../project/utils/ProjectFileDialogs.cpp" line="260"/>
         <source>Please wait until the current operation is complete before proceeding.</source>
         <translation type="unfinished">Please wait until the current operation is complete before proceeding.</translation>
@@ -6354,7 +6362,7 @@ Do you want to continue opening it?</translation>
         <translation type="unfinished">New Panels</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="28"/>
+        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="39"/>
         <source>Drag a panel to the workspace to place it.</source>
         <translation type="unfinished">Drag a panel to the workspace to place it.</translation>
     </message>
@@ -6551,25 +6559,6 @@ Do you want to continue opening it?</translation>
     </message>
 </context>
 <context>
-    <name>ProblemsAddOnActions</name>
-    <message numerus="yes">
-        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
-        <source>%Ln error(s)</source>
-        <translation type="unfinished">
-            <numerusform>%Ln error</numerusform>
-            <numerusform>%Ln errors</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
-        <source>%Ln warning(s)</source>
-        <translation type="unfinished">
-            <numerusform>%Ln warning</numerusform>
-            <numerusform>%Ln warnings</numerusform>
-        </translation>
-    </message>
-</context>
-<context>
     <name>NotificationListDialog</name>
     <message>
         <location filename="../../qml/dialogs/NotificationListDialog.qml" line="29"/>
@@ -6585,7 +6574,7 @@ Do you want to continue opening it?</translation>
 <context>
     <name>NotificationsPanel</name>
     <message>
-        <location filename="../../qml/panels/NotificationsPanel.qml" line="42"/>
+        <location filename="../../qml/panels/NotificationsPanel.qml" line="38"/>
         <source>Clear All</source>
         <translation>Clear All</translation>
     </message>
@@ -6609,6 +6598,25 @@ Do you want to continue opening it?</translation>
         <location filename="../../qml/dialogs/PluginDialog.qml" line="17"/>
         <source>Plugins</source>
         <translation>Plugins</translation>
+    </message>
+</context>
+<context>
+    <name>ProblemsAddOnActions</name>
+    <message numerus="yes">
+        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
+        <source>%Ln error(s)</source>
+        <translation type="unfinished">
+            <numerusform>%Ln error</numerusform>
+            <numerusform>%Ln errors</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
+        <source>%Ln warning(s)</source>
+        <translation type="unfinished">
+            <numerusform>%Ln warning</numerusform>
+            <numerusform>%Ln warnings</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -7231,32 +7239,32 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
         <translation type="unfinished">Workspace Error</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="114"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="121"/>
         <source>Name should not be empty</source>
         <translation>Name should not be empty</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="120"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="127"/>
         <source>New name should not be the same as old name</source>
         <translation>New name should not be the same as old name</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="126"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="133"/>
         <source>Custom presets with the same name will be overwritten</source>
         <translation>Custom presets with the same name will be overwritten</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="141"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="148"/>
         <source>Delete Layout</source>
         <translation type="unfinished">Delete Layout</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="141"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="148"/>
         <source>Delete layout &quot;%1&quot;?</source>
         <translation>Delete layout &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="105"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="112"/>
         <source>Custom Layout Name</source>
         <translation type="unfinished">Custom Layout Name</translation>
     </message>

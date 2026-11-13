@@ -237,11 +237,6 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../org.diffscope.visualeditor_actions.xml" line="91"/>
-        <source>Problems</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3930"/>
         <source>Pitch Transform Tool</source>
         <translation type="unfinished"></translation>
@@ -703,6 +698,23 @@
     <message>
         <source>Remove</source>
         <translation type="obsolete">Remove</translation>
+    </message>
+</context>
+<context>
+    <name>ClipProblemLayer</name>
+    <message numerus="yes">
+        <location filename="../../qml/ClipProblemLayer.qml" line="84"/>
+        <source>%Ln error(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../qml/ClipProblemLayer.qml" line="84"/>
+        <source>%Ln warning(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -1283,36 +1295,62 @@
     </message>
 </context>
 <context>
+    <name>PianoRollProblemForeground</name>
+    <message>
+        <location filename="../../qml/PianoRollProblemForeground.qml" line="109"/>
+        <source>Jump to Problem</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PianoRollView</name>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="659"/>
+        <location filename="../../qml/PianoRollView.qml" line="633"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1051"/>
+        <location filename="../../qml/PianoRollView.qml" line="804"/>
         <source>No clip selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1057"/>
+        <location filename="../../qml/PianoRollView.qml" line="810"/>
         <source>Activate a clip to edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1090"/>
+        <location filename="../../qml/PianoRollView.qml" line="850"/>
         <source>Move Up</source>
         <translation type="unfinished">Move Up</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1097"/>
+        <location filename="../../qml/PianoRollView.qml" line="857"/>
         <source>Move Down</source>
         <translation type="unfinished">Move Down</translation>
     </message>
     <message>
-        <location filename="../../qml/PianoRollView.qml" line="1103"/>
+        <location filename="../../qml/PianoRollView.qml" line="863"/>
         <source>Remove</source>
         <translation type="unfinished">Remove</translation>
+    </message>
+</context>
+<context>
+    <name>ProblemHoverCard</name>
+    <message>
+        <location filename="../../qml/ProblemHoverCard.qml" line="234"/>
+        <source>Previous Problem</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ProblemHoverCard.qml" line="239"/>
+        <source>%L1 of %L2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/ProblemHoverCard.qml" line="244"/>
+        <source>Next Problem</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1739,49 +1777,6 @@
     <message>
         <location filename="../../core/viewmodelbinding/TrackViewModelContextData.cpp" line="872"/>
         <source>Resizing track</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ClipProblemLayer</name>
-    <message numerus="yes">
-        <location filename="../../qml/ClipProblemLayer.qml" line="67"/>
-        <source>%Ln error(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../../qml/ClipProblemLayer.qml" line="67"/>
-        <source>%Ln warning(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-</context>
-<context>
-    <name>ProblemHoverCard</name>
-    <message>
-        <location filename="../../qml/ProblemHoverCard.qml" line="232"/>
-        <source>Previous Problem</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/ProblemHoverCard.qml" line="237"/>
-        <source>%L1 of %L2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/ProblemHoverCard.qml" line="242"/>
-        <source>Next Problem</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PianoRollProblemForeground</name>
-    <message>
-        <location filename="../../qml/PianoRollProblemForeground.qml" line="75"/>
-        <source>Jump to Problem</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

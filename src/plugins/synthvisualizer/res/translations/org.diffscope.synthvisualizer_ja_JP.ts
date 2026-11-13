@@ -43,71 +43,58 @@
 <context>
     <name>SynthVisualizer::Internal::SynthesisPieceModel</name>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="374"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="354"/>
         <source>Not synthesized</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="376"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="356"/>
         <source>Waiting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="379"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="359"/>
         <source>Queued: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="384"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="364"/>
         <source>Ready</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="386"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="366"/>
         <source>Failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="394"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="374"/>
         <source>Pronunciation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="396"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="376"/>
         <source>Phoneme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="398"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="378"/>
         <source>Duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="400"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="380"/>
         <source>Parameter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="402"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="382"/>
         <source>Audio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="382"/>
+        <location filename="../../internal/model/SynthesisPieceModel.cpp" line="362"/>
         <source>Synthesizing: %1 (%L2%)</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SynthesisPieceTrack</name>
-    <message>
-        <location filename="../../qml/SynthesisPieceTrack.qml" line="116"/>
-        <source>Resynthesize...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/SynthesisPieceTrack.qml" line="122"/>
-        <source>Terminate Task</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -119,17 +106,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../internal/settings/SynthesisVisualizationPage.cpp" line="18"/>
         <source>Synthesis Visualization</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SynthesisPieceTrack</name>
+    <message>
+        <location filename="../../qml/SynthesisPieceTrack.qml" line="86"/>
+        <source>Resynthesize...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/SynthesisPieceTrack.qml" line="92"/>
+        <source>Terminate Task</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SynthesisVisualizationPage</name>
     <message>
+        <location filename="../../qml/SynthesisVisualizationPage.qml" line="30"/>
         <source>Show waveforms in the phoneme panel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../qml/SynthesisVisualizationPage.qml" line="40"/>
         <source>Show waveforms on singing clips</source>
         <translation type="unfinished"></translation>
     </message>

@@ -783,215 +783,216 @@
 <context>
     <name>BatchProcessInterface</name>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="115"/>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="123"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="111"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="119"/>
         <source>The runtime module is no longer available.</source>
         <translation type="unfinished">The runtime module is no longer available.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="61"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="65"/>
         <source>A built-in script factory threw an unknown C++ exception.</source>
         <translation type="unfinished">A built-in script factory threw an unknown C++ exception.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="444"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="451"/>
         <source>Failed to create the script directory:
 %1</source>
         <translation type="unfinished">Failed to create the script directory:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="452"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="459"/>
         <source>The script directory cannot be resolved:
 %1</source>
         <translation type="unfinished">The script directory cannot be resolved:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="530"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="537"/>
         <source>The owner was destroyed while the global object factory was running.</source>
         <translation type="unfinished">The owner was destroyed while the global object factory was running.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="564"/>
         <location filename="../../internal/BatchProcessRuntime.cpp" line="571"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="575"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="578"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="582"/>
         <source>Engine extension</source>
         <translation type="unfinished">Engine extension</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="583"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="590"/>
         <source>The script package that created this require() function is no longer active.</source>
         <translation type="unfinished">The script package that created this require() function is no longer active.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="618"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="625"/>
         <source>The global require() function is only available while a built-in script is loading or executing.</source>
         <translation type="unfinished">The global require() function is only available while a built-in script is loading or executing.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="622"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="629"/>
         <source>The global require() function may only load registered modules: %1.</source>
         <translation type="unfinished">The global require() function may only load registered modules: %1.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="683"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="698"/>
         <source>Invalid file module specifier %1.</source>
         <translation type="unfinished">Invalid file module specifier %1.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="695"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="710"/>
         <source>Unsupported module extension in %1.</source>
         <translation type="unfinished">Unsupported module extension in %1.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="709"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="931"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="720"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="979"/>
         <source>Module %1 resolves outside the script package.</source>
         <translation type="unfinished">Module %1 resolves outside the script package.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="717"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="728"/>
         <source>Cannot find module %1.</source>
         <translation type="unfinished">Cannot find module %1.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="745"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="756"/>
         <source>Failed to read module %1.</source>
         <translation type="unfinished">Failed to read module %1.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="750"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="761"/>
         <source>Failed to parse JSON module %1 at offset %L2: %3</source>
         <translation type="unfinished">Failed to parse JSON module %1 at offset %L2: %3</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="798"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="809"/>
         <source>The script package that created this defineScript() function is no longer active.</source>
         <translation type="unfinished">The script package that created this defineScript() function is no longer active.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="803"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="814"/>
         <source>Script property %1 must be a string.</source>
         <translation type="unfinished">Script property %1 must be a string.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="807"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="818"/>
         <source>Script property %1 must be a non-empty string.</source>
         <translation type="unfinished">Script property %1 must be a non-empty string.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="815"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="826"/>
         <source>defineScript() requires an object.</source>
         <translation type="unfinished">defineScript() requires an object.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="831"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="842"/>
         <source>Script property %1 must be a string when provided.</source>
         <translation type="unfinished">Script property %1 must be a string when provided.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="847"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="914"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="849"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="916"/>
         <source>Script property %1 must be an array.</source>
         <translation type="unfinished">Script property %1 must be an array.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="847"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="858"/>
         <source>Script action %L1 must be an object.</source>
         <translation type="unfinished">Script action %L1 must be an object.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="856"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="867"/>
         <source>Script action name %1 is duplicated.</source>
         <translation type="unfinished">Script action name %1 is duplicated.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="862"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="873"/>
         <source>Action property %1 must be a boolean when provided.</source>
         <translation type="unfinished">Action property %1 must be a boolean when provided.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="867"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="878"/>
         <source>Action property %1 must be a function.</source>
         <translation type="unfinished">Action property %1 must be a function.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="914"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="962"/>
         <source>The script path cannot be resolved within its root directory:
 %1</source>
         <translation type="unfinished">The script path cannot be resolved within its root directory:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="926"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="974"/>
         <source>The script directory does not contain a regular index.js:
 %1</source>
         <translation type="unfinished">The script directory does not contain a regular index.js:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="939"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="987"/>
         <source>The script path is not a JavaScript file or a script package directory:
 %1</source>
         <translation type="unfinished">The script path is not a JavaScript file or a script package directory:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="959"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1008"/>
         <source>The entry module did not call defineScript().</source>
         <translation type="unfinished">The entry module did not call defineScript().</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="981"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1030"/>
         <source>The owner was destroyed while the built-in script was loading.</source>
         <translation type="unfinished">The owner was destroyed while the built-in script was loading.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="984"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1033"/>
         <source>The entry module must export the object returned by defineScript(), either directly or as module.exports.default.</source>
         <translation type="unfinished">The entry module must export the object returned by defineScript(), either directly or as module.exports.default.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1022"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1071"/>
         <source>The owner was destroyed while the built-in script factory was running.</source>
         <translation type="unfinished">The owner was destroyed while the built-in script factory was running.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1064"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1113"/>
         <source>The built-in script factory did not return a valid script definition.</source>
         <translation type="unfinished">The built-in script factory did not return a valid script definition.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1076"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1125"/>
         <source>Script ID %1 is already loaded.</source>
         <translation type="unfinished">Script ID %1 is already loaded.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1145"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1224"/>
         <source>Project Required</source>
         <translation type="unfinished">Project Required</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1146"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1225"/>
         <source>The action %1 requires an open project.</source>
         <translation type="unfinished">The action %1 requires an open project.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1184"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1263"/>
         <source>The action returned a Promise or another thenable. Batch Process actions must complete synchronously.</source>
         <translation type="unfinished">The action returned a Promise or another thenable. Batch Process actions must complete synchronously.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1336"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1343"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1352"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1362"/>
+        <location filename="../../internal/ScriptPanel.cpp" line="93"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1444"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1451"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1460"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1470"/>
         <source>Batch Process</source>
         <translation type="unfinished">Batch Process</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1337"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1445"/>
         <source>Failed to load a built-in script:
 
 %1</source>
@@ -1000,7 +1001,7 @@
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1344"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1452"/>
         <source>Failed to load script %1:
 
 %2</source>
@@ -1009,7 +1010,7 @@
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1353"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1461"/>
         <source>Failed to initialize %1:
 
 %2</source>
@@ -1018,7 +1019,7 @@
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1363"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1471"/>
         <source>Script %1, action %2 failed:
 
 %3</source>
@@ -1027,200 +1028,202 @@
 %3</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1393"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1501"/>
         <source>The script threw a function value.</source>
         <translation type="unfinished">The script threw a function value.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1395"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1503"/>
         <source>The script threw a non-Error object.</source>
         <translation type="unfinished">The script threw a non-Error object.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1400"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1508"/>
         <source>The script threw an unidentified value.</source>
         <translation type="unfinished">The script threw an unidentified value.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1414"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1522"/>
         <source>Location: %1</source>
         <translation type="unfinished">Location: %1</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="895"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="906"/>
         <source>Method metadata cannot be represented as JSON.</source>
         <translation type="unfinished">Method metadata cannot be represented as JSON.</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="142"/>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="204"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="138"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="200"/>
         <source>Translation resources are only available while a script is active.</source>
         <translation type="unfinished">Translation resources are only available while a script is active.</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="146"/>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="208"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="142"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="204"/>
         <source>The current script has no file-system package.</source>
         <translation type="unfinished">The current script has no file-system package.</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="156"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="152"/>
         <source>The translation directory does not exist:
 %1</source>
         <translation type="unfinished">The translation directory does not exist:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="159"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="155"/>
         <source>The translation path is not a directory:
 %1</source>
         <translation type="unfinished">The translation path is not a directory:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="163"/>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="213"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="159"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="209"/>
         <source>The translation directory cannot be resolved:
 %1</source>
         <translation type="unfinished">The translation directory cannot be resolved:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="166"/>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="216"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="162"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="212"/>
         <source>The translation directory resolves outside the script package:
 %1</source>
         <translation type="unfinished">The translation directory resolves outside the script package:
 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="242"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="238"/>
         <source>Failed to read the translation file %1.</source>
         <translation type="unfinished">Failed to read the translation file %1.</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="247"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="243"/>
         <source>Failed to parse the translation file %1 at offset %L2: %3</source>
         <translation type="unfinished">Failed to parse the translation file %1 at offset %L2: %3</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="250"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="246"/>
         <source>The translation file %1 does not contain a JSON object.</source>
         <translation type="unfinished">The translation file %1 does not contain a JSON object.</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="270"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="266"/>
         <source>The embedded i18next module did not return a module namespace.</source>
         <translation type="unfinished">The embedded i18next module did not return a module namespace.</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="274"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="270"/>
         <source>The embedded i18next module does not export createInstance().</source>
         <translation type="unfinished">The embedded i18next module does not export createInstance().</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="286"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="282"/>
         <source>i18next createInstance() did not return an object.</source>
         <translation type="unfinished">i18next createInstance() did not return an object.</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="340"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="347"/>
         <source>Runtime script information is only available while a script is executing.</source>
         <translation type="unfinished">Runtime script information is only available while a script is executing.</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="352"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="359"/>
         <source>The current action or method is not part of the current script.</source>
         <translation type="unfinished">The current action or method is not part of the current script.</translation>
     </message>
     <message>
-        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="411"/>
+        <location filename="../../internal/runtimemodule/RuntimeModuleExtension.cpp" line="430"/>
         <source>No script is currently executing.</source>
         <translation type="unfinished">No script is currently executing.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="924"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="926"/>
         <source>Script panel %L1 must be an object.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Script panel %L1 must be an object.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="935"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="937"/>
         <source>Script panel name %1 is duplicated.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Script panel name %1 is duplicated.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="941"/>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1163"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="943"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1165"/>
         <source>Panel component %1 does not resolve to a file the script can access.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Panel component %1 does not resolve to a file the script can access.</translation>
     </message>
     <message>
-        <location filename="../../internal/ScriptPanel.cpp" line="49"/>
+        <location filename="../../internal/ScriptPanel.cpp" line="94"/>
         <source>The QML component could not be loaded or created.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The QML component could not be loaded or created.</translation>
     </message>
     <message>
-        <location filename="../../internal/ScriptPanel.cpp" line="50"/>
+        <location filename="../../internal/ScriptPanel.cpp" line="95"/>
         <source>Failed to load panel %1 from script %2:
 
 %3</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Failed to load panel %1 from script %2:
+
+%3</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/BatchProcessAddOn.cpp" line="196"/>
+        <location filename="../../internal/addon/BatchProcessAddOn.cpp" line="197"/>
         <source>The QML root object must be a ScriptPanel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The QML root object must be a ScriptPanel.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/BatchProcessAddOn.cpp" line="201"/>
+        <location filename="../../internal/addon/BatchProcessAddOn.cpp" line="202"/>
         <source>The ScriptPanel does not provide a panel component.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The ScriptPanel does not provide a panel component.</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/BatchProcessAddOn.cpp" line="231"/>
+        <location filename="../../internal/addon/BatchProcessAddOn.cpp" line="232"/>
         <source>The panel could not be registered in the workspace.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The panel could not be registered in the workspace.</translation>
     </message>
     <message>
-        <location filename="../../internal/BatchProcessRuntime.cpp" line="1358"/>
         <location filename="../../internal/ScriptPanelContext.cpp" line="68"/>
+        <location filename="../../internal/BatchProcessRuntime.cpp" line="1358"/>
         <source>The panel script is no longer active.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The panel script is no longer active.</translation>
     </message>
     <message>
         <location filename="../../internal/ScriptPanelContext.cpp" line="86"/>
         <source>Failed to translate script panel text.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Failed to translate script panel text.</translation>
     </message>
     <message>
         <location filename="../../internal/ScriptPanelContext.cpp" line="99"/>
         <source>Translation arguments must be serializable as JSON.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Translation arguments must be serializable as JSON.</translation>
     </message>
     <message>
         <location filename="../../internal/ScriptPanelContext.cpp" line="125"/>
         <source>Failed to invoke method %1 in script %2.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Failed to invoke method %1 in script %2.</translation>
     </message>
     <message>
         <location filename="../../internal/ScriptPanelContext.cpp" line="137"/>
         <source>Method arguments must be a JSON object.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Method arguments must be a JSON object.</translation>
     </message>
     <message>
         <location filename="../../internal/ScriptPanelContext.cpp" line="147"/>
         <source>The panel window is no longer active.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The panel window is no longer active.</translation>
     </message>
     <message>
         <location filename="../../internal/ScriptPanelContext.cpp" line="157"/>
         <source>The target script is not loaded.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The target script is not loaded.</translation>
     </message>
     <message>
         <location filename="../../internal/ScriptPanelContext.cpp" line="164"/>
         <source>The target script does not define this method.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">The target script does not define this method.</translation>
     </message>
 </context>
 <context>
@@ -1294,12 +1297,12 @@
     <name>DocumentInterface</name>
     <message>
         <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="179"/>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="655"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="658"/>
         <source>The script document operation is not available in the current state.</source>
         <translation type="unfinished">The script document operation is not available in the current state.</translation>
     </message>
     <message>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="341"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="344"/>
         <source>Cleaning up script objects</source>
         <translation type="unfinished">Cleaning up script objects</translation>
     </message>
@@ -1307,7 +1310,7 @@
 <context>
     <name>DspxProject::EditItemsScenario</name>
     <message>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="1038"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="1041"/>
         <source>Bouncing to clip</source>
         <translation type="unfinished">Bouncing to clip</translation>
     </message>
@@ -1400,22 +1403,22 @@
 <context>
     <name>ShellFormDialog</name>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="132"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="134"/>
         <source>A value is required.</source>
         <translation type="unfinished">A value is required.</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="134"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="136"/>
         <source>Enter at least %1 characters.</source>
         <translation type="unfinished">Enter at least %1 characters.</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="136"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="138"/>
         <source>Enter no more than %1 characters.</source>
         <translation type="unfinished">Enter no more than %1 characters.</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="138"/>
+        <location filename="../../qml/dialogs/ShellFormDialog.qml" line="140"/>
         <source>The value does not match the required format.</source>
         <translation type="unfinished">The value does not match the required format.</translation>
     </message>
@@ -1425,7 +1428,7 @@
     <message>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="267"/>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="299"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="636"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="648"/>
         <source>The application window handle is no longer valid.</source>
         <translation type="unfinished">The application window handle is no longer valid.</translation>
     </message>
@@ -1454,43 +1457,43 @@ A value is required.</translation>
     <message>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="508"/>
         <source>Music time fields require a project window.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Music time fields require a project window.</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="548"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="560"/>
         <source>Open File</source>
         <translation type="unfinished">Open File</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="562"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="596"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="574"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="608"/>
         <source>The selected file could not be authorized.</source>
         <translation type="unfinished">The selected file could not be authorized.</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="585"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="597"/>
         <source>Save File</source>
         <translation type="unfinished">Save File</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="609"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="621"/>
         <source>Select Directory</source>
         <translation type="unfinished">Select Directory</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="619"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="631"/>
         <source>The selected directory could not be authorized.</source>
         <translation type="unfinished">The selected directory could not be authorized.</translation>
     </message>
     <message>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="640"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="652"/>
         <source>This application window does not support window notifications.</source>
         <translation type="unfinished">This application window does not support window notifications.</translation>
     </message>
     <message>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="260"/>
         <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="296"/>
-        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="626"/>
+        <location filename="../../internal/shellmodule/ShellModuleExtension.cpp" line="638"/>
         <source>Shell operations are only available while a script is executing.</source>
         <translation type="unfinished">Shell operations are only available while a script is executing.</translation>
     </message>

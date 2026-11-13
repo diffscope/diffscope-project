@@ -262,77 +262,77 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6540"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6580"/>
         <source>File</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6541"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6581"/>
         <source>Preferences</source>
         <translation>首选项</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6542"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6582"/>
         <source>Window</source>
         <translation>窗口</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6543"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6583"/>
         <source>Application</source>
         <translation>应用程序</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6544"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6584"/>
         <source>Home</source>
         <translation>主页</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6545"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6585"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6546"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6586"/>
         <source>Time Indicator</source>
         <translation>时间指示器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6547"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6587"/>
         <source>Timeline</source>
         <translation>时间轴</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6550"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6590"/>
         <source>Insert</source>
         <translation>插入</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6552"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6592"/>
         <source>Core</source>
         <translation>核心</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6553"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6593"/>
         <source>Panel</source>
         <translation>面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6554"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6594"/>
         <source>Widget</source>
         <translation>小组件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6549"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6589"/>
         <source>View</source>
         <translation>视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6548"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6588"/>
         <source>Workspace</source>
         <translation>工作区</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6551"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6591"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
@@ -456,222 +456,222 @@
         <translation type="vanished">显示关于 Qt 的信息</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6557"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6597"/>
         <source>Create a project in a new window.</source>
         <translation type="unfinished">在新窗口中创建工程。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6558"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6598"/>
         <source>Create a project from an existing file in a new window.</source>
         <translation type="unfinished">从现有文件在新窗口中创建工程。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6559"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6599"/>
         <source>Open a project or switch to it if already open.</source>
         <translation type="unfinished">打开工程，如果已打开则切换到该工程。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6560"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6600"/>
         <source>Choose a recently used project to open.</source>
         <translation type="unfinished">选择最近使用的工程并打开。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6561"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6601"/>
         <source>Save under a new name and continue editing the new file.</source>
         <translation type="unfinished">使用新名称保存，并继续编辑新文件。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6562"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6602"/>
         <source>Save a separate copy while continuing to edit the current file.</source>
         <translation type="unfinished">保存独立副本，并继续编辑当前文件。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6563"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6603"/>
         <source>View plugin details and choose which plugins are enabled.</source>
         <translation type="unfinished">查看插件详情并选择启用的插件。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6564"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6604"/>
         <source>Paste timed items at the playhead or tracks after the current track.</source>
         <translation type="unfinished">在播放头处粘贴带时间信息的项目，或在当前轨道之后粘贴轨道。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6565"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6605"/>
         <source>Select all items in the current editing scope.</source>
         <translation type="unfinished">选择当前编辑范围内的全部项目。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6566"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6606"/>
         <source>Select only the item under the editing cursor.</source>
         <translation type="unfinished">仅选择编辑光标所在的项目。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6567"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6607"/>
         <source>Toggle the current item&apos;s selection without clearing other selections.</source>
         <translation type="unfinished">切换当前项目的选中状态，并保留其他选择。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6568"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6608"/>
         <source>Browse project items in a tree and change the selection.</source>
         <translation type="unfinished">以树形结构浏览工程中的项目并更改选择。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6569"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6609"/>
         <source>Move the editing cursor to the previous item without changing selection.</source>
         <translation type="unfinished">将编辑光标移至上一项，不更改选择。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6570"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6610"/>
         <source>Move the editing cursor to the next item without changing selection.</source>
         <translation type="unfinished">将编辑光标移至下一项，不更改选择。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6571"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6611"/>
         <source>Mute or unmute the selected tracks or clips.</source>
         <translation type="unfinished">将选中轨道或剪辑静音或取消静音。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6572"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6612"/>
         <source>Play only the tracks marked as solo.</source>
         <translation type="unfinished">仅播放标记为独奏的轨道。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6573"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6613"/>
         <source>Raise the selected notes by a semitone.</source>
         <translation type="unfinished">将选中音符升高半音。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6574"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6614"/>
         <source>Lower the selected notes by a semitone.</source>
         <translation type="unfinished">将选中音符降低半音。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6575"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6615"/>
         <source>Raise the selected notes by an octave.</source>
         <translation type="unfinished">将选中音符升高八度。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6576"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6616"/>
         <source>Lower the selected notes by an octave.</source>
         <translation type="unfinished">将选中音符降低八度。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6577"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6617"/>
         <source>Split text into lyrics and apply them to the selected notes.</source>
         <translation type="unfinished">将文本拆分为歌词并应用于选中音符。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6578"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6618"/>
         <source>Split the selected clips or notes at the playhead.</source>
         <translation type="unfinished">在播放头处拆分选中的剪辑或音符。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6579"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6619"/>
         <source>Merge the selected singing clips within each track.</source>
         <translation type="unfinished">合并各轨道内选中的歌声剪辑。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6580"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6620"/>
         <source>Edit notes in the current singing clip.</source>
         <translation type="unfinished">编辑当前歌声剪辑中的音符。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6581"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6621"/>
         <source>Choose source singers for the selected singing clips.</source>
         <translation type="unfinished">为选中的歌声剪辑选择声源歌手。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6582"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6622"/>
         <source>Display time as measures, beats, and ticks.</source>
         <translation type="unfinished">以小节、拍和刻显示时间。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6583"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6623"/>
         <source>Display time as minutes, seconds, and milliseconds.</source>
         <translation type="unfinished">以分、秒和毫秒显示时间。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6584"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6624"/>
         <source>Jump to a position, time, or relative offset entered as text.</source>
         <translation type="unfinished">跳转到以文本输入的位置、时间或相对偏移量。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6585"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6625"/>
         <source>Fit the timeline range to project content and the loop range.</source>
         <translation type="unfinished">使时间线范围适应工程内容和循环范围。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6586"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6626"/>
         <source>Edit the tempo at the playhead.</source>
         <translation type="unfinished">编辑播放头处的曲速。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6587"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6627"/>
         <source>Edit the time signature at the playhead.</source>
         <translation type="unfinished">编辑播放头处的拍号。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6588"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6628"/>
         <source>Set the start and end of the playback loop.</source>
         <translation type="unfinished">设置播放循环的起点和终点。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6589"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6629"/>
         <source>Choose a workspace layout for the current window.</source>
         <translation type="unfinished">为当前窗口选择工作区布局。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6590"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6630"/>
         <source>Manage saved workspace layouts.</source>
         <translation type="unfinished">管理已保存的工作区布局。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6591"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6631"/>
         <source>Choose which panels are included in the workspace.</source>
         <translation type="unfinished">选择工作区中包含的面板。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6592"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6632"/>
         <source>Choose which open workspace panel is active.</source>
         <translation type="unfinished">选择当前活动的已打开工作区面板。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6593"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6633"/>
         <source>Keep the menu bar visible without pressing Alt.</source>
         <translation type="unfinished">无需按 Alt 键即可保持菜单栏可见。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6594"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6634"/>
         <source>Add a track after the current track, or at the end if none is current.</source>
         <translation type="unfinished">在当前轨道之后添加轨道，如果没有当前轨道则添加到末尾。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6595"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6635"/>
         <source>Choose the number, name, and insertion position of new tracks.</source>
         <translation type="unfinished">选择新轨道的数量、名称和插入位置。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6596"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6636"/>
         <source>Choose an open project window to switch to.</source>
         <translation type="unfinished">选择已打开的工程窗口并切换到该窗口。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6597"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6637"/>
         <source>View global notifications.</source>
         <translation type="unfinished">查看全局通知。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6598"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6638"/>
         <source>Find a command by name and run it.</source>
         <translation type="unfinished">按名称查找命令并运行。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6599"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6639"/>
         <source>Check a DSPX file for format and data errors.</source>
         <translation type="unfinished">检查 DSPX 文件的格式和数据错误。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6600"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6640"/>
         <source>Choose which page to display in the home window.</source>
         <translation type="unfinished">选择主窗口中显示的页面。</translation>
     </message>
@@ -679,47 +679,47 @@
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6383"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6422"/>
         <source>&amp;New</source>
         <translation>新建(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6384"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6423"/>
         <source>New from Template...</source>
         <translation>从模板新建...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6385"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6424"/>
         <source>&amp;Open...</source>
         <translation>打开(&amp;O)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6386"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6425"/>
         <source>Open &amp;Recent File</source>
         <translation>打开最近的文件(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6387"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6426"/>
         <source>&amp;Save</source>
         <translation>保存(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6388"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6427"/>
         <source>Save &amp;As...</source>
         <translation>另存为(&amp;A)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6389"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6428"/>
         <source>Save Copy As...</source>
         <translation>保存副本为...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6390"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6429"/>
         <source>Se&amp;ttings...</source>
         <translation>设置(&amp;T)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6391"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6430"/>
         <source>Pl&amp;ugins...</source>
         <translation>插件(&amp;P)...</translation>
     </message>
@@ -728,57 +728,57 @@
         <translation type="vanished">元数据...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6392"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6431"/>
         <source>Show &amp;Home Window</source>
         <translation>显示主窗口(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6393"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6432"/>
         <source>E&amp;xit</source>
         <translation>退出(&amp;X)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6394"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6433"/>
         <source>Recent Files</source>
         <translation>最近文件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6395"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6434"/>
         <source>Recovery Files</source>
         <translation>恢复文件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6396"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6435"/>
         <source>Grid View</source>
         <translation>网格视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6397"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6436"/>
         <source>List View</source>
         <translation>列表视图</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6398"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6437"/>
         <source>&amp;Undo</source>
         <translation>撤销(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6399"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6438"/>
         <source>&amp;Redo</source>
         <translation>重做(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6400"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6439"/>
         <source>Cu&amp;t</source>
         <translation>剪切(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6401"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6440"/>
         <source>&amp;Copy</source>
         <translation>复制(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6402"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6441"/>
         <source>&amp;Paste</source>
         <translation>粘贴(&amp;P)</translation>
     </message>
@@ -787,22 +787,22 @@
         <translation type="vanished">选择性粘贴...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6403"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6442"/>
         <source>&amp;Delete</source>
         <translation>删除(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6404"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6443"/>
         <source>Select &amp;All</source>
         <translation>全选(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6405"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6444"/>
         <source>Dese&amp;lect</source>
         <translation>取消全选(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6406"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6445"/>
         <source>Select Current</source>
         <translation>选择当前</translation>
     </message>
@@ -943,62 +943,62 @@
         <translation type="vanished">滚动到当前时间</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6425"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6464"/>
         <source>Show &amp;Music Time</source>
         <translation>显示音乐时间(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6426"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6465"/>
         <source>Show &amp;Absolute Time</source>
         <translation>显示绝对时间(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6427"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6466"/>
         <source>&amp;Go To...</source>
         <translation>跳转到(&amp;G)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6428"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6467"/>
         <source>&amp;Quick Jump...</source>
         <translation>快速跳转(&amp;Q)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6429"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6468"/>
         <source>Go to &amp;Start</source>
         <translation>转到开始(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6430"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6469"/>
         <source>Go to Previous Measure</source>
         <translation>转到上一小节</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6431"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6470"/>
         <source>Go to Previous Beat</source>
         <translation>转到上一拍</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6432"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6471"/>
         <source>Go to Previous Tick</source>
         <translation>转到上一刻</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6433"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6472"/>
         <source>Go to &amp;End</source>
         <translation>转到结束(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6434"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6473"/>
         <source>Go to Next Measure</source>
         <translation>转到下一小节</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6435"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6474"/>
         <source>Go to Next Beat</source>
         <translation>转到下一拍</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6436"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6475"/>
         <source>Go to Next Tick</source>
         <translation>转到下一刻</translation>
     </message>
@@ -1007,47 +1007,46 @@
         <translation type="vanished">转到视图区域内</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6442"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6481"/>
         <source>Workspace Layout...</source>
         <translation>工作区布局...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6448"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6487"/>
         <source>Always Show &amp;Menu Bar</source>
         <translation>始终显示菜单栏(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6489"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6528"/>
         <source>Selection Indicator</source>
         <translation>选区指示器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6490"/>
         <source>Notification Error Indicator</source>
-        <translation>通知错误指示器</translation>
+        <translation type="vanished">通知错误指示器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6505"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6545"/>
         <source>Select</source>
         <translation>选择</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6506"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6546"/>
         <source>Select All Actions</source>
         <translation>全选操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6507"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6547"/>
         <source>Select Current Actions</source>
         <translation>选择当前操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6508"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6548"/>
         <source>Shift Cursor Actions</source>
         <translation>移动光标动作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6510"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6550"/>
         <source>Track Select Actions</source>
         <translation>轨道选择操作</translation>
     </message>
@@ -1056,32 +1055,32 @@
         <translation type="vanished">音符移动操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6513"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6553"/>
         <source>Bounce Actions</source>
         <translation>合并操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6514"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6554"/>
         <source>Edit Current Clip Actions</source>
         <translation>编辑当前剪辑操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6515"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6555"/>
         <source>&amp;Timeline</source>
         <translation>时间轴(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6520"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6560"/>
         <source>Timeline Edit Actions</source>
         <translation>时间轴编辑操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6521"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6561"/>
         <source>&amp;Insert</source>
         <translation>插入(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6532"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6572"/>
         <source>Home Menu</source>
         <translation>主窗口菜单</translation>
     </message>
@@ -1090,242 +1089,252 @@
         <translation type="vanished">窗口</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6437"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6476"/>
         <source>&amp;Reset Project Time Range</source>
         <translation>重置工程时间范围(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6407"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6446"/>
         <source>Multiple Select Current</source>
         <translation>多选当前</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6408"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6447"/>
         <source>Item Selector...</source>
         <translation type="unfinished">项目选择器...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6409"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6448"/>
         <source>Shift Cursor Up</source>
         <translation>上移光标</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6410"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6449"/>
         <source>Shift Cursor Down</source>
         <translation>下移光标</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6411"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6450"/>
         <source>Shift Cursor Left</source>
         <translation>左移光标</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6412"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6451"/>
         <source>Shift Cursor Right</source>
         <translation>右移光标</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6413"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6452"/>
         <source>Mute</source>
         <translation>静音</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6414"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6453"/>
         <source>Solo</source>
         <translation>独奏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6415"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6454"/>
         <source>Select All Clips on Current Track</source>
         <translation>选择当前轨道上的所有剪辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6416"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6455"/>
         <source>Shift up by a Semitone</source>
         <translation>升半音</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6417"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6456"/>
         <source>Shift down by a Semitone</source>
         <translation>降半音</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6418"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6457"/>
         <source>Shift up by an Octave</source>
         <translation>升八度</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6419"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6458"/>
         <source>Shift down by an Octave</source>
         <translation>降八度</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6420"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6459"/>
         <source>Fill &amp;Lyrics...</source>
         <translation type="unfinished">填充歌词(&amp;L)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6421"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6460"/>
         <source>Split</source>
         <translation>分割</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6422"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6461"/>
         <source>Bounce to Clip</source>
         <translation>合并到剪辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6423"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6462"/>
         <source>Edit Current Clip</source>
         <translation>编辑当前剪辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6424"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6463"/>
         <source>Edit Singers...</source>
         <translation type="unfinished">编辑歌手...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6438"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6477"/>
         <source>Edit Tempo...</source>
         <translation>编辑曲速...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6439"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6478"/>
         <source>Edit Time Signature...</source>
         <translation>编辑拍号...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6440"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6479"/>
         <source>Edit Loop...</source>
         <translation>编辑循环...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6441"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6480"/>
         <source>Enable Loop</source>
         <translation>启用循环</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6443"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6482"/>
         <source>Default &amp;Layout</source>
         <translation>默认布局(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6444"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6483"/>
         <source>&amp;Custom Layouts</source>
         <translation>自定义布局(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6445"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6484"/>
         <source>&amp;Save Current Layout As...</source>
         <translation>另存为当前布局(&amp;S)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6446"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6485"/>
         <source>&amp;All Panels</source>
         <translation>所有面板(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6460"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6499"/>
         <source>&amp;Notification List...</source>
         <translation type="unfinished">通知列表(&amp;N)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6493"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6529"/>
+        <source>Problem Indicator</source>
+        <translation type="unfinished">问题指示器</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6532"/>
         <source>Singers</source>
         <translation type="unfinished">歌手</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6509"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6534"/>
+        <source>Problems</source>
+        <translation type="unfinished">问题</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6549"/>
         <source>Control</source>
         <translation type="unfinished">控制</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6511"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6551"/>
         <source>Transpose</source>
         <translation type="unfinished">移调</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6512"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6552"/>
         <source>Fill Lyrics Actions</source>
         <translation type="unfinished">填充歌词操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6528"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6568"/>
         <source>Notification Actions</source>
         <translation type="unfinished">通知操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6533"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6573"/>
         <source>Generic Item Context Menu Actions</source>
         <translation>通用项上下文菜单操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6534"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6574"/>
         <source>Generic Scene Context Menu Actions</source>
         <translation>通用场景上下文菜单操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6473"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6512"/>
         <source>Clip Item Context Menu</source>
         <translation>剪辑项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6535"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6575"/>
         <source>Clip Control Actions</source>
         <translation>剪辑控制操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6474"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6513"/>
         <source>Clip Scene Context Menu</source>
         <translation>剪辑场景上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6475"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6514"/>
         <source>Label Item Context Menu</source>
         <translation>标签项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6476"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6515"/>
         <source>Label Scene Context Menu</source>
         <translation>标签场景上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6479"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6518"/>
         <source>Tempo Item Context Menu</source>
         <translation>曲速项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6482"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6521"/>
         <source>Key Signature Scene Context Menu</source>
         <translation>调号场景上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6481"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6520"/>
         <source>Key Signature Item Context Menu</source>
         <translation>调号项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6480"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6519"/>
         <source>Tempo Scene Context Menu</source>
         <translation>曲速场景上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6483"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6522"/>
         <source>Track Item Context Menu</source>
         <translation>轨道项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6484"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6523"/>
         <source>Track Scene Context Menu</source>
         <translation>轨道场景上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6477"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6516"/>
         <source>Note Item Context Menu</source>
         <translation>音符项上下文菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6478"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6517"/>
         <source>Note Scene Context Menu</source>
         <translation>音符场景上下文菜单</translation>
     </message>
@@ -1334,127 +1343,127 @@
         <translation type="vanished">显示菜单栏(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6449"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6488"/>
         <source>Show Too&amp;l Bar</source>
         <translation>显示工具栏(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6450"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6489"/>
         <source>Show &amp;Status Bar</source>
         <translation>显示状态栏(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6451"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6490"/>
         <source>Add Track</source>
         <translation>添加轨道</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6452"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6491"/>
         <source>Insert Track...</source>
         <translation>插入轨道...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6453"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6492"/>
         <source>Insert Label...</source>
         <translation>插入标签...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6454"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6493"/>
         <source>Insert Singing Clip...</source>
         <translation>插入歌声剪辑...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6455"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6494"/>
         <source>Insert Note...</source>
         <translation>插入音符...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6456"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6495"/>
         <source>&amp;Next Project Window</source>
         <translation>下一个工程窗口(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6457"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6496"/>
         <source>&amp;Previous Project Window</source>
         <translation>上一个工程窗口(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6458"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6497"/>
         <source>Pro&amp;ject Windows</source>
         <translation>工程窗口(&amp;J)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6459"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6498"/>
         <source>&amp;Help</source>
         <translation>帮助(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6461"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6500"/>
         <source>&amp;Find Actions...</source>
         <translation>查找操作(&amp;F)...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6462"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6501"/>
         <source>&amp;About DiffScope</source>
         <translation>关于 DiffScope(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6463"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6502"/>
         <source>About &amp;Qt</source>
         <translation>关于 &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6464"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6503"/>
         <source>Run DSPX Inspector</source>
         <translation>运行 DSPX 检查器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6465"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6504"/>
         <source>Main Menu</source>
         <translation>主菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6466"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6505"/>
         <source>Main Tool Bar Left</source>
         <translation>主工具栏左</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6467"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6506"/>
         <source>Main Tool Bar Middle</source>
         <translation>主工具栏中</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6468"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6507"/>
         <source>Main Tool Bar Right</source>
         <translation>主工具栏右</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6469"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6508"/>
         <source>Main Status Bar</source>
         <translation>主状态栏</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6470"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6509"/>
         <source>Home Panels</source>
         <translation>主窗口面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6471"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6510"/>
         <source>Home Navigation</source>
         <translation>主窗口导航</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6472"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6511"/>
         <source>Home Tool</source>
         <translation>主窗口工具</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6485"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6524"/>
         <source>Navigation Panels</source>
         <translation>导航面板</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6486"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6525"/>
         <source>Preferences</source>
         <translation>首选项</translation>
     </message>
@@ -1463,22 +1472,22 @@
         <translation type="vanished">帮助</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6487"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6526"/>
         <source>Workspace Panel Widgets</source>
         <translation>工作区面板小部件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6488"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6527"/>
         <source>Status Text</source>
         <translation>状态文本</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6491"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6530"/>
         <source>Properties</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6492"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6531"/>
         <source>Plugins</source>
         <translation>插件</translation>
     </message>
@@ -1495,12 +1504,12 @@
         <translation type="vanished">钢琴卷帘</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6494"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6533"/>
         <source>Notifications</source>
         <translation>通知</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6495"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6535"/>
         <source>Tips</source>
         <translation>提示</translation>
     </message>
@@ -1509,32 +1518,32 @@
         <translation type="vanished">元数据</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6496"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6536"/>
         <source>Digital Clock</source>
         <translation>数字时钟</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6497"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6537"/>
         <source>Tempo Time Signature Indicator</source>
         <translation>曲速拍号指示器</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6498"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6538"/>
         <source>&amp;File</source>
         <translation>文件(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6499"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6539"/>
         <source>File Open Actions</source>
         <translation>文件打开操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6500"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6540"/>
         <source>File Save Actions</source>
         <translation>文件保存操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6501"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6541"/>
         <source>Preference Actions</source>
         <translation>首选项操作</translation>
     </message>
@@ -1543,17 +1552,17 @@
         <translation type="vanished">文件元数据操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6502"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6542"/>
         <source>&amp;Edit</source>
         <translation>编辑(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6503"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6543"/>
         <source>Undo Actions</source>
         <translation>撤销操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6504"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6544"/>
         <source>Generic</source>
         <translation>通用的</translation>
     </message>
@@ -1586,32 +1595,32 @@
         <translation type="vanished">时间轴</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6516"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6556"/>
         <source>Time Indicator Timecode Format Actions</source>
         <translation>时间指示器时间码格式操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6517"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6557"/>
         <source>Timeline Go to Actions</source>
         <translation>时间轴跳转操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6518"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6558"/>
         <source>Timeline Back Navigation Actions</source>
         <translation>时间轴后退导航操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6519"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6559"/>
         <source>Timeline Forward Navigation Actions</source>
         <translation>时间轴前进导航操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6522"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6562"/>
         <source>&amp;View</source>
         <translation>视图(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6523"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6563"/>
         <source>Workspace Actions</source>
         <translation>工作区操作</translation>
     </message>
@@ -1620,7 +1629,7 @@
         <translation type="vanished">工作区(&amp;W)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6524"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6564"/>
         <source>Workspace Layouts</source>
         <translation>工作区布局</translation>
     </message>
@@ -1641,37 +1650,37 @@
         <translation type="vanished">滚到到</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6525"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6565"/>
         <source>View Visibility Actions</source>
         <translation>视图可见性操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6526"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6566"/>
         <source>&amp;Window</source>
         <translation>窗口(&amp;W)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6527"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6567"/>
         <source>Project Window Actions</source>
         <translation>工程窗口操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6529"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6569"/>
         <source>About Actions</source>
         <translation>关于操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6530"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6570"/>
         <source>Dspx Inspector Actions</source>
         <translation>DSPX 检查器操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6531"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6571"/>
         <source>Tool Bar Timeline Navigation Actions</source>
         <translation>工具栏时间轴导航操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6447"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6486"/>
         <source>Active &amp;Panel</source>
         <translation type="unfinished">活动面板(&amp;P)</translation>
     </message>
@@ -2233,7 +2242,7 @@
     <name>ColorSchemeWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/ColorSchemeWelcomeWizardPage.qml" line="17"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6382"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6421"/>
         <source>Color Scheme</source>
         <translation>配色方案</translation>
     </message>
@@ -3055,7 +3064,7 @@ Continue to bounce?</source>
 <context>
     <name>Core::Internal::CorePlugin</name>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="196"/>
+        <location filename="../../internal/CorePlugin.cpp" line="198"/>
         <source>Initializing core plugin...</source>
         <translation>正在初始化核心插件...</translation>
     </message>
@@ -3070,12 +3079,12 @@ Continue to bounce?</source>
         <translation>正在初始化图形界面...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="515"/>
+        <location filename="../../internal/CorePlugin.cpp" line="517"/>
         <source>Last run terminated abnormally</source>
         <translation>上次运行异常终止</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="515"/>
+        <location filename="../../internal/CorePlugin.cpp" line="517"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
@@ -3084,7 +3093,7 @@ To check for unsaved files, please go to Recovery Files.</source>
 要检查未保存的文件，请前往“恢复文件”。</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="564"/>
+        <location filename="../../internal/CorePlugin.cpp" line="566"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3097,12 +3106,12 @@ Please go to Plugins to see more details.</source>
 请前往“插件”查看详细信息。</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="567"/>
+        <location filename="../../internal/CorePlugin.cpp" line="569"/>
         <source>%1 (%2)</source>
         <translation>%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="569"/>
+        <location filename="../../internal/CorePlugin.cpp" line="571"/>
         <source>Plugin Error</source>
         <translation>插件错误</translation>
     </message>
@@ -3795,7 +3804,7 @@ Accidental Type: %4</source>
 <context>
     <name>Core::Internal::NotificationAddOn</name>
     <message numerus="yes">
-        <location filename="../../internal/addon/NotificationAddOn.cpp" line="80"/>
+        <location filename="../../internal/addon/NotificationAddOn.cpp" line="66"/>
         <source>%1 (+%Ln notification(s))</source>
         <translation>
             <numerusform>%1（+%Ln 个通知）</numerusform>
@@ -4106,18 +4115,19 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
     <message>
         <location filename="../../internal/addon/SourcesProblemAddOn.cpp" line="133"/>
         <source>No singer architecture is configured.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">未配置歌手架构。</translation>
     </message>
     <message>
         <location filename="../../internal/addon/SourcesProblemAddOn.cpp" line="135"/>
         <source>No singers are configured.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">未配置歌手。</translation>
     </message>
     <message>
         <location filename="../../internal/addon/SourcesProblemAddOn.cpp" line="147"/>
         <source>The singer configuration for &quot;%1&quot; is invalid.
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">“%1”的歌手配置无效。
+%2</translation>
     </message>
 </context>
 <context>
@@ -4326,42 +4336,42 @@ Continue?</source>
 <context>
     <name>Core::Internal::WorkspaceAddOn</name>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="168"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="211"/>
         <source>Save Current Layout As...</source>
         <translation>保存当前布局为...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="174"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="217"/>
         <source>Default Layout</source>
         <translation>默认布局</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="184"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="227"/>
         <source>custom layout</source>
         <translation>自定义布局</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="188"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="231"/>
         <source>Workspace layout actions</source>
         <translation>工作区布局操作</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="208"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="251"/>
         <source>Apply</source>
         <translation>应用</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="211"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="254"/>
         <source>Rename</source>
         <translation>重命名</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="214"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="257"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="216"/>
+        <location filename="../../internal/addon/WorkspaceAddOn.cpp" line="259"/>
         <source>Custom layout &quot;%1&quot; actions</source>
         <translation>自定义布局“%1”操作</translation>
     </message>
@@ -4369,27 +4379,25 @@ Continue?</source>
 <context>
     <name>Core::Internal::WorkspacePanelLoader</name>
     <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="76"/>
         <source>The panel request expired.</source>
-        <translation type="unfinished">面板请求已过期。</translation>
+        <translation type="obsolete">面板请求已过期。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="80"/>
         <source>The panel component was destroyed.</source>
-        <translation type="unfinished">面板组件已被销毁。</translation>
+        <translation type="obsolete">面板组件已被销毁。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="96"/>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="43"/>
         <source>The panel component is not registered.</source>
         <translation type="unfinished">面板组件未注册。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="98"/>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="47"/>
         <source>The panel component is not ready.</source>
         <translation type="unfinished">面板组件尚未就绪。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="107"/>
+        <location filename="../../internal/workspace/WorkspacePanelLoader.cpp" line="61"/>
         <source>The panel component must provide a DockingPane.</source>
         <translation type="unfinished">面板组件必须提供 DockingPane。</translation>
     </message>
@@ -4401,22 +4409,22 @@ Continue?</source>
 <context>
     <name>Core::Internal::WorkspaceSession</name>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="71"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="82"/>
         <source>The panel could not be placed in the selected location.</source>
         <translation type="unfinished">无法将面板放置在所选位置。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="164"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="337"/>
         <source>The workspace layout is invalid.</source>
         <translation type="unfinished">工作区布局无效。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="222"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="413"/>
         <source>The workspace layout could not be restored.</source>
         <translation type="unfinished">无法恢复工作区布局。</translation>
     </message>
     <message>
-        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="398"/>
+        <location filename="../../internal/workspace/WorkspaceSession.cpp" line="584"/>
         <source>The panel could not be moved to a floating window.</source>
         <translation type="unfinished">无法将面板移动至浮动窗口。</translation>
     </message>
@@ -4628,13 +4636,13 @@ Do you want to continue opening it?</source>
         <translation type="vanished">未命名</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="279"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="287"/>
         <location filename="../../project/utils/ProjectFileDialogs.cpp" line="259"/>
         <source>Operation Conflict</source>
         <translation type="unfinished">操作冲突</translation>
     </message>
     <message>
-        <location filename="../../windows/ProjectWindowInterface.cpp" line="280"/>
+        <location filename="../../windows/ProjectWindowInterface.cpp" line="288"/>
         <location filename="../../project/utils/ProjectFileDialogs.cpp" line="260"/>
         <source>Please wait until the current operation is complete before proceeding.</source>
         <translation type="unfinished">请等待当前操作完成后再继续。</translation>
@@ -6357,7 +6365,7 @@ Do you want to continue opening it?</source>
         <translation type="unfinished">新面板</translation>
     </message>
     <message>
-        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="28"/>
+        <location filename="../../qml/dialogs/NewPanelsDialog.qml" line="39"/>
         <source>Drag a panel to the workspace to place it.</source>
         <translation type="unfinished">将面板拖入工作区以放置面板。</translation>
     </message>
@@ -6554,23 +6562,6 @@ Do you want to continue opening it?</source>
     </message>
 </context>
 <context>
-    <name>ProblemsAddOnActions</name>
-    <message numerus="yes">
-        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
-        <source>%Ln error(s)</source>
-        <translation>
-            <numerusform>%Ln 个错误</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
-        <source>%Ln warning(s)</source>
-        <translation>
-            <numerusform>%Ln 个警告</numerusform>
-        </translation>
-    </message>
-</context>
-<context>
     <name>NotificationListDialog</name>
     <message>
         <location filename="../../qml/dialogs/NotificationListDialog.qml" line="29"/>
@@ -6586,7 +6577,7 @@ Do you want to continue opening it?</source>
 <context>
     <name>NotificationsPanel</name>
     <message>
-        <location filename="../../qml/panels/NotificationsPanel.qml" line="42"/>
+        <location filename="../../qml/panels/NotificationsPanel.qml" line="38"/>
         <source>Clear All</source>
         <translation>全部清除</translation>
     </message>
@@ -6610,6 +6601,23 @@ Do you want to continue opening it?</source>
         <location filename="../../qml/dialogs/PluginDialog.qml" line="17"/>
         <source>Plugins</source>
         <translation>插件</translation>
+    </message>
+</context>
+<context>
+    <name>ProblemsAddOnActions</name>
+    <message numerus="yes">
+        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
+        <source>%Ln error(s)</source>
+        <translation>
+            <numerusform>%Ln 个错误</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
+        <source>%Ln warning(s)</source>
+        <translation>
+            <numerusform>%Ln 个警告</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -7240,32 +7248,32 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
         <translation type="unfinished">工作区错误</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="114"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="121"/>
         <source>Name should not be empty</source>
         <translation>名称不能为空</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="120"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="127"/>
         <source>New name should not be the same as old name</source>
         <translation>新名称不能与旧名称相同</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="126"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="133"/>
         <source>Custom presets with the same name will be overwritten</source>
         <translation>同名自定义预设将被覆盖</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="141"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="148"/>
         <source>Delete Layout</source>
         <translation type="unfinished">删除布局</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="141"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="148"/>
         <source>Delete layout &quot;%1&quot;?</source>
         <translation>删除布局“%1”？</translation>
     </message>
     <message>
-        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="105"/>
+        <location filename="../../qml/windows/WorkspaceAddOnHelper.qml" line="112"/>
         <source>Custom Layout Name</source>
         <translation type="unfinished">自定义布局名称</translation>
     </message>
