@@ -39,20 +39,6 @@ namespace Core::Internal {
             helper->setParent(windowInterface->window());
         }
         {
-            QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "NotificationAddOnActions");
-            if (component.isError()) {
-                qFatal() << component.errorString();
-            }
-            auto o = component.createWithInitialProperties({
-                {"addOn", QVariant::fromValue(this)},
-            });
-            if (!o) {
-                qFatal() << component.errorString();
-            }
-            o->setParent(this);
-            QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
-        }
-        {
             QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "NotificationsPanel", this);
             if (component.isError()) {
                 qFatal() << component.errorString();

@@ -8,6 +8,8 @@ import QtQuick.Templates as T
 
 import SVSCraft.UIComponents
 
+import DiffScope.Core
+
 T.ToolButton {
     id: marker
 

@@ -9,6 +9,8 @@ import QtQuick.Controls.impl
 
 import SVSCraft.UIComponents
 
+import DiffScope.Core
+
 PianoRollProblemLayer {
     id: layer
 
@@ -89,7 +91,7 @@ PianoRollProblemLayer {
                 onNoteRectChanged: Qt.callLater(layer.updateTargets)
 
                 sourceComponent: NoteProblemMarker {
-                    documentProblems: layer.documentProblems
+                    documentProblems: markerSlot.modelData.documentProblems
                     problems: markerSlot.modelData.problems
                 }
             }

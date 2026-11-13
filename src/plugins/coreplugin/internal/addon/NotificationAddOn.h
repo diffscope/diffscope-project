@@ -24,7 +24,6 @@ namespace Core::Internal {
 
     Q_SIGNALS:
         void _diffscope_statusTipTriggered();
-        void deactivateIndicator();
         void showPanelRequested();
 
     private:

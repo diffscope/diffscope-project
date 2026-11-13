@@ -8,8 +8,6 @@
 
 #include <QLoggingCategory>
 
-#include <SVSCraftCore/SVSCraftNamespace.h>
-
 #include <notifications/NotificationMessage.h>
 #include <notifications/NotificationModel.h>
 #include <notifications/private/NotificationEntry_p.h>
@@ -63,9 +61,6 @@ namespace Notifications {
                     Q_EMIT entryChanged(entry);
                 }
             });
-            connect(entry, &NotificationEntry::errorActivated, q, [q, entry] {
-                Q_EMIT q->errorActivated(entry->scope());
-            });
             connect(entry, &NotificationEntry::doNotShowAgainRequested, q, [q, entry] {
                 const auto identifier = entry->message()->doNotShowAgainIdentifier();
                 if (!identifier.isEmpty()) {
@@ -90,9 +85,6 @@ namespace Notifications {
         Q_EMIT entryPublished(entry);
         if (!entry->isActive()) {
             return;
-        }
-        if (message->icon() == SVS::SVSCraft::Critical || message->icon() == SVS::SVSCraft::Warning) {
-            Q_EMIT q->errorActivated(scope);
         }
         if (entry->isActive()) {
             Q_EMIT q->notificationPublished(message, scope);

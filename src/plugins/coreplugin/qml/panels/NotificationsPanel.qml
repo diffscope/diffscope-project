@@ -28,10 +28,6 @@ QtObject {
         badgeNumber: d.notificationViewModel?.count ?? 0
         badgeType: d.notificationViewModel?.badgeType ?? SVS.CT_Normal
 
-        Docking.onVisibleChanged: () => {
-            if (Docking.visible)
-                d.addOn.deactivateIndicator()
-        }
         header: Item {
             anchors.fill: parent
             ToolButton {

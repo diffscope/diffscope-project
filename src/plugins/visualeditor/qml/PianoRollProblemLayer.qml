@@ -9,6 +9,7 @@ import QtQuick
 
 import dev.sjimo.ScopicFlow
 
+import DiffScope.Core
 import DiffScope.DspxModel as DspxModel
 
 Item {
@@ -22,7 +23,7 @@ Item {
     readonly property real keyStart: pianoRoll?.clavierViewModel.start ?? 0
     readonly property real keyHeight: pianoRoll?.clavierViewModel.pixelDensity ?? 0
     property var trackOverlays: []
-    readonly property alias documentProblems: problemQuery
+    readonly property DocumentProblems documentProblems: problemQuery
 
     readonly property var noteProblems: {
         if (!pianoRoll?.editingClip || !context)
@@ -52,6 +53,7 @@ Item {
                 clipModel,
                 noteModel,
                 editing: clip === editingClip,
+                documentProblems: problemQuery,
                 problems: [problem]
             })
         }

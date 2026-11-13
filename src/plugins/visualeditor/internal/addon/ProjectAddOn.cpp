@@ -9,13 +9,8 @@
 
 #include <QMetaObject>
 #include <QPointer>
-#include <QQmlComponent>
 #include <QQuickItem>
-#include <QVariant>
 
-#include <CoreApi/runtimeinterface.h>
-
-#include <QAKQuick/quickactioncontext.h>
 #include <SVSCraftCore/MusicTime.h>
 #include <SVSCraftCore/MusicTimeline.h>
 #include <SVSCraftQuick/DockingContext.h>
@@ -59,16 +54,6 @@ namespace VisualEditor::Internal {
     void ProjectAddOn::initialize() {
         auto *window = windowHandle()->cast<Core::ProjectWindowInterface>();
         new ProjectViewModelContext(window);
-
-        QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "ProblemsPanel");
-        if (component.isError())
-            qFatal() << component.errorString();
-        auto *object = component.createWithInitialProperties({{"windowHandle", QVariant::fromValue(window)}});
-        if (!object)
-            qFatal() << component.errorString();
-        object->setParent(this);
-        window->actionContext()->addAction("org.diffscope.visualeditor.panel.problems",
-                                           object->property("panelComponent").value<QQmlComponent *>());
     }
 
     void ProjectAddOn::extensionsInitialized() {

@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: LGPL-3.0-or-later
+// SPDX-License-Identifier: Apache-2.0
 
 #include "DocumentProblems.h"
 
@@ -7,7 +7,7 @@
 #include <dspxproject/ProjectDocumentContext.h>
 #include <coreplugin/ProjectWindowInterface.h>
 
-namespace VisualEditor::Internal {
+namespace Core::Internal {
 
     DocumentProblems::DocumentProblems(QObject *parent) : QObject(parent) {
     }
@@ -68,6 +68,22 @@ namespace VisualEditor::Internal {
             }
         }
         return result;
+    }
+
+    int DocumentProblems::errorCount() const {
+        return count(DspxProject::DocumentProblemSeverity::Error);
+    }
+
+    int DocumentProblems::warningCount() const {
+        return count(DspxProject::DocumentProblemSeverity::Warning);
+    }
+
+    int DocumentProblems::count(DspxProject::DocumentProblemSeverity severity) const {
+        if (!m_manager || !m_entity)
+            return 0;
+        DspxProject::DocumentProblemFilter filter;
+        filter.severities = DspxProject::DocumentProblemSeverities(severity);
+        return m_manager->problems(m_entity, filter).size();
     }
 
     QVariantList DocumentProblems::actions(const QString &problemId) const {

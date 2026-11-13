@@ -9,6 +9,8 @@ import dev.sjimo.ScopicFlow
 
 import SVSCraft.UIComponents
 
+import DiffScope.Core
+
 Item {
     id: layer
 

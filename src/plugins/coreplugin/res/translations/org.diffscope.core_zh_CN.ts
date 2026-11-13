@@ -6554,16 +6554,16 @@ Do you want to continue opening it?</source>
     </message>
 </context>
 <context>
-    <name>NotificationAddOnActions</name>
+    <name>ProblemsAddOnActions</name>
     <message numerus="yes">
-        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="26"/>
+        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
         <source>%Ln error(s)</source>
         <translation>
             <numerusform>%Ln 个错误</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="26"/>
+        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
         <source>%Ln warning(s)</source>
         <translation>
             <numerusform>%Ln 个警告</numerusform>

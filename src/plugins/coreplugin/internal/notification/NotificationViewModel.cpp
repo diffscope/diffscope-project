@@ -19,11 +19,6 @@ namespace Core::Internal {
         connect(m_notifications, &QAbstractItemModel::dataChanged, this, &NotificationViewModel::updateSummary);
         connect(m_notifications, &QAbstractItemModel::modelReset, this, &NotificationViewModel::updateSummary);
         connect(m_notifications, &QAbstractItemModel::layoutChanged, this, &NotificationViewModel::updateSummary);
-        connect(center, &Notifications::NotificationCenter::errorActivated, this, [this, scope](QObject *messageScope) {
-            if (!messageScope || messageScope == scope) {
-                Q_EMIT errorActivated();
-            }
-        });
         updateSummary();
     }
 

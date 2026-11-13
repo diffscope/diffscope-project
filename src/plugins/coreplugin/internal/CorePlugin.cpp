@@ -72,6 +72,7 @@
 #include <coreplugin/internal/MenuPage.h>
 #include <coreplugin/internal/NotificationAddOn.h>
 #include <coreplugin/internal/PlatformJumpListHelper.h>
+#include <coreplugin/internal/ProblemsAddOn.h>
 #include <coreplugin/internal/ProjectFileOpenHandler.h>
 #include <coreplugin/internal/ProjectStartupTimerAddOn.h>
 #include <coreplugin/internal/ProjectWindowNavigatorAddOn.h>
@@ -318,6 +319,7 @@ namespace Core::Internal {
         ProjectWindowInterfaceRegistry::instance()->attach<FindActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<EditActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<SourcesProblemAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<ProblemsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ItemSelectorAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<FillLyricsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<InsertItemAddOn>();

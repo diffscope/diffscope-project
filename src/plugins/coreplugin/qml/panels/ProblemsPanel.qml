@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: LGPL-3.0-or-later
+// SPDX-License-Identifier: Apache-2.0
 
 pragma ComponentBehavior: Bound
 
@@ -11,19 +11,12 @@ import QtQuick.Layouts
 import SVSCraft
 import SVSCraft.UIComponents
 
-import DiffScope.Core
 import DiffScope.UIShell
-import DiffScope.VisualEditor
 
 QtObject {
     id: root
 
-    required property ProjectWindowInterface windowHandle
-
-    readonly property DocumentProblems documentProblems: DocumentProblems {
-        windowHandle: root.windowHandle
-        entity: root.windowHandle.projectDocumentContext.document.model
-    }
+    required property DocumentProblems documentProblems
 
     readonly property Component panelComponent: ActionDockingPane {
         padding: 0

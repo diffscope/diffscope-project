@@ -7,6 +7,8 @@ import QtQuick
 
 import SVSCraft.UIComponents
 
+import DiffScope.Core
+
 PianoRollProblemLayer {
     id: layer
 

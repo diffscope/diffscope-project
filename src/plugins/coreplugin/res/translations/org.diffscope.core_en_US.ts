@@ -6551,9 +6551,9 @@ Do you want to continue opening it?</translation>
     </message>
 </context>
 <context>
-    <name>NotificationAddOnActions</name>
+    <name>ProblemsAddOnActions</name>
     <message numerus="yes">
-        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="26"/>
+        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
         <source>%Ln error(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln error</numerusform>
@@ -6561,7 +6561,7 @@ Do you want to continue opening it?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../qml/actions/NotificationAddOnActions.qml" line="26"/>
+        <location filename="../../qml/actions/ProblemsAddOnActions.qml" line="27"/>
         <source>%Ln warning(s)</source>
         <translation type="unfinished">
             <numerusform>%Ln warning</numerusform>

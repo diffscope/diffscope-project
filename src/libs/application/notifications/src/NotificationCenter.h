@@ -57,7 +57,6 @@ namespace Notifications {
         void autoHideTimeoutChanged();
         void hiddenMessageIdentifiersChanged();
         void notificationPublished(Notifications::NotificationMessage *message, QObject *scope);
-        void errorActivated(QObject *scope);
 
     private:
         QScopedPointer<NotificationCenterPrivate> d_ptr;

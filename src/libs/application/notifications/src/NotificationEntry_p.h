@@ -10,8 +10,6 @@
 #include <QPointer>
 #include <QTimer>
 
-#include <SVSCraftCore/SVSCraftNamespace.h>
-
 #include <notifications/NotificationCenter.h>
 #include <notifications/NotificationMessage.h>
 
@@ -44,7 +42,6 @@ namespace Notifications {
         void contentChanged();
         void closeRequested();
         void doNotShowAgainRequested();
-        void errorActivated();
 
     private:
         void hide();
@@ -62,7 +59,6 @@ namespace Notifications {
         bool m_autoHide{};
         bool m_suppressed{};
         bool m_active{true};
-        SVS::SVSCraft::MessageBoxIcon m_icon{};
     };
 
 }

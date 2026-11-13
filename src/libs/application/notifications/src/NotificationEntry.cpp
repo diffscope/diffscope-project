@@ -8,7 +8,7 @@
 namespace Notifications {
 
     NotificationEntry::NotificationEntry(NotificationMessage *message, QObject *scope, QObject *parent)
-        : QObject(parent), m_message(message), m_handle(new UIShell::BubbleNotificationHandle(this)), m_scope(scope), m_icon(message->icon()) {
+        : QObject(parent), m_message(message), m_handle(new UIShell::BubbleNotificationHandle(this)), m_scope(scope) {
         m_handle->setTitle(message->title());
         m_connections.append(connect(message, &NotificationMessage::titleChanged, m_handle, &UIShell::BubbleNotificationHandle::setTitle));
         m_handle->setText(message->text());
@@ -43,13 +43,6 @@ namespace Notifications {
         m_connections.append(connect(message, &NotificationMessage::textFormatChanged, this, &NotificationEntry::contentChanged));
         m_connections.append(connect(message, &NotificationMessage::allowDoNotShowAgainChanged, this, &NotificationEntry::contentChanged));
         m_connections.append(connect(message, &NotificationMessage::doNotShowAgainIdentifierChanged, this, &NotificationEntry::contentChanged));
-        m_connections.append(connect(message, &NotificationMessage::iconChanged, this, [this](SVS::SVSCraft::MessageBoxIcon icon) {
-            const bool wasError = m_icon == SVS::SVSCraft::Critical || m_icon == SVS::SVSCraft::Warning;
-            m_icon = icon;
-            if (m_active && !wasError && (icon == SVS::SVSCraft::Critical || icon == SVS::SVSCraft::Warning)) {
-                Q_EMIT errorActivated();
-            }
-        }));
         m_connections.append(connect(message, &NotificationMessage::hidden, this, &NotificationEntry::hide));
         m_connections.append(connect(message, &NotificationMessage::closed, this, &NotificationEntry::closeRequested));
         m_connections.append(connect(message, &NotificationMessage::doNotShowAgainRequested, this, &NotificationEntry::doNotShowAgainRequested));

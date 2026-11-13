@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
-// SPDX-License-Identifier: LGPL-3.0-or-later
+// SPDX-License-Identifier: Apache-2.0
 
-#ifndef DIFFSCOPE_VISUAL_EDITOR_DOCUMENTPROBLEMS_H
-#define DIFFSCOPE_VISUAL_EDITOR_DOCUMENTPROBLEMS_H
+#ifndef DIFFSCOPE_COREPLUGIN_DOCUMENTPROBLEMS_H
+#define DIFFSCOPE_COREPLUGIN_DOCUMENTPROBLEMS_H
 
 #include <QObject>
 #include <QPointer>
@@ -18,7 +18,7 @@ namespace Core {
     class ProjectWindowInterface;
 }
 
-namespace VisualEditor::Internal {
+namespace Core::Internal {
 
     class DocumentProblems : public QObject {
         Q_OBJECT
@@ -26,6 +26,8 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(Core::ProjectWindowInterface *windowHandle READ windowHandle WRITE setWindowHandle NOTIFY windowHandleChanged)
         Q_PROPERTY(QObject *entity READ entity WRITE setEntity NOTIFY entityChanged)
         Q_PROPERTY(QVariantList problems READ problems NOTIFY problemsChanged)
+        Q_PROPERTY(int errorCount READ errorCount NOTIFY problemsChanged)
+        Q_PROPERTY(int warningCount READ warningCount NOTIFY problemsChanged)
     public:
         enum Severity {
             Error = static_cast<int>(DspxProject::DocumentProblemSeverity::Error),
@@ -41,6 +43,8 @@ namespace VisualEditor::Internal {
         QObject *entity() const;
         void setEntity(QObject *object);
         QVariantList problems() const;
+        int errorCount() const;
+        int warningCount() const;
 
         Q_INVOKABLE QVariantList actions(const QString &problemId) const;
         Q_INVOKABLE void triggerAction(const QString &problemId, const QString &actionId);
@@ -53,6 +57,8 @@ namespace VisualEditor::Internal {
         void operationsChanged();
 
     private:
+        int count(DspxProject::DocumentProblemSeverity severity) const;
+
         QPointer<Core::ProjectWindowInterface> m_windowHandle;
         QPointer<dspx::EntityObject> m_entity;
         QPointer<DspxProject::DocumentProblemManager> m_manager;
@@ -63,4 +69,4 @@ namespace VisualEditor::Internal {
 
 Q_MOC_INCLUDE(<coreplugin/ProjectWindowInterface.h>)
 
-#endif // DIFFSCOPE_VISUAL_EDITOR_DOCUMENTPROBLEMS_H
+#endif // DIFFSCOPE_COREPLUGIN_DOCUMENTPROBLEMS_H

@@ -11,6 +11,8 @@ import QtQuick.Window
 
 import SVSCraft.UIComponents
 
+import DiffScope.Core
+
 Item {
     id: card
 

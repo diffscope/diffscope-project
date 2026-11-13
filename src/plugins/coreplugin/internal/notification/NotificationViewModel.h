@@ -35,7 +35,6 @@ namespace Core::Internal {
 
     Q_SIGNALS:
         void summaryChanged();
-        void errorActivated();
 
     private:
         void updateSummary();
