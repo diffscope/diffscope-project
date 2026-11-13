@@ -69,6 +69,7 @@ namespace Audio {
     Q_SIGNALS:
         void statusChanged(Status status);
         void realAudioPathChanged(const QString &realAudioPath);
+        void audioChanged();
 
     private:
         friend class AudioClipAudioContextPrivate;

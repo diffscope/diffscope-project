@@ -118,10 +118,12 @@ namespace AudioVisualizer::Internal {
         if (!m_audioClipThumbnailViews.contains(audioClip)) {
             m_audioClipThumbnailViews.insert(audioClip, {});
         }
-        disconnect(audioClip, &dspx::AudioClip::pathChanged, this, nullptr);
-        connect(audioClip, &dspx::AudioClip::pathChanged, this, [this, audioClip] {
-            reloadAudioClip(audioClip);
-        });
+        if (auto context = Audio::AudioClipAudioContext::of(audioClip)) {
+            disconnect(context, &Audio::AudioClipAudioContext::audioChanged, this, nullptr);
+            connect(context, &Audio::AudioClipAudioContext::audioChanged, this, [this, audioClip] {
+                reloadAudioClip(audioClip);
+            });
+        }
         loadAudioClip(audioClip);
     }
 
@@ -130,7 +132,9 @@ namespace AudioVisualizer::Internal {
             return;
         }
         auto audioClip = static_cast<dspx::AudioClip *>(clip);
-        disconnect(audioClip, &dspx::AudioClip::pathChanged, this, nullptr);
+        if (auto context = Audio::AudioClipAudioContext::of(audioClip)) {
+            disconnect(context, &Audio::AudioClipAudioContext::audioChanged, this, nullptr);
+        }
         m_audioClipSampleRates.remove(audioClip);
         m_audioClipMipmaps.remove(audioClip);
         m_audioClipThumbnailViews.remove(audioClip);

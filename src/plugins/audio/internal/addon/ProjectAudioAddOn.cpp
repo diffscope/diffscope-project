@@ -632,7 +632,11 @@ namespace Audio::Internal {
         contextPrivate->setStatus(status);
         if (io) {
             contextPrivate->clipContext->loadAudio(io);
+        } else if (context->contentSource()) {
+            // DspxAudioClipContext::takeAudio() destroys the AudioFormatIO, so the return value must not be deleted.
+            contextPrivate->clipContext->takeAudio();
         }
+        contextPrivate->notifyAudioChanged();
         QMetaObject::invokeMethod(this, [this, context = QPointer(context)] {
             if (context)
                 updateAudioClipProblem(context);
@@ -644,9 +648,6 @@ namespace Audio::Internal {
         if (!context)
             return;
         auto clipContext = AudioClipAudioContextPrivate::of(context)->clipContext;
-        if (context->contentSource()) {
-            delete clipContext->takeAudio();
-        }
         loadAudioClip(clip, context);
         clipContext->updatePosition();
     }

@@ -108,6 +108,11 @@ namespace Audio {
         Q_EMIT q->realAudioPathChanged(realAudioPath);
     }
 
+    void AudioClipAudioContextPrivate::notifyAudioChanged() {
+        Q_Q(AudioClipAudioContext);
+        Q_EMIT q->audioChanged();
+    }
+
 }
 
 #include "moc_AudioClipAudioContext.cpp"

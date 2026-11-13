@@ -28,6 +28,7 @@ namespace Audio {
 
         void setStatus(AudioClipAudioContext::Status status);
         void setRealAudioPath(const QString &realAudioPath);
+        void notifyAudioChanged();
 
         static AudioClipAudioContext *create(Core::ProjectWindowInterface *windowHandle, dspx::AudioClip *clip, talcs::DspxTrackContext *trackContext);
         static AudioClipAudioContextPrivate *of(AudioClipAudioContext *q);
