@@ -23,9 +23,9 @@ QtObject {
         leftPadding: 2
         rightPadding: leftPadding
         preferredSize: Qt.size(400, 300)
-        badgeNumber: root.documentProblems.problems.length
+        badgeNumber: root.documentProblems?.problems.length ?? 0
         badgeType: {
-            const problems = root.documentProblems.problems
+            const problems = root.documentProblems?.problems ?? []
             if (problems.some(problem => problem.severity === DocumentProblems.Error))
                 return SVS.CT_Error
             if (problems.some(problem => problem.severity === DocumentProblems.Warning))
@@ -43,7 +43,7 @@ QtObject {
             spacing: 2
             activeFocusOnTab: true
             keyNavigationEnabled: true
-            model: root.documentProblems.problems
+            model: root.documentProblems?.problems ?? null
             ScrollBar.vertical: ScrollBar {
                 interactive: false
             }
