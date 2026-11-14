@@ -56,6 +56,7 @@ namespace Audio::Internal {
         qCDebug(lcPlaybackPage) << "playbackBehavior" << m_widget->property("playbackBehavior");
         m_widget->setProperty("playbackTogglingAction", AudioPreference::instance()->property("playbackTogglingAction"));
         qCDebug(lcPlaybackPage) << "playbackTogglingAction" << m_widget->property("playbackTogglingAction");
+        m_widget->setProperty("readAheadSize", AudioPreference::readAheadSize());
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
     }
@@ -66,6 +67,7 @@ namespace Audio::Internal {
         AudioPreference::instance()->setProperty("playbackBehavior", m_widget->property("playbackBehavior"));
         qCDebug(lcPlaybackPage) << "playbackTogglingAction" << m_widget->property("playbackTogglingAction");
         AudioPreference::instance()->setProperty("playbackTogglingAction", m_widget->property("playbackTogglingAction"));
+        AudioPreference::setReadAheadSize(m_widget->property("readAheadSize").toInt());
         AudioPreference::instance()->save();
         return ISettingPage::accept();
     }

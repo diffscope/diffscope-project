@@ -4,6 +4,8 @@
 #include "AudioClipAudioContext.h"
 #include "AudioClipAudioContext_p.h"
 
+#include <utility>
+
 #include <QHash>
 
 #include <TalcsCore/BufferingAudioSource.h>
@@ -12,9 +14,9 @@
 #include <TalcsDspx/DspxAudioClipContext.h>
 #include <TalcsDspx/DspxTrackContext.h>
 
-#include <coreplugin/ProjectWindowInterface.h>
-
 #include <dspxmodelORM/AudioClip.h>
+#include <coreplugin/ProjectWindowInterface.h>
+#include <audio/internal/AudioPreference.h>
 
 namespace Audio {
 
@@ -33,6 +35,7 @@ namespace Audio {
         d->trackContext = trackContext;
         d->clipContext = trackContext->addAudioClip(audioClipId(clip));
         s_audioClipAudioContexts.insert(clip, this);
+        d->updateReadAheadSize();
     }
 
     AudioClipAudioContext::~AudioClipAudioContext() {
@@ -88,6 +91,21 @@ namespace Audio {
 
     AudioClipAudioContextPrivate *AudioClipAudioContextPrivate::of(AudioClipAudioContext *q) {
         return q->d_func();
+    }
+
+    void AudioClipAudioContextPrivate::updateReadAheadSizes() {
+        for (auto context : std::as_const(s_audioClipAudioContexts)) {
+            of(context)->updateReadAheadSize();
+        }
+    }
+
+    void AudioClipAudioContextPrivate::updateReadAheadSize() {
+        if (!trackContext) {
+            return;
+        }
+        if (auto source = clipContext->contentSource()) {
+            source->setReadAheadSize(Internal::AudioPreference::readAheadSize());
+        }
     }
 
     void AudioClipAudioContextPrivate::setStatus(AudioClipAudioContext::Status status_) {

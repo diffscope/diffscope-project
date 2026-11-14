@@ -24,6 +24,7 @@ namespace Audio::Internal {
         Q_DECLARE_PRIVATE(AudioPreference)
         Q_PROPERTY(AudioPreference::PlayheadBehavior playbackBehavior READ playbackBehavior WRITE setPlaybackBehavior NOTIFY playbackBehaviorChanged)
         Q_PROPERTY(AudioPreference::PlaybackTogglingAction playbackTogglingAction READ playbackTogglingAction WRITE setPlaybackTogglingAction NOTIFY playbackTogglingActionChanged)
+        Q_PROPERTY(int readAheadSize READ readAheadSize WRITE setReadAheadSize NOTIFY readAheadSizeChanged)
         Q_PROPERTY(bool audioExporterClippingCheckEnabled READ audioExporterClippingCheckEnabled WRITE setAudioExporterClippingCheckEnabled NOTIFY audioExporterClippingCheckEnabledChanged)
         Q_PROPERTY(bool audioExporterEnableAdvancedOptions READ audioExporterEnableAdvancedOptions WRITE setAudioExporterEnableAdvancedOptions NOTIFY audioExporterEnableAdvancedOptionsChanged)
         Q_PROPERTY(bool audioExporterUseTemporaryFile READ audioExporterUseTemporaryFile WRITE setAudioExporterUseTemporaryFile NOTIFY audioExporterUseTemporaryFileChanged)
@@ -58,6 +59,8 @@ namespace Audio::Internal {
         static void setPlaybackBehavior(PlayheadBehavior playbackBehavior);
         static PlaybackTogglingAction playbackTogglingAction();
         static void setPlaybackTogglingAction(PlaybackTogglingAction playbackTogglingAction);
+        static int readAheadSize();
+        static void setReadAheadSize(int size);
         static bool audioExporterClippingCheckEnabled();
         static void setAudioExporterClippingCheckEnabled(bool enabled);
         static bool audioExporterEnableAdvancedOptions();
@@ -70,6 +73,7 @@ namespace Audio::Internal {
     Q_SIGNALS:
         void playbackBehaviorChanged();
         void playbackTogglingActionChanged();
+        void readAheadSizeChanged();
         void audioExporterClippingCheckEnabledChanged();
         void audioExporterEnableAdvancedOptionsChanged();
         void audioExporterUseTemporaryFileChanged();

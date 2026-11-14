@@ -48,6 +48,7 @@
 #include <audio/internal/PlaybackPage.h>
 #include <audio/internal/ProjectAudioAddOn.h>
 #include <audio/internal/WaveformSingerAddOn.h>
+#include <audio/private/AudioClipAudioContext_p.h>
 #include <audio/private/GlobalAudioContext_p.h>
 
 #include <org.diffscope.audio_actions.qak.h>
@@ -108,7 +109,8 @@ namespace Audio::Internal {
     }
 
     void AudioPlugin::initializeAudioPreference() {
-        auto audioPreference = new AudioPreference(this);;
+        auto audioPreference = new AudioPreference(this);
+        connect(audioPreference, &AudioPreference::readAheadSizeChanged, this, &AudioClipAudioContextPrivate::updateReadAheadSizes);
         audioPreference->load();
     }
 

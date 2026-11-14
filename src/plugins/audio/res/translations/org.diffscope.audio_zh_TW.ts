@@ -2059,63 +2059,78 @@ Estimated size of each file: %3</source>
 <context>
     <name>PlaybackPage</name>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="24"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="25"/>
         <source>Return to start position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="25"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="26"/>
         <source>Keep at current position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="26"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="27"/>
         <source>Keep at current position, but play from start position next time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="29"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="30"/>
         <source>Play/Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="30"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="31"/>
         <source>Play/Pause</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="48"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="50"/>
         <source>Playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="58"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="60"/>
         <source>When playback stops, make playhead</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="73"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="75"/>
         <source>Playback toggling action</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="89"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="91"/>
         <source>Metronome</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="99"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="101"/>
         <source>Enable metronome</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="107"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="109"/>
         <source>Metronome gain (dB)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/PlaybackPage.qml" line="132"/>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="134"/>
         <source>Metronome pan (%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="160"/>
+        <source>Buffering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="172"/>
+        <source>Read-ahead buffer size (samples)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/PlaybackPage.qml" line="189"/>
+        <source>Read-ahead buffering can prevent audio dropouts when reading audio files from slow storage, such as hard disk drives or network drives. If dropouts persist at the maximum buffer size, consider moving the audio files to another drive.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -632,6 +632,7 @@ namespace Audio::Internal {
         contextPrivate->setStatus(status);
         if (io) {
             contextPrivate->clipContext->loadAudio(io);
+            contextPrivate->updateReadAheadSize();
         } else if (context->contentSource()) {
             // DspxAudioClipContext::takeAudio() destroys the AudioFormatIO, so the return value must not be deleted.
             contextPrivate->clipContext->takeAudio();

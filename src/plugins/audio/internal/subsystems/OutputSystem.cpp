@@ -35,7 +35,6 @@ namespace Audio::Internal {
         m_outputContext->setAdoptedBufferSize(m_adoptedBufferSize);
         m_outputContext->setAdoptedSampleRate(m_adoptedSampleRate);
         m_outputContext->setHotPlugNotificationMode(m_hotPlugNotificationMode);
-        // setFileBufferingReadAheadSize(AudioSettings::fileBufferingReadAheadSize());
 
         m_outputContext->preMixer()->addSource(m_deviceTester.get());
 

@@ -19,6 +19,7 @@ ScrollView {
 
     property int playbackBehavior
     property int playbackTogglingAction
+    property int readAheadSize
 
     readonly property var playbackBehaviorModel: [
         {text: qsTr("Return to start position"), value: AudioPreference.PB_ReturnToStart},
@@ -32,6 +33,7 @@ ScrollView {
 
     onPlaybackBehaviorChanged: if (started) pageHandle.markDirty()
     onPlaybackTogglingActionChanged: if (started) pageHandle.markDirty()
+    onReadAheadSizeChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
     contentWidth: availableWidth
@@ -150,6 +152,43 @@ ScrollView {
                             to: 100
                             value: Math.round(page.pageHandle.metronomePan * 100)
                             onValueModified: page.pageHandle.metronomePan = value / 100
+                        }
+                    }
+                }
+            }
+            GroupBox {
+                title: qsTr("Buffering")
+                TextMatcherItem on title {
+                    matcher: page.matcher
+                }
+                Layout.fillWidth: true
+                GridLayout {
+                    columns: 2
+                    anchors.fill: parent
+                    Label {
+                        id: readAheadSizeLabel
+                        Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        text: qsTr("Read-ahead buffer size (samples)")
+                        TextMatcherItem on text {
+                            matcher: page.matcher
+                        }
+                    }
+                    SpinBox {
+                        from: 0
+                        to: 65535
+                        value: page.readAheadSize
+                        Accessible.name: readAheadSizeLabel.text
+                        onValueModified: page.readAheadSize = value
+                    }
+                    Label {
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        wrapMode: Text.Wrap
+                        ThemedItem.foregroundLevel: SVS.FL_Secondary
+                        text: qsTr("Read-ahead buffering can prevent audio dropouts when reading audio files from slow storage, such as hard disk drives or network drives. If dropouts persist at the maximum buffer size, consider moving the audio files to another drive.")
+                        TextMatcherItem on text {
+                            matcher: page.matcher
                         }
                     }
                 }

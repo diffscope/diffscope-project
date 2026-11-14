@@ -74,6 +74,7 @@ namespace Audio::Internal {
         void finishPreviewTest();
 
         static bool m_easterEggEnabled;
+        static bool m_easterEggFirstPlaybackPending;
 
         QPointer<MidiInputContext> m_context;
         QStringList m_deviceIds;

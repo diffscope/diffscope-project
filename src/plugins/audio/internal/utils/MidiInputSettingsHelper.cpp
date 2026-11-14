@@ -13,6 +13,7 @@
 namespace Audio::Internal {
 
     bool MidiInputSettingsHelper::m_easterEggEnabled{};
+    bool MidiInputSettingsHelper::m_easterEggFirstPlaybackPending{};
 
     MidiInputSettingsHelper::MidiInputSettingsHelper(QObject *parent)
         : QObject(parent), m_context(MidiInputContext::instance()) {
@@ -108,10 +109,12 @@ namespace Audio::Internal {
             if (previewTestPlaying())
                 return;
             finishPreviewTest();
-            if (!m_context->playPreviewTest(m_easterEggEnabled && QRandomGenerator::global()->bounded(2) == 0)) {
+            const bool alternative = m_easterEggFirstPlaybackPending || (m_easterEggEnabled && QRandomGenerator::global()->bounded(2) == 0);
+            if (!m_context->playPreviewTest(alternative)) {
                 Q_EMIT previewTestPlayingChanged();
                 return;
             }
+            m_easterEggFirstPlaybackPending = false;
             m_previewTestPlaying = true;
             m_previewTestTimer->start();
             Q_EMIT previewTestPlayingChanged();
@@ -165,8 +168,10 @@ namespace Audio::Internal {
         m_previewTestTimer->stop();
         if (m_context)
             m_context->stopPreviewTest();
-        if (m_easterEggInputLength == 5)
+        if (m_easterEggInputLength == 5) {
             m_easterEggEnabled = !m_easterEggEnabled;
+            m_easterEggFirstPlaybackPending = m_easterEggEnabled;
+        }
         m_easterEggInputLength = 0;
         m_previewTestPlaying = false;
         m_previewTestToolTip = m_easterEggEnabled ? (QRandomGenerator::global()->bounded(2) ? tr("Why did you play ...?!") : tr("I'll put an end to it.")) : QString();

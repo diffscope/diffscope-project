@@ -3,16 +3,22 @@
 
 #include "AudioPreference.h"
 
+#include <algorithm>
+
 #include <QSettings>
 
 #include <CoreApi/runtimeinterface.h>
 
 namespace Audio::Internal {
 
+    static constexpr int defaultReadAheadSize = 4096;
+    static constexpr int maximumReadAheadSize = 65535;
+
     class AudioPreferencePrivate {
     public:
         AudioPreference::PlayheadBehavior playbackBehavior{};
         AudioPreference::PlaybackTogglingAction playbackTogglingAction{AudioPreference::PTA_PlayStop};
+        int readAheadSize{defaultReadAheadSize};
         bool audioExporterClippingCheckEnabled{true};
         bool audioExporterEnableAdvancedOptions{false};
         bool audioExporterUseTemporaryFile{true};
@@ -40,6 +46,8 @@ namespace Audio::Internal {
         settings->beginGroup(QStringLiteral("org.diffscope.audio.preference"));
         d->playbackBehavior = settings->value("playbackBehavior", QVariant::fromValue(PB_ReturnToStart)).value<PlayheadBehavior>();
         d->playbackTogglingAction = settings->value("playbackTogglingAction", QVariant::fromValue(PTA_PlayStop)).value<PlaybackTogglingAction>();
+        bool readAheadSizeValid = false;
+        const int readAheadSize = settings->value("readAheadSize", defaultReadAheadSize).toInt(&readAheadSizeValid);
         d->audioExporterClippingCheckEnabled = settings->value("audioExporterClippingCheckEnabled", true).toBool();
         d->audioExporterEnableAdvancedOptions = settings->value("audioExporterEnableAdvancedOptions", false).toBool();
         d->audioExporterUseTemporaryFile = settings->value("audioExporterUseTemporaryFile", true).toBool();
@@ -51,6 +59,7 @@ namespace Audio::Internal {
         emit audioExporterUseTemporaryFileChanged();
         emit shouldPlayNotificationSoundWhenExportCompletedChanged();
         settings->endGroup();
+        setReadAheadSize(readAheadSizeValid ? readAheadSize : defaultReadAheadSize);
     }
 
     void AudioPreference::save() const {
@@ -59,6 +68,7 @@ namespace Audio::Internal {
         settings->beginGroup(QStringLiteral("org.diffscope.audio.preference"));
         settings->setValue("playbackBehavior", d->playbackBehavior);
         settings->setValue("playbackTogglingAction", d->playbackTogglingAction);
+        settings->setValue("readAheadSize", d->readAheadSize);
         settings->setValue("audioExporterClippingCheckEnabled", d->audioExporterClippingCheckEnabled);
         settings->setValue("audioExporterEnableAdvancedOptions", d->audioExporterEnableAdvancedOptions);
         settings->setValue("audioExporterUseTemporaryFile", d->audioExporterUseTemporaryFile);
@@ -94,6 +104,21 @@ namespace Audio::Internal {
             return;
         d->playbackTogglingAction = playbackTogglingAction;
         emit m_instance->playbackTogglingActionChanged();
+    }
+
+    int AudioPreference::readAheadSize() {
+        M_INSTANCE_D;
+        return d->readAheadSize;
+    }
+
+    void AudioPreference::setReadAheadSize(int size) {
+        M_INSTANCE_D;
+        size = std::clamp(size, 0, maximumReadAheadSize);
+        if (d->readAheadSize == size) {
+            return;
+        }
+        d->readAheadSize = size;
+        Q_EMIT m_instance->readAheadSizeChanged();
     }
 
     bool AudioPreference::audioExporterClippingCheckEnabled() {

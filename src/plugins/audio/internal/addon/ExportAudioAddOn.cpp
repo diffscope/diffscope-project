@@ -119,6 +119,7 @@ namespace Audio::Internal {
         m_simpleConfig.setFormatOption(0);
         m_simpleConfig.setFormatQuality(100);
         m_simpleConfig.setFormatSampleRate(48000);
+        m_simpleConfig.setEffectsEnabled(true);
     }
 
     ExportAudioAddOn::~ExportAudioAddOn() = default;
