@@ -586,8 +586,11 @@
     for (let i = 0, names = ["transactionActive", "canBounceSelection", "selectedClipSingerLayoutIdentical"]; i < names.length; ++i) { const name = names[i]; property(documentPrototype, name, function () { return command(this, "documentState")[name]; }); }
     method(documentPrototype, "beginTransaction", function () { return transactionValue(result(bridge.begin(state(this).raw))); });
     method(documentPrototype, "tryAcquireReadLock", function () {
-        const token = result(bridge.tryAcquireReadLock(state(this).raw));
+        const token = result(bridge.acquireReadLock(state(this).raw, false));
         return token === null ? null : readLockValue(token);
+    });
+    method(documentPrototype, "mustAcquireReadLock", function () {
+        return readLockValue(result(bridge.acquireReadLock(state(this).raw, true)));
     });
     method(documentPrototype, "deleteSelection", function () { command(this, "deleteSelection"); });
     method(documentPrototype, "splitSelectionAt", function (tick) { V.int(tick); command(this, "splitSelectionAt", [tick]); });

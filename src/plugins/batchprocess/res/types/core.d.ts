@@ -572,6 +572,11 @@ declare module "diffscope:core" {
          * remaining script locks when the handler ends or the document closes.
          */
         tryAcquireReadLock(): ReadLock | null;
+        /**
+         * Acquires a shared read lock. Throws CoreError with code transactionConflict
+         * if a transaction or history operation prevents acquisition.
+         */
+        mustAcquireReadLock(): ReadLock;
         /** Deletes selected entities or a free-parameter range through a named undo step. */
         deleteSelection(): void;
         /**

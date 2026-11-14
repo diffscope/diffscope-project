@@ -101,7 +101,7 @@ namespace BatchProcess::Internal {
         Q_INVOKABLE QJSValue splice(QObject *array, int index, int count, const QJSValue &values);
         Q_INVOKABLE QJSValue begin(QObject *object);
         Q_INVOKABLE QJSValue transaction(const QString &token, const QString &operation, const QString &name);
-        Q_INVOKABLE QJSValue tryAcquireReadLock(QObject *object);
+        Q_INVOKABLE QJSValue acquireReadLock(QObject *object, bool required);
         Q_INVOKABLE bool isReadLockActive(const QString &token) const;
         Q_INVOKABLE bool releaseReadLock(const QString &token);
         Q_INVOKABLE QJSValue complete(QObject *object);
@@ -425,8 +425,8 @@ namespace BatchProcess::Internal {
         return operation == QStringLiteral("active") ? success(false) : failure(QStringLiteral("invalidState"), operation);
     }
 
-    QJSValue CoreModuleBridge::tryAcquireReadLock(QObject *object) {
-        const auto operation = QStringLiteral("tryAcquireReadLock");
+    QJSValue CoreModuleBridge::acquireReadLock(QObject *object, bool required) {
+        const auto operation = required ? QStringLiteral("mustAcquireReadLock") : QStringLiteral("tryAcquireReadLock");
         if (!m_context || !m_context->isExecuting())
             return failure(QStringLiteral("invalidState"), operation);
         QPointer<DspxProject::Document> doc(document(object));
@@ -435,7 +435,7 @@ namespace BatchProcess::Internal {
         QPointer<Core::TransactionController> controller(doc->transactionController());
         const auto id = controller->tryAcquireReadLock();
         if (id == Core::TransactionController::ReadLockId::Invalid || !controller)
-            return success(QJSValue(QJSValue::NullValue));
+            return required ? failure(QStringLiteral("transactionConflict"), operation) : success(QJSValue(QJSValue::NullValue));
         if (!doc || document(doc.data()) != doc.data() || !m_context || !m_context->isExecuting()) {
             controller->releaseReadLock(id);
             return failure(QStringLiteral("invalidState"), operation);
