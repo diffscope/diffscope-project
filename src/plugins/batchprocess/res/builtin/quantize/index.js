@@ -64,8 +64,8 @@ module.exports = defineScript({
                 const notes = new Map();
 
                 if (selection.type === "clip") {
-                    const clips = selection.clips.items;
-                    if (clips.length < 1 || clips.some(clip => clip.kind !== "singing")) {
+                    const clips = selection.clips.items.filter(clip => clip.kind === "singing");
+                    if (clips.length === 0) {
                         showSelectionWarning(project);
                         return;
                     }
@@ -85,6 +85,7 @@ module.exports = defineScript({
                     return;
                 }
 
+                const readLock = document.mustAcquireReadLock();
                 const result = dialogs.form({
                     title: t("quantize.title"),
                     fields: [
@@ -133,6 +134,7 @@ module.exports = defineScript({
                     ],
                     parent: project.window
                 });
+                readLock.release();
                 if (result === null) {
                     return;
                 }

@@ -1,0 +1,12 @@
+{
+    "freezeGeneratedContent": {
+        "title": "生成された内容を固定",
+        "description": "選択した歌声クリップまたは音符の生成内容を固定します。",
+        "selectionWarning": "歌声クリップまたは音符を 1 つ以上選択してください。",
+        "contents": {
+            "parameters": "パラメーター",
+            "phonemes": "音素",
+            "pronunciation": "発音"
+        }
+    }
+}

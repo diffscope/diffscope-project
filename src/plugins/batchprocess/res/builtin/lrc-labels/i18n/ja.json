@@ -12,8 +12,7 @@
             "positionLabel": "位置",
             "textLabel": "歌詞",
             "fontSizeTitle": "フォントサイズ",
-            "fontSizeLabel": "フォントサイズ",
-            "projectBusy": "プロジェクトで別の操作が進行中です。"
+            "fontSizeLabel": "フォントサイズ"
         },
         "import": {
             "title": "LRCをラベルとしてインポート",

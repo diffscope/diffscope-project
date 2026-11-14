@@ -1,6 +1,6 @@
 const { application } = require("diffscope:core");
 const { parse: parsePath } = require("diffscope:fs");
-const { loadI18n, MethodLogicError, t } = require("diffscope:runtime");
+const { loadI18n, t } = require("diffscope:runtime");
 const { dialogs } = require("diffscope:shell");
 const { storage } = require("diffscope:storage");
 
@@ -224,29 +224,23 @@ function editKaraokeLyrics({ add, position }) {
         });
     }
 
-    const readLock = document.tryAcquireReadLock();
-    if (readLock === null) {
-        throw new MethodLogicError(t("lrcLabels.karaoke.projectBusy"));
-    }
+    const readLock = document.mustAcquireReadLock();
 
     let label;
-    let originalText;
-    let form;
-    try {
-        if (!add) {
-            label = labels.toArray().filter(item => item.position === position).pop();
-        }
-        originalText = add ? "" : label.text;
-        fields.push({
-            type: "text",
-            name: "text",
-            label: t("lrcLabels.karaoke.textLabel"),
-            value: originalText
-        });
-        form = dialogs.form({ title, fields, parent: project.window });
-    } finally {
-        readLock.release();
+    if (!add) {
+        label = labels.toArray().filter(item => item.position === position).pop();
     }
+    const originalText = add ? "" : label.text;
+    fields.push({
+        type: "text",
+        name: "text",
+        label: t("lrcLabels.karaoke.textLabel"),
+        value: originalText
+    });
+    const form = dialogs.form({ title, fields, parent: project.window });
+
+    readLock.release();
+
     if (form === null || (!add && form.text === originalText)) {
         return;
     }

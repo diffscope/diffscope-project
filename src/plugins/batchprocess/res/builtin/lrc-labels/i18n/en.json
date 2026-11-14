@@ -12,8 +12,7 @@
             "positionLabel": "Position",
             "textLabel": "Lyrics",
             "fontSizeTitle": "Font Size",
-            "fontSizeLabel": "Font size",
-            "projectBusy": "The project is busy."
+            "fontSizeLabel": "Font size"
         },
         "import": {
             "title": "Import LRC as Labels",

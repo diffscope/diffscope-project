@@ -1,0 +1,12 @@
+{
+    "freezeGeneratedContent": {
+        "title": "Freeze Generated Content",
+        "description": "Freezes generated content in the selected singing clips or notes.",
+        "selectionWarning": "Select one or more singing clips or notes.",
+        "contents": {
+            "parameters": "Parameters",
+            "phonemes": "Phonemes",
+            "pronunciation": "Pronunciation"
+        }
+    }
+}

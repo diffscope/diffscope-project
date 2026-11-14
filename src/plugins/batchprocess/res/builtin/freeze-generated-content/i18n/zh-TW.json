@@ -1,0 +1,12 @@
+{
+    "freezeGeneratedContent": {
+        "title": "固定生成內容",
+        "description": "固定所選歌聲剪輯或音符中已生成的內容。",
+        "selectionWarning": "請選取一個或多個歌聲剪輯，或選取一個或多個音符。",
+        "contents": {
+            "parameters": "參數",
+            "phonemes": "音素",
+            "pronunciation": "發音"
+        }
+    }
+}

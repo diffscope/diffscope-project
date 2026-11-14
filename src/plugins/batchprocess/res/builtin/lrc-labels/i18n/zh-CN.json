@@ -12,8 +12,7 @@
             "positionLabel": "位置",
             "textLabel": "歌词",
             "fontSizeTitle": "字体大小",
-            "fontSizeLabel": "字体大小",
-            "projectBusy": "工程正在处理其他操作。"
+            "fontSizeLabel": "字体大小"
         },
         "import": {
             "title": "将 LRC 导入为标签",
