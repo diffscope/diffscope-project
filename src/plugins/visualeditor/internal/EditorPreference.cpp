@@ -35,7 +35,6 @@ namespace VisualEditor::Internal {
         EditorPreference::NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode{};
         double autoPitchCurveDisplayPixelDensityThreshold{kDefaultAutoPitchCurveDisplayPixelDensityThreshold};
         bool displayPronunciationBelowNote{};
-        int shortNoteThreshold{30};
         bool warnOfOverlappingNotes{true};
         bool trackCursorPosition{true};
         bool showSingerBackground{true};
@@ -109,8 +108,6 @@ namespace VisualEditor::Internal {
         Q_EMIT autoPitchCurveDisplayPixelDensityThresholdChanged();
         d->displayPronunciationBelowNote = settings->value("displayPronunciationBelowNote", false).toBool();
         emit displayPronunciationBelowNoteChanged();
-        d->shortNoteThreshold = settings->value("shortNoteThreshold", 30).toInt();
-        emit shortNoteThresholdChanged();
         d->warnOfOverlappingNotes = settings->value("warnOfOverlappingNotes", true).toBool();
         emit warnOfOverlappingNotesChanged();
         d->trackCursorPosition = settings->value("trackCursorPosition", true).toBool();
@@ -160,7 +157,6 @@ namespace VisualEditor::Internal {
         settings->setValue("noteEditPitchCurveDisplayMode", static_cast<int>(d->noteEditPitchCurveDisplayMode));
         settings->setValue("autoPitchCurveDisplayPixelDensityThreshold", d->autoPitchCurveDisplayPixelDensityThreshold);
         settings->setValue("displayPronunciationBelowNote", d->displayPronunciationBelowNote);
-        settings->setValue("shortNoteThreshold", d->shortNoteThreshold);
         settings->setValue("warnOfOverlappingNotes", d->warnOfOverlappingNotes);
         settings->setValue("trackCursorPosition", d->trackCursorPosition);
         settings->setValue("showSingerBackground", d->showSingerBackground);
@@ -415,19 +411,6 @@ namespace VisualEditor::Internal {
             return;
         d->displayPronunciationBelowNote = displayPronunciationBelowNote;
         emit m_instance->displayPronunciationBelowNoteChanged();
-    }
-
-    int EditorPreference::shortNoteThreshold() {
-        M_INSTANCE_D;
-        return d->shortNoteThreshold;
-    }
-
-    void EditorPreference::setShortNoteThreshold(int shortNoteThreshold) {
-        M_INSTANCE_D;
-        if (d->shortNoteThreshold == shortNoteThreshold)
-            return;
-        d->shortNoteThreshold = shortNoteThreshold;
-        emit m_instance->shortNoteThresholdChanged();
     }
 
     bool EditorPreference::warnOfOverlappingNotes() {

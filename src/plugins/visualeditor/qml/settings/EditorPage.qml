@@ -36,7 +36,6 @@ ScrollView {
     property int noteEditPitchCurveDisplayMode: EditorPreference.PCDM_Automatic
     property double autoPitchCurveDisplayPixelDensityThreshold: defaultAutoPitchCurveDisplayPixelDensityThreshold
     property bool displayPronunciationBelowNote: false
-    property int shortNoteThreshold: 30
     property bool warnOfOverlappingNotes: true
     property bool trackCursorPosition: false
     property bool showSingerBackground: true
@@ -67,7 +66,6 @@ ScrollView {
     onNoteEditPitchCurveDisplayModeChanged: if (started) pageHandle.markDirty()
     onAutoPitchCurveDisplayPixelDensityThresholdChanged: if (started) pageHandle.markDirty()
     onDisplayPronunciationBelowNoteChanged: if (started) pageHandle.markDirty()
-    onShortNoteThresholdChanged: if (started) pageHandle.markDirty()
     onWarnOfOverlappingNotesChanged: if (started) pageHandle.markDirty()
     onTrackCursorPositionChanged: if (started) pageHandle.markDirty()
     onShowSingerBackgroundChanged: if (started) pageHandle.markDirty()
@@ -379,20 +377,6 @@ ScrollView {
                             ThemedItem.doubleClickResetValue: Math.log2(page.defaultAutoPitchCurveDisplayPixelDensityThreshold)
                             ThemedItem.onDoubleClickReset: moved()
                         }
-                    }
-
-                    Label {
-                        text: qsTr("Short note threshold")
-                        TextMatcherItem on text { matcher: page.matcher }
-                    }
-                    Item {
-                        Layout.fillWidth: true
-                    }
-                    SpinBox {
-                        from: 1
-                        to: 60
-                        value: page.shortNoteThreshold
-                        onValueModified: page.shortNoteThreshold = value
                     }
 
                     CheckBox {

@@ -97,6 +97,11 @@ namespace Core::Internal {
         static QString fallbackLyricText();
         static void setFallbackLyricText(const QString &fallbackLyricText);
 
+        static int shortNoteThreshold();
+        static void setShortNoteThreshold(int threshold);
+        static int shortGapThreshold();
+        static void setShortGapThreshold(int threshold);
+
         static bool skipParameterResamplingCheck();
         static void setSkipParameterResamplingCheck(bool skipParameterResamplingCheck);
 
@@ -241,6 +246,8 @@ namespace Core::Internal {
         void localeNameChanged();
         void centralCNameChanged();
         void fallbackLyricTextChanged();
+        void shortNoteThresholdChanged();
+        void shortGapThresholdChanged();
         void skipParameterResamplingCheckChanged();
         void hasNotificationSoundAlertChanged();
         void notificationAutoHideTimeoutChanged();

@@ -36,11 +36,16 @@ T.ToolButton {
         border.color: Theme.navigationColor
     }
 
-    onClicked: card.openDetails(false)
-    Keys.onReturnPressed: card.openDetails(true)
-    Keys.onEnterPressed: card.openDetails(true)
+    function navigateToCurrentProblem(): void {
+        if (card.currentProblem)
+            documentProblems.navigate(card.currentProblem.id)
+    }
+
+    onClicked: navigateToCurrentProblem()
+    Keys.onReturnPressed: navigateToCurrentProblem()
+    Keys.onEnterPressed: navigateToCurrentProblem()
     Keys.onSpacePressed: card.openDetails(true)
-    Accessible.onPressAction: card.openDetails(true)
+    Accessible.onPressAction: navigateToCurrentProblem()
 
     ProblemHoverCard {
         id: card

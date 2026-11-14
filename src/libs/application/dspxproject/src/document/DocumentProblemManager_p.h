@@ -59,11 +59,12 @@ namespace DspxProject {
         bool isLive(const dspx::EntityObject *entity) const;
         bool isAttached(const QList<dspx::Handle> &path) const;
         void updatePath(dspx::Handle handle, Target &target, const QList<dspx::EntityObject *> &entities);
-        void markTopologyDirty();
+        void markTopologyDirty(dspx::Handle handle);
         void refreshTopology();
         void queueNotification();
         void invalidate(const QList<dspx::Handle> &path);
 
+        bool updateProblems(QObject *owner, const QList<DocumentProblemReport> &reports, QStringList removedKeys, bool replace);
         void addProblem(QObject *owner, const DocumentProblemReport &report, const QList<dspx::EntityObject *> &path);
         void removeProblem(DocumentProblemId id);
         DocumentProblemOperationId registerOperation(QObject *context, const QString &type, const QString &text,
@@ -79,7 +80,7 @@ namespace DspxProject {
         QSet<dspx::Handle> affectedEntities;
         quint64 nextProblemId = 1;
         quint64 nextOperationId = 1;
-        bool topologyDirty = false;
+        QSet<dspx::Handle> dirtyWatches;
         bool notificationQueued = false;
         bool operationsDirty = false;
     };

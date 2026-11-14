@@ -48,7 +48,7 @@ namespace DspxProject {
     dspx::EntityObject *DocumentProblemManagerPrivate::parentEntity(dspx::EntityObject *entity, QMetaObject::Connection *connection) {
         const auto watch = [this, connection](auto *item, auto signal) {
             if (connection)
-                *connection = QObject::connect(item, signal, q_ptr, [this] { markTopologyDirty(); });
+                *connection = QObject::connect(item, signal, q_ptr, [this, handle = item->handle()] { markTopologyDirty(handle); });
         };
         if (auto *track = qobject_cast<dspx::Track *>(entity)) {
             watch(track, &dspx::Track::trackListChanged);
@@ -177,7 +177,7 @@ namespace DspxProject {
                 QObject::disconnect(watch.destroyed);
                 watch.entity = entity;
                 parentEntity(entity, &watch.parentChanged);
-                watch.destroyed = QObject::connect(entity, &QObject::destroyed, q_ptr, [this] { markTopologyDirty(); });
+                watch.destroyed = QObject::connect(entity, &QObject::destroyed, q_ptr, [this, handle = entity->handle()] { markTopologyDirty(handle); });
             }
             watch.targets.insert(handle);
         }
@@ -186,17 +186,23 @@ namespace DspxProject {
             invalidate(target.path);
     }
 
-    void DocumentProblemManagerPrivate::markTopologyDirty() {
-        topologyDirty = true;
+    void DocumentProblemManagerPrivate::markTopologyDirty(dspx::Handle handle) {
+        dirtyWatches.insert(handle);
         queueNotification();
     }
 
     void DocumentProblemManagerPrivate::refreshTopology() {
-        if (!std::exchange(topologyDirty, false))
-            return;
-
+        QSet<dspx::Handle> dirtyTargets;
+        for (const auto handle : std::exchange(dirtyWatches, {})) {
+            const auto watch = watches.constFind(handle);
+            if (watch != watches.cend()) {
+                for (const auto target : watch->targets)
+                    dirtyTargets.insert(target);
+            }
+        }
         QList<DocumentProblemId> removed;
-        for (auto it = targets.begin(); it != targets.end(); ++it) {
+        for (const auto handle : std::as_const(dirtyTargets)) {
+            auto it = targets.find(handle);
             const auto path = entityPath(it->entity);
             if (path.isEmpty())
                 removed.append(it->ids.values());
@@ -288,13 +294,21 @@ namespace DspxProject {
 
     bool DocumentProblemManager::replaceProblems(QObject *owner, const QList<DocumentProblemReport> &reports) {
         Q_D(DocumentProblemManager);
-        if (!owner || owner->thread() != thread())
+        return d->updateProblems(owner, reports, {}, true);
+    }
+
+    bool DocumentProblemManager::updateProblems(QObject *owner, const QList<DocumentProblemReport> &reports, const QStringList &removedKeys) {
+        Q_D(DocumentProblemManager);
+        return d->updateProblems(owner, reports, removedKeys, false);
+    }
+
+    bool DocumentProblemManagerPrivate::updateProblems(QObject *owner, const QList<DocumentProblemReport> &reports, QStringList removedKeys, bool replace) {
+        if (!owner || owner->thread() != q_ptr->thread())
             return false;
-        d->refreshTopology();
+        refreshTopology();
 
         QSet<QString> keys;
         QHash<dspx::EntityObject *, QList<dspx::EntityObject *>> paths;
-        bool targetReplaced = false;
         for (const auto &report : reports) {
             const auto &info = report.info;
             if (report.key.isEmpty() || keys.contains(report.key) || info.type.isEmpty() || info.message.isEmpty())
@@ -309,44 +323,57 @@ namespace DspxProject {
             }
             auto *entity = info.entity.data();
             if (!paths.contains(entity)) {
-                auto path = d->entityPath(entity);
-                if (path.isEmpty() || path.back() != d->model)
+                auto path = entityPath(entity);
+                if (path.isEmpty() || path.back() != model)
                     return false;
                 paths.insert(entity, std::move(path));
-                const auto target = d->targets.constFind(entity->handle());
-                if (target != d->targets.cend() && target->entity != entity)
-                    targetReplaced = true;
             }
             keys.insert(report.key);
         }
 
-        if (targetReplaced) {
-            d->topologyDirty = true;
-            d->refreshTopology();
+        for (const auto &path : std::as_const(paths)) {
+            for (auto *entity : path) {
+                const auto watch = watches.constFind(entity->handle());
+                if (watch != watches.cend() && watch->entity != entity)
+                    dirtyWatches.insert(entity->handle());
+            }
         }
+        refreshTopology();
 
-        const auto oldIds = d->batches.value(owner).ids;
-        for (auto it = oldIds.cbegin(); it != oldIds.cend(); ++it) {
-            if (!keys.contains(it.key()))
-                d->removeProblem(it.value());
+        if (replace) {
+            const auto batch = batches.constFind(owner);
+            if (batch != batches.cend()) {
+                for (auto it = batch->ids.cbegin(); it != batch->ids.cend(); ++it) {
+                    if (!keys.contains(it.key()))
+                        removedKeys.append(it.key());
+                }
+            }
+        }
+        const auto problemId = [this, owner](const QString &key) {
+            const auto batch = batches.constFind(owner);
+            return batch == batches.cend() ? DocumentProblemId::Invalid : batch->ids.value(key);
+        };
+        for (const auto &key : std::as_const(removedKeys)) {
+            if (const auto id = problemId(key); !keys.contains(key) && id != DocumentProblemId::Invalid)
+                removeProblem(id);
         }
         for (const auto &report : reports) {
             const auto &info = report.info;
-            const auto id = oldIds.value(report.key, DocumentProblemId::Invalid);
+            const auto id = problemId(report.key);
             if (id != DocumentProblemId::Invalid) {
-                auto &record = d->records.find(id).value();
+                auto &record = records.find(id).value();
                 auto &oldInfo = record.problem.info;
                 if (oldInfo.entity == info.entity && oldInfo.type == info.type) {
                     if (oldInfo.severity != info.severity || oldInfo.message != info.message ||
                         oldInfo.data.metaType() != info.data.metaType() || oldInfo.data != info.data) {
                         oldInfo = info;
-                        d->invalidate(d->targets.constFind(record.target)->path);
+                        invalidate(targets.constFind(record.target)->path);
                     }
                     continue;
                 }
-                d->removeProblem(id);
+                removeProblem(id);
             }
-            d->addProblem(owner, report, paths.constFind(info.entity.data()).value());
+            addProblem(owner, report, paths.constFind(info.entity.data()).value());
         }
         return true;
     }

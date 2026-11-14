@@ -56,6 +56,8 @@ namespace Core::Internal {
         widget();
         m_defaultSingerModel->setSourcesSelection(SingerSettings::defaultSinger());
         m_widget->setProperty("fallbackLyricText", BehaviorPreference::fallbackLyricText());
+        m_widget->setProperty("shortNoteThreshold", BehaviorPreference::shortNoteThreshold());
+        m_widget->setProperty("shortGapThreshold", BehaviorPreference::shortGapThreshold());
         m_widget->setProperty("skipParameterResamplingCheck", BehaviorPreference::skipParameterResamplingCheck());
         m_widget->setProperty("started", true);
         ISettingPage::beginSetting();
@@ -65,6 +67,8 @@ namespace Core::Internal {
         if (!SingerSettings::setDefaultSinger(m_defaultSingerModel->sourcesSelection()))
             return false;
         BehaviorPreference::setFallbackLyricText(m_widget->property("fallbackLyricText").toString());
+        BehaviorPreference::setShortNoteThreshold(m_widget->property("shortNoteThreshold").toInt());
+        BehaviorPreference::setShortGapThreshold(m_widget->property("shortGapThreshold").toInt());
         BehaviorPreference::setSkipParameterResamplingCheck(m_widget->property("skipParameterResamplingCheck").toBool());
         BehaviorPreference::instance()->save();
         return ISettingPage::accept();

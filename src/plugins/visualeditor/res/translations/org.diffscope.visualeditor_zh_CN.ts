@@ -1058,11 +1058,6 @@
         <translation type="unfinished">自动显示的缩放阈值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="385"/>
-        <source>Short note threshold</source>
-        <translation>短音符阈值</translation>
-    </message>
-    <message>
         <location filename="../../qml/settings/EditorPage.qml" line="399"/>
         <source>Warn of overlapping notes</source>
         <translation type="unfinished">音符重叠时发出警告</translation>
@@ -1796,16 +1791,6 @@
         <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1107"/>
         <source>Inserting note</source>
         <translation type="unfinished">插入音符</translation>
-    </message>
-    <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1161"/>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1168"/>
-        <source>Filling gap</source>
-        <translation>填充间隙</translation>
-    </message>
-    <message>
-        <source>Ripple delete next</source>
-        <translation type="obsolete">涟漪删除下一个</translation>
     </message>
 </context>
 <context>

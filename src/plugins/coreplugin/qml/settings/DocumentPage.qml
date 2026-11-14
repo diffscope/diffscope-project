@@ -18,9 +18,13 @@ ScrollView {
     required property SourcesPickerModel defaultSingerModel
     property bool started: false
     property string fallbackLyricText
+    property int shortNoteThreshold
+    property int shortGapThreshold
     property bool skipParameterResamplingCheck
 
     onFallbackLyricTextChanged: if (started) pageHandle.markDirty()
+    onShortNoteThresholdChanged: if (started) pageHandle.markDirty()
+    onShortGapThresholdChanged: if (started) pageHandle.markDirty()
     onSkipParameterResamplingCheckChanged: if (started) pageHandle.markDirty()
 
     anchors.fill: parent
@@ -78,6 +82,30 @@ ScrollView {
                         text: page.fallbackLyricText
                         onTextEdited: page.fallbackLyricText = text
                         Accessible.name: fallbackLyricLabel.text
+                    }
+                    Label {
+                        id: shortNoteThresholdLabel
+                        text: qsTr("Short note threshold (ticks)")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    SpinBox {
+                        from: 1
+                        to: 60
+                        value: page.shortNoteThreshold
+                        onValueModified: page.shortNoteThreshold = value
+                        Accessible.name: shortNoteThresholdLabel.text
+                    }
+                    Label {
+                        id: shortGapThresholdLabel
+                        text: qsTr("Short gap threshold (ticks)")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    SpinBox {
+                        from: 1
+                        to: 60
+                        value: page.shortGapThreshold
+                        onValueModified: page.shortGapThreshold = value
+                        Accessible.name: shortGapThresholdLabel.text
                     }
                 }
             }

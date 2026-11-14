@@ -42,7 +42,6 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(EditorPreference::NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode READ noteEditPitchCurveDisplayMode WRITE setNoteEditPitchCurveDisplayMode NOTIFY noteEditPitchCurveDisplayModeChanged)
         Q_PROPERTY(double autoPitchCurveDisplayPixelDensityThreshold READ autoPitchCurveDisplayPixelDensityThreshold WRITE setAutoPitchCurveDisplayPixelDensityThreshold NOTIFY autoPitchCurveDisplayPixelDensityThresholdChanged)
         Q_PROPERTY(bool displayPronunciationBelowNote READ displayPronunciationBelowNote WRITE setDisplayPronunciationBelowNote NOTIFY displayPronunciationBelowNoteChanged)
-        Q_PROPERTY(int shortNoteThreshold READ shortNoteThreshold WRITE setShortNoteThreshold NOTIFY shortNoteThresholdChanged)
         Q_PROPERTY(bool warnOfOverlappingNotes READ warnOfOverlappingNotes WRITE setWarnOfOverlappingNotes NOTIFY warnOfOverlappingNotesChanged)
         Q_PROPERTY(bool trackCursorPosition READ trackCursorPosition WRITE setTrackCursorPosition NOTIFY trackCursorPositionChanged)
         Q_PROPERTY(bool showSingerBackground READ showSingerBackground WRITE setShowSingerBackground NOTIFY showSingerBackgroundChanged)
@@ -160,9 +159,6 @@ namespace VisualEditor::Internal {
         static bool displayPronunciationBelowNote();
         static void setDisplayPronunciationBelowNote(bool displayPronunciationBelowNote);
 
-        static int shortNoteThreshold();
-        static void setShortNoteThreshold(int shortNoteThreshold);
-
         static bool warnOfOverlappingNotes();
         static void setWarnOfOverlappingNotes(bool warnOfOverlappingNotes);
 
@@ -215,7 +211,6 @@ namespace VisualEditor::Internal {
         void noteEditPitchCurveDisplayModeChanged();
         void autoPitchCurveDisplayPixelDensityThresholdChanged();
         void displayPronunciationBelowNoteChanged();
-        void shortNoteThresholdChanged();
         void warnOfOverlappingNotesChanged();
         void trackCursorPositionChanged();
         void showSingerBackgroundChanged();

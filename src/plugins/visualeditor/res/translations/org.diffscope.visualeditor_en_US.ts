@@ -1010,11 +1010,6 @@
         <translation type="unfinished">Automatic display zoom threshold</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="385"/>
-        <source>Short note threshold</source>
-        <translation type="unfinished">Short note threshold</translation>
-    </message>
-    <message>
         <location filename="../../qml/settings/EditorPage.qml" line="399"/>
         <source>Warn of overlapping notes</source>
         <translation type="unfinished">Warn of overlapping notes</translation>
@@ -1748,12 +1743,6 @@
         <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1107"/>
         <source>Inserting note</source>
         <translation type="unfinished">Inserting note</translation>
-    </message>
-    <message>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1161"/>
-        <location filename="../../core/viewmodelbinding/NoteViewModelContextData.cpp" line="1168"/>
-        <source>Filling gap</source>
-        <translation type="unfinished">Filling gap</translation>
     </message>
 </context>
 <context>

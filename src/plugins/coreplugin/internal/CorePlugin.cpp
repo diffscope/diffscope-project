@@ -78,6 +78,7 @@
 #include <coreplugin/internal/ProjectWindowNavigatorAddOn.h>
 #include <coreplugin/internal/PropertiesAddOn.h>
 #include <coreplugin/internal/RecentFileAddOn.h>
+#include <coreplugin/internal/ShortNoteProblemAddOn.h>
 #include <coreplugin/internal/SourcesProblemAddOn.h>
 #include <coreplugin/internal/TimeIndicatorPage.h>
 #include <coreplugin/internal/TimelineAddOn.h>
@@ -318,6 +319,7 @@ namespace Core::Internal {
         HomeWindowInterfaceRegistry::instance()->attach<FindActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<FindActionsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<EditActionsAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<ShortNoteProblemAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<SourcesProblemAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ProblemsAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<ItemSelectorAddOn>();

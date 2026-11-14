@@ -4027,6 +4027,39 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
     </message>
 </context>
 <context>
+    <name>Core::Internal::ShortNoteProblemAddOn</name>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="64"/>
+        <source>Extend Previous Note Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="66"/>
+        <source>Extend Next Note Backward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="225"/>
+        <source>This note is too short.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="233"/>
+        <source>There is a short gap after this note.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="235"/>
+        <source>There is a short gap before this note.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="261"/>
+        <source>Fill Gap</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Core::Internal::SourcesProblemAddOn</name>
     <message>
         <location filename="../../internal/addon/SourcesProblemAddOn.cpp" line="133"/>
@@ -4669,32 +4702,42 @@ Do you want to save as a new file or overwrite it?</translation>
 <context>
     <name>DocumentPage</name>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="52"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="56"/>
         <source>Default Virtual Singer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="65"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="69"/>
         <source>Notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="73"/>
+        <location filename="../../qml/settings/DocumentPage.qml" line="77"/>
         <source>Fallback lyric text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="85"/>
-        <source>Parameters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/settings/DocumentPage.qml" line="91"/>
-        <source>Skip parameter resampling checks</source>
+        <location filename="../../qml/settings/DocumentPage.qml" line="88"/>
+        <source>Short note threshold (ticks)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/settings/DocumentPage.qml" line="100"/>
+        <source>Short gap threshold (ticks)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DocumentPage.qml" line="113"/>
+        <source>Parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DocumentPage.qml" line="119"/>
+        <source>Skip parameter resampling checks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/DocumentPage.qml" line="128"/>
         <source>Parameter curves not aligned to step size will be resampled automatically when pasting or bouncing clips.</source>
         <translation type="unfinished"></translation>
     </message>

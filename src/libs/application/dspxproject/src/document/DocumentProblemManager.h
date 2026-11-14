@@ -42,6 +42,13 @@ namespace DspxProject {
          */
         bool replaceProblems(QObject *owner, const QList<DocumentProblemReport> &reports);
 
+        /**
+         * Updates reports by key and removes the owner's reports for the specified keys.
+         * Reports supplied in the update take precedence over removals with the same key.
+         * Returns false for invalid input without changing the batch.
+         */
+        bool updateProblems(QObject *owner, const QList<DocumentProblemReport> &reports, const QStringList &removedKeys);
+
         /** Returns matching diagnostics in ID order after model changes have settled. */
         QList<DocumentProblem> problems(const dspx::EntityObject *entity, const DocumentProblemFilter &filter = {}) const;
         /** Returns the current visible diagnostic, or nullopt if unavailable. */

@@ -406,12 +406,6 @@ namespace VisualEditor {
         applyPosition();
         QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::displayPronunciationBelowNoteChanged, noteEditLayerInteractionController, applyPosition);
 
-        auto applyThreshold = [=, this] {
-            noteEditLayerInteractionController->setShortNoteThreshold(Internal::EditorPreference::shortNoteThreshold());
-        };
-        applyThreshold();
-        QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::shortNoteThresholdChanged, noteEditLayerInteractionController, applyThreshold);
-
         auto applyWarnOfOverlappingNotes = [=, this] {
             noteEditLayerInteractionController->setWarnOfOverlappingNotes(Internal::EditorPreference::warnOfOverlappingNotes());
         };

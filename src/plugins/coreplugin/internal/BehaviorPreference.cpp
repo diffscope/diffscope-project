@@ -3,6 +3,8 @@
 
 #include "BehaviorPreference.h"
 
+#include <algorithm>
+
 #include <QApplication>
 #include <QSettings>
 
@@ -19,6 +21,8 @@ namespace Core::Internal {
         QString localeName{};
         BehaviorPreference::CentralCName centralCName{};
         QString fallbackLyricText{};
+        int shortNoteThreshold = 30;
+        int shortGapThreshold = 30;
         bool skipParameterResamplingCheck{};
         bool hasNotificationSoundAlert{};
         int notificationAutoHideTimeout{};
@@ -76,6 +80,8 @@ namespace Core::Internal {
         emit centralCNameChanged();
         d->fallbackLyricText = settings->value("fallbackLyricText", QStringLiteral("a")).toString();
         Q_EMIT fallbackLyricTextChanged();
+        setShortNoteThreshold(settings->value("shortNoteThreshold", 30).toInt());
+        setShortGapThreshold(settings->value("shortGapThreshold", 30).toInt());
         d->skipParameterResamplingCheck = settings->value("skipParameterResamplingCheck", false).toBool();
         Q_EMIT skipParameterResamplingCheckChanged();
         d->hasNotificationSoundAlert = settings->value("hasNotificationSoundAlert", false).toBool();
@@ -149,6 +155,8 @@ namespace Core::Internal {
         settings->setValue("localeName", d->localeName);
         settings->setValue("centralCName", static_cast<int>(d->centralCName));
         settings->setValue("fallbackLyricText", d->fallbackLyricText);
+        settings->setValue("shortNoteThreshold", d->shortNoteThreshold);
+        settings->setValue("shortGapThreshold", d->shortGapThreshold);
         settings->setValue("skipParameterResamplingCheck", d->skipParameterResamplingCheck);
         settings->setValue("hasNotificationSoundAlert", d->hasNotificationSoundAlert);
         settings->setValue("notificationAutoHideTimeout", d->notificationAutoHideTimeout);
@@ -238,6 +246,32 @@ namespace Core::Internal {
         d->fallbackLyricText = fallbackLyricText;
         Q_EMIT m_instance->fallbackLyricTextChanged();
     }
+    int BehaviorPreference::shortNoteThreshold() {
+        return m_instance->d_func()->shortNoteThreshold;
+    }
+
+    void BehaviorPreference::setShortNoteThreshold(int threshold) {
+        auto *d = m_instance->d_func();
+        threshold = std::clamp(threshold, 1, 60);
+        if (d->shortNoteThreshold == threshold)
+            return;
+        d->shortNoteThreshold = threshold;
+        Q_EMIT m_instance->shortNoteThresholdChanged();
+    }
+
+    int BehaviorPreference::shortGapThreshold() {
+        return m_instance->d_func()->shortGapThreshold;
+    }
+
+    void BehaviorPreference::setShortGapThreshold(int threshold) {
+        auto *d = m_instance->d_func();
+        threshold = std::clamp(threshold, 1, 60);
+        if (d->shortGapThreshold == threshold)
+            return;
+        d->shortGapThreshold = threshold;
+        Q_EMIT m_instance->shortGapThresholdChanged();
+    }
+
     bool BehaviorPreference::skipParameterResamplingCheck() {
         M_INSTANCE_D;
         return d->skipParameterResamplingCheck;
