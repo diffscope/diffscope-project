@@ -3064,27 +3064,27 @@ Continue to bounce?</translation>
 <context>
     <name>Core::Internal::CorePlugin</name>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="198"/>
+        <location filename="../../internal/CorePlugin.cpp" line="199"/>
         <source>Initializing core plugin...</source>
         <translation>Initializing core plugin...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="220"/>
+        <location filename="../../internal/CorePlugin.cpp" line="221"/>
         <source>Plugins loading complete, preparing for subsequent initialization...</source>
         <translation type="unfinished">Plugins loading complete, preparing for subsequent initialization...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="244"/>
+        <location filename="../../internal/CorePlugin.cpp" line="245"/>
         <source>Initializing GUI...</source>
         <translation>Initializing GUI...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="517"/>
+        <location filename="../../internal/CorePlugin.cpp" line="519"/>
         <source>Last run terminated abnormally</source>
         <translation type="unfinished">Last run terminated abnormally</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="517"/>
+        <location filename="../../internal/CorePlugin.cpp" line="519"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
@@ -3093,7 +3093,7 @@ To check for unsaved files, please go to Recovery Files.</source>
 To check for unsaved files, please go to Recovery Files.</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="566"/>
+        <location filename="../../internal/CorePlugin.cpp" line="568"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3106,12 +3106,12 @@ Please go to Plugins to see more details.</source>
 Please go to Plugins to see more details.</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="569"/>
+        <location filename="../../internal/CorePlugin.cpp" line="571"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="571"/>
+        <location filename="../../internal/CorePlugin.cpp" line="573"/>
         <source>Plugin Error</source>
         <translation type="unfinished">Plugin Error</translation>
     </message>
@@ -4084,6 +4084,39 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
     </message>
 </context>
 <context>
+    <name>Core::Internal::ShortNoteProblemAddOn</name>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="64"/>
+        <source>Extend Previous Note Forward</source>
+        <translation type="unfinished">Extend Previous Note Forward</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="66"/>
+        <source>Extend Next Note Backward</source>
+        <translation type="unfinished">Extend Next Note Backward</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="225"/>
+        <source>There is a short note here.</source>
+        <translation type="unfinished">There is a short note here.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="233"/>
+        <source>There is a short gap after this note.</source>
+        <translation type="unfinished">There is a short gap after this note.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="235"/>
+        <source>There is a short gap before this note.</source>
+        <translation type="unfinished">There is a short gap before this note.</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="261"/>
+        <source>Fill Gap</source>
+        <translation type="unfinished">Fill Gap</translation>
+    </message>
+</context>
+<context>
     <name>Core::Internal::SingerNameResolver</name>
     <message>
         <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="168"/>
@@ -4117,39 +4150,6 @@ The time offset exceeds the boundary and has been adjusted to zero</translation>
         <location filename="../../internal/itemselector/ItemSelectorListModel.cpp" line="208"/>
         <source>Mixed singer</source>
         <translation type="unfinished">Mixed singer</translation>
-    </message>
-</context>
-<context>
-    <name>Core::Internal::ShortNoteProblemAddOn</name>
-    <message>
-        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="64"/>
-        <source>Extend Previous Note Forward</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="66"/>
-        <source>Extend Next Note Backward</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="225"/>
-        <source>This note is too short.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="233"/>
-        <source>There is a short gap after this note.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="235"/>
-        <source>There is a short gap before this note.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../internal/addon/ShortNoteProblemAddOn.cpp" line="261"/>
-        <source>Fill Gap</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4849,12 +4849,12 @@ Do you want to continue opening it?</translation>
     <message>
         <location filename="../../qml/settings/DocumentPage.qml" line="88"/>
         <source>Short note threshold (ticks)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Short note threshold (ticks)</translation>
     </message>
     <message>
         <location filename="../../qml/settings/DocumentPage.qml" line="100"/>
         <source>Short gap threshold (ticks)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Short gap threshold (ticks)</translation>
     </message>
     <message>
         <location filename="../../qml/settings/DocumentPage.qml" line="113"/>

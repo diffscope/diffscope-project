@@ -468,32 +468,32 @@
 <context>
     <name>Audio::Internal::AudioPlugin</name>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="68"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="69"/>
         <source>Initializing audio plugin...</source>
         <translation>正在初始化音频插件...</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="86"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="87"/>
         <source>Audio Device Changed</source>
         <translation type="unfinished">音频设备已变更</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="87"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="88"/>
         <source>A change in audio devices has been detected. You can check or adjust the current device in the audio settings.</source>
         <translation type="unfinished">检测到音频设备发生变化。你可以在音频设置中检查或调整当前使用的设备。</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="88"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="89"/>
         <source>Open Audio Output Settings</source>
         <translation type="unfinished">打开音频输出设置</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="144"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="146"/>
         <source>Failed to initialize audio output system</source>
         <translation>初始化音频输出系统失败</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="145"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="147"/>
         <source>%1 will not play sound because no available audio output device found.
 
 Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device status.</source>
@@ -683,48 +683,48 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
         <translation type="obsolete">音频导出完成</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="263"/>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="296"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="264"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="297"/>
         <source>WAV (*.wav)</source>
         <translation type="unfinished">WAV (*.wav)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="264"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="265"/>
         <source>FLAC (*.flac)</source>
         <translation type="unfinished">FLAC (*.flac)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="265"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="266"/>
         <source>Ogg Container (*.ogg *.opus)</source>
         <translation type="unfinished">Ogg 容器（*.ogg *.opus）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="297"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="298"/>
         <source>Ogg Vorbis (*.ogg)</source>
         <translation type="unfinished">Ogg Vorbis (*.ogg)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="439"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="440"/>
         <source>Audio exported to %1</source>
         <translation type="unfinished">音频已导出到 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="442"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="443"/>
         <source>Audio export completed, no files exported</source>
         <translation type="unfinished">音频导出已完成，未导出任何文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="445"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="446"/>
         <source>Audio exported to multiple files</source>
         <translation type="unfinished">音频已导出到多个文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="457"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="458"/>
         <source>Reveal in %1</source>
         <translation type="unfinished">在 %1 中显示</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="266"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="267"/>
         <source>MP3 (*.mp3)</source>
         <translation type="unfinished">MP3 (*.mp3)</translation>
     </message>
@@ -818,12 +818,12 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::MidiInputSettingsHelper</name>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="56"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="57"/>
         <source>MIDI device %1 is not available.</source>
         <translation type="unfinished">MIDI 设备 %1 不可用。</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="57"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="58"/>
         <source>Cannot open MIDI device %1.
 
 %2</source>
@@ -832,23 +832,23 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="172"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="177"/>
         <source>Why did you play ...?!</source>
         <translation>为什么要演奏………？！</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="172"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="177"/>
         <source>I&apos;ll put an end to it.</source>
         <translation>我来将它结束掉。</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="180"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="185"/>
         <source>(None)</source>
         <translation type="unfinished">（无）</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="188"/>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="196"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="193"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="201"/>
         <source>%1 (Not working)</source>
         <translation type="unfinished">%1（不工作）</translation>
     </message>
@@ -890,26 +890,26 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::ProjectAudioAddOn</name>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="674"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="675"/>
         <source>Audio clip &quot;%1&quot; has no file specified</source>
         <translation type="unfinished">音频剪辑“%1”未指定文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="677"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="678"/>
         <source>The file in audio clip &quot;%1&quot; is not found:
 %2</source>
         <translation type="unfinished">未找到音频剪辑“%1”中的文件：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="682"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="683"/>
         <source>Failed to load audio file in audio clip &quot;%1&quot;:
 %2</source>
         <translation type="unfinished">加载音频剪辑“%1”中的音频文件失败：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="687"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="688"/>
         <source>The file in audio clip &quot;%1&quot; has been moved.
 From: %2
 To: %3</source>
@@ -918,14 +918,14 @@ To: %3</source>
 新位置：%3</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="696"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="697"/>
         <source>The file in audio clip &quot;%1&quot; has been changed:
 %2</source>
         <translation type="unfinished">音频剪辑“%1”中的文件已更改：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="693"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="694"/>
         <source>No checksum is recorded for the file in audio clip &quot;%1&quot;.
 %2</source>
         <translation type="unfinished">音频剪辑“%1”中的文件未记录校验和。
@@ -2157,17 +2157,17 @@ Estimated size of each file: %3</source>
     <message>
         <location filename="../../qml/settings/PlaybackPage.qml" line="160"/>
         <source>Buffering</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">缓冲</translation>
     </message>
     <message>
         <location filename="../../qml/settings/PlaybackPage.qml" line="172"/>
         <source>Read-ahead buffer size (samples)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">预读缓冲区大小（采样点）</translation>
     </message>
     <message>
         <location filename="../../qml/settings/PlaybackPage.qml" line="189"/>
         <source>Read-ahead buffering can prevent audio dropouts when reading audio files from slow storage, such as hard disk drives or network drives. If dropouts persist at the maximum buffer size, consider moving the audio files to another drive.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">从机械硬盘或网络驱动器等较慢的存储设备读取音频文件时，预读缓冲可以防止音频丢帧。如果缓冲区大小已设为最大值，音频仍有丢帧，可以考虑将音频文件移到另一个驱动器。</translation>
     </message>
 </context>
 <context>

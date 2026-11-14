@@ -460,32 +460,32 @@
 <context>
     <name>Audio::Internal::AudioPlugin</name>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="68"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="69"/>
         <source>Initializing audio plugin...</source>
         <translation type="unfinished">Initializing audio plugin...</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="86"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="87"/>
         <source>Audio Device Changed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="87"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="88"/>
         <source>A change in audio devices has been detected. You can check or adjust the current device in the audio settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="88"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="89"/>
         <source>Open Audio Output Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="144"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="146"/>
         <source>Failed to initialize audio output system</source>
         <translation type="unfinished">Failed to initialize audio output system</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="145"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="147"/>
         <source>%1 will not play sound because no available audio output device found.
 
 Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device status.</source>
@@ -671,48 +671,48 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::ExportAudioAddOn</name>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="263"/>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="296"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="264"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="297"/>
         <source>WAV (*.wav)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="264"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="265"/>
         <source>FLAC (*.flac)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="265"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="266"/>
         <source>Ogg Container (*.ogg *.opus)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="297"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="298"/>
         <source>Ogg Vorbis (*.ogg)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="439"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="440"/>
         <source>Audio exported to %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="442"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="443"/>
         <source>Audio export completed, no files exported</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="445"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="446"/>
         <source>Audio exported to multiple files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="457"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="458"/>
         <source>Reveal in %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="266"/>
+        <location filename="../../internal/addon/ExportAudioAddOn.cpp" line="267"/>
         <source>MP3 (*.mp3)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -806,35 +806,35 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::MidiInputSettingsHelper</name>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="56"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="57"/>
         <source>MIDI device %1 is not available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="57"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="58"/>
         <source>Cannot open MIDI device %1.
 
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="172"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="177"/>
         <source>Why did you play ...?!</source>
         <translation>なんで○○○やったの⁈</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="172"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="177"/>
         <source>I&apos;ll put an end to it.</source>
         <translation>私が終わらせてあげる。</translation>
     </message>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="180"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="185"/>
         <source>(None)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="188"/>
-        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="196"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="193"/>
+        <location filename="../../internal/utils/MidiInputSettingsHelper.cpp" line="201"/>
         <source>%1 (Not working)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -876,37 +876,37 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::ProjectAudioAddOn</name>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="674"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="675"/>
         <source>Audio clip &quot;%1&quot; has no file specified</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="677"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="678"/>
         <source>The file in audio clip &quot;%1&quot; is not found:
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="682"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="683"/>
         <source>Failed to load audio file in audio clip &quot;%1&quot;:
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="687"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="688"/>
         <source>The file in audio clip &quot;%1&quot; has been moved.
 From: %2
 To: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="696"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="697"/>
         <source>The file in audio clip &quot;%1&quot; has been changed:
 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="693"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="694"/>
         <source>No checksum is recorded for the file in audio clip &quot;%1&quot;.
 %2</source>
         <translation type="unfinished"></translation>
