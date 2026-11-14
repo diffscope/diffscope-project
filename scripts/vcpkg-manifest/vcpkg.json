@@ -52,5 +52,14 @@
             "platform": "windows | osx"
         },
         "i18next"
-    ]
+    ],
+    "features": {
+        "test": {
+            "description": "Dependencies for tests",
+            "dependencies": [
+                "gtest",
+                "benchmark"
+            ]
+        }
+    }
 }
