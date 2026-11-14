@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
         <action id="org.diffscope.core.welcomeWizard.colorScheme" text="Color Scheme" textTr="ColorSchemeWelcomeWizardPage" triggerable="false" diffscope:componentType="custom" />
 
         <action id="org.diffscope.core.file.&amp;new" category="File" description="Create a project in a new window." icon="document_add" shortcut="Ctrl+N" />
-        <action id="org.diffscope.core.file.newFromTemplate^" category="File" description="Create a project from an existing file in a new window." shortcut="Ctrl+Alt+N" />
+        <action id="org.diffscope.core.file.newFromTemplate^" category="File" description="Create a project from an existing file in a new window." icon="document_one_page_multiple" shortcut="Ctrl+Alt+N" />
         <action id="org.diffscope.core.file.&amp;open^" category="File" description="Open a project or switch to it if already open." icon="folder_open" shortcut="Ctrl+O" />
         <action id="org.diffscope.core.file.open&amp;RecentFile" category="File" triggerable="false" diffscope:componentType="menu" description="Choose a recently used project to open." />
         <action id="org.diffscope.core.file.&amp;save" category="File" icon="save" shortcut="Ctrl+S" />
