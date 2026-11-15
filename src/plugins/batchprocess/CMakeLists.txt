@@ -98,4 +98,5 @@ add_dependencies(${CK_APPLICATION_TARGET} ${PROJECT_NAME}_deploy_builtin)
 ck_add_attached_files(${PROJECT_NAME}
     SKIP_BUILD
     SRC "${CMAKE_CURRENT_SOURCE_DIR}/res/builtin" DEST .
+    SRC "${CMAKE_CURRENT_SOURCE_DIR}/res/types" DEST .
 )
