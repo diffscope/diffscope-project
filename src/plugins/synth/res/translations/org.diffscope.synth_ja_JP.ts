@@ -381,12 +381,12 @@
     <name>DiffSingerSingerControlPanel</name>
     <message>
         <location filename="../../qml/controls/DiffSingerSingerControlPanel.qml" line="88"/>
-        <source>Speaker</source>
+        <source>Voice</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/controls/DiffSingerSingerControlPanel.qml" line="95"/>
-        <source>Default Speaker</source>
+        <source>Default Voice</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

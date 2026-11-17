@@ -85,14 +85,14 @@ ScrollView {
 
         GroupBox {
             Layout.fillWidth: true
-            title: qsTr("Speaker")
+            title: qsTr("Voice")
 
             ColumnLayout {
                 anchors.fill: parent
                 spacing: 8
 
                 Repeater {
-                    model: d.speakers.length > 0 ? d.speakers : [{id: "", name: qsTr("Default Speaker")}]
+                    model: d.speakers.length > 0 ? d.speakers : [{id: "", name: qsTr("Default Voice")}]
 
                     delegate: RadioButton {
                         id: speakerOption

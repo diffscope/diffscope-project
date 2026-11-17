@@ -388,13 +388,13 @@
     <name>DiffSingerSingerControlPanel</name>
     <message>
         <location filename="../../qml/controls/DiffSingerSingerControlPanel.qml" line="88"/>
-        <source>Speaker</source>
-        <translation type="unfinished">说话人</translation>
+        <source>Voice</source>
+        <translation type="unfinished">声线</translation>
     </message>
     <message>
         <location filename="../../qml/controls/DiffSingerSingerControlPanel.qml" line="95"/>
-        <source>Default Speaker</source>
-        <translation type="unfinished">默认说话人</translation>
+        <source>Default Voice</source>
+        <translation type="unfinished">默认声线</translation>
     </message>
 </context>
 <context>
