@@ -47,11 +47,9 @@ Item {
     property ParameterAnchorViewModel pitchAnchorBeingEdited: null
     property bool pitchAnchorMoving: false
     property bool pitchFreeEditing: false
-    property bool pitchHovered: false
     readonly property PianoRollPitchLayer pitchLayer:
         contentLayers.items.find(item => item instanceof PianoRollPitchLayer) ?? null
     readonly property ParameterEditor pitchEditor: pitchLayer?.editor ?? null
-    readonly property int pitchHoverPosition: pitchEditor?.pointerTimePosition ?? 0
     property double unalignedClavierCursorPosition: -1.0
     property var timeCursorSources: []
 
@@ -63,9 +61,6 @@ Item {
         !noteSelectionActive
         && ((pianoRollPanelInterface?.pitchToolActive ?? false)
             || (selectionLayer !== null && selectionUsesClavier))
-    readonly property bool pitchHoverCursorActive:
-        (pitchEditor?.enabled ?? false) && pitchHovered
-        && !(pianoRollPanelInterface?.mouseTrackingDisabled ?? true)
     readonly property Item activeTimeCursorSource: {
         let hoveredSource = null
         for (const source of timeCursorSources) {
@@ -80,7 +75,7 @@ Item {
     }
     readonly property bool timeCursorBoundByEdit:
         selectionLayer !== null || noteStartCursorActive || noteEndCursorActive
-        || pitchAnchorMoving || pitchFreeEditing || pitchHoverCursorActive
+        || pitchAnchorMoving || pitchFreeEditing
         || activeTimeCursorSource !== null
     readonly property int editTimeCursorPosition: {
         if (selectionLayer)
@@ -99,8 +94,6 @@ Item {
         }
         if (activeTimeCursorSource)
             return activeTimeCursorSource.timeCursorPosition
-        if (pitchHoverCursorActive)
-            return mapClipPositionToTimeline(pitchHoverPosition, view.pitchLayer?.clipViewModel ?? null)
         return -1
     }
 
@@ -237,21 +230,6 @@ Item {
         view.selectionUsesClavier = false
         view.noteSelectionActive = false
         view.selectionLayer = null
-    }
-
-    function beginPitchHover(editor) {
-        if (!pitchEditor || editor !== pitchEditor
-                || !pitchEditor.enabled
-                || (view.pianoRollPanelInterface?.mouseTrackingDisabled ?? true))
-            return
-        view.pitchHovered = true
-    }
-
-    function endPitchHover(editor) {
-        if (!pitchEditor || editor !== pitchEditor || editor.hasPointerHover())
-            return
-        view.pitchHovered = false
-        view.refreshCursorPositions()
     }
 
     // Registers a surface with cursor activity, edit state, alignment policy, and a position in timeline ticks.
@@ -472,10 +450,8 @@ Item {
         }
 
         function onFreeRangeSelectingStarted(editor) {
-            if (editor === pitchEditor) {
-                view.pitchHovered = false
+            if (editor === pitchEditor)
                 view.beginSelection(editor)
-            }
         }
 
         function onFreeRangeSelectingCommitted(editor) {
@@ -489,10 +465,8 @@ Item {
         }
 
         function onAnchorRubberBandDraggingStarted(editor) {
-            if (editor === pitchEditor) {
-                view.pitchHovered = false
+            if (editor === pitchEditor)
                 view.beginSelection(editor)
-            }
         }
 
         function onAnchorRubberBandDraggingCommitted(editor) {
@@ -527,38 +501,14 @@ Item {
             view.pitchAnchorBeingEdited = null
             view.refreshCursorPositions()
         }
-
-        function onHoverEntered(editor, position, value) {
-            view.beginPitchHover(editor)
-        }
-
-        function onHoverMoved(editor, position, value) {
-            view.beginPitchHover(editor)
-        }
-
-        function onHoverExited(editor) {
-            view.endPitchHover(editor)
-        }
-
-        function onItemHoverEntered(editor, item) {
-            view.beginPitchHover(editor)
-        }
-
-        function onItemHoverExited(editor, item) {
-            view.endPitchHover(editor)
-        }
     }
 
     Connections {
         target: view.pianoRollPanelInterface
         function onToolChanged() {
-            if (!(view.pianoRollPanelInterface?.pitchToolActive ?? false))
-                view.pitchHovered = false
             view.refreshCursorPositions()
         }
         function onMouseTrackingDisabledChanged() {
-            if (view.pianoRollPanelInterface?.mouseTrackingDisabled ?? true)
-                view.pitchHovered = false
             view.refreshCursorPositions()
         }
     }
