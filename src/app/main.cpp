@@ -3,10 +3,12 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
+#include <QtCore/QLocale>
 #include <QtCore/QProcess>
 #include <QtCore/QSettings>
 #include <QtCore/QLoggingCategory>
 #include <QtCore/QRegularExpression>
+#include <QtCore/QTranslator>
 #include <QtGui/QWindow>
 #include <QtNetwork/QNetworkProxyFactory>
 #include <QtWidgets/QApplication>
@@ -135,6 +137,15 @@ public:
 #else
             ApplicationInfo::systemLocation(ApplicationInfo::Resources);
 #endif
+        const auto qtTranslationsDir = translationBaseDir + QStringLiteral("/Qt/translations");
+        for (const auto &catalog : {QStringLiteral("qtbase"), QStringLiteral("qtdeclarative")}) {
+            auto translator = new QTranslator(qApp);
+            if (!translator->load(locale, catalog, QStringLiteral("_"), qtTranslationsDir) ||
+                !QCoreApplication::installTranslator(translator)) {
+                delete translator;
+            }
+        }
+
         RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/ChorusKit/translations"));
         RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/svscraft/translations"));
         RuntimeInterface::translationManager()->addTranslationPath(translationBaseDir + QStringLiteral("/uishell/translations"));
