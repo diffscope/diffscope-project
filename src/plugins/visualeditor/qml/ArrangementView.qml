@@ -28,6 +28,7 @@ Item {
 
     readonly property Timeline timeline: timeline
     readonly property Item centerEditArea: clipViewContainer
+    readonly property Item trackListArea: trackArea
 
     property Item selectionLayer: null
     property int selectionTimeCursorPosition: -1

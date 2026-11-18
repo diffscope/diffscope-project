@@ -30,7 +30,8 @@ QtObject {
             duration: arrangementPanelInterface.positionAlignmentManipulator.duration,
             tuplet: arrangementPanelInterface.positionAlignmentManipulator.tuplet,
             isAutoPageScrollingEnabled: arrangementPanelInterface.autoPageScrollingManipulator.enabled,
-            additionalTracks: Array.from(addOn.additionalTrackLoader.loadedComponents)
+            additionalTracks: Array.from(addOn.additionalTrackLoader.loadedComponents),
+            trackListPreferredWidth: arrangementPanelInterface.arrangementView.trackListArea.SplitView.preferredWidth
         }
     }
 
@@ -42,12 +43,14 @@ QtObject {
             state = state ?? {}
             const durations = [PositionAlignmentManipulator.Auto, PositionAlignmentManipulator.Unset, PositionAlignmentManipulator.Note1st, PositionAlignmentManipulator.Note2nd, PositionAlignmentManipulator.Note4th, PositionAlignmentManipulator.Note8th, PositionAlignmentManipulator.Note16th, PositionAlignmentManipulator.Note32nd, PositionAlignmentManipulator.Note64th, PositionAlignmentManipulator.Note128th]
             const tuplets = [PositionAlignmentManipulator.None, PositionAlignmentManipulator.Triplet, PositionAlignmentManipulator.Quintuplet]
+            const width = state.trackListPreferredWidth
             if (typeof state !== "object" || Array.isArray(state)
                 || (state.tool !== undefined && (!Number.isInteger(state.tool) || state.tool < ArrangementPanelInterface.PointerTool || state.tool > ArrangementPanelInterface.HandTool))
                 || (state.duration !== undefined && !durations.includes(state.duration))
                 || (state.tuplet !== undefined && !tuplets.includes(state.tuplet))
                 || (state.isAutoPageScrollingEnabled !== undefined && typeof state.isAutoPageScrollingEnabled !== "boolean")
-                || (state.additionalTracks !== undefined && (!Array.isArray(state.additionalTracks) || !state.additionalTracks.every(id => typeof id === "string"))))
+                || (state.additionalTracks !== undefined && (!Array.isArray(state.additionalTracks) || !state.additionalTracks.every(id => typeof id === "string")))
+                || (width !== undefined && (!Number.isFinite(width) || width < 0)))
                 state = initial
 
             const loader = d.addOn.additionalTrackLoader
@@ -61,6 +64,7 @@ QtObject {
             arrangementPanelInterface.positionAlignmentManipulator.duration = state.duration ?? initial.duration
             arrangementPanelInterface.positionAlignmentManipulator.tuplet = state.tuplet ?? initial.tuplet
             arrangementPanelInterface.autoPageScrollingManipulator.enabled = state.isAutoPageScrollingEnabled ?? initial.isAutoPageScrollingEnabled
+            arrangementPanelInterface.arrangementView.trackListArea.SplitView.preferredWidth = state.trackListPreferredWidth ?? initial.trackListPreferredWidth
         }
 
         function saveState() {
