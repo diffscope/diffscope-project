@@ -71,6 +71,21 @@ namespace VisualEditor::Internal {
             windowInterface->actionContext()->addAction("org.diffscope.visualeditor.pianoRollPanel.additionalTracks.keySignature", o->property("keySignatureTrackComponent").value<QQmlComponent *>());
         }
 
+        {
+            QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "AbsoluteTimelineTrack", this);
+            if (component.isError()) {
+                qFatal() << component.errorString();
+            }
+            QObject *o = component.create();
+            if (!o) {
+                qFatal() << component.errorString();
+            }
+            o->setParent(this);
+            auto trackComponent = o->property("absoluteTimelineTrackComponent").value<QQmlComponent *>();
+            windowInterface->actionContext()->addAction("org.diffscope.visualeditor.arrangementPanel.additionalTracks.absoluteTimeline", trackComponent);
+            windowInterface->actionContext()->addAction("org.diffscope.visualeditor.pianoRollPanel.additionalTracks.absoluteTimeline", trackComponent);
+        }
+
         // Clip Track
         {
             QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.VisualEditor", "ClipTrack", this);

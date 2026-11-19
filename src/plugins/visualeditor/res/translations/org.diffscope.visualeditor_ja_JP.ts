@@ -237,6 +237,12 @@
 <context>
     <name>Application::ActionText</name>
     <message>
+        <location filename="../org.diffscope.visualeditor_actions.xml" line="99"/>
+        <location filename="../org.diffscope.visualeditor_actions.xml" line="103"/>
+        <source>Absolute Timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/visualeditor/res/qak_org.diffscope.visualeditor_actions.cpp" line="3930"/>
         <source>Pitch Transform Tool</source>
         <translation type="unfinished"></translation>
