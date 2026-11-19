@@ -71,7 +71,10 @@ ColumnLayout {
                         anchors.rightMargin: 4
                         visible: (layout.item?.height ?? 0) >= 12
                         IconLabel {
+                            Layout.fillWidth: true
                             Layout.fillHeight: true
+                            alignment: Qt.AlignLeading | Qt.AlignVCenter
+                            mirrored: LayoutMirroring.enabled
                             icon.height: layout.itemSize
                             icon.width: layout.itemSize
                             spacing: 2
@@ -79,10 +82,6 @@ ColumnLayout {
                             icon.color: layout.item?.ActionInstantiator.icon.color.valid ? layout.item.ActionInstantiator.icon.color : Theme.foregroundPrimaryColor
                             text: d.additionalTrackLoader?.componentName(layout.modelData) ?? ""
                             font.pixelSize: layout.itemSize * 0.75
-                        }
-                        Item {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
                         }
                         ToolButton {
                             implicitWidth: layout.itemSize
