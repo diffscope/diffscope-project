@@ -109,8 +109,8 @@
     <name>SynthVisualizer::Internal::SynthesisVisualizationPage</name>
     <message>
         <location filename="../../internal/settings/SynthesisVisualizationPage.cpp" line="19"/>
-        <source>Configure the display of synthesis waveforms</source>
-        <translation type="unfinished">Configure the display of synthesis waveforms</translation>
+        <source>Configure the display of synthesis audio and status</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../internal/settings/SynthesisVisualizationPage.cpp" line="18"/>
@@ -134,14 +134,29 @@
 <context>
     <name>SynthesisVisualizationPage</name>
     <message>
-        <location filename="../../qml/SynthesisVisualizationPage.qml" line="30"/>
+        <location filename="../../qml/SynthesisVisualizationPage.qml" line="32"/>
+        <source>Waveform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/SynthesisVisualizationPage.qml" line="40"/>
         <source>Show waveforms in the phoneme panel</source>
         <translation type="unfinished">Show waveforms in the phoneme panel</translation>
     </message>
     <message>
-        <location filename="../../qml/SynthesisVisualizationPage.qml" line="40"/>
+        <location filename="../../qml/SynthesisVisualizationPage.qml" line="50"/>
         <source>Show waveforms on singing clips</source>
         <translation type="unfinished">Show waveforms on singing clips</translation>
+    </message>
+    <message>
+        <location filename="../../qml/SynthesisVisualizationPage.qml" line="62"/>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/SynthesisVisualizationPage.qml" line="67"/>
+        <source>Show synthesis status on the timeline</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

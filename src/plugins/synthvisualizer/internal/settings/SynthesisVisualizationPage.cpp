@@ -16,7 +16,7 @@ namespace SynthVisualizer::Internal {
     SynthesisVisualizationPage::SynthesisVisualizationPage(QObject *parent)
         : ISettingPage(QStringLiteral("org.diffscope.synthvisualizer.Visualization"), parent) {
         setTitle(tr("Synthesis Visualization"));
-        setDescription(tr("Configure the display of synthesis waveforms"));
+        setDescription(tr("Configure the display of synthesis audio and status"));
     }
 
     QString SynthesisVisualizationPage::sortKeyword() const {
@@ -52,13 +52,15 @@ namespace SynthVisualizer::Internal {
         const auto settings = SynthesisVisualizerSettings::instance();
         page->setProperty("showPhonemeWaveforms", settings->showPhonemeWaveforms());
         page->setProperty("showClipWaveforms", settings->showClipWaveforms());
+        page->setProperty("showTimelineStatus", settings->showTimelineStatus());
         ISettingPage::beginSetting();
     }
 
     bool SynthesisVisualizationPage::accept() {
         SynthesisVisualizerSettings::instance()->setOptions(
             m_widget->property("showPhonemeWaveforms").toBool(),
-            m_widget->property("showClipWaveforms").toBool()
+            m_widget->property("showClipWaveforms").toBool(),
+            m_widget->property("showTimelineStatus").toBool()
         );
         return ISettingPage::accept();
     }

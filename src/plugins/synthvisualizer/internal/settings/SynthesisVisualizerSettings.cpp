@@ -19,6 +19,7 @@ namespace SynthVisualizer::Internal {
         settings->beginGroup(QStringLiteral("org.diffscope.synthvisualizer.visualization"));
         m_showPhonemeWaveforms = settings->value(QStringLiteral("showPhonemeWaveforms"), true).toBool();
         m_showClipWaveforms = settings->value(QStringLiteral("showClipWaveforms"), false).toBool();
+        m_showTimelineStatus = settings->value(QStringLiteral("showTimelineStatus"), false).toBool();
         settings->endGroup();
     }
 
@@ -44,22 +45,31 @@ namespace SynthVisualizer::Internal {
         return m_showClipWaveforms;
     }
 
-    void SynthesisVisualizerSettings::setOptions(bool showPhonemeWaveforms, bool showClipWaveforms) {
+    bool SynthesisVisualizerSettings::showTimelineStatus() const {
+        return m_showTimelineStatus;
+    }
+
+    void SynthesisVisualizerSettings::setOptions(bool showPhonemeWaveforms, bool showClipWaveforms, bool showTimelineStatus) {
         const bool phonemeWaveformsChanged = m_showPhonemeWaveforms != showPhonemeWaveforms;
         const bool clipWaveformsChanged = m_showClipWaveforms != showClipWaveforms;
+        const bool timelineStatusChanged = m_showTimelineStatus != showTimelineStatus;
         m_showPhonemeWaveforms = showPhonemeWaveforms;
         m_showClipWaveforms = showClipWaveforms;
+        m_showTimelineStatus = showTimelineStatus;
 
         auto settings = Core::RuntimeInterface::settings();
         settings->beginGroup(QStringLiteral("org.diffscope.synthvisualizer.visualization"));
         settings->setValue(QStringLiteral("showPhonemeWaveforms"), showPhonemeWaveforms);
         settings->setValue(QStringLiteral("showClipWaveforms"), showClipWaveforms);
+        settings->setValue(QStringLiteral("showTimelineStatus"), showTimelineStatus);
         settings->endGroup();
 
         if (phonemeWaveformsChanged)
             Q_EMIT showPhonemeWaveformsChanged();
         if (clipWaveformsChanged)
             Q_EMIT showClipWaveformsChanged();
+        if (timelineStatusChanged)
+            Q_EMIT showTimelineStatusChanged();
     }
 
 }

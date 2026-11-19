@@ -102,7 +102,7 @@
     <name>SynthVisualizer::Internal::SynthesisVisualizationPage</name>
     <message>
         <location filename="../../internal/settings/SynthesisVisualizationPage.cpp" line="19"/>
-        <source>Configure the display of synthesis waveforms</source>
+        <source>Configure the display of synthesis audio and status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -127,13 +127,28 @@
 <context>
     <name>SynthesisVisualizationPage</name>
     <message>
-        <location filename="../../qml/SynthesisVisualizationPage.qml" line="30"/>
-        <source>Show waveforms in the phoneme panel</source>
+        <location filename="../../qml/SynthesisVisualizationPage.qml" line="32"/>
+        <source>Waveform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../qml/SynthesisVisualizationPage.qml" line="40"/>
+        <source>Show waveforms in the phoneme panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/SynthesisVisualizationPage.qml" line="50"/>
         <source>Show waveforms on singing clips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/SynthesisVisualizationPage.qml" line="62"/>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/SynthesisVisualizationPage.qml" line="67"/>
+        <source>Show synthesis status on the timeline</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

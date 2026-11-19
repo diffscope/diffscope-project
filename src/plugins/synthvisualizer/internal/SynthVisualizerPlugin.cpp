@@ -50,6 +50,7 @@ namespace SynthVisualizer::Internal {
 
         registerLayer(ViewLayerPoint::PhonemeBackground, "SynthesisWaveformBackground");
         registerLayer(ViewLayerPoint::ArrangementClipAdornment, "SingingClipWaveformAdornment");
+        registerLayer(ViewLayerPoint::PianoRollTimelineForeground, "SynthesisStatusLayer");
 
         auto catalog = Core::CoreInterface::settingCatalog();
         auto page = new SynthesisVisualizationPage;

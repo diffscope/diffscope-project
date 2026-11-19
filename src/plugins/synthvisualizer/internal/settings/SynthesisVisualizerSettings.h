@@ -20,6 +20,7 @@ namespace SynthVisualizer::Internal {
         QML_SINGLETON
         Q_PROPERTY(bool showPhonemeWaveforms READ showPhonemeWaveforms NOTIFY showPhonemeWaveformsChanged)
         Q_PROPERTY(bool showClipWaveforms READ showClipWaveforms NOTIFY showClipWaveformsChanged)
+        Q_PROPERTY(bool showTimelineStatus READ showTimelineStatus NOTIFY showTimelineStatusChanged)
 
     public:
         ~SynthesisVisualizerSettings() override;
@@ -29,11 +30,13 @@ namespace SynthVisualizer::Internal {
 
         bool showPhonemeWaveforms() const;
         bool showClipWaveforms() const;
-        void setOptions(bool showPhonemeWaveforms, bool showClipWaveforms);
+        bool showTimelineStatus() const;
+        void setOptions(bool showPhonemeWaveforms, bool showClipWaveforms, bool showTimelineStatus);
 
     Q_SIGNALS:
         void showPhonemeWaveformsChanged();
         void showClipWaveformsChanged();
+        void showTimelineStatusChanged();
 
     private:
         explicit SynthesisVisualizerSettings(QObject *parent);
@@ -41,6 +44,7 @@ namespace SynthVisualizer::Internal {
         static SynthesisVisualizerSettings *m_instance;
         bool m_showPhonemeWaveforms;
         bool m_showClipWaveforms;
+        bool m_showTimelineStatus;
 
         friend class SynthVisualizerPlugin;
     };
