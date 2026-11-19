@@ -819,175 +819,175 @@
 <context>
     <name>EditorPage</name>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="641"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="674"/>
         <source>Parameter Transforms</source>
         <translation type="unfinished">参数变换</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="651"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="684"/>
         <source>Preferred shift operation</source>
         <translation type="unfinished">首选平移操作</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="656"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="689"/>
         <source>Translate values</source>
         <translation type="unfinished">平移数值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="656"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="689"/>
         <source>Scale absolute values</source>
         <translation type="unfinished">缩放绝对值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="663"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="696"/>
         <source>Preferred scale operation</source>
         <translation type="unfinished">首选缩放操作</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="668"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="701"/>
         <source>Endpoint line</source>
         <translation type="unfinished">端点连线</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="668"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="701"/>
         <source>Arithmetic mean</source>
         <translation type="unfinished">算术平均值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="111"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="115"/>
         <source>Move and Zoom</source>
         <translation>移动和缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="120"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="124"/>
         <source>Horizontal scroll</source>
         <translation>水平滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="133"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="137"/>
         <source>Zoom</source>
         <translation>缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="147"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="151"/>
         <source>Scroll by page</source>
         <translation>按页滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="153"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="157"/>
         <source>Horizontal zoom</source>
         <translation>水平缩放</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="168"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="172"/>
         <source>Middle button/hand tool scroll mode</source>
         <translation>中键/手型工具滚动模式</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="175"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="179"/>
         <source>Dragging</source>
         <translation>拖动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="175"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="179"/>
         <source>Auto scrolling</source>
         <translation>自动滚动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="183"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="187"/>
         <source>Snap</source>
         <translation>对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="194"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="198"/>
         <source>Auto-snap length</source>
         <translation>自动对齐长度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="203"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="207"/>
         <source>More compact</source>
         <translation>更紧凑</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="216"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="220"/>
         <source>More spacious</source>
         <translation>更宽敞</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="222"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="226"/>
         <source>Temporarily disable snap when pressing %1</source>
         <translation>当按下 %1 时临时禁用对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="232"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="236"/>
         <source>Arrangement</source>
         <translation>编曲</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="243"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="247"/>
         <source>Track list position</source>
         <translation>轨道列表位置</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="250"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="454"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="254"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="487"/>
         <source>Left</source>
         <translation>左侧</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="250"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="454"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="254"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="487"/>
         <source>Right</source>
         <translation>右侧</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="256"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="260"/>
         <source>Center piano roll when double-clicking a singing clip</source>
         <translation type="unfinished">双击歌声剪辑时使钢琴卷帘居中</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="266"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="270"/>
         <source>Piano Roll</source>
         <translation>钢琴卷帘</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="277"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="281"/>
         <source>Adjust vertical view during automatic page scrolling</source>
         <translation type="unfinished">自动逐页滚动期间调整垂直视图</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="292"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="296"/>
         <source>If notes exceed the view height</source>
         <translation type="unfinished">音符超出视图高度时</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="300"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="304"/>
         <source>Align Top</source>
         <translation type="unfinished">顶部对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="300"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="304"/>
         <source>Align Bottom</source>
         <translation type="unfinished">底部对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="300"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="454"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="304"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="487"/>
         <source>Center</source>
         <translation type="unfinished">居中</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="300"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="304"/>
         <source>Zoom to Fit</source>
         <translation type="unfinished">缩放至适合</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="308"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="312"/>
         <source>Black key width</source>
         <translation type="unfinished">黑键宽度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="335"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="339"/>
         <source>Pronunciation display position</source>
         <translation type="unfinished">发音显示位置</translation>
     </message>
@@ -1004,22 +1004,22 @@
         <translation type="vanished">简单</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="322"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="326"/>
         <source>Display piano key label on</source>
         <translation>在钢琴键上显示标签</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="329"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="333"/>
         <source>All keys</source>
         <translation>所有琴键</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="329"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="333"/>
         <source>C keys only</source>
         <translation>仅 C 键</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="329"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="333"/>
         <source>None</source>
         <translation>无</translation>
     </message>
@@ -1028,97 +1028,107 @@
         <translation type="vanished">发音位置</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="342"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="346"/>
         <source>Above note</source>
         <translation>音符上方</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="342"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="346"/>
         <source>Below note</source>
         <translation>音符下方</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="348"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="352"/>
         <source>Pitch curve display in note edit mode</source>
         <translation type="unfinished">音符编辑模式下的音高曲线显示</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="355"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="359"/>
         <source>Automatic</source>
         <translation type="unfinished">自动</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="355"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="359"/>
         <source>Always show</source>
         <translation type="unfinished">总是显示</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="355"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="359"/>
         <source>Always hide</source>
         <translation type="unfinished">总是隐藏</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="367"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="371"/>
         <source>Automatic display zoom threshold</source>
         <translation type="unfinished">自动显示的缩放阈值</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="383"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="387"/>
         <source>Warn of overlapping notes</source>
         <translation type="unfinished">音符重叠时发出警告</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="391"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="395"/>
+        <source>Show lyric overlay</source>
+        <translation type="unfinished">显示歌词叠加层</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="410"/>
+        <source>Lyric phrase gap threshold (ticks)</source>
+        <translation type="unfinished">歌词乐句间隔阈值（刻）</translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="424"/>
         <source>Show singer background</source>
         <translation type="unfinished">显示歌手背景</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="407"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="440"/>
         <source>Singer background opacity</source>
         <translation type="unfinished">歌手背景不透明度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="446"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="479"/>
         <source>Background alignment</source>
         <translation type="unfinished">背景对齐</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="472"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="505"/>
         <source>Horizontal margin</source>
         <translation type="unfinished">水平边距</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="507"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="540"/>
         <source>Horizontal offset</source>
         <translation type="unfinished">水平偏移</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="540"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="573"/>
         <source>Vertical margin</source>
         <translation type="unfinished">垂直边距</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="567"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="600"/>
         <source>Show all singer backgrounds when blending voices</source>
         <translation type="unfinished">混合声线时显示所有歌手背景</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="586"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="619"/>
         <source>Singer background spacing</source>
         <translation type="unfinished">歌手背景间距</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="612"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="645"/>
         <source>Bottom panel opacity</source>
         <translation type="unfinished">底部面板不透明度</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="677"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="710"/>
         <source>Miscellaneous</source>
         <translation>杂项</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="688"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="721"/>
         <source>Track cursor position</source>
         <translation>跟踪光标位置</translation>
     </message>

@@ -84,6 +84,8 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("autoPitchCurveDisplayPixelDensityThreshold");
         m_widget->setProperty("displayPronunciationBelowNote", EditorPreference::instance()->property("displayPronunciationBelowNote"));
         qCDebug(lcEditorPage) << m_widget->property("displayPronunciationBelowNote");
+        m_widget->setProperty("showLyricOverlay", EditorPreference::showLyricOverlay());
+        m_widget->setProperty("lyricPhraseGapThreshold", EditorPreference::lyricPhraseGapThreshold());
         m_widget->setProperty("warnOfOverlappingNotes", EditorPreference::instance()->property("warnOfOverlappingNotes"));
         qCDebug(lcEditorPage) << m_widget->property("warnOfOverlappingNotes");
         m_widget->setProperty("trackCursorPosition", EditorPreference::instance()->property("trackCursorPosition"));
@@ -146,6 +148,8 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("autoPitchCurveDisplayPixelDensityThreshold", m_widget->property("autoPitchCurveDisplayPixelDensityThreshold"));
         qCDebug(lcEditorPage) << "displayPronunciationBelowNote" << m_widget->property("displayPronunciationBelowNote");
         EditorPreference::instance()->setProperty("displayPronunciationBelowNote", m_widget->property("displayPronunciationBelowNote"));
+        EditorPreference::setLyricPhraseGapThreshold(m_widget->property("lyricPhraseGapThreshold").toInt());
+        EditorPreference::setShowLyricOverlay(m_widget->property("showLyricOverlay").toBool());
         qCDebug(lcEditorPage) << "warnOfOverlappingNotes" << m_widget->property("warnOfOverlappingNotes");
         EditorPreference::instance()->setProperty("warnOfOverlappingNotes", m_widget->property("warnOfOverlappingNotes"));
         qCDebug(lcEditorPage) << "trackCursorPosition" << m_widget->property("trackCursorPosition");

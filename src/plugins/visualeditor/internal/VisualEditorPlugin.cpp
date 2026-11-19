@@ -66,6 +66,7 @@ namespace VisualEditor::Internal {
 
         registerLayer(ViewLayerPoint::PianoRollBackground, "PianoRollSingerBackgroundLayer");
         registerLayer(ViewLayerPoint::PianoRollBackground, "PianoRollProblemBackground");
+        registerLayer(ViewLayerPoint::PianoRollContent, "PianoRollLyricLayer");
         registerLayer(ViewLayerPoint::PianoRollContent, "PianoRollNoteLayer");
         registerLayer(ViewLayerPoint::PianoRollContent, "PianoRollPitchLayer");
         registerLayer(ViewLayerPoint::PianoRollContent, "PianoRollClipRangeLayer");

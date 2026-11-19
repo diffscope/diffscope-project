@@ -36,6 +36,8 @@ ScrollView {
     property int noteEditPitchCurveDisplayMode: EditorPreference.PCDM_Automatic
     property double autoPitchCurveDisplayPixelDensityThreshold: defaultAutoPitchCurveDisplayPixelDensityThreshold
     property bool displayPronunciationBelowNote: false
+    property bool showLyricOverlay: false
+    property int lyricPhraseGapThreshold: 240
     property bool warnOfOverlappingNotes: true
     property bool trackCursorPosition: false
     property bool showSingerBackground: true
@@ -66,6 +68,8 @@ ScrollView {
     onNoteEditPitchCurveDisplayModeChanged: if (started) pageHandle.markDirty()
     onAutoPitchCurveDisplayPixelDensityThresholdChanged: if (started) pageHandle.markDirty()
     onDisplayPronunciationBelowNoteChanged: if (started) pageHandle.markDirty()
+    onShowLyricOverlayChanged: if (started) pageHandle.markDirty()
+    onLyricPhraseGapThresholdChanged: if (started) pageHandle.markDirty()
     onWarnOfOverlappingNotesChanged: if (started) pageHandle.markDirty()
     onTrackCursorPositionChanged: if (started) pageHandle.markDirty()
     onShowSingerBackgroundChanged: if (started) pageHandle.markDirty()
@@ -385,6 +389,35 @@ ScrollView {
                         Layout.columnSpan: 3
                         checked: page.warnOfOverlappingNotes
                         onClicked: page.warnOfOverlappingNotes = checked
+                    }
+
+                    CheckBox {
+                        text: qsTr("Show lyric overlay")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        Layout.columnSpan: 3
+                        checked: page.showLyricOverlay
+                        onClicked: page.showLyricOverlay = checked
+                    }
+
+                    RowLayout {
+                        Layout.columnSpan: 3
+                        Layout.leftMargin: lyricPhraseGapSpinBox.mirrored ? 0 : 22
+                        Layout.rightMargin: lyricPhraseGapSpinBox.mirrored ? 22 : 0
+                        enabled: page.showLyricOverlay
+
+                        Label {
+                            id: lyricPhraseGapLabel
+                            text: qsTr("Lyric phrase gap threshold (ticks)")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        SpinBox {
+                            id: lyricPhraseGapSpinBox
+                            from: 1
+                            to: 1920
+                            value: page.lyricPhraseGapThreshold
+                            Accessible.name: lyricPhraseGapLabel.text
+                            onValueModified: page.lyricPhraseGapThreshold = value
+                        }
                     }
 
                     CheckBox {

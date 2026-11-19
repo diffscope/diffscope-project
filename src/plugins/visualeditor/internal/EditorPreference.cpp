@@ -35,6 +35,8 @@ namespace VisualEditor::Internal {
         EditorPreference::NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode{};
         double autoPitchCurveDisplayPixelDensityThreshold{kDefaultAutoPitchCurveDisplayPixelDensityThreshold};
         bool displayPronunciationBelowNote{};
+        bool showLyricOverlay{};
+        int lyricPhraseGapThreshold{240};
         bool warnOfOverlappingNotes{true};
         bool trackCursorPosition{true};
         bool showSingerBackground{true};
@@ -108,6 +110,8 @@ namespace VisualEditor::Internal {
         Q_EMIT autoPitchCurveDisplayPixelDensityThresholdChanged();
         d->displayPronunciationBelowNote = settings->value("displayPronunciationBelowNote", false).toBool();
         emit displayPronunciationBelowNoteChanged();
+        setLyricPhraseGapThreshold(settings->value("lyricPhraseGapThreshold", 240).toInt());
+        setShowLyricOverlay(settings->value("showLyricOverlay", false).toBool());
         d->warnOfOverlappingNotes = settings->value("warnOfOverlappingNotes", true).toBool();
         emit warnOfOverlappingNotesChanged();
         d->trackCursorPosition = settings->value("trackCursorPosition", true).toBool();
@@ -157,6 +161,8 @@ namespace VisualEditor::Internal {
         settings->setValue("noteEditPitchCurveDisplayMode", static_cast<int>(d->noteEditPitchCurveDisplayMode));
         settings->setValue("autoPitchCurveDisplayPixelDensityThreshold", d->autoPitchCurveDisplayPixelDensityThreshold);
         settings->setValue("displayPronunciationBelowNote", d->displayPronunciationBelowNote);
+        settings->setValue("showLyricOverlay", d->showLyricOverlay);
+        settings->setValue("lyricPhraseGapThreshold", d->lyricPhraseGapThreshold);
         settings->setValue("warnOfOverlappingNotes", d->warnOfOverlappingNotes);
         settings->setValue("trackCursorPosition", d->trackCursorPosition);
         settings->setValue("showSingerBackground", d->showSingerBackground);
@@ -411,6 +417,33 @@ namespace VisualEditor::Internal {
             return;
         d->displayPronunciationBelowNote = displayPronunciationBelowNote;
         emit m_instance->displayPronunciationBelowNoteChanged();
+    }
+
+    bool EditorPreference::showLyricOverlay() {
+        M_INSTANCE_D;
+        return d->showLyricOverlay;
+    }
+
+    void EditorPreference::setShowLyricOverlay(bool showLyricOverlay) {
+        M_INSTANCE_D;
+        if (d->showLyricOverlay == showLyricOverlay)
+            return;
+        d->showLyricOverlay = showLyricOverlay;
+        Q_EMIT m_instance->showLyricOverlayChanged();
+    }
+
+    int EditorPreference::lyricPhraseGapThreshold() {
+        M_INSTANCE_D;
+        return d->lyricPhraseGapThreshold;
+    }
+
+    void EditorPreference::setLyricPhraseGapThreshold(int lyricPhraseGapThreshold) {
+        M_INSTANCE_D;
+        lyricPhraseGapThreshold = qBound(1, lyricPhraseGapThreshold, 1920);
+        if (d->lyricPhraseGapThreshold == lyricPhraseGapThreshold)
+            return;
+        d->lyricPhraseGapThreshold = lyricPhraseGapThreshold;
+        Q_EMIT m_instance->lyricPhraseGapThresholdChanged();
     }
 
     bool EditorPreference::warnOfOverlappingNotes() {
