@@ -70,10 +70,14 @@ namespace VisualEditor::Internal {
         registerLayer(ViewLayerPoint::PianoRollContent, "PianoRollPitchLayer");
         registerLayer(ViewLayerPoint::PianoRollContent, "PianoRollClipRangeLayer");
         registerLayer(ViewLayerPoint::PianoRollForeground, "PianoRollProblemForeground");
+        registerLayer(ViewLayerPoint::PianoRollTimelineForeground, "EditorTimelineLoopIndicatorLayer");
+        registerLayer(ViewLayerPoint::PianoRollTimelineForeground, "EditorTimelinePlayheadLayer");
         registerLayer(ViewLayerPoint::ArrangementContent, "ArrangementClipEditLayer");
         registerLayer(ViewLayerPoint::ArrangementClipContent, "SingingClipThumbnailLayer");
         registerLayer(ViewLayerPoint::ArrangementClipAdornment, "ClipSingerLayer");
         registerLayer(ViewLayerPoint::ArrangementClipAdornment, "ClipProblemLayer");
+        registerLayer(ViewLayerPoint::ArrangementTimelineForeground, "EditorTimelineLoopIndicatorLayer");
+        registerLayer(ViewLayerPoint::ArrangementTimelineForeground, "EditorTimelinePlayheadLayer");
     }
 
     bool VisualEditorPlugin::delayedInitialize() {
