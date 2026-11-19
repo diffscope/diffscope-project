@@ -25,8 +25,8 @@ namespace Core::Internal {
         Q_PROPERTY(QString tempoText READ tempoText NOTIFY tempoTextChanged)
         Q_PROPERTY(QString timeSignatureText READ timeSignatureText NOTIFY timeSignatureTextChanged)
         Q_PROPERTY(QString keySignatureText READ keySignatureText NOTIFY keySignatureTextChanged)
-        Q_PROPERTY(bool showMusicTime READ showMusicTime WRITE setShowMusicTime NOTIFY showMusicTimeChanged)
-        Q_PROPERTY(bool showAbsoluteTime READ showAbsoluteTime WRITE setShowAbsoluteTime NOTIFY showMusicTimeChanged)
+        Q_PROPERTY(bool showMusicTime READ showMusicTime WRITE setShowMusicTime NOTIFY timecodeFormatChanged)
+        Q_PROPERTY(bool showAbsoluteTime READ showAbsoluteTime WRITE setShowAbsoluteTime NOTIFY timecodeFormatChanged)
         Q_PROPERTY(int doubleClickInterval READ doubleClickInterval)
         Q_PROPERTY(bool loopEnabled READ isLoopEnabled WRITE setLoopEnabled NOTIFY loopEnabledChanged)
     public:
@@ -46,18 +46,15 @@ namespace Core::Internal {
         bool showMusicTime() const;
         void setShowMusicTime(bool on);
 
-        inline bool showAbsoluteTime() const {
-            return !showMusicTime();
-        }
-        void setShowAbsoluteTime(bool on) {
-            setShowMusicTime(!on);
-        }
+        bool showAbsoluteTime() const;
+        void setShowAbsoluteTime(bool on);
 
         static int doubleClickInterval();
 
         bool isLoopEnabled() const;
         void setLoopEnabled(bool enabled);
 
+        Q_INVOKABLE void cycleTimecodeFormat();
         Q_INVOKABLE void execQuickJump(const QString &initialText = {}) const;
 
         Q_INVOKABLE void goToStart() const;
@@ -77,11 +74,19 @@ namespace Core::Internal {
         void tempoTextChanged();
         void timeSignatureTextChanged();
         void keySignatureTextChanged();
-        void showMusicTimeChanged();
+        void timecodeFormatChanged();
         void loopEnabledChanged();
 
     private:
-        bool m_showMusicTime{true};
+        enum class TimecodeFormat {
+            Music = 0,
+            Absolute = 1,
+            Both = 2,
+        };
+
+        void setTimecodeFormat(TimecodeFormat format);
+
+        TimecodeFormat m_timecodeFormat{TimecodeFormat::Music};
         DspxProject::KeySignatureAtSpecifiedPositionHelper *m_keySignatureAtSpecifiedPositionHelper{};
     };
 

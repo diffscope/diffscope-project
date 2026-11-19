@@ -12,11 +12,11 @@ T.Button {
     id: control
     property bool backgroundVisible: true
     property int fineTuneMode: DigitalClockLabel.TabularFiguresFontFeature
-    
-    implicitWidth: Math.max(backgroundVisible ? 108 : 0, timeLabel.width + 16)
+    property string secondaryText
+
+    implicitWidth: Math.max(backgroundVisible ? 108 : 0, timeRow.implicitWidth + 16)
     implicitHeight: 24
-    Accessible.name: qsTr("Digital clock")
-    Accessible.description: text
+    Accessible.name: qsTr("Digital clock") + "\n" + text + (secondaryText ? "\n" + secondaryText : "")
     hoverEnabled: true
 
     background: Rectangle {
@@ -26,13 +26,38 @@ T.Button {
         radius: 4
     }
 
-    DigitalClockLabel {
-        id: timeLabel
-        text: control.text
-        anchors.centerIn: parent
+    component TimeLabel: DigitalClockLabel {
+        anchors.verticalCenter: parent.verticalCenter
         color: Theme.foregroundPrimaryColor
         font.family: Theme.font.family
         font.pixelSize: 16
         fineTuneMode: control.fineTuneMode
+    }
+
+    Row {
+        id: timeRow
+        anchors.centerIn: parent
+        height: control.height
+        spacing: 8
+
+        TimeLabel {
+            text: control.text
+        }
+
+        Rectangle {
+            visible: secondaryTimeLabel.visible
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.topMargin: 4
+            anchors.bottomMargin: 4
+            width: 1
+            color: Theme.borderColor
+        }
+
+        TimeLabel {
+            id: secondaryTimeLabel
+            visible: control.secondaryText.length > 0
+            text: control.secondaryText
+        }
     }
 }

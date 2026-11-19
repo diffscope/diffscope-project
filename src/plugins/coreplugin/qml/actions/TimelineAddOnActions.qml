@@ -29,12 +29,13 @@ ActionCollection {
             backgroundVisible: BehaviorPreference.timeIndicatorBackgroundVisible
             fineTuneMode: BehaviorPreference.timeIndicatorTextFineTuneMode
             text: d.addOn.showMusicTime ? d.addOn.musicTimeText : d.addOn.longTimeText
+            secondaryText: d.addOn.showMusicTime && d.addOn.showAbsoluteTime ? d.addOn.longTimeText : ""
             DescriptiveText.activated: hovered
             DescriptiveText.statusTip: qsTr("Current project time")
             DescriptiveText.bindAccessibleDescription: true
             function doInteraction(flag) {
                 if (flag === BehaviorPreference.TIIB_ToggleFormat) {
-                    d.addOn.showMusicTime = !d.addOn.showMusicTime
+                    d.addOn.cycleTimecodeFormat()
                 } else if (flag === BehaviorPreference.TIIB_ShowGoTo) {
                     d.windowHandle.triggerAction("org.diffscope.core.timeline.goTo", this)
                 } else if (flag === BehaviorPreference.TIIB_ShowQuickJump) {
@@ -138,7 +139,10 @@ ActionCollection {
         Action {
             checkable: true
             checked: d.addOn.showMusicTime
-            onTriggered: d.addOn.showMusicTime = checked
+            onTriggered: {
+                d.addOn.showMusicTime = checked
+                checked = Qt.binding(() => d.addOn.showMusicTime)
+            }
         }
     }
 
@@ -147,7 +151,10 @@ ActionCollection {
         Action {
             checkable: true
             checked: d.addOn.showAbsoluteTime
-            onTriggered: d.addOn.showAbsoluteTime = checked
+            onTriggered: {
+                d.addOn.showAbsoluteTime = checked
+                checked = Qt.binding(() => d.addOn.showAbsoluteTime)
+            }
         }
     }
 
