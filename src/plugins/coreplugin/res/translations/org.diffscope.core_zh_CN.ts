@@ -4,7 +4,7 @@
 <context>
     <name></name>
     <message id="org.diffscope.core.timelineaddon.quick_jump_help">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="191"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="199"/>
         <source></source>
         <translation type="unfinished">&lt;p&gt;输入操作符和时间码以调整回放位置&lt;/p&gt;
 &lt;b&gt;跳转&lt;/b&gt;
@@ -249,12 +249,12 @@
         <translation type="obsolete">&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Version: %1&lt;br&gt;Branch: %2&lt;br&gt;Commit: %3&lt;br&gt;Build date: %4&lt;br&gt;Toolchain: %5 %6 %7&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="106"/>
+        <location filename="../../../../app/main.cpp" line="108"/>
         <source>Version %1</source>
         <translation>版本 %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="107"/>
+        <location filename="../../../../app/main.cpp" line="109"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation>版权所有 © %1-%2 %3。保留所有权利。</translation>
     </message>
@@ -3832,128 +3832,128 @@ Accidental Type: %4</source>
 <context>
     <name>Core::Internal::QuickJumpParser</name>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="185"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="193"/>
         <source>Type &quot;?&quot; to view tips</source>
         <translation>键入“?”以查看提示</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="202"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="210"/>
         <source>Invalid format</source>
         <translation>无效格式</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="215"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="307"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="356"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="363"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="370"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="223"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="273"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="315"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="330"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="342"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="354"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="364"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="371"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="378"/>
         <source>Go to %1</source>
         <translation>转到 %1</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="243"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="296"/>
         <source>Move backward by %1 (to %2)</source>
         <translation>向后移动 %1（至 %2）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="235"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="288"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="243"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="296"/>
         <source>Move forward by %1 (to %2)</source>
         <translation>向前移动 %1（至 %2）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="236"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="244"/>
         <source>Move backward by music time...</source>
         <translation>向后移动音乐时间...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="236"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="244"/>
         <source>Move forward by music time...</source>
         <translation>向前移动音乐时间...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="243"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="297"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="251"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="305"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="330"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="342"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="354"/>
         <source>
 The time offset exceeds the boundary and has been adjusted to zero</source>
         <translation>
 时间偏移超出边界，已被调整到零</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="273"/>
         <source>Go to absolute time...</source>
         <translation>跳转到绝对时间...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="265"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="273"/>
         <source>%1 (%2)</source>
         <translation>%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="289"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="297"/>
         <source>Move backward by absolute time...</source>
         <translation>向后移动绝对时间...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="289"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="297"/>
         <source>Move forward by absolute time...</source>
         <translation>向前移动绝对时间...</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="307"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="315"/>
         <source>the end of project (%1)</source>
         <translation>工程结束（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="322"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="330"/>
         <source>previous measure (%1)</source>
         <translation>上一小节（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="334"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="342"/>
         <source>previous beat (%1)</source>
         <translation>上一拍（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="346"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="354"/>
         <source>previous tick (%1)</source>
         <translation>上一刻（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="356"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="364"/>
         <source>next measure (%1)</source>
         <translation>下一小节（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="363"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="371"/>
         <source>next beat (%1)</source>
         <translation>下一拍（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="370"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="378"/>
         <source>next tick (%1)</source>
         <translation>下一刻（%1）</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="399"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="407"/>
         <source>measure %L1, beat %L2</source>
         <translation>第 %L1 小节，第 %L2 拍</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="401"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="409"/>
         <source>measure %L1, beat %L2, tick %L3</source>
         <translation>第 %L1 小节，第 %L2 拍，第 %L3 刻</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="405"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="413"/>
         <source>%Ln quarter note(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -3961,7 +3961,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="406"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="414"/>
         <source>%Ln tick(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -3969,13 +3969,13 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="413"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="421"/>
         <source>%1 %2</source>
         <comment>relative quarter-note tick</comment>
         <translation>%1 %2</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="417"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="425"/>
         <source>%Ln minute(s)</source>
         <comment>absolute time</comment>
         <translation>
@@ -3983,7 +3983,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="418"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="426"/>
         <source>%Ln second(s)</source>
         <comment>absolute time</comment>
         <translation>
@@ -3991,7 +3991,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="419"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="427"/>
         <source>%Ln millisecond(s)</source>
         <comment>absolute time</comment>
         <translation>
@@ -3999,26 +3999,26 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="427"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="433"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="435"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="441"/>
         <source>%1 %2</source>
         <comment>absolute minute second</comment>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="430"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="438"/>
         <source>%1 %2</source>
         <comment>absolute second millisecond</comment>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="435"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="443"/>
         <source>%1 %2 %3</source>
         <comment>absolute minute second millisecond</comment>
         <translation>%1 %2 %3</translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="439"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="447"/>
         <source>%Ln minute(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -4026,7 +4026,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="440"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="448"/>
         <source>%Ln second(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -4034,7 +4034,7 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="441"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="449"/>
         <source>%Ln millisecond(s)</source>
         <comment>relative time</comment>
         <translation>
@@ -4042,20 +4042,20 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         </translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="449"/>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="455"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="457"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="463"/>
         <source>%1 %2</source>
         <comment>relative minute second</comment>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="452"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="460"/>
         <source>%1 %2</source>
         <comment>relative second millisecond</comment>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="457"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="465"/>
         <source>%1 %2 %3</source>
         <comment>relative minute second millisecond</comment>
         <translation>%1 %2 %3</translation>
@@ -4321,32 +4321,32 @@ The time offset exceeds the boundary and has been adjusted to zero</source>
         <translation type="vanished">键入“?”以查看提示</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="490"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="498"/>
         <source>Invalid format</source>
         <translation>无效格式</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="478"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="486"/>
         <source>Jump to</source>
         <translation>跳转到</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="48"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="49"/>
         <source>Custom Mode</source>
         <translation>自定义调式</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="148"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="156"/>
         <source>Enabling loop</source>
         <translation>启用循环</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="148"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="156"/>
         <source>Disabling loop</source>
         <translation>禁用循环</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/TimelineAddOn.cpp" line="488"/>
+        <location filename="../../internal/addon/TimelineAddOn.cpp" line="496"/>
         <source>Input should not be empty</source>
         <translation>输入不应为空</translation>
     </message>
@@ -7128,12 +7128,12 @@ By default, OpenType&apos;s Tabular Figures feature is used. If the widths of nu
 <context>
     <name>TimelineAddOnActions</name>
     <message>
-        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="33"/>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="52"/>
         <source>Current project time</source>
         <translation>当前工程时间</translation>
     </message>
     <message>
-        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="75"/>
+        <location filename="../../qml/actions/TimelineAddOnActions.qml" line="94"/>
         <source>Slide to adjust current project time</source>
         <translation>滑动以调整当前工程时间</translation>
     </message>

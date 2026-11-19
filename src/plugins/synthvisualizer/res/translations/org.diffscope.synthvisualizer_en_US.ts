@@ -11,12 +11,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="106"/>
+        <location filename="../../../../app/main.cpp" line="108"/>
         <source>Version %1</source>
         <translation type="unfinished">Version %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="107"/>
+        <location filename="../../../../app/main.cpp" line="109"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished">Copyright © %1-%2 %3. All rights reserved.</translation>
     </message>
@@ -110,7 +110,7 @@
     <message>
         <location filename="../../internal/settings/SynthesisVisualizationPage.cpp" line="19"/>
         <source>Configure the display of synthesis audio and status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Configure the display of synthesis audio and status</translation>
     </message>
     <message>
         <location filename="../../internal/settings/SynthesisVisualizationPage.cpp" line="18"/>
@@ -136,7 +136,7 @@
     <message>
         <location filename="../../qml/SynthesisVisualizationPage.qml" line="32"/>
         <source>Waveform</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Waveform</translation>
     </message>
     <message>
         <location filename="../../qml/SynthesisVisualizationPage.qml" line="40"/>
@@ -151,12 +151,12 @@
     <message>
         <location filename="../../qml/SynthesisVisualizationPage.qml" line="62"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Status</translation>
     </message>
     <message>
         <location filename="../../qml/SynthesisVisualizationPage.qml" line="67"/>
         <source>Show synthesis status on the timeline</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Show synthesis status on the timeline</translation>
     </message>
 </context>
 </TS>

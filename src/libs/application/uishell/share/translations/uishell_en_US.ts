@@ -55,7 +55,7 @@
 <context>
     <name>DigitalClock</name>
     <message>
-        <location filename="../../src/qml/DigitalClock.qml" line="18"/>
+        <location filename="../../src/qml/DigitalClock.qml" line="19"/>
         <source>Digital clock</source>
         <translation>Digital clock</translation>
     </message>

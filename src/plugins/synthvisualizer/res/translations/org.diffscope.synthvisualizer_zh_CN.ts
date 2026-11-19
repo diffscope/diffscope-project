@@ -11,12 +11,12 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../../../../app/main.cpp" line="106"/>
+        <location filename="../../../../app/main.cpp" line="108"/>
         <source>Version %1</source>
         <translation type="unfinished">版本 %1</translation>
     </message>
     <message>
-        <location filename="../../../../app/main.cpp" line="107"/>
+        <location filename="../../../../app/main.cpp" line="109"/>
         <source>Copyright © %1-%2 %3. All rights reserved.</source>
         <translation type="unfinished">版权所有 © %1-%2 %3。保留所有权利。</translation>
     </message>
@@ -110,7 +110,7 @@
     <message>
         <location filename="../../internal/settings/SynthesisVisualizationPage.cpp" line="19"/>
         <source>Configure the display of synthesis audio and status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">配置合成音频和状态的显示</translation>
     </message>
     <message>
         <location filename="../../internal/settings/SynthesisVisualizationPage.cpp" line="18"/>
@@ -136,7 +136,7 @@
     <message>
         <location filename="../../qml/SynthesisVisualizationPage.qml" line="32"/>
         <source>Waveform</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">波形</translation>
     </message>
     <message>
         <location filename="../../qml/SynthesisVisualizationPage.qml" line="40"/>
@@ -151,12 +151,12 @@
     <message>
         <location filename="../../qml/SynthesisVisualizationPage.qml" line="62"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">状态</translation>
     </message>
     <message>
         <location filename="../../qml/SynthesisVisualizationPage.qml" line="67"/>
         <source>Show synthesis status on the timeline</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在时间轴上显示合成状态</translation>
     </message>
 </context>
 </TS>
