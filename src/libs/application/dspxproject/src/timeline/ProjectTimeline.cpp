@@ -202,6 +202,20 @@ namespace DspxProject {
             Q_EMIT rangeHintChanged(rangeHint);
         }
     }
+
+    ProjectTimeline::TimecodeFormat ProjectTimeline::timecodeFormat() const {
+        Q_D(const ProjectTimeline);
+        return d->timecodeFormat;
+    }
+    void ProjectTimeline::setTimecodeFormat(TimecodeFormat timecodeFormat) {
+        Q_D(ProjectTimeline);
+        if (d->timecodeFormat == timecodeFormat) {
+            return;
+        }
+        d->timecodeFormat = timecodeFormat;
+        Q_EMIT timecodeFormatChanged(timecodeFormat);
+    }
+
     void ProjectTimeline::goTo(int position) {
         setPosition(position);
         setLastPosition(position);

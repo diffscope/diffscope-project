@@ -27,6 +27,7 @@ namespace DspxProject {
         int position{};
         int lastPosition{};
         int rangeHint{1};
+        ProjectTimeline::TimecodeFormat timecodeFormat{ProjectTimeline::TimecodeFormat::MusicTime};
 
         QHash<int, QSet<dspx::Tempo *>> tempoMap;
         QHash<dspx::Tempo *, int> tempoPosMap;

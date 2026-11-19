@@ -61,15 +61,23 @@ namespace Core::Internal {
     }
     TimelineAddOn::~TimelineAddOn() = default;
     void TimelineAddOn::initialize() {
-        auto state = RuntimeInterface::state();
-        state->beginGroup(QStringLiteral("org.diffscope.core.timeline"));
-        const auto format = static_cast<TimecodeFormat>(state->value(QStringLiteral("timecodeFormat"), static_cast<int>(TimecodeFormat::Music)).toInt());
-        state->endGroup();
-        if (format >= TimecodeFormat::Music && format <= TimecodeFormat::Both) {
-            m_timecodeFormat = format;
-        }
-
+        using DspxProject::ProjectTimeline;
         auto windowInterface = windowHandle()->cast<ProjectWindowInterface>();
+        auto projectTimeline = windowInterface->projectTimeline();
+        {
+            auto state = RuntimeInterface::state();
+            state->beginGroup(QStringLiteral("org.diffscope.core.timeline"));
+            const auto format = static_cast<ProjectTimeline::TimecodeFormat>(state->value(QStringLiteral("timecodeFormat"), static_cast<int>(ProjectTimeline::TimecodeFormat::MusicTime)).toInt());
+            state->endGroup();
+            projectTimeline->setTimecodeFormat(format);
+        }
+        connect(projectTimeline, &ProjectTimeline::timecodeFormatChanged, this, [](ProjectTimeline::TimecodeFormat format) {
+            auto state = RuntimeInterface::state();
+            state->beginGroup(QStringLiteral("org.diffscope.core.timeline"));
+            state->setValue(QStringLiteral("timecodeFormat"), static_cast<int>(format));
+            state->endGroup();
+        });
+
         QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "TimelineAddOnActions");
         if (component.isError()) {
             qFatal() << component.errorString();
@@ -82,16 +90,16 @@ namespace Core::Internal {
         }
         o->setParent(this);
         QMetaObject::invokeMethod(o, "registerToContext", windowInterface->actionContext());
-        m_keySignatureAtSpecifiedPositionHelper->setPosition(windowInterface->projectTimeline()->position());
+        m_keySignatureAtSpecifiedPositionHelper->setPosition(projectTimeline->position());
         m_keySignatureAtSpecifiedPositionHelper->setKeySignatureSequence(windowInterface->projectDocumentContext()->document()->model()->keySignatures());
-        connect(windowInterface->projectTimeline(), &DspxProject::ProjectTimeline::positionChanged, this, [this](int position) {
+        connect(projectTimeline, &ProjectTimeline::positionChanged, this, [this](int position) {
             m_keySignatureAtSpecifiedPositionHelper->setPosition(position);
             Q_EMIT musicTimeTextChanged();
             Q_EMIT longTimeTextChanged();
             Q_EMIT tempoTextChanged();
             Q_EMIT timeSignatureTextChanged();
         });
-        connect(windowInterface->projectTimeline()->musicTimeline(), &SVS::MusicTimeline::changed, this, [this] {
+        connect(projectTimeline->musicTimeline(), &SVS::MusicTimeline::changed, this, [this] {
             Q_EMIT musicTimeTextChanged();
             Q_EMIT longTimeTextChanged();
             Q_EMIT tempoTextChanged();
@@ -132,47 +140,6 @@ namespace Core::Internal {
     }
     QString TimelineAddOn::keySignatureText() const {
         return getKeySignatureText(m_keySignatureAtSpecifiedPositionHelper->mode(), m_keySignatureAtSpecifiedPositionHelper->tonality(), m_keySignatureAtSpecifiedPositionHelper->accidentalType());
-    }
-    bool TimelineAddOn::showMusicTime() const {
-        return m_timecodeFormat != TimecodeFormat::Absolute;
-    }
-    void TimelineAddOn::setShowMusicTime(bool on) {
-        if (showAbsoluteTime()) {
-            setTimecodeFormat(on ? TimecodeFormat::Both : TimecodeFormat::Absolute);
-        }
-    }
-    bool TimelineAddOn::showAbsoluteTime() const {
-        return m_timecodeFormat != TimecodeFormat::Music;
-    }
-    void TimelineAddOn::setShowAbsoluteTime(bool on) {
-        if (showMusicTime()) {
-            setTimecodeFormat(on ? TimecodeFormat::Both : TimecodeFormat::Music);
-        }
-    }
-    void TimelineAddOn::cycleTimecodeFormat() {
-        switch (m_timecodeFormat) {
-        case TimecodeFormat::Music:
-            setTimecodeFormat(TimecodeFormat::Absolute);
-            break;
-        case TimecodeFormat::Absolute:
-            setTimecodeFormat(TimecodeFormat::Both);
-            break;
-        case TimecodeFormat::Both:
-            setTimecodeFormat(TimecodeFormat::Music);
-            break;
-        }
-    }
-    void TimelineAddOn::setTimecodeFormat(TimecodeFormat format) {
-        if (m_timecodeFormat != format) {
-            m_timecodeFormat = format;
-
-            auto state = RuntimeInterface::state();
-            state->beginGroup(QStringLiteral("org.diffscope.core.timeline"));
-            state->setValue(QStringLiteral("timecodeFormat"), static_cast<int>(format));
-            state->endGroup();
-
-            Q_EMIT timecodeFormatChanged();
-        }
     }
     int TimelineAddOn::doubleClickInterval() {
         return QApplication::doubleClickInterval();

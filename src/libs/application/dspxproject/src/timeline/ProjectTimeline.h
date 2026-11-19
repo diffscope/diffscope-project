@@ -31,8 +31,16 @@ namespace DspxProject {
         Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
         Q_PROPERTY(int lastPosition READ lastPosition WRITE setLastPosition NOTIFY lastPositionChanged)
         Q_PROPERTY(int rangeHint READ rangeHint WRITE setRangeHint NOTIFY rangeHintChanged)
+        Q_PROPERTY(ProjectTimeline::TimecodeFormat timecodeFormat READ timecodeFormat WRITE setTimecodeFormat NOTIFY timecodeFormatChanged)
 
     public:
+        enum class TimecodeFormat {
+            MusicTime,
+            AbsoluteTime,
+            MusicAndAbsoluteTime,
+        };
+        Q_ENUM(TimecodeFormat)
+
         /**
          * Creates a timeline bound to document without taking ownership.
          * @pre document is non-null and outlives this timeline.
@@ -59,6 +67,9 @@ namespace DspxProject {
         /** Sets the suggested timeline extent in project ticks. */
         void setRangeHint(int rangeHint);
 
+        TimecodeFormat timecodeFormat() const;
+        void setTimecodeFormat(TimecodeFormat timecodeFormat);
+
         /** Sets both the current and stored positions to position in project ticks. */
         Q_INVOKABLE void goTo(int position);
 
@@ -69,6 +80,7 @@ namespace DspxProject {
         void lastPositionChanged(int lastPosition);
         /** Notifies that the suggested timeline extent changed. */
         void rangeHintChanged(int rangeHint);
+        void timecodeFormatChanged(ProjectTimeline::TimecodeFormat timecodeFormat);
 
     private:
         QScopedPointer<ProjectTimelinePrivate> d_ptr;

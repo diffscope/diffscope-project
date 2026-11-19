@@ -1,5 +1,7 @@
 import dev.sjimo.ScopicFlow.Views
 
+import DiffScope.DspxProject as DspxProject
+
 TimelinePlayheadLayer {
     id: playheadLayer
 
@@ -9,4 +11,14 @@ TimelinePlayheadLayer {
     timeViewModel: playheadLayer.panelInterface?.timeViewModel ?? null
     timeLayoutViewModel: playheadLayer.panelInterface?.timeLayoutViewModel ?? null
     playbackViewModel: playheadLayer.projectViewModelContext?.playbackViewModel ?? null
+    timecodeFormat: {
+        switch (ViewLayer.windowHandle?.projectTimeline?.timecodeFormat) {
+        case DspxProject.ProjectTimeline.AbsoluteTime:
+            return TimelinePlayheadLayer.AbsoluteTime
+        case DspxProject.ProjectTimeline.MusicAndAbsoluteTime:
+            return TimelinePlayheadLayer.MusicAndAbsoluteTime
+        default:
+            return TimelinePlayheadLayer.MusicTime
+        }
+    }
 }

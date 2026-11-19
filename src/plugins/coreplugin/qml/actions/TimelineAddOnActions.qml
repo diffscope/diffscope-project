@@ -16,11 +16,29 @@ ActionCollection {
 
     required property TimelineAddOn addOn
     readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
+    readonly property DspxProject.ProjectTimeline projectTimeline: windowHandle?.projectTimeline ?? null
     readonly property QtObject transactionController: windowHandle?.projectDocumentContext.document?.transactionController ?? null
     readonly property Window window: addOn?.windowHandle.window ?? null
     readonly property DspxProject.EditTempoTimeSignatureScenario editTempoTimeSignatureScenario: windowHandle?.editTempoTimeSignatureScenario ?? null
     readonly property DspxProject.EditLoopScenario editLoopScenario: windowHandle?.editLoopScenario ?? null
     readonly property DspxProject.EditKeySignatureScenario editKeySignatureScenario: windowHandle?.editKeySignatureScenario ?? null
+
+    function cycleTimecodeFormat() {
+        if (!projectTimeline) {
+            return
+        }
+        switch (projectTimeline.timecodeFormat) {
+        case DspxProject.ProjectTimeline.MusicTime:
+            projectTimeline.timecodeFormat = DspxProject.ProjectTimeline.AbsoluteTime
+            break
+        case DspxProject.ProjectTimeline.AbsoluteTime:
+            projectTimeline.timecodeFormat = DspxProject.ProjectTimeline.MusicAndAbsoluteTime
+            break
+        case DspxProject.ProjectTimeline.MusicAndAbsoluteTime:
+            projectTimeline.timecodeFormat = DspxProject.ProjectTimeline.MusicTime
+            break
+        }
+    }
 
     ActionItem {
         actionId: "org.diffscope.core.widget.digitalClock"
@@ -28,14 +46,14 @@ ActionCollection {
             id: digitalClock
             backgroundVisible: BehaviorPreference.timeIndicatorBackgroundVisible
             fineTuneMode: BehaviorPreference.timeIndicatorTextFineTuneMode
-            text: d.addOn.showMusicTime ? d.addOn.musicTimeText : d.addOn.longTimeText
-            secondaryText: d.addOn.showMusicTime && d.addOn.showAbsoluteTime ? d.addOn.longTimeText : ""
+            text: d.projectTimeline?.timecodeFormat === DspxProject.ProjectTimeline.AbsoluteTime ? d.addOn.longTimeText : d.addOn.musicTimeText
+            secondaryText: d.projectTimeline?.timecodeFormat === DspxProject.ProjectTimeline.MusicAndAbsoluteTime ? d.addOn.longTimeText : ""
             DescriptiveText.activated: hovered
             DescriptiveText.statusTip: qsTr("Current project time")
             DescriptiveText.bindAccessibleDescription: true
             function doInteraction(flag) {
                 if (flag === BehaviorPreference.TIIB_ToggleFormat) {
-                    d.addOn.cycleTimecodeFormat()
+                    d.cycleTimecodeFormat()
                 } else if (flag === BehaviorPreference.TIIB_ShowGoTo) {
                     d.windowHandle.triggerAction("org.diffscope.core.timeline.goTo", this)
                 } else if (flag === BehaviorPreference.TIIB_ShowQuickJump) {
@@ -138,10 +156,12 @@ ActionCollection {
         actionId: "org.diffscope.core.timeIndicator.showMusicTime"
         Action {
             checkable: true
-            checked: d.addOn.showMusicTime
+            checked: d.projectTimeline?.timecodeFormat !== DspxProject.ProjectTimeline.AbsoluteTime
             onTriggered: {
-                d.addOn.showMusicTime = checked
-                checked = Qt.binding(() => d.addOn.showMusicTime)
+                if (d.projectTimeline && d.projectTimeline.timecodeFormat !== DspxProject.ProjectTimeline.MusicTime) {
+                    d.projectTimeline.timecodeFormat = checked ? DspxProject.ProjectTimeline.MusicAndAbsoluteTime : DspxProject.ProjectTimeline.AbsoluteTime
+                }
+                checked = Qt.binding(() => d.projectTimeline?.timecodeFormat !== DspxProject.ProjectTimeline.AbsoluteTime)
             }
         }
     }
@@ -150,10 +170,12 @@ ActionCollection {
         actionId: "org.diffscope.core.timeIndicator.showAbsoluteTime"
         Action {
             checkable: true
-            checked: d.addOn.showAbsoluteTime
+            checked: d.projectTimeline !== null && d.projectTimeline.timecodeFormat !== DspxProject.ProjectTimeline.MusicTime
             onTriggered: {
-                d.addOn.showAbsoluteTime = checked
-                checked = Qt.binding(() => d.addOn.showAbsoluteTime)
+                if (d.projectTimeline && d.projectTimeline.timecodeFormat !== DspxProject.ProjectTimeline.AbsoluteTime) {
+                    d.projectTimeline.timecodeFormat = checked ? DspxProject.ProjectTimeline.MusicAndAbsoluteTime : DspxProject.ProjectTimeline.MusicTime
+                }
+                checked = Qt.binding(() => d.projectTimeline !== null && d.projectTimeline.timecodeFormat !== DspxProject.ProjectTimeline.MusicTime)
             }
         }
     }
