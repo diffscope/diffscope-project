@@ -883,6 +883,31 @@
         <translation type="unfinished">Temporarily disable snap when pressing %1</translation>
     </message>
     <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="274"/>
+        <source>Auto Page Scrolling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="284"/>
+        <source>Retained area (%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="297"/>
+        <source>Trigger area (%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="310"/>
+        <source>Animation duration (ms)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/EditorPage.qml" line="322"/>
+        <source>Use trigger area outside playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/settings/EditorPage.qml" line="236"/>
         <source>Arrangement</source>
         <translation type="unfinished">Arrangement</translation>

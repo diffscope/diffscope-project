@@ -6,6 +6,8 @@
 
 #include <visualeditor/PianoRollPanelInterface.h>
 
+#include <optional>
+
 #include <QPointer>
 
 #include <visualeditor/PositionAlignmentManipulator.h>
@@ -63,6 +65,21 @@ namespace VisualEditor {
         int implicitNoteLength{480};
         QMetaObject::Connection currentNoteConnection;
 
+        struct VerticalView {
+            double start;
+            double pixelDensity;
+
+            bool operator==(const VerticalView &) const = default;
+        };
+
+        struct VerticalPageTurn {
+            VerticalView initial;
+            VerticalView target;
+            VerticalView current;
+        };
+
+        std::optional<VerticalPageTurn> verticalPageTurn;
+
         void bindTimeViewModel() const;
         void bindTimeLayoutViewModel() const;
         void bindTimelineInteractionController() const;
@@ -71,7 +88,8 @@ namespace VisualEditor {
         void bindControllersInteraction() const;
         void bindClavierInteractionController() const;
         void bindNoteEditLayerInteractionController() const;
-        void adjustVerticalViewForPage(double start, double length) const;
+        void prepareVerticalPageTurn(double start, double length);
+        void updateVerticalPageTurn(double progress);
     };
 
 }

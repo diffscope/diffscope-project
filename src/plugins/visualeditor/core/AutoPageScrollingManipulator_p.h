@@ -6,7 +6,8 @@
 
 #include <visualeditor/AutoPageScrollingManipulator.h>
 
-#include <QObject>
+#include <QPointer>
+#include <QVariantAnimation>
 
 class QQuickItem;
 
@@ -18,20 +19,26 @@ namespace sflow {
 
 namespace VisualEditor {
 
-    class AutoPageScrollingManipulatorPrivate;
-
     class AutoPageScrollingManipulatorPrivate {
         Q_DECLARE_PUBLIC(AutoPageScrollingManipulator)
     public:
-        AutoPageScrollingManipulator *q_ptr;
+        AutoPageScrollingManipulator *q_ptr{};
 
-        sflow::TimeViewModel *timeViewModel;
-        sflow::TimeLayoutViewModel *timeLayoutViewModel;
-        sflow::PlaybackViewModel *playbackViewModel;
-        QQuickItem *target;
-        double explicitViewSize;
-        bool isViewSizeExplicitlySet;
-        bool enabled;
+        QPointer<sflow::TimeViewModel> timeViewModel;
+        QPointer<sflow::TimeLayoutViewModel> timeLayoutViewModel;
+        QPointer<sflow::PlaybackViewModel> playbackViewModel;
+        QPointer<QQuickItem> target;
+        double explicitViewSize{};
+        bool isViewSizeExplicitlySet{};
+        bool enabled{};
+        bool playing{};
+
+        QVariantAnimation animation;
+        double animationStart{};
+        double animationPosition{};
+        double animationViewLength{};
+        double animationRetainedLength{};
+        double animatedStart{};
 
         double getViewSize() const;
         void updatePageTurning();

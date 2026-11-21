@@ -27,6 +27,10 @@ ScrollView {
     property int preferredParameterScaleMode: ParameterEditorInteractionController.ScaleToEndpoints
     property double autoDurationPositionAlignment: 32
     property bool enableTemporarySnapOff: false
+    property int autoPageScrollRetainedArea
+    property int autoPageScrollTriggerArea
+    property int autoPageScrollAnimationDuration
+    property bool autoPageScrollTriggerOutsidePlayback
     property bool trackListOnRight: false
     property bool centerPianoRollOnClipDoubleClick: true
     property bool pianoRollAutoPageVerticalAdjustment: false
@@ -59,6 +63,10 @@ ScrollView {
     onPreferredParameterScaleModeChanged: if (started) pageHandle.markDirty()
     onAutoDurationPositionAlignmentChanged: if (started) pageHandle.markDirty()
     onEnableTemporarySnapOffChanged: if (started) pageHandle.markDirty()
+    onAutoPageScrollRetainedAreaChanged: if (started) pageHandle.markDirty()
+    onAutoPageScrollTriggerAreaChanged: if (started) pageHandle.markDirty()
+    onAutoPageScrollAnimationDurationChanged: if (started) pageHandle.markDirty()
+    onAutoPageScrollTriggerOutsidePlaybackChanged: if (started) pageHandle.markDirty()
     onTrackListOnRightChanged: if (started) pageHandle.markDirty()
     onCenterPianoRollOnClipDoubleClickChanged: if (started) pageHandle.markDirty()
     onPianoRollAutoPageVerticalAdjustmentChanged: if (started) pageHandle.markDirty()
@@ -90,6 +98,36 @@ ScrollView {
     readonly property double maxAutoPitchCurveDisplayPixelDensityThreshold: 0.1
     readonly property double defaultAutoPitchCurveDisplayPixelDensityThreshold:
         Math.sqrt(minAutoPitchCurveDisplayPixelDensityThreshold * maxAutoPitchCurveDisplayPixelDensityThreshold)
+
+    component PageScrollSetting: RowLayout {
+        id: setting
+
+        required property string label
+        required property int maximum
+        required property int value
+        required property int defaultValue
+        signal valueModified(int newValue)
+
+        Layout.fillWidth: true
+
+        Slider {
+            Layout.fillWidth: true
+            to: setting.maximum
+            value: setting.value
+            stepSize: 1
+            snapMode: Slider.SnapAlways
+            Accessible.name: setting.label
+            onMoved: setting.valueModified(value)
+            ThemedItem.sliderTrackStartType: SVS.TS_Begin
+            ThemedItem.onDoubleClickReset: setting.valueModified(setting.defaultValue)
+        }
+        SpinBox {
+            to: setting.maximum
+            value: setting.value
+            Accessible.name: setting.label
+            onValueModified: setting.valueModified(value)
+        }
+    }
 
     function selectScrollModifier(propertyName: string, modifier: int) {
         const previousModifier = page[propertyName]
@@ -229,6 +267,64 @@ ScrollView {
                         onClicked: page.enableTemporarySnapOff = checked
                     }
 
+                }
+            }
+
+            GroupBox {
+                title: qsTr("Auto Page Scrolling")
+                TextMatcherItem on title { matcher: page.matcher }
+                Layout.fillWidth: true
+
+                GridLayout {
+                    anchors.fill: parent
+                    columns: 2
+
+                    Label {
+                        id: retainedAreaLabel
+                        text: qsTr("Retained area (%)")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    PageScrollSetting {
+                        label: retainedAreaLabel.text
+                        maximum: 25
+                        value: page.autoPageScrollRetainedArea
+                        defaultValue: 10
+                        onValueModified: (newValue) => page.autoPageScrollRetainedArea = newValue
+                    }
+
+                    Label {
+                        id: triggerAreaLabel
+                        text: qsTr("Trigger area (%)")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    PageScrollSetting {
+                        label: triggerAreaLabel.text
+                        maximum: 25
+                        value: page.autoPageScrollTriggerArea
+                        defaultValue: 10
+                        onValueModified: (newValue) => page.autoPageScrollTriggerArea = newValue
+                    }
+
+                    Label {
+                        id: animationDurationLabel
+                        text: qsTr("Animation duration (ms)")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    PageScrollSetting {
+                        label: animationDurationLabel.text
+                        maximum: 1000
+                        value: page.autoPageScrollAnimationDuration
+                        defaultValue: 250
+                        onValueModified: (newValue) => page.autoPageScrollAnimationDuration = newValue
+                    }
+
+                    CheckBox {
+                        text: qsTr("Use trigger area outside playback")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        Layout.columnSpan: 2
+                        checked: page.autoPageScrollTriggerOutsidePlayback
+                        onClicked: page.autoPageScrollTriggerOutsidePlayback = checked
+                    }
                 }
             }
 

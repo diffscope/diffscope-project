@@ -17,6 +17,7 @@
 
 #include <audiovisualizer/internal/AudioFileDropAddOn.h>
 #include <audiovisualizer/internal/AudioMipmapAddOn.h>
+#include <audiovisualizer/internal/AutoPageScrollingAddOn.h>
 #include <audiovisualizer/internal/LevelMeterAddOn.h>
 #include <audiovisualizer/internal/MasterTrackAddOn.h>
 #include <audiovisualizer/internal/MidiRecordingQuantizationAddOn.h>
@@ -40,6 +41,7 @@ namespace AudioVisualizer::Internal {
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MasterTrackAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<LevelMeterAddOn>();
         Core::ProjectWindowInterfaceRegistry::instance()->attach<MidiRecordingQuantizationAddOn>();
+        Core::ProjectWindowInterfaceRegistry::instance()->attach<AutoPageScrollingAddOn>();
 
         return true;
     }

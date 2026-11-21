@@ -31,6 +31,7 @@ namespace VisualEditor {
         Q_PROPERTY(QQuickItem *target READ target WRITE setTarget NOTIFY targetChanged)
         Q_PROPERTY(double viewSize READ viewSize WRITE setViewSize RESET resetViewSize NOTIFY viewSizeChanged)
         Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
+        Q_PROPERTY(bool playing READ isPlaying WRITE setPlaying NOTIFY playingChanged)
 
     public:
         explicit AutoPageScrollingManipulator(QObject *parent = nullptr);
@@ -55,6 +56,9 @@ namespace VisualEditor {
         bool enabled() const;
         void setEnabled(bool enabled);
 
+        bool isPlaying() const;
+        void setPlaying(bool playing);
+
     Q_SIGNALS:
         void timeViewModelChanged();
         void timeLayoutViewModelChanged();
@@ -62,6 +66,9 @@ namespace VisualEditor {
         void targetChanged();
         void viewSizeChanged();
         void enabledChanged();
+        void playingChanged();
+        void pageTurnStarted(double expectedStart, double length);
+        void pageTurnProgressed(double progress);
         void pageTurned(double start, double length);
 
     private:

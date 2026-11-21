@@ -33,6 +33,10 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(sflow::ParameterEditorInteractionController::ScaleMode preferredParameterScaleMode READ preferredParameterScaleMode WRITE setPreferredParameterScaleMode NOTIFY preferredParameterScaleModeChanged)
         Q_PROPERTY(int autoDurationPositionAlignment READ autoDurationPositionAlignment WRITE setAutoDurationPositionAlignment NOTIFY autoDurationPositionAlignmentChanged)
         Q_PROPERTY(bool enableTemporarySnapOff READ enableTemporarySnapOff WRITE setEnableTemporarySnapOff NOTIFY enableTemporarySnapOffChanged)
+        Q_PROPERTY(int autoPageScrollRetainedArea READ autoPageScrollRetainedArea WRITE setAutoPageScrollRetainedArea NOTIFY autoPageScrollRetainedAreaChanged)
+        Q_PROPERTY(int autoPageScrollTriggerArea READ autoPageScrollTriggerArea WRITE setAutoPageScrollTriggerArea NOTIFY autoPageScrollTriggerAreaChanged)
+        Q_PROPERTY(int autoPageScrollAnimationDuration READ autoPageScrollAnimationDuration WRITE setAutoPageScrollAnimationDuration NOTIFY autoPageScrollAnimationDurationChanged)
+        Q_PROPERTY(bool autoPageScrollTriggerOutsidePlayback READ autoPageScrollTriggerOutsidePlayback WRITE setAutoPageScrollTriggerOutsidePlayback NOTIFY autoPageScrollTriggerOutsidePlaybackChanged)
         Q_PROPERTY(bool trackListOnRight READ trackListOnRight WRITE setTrackListOnRight NOTIFY trackListOnRightChanged)
         Q_PROPERTY(bool centerPianoRollOnClipDoubleClick READ centerPianoRollOnClipDoubleClick WRITE setCenterPianoRollOnClipDoubleClick NOTIFY centerPianoRollOnClipDoubleClickChanged)
         Q_PROPERTY(bool pianoRollAutoPageVerticalAdjustment READ pianoRollAutoPageVerticalAdjustment WRITE setPianoRollAutoPageVerticalAdjustment NOTIFY pianoRollAutoPageVerticalAdjustmentChanged)
@@ -133,6 +137,14 @@ namespace VisualEditor::Internal {
 
         static bool enableTemporarySnapOff();
         static void setEnableTemporarySnapOff(bool enableTemporarySnapOff);
+        static int autoPageScrollRetainedArea();
+        static void setAutoPageScrollRetainedArea(int value);
+        static int autoPageScrollTriggerArea();
+        static void setAutoPageScrollTriggerArea(int value);
+        static int autoPageScrollAnimationDuration();
+        static void setAutoPageScrollAnimationDuration(int value);
+        static bool autoPageScrollTriggerOutsidePlayback();
+        static void setAutoPageScrollTriggerOutsidePlayback(bool value);
 
         static bool trackListOnRight();
         static void setTrackListOnRight(bool trackListOnRight);
@@ -210,6 +222,10 @@ namespace VisualEditor::Internal {
         void preferredParameterScaleModeChanged();
         void autoDurationPositionAlignmentChanged();
         void enableTemporarySnapOffChanged();
+        void autoPageScrollRetainedAreaChanged();
+        void autoPageScrollTriggerAreaChanged();
+        void autoPageScrollAnimationDurationChanged();
+        void autoPageScrollTriggerOutsidePlaybackChanged();
         void trackListOnRightChanged();
         void centerPianoRollOnClipDoubleClickChanged();
         void pianoRollAutoPageVerticalAdjustmentChanged();

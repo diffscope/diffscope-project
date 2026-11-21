@@ -66,6 +66,10 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("autoDurationPositionAlignment");
         m_widget->setProperty("enableTemporarySnapOff", EditorPreference::instance()->property("enableTemporarySnapOff"));
         qCDebug(lcEditorPage) << m_widget->property("enableTemporarySnapOff");
+        m_widget->setProperty("autoPageScrollRetainedArea", EditorPreference::autoPageScrollRetainedArea());
+        m_widget->setProperty("autoPageScrollTriggerArea", EditorPreference::autoPageScrollTriggerArea());
+        m_widget->setProperty("autoPageScrollAnimationDuration", EditorPreference::autoPageScrollAnimationDuration());
+        m_widget->setProperty("autoPageScrollTriggerOutsidePlayback", EditorPreference::autoPageScrollTriggerOutsidePlayback());
         m_widget->setProperty("trackListOnRight", EditorPreference::instance()->property("trackListOnRight"));
         qCDebug(lcEditorPage) << m_widget->property("trackListOnRight");
         m_widget->setProperty("centerPianoRollOnClipDoubleClick", EditorPreference::instance()->property("centerPianoRollOnClipDoubleClick"));
@@ -130,6 +134,10 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("autoDurationPositionAlignment", m_widget->property("autoDurationPositionAlignment"));
         qCDebug(lcEditorPage) << "enableTemporarySnapOff" << m_widget->property("enableTemporarySnapOff");
         EditorPreference::instance()->setProperty("enableTemporarySnapOff", m_widget->property("enableTemporarySnapOff"));
+        EditorPreference::setAutoPageScrollRetainedArea(m_widget->property("autoPageScrollRetainedArea").toInt());
+        EditorPreference::setAutoPageScrollTriggerArea(m_widget->property("autoPageScrollTriggerArea").toInt());
+        EditorPreference::setAutoPageScrollAnimationDuration(m_widget->property("autoPageScrollAnimationDuration").toInt());
+        EditorPreference::setAutoPageScrollTriggerOutsidePlayback(m_widget->property("autoPageScrollTriggerOutsidePlayback").toBool());
         qCDebug(lcEditorPage) << "trackListOnRight" << m_widget->property("trackListOnRight");
         EditorPreference::instance()->setProperty("trackListOnRight", m_widget->property("trackListOnRight"));
         qCDebug(lcEditorPage) << "centerPianoRollOnClipDoubleClick" << m_widget->property("centerPianoRollOnClipDoubleClick");

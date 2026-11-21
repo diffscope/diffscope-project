@@ -413,12 +413,14 @@ namespace VisualEditor {
         QObject::connect(Internal::EditorPreference::instance(), &Internal::EditorPreference::warnOfOverlappingNotesChanged, noteEditLayerInteractionController, applyWarnOfOverlappingNotes);
     }
 
-    void PianoRollPanelInterfacePrivate::adjustVerticalViewForPage(double start, double length) const {
+    void PianoRollPanelInterfacePrivate::prepareVerticalPageTurn(double start, double length) {
+        verticalPageTurn.reset();
         if (!Internal::EditorPreference::pianoRollAutoPageVerticalAdjustment())
             return;
 
         auto editArea = pianoRollView->property("centerEditArea").value<QQuickItem *>();
-        if (!editArea || editArea->height() <= 0 || clavierViewModel->pixelDensity() <= 0 || length <= 0)
+        const VerticalView current{clavierViewModel->start(), clavierViewModel->pixelDensity()};
+        if (!editArea || editArea->height() <= 0 || current.pixelDensity <= 0 || length <= 0)
             return;
 
         auto context = ProjectViewModelContext::of(windowHandle);
@@ -461,12 +463,12 @@ namespace VisualEditor {
         const double noteTop = maxKey + 1.0;
         const double noteBottom = minKey;
         const double noteHeight = noteTop - noteBottom;
-        double viewKeyCount = editArea->height() / clavierViewModel->pixelDensity();
-        const double currentStart = clavierViewModel->start();
-        if (noteTop <= currentStart && noteBottom >= currentStart - viewKeyCount)
+        double viewKeyCount = editArea->height() / current.pixelDensity;
+        if (noteTop <= current.start && noteBottom >= current.start - viewKeyCount)
             return;
 
         double newStart;
+        double newPixelDensity = current.pixelDensity;
         if (noteHeight <= viewKeyCount) {
             newStart = (noteTop + noteBottom + viewKeyCount) / 2.0;
         } else {
@@ -479,7 +481,7 @@ namespace VisualEditor {
                     break;
                 case Internal::EditorPreference::APOB_ZoomToFit:
                     // The manual zoom minimum must not prevent all notes from fitting.
-                    clavierViewModel->setPixelDensity(editArea->height() / noteHeight);
+                    newPixelDensity = editArea->height() / noteHeight;
                     viewKeyCount = noteHeight;
                     newStart = noteTop;
                     break;
@@ -488,7 +490,31 @@ namespace VisualEditor {
                     break;
             }
         }
-        clavierViewModel->setStart(std::clamp(newStart, std::min(viewKeyCount, 128.0), 128.0));
+        const VerticalView target{std::clamp(newStart, std::min(viewKeyCount, 128.0), 128.0), newPixelDensity};
+        if (current != target)
+            verticalPageTurn = VerticalPageTurn{current, target, current};
+    }
+
+    void PianoRollPanelInterfacePrivate::updateVerticalPageTurn(double progress) {
+        if (!verticalPageTurn)
+            return;
+
+        const VerticalView current{clavierViewModel->start(), clavierViewModel->pixelDensity()};
+        if (current != verticalPageTurn->current || !Internal::EditorPreference::pianoRollAutoPageVerticalAdjustment()) {
+            verticalPageTurn.reset();
+            return;
+        }
+
+        const VerticalView next{
+            std::lerp(verticalPageTurn->initial.start, verticalPageTurn->target.start, progress),
+            std::lerp(verticalPageTurn->initial.pixelDensity, verticalPageTurn->target.pixelDensity, progress),
+        };
+        if (progress == 1.0)
+            verticalPageTurn.reset();
+        else
+            verticalPageTurn->current = next;
+        clavierViewModel->setPixelDensity(next.pixelDensity);
+        clavierViewModel->setStart(next.start);
     }
 
     PianoRollPanelInterface::PianoRollPanelInterface(Internal::PianoRollAddOn *addOn, Core::ProjectWindowInterface *windowHandle) : QObject(windowHandle), d_ptr(new PianoRollPanelInterfacePrivate) {
@@ -556,9 +582,11 @@ namespace VisualEditor {
         }
 
         d->autoPageScrollingManipulator->setTarget(d->pianoRollView->property("timeline").value<QQuickItem *>());
-        connect(d->autoPageScrollingManipulator, &AutoPageScrollingManipulator::pageTurned, this, [this](double start, double length) {
-            Q_D(PianoRollPanelInterface);
-            d->adjustVerticalViewForPage(start, length);
+        connect(d->autoPageScrollingManipulator, &AutoPageScrollingManipulator::pageTurnStarted, this, [d](double start, double length) {
+            d->prepareVerticalPageTurn(start, length);
+        });
+        connect(d->autoPageScrollingManipulator, &AutoPageScrollingManipulator::pageTurnProgressed, this, [d](double progress) {
+            d->updateVerticalPageTurn(progress);
         });
 
         auto noteSelectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel()->noteSelectionModel();

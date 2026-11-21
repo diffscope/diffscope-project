@@ -12,6 +12,10 @@
 namespace VisualEditor::Internal {
 
     static constexpr double kDefaultAutoPitchCurveDisplayPixelDensityThreshold = 0.07071;
+    static constexpr int kDefaultAutoPageScrollRetainedArea = 10;
+    static constexpr int kDefaultAutoPageScrollTriggerArea = 10;
+    static constexpr int kDefaultAutoPageScrollAnimationDuration = 250;
+    static constexpr bool kDefaultAutoPageScrollTriggerOutsidePlayback = false;
 
     class EditorPreferencePrivate {
     public:
@@ -26,6 +30,10 @@ namespace VisualEditor::Internal {
         EditorPreference::ParameterScaleMode preferredParameterScaleMode{sflow::ParameterEditorInteractionController::ScaleToEndpoints};
         int autoDurationPositionAlignment{24};
         bool enableTemporarySnapOff{true};
+        int autoPageScrollRetainedArea{kDefaultAutoPageScrollRetainedArea};
+        int autoPageScrollTriggerArea{kDefaultAutoPageScrollTriggerArea};
+        int autoPageScrollAnimationDuration{kDefaultAutoPageScrollAnimationDuration};
+        bool autoPageScrollTriggerOutsidePlayback{kDefaultAutoPageScrollTriggerOutsidePlayback};
         bool trackListOnRight{};
         bool centerPianoRollOnClipDoubleClick{true};
         bool pianoRollAutoPageVerticalAdjustment{false};
@@ -92,6 +100,10 @@ namespace VisualEditor::Internal {
         emit autoDurationPositionAlignmentChanged();
         d->enableTemporarySnapOff = settings->value("enableTemporarySnapOff", true).toBool();
         emit enableTemporarySnapOffChanged();
+        setAutoPageScrollRetainedArea(settings->value("autoPageScrollRetainedArea", kDefaultAutoPageScrollRetainedArea).toInt());
+        setAutoPageScrollTriggerArea(settings->value("autoPageScrollTriggerArea", kDefaultAutoPageScrollTriggerArea).toInt());
+        setAutoPageScrollAnimationDuration(settings->value("autoPageScrollAnimationDuration", kDefaultAutoPageScrollAnimationDuration).toInt());
+        setAutoPageScrollTriggerOutsidePlayback(settings->value("autoPageScrollTriggerOutsidePlayback", kDefaultAutoPageScrollTriggerOutsidePlayback).toBool());
         d->trackListOnRight = settings->value("trackListOnRight", false).toBool();
         emit trackListOnRightChanged();
         d->centerPianoRollOnClipDoubleClick = settings->value("centerPianoRollOnClipDoubleClick", true).toBool();
@@ -152,6 +164,10 @@ namespace VisualEditor::Internal {
         settings->setValue("preferredParameterScaleMode", static_cast<int>(d->preferredParameterScaleMode));
         settings->setValue("autoDurationPositionAlignment", d->autoDurationPositionAlignment);
         settings->setValue("enableTemporarySnapOff", d->enableTemporarySnapOff);
+        settings->setValue("autoPageScrollRetainedArea", d->autoPageScrollRetainedArea);
+        settings->setValue("autoPageScrollTriggerArea", d->autoPageScrollTriggerArea);
+        settings->setValue("autoPageScrollAnimationDuration", d->autoPageScrollAnimationDuration);
+        settings->setValue("autoPageScrollTriggerOutsidePlayback", d->autoPageScrollTriggerOutsidePlayback);
         settings->setValue("trackListOnRight", d->trackListOnRight);
         settings->setValue("centerPianoRollOnClipDoubleClick", d->centerPianoRollOnClipDoubleClick);
         settings->setValue("pianoRollAutoPageVerticalAdjustment", d->pianoRollAutoPageVerticalAdjustment);
@@ -300,6 +316,61 @@ namespace VisualEditor::Internal {
             return;
         d->enableTemporarySnapOff = enableTemporarySnapOff;
         emit m_instance->enableTemporarySnapOffChanged();
+    }
+
+    int EditorPreference::autoPageScrollRetainedArea() {
+        M_INSTANCE_D;
+        return d->autoPageScrollRetainedArea;
+    }
+
+    void EditorPreference::setAutoPageScrollRetainedArea(int value) {
+        M_INSTANCE_D;
+        value = qBound(0, value, 100);
+        if (d->autoPageScrollRetainedArea == value)
+            return;
+        d->autoPageScrollRetainedArea = value;
+        Q_EMIT m_instance->autoPageScrollRetainedAreaChanged();
+    }
+
+    int EditorPreference::autoPageScrollTriggerArea() {
+        M_INSTANCE_D;
+        return d->autoPageScrollTriggerArea;
+    }
+
+    void EditorPreference::setAutoPageScrollTriggerArea(int value) {
+        M_INSTANCE_D;
+        value = qBound(0, value, 100);
+        if (d->autoPageScrollTriggerArea == value)
+            return;
+        d->autoPageScrollTriggerArea = value;
+        Q_EMIT m_instance->autoPageScrollTriggerAreaChanged();
+    }
+
+    int EditorPreference::autoPageScrollAnimationDuration() {
+        M_INSTANCE_D;
+        return d->autoPageScrollAnimationDuration;
+    }
+
+    void EditorPreference::setAutoPageScrollAnimationDuration(int value) {
+        M_INSTANCE_D;
+        value = qMax(0, value);
+        if (d->autoPageScrollAnimationDuration == value)
+            return;
+        d->autoPageScrollAnimationDuration = value;
+        Q_EMIT m_instance->autoPageScrollAnimationDurationChanged();
+    }
+
+    bool EditorPreference::autoPageScrollTriggerOutsidePlayback() {
+        M_INSTANCE_D;
+        return d->autoPageScrollTriggerOutsidePlayback;
+    }
+
+    void EditorPreference::setAutoPageScrollTriggerOutsidePlayback(bool value) {
+        M_INSTANCE_D;
+        if (d->autoPageScrollTriggerOutsidePlayback == value)
+            return;
+        d->autoPageScrollTriggerOutsidePlayback = value;
+        Q_EMIT m_instance->autoPageScrollTriggerOutsidePlaybackChanged();
     }
 
     bool EditorPreference::trackListOnRight() {
