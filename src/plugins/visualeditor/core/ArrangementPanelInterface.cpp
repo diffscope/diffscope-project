@@ -40,6 +40,7 @@
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/internal/ArrangementAddOn.h>
 #include <visualeditor/internal/EditorPreference.h>
+#include <visualeditor/internal/PianoRollAddOn.h>
 
 namespace VisualEditor {
 
@@ -98,6 +99,7 @@ namespace VisualEditor {
                 const double viewLength = editArea->width() / pianoRollPixelDensity;
                 pianoRollPanelInterface->timeViewModel()->setStart(
                     boundedTimeViewStart(singingClip, boundedClickPosition - viewLength / 2.0, viewLength));
+                Internal::PianoRollAddOn::adjustVerticalViewForEditingClip(pianoRollPanelInterface, viewLength, editArea->height(), true);
             } else {
                 // TODO
             }

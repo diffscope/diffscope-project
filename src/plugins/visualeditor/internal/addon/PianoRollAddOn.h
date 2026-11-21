@@ -58,6 +58,8 @@ namespace VisualEditor::Internal {
         Q_INVOKABLE void editTrack(dspx::Track *track);
         Q_INVOKABLE void editClip(dspx::SingingClip *clip);
 
+        static void adjustVerticalViewForEditingClip(PianoRollPanelInterface *panelInterface, double viewLength, double viewHeight, bool centerEvenIfVisible);
+
         bool eventFilter(QObject *watched, QEvent *event) override;
 
         bool altPressed() const;

@@ -323,12 +323,19 @@ namespace VisualEditor::Internal {
             resetTimeViewStart();
         }
 
+        adjustVerticalViewForEditingClip(panelInterface, viewLength, editArea->height(), false);
+    }
+
+    void PianoRollAddOn::adjustVerticalViewForEditingClip(PianoRollPanelInterface *panelInterface, double viewLength, double viewHeight, bool centerEvenIfVisible) {
+        auto clip = panelInterface->editingClip();
         auto clavierViewModel = panelInterface->clavierViewModel();
-        if (editArea->height() <= 0 || clavierViewModel->pixelDensity() <= 0)
+        if (!clip || viewHeight <= 0 || clavierViewModel->pixelDensity() <= 0)
             return;
 
-        const double visibleStart = std::max(timeViewModel->start(), clipStart);
-        const double visibleEnd = std::min(timeViewModel->start() + viewLength, clipEnd);
+        const double clipStart = clip->position();
+        const double viewStart = panelInterface->timeViewModel()->start();
+        const double visibleStart = std::max(viewStart, clipStart);
+        const double visibleEnd = std::min(viewStart + viewLength, clipStart + clip->clipLength());
         if (visibleStart >= visibleEnd)
             return;
 
@@ -347,9 +354,9 @@ namespace VisualEditor::Internal {
         if (maxKey < minKey)
             return;
 
-        const double viewKeyCount = editArea->height() / clavierViewModel->pixelDensity();
+        const double viewKeyCount = viewHeight / clavierViewModel->pixelDensity();
         const double currentStart = clavierViewModel->start();
-        if (maxKey + 1.0 <= currentStart && minKey >= currentStart - viewKeyCount)
+        if (!centerEvenIfVisible && maxKey + 1.0 <= currentStart && minKey >= currentStart - viewKeyCount)
             return;
         clavierViewModel->setStart(centeredClavierViewStart(minKey, maxKey, viewKeyCount));
     }

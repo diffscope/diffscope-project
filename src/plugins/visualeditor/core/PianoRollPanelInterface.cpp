@@ -17,20 +17,16 @@
 
 #include <ScopicFlowCore/ClavierInteractionController.h>
 #include <ScopicFlowCore/ClavierViewModel.h>
-#include <ScopicFlowCore/ClipViewModel.h>
 #include <ScopicFlowCore/LabelSequenceInteractionController.h>
 #include <ScopicFlowCore/NoteEditLayerInteractionController.h>
-#include <ScopicFlowCore/NoteViewModel.h>
 #include <ScopicFlowCore/ParameterEditorInteractionController.h>
 #include <ScopicFlowCore/PhonemeSequenceInteractionController.h>
 #include <ScopicFlowCore/RangeIndicatorInteractionController.h>
-#include <ScopicFlowCore/RangeSequenceViewModel.h>
 #include <ScopicFlowCore/ScrollBehaviorViewModel.h>
 #include <ScopicFlowCore/TimeLayoutViewModel.h>
 #include <ScopicFlowCore/TimeManipulator.h>
 #include <ScopicFlowCore/TimeViewModel.h>
 #include <ScopicFlowCore/TimelineInteractionController.h>
-#include <ScopicFlowCore/private/SliceableViewModelManipulatorInterface_p.h>
 
 #include <dspxmodelORM/Clip.h>
 #include <dspxmodelORM/ClipSequence.h>
@@ -415,7 +411,7 @@ namespace VisualEditor {
 
     void PianoRollPanelInterfacePrivate::prepareVerticalPageTurn(double start, double length) {
         verticalPageTurn.reset();
-        if (!Internal::EditorPreference::pianoRollAutoPageVerticalAdjustment())
+        if (!editingClip || !Internal::EditorPreference::pianoRollAutoPageVerticalAdjustment())
             return;
 
         auto editArea = pianoRollView->property("centerEditArea").value<QQuickItem *>();
@@ -423,38 +419,23 @@ namespace VisualEditor {
         if (!editArea || editArea->height() <= 0 || current.pixelDensity <= 0 || length <= 0)
             return;
 
-        auto context = ProjectViewModelContext::of(windowHandle);
-        auto editingTrack = editingClip && editingClip->clipSequence() ? editingClip->clipSequence()->track() : nullptr;
+        const double clipPosition = editingClip->position();
+        const double visibleStart = std::max(start, clipPosition);
+        const double visibleEnd = std::min(start + length, clipPosition + editingClip->clipLength());
+        if (visibleStart >= visibleEnd)
+            return;
+
+        const double offset = static_cast<double>(editingClip->clipStart()) - clipPosition;
+        const int first = static_cast<int>(std::floor(visibleStart + offset));
+        const int last = static_cast<int>(std::ceil(visibleEnd + offset));
+        const auto pageNotes = editingClip->notes()->slice(first, last - first);
         int minKey = 128;
         int maxKey = -1;
-        for (int row = 0; row < trackOverlaySelectorModel->rowCount(); ++row) {
-            auto item = qobject_cast<Internal::TrackOverlaySelectorItem *>(trackOverlaySelectorModel->index(row, 0).data().value<QObject *>());
-            if (!item || (!item->overlayVisible() && item->track() != editingTrack))
+        for (auto note : pageNotes) {
+            if (note->length() <= 0)
                 continue;
-
-            auto clips = context->getSingingClipPerTrackSequenceViewModel(item->track());
-            if (!clips)
-                continue;
-            const auto clipItems = clips->items();
-            for (auto clipItem : clipItems) {
-                auto clip = qobject_cast<sflow::ClipViewModel *>(clipItem);
-                auto notes = clip ? clip->associatedNoteSequence() : nullptr;
-                auto sliceable = notes ? notes->property("iSliceable").value<sflow::SliceableViewModelManipulatorInterface *>() : nullptr;
-                if (!sliceable)
-                    continue;
-
-                const double offset = static_cast<double>(clip->clipStart()) - clip->position();
-                const int first = static_cast<int>(std::floor(start + offset));
-                const int last = static_cast<int>(std::ceil(start + length + offset));
-                const auto pageNotes = sliceable->slice(first, last - first);
-                for (auto noteItem : pageNotes) {
-                    auto note = qobject_cast<sflow::NoteViewModel *>(noteItem);
-                    if (!note)
-                        continue;
-                    minKey = std::min(minKey, note->key());
-                    maxKey = std::max(maxKey, note->key());
-                }
-            }
+            minKey = std::min(minKey, note->keyNumber());
+            maxKey = std::max(maxKey, note->keyNumber());
         }
         if (maxKey < minKey)
             return;
@@ -789,6 +770,7 @@ namespace VisualEditor {
         Q_D(PianoRollPanelInterface);
         if (d->editingClip == clip)
             return;
+        d->verticalPageTurn.reset();
         disconnect(d->editingClipConnection);
         d->editingClipConnection = {};
         d->editingClip = clip;
