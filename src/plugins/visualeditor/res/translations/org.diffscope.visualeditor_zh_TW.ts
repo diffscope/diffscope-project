@@ -781,109 +781,109 @@
 <context>
     <name>EditorPage</name>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="674"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="770"/>
         <source>Parameter Transforms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="684"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="780"/>
         <source>Preferred shift operation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="689"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="785"/>
         <source>Translate values</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="689"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="785"/>
         <source>Scale absolute values</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="696"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="792"/>
         <source>Preferred scale operation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="701"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="797"/>
         <source>Endpoint line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="701"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="797"/>
         <source>Arithmetic mean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="115"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="153"/>
         <source>Move and Zoom</source>
         <translation type="unfinished">Move and Zoom</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="124"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="162"/>
         <source>Horizontal scroll</source>
         <translation type="unfinished">Horizontal scroll</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="137"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="175"/>
         <source>Zoom</source>
         <translation type="unfinished">Zoom</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="151"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="189"/>
         <source>Scroll by page</source>
         <translation type="unfinished">Scroll by page</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="157"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="195"/>
         <source>Horizontal zoom</source>
         <translation type="unfinished">Horizontal zoom</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="172"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="210"/>
         <source>Middle button/hand tool scroll mode</source>
         <translation type="unfinished">Middle button/hand tool scroll mode</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="179"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="217"/>
         <source>Dragging</source>
         <translation type="unfinished">Dragging</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="179"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="217"/>
         <source>Auto scrolling</source>
         <translation type="unfinished">Auto scrolling</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="187"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="225"/>
         <source>Snap</source>
         <translation type="unfinished">Snap</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="198"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="236"/>
         <source>Auto-snap length</source>
         <translation type="unfinished">Auto-snap length</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="207"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="245"/>
         <source>More compact</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="220"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="258"/>
         <source>More spacious</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="226"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="264"/>
         <source>Temporarily disable snap when pressing %1</source>
         <translation type="unfinished">Temporarily disable snap when pressing %1</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="274"/>
         <source>Auto Page Scrolling</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Auto Page Scrolling</translation>
     </message>
     <message>
         <location filename="../../qml/settings/EditorPage.qml" line="284"/>
@@ -906,200 +906,200 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="236"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="332"/>
         <source>Arrangement</source>
         <translation type="unfinished">Arrangement</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="247"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="343"/>
         <source>Track list position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="254"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="487"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="350"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="583"/>
         <source>Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="254"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="487"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="350"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="583"/>
         <source>Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="260"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="356"/>
         <source>Center piano roll when double-clicking a singing clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="270"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="366"/>
         <source>Piano Roll</source>
         <translation type="unfinished">Piano Roll</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="281"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="377"/>
         <source>Adjust vertical view during automatic page scrolling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="296"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="392"/>
         <source>If notes exceed the view height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="304"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="400"/>
         <source>Align Top</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="304"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="400"/>
         <source>Align Bottom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="304"/>
-        <location filename="../../qml/settings/EditorPage.qml" line="487"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="400"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="583"/>
         <source>Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="304"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="400"/>
         <source>Zoom to Fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="312"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="408"/>
         <source>Black key width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="326"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="422"/>
         <source>Display piano key label on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="333"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="429"/>
         <source>All keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="333"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="429"/>
         <source>C keys only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="333"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="429"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="339"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="435"/>
         <source>Pronunciation display position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="346"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="442"/>
         <source>Above note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="346"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="442"/>
         <source>Below note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="352"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="448"/>
         <source>Pitch curve display in note edit mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="359"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="455"/>
         <source>Automatic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="359"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="455"/>
         <source>Always show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="359"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="455"/>
         <source>Always hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="371"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="467"/>
         <source>Automatic display zoom threshold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="387"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="483"/>
         <source>Warn of overlapping notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="395"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="491"/>
         <source>Show lyric overlay</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="410"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="506"/>
         <source>Lyric phrase gap threshold (ticks)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="424"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="520"/>
         <source>Show singer background</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="440"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="536"/>
         <source>Singer background opacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="479"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="575"/>
         <source>Background alignment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="505"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="601"/>
         <source>Horizontal margin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="540"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="636"/>
         <source>Horizontal offset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="573"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="669"/>
         <source>Vertical margin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="600"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="696"/>
         <source>Show all singer backgrounds when blending voices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="619"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="715"/>
         <source>Singer background spacing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="645"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="741"/>
         <source>Bottom panel opacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="710"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="806"/>
         <source>Miscellaneous</source>
         <translation type="unfinished">Miscellaneous</translation>
     </message>
     <message>
-        <location filename="../../qml/settings/EditorPage.qml" line="721"/>
+        <location filename="../../qml/settings/EditorPage.qml" line="817"/>
         <source>Track cursor position</source>
         <translation type="unfinished">Track cursor position</translation>
     </message>
