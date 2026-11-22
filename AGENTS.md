@@ -28,11 +28,17 @@ Do not create any documents inside the project directory unless explicitly reque
 
 Extend the closest existing plugin before creating a new one. New built-in plugins must use `diffscope_add_builtin_plugin`, declare `project(<lowercase-target>)`, provide `plugin.json.in`, add their subdirectory in `src/plugins/CMakeLists.txt`, and keep CMake `LINKS` consistent with metadata `Dependencies`. Plugin IDs use reverse DNS (`org.diffscope.audio`); QML URIs use `DiffScope.<PascalCaseName>`.
 
+Change dependencies between built-in plugins only if the user explicitly requests the change. If a feature combines capabilities from two functionally independent plugins, prefer implementing the integration in a third plugin that depends on both. For example, `audiovisualizer` depends on both `audio` and `visualeditor` to display audio waveforms in the editor.
+
 Plugins derive from `ExtensionSystem::IPlugin`. Create self-contained services in `initialize()`, perform cross-plugin wiring only in `extensionsInitialized()`, and reserve `delayedInitialize()` for deferrable work. Per-window behavior belongs in a `WindowInterfaceAddOn`; register shared/per-window objects in the appropriate ChorusKit object pool and retrieve them through typed APIs such as `getFirstObject<T>()`. Do not reach into another plugin's source `internal/` tree.
 
 ## Reuse the Existing Infrastructure
 
 Do not build parallel service, action, theming, document, or audio frameworks.
+
+Improve existing infrastructure if the change simplifies the implementation, subject to any explicit scope limits set by the user. This applies to infrastructure in Git submodules. Implement infrastructure behavior in its owning layer.
+
+If the user has not explicitly requested infrastructure changes, obtain the user's agreement before making broad infrastructure changes or including infrastructure changes in a plan requested by the user.
 
 - **ChorusKit / ExtensionSystem / CoreApi:** use the plugin lifecycle, `RuntimeInterface` (QML engine, user/global settings, application services), `CoreInterfaceBase`, window interfaces, registries, and object pools.
 - **QActionKit:** declare action IDs and menu/toolbar insertions in `res/org.diffscope.<plugin>_actions.xml`. Bind behavior with QML `ActionCollection`/`ActionItem`, then register it with the window's `actionContext`. Use `Core::CoreInterface::actionRegistry()` for global action metadata and layouts. Do not hand-create duplicate shortcuts or menus.
@@ -48,6 +54,16 @@ Unless explicitly requested, do not account for compatibility with existing pers
 ## Feature Replacement Hygiene
 
 When asked to modify a feature, treat the requested result as the only current behavior. Unless the user explicitly requests otherwise, do not leave any remnants of the old behavior in code, comments, or documentation. Remove obsolete implementations, branches, APIs, settings, names, examples, compatibility paths, migration notes, comparisons, historical context, and explanations of why the feature was changed.
+
+## You Are a Lazy Engineer
+
+Implement the behavior required by current workflows with the least code that prevents crashes, document corruption, and other serious consequences. Each of the following criteria strengthens the case for omitting additional handling.
+
+- **Error recovery.** Let an existing error follow its normal failure path if fallback or recovery would not prevent further harm.
+- **Preconditions.** Use a precondition if an input has no meaningful interpretation for the operation and callers can uphold the input contract. Note: This does not mean that you are required to document the preconditions. Documentation is subject to other rules.
+- **Likelihood and impact.** Omit special handling for a rare condition or a workflow without a current use if the consequences are acceptable.
+
+For example, omit a separate source file consistency check during audio embedding because an external edit during the operation is unlikely. If an external edit occurs, the resulting audio is unspecified. Read and encoding failures follow their normal error paths.
 
 ## Header Publication and Include Paths
 
@@ -214,6 +230,8 @@ Unless explicitly required, do not fill in any translated strings in TS files.
 ## Document Editing and View-Model Binding
 
 Visualized editors must not mutate the DSPX document directly. Route gestures through interaction controllers or core scenarios. Every user edit must begin a `TransactionController` transaction, commit with a concise translated description only when data changed, and abort on cancellation, startup failure, or no-op.
+
+Hold a `TransactionController::ScopedReadLock` throughout any operation that can yield to the event loop and requires the document to remain unchanged. If the operation ends with a document edit, release the read lock immediately before beginning the write transaction.
 
 View-model bindings maintain explicit document-to-view and view-to-document maps. Bind/unbind on collection signals, guard equality to avoid feedback loops, and allow view-to-document writes only in the corresponding active edit/move state; otherwise restore the document value. Synchronize selection explicitly. Complex gestures use named pending/progressing/committing/aborting states and log every state entry/exit with a per-context `QLoggingCategory`.
 
