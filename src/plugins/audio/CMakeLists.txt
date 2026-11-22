@@ -7,6 +7,8 @@ project(audio
 )
 
 find_package(xxHash CONFIG REQUIRED)
+find_package(wavpack CONFIG REQUIRED)
+find_package(SndFile REQUIRED)
 
 diffscope_add_builtin_plugin(${PROJECT_NAME}
     NAME org.diffscope.audio
@@ -14,6 +16,7 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
     MACRO_PREFIX AUDIO
     QML_MODULE_NAME Audio
     QT_LINKS
+        Concurrent
         Core
         Gui
         Widgets
@@ -44,6 +47,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         svscraft::Quick
         xxHash::xxhash
     LINKS_PRIVATE
+        SndFile::sndfile
+        WavPack::WavPack
         jsonconv::stdcorelib
     INCLUDE_PRIVATE
         internal/**

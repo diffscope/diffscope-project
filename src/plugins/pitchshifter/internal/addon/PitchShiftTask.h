@@ -6,9 +6,12 @@
 
 #include <atomic>
 #include <memory>
+#include <optional>
 
 #include <QString>
 #include <QThread>
+
+#include <audio/EmbeddedAudio.h>
 
 namespace talcs {
     class AbstractAudioFormatIO;
@@ -24,6 +27,7 @@ namespace PitchShifter::Internal {
         };
 
         QString outputFilePath;
+        std::optional<Audio::EmbeddedAudio::Compression> embeddedCompression;
         double pitchSemitones{};
         FormantMode formantMode{ShiftWithPitch};
         double formantShiftSemitones{};
@@ -52,6 +56,7 @@ namespace PitchShifter::Internal {
     Q_SIGNALS:
         void progressChanged(int stage, double progress);
         void succeeded(const QString &digest);
+        void embeddingPrepared(const Audio::EmbeddedAudio::Prepared &prepared);
         void cancelled();
         void failed(const QString &message);
 

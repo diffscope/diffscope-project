@@ -348,6 +348,26 @@
         <source>Assign at least one extractor track to each output track.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml"/>
+        <source>Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml"/>
+        <source>Link to File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml"/>
+        <source>Embed Lossless</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/AudioSeparationOptions.qml"/>
+        <source>Embed Lossy</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DiffSingerArchitectureControlPanel</name>
@@ -1632,6 +1652,16 @@ Some files could not be restored. Backups are in %2.
     <message>
         <location filename="../../internal/addon/AudioExtractionAddOn.cpp" line="654"/>
         <source>Extracting pitch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <source>Replace Lossless Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioExtractionAddOn.cpp"/>
+        <source>Some separated audio matches lossless audio in this project. Replace the lossless copies with lossy copies for all clips that use them?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

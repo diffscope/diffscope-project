@@ -16,6 +16,7 @@
 
 #include <dspxmodelORM/AudioClip.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <audio/EmbeddedAudio.h>
 #include <audio/internal/AudioPreference.h>
 
 namespace Audio {
@@ -68,6 +69,16 @@ namespace Audio {
     QString AudioClipAudioContext::realAudioPath() const {
         Q_D(const AudioClipAudioContext);
         return d->realAudioPath;
+    }
+
+    bool AudioClipAudioContext::embeddedLossless() const {
+        Q_D(const AudioClipAudioContext);
+        const auto key = d->clip->path().embeddedKey;
+        if (key.isEmpty()) {
+            return false;
+        }
+        const auto *embedded = EmbeddedAudio::of(d->windowHandle->projectDocumentContext());
+        return embedded && embedded->isLossless(key);
     }
 
     double AudioClipAudioContext::sourceSampleRate() const {
@@ -127,13 +138,12 @@ namespace Audio {
         Q_EMIT q->statusChanged(status);
     }
 
-    void AudioClipAudioContextPrivate::setRealAudioPath(const QString &realAudioPath_) {
+    void AudioClipAudioContextPrivate::setRealAudioPath(const QString &path) {
         Q_Q(AudioClipAudioContext);
-        if (realAudioPath == realAudioPath_) {
-            return;
+        if (realAudioPath != path) {
+            realAudioPath = path;
+            Q_EMIT q->realAudioPathChanged(path);
         }
-        realAudioPath = realAudioPath_;
-        Q_EMIT q->realAudioPathChanged(realAudioPath);
     }
 
     void AudioClipAudioContextPrivate::notifyAudioChanged() {

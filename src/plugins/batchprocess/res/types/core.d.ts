@@ -749,11 +749,12 @@ declare module "diffscope:core" {
     export interface AudioPathInfo {
         readonly absoluteDir?: string;
         readonly relativeDir?: string;
-        readonly fileName: string;
+        readonly fileName?: string;
         readonly formatEntryClassName?: string;
         /** Preserves opaque QVariant data using the same base64 encoding as DSPX audio metadata. */
         readonly serializedUserData?: string;
         readonly digest?: string;
+        readonly embeddedKey?: string;
     }
 
     export interface AudioClip extends ClipBase<DSPX.AudioClip> {

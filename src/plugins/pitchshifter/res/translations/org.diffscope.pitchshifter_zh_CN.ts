@@ -101,6 +101,26 @@
         <source>Link Channels</source>
         <translation type="unfinished">联动声道</translation>
     </message>
+    <message>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml"/>
+        <source>Output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml"/>
+        <source>Link to File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml"/>
+        <source>Embed Lossless</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/PitchShiftDialog.qml"/>
+        <source>Embed Lossy</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PitchShiftProgressDialog</name>
@@ -194,6 +214,21 @@
         <source>An unknown error occurred while preparing pitch shifting.</source>
         <translation type="unfinished">准备移调时发生未知错误。</translation>
     </message>
+    <message>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp"/>
+        <source>Replace Lossless Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp"/>
+        <source>The project already contains a lossless copy of this audio. Replace it with a lossy copy for all clips that use it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PitchShiftAddOn.cpp"/>
+        <source>Could not store the embedded audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PitchShifter::Internal::PitchShiftTask</name>
@@ -271,6 +306,16 @@
         <location filename="../../internal/addon/PitchShiftTask.cpp" line="323"/>
         <source>An unknown error occurred while stretching and shifting pitch.</source>
         <translation type="unfinished">伸缩与移调时发生未知错误。</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PitchShiftTask.cpp"/>
+        <source>Unable to open a temporary file for the processed audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/PitchShiftTask.cpp"/>
+        <source>Unable to prepare the processed audio for embedding.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

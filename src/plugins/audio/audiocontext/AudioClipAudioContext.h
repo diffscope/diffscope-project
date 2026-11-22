@@ -40,6 +40,7 @@ namespace Audio {
         Q_PROPERTY(dspx::AudioClip *clip READ clip CONSTANT)
         Q_PROPERTY(Status status READ status NOTIFY statusChanged)
         Q_PROPERTY(QString realAudioPath READ realAudioPath NOTIFY realAudioPathChanged)
+        Q_PROPERTY(bool embeddedLossless READ embeddedLossless NOTIFY audioChanged)
         Q_PROPERTY(double sourceSampleRate READ sourceSampleRate NOTIFY audioChanged)
         Q_PROPERTY(qint64 sourceSampleCount READ sourceSampleCount NOTIFY audioChanged)
 
@@ -51,6 +52,7 @@ namespace Audio {
             FileLoadFailed,
             FileMoved,
             FileContentChanged,
+            EmbeddedAudioUnavailable,
         };
         Q_ENUM(Status)
 
@@ -63,6 +65,7 @@ namespace Audio {
 
         Status status() const;
         QString realAudioPath() const;
+        bool embeddedLossless() const;
         double sourceSampleRate() const;
         qint64 sourceSampleCount() const;
 

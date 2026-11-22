@@ -3,19 +3,27 @@
 
 #include "AudioClipAddOn.h"
 
+#include <exception>
 #include <memory>
+#include <utility>
 
 #include <QDir>
 #include <QEventLoop>
+#include <QFileDialog>
 #include <QFileInfo>
+#include <QFutureWatcher>
 #include <QLoggingCategory>
+#include <QPointer>
 #include <QQmlComponent>
 #include <QQuickItem>
 #include <QQuickWindow>
+#include <QRegularExpression>
+#include <QScopedPointer>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QVariant>
 
+#include <CoreApi/filelocker.h>
 #include <CoreApi/runtimeinterface.h>
 
 #include <QAKQuick/quickactioncontext.h>
@@ -45,6 +53,8 @@
 #include <transactional/TransactionController.h>
 
 #include <audio/AudioClipImporter.h>
+#include <audio/AudioClipAudioContext.h>
+#include <audio/EmbeddedAudio.h>
 #include <audio/GlobalAudioContext.h>
 #include <audio/PreviewSoundPlayer.h>
 #include <audio/internal/HashHelper.h>
@@ -95,7 +105,11 @@ namespace Audio::Internal {
     AudioClipAddOn::AudioClipAddOn(QObject *parent) : WindowInterfaceAddOn(parent) {
     }
 
-    AudioClipAddOn::~AudioClipAddOn() = default;
+    AudioClipAddOn::~AudioClipAddOn() {
+        if (m_embeddingWatcher) {
+            m_embeddingWatcher->cancel();
+        }
+    }
 
     void AudioClipAddOn::initialize() {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
@@ -116,6 +130,13 @@ namespace Audio::Internal {
     }
 
     void AudioClipAddOn::extensionsInitialized() {
+        auto *window = windowHandle()->cast<Core::ProjectWindowInterface>();
+        EmbeddedAudio::of(window->projectDocumentContext())->configureClipboard(window->clipboardEditScenario(), [window = QPointer(window)] {
+            if (window) {
+                SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), window->window(), tr("Copy Failed"),
+                                         tr("The selection contains unavailable embedded audio."));
+            }
+        });
     }
 
     bool AudioClipAddOn::delayedInitialize() {
@@ -352,6 +373,175 @@ namespace Audio::Internal {
         }, [windowInterface] {
             qCWarning(lcAudioClipAddOn) << "Failed to replace audio clip because the transaction could not start.";
             windowInterface->sendOperationConflictNotification();
+        });
+    }
+
+    void AudioClipAddOn::embedAudioClip(dspx::AudioClip *clip) {
+        const auto window = QPointer(windowHandle()->cast<Core::ProjectWindowInterface>());
+        auto *audioContext = clip ? AudioClipAudioContext::of(clip) : nullptr;
+        if (m_embeddingWatcher || !window || !audioContext || !clip->path().embeddedKey.isEmpty()) {
+            return;
+        }
+        auto *quickWindow = qobject_cast<QQuickWindow *>(window->window());
+        const auto context = QPointer(window->projectDocumentContext());
+        auto *document = context ? context->document() : nullptr;
+        if (!quickWindow || !document) {
+            return;
+        }
+        auto readLock = std::make_unique<Core::TransactionController::ScopedReadLock>(document->transactionController());
+        if (!*readLock) {
+            window->sendOperationConflictNotification();
+            return;
+        }
+
+        const auto guard = QPointer(this);
+        const auto target = QPointer(clip);
+        const auto path = clip->path();
+        const auto sourceFilePath = audioContext->realAudioPath();
+        auto *engine = Core::RuntimeInterface::qmlEngine();
+        QQmlComponent optionsComponent(engine, "DiffScope.Audio", "EmbedAudioDialog");
+        if (optionsComponent.isError()) {
+            qFatal() << optionsComponent.errorString();
+        }
+        QScopedPointer<QObject, QScopedPointerDeleteLater> options(createAndPositionDialog(quickWindow, &optionsComponent, {}));
+        if (!execDialog(options.get()) || !guard || !*readLock || m_embeddingWatcher) {
+            return;
+        }
+        const auto compression = options->property("lossy").toBool() ? EmbeddedAudio::Compression::Lossy : EmbeddedAudio::Compression::Lossless;
+        auto *progress = createAndPositionDialog(quickWindow, &optionsComponent, {{QStringLiteral("preparing"), true}});
+        progress->setParent(this);
+        auto *watcher = new QFutureWatcher<EmbeddedAudio::Prepared>(this);
+        m_embeddingWatcher = watcher;
+        connect(progress, SIGNAL(rejected()), watcher, SLOT(cancel()));
+        connect(progress, SIGNAL(closed()), watcher, SLOT(cancel()));
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, guard, watcher, progress = QPointer(progress), window, context, target, readLock = std::move(readLock)]() mutable {
+            const auto lock = std::move(readLock);
+            m_embeddingWatcher = nullptr;
+            watcher->deleteLater();
+            const bool cancelled = watcher->isCanceled();
+            if (progress) {
+                QObject::disconnect(progress, nullptr, watcher, nullptr);
+                QMetaObject::invokeMethod(progress, "close");
+                progress->deleteLater();
+            }
+            if (cancelled || !*lock || !window || !context || !target) {
+                return;
+            }
+            const auto report = [window](const QString &message) {
+                if (window) {
+                    SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), window->window(), tr("Embed Audio Failed"), message);
+                }
+            };
+            EmbeddedAudio::Prepared prepared;
+            try {
+                prepared = watcher->result();
+            } catch (const std::exception &error) {
+                qCWarning(lcAudioClipAddOn) << "Failed to prepare embedded audio" << error.what();
+                report(tr("Could not store the embedded audio."));
+                return;
+            }
+            if (!prepared.error().isEmpty()) {
+                report(prepared.error());
+                return;
+            }
+            auto *store = EmbeddedAudio::of(context);
+            const auto conflict = store->conflict(prepared);
+            const bool downgrade = conflict.action == EmbeddedAudio::Conflict::Downgrade;
+            if (downgrade) {
+                const auto message = conflict.referenceCount > 0
+                    ? tr("Other clips using this audio will also use lossy encoding. The number of affected clips is %L1.").arg(conflict.referenceCount)
+                    : tr("The lossless copy will be replaced. Any clips restored by undo will use the lossy copy.");
+                if (SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), window->window(), tr("Replace Lossless Audio"), message,
+                                             SVS::SVSCraft::Yes | SVS::SVSCraft::Cancel, SVS::SVSCraft::Cancel) != SVS::SVSCraft::Yes
+                    || !guard || !*lock) {
+                    return;
+                }
+            }
+            lock->release();
+            const auto result = store->apply({prepared}, {conflict}, tr("Embedding audio clip"), [target](const QList<dspx::AudioPathInfo> &paths) {
+                target->setPath(paths.first());
+                return true;
+            }, downgrade);
+            if ((result == EmbeddedAudio::ApplyResult::Busy || result == EmbeddedAudio::ApplyResult::Stale) && window) {
+                window->sendOperationConflictNotification();
+            } else if (result == EmbeddedAudio::ApplyResult::WriteFailed) {
+                report(tr("Could not store the embedded audio."));
+            }
+        });
+        QMetaObject::invokeMethod(progress, "open");
+        watcher->setFuture(EmbeddedAudio::prepare(sourceFilePath, path.userData, path.formatEntryClassName, compression));
+    }
+
+    void AudioClipAddOn::relinkAudioClip(dspx::AudioClip *clip) {
+        const auto window = QPointer(windowHandle()->cast<Core::ProjectWindowInterface>());
+        const auto target = QPointer(clip);
+        auto *audioContext = target ? AudioClipAudioContext::of(target) : nullptr;
+        if (!window || !window->window() || !audioContext || audioContext->status() != AudioClipAudioContext::Ready) {
+            return;
+        }
+        const auto key = target->path().embeddedKey;
+        auto *context = window->projectDocumentContext();
+        auto *document = context ? context->document() : nullptr;
+        if (!document || key.isEmpty()) {
+            return;
+        }
+        Core::TransactionController::ScopedReadLock readLock(document->transactionController());
+        if (!readLock) {
+            window->sendOperationConflictNotification();
+            return;
+        }
+
+        const auto *locker = context->fileLocker();
+        const auto projectPath = locker ? locker->path() : QString();
+        const QDir directory(projectPath.isEmpty()
+            ? QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
+            : QFileInfo(projectPath).absolutePath());
+        auto baseName = target->name().trimmed();
+        baseName.replace(QRegularExpression(QStringLiteral("[<>:\"/\\\\|?*\\x00-\\x1f]")), QStringLiteral("_"));
+        baseName.remove(QRegularExpression(QStringLiteral("[ .]+$")));
+        if (baseName.isEmpty()) {
+            baseName = tr("Audio Clip");
+        }
+        static const QRegularExpression reservedName(
+            QStringLiteral("^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\\..*)?$"),
+            QRegularExpression::CaseInsensitiveOption
+        );
+        if (reservedName.match(baseName).hasMatch()) {
+            baseName.prepend(u'_');
+        }
+        const auto suffix = audioContext->embeddedLossless() ? QStringLiteral("wav") : QStringLiteral("ogg");
+        QFileDialog dialog;
+        dialog.setWindowTitle(tr("Relink to File"));
+        dialog.setAcceptMode(QFileDialog::AcceptSave);
+        dialog.setNameFilter(tr("Audio File (*.%1)").arg(suffix));
+        dialog.setDefaultSuffix(suffix);
+        dialog.setDirectory(directory);
+        dialog.selectFile(baseName + u'.' + suffix);
+        dialog.winId();
+        dialog.windowHandle()->setTransientParent(window->window());
+        dialog.setWindowModality(Qt::WindowModal);
+        const auto filePath = dialog.exec() == QDialog::Accepted ? dialog.selectedFiles().value(0) : QString();
+        if (filePath.isEmpty() || !readLock || !window || !target || target->path().embeddedKey != key) {
+            return;
+        }
+        if (QFileInfo(filePath).suffix().compare(suffix, Qt::CaseInsensitive) != 0) {
+            SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), window->window(), tr("Relink Failed"),
+                                     tr("Choose a file with the .%1 extension.").arg(suffix));
+            return;
+        }
+        if (!EmbeddedAudio::of(context)->extractToFile(key, filePath)) {
+            SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), window->window(), tr("Relink Failed"),
+                                     tr("Could not extract the embedded audio."));
+            return;
+        }
+
+        const auto path = AudioClipImporter::createAudioPath(window, filePath, {}, {});
+        readLock.release();
+        document->transactionController()->beginScopedTransaction(tr("Relinking audio clip"), [target, path] {
+            target->setPath(path);
+            return true;
+        }, [window] {
+            window->sendOperationConflictNotification();
         });
     }
 

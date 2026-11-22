@@ -17,6 +17,8 @@ namespace DspxProject {
         Clipboard *const clipboard;
         ParameterResamplingScenario *const resampling;
         bool pasteAvailable = false;
+        ClipboardEditScenario::CopyAttachments copyAttachments;
+        ClipboardEditScenario::PrepareAttachments prepareAttachments;
 
         void updatePasteAvailable();
     };

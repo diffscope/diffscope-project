@@ -82,6 +82,9 @@ namespace DspxProject {
             }
         }, m_data);
         json.insert("data", dataArray);
+        if (!m_attachments.isEmpty()) {
+            json.insert("attachments", m_attachments);
+        }
         return QJsonDocument(json).toJson(QJsonDocument::Compact);
     }
 
@@ -103,6 +106,7 @@ namespace DspxProject {
         result.m_playhead = json.value("playhead").toInt();
         result.m_absolute = json.value("absolute").toInt();
         result.m_track = json.value("track").toInt();
+        result.m_attachments = json.value("attachments").toObject();
         if (!json.value("data").isArray()) {
             return {};
         }

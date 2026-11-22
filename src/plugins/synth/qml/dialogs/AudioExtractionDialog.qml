@@ -18,13 +18,14 @@ Dialog {
     required property AudioExtractionTask task
     required property bool separation
     property alias directory: separationOptions.directory
+    property alias outputMode: separationOptions.outputMode
     property string scenarioError
     readonly property bool busy: task?.busy ?? false
     readonly property bool refreshing: task?.refreshing ?? false
     readonly property var extractors: task?.extractors ?? []
     readonly property var extractor: extractors[extractorBox.currentIndex] ?? null
     readonly property real labelColumnWidth: Math.max(extractorLabel.implicitWidth,
-                                                     separation ? separationOptions.directoryLabelImplicitWidth : 0)
+                                                     separation ? separationOptions.outputLabelImplicitWidth : 0)
 
     width: Math.min(520, (parent?.width ?? 552) - 32)
     modal: true
@@ -40,11 +41,11 @@ Dialog {
             id: startButton
             text: qsTr("Start")
             enabled: dialog.task !== null && !dialog.busy && !dialog.refreshing && dialog.extractor !== null
-                     && (!dialog.separation || (dialog.directory.length > 0 && separationOptions.routingValid))
+                     && (!dialog.separation || (separationOptions.routingValid && (!separationOptions.linksToFile || dialog.directory.length > 0)))
             DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
             DialogButton.layoutRole: DialogButton.AcceptRole
             DialogButton.emphasis: DialogButton.Primary
-            onClicked: dialog.addOn.start(extractorBox.currentIndex, dialog.directory,
+            onClicked: dialog.addOn.start(extractorBox.currentIndex, dialog.outputMode, dialog.directory,
                                          separationOptions.outputTrackCount, separationOptions.outputRoutes)
         }
         Button {

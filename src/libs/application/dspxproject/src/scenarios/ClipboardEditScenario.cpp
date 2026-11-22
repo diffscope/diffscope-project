@@ -4,6 +4,9 @@
 #include "ClipboardEditScenario.h"
 #include "ClipboardEditScenario_p.h"
 
+#include <optional>
+#include <utility>
+
 #include <QPointer>
 #include <QQuickWindow>
 
@@ -43,9 +46,18 @@ namespace DspxProject {
         return d->pasteAvailable;
     }
 
+    void ClipboardEditScenario::setAttachmentHandlers(CopyAttachments copy, PrepareAttachments prepare) {
+        Q_D(ClipboardEditScenario);
+        d->copyAttachments = std::move(copy);
+        d->prepareAttachments = std::move(prepare);
+    }
+
     bool ClipboardEditScenario::copy(int playheadPosition) const {
         Q_D(const ClipboardEditScenario);
-        if (const auto data = d->document->copySelection(playheadPosition)) {
+        if (auto data = d->document->copySelection(playheadPosition)) {
+            if (d->copyAttachments && !d->copyAttachments(*data)) {
+                return false;
+            }
             d->clipboard->copy({*data}, nullptr);
             return true;
         }
@@ -102,6 +114,15 @@ namespace DspxProject {
             }
         }
         if (!operationValid() || !document->isPasteTargetValid(*target)) {
+            return;
+        }
+        if (d->prepareAttachments && !d->prepareAttachments(data)) {
+            if (operationValid()) {
+                d->strategy->reportPasteFailure(window);
+            }
+            return;
+        }
+        if (!operationValid()) {
             return;
         }
         std::optional<Document::PasteResult> result;

@@ -8,6 +8,7 @@
 #include <vector>
 
 #include <QByteArray>
+#include <QJsonObject>
 #include <QList>
 #include <QString>
 #include <QVariant>
@@ -244,6 +245,8 @@ namespace DspxProject {
         static Type typeFromMimeType(const QString &mimeType, bool *ok = nullptr);
         /** Serializes the payload and placement metadata to compact JSON. */
         QByteArray toData() const;
+        QJsonObject attachments() const { return m_attachments; }
+        void setAttachments(const QJsonObject &attachments) { m_attachments = attachments; }
         /**
          * Decodes JSON using the type supplied by its MIME representation.
          * Returns default data on parse, version, or payload errors. Writes decoding
@@ -266,6 +269,7 @@ namespace DspxProject {
         int m_playhead{};
         int m_absolute{};
         int m_track{};
+        QJsonObject m_attachments;
     };
 
 }

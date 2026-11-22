@@ -76,6 +76,16 @@
         <source>Record MIDI notes into the current singing clip.</source>
         <translation type="unfinished">Record MIDI notes into the current singing clip.</translation>
     </message>
+    <message>
+        <location filename="../org.diffscope.audio_actions.xml"/>
+        <source>Store the source audio in the project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.audio_actions.xml"/>
+        <source>Extract embedded audio to a file and link the clip to it.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Application::ActionText</name>
@@ -173,6 +183,16 @@
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1002"/>
         <source>Record</source>
         <translation type="unfinished">Record</translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.audio_actions.xml"/>
+        <source>Embed Audio...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../org.diffscope.audio_actions.xml"/>
+        <source>Relink to File...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -373,6 +393,81 @@
         <location filename="../../internal/addon/AudioClipAddOn.cpp" line="345"/>
         <source>Replacing audio clip</source>
         <translation type="unfinished">Replacing audio clip</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Copy Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>The selection contains unavailable embedded audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Embed Audio Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Replace Lossless Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Other clips using this audio will also use lossy encoding. The number of affected clips is %L1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>The lossless copy will be replaced. Any clips restored by undo will use the lossy copy.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Embedding audio clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Audio Clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Relink to File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Audio File (*.%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Relink Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Choose a file with the .%1 extension.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Could not extract the embedded audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Relinking audio clip</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <source>Could not store the embedded audio.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -930,6 +1025,11 @@ To: %3</translation>
 %2</source>
         <translation type="unfinished">No checksum is recorded for the file in audio clip &quot;%1&quot;.
 %2</translation>
+    </message>
+    <message>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp"/>
+        <source>Embedded audio is unavailable in audio clip &quot;%1&quot;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1749,6 +1849,16 @@ Estimated size of each file: %3</numerusform>
     </message>
     <message>
         <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <source>Embedded audio (lossless)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <source>Embedded audio (lossy)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
         <source>Sample rate (Hz)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1760,6 +1870,16 @@ Estimated size of each file: %3</numerusform>
     <message>
         <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
         <source>%1 (%2 samples)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <source>Embedded audio is unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <source>Replace Audio Clip</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2198,6 +2318,77 @@ Estimated size of each file: %3</numerusform>
         <location filename="../../qml/waveformsinger/WaveformSingerControlPanel.qml" line="45"/>
         <source>Type</source>
         <translation type="unfinished">Type</translation>
+    </message>
+</context>
+<context>
+    <name>Audio::EmbeddedAudio</name>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp"/>
+        <source>Could not encode the audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp"/>
+        <source>Could not open the source audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp"/>
+        <source>The source audio sample rate is unsupported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp"/>
+        <source>Could not store embedded audio.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp"/>
+        <source>Could not write embedded audio to the recovery directory.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp"/>
+        <source>Could not save embedded audio with key %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EmbedAudioDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
+        <source>Embedding Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
+        <source>Embed Audio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
+        <source>Lossless</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
+        <source>Lossy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
+        <source>Lossless embedding preserves the source audio quality but usually requires more storage space. Choose lossless embedding for audio included in the final export.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
+        <source>Lossy embedding usually requires less storage space but discards some audio detail. Choose lossy embedding for audio used only as a reference.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
+        <source>Encoding audio</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

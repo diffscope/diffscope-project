@@ -17,6 +17,7 @@
 #include <QQuickWindow>
 #include <QRegularExpression>
 #include <QScopedPointer>
+#include <QStandardPaths>
 #include <QVariant>
 #include <QWindow>
 #include <QtAlgorithms>
@@ -127,20 +128,6 @@ namespace PitchShifter::Internal {
         return dialog->property("result").toInt() == 1;
     }
 
-    QObject *PitchShiftAddOn::createAndPositionDialog(QQuickWindow *window, QQmlComponent *component, const QVariantMap &initialProperties) {
-        if (!window || !component || component->isError()) {
-            return nullptr;
-        }
-        auto properties = initialProperties;
-        properties.insert(QStringLiteral("parent"), QVariant::fromValue(window->contentItem()));
-        auto dialog = component->createWithInitialProperties(properties);
-        if (!dialog) {
-            return nullptr;
-        }
-        UIShell::DialogPositioner::positionPopup(dialog, window);
-        return dialog;
-    }
-
     dspx::AudioPathInfo PitchShiftAddOn::outputAudioPath(const QString &filePath, const QString &digest) const {
         const QFileInfo fileInfo(filePath);
         dspx::AudioPathInfo path;
@@ -180,6 +167,42 @@ namespace PitchShifter::Internal {
             qCWarning(lcPitchShiftAddOn) << "The stretched audio was saved, but the clip update transaction could not be started.";
             windowInterface->sendOperationConflictNotification();
         });
+    }
+
+    void PitchShiftAddOn::embedClipAudio(dspx::AudioClip *clip, const Audio::EmbeddedAudio::Prepared &prepared) {
+        using EmbeddedAudio = Audio::EmbeddedAudio;
+
+        const auto window = QPointer(windowHandle()->cast<Core::ProjectWindowInterface>());
+        const auto target = QPointer(clip);
+        if (!target || !window) {
+            return;
+        }
+        const auto store = QPointer(EmbeddedAudio::of(window->projectDocumentContext()));
+        if (!store) {
+            return;
+        }
+
+        const auto conflict = store->conflict(prepared);
+        const bool downgrade = conflict.action == EmbeddedAudio::Conflict::Downgrade;
+        if (downgrade) {
+            const auto guard = QPointer(this);
+            const auto answer = SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), window->window(), tr("Replace Lossless Audio"),
+                tr("The project already contains a lossless copy of this audio. Replace it with a lossy copy for all clips that use it?"),
+                SVS::SVSCraft::Yes | SVS::SVSCraft::Cancel, SVS::SVSCraft::Cancel);
+            if (answer != SVS::SVSCraft::Yes || !guard || !window || !target || !store) {
+                return;
+            }
+        }
+
+        const auto result = store->apply({prepared}, {conflict}, tr("Stretching and shifting pitch"), [target](const QList<dspx::AudioPathInfo> &paths) {
+            target->setPath(paths.first());
+            return true;
+        }, downgrade);
+        if (result == EmbeddedAudio::ApplyResult::Busy || result == EmbeddedAudio::ApplyResult::Stale) {
+            window->sendOperationConflictNotification();
+        } else if (result == EmbeddedAudio::ApplyResult::WriteFailed) {
+            showCritical(tr("Failed to stretch and shift pitch"), tr("Could not store the embedded audio."));
+        }
     }
 
     void PitchShiftAddOn::showCritical(const QString &title, const QString &message) const {
@@ -228,42 +251,26 @@ namespace PitchShifter::Internal {
                 return;
             }
 
-            const QFileInfo sourceFileInfo(sourceFilePath);
-            const auto defaultBaseName = sanitizedFileName(clip->name(), sourceFileInfo.completeBaseName());
-            auto outputFilePath = QFileDialog::getSaveFileName(
-                windowInterface->invisibleCentralWidget(),
-                tr("Save Stretched and Pitch-Shifted Audio"),
-                sourceFileInfo.dir().filePath(defaultBaseName + QStringLiteral(".wav")),
-                tr("WAV Audio (*.wav)")
-            );
-            if (outputFilePath.isEmpty() || !*readLock) {
-                return;
-            }
-            QFileInfo outputFileInfo(outputFilePath);
-            if (outputFileInfo.suffix().compare(QStringLiteral("wav"), Qt::CaseInsensitive) != 0) {
-                auto baseName = outputFileInfo.completeBaseName();
-                if (baseName.isEmpty()) {
-                    baseName = outputFileInfo.fileName();
-                }
-                outputFilePath = outputFileInfo.dir().filePath(baseName + QStringLiteral(".wav"));
-            }
-
+            const auto defaultOutputMode = sourcePath.embeddedKey.isEmpty() ? LinkToFile
+                : audioContext->embeddedLossless() ? EmbedLossless : EmbedLossy;
             QQmlComponent configComponent(Core::RuntimeInterface::qmlEngine(), "DiffScope.PitchShifter", "PitchShiftDialog");
             if (configComponent.isError()) {
                 qFatal() << configComponent.errorString();
             }
-            QScopedPointer<QObject, QScopedPointerDeleteLater> configDialog(createAndPositionDialog(quickWindow, &configComponent, {}));
-            if (!configDialog) {
-                qCCritical(lcPitchShiftAddOn) << "Unable to create pitch shift dialog:" << configComponent.errorString();
-                showCritical(tr("Failed to stretch and shift pitch"), configComponent.errorString());
-                return;
+            auto *configObject = configComponent.createWithInitialProperties({
+                {QStringLiteral("parent"), QVariant::fromValue(quickWindow->contentItem())},
+                {QStringLiteral("outputMode"), static_cast<int>(defaultOutputMode)},
+            });
+            if (!configObject) {
+                qFatal() << configComponent.errorString();
             }
-            if (!execDialog(configDialog.get()) || !*readLock) {
+            QScopedPointer<QObject, QScopedPointerDeleteLater> configDialog(configObject);
+            UIShell::DialogPositioner::positionPopup(configDialog.get(), quickWindow);
+            if (!execDialog(configDialog.get()) || !*readLock || !guardedClip) {
                 return;
             }
 
             PitchShiftConfig config;
-            config.outputFilePath = QFileInfo(outputFilePath).absoluteFilePath();
             config.pitchSemitones = configDialog->property("pitch").toDouble();
             config.timeRatio = configDialog->property("stretch").toDouble();
             const auto formantMode = configDialog->property("formantMode").toInt();
@@ -275,6 +282,37 @@ namespace PitchShifter::Internal {
             config.formantMode = static_cast<PitchShiftConfig::FormantMode>(formantMode);
             config.formantShiftSemitones = configDialog->property("formantShift").toDouble();
             config.linkChannels = configDialog->property("linkChannels").toBool();
+            const auto outputMode = configDialog->property("outputMode").toInt();
+            configDialog.reset();
+
+            if (outputMode == LinkToFile) {
+                const auto *locker = windowInterface->projectDocumentContext()->fileLocker();
+                const auto projectPath = locker ? locker->path() : QString();
+                const QDir outputDirectory(projectPath.isEmpty()
+                    ? QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
+                    : QFileInfo(projectPath).absolutePath());
+                const auto defaultBaseName = sanitizedFileName(guardedClip->name(), QFileInfo(sourceFilePath).completeBaseName());
+                auto outputFilePath = QFileDialog::getSaveFileName(
+                    windowInterface->invisibleCentralWidget(),
+                    tr("Save Stretched and Pitch-Shifted Audio"),
+                    outputDirectory.filePath(defaultBaseName + QStringLiteral(".wav")),
+                    tr("WAV Audio (*.wav)")
+                );
+                if (outputFilePath.isEmpty() || !*readLock || !guardedClip) {
+                    return;
+                }
+                const QFileInfo outputFileInfo(outputFilePath);
+                if (outputFileInfo.suffix().compare(QStringLiteral("wav"), Qt::CaseInsensitive) != 0) {
+                    auto baseName = outputFileInfo.completeBaseName();
+                    if (baseName.isEmpty()) {
+                        baseName = outputFileInfo.fileName();
+                    }
+                    outputFilePath = outputFileInfo.dir().filePath(baseName + QStringLiteral(".wav"));
+                }
+                config.outputFilePath = QFileInfo(outputFilePath).absoluteFilePath();
+            } else {
+                config.embeddedCompression = outputMode == EmbedLossy ? Audio::EmbeddedAudio::Compression::Lossy : Audio::EmbeddedAudio::Compression::Lossless;
+            }
 
             auto inputIo = std::unique_ptr<talcs::AbstractAudioFormatIO>(
                 Audio::GlobalAudioContext::formatManager()->getFormatLoad(sourceFilePath, sourcePath.userData, sourcePath.formatEntryClassName));
@@ -320,6 +358,11 @@ namespace PitchShifter::Internal {
                 closeProgressDialog(progressDialog);
                 readLock->release();
                 replaceClipAudio(guardedClip, outputFilePath, digest);
+            });
+            connect(task, &PitchShiftTask::embeddingPrepared, this, [this, readLock, guardedClip, progressDialog](const Audio::EmbeddedAudio::Prepared &prepared) {
+                closeProgressDialog(progressDialog);
+                readLock->release();
+                embedClipAudio(guardedClip, prepared);
             });
             connect(task, &PitchShiftTask::cancelled, this, [this, readLock, progressDialog] {
                 readLock->release();

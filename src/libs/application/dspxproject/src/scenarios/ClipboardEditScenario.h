@@ -4,6 +4,8 @@
 #ifndef DIFFSCOPE_DSPXPROJECT_CLIPBOARDEDITSCENARIO_H
 #define DIFFSCOPE_DSPXPROJECT_CLIPBOARDEDITSCENARIO_H
 
+#include <functional>
+
 #include <QObject>
 #include <QScopedPointer>
 #include <qqmlintegration.h>
@@ -38,6 +40,11 @@ namespace DspxProject {
 
         /** Returns whether ordinary paste has a resolved target and can acquire any required read lock. */
         bool pasteAvailable() const;
+
+        using CopyAttachments = std::function<bool(ClipboardData &)>;
+        using PrepareAttachments = std::function<bool(const ClipboardData &)>;
+
+        void setAttachmentHandlers(CopyAttachments copy, PrepareAttachments prepare);
 
         /** Copies the selection with a project playhead tick and returns whether copying succeeded. */
         Q_INVOKABLE bool copy(int playheadPosition) const;

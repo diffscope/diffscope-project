@@ -29,7 +29,7 @@ namespace Audio {
         qint64 sourceSampleCount = -1;
 
         void setStatus(AudioClipAudioContext::Status status);
-        void setRealAudioPath(const QString &realAudioPath);
+        void setRealAudioPath(const QString &path);
         void updateReadAheadSize();
         void notifyAudioChanged();
 

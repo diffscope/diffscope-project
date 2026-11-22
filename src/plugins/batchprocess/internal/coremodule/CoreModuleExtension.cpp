@@ -556,6 +556,9 @@ namespace BatchProcess::Internal {
             }
             if (auto *clip = qobject_cast<dspx::AudioClip *>(object); clip && property == QStringLiteral("path")) {
                 const auto path = clip->path();
+                if (!path.embeddedKey.isEmpty()) {
+                    return success(propertyValue(QVariantMap{{"embeddedKey", path.embeddedKey}}));
+                }
                 QByteArray bytes;
                 QDataStream stream(&bytes, QIODevice::WriteOnly);
                 stream.setVersion(QDataStream::Qt_5_15);
@@ -581,6 +584,11 @@ namespace BatchProcess::Internal {
             if (auto *clip = qobject_cast<dspx::SingingClip *>(object); clip && property == QStringLiteral("sources") && value.isNull()) { clip->setSources(nullptr); return success(); }
             if (auto *clip = qobject_cast<dspx::AudioClip *>(object); clip && property == QStringLiteral("path")) {
                 dspx::AudioPathInfo path;
+                const auto key = value.property(QStringLiteral("embeddedKey"));
+                if (key.isString() && !key.toString().isEmpty()) {
+                    clip->setPath(dspx::AudioPathInfo{.embeddedKey = key.toString()});
+                    return success();
+                }
                 path.absoluteDir = value.property(QStringLiteral("absoluteDir")).toString();
                 path.relativeDir = value.property(QStringLiteral("relativeDir")).toString();
                 path.fileName = value.property(QStringLiteral("fileName")).toString();

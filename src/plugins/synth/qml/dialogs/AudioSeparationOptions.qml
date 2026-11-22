@@ -17,10 +17,12 @@ ColumnLayout {
     required property var trackNames
     required property real labelColumnWidth
     property string directory
+    property int outputMode: AudioExtractionAddOn.LinkToFile
     property var outputRoutes: []
     property var previousTrackNames: []
     property bool completed: false
-    readonly property real directoryLabelImplicitWidth: directoryLabel.implicitWidth
+    readonly property bool linksToFile: outputMode === AudioExtractionAddOn.LinkToFile
+    readonly property real outputLabelImplicitWidth: Math.max(outputModeLabel.implicitWidth, directoryLabel.implicitWidth)
     readonly property int outputTrackCount: trackCountBox.value
     readonly property bool routingValid: {
         if (trackNames.length === 0 || outputRoutes.length !== trackNames.length)
@@ -66,15 +68,40 @@ ColumnLayout {
         Layout.fillWidth: true
         columns: 2
         columnSpacing: 12
+        rowSpacing: 8
+
+        Label {
+            id: outputModeLabel
+            Layout.minimumWidth: options.labelColumnWidth
+            Layout.maximumWidth: options.labelColumnWidth
+            text: qsTr("Output")
+        }
+        ComboBox {
+            Layout.fillWidth: true
+            textRole: "text"
+            valueRole: "value"
+            model: [
+                { text: qsTr("Link to File"), value: AudioExtractionAddOn.LinkToFile },
+                { text: qsTr("Embed Lossless"), value: AudioExtractionAddOn.EmbedLossless },
+                { text: qsTr("Embed Lossy"), value: AudioExtractionAddOn.EmbedLossy }
+            ]
+            currentValue: options.outputMode
+            Accessible.name: outputModeLabel.text
+            Accessible.labelledBy: outputModeLabel
+            onActivated: (index) => options.outputMode = valueAt(index)
+            onActiveFocusChanged: if (activeFocus) options.controlFocused(this)
+        }
 
         Label {
             id: directoryLabel
             Layout.minimumWidth: options.labelColumnWidth
             Layout.maximumWidth: options.labelColumnWidth
+            enabled: options.linksToFile
             text: qsTr("Output directory")
         }
         RowLayout {
             Layout.fillWidth: true
+            enabled: options.linksToFile
             TextField {
                 Layout.fillWidth: true
                 text: options.directory

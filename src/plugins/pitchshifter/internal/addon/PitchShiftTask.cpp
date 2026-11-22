@@ -20,6 +20,7 @@
 #include <QFile>
 #include <QLoggingCategory>
 #include <QSaveFile>
+#include <QTemporaryFile>
 
 #include <TalcsFormat/AbstractAudioFormatIO.h>
 #include <TalcsFormat/AudioFormatIO.h>
@@ -135,7 +136,8 @@ namespace PitchShifter::Internal {
             const auto sampleRate = m_inputIo->sampleRate();
             const auto channelCount = m_inputIo->channelCount();
             const auto inputLength = m_inputIo->length();
-            if (sampleRate <= 0 || channelCount <= 0 || inputLength < 0) {
+            if (!std::isfinite(sampleRate) || sampleRate <= 0 || sampleRate > std::numeric_limits<int>::max()
+                || channelCount <= 0 || inputLength < 0) {
                 fail(tr("The source audio file has invalid format information."));
             }
 
@@ -222,14 +224,22 @@ namespace PitchShifter::Internal {
             }
 
             QSaveFile outputFile(m_config.outputFilePath);
-            outputFile.setDirectWriteFallback(false);
-            if (!outputFile.open(QIODevice::WriteOnly)) {
-                fail(tr("Unable to open the destination file for writing: %1").arg(outputFile.errorString()));
-            }
             talcs::AudioFormatIO outputIo(&outputFile);
-            const auto outputFormat = static_cast<int>(talcs::AudioFormatIO::WAV) | static_cast<int>(talcs::AudioFormatIO::FLOAT);
-            if (!outputIo.AbstractAudioFormatIO::open(talcs::AbstractAudioFormatIO::Write, outputFormat, channelCount, sampleRate)) {
-                fail(tr("Unable to create the destination WAV file: %1").arg(outputIo.errorString()));
+            QTemporaryFile pcmFile;
+            const auto pcmFrameSize = qint64(channelCount) * qint64(sizeof(float));
+            if (m_config.embeddedCompression) {
+                if (!pcmFile.open()) {
+                    fail(tr("Unable to open a temporary file for the processed audio."));
+                }
+            } else {
+                outputFile.setDirectWriteFallback(false);
+                if (!outputFile.open(QIODevice::WriteOnly)) {
+                    fail(tr("Unable to open the destination file for writing: %1").arg(outputFile.errorString()));
+                }
+                const auto outputFormat = static_cast<int>(talcs::AudioFormatIO::WAV) | static_cast<int>(talcs::AudioFormatIO::FLOAT);
+                if (!outputIo.AbstractAudioFormatIO::open(talcs::AbstractAudioFormatIO::Write, outputFormat, channelCount, sampleRate)) {
+                    fail(tr("Unable to create the destination WAV file: %1").arg(outputIo.errorString()));
+                }
             }
 
             std::vector<std::vector<float>> channelOutput(static_cast<std::size_t>(channelCount), std::vector<float>(ProcessBlockSize));
@@ -258,10 +268,15 @@ namespace PitchShifter::Internal {
                                 channelOutput[static_cast<std::size_t>(channel)][frame];
                         }
                     }
-                    if (outputIo.write(interleavedOutput.data(), static_cast<qint64>(retrievedFrames)) != static_cast<qint64>(retrievedFrames)) {
+                    const auto frameCount = static_cast<qint64>(retrievedFrames);
+                    const auto byteCount = frameCount * pcmFrameSize;
+                    const bool written = m_config.embeddedCompression
+                        ? pcmFile.write(reinterpret_cast<const char *>(interleavedOutput.data()), byteCount) == byteCount
+                        : outputIo.write(interleavedOutput.data(), frameCount) == frameCount;
+                    if (!written) {
                         fail(tr("Unable to write all processed audio to the destination file."));
                     }
-                    outputFrames += static_cast<qint64>(retrievedFrames);
+                    outputFrames += frameCount;
                 }
             };
 
@@ -286,9 +301,36 @@ namespace PitchShifter::Internal {
             checkCancelled();
             qCDebug(lcPitchShiftTask) << "Finalizing destination audio";
             Q_EMIT progressChanged(Finalizing, 1.0);
-            outputIo.close();
             m_inputIo->close();
             m_inputIo.reset();
+
+            if (m_config.embeddedCompression) {
+                if (!pcmFile.flush() || !pcmFile.seek(0)) {
+                    fail(tr("Unable to prepare the processed audio for embedding."));
+                }
+                pcmFile.moveToThread(nullptr);
+                const Audio::EmbeddedAudio::StreamFormat format{
+                    .sampleRate = static_cast<int>(sampleRate),
+                    .channelCount = channelCount,
+                    .frameCount = outputFrames,
+                };
+                const auto prepared = Audio::EmbeddedAudio::prepare(format, [&](float *samples, qint64 maxFrames) -> qint64 {
+                    if (m_cancelRequested.load(std::memory_order_relaxed)) {
+                        return -1;
+                    }
+                    const auto bytes = pcmFile.read(reinterpret_cast<char *>(samples), maxFrames * pcmFrameSize);
+                    return bytes < 0 || bytes % pcmFrameSize != 0 ? -1 : bytes / pcmFrameSize;
+                }, *m_config.embeddedCompression).result();
+                checkCancelled();
+                if (const auto error = prepared.error(); !error.isEmpty()) {
+                    fail(error);
+                }
+                qCInfo(lcPitchShiftTask) << "Pitch shift completed";
+                Q_EMIT embeddingPrepared(prepared);
+                return;
+            }
+
+            outputIo.close();
             if (!outputFile.commit()) {
                 fail(tr("Unable to commit the destination file: %1").arg(outputFile.errorString()));
             }

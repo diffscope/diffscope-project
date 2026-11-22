@@ -7,6 +7,7 @@
 #include <cmath>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <utility>
 
 #include <QDateTime>
@@ -23,6 +24,7 @@
 #include <QRegularExpression>
 #include <QSaveFile>
 #include <QSet>
+#include <QStandardPaths>
 #include <QTemporaryDir>
 #include <QVariant>
 
@@ -66,6 +68,7 @@
 #include <singercatalog/DefaultLyricManager.h>
 
 #include <audio/AudioClipAudioContext.h>
+#include <audio/EmbeddedAudio.h>
 #include <synth/internal/TempoExtractionPreview.h>
 #include <transactional/TransactionController.h>
 
@@ -197,9 +200,20 @@ namespace Synth::Internal {
     void AudioExtractionAddOn::extractPitch(dspx::AudioClip *clip) { open(clip, AudioExtractionTask::Pitch); }
     void AudioExtractionAddOn::separateAudio(dspx::AudioClip *clip) { open(clip, AudioExtractionTask::Separation); }
 
+    QString AudioExtractionAddOn::defaultOutputDirectory() const {
+        const auto *windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        const auto *locker = windowInterface->projectDocumentContext()->fileLocker();
+        const auto projectPath = locker ? locker->path() : QString();
+        return normalizedPath(projectPath.isEmpty()
+            ? QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
+            : QFileInfo(projectPath).absolutePath());
+    }
+
     QString AudioExtractionAddOn::chooseDirectory(const QString &directory) {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
-        return normalizedPath(QFileDialog::getExistingDirectory(windowInterface->invisibleCentralWidget(), tr("Choose Separated Audio Directory"), normalizedPath(directory)));
+        const auto startDirectory = normalizedPath(directory);
+        return normalizedPath(QFileDialog::getExistingDirectory(windowInterface->invisibleCentralWidget(), tr("Choose Separated Audio Directory"),
+            startDirectory.isEmpty() ? defaultOutputDirectory() : startDirectory));
     }
 
     QString AudioExtractionAddOn::normalizedPath(const QString &path) const {
@@ -215,7 +229,6 @@ namespace Synth::Internal {
         auto window = qobject_cast<QQuickWindow *>(windowInterface->window());
         if (m_dialog || m_pendingDialog || !window || !clip || !clip->clipSequence() || clip->clipLength() <= 0)
             return;
-        const QPointer<dspx::AudioClip> guardedClip(clip);
         auto operation = std::make_unique<Operation>();
         operation->document = windowInterface->projectDocumentContext()->document();
         if (!operation->document)
@@ -225,14 +238,14 @@ namespace Synth::Internal {
             windowInterface->sendOperationConflictNotification();
             return;
         }
-        QString directory;
-        if (type == AudioExtractionTask::Separation) {
-            directory = chooseDirectory({});
-            if (directory.isEmpty() || !guardedClip || !operation->readLock)
-                return;
+        const bool separation = type == AudioExtractionTask::Separation;
+        auto outputMode = LinkToFile;
+        if (separation && !clip->path().embeddedKey.isEmpty()) {
+            const auto *audioContext = Audio::AudioClipAudioContext::of(clip);
+            outputMode = audioContext && audioContext->embeddedLossless() ? EmbedLossless : EmbedLossy;
         }
         m_operation = std::move(operation);
-        m_operation->source = guardedClip;
+        m_operation->source = clip;
         m_operation->type = type;
         m_task = new AudioExtractionTask(type, this);
         QQmlComponent component(Core::RuntimeInterface::qmlEngine(), "DiffScope.Synth", "AudioExtractionDialog");
@@ -242,8 +255,9 @@ namespace Synth::Internal {
             {QStringLiteral("parent"), QVariant::fromValue(window->contentItem())},
             {QStringLiteral("addOn"), QVariant::fromValue(this)},
             {QStringLiteral("task"), QVariant::fromValue(m_task.data())},
-            {QStringLiteral("separation"), type == AudioExtractionTask::Separation},
-            {QStringLiteral("directory"), directory},
+            {QStringLiteral("separation"), separation},
+            {QStringLiteral("directory"), separation ? defaultOutputDirectory() : QString()},
+            {QStringLiteral("outputMode"), static_cast<int>(outputMode)},
         });
         if (!m_dialog)
             qFatal() << component.errorString();
@@ -273,7 +287,7 @@ namespace Synth::Internal {
             && m_operation->document->model()->tracks()->items().contains(clip->clipSequence()->track());
     }
 
-    void AudioExtractionAddOn::start(int extractorIndex, const QString &directory, int outputTrackCount, const QList<int> &outputRoutes) {
+    void AudioExtractionAddOn::start(int extractorIndex, int outputMode, const QString &directory, int outputTrackCount, const QList<int> &outputRoutes) {
         if (!m_task || m_task->busy() || m_task->refreshing())
             return;
         if (!sourceAvailable()) {
@@ -295,7 +309,10 @@ namespace Synth::Internal {
             return;
         }
         operation.overwriteFiles.clear();
-        if (operation.type == AudioExtractionTask::Separation) {
+        std::optional<Audio::EmbeddedAudio::Compression> compression;
+        if (operation.type == AudioExtractionTask::Separation && outputMode != LinkToFile) {
+            compression = outputMode == EmbedLossy ? Audio::EmbeddedAudio::Compression::Lossy : Audio::EmbeddedAudio::Compression::Lossless;
+        } else if (operation.type == AudioExtractionTask::Separation) {
             const auto outputDirectory = normalizedPath(directory);
             m_dialog->setProperty("directory", outputDirectory);
             const QFileInfo directoryInfo(outputDirectory);
@@ -349,7 +366,7 @@ namespace Synth::Internal {
             return;
         }
         qCDebug(lcAudioExtractionScenario) << "Entered progressing state";
-        m_task->start(extractorIndex, operation.input, outputTrackCount, outputRoutes);
+        m_task->start(extractorIndex, operation.input, outputTrackCount, outputRoutes, compression);
     }
 
     void AudioExtractionAddOn::showError(const QString &message) {
@@ -493,16 +510,29 @@ namespace Synth::Internal {
             return;
         }
         qCDebug(lcAudioExtractionScenario) << "Entered committing state";
+        dspx::Clip *firstClip = nullptr;
+        const bool committed = result.embeddedStems.isEmpty()
+            ? commitExtractedTracks(result, firstClip)
+            : commitEmbeddedSeparation(result, firstClip);
+        if (!committed)
+            return;
+        if (firstClip)
+            operation.document->selectionModel()->select(firstClip, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
+        qCDebug(lcAudioExtractionScenario) << "Entered completed state";
+        QMetaObject::invokeMethod(m_dialog, "accept");
+    }
+
+    bool AudioExtractionAddOn::commitExtractedTracks(const AudioExtractionResult &result, dspx::Clip *&firstClip) {
+        auto &operation = *m_operation;
+        auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         auto document = operation.document.data();
-        auto model = document->model();
-        auto tracks = model->tracks();
         auto controller = document->transactionController();
         operation.readLock.release();
         const auto transaction = controller->beginTransaction();
         if (transaction == Core::TransactionController::TransactionId::Invalid) {
             qCWarning(lcAudioExtractionScenario) << "The extracted track insertion transaction could not be started.";
             windowInterface->sendOperationConflictNotification();
-            return;
+            return false;
         }
 
         QTemporaryDir backups(temporaryDirectoryPath(QStringLiteral("extraction-backup")));
@@ -533,7 +563,7 @@ namespace Synth::Internal {
                 const auto name = safeName(operation.name) + u'_' + safeName(stem.fileNameSuffix) + QStringLiteral(".wav");
                 if (names.contains(name.toCaseFolded())) {
                     abort(tr("The separated track names produce duplicate file names."));
-                    return;
+                    return false;
                 }
                 names.insert(name.toCaseFolded());
                 const auto target = QDir(operation.directory).absoluteFilePath(name);
@@ -543,12 +573,12 @@ namespace Synth::Internal {
                     if (existing.isSymLink() || !existing.isFile() || approved == operation.overwriteFiles.cend()
                         || approved->first != existing.size() || approved->second != existing.lastModified()) {
                         abort(tr("An output file appeared or changed during extraction. Start again to confirm overwriting it."));
-                        return;
+                        return false;
                     }
                     const auto backup = backups.filePath(QString::number(backupFiles.size()) + QStringLiteral(".wav"));
                     if (!backups.isValid() || !QFile::copy(target, backup)) {
                         abort(tr("Could not back up an existing output file."));
-                        return;
+                        return false;
                     }
                     backupFiles.insert(target, backup);
                 }
@@ -558,7 +588,7 @@ namespace Synth::Internal {
                 const auto target = destinations.at(index);
                 if (!copyFile(result.stems.at(index).filePath, target)) {
                     abort(tr("Could not save the separated audio files."));
-                    return;
+                    return false;
                 }
                 writtenFiles.append(target);
                 const QFileInfo info(target);
@@ -577,7 +607,65 @@ namespace Synth::Internal {
             }
         }
 
-        dspx::Clip *firstClip = nullptr;
+        if (const auto error = insertExtractedClips(result, paths, firstClip); !error.isEmpty()) {
+            abort(error);
+            return false;
+        }
+        const auto description = operation.type == AudioExtractionTask::Notes ? tr("Extracting notes")
+            : operation.type == AudioExtractionTask::Pitch ? tr("Extracting pitch")
+            : tr("Separating audio");
+        if (!controller->commitTransaction(transaction, description)) {
+            abort(tr("Could not commit the extracted tracks."));
+            return false;
+        }
+        return true;
+    }
+
+    bool AudioExtractionAddOn::commitEmbeddedSeparation(const AudioExtractionResult &result, dspx::Clip *&firstClip) {
+        using EmbeddedAudio = Audio::EmbeddedAudio;
+
+        const auto window = QPointer(windowHandle()->cast<Core::ProjectWindowInterface>());
+        const auto store = QPointer(EmbeddedAudio::of(window->projectDocumentContext()));
+        QList<EmbeddedAudio::Conflict> conflicts;
+        for (const auto &audio : result.embeddedStems)
+            conflicts.append(store->conflict(audio));
+        const bool downgrade = std::ranges::any_of(conflicts, [](const auto &conflict) {
+            return conflict.action == EmbeddedAudio::Conflict::Downgrade;
+        });
+        if (downgrade) {
+            const auto guard = QPointer(this);
+            const auto task = m_task;
+            const auto answer = SVS::MessageBox::warning(Core::RuntimeInterface::qmlEngine(), window->window(),
+                tr("Replace Lossless Audio"),
+                tr("Some separated audio matches lossless audio in this project. Replace the lossless copies with lossy copies for all clips that use them?"),
+                SVS::SVSCraft::Yes | SVS::SVSCraft::Cancel, SVS::SVSCraft::Cancel);
+            if (!guard || !task || m_task != task)
+                return false;
+            if (answer != SVS::SVSCraft::Yes || !window || !store || !sourceAvailable()) {
+                m_operation->readLock.release();
+                return false;
+            }
+        }
+
+        m_operation->readLock.release();
+        QString error;
+        const auto status = store->apply(result.embeddedStems, conflicts, tr("Separating audio"), [&](const QList<dspx::AudioPathInfo> &paths) {
+            error = insertExtractedClips(result, paths, firstClip);
+            return error.isEmpty();
+        }, downgrade);
+        if (status == EmbeddedAudio::ApplyResult::Busy || status == EmbeddedAudio::ApplyResult::Stale) {
+            window->sendOperationConflictNotification();
+        } else if (status != EmbeddedAudio::ApplyResult::Applied) {
+            showError(error.isEmpty() ? tr("Could not commit the extracted tracks.") : error);
+        }
+        return status == EmbeddedAudio::ApplyResult::Applied;
+    }
+
+    QString AudioExtractionAddOn::insertExtractedClips(const AudioExtractionResult &result, const QList<dspx::AudioPathInfo> &paths, dspx::Clip *&firstClip) {
+        const auto &operation = *m_operation;
+        auto model = operation.document->model();
+        auto tracks = model->tracks();
+        auto timeline = windowHandle()->cast<Core::ProjectWindowInterface>()->projectTimeline()->musicTimeline();
         const bool singingExtraction = operation.type == AudioExtractionTask::Notes || operation.type == AudioExtractionTask::Pitch;
         const auto count = singingExtraction ? 1 : result.stems.size();
         int insertionIndex = tracks->items().indexOf(operation.track) + 1;
@@ -592,10 +680,8 @@ namespace Synth::Internal {
             track->fromOpenDSPX(opendspx::Track{});
             track->setName(name);
             track->setColorId(operation.track->colorId());
-            if (!tracks->insertItem(insertionIndex++, track)) {
-                abort(tr("Could not insert the extracted tracks."));
-                return;
-            }
+            if (!tracks->insertItem(insertionIndex++, track))
+                return tr("Could not insert the extracted tracks.");
             dspx::Clip *clip;
             if (singingExtraction) {
                 auto singing = model->createSingingClip();
@@ -604,10 +690,8 @@ namespace Synth::Internal {
                 if (operation.type == AudioExtractionTask::Pitch) {
                     auto parameter = model->createParameter();
                     if (!singing->parameters()->insertItem(QStringLiteral("pitch"), parameter)
-                        || !parameter->freeEdited()->splice(0, 0, resamplePitch(result, timeline, operation.position, operation.clipLength))) {
-                        abort(tr("Could not insert the extracted pitch."));
-                        return;
-                    }
+                        || !parameter->freeEdited()->splice(0, 0, resamplePitch(result, timeline, operation.position, operation.clipLength)))
+                        return tr("Could not insert the extracted pitch.");
                 } else {
                     auto lyrics = Core::CoreInterface::defaultLyricManager();
                     const auto lyric = lyrics->getDefaultLyricForSingingClip(singing);
@@ -626,10 +710,8 @@ namespace Synth::Internal {
                         note->setLength(end - start);
                         note->setLyric(lyric);
                         note->setLanguage(singing->defaultLanguage());
-                        if (!singing->notes()->insertItem(note)) {
-                            abort(tr("Could not insert the extracted notes."));
-                            return;
-                        }
+                        if (!singing->notes()->insertItem(note))
+                            return tr("Could not insert the extracted notes.");
                     }
                 }
             } else {
@@ -643,24 +725,12 @@ namespace Synth::Internal {
             clip->setClipLength(operation.clipLength);
             clip->setLength(operation.clipLength);
             clip->setGain(1);
-            if (!track->clips()->insertItem(clip)) {
-                abort(tr("Could not insert the extracted clips."));
-                return;
-            }
+            if (!track->clips()->insertItem(clip))
+                return tr("Could not insert the extracted clips.");
             if (!firstClip)
                 firstClip = clip;
         }
-        const auto description = operation.type == AudioExtractionTask::Notes ? tr("Extracting notes")
-            : operation.type == AudioExtractionTask::Pitch ? tr("Extracting pitch")
-            : tr("Separating audio");
-        if (!controller->commitTransaction(transaction, description)) {
-            abort(tr("Could not commit the extracted tracks."));
-            return;
-        }
-        if (firstClip)
-            document->selectionModel()->select(firstClip, dspx::SelectionModel::Select | dspx::SelectionModel::SetCurrentItem | dspx::SelectionModel::ClearPreviousSelection);
-        qCDebug(lcAudioExtractionScenario) << "Entered completed state";
-        QMetaObject::invokeMethod(m_dialog, "accept");
+        return {};
     }
 
     void AudioExtractionAddOn::closeDialog() {

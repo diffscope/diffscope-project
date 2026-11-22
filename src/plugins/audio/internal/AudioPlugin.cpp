@@ -27,6 +27,7 @@
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/ProjectWindowInterface.h>
+#include <dspxproject/DocumentPersistenceHookRegistry.h>
 
 #include <audio/EffectsUnitCollection.h>
 #include <audio/MidiInputContext.h>
@@ -39,6 +40,7 @@
 #include <audio/internal/EffectsAddOn.h>
 #include <audio/internal/EffectsExportListener.h>
 #include <audio/internal/EffectsPresets.h>
+#include <audio/internal/EmbeddedAudioPersistenceHook.h>
 #include <audio/internal/ExportAudioAddOn.h>
 #include <audio/internal/ExportPage.h>
 #include <audio/internal/MidiPage.h>
@@ -80,6 +82,8 @@ namespace Audio::Internal {
         return true;
     }
     void AudioPlugin::extensionsInitialized() {
+        auto *registry = Core::CoreInterface::dspxPersistenceHookRegistry();
+        registry->registerHook(new EmbeddedAudioPersistenceHook(registry));
         initializeAudioOutput();
         m_midiInputContext->initialize();
         auto message = new Notifications::NotificationMessage(this);

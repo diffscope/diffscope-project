@@ -34,6 +34,8 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <action id="org.diffscope.audio.playback.recordButton" category="Playback" triggerable="false" diffscope:componentType="widget" />
         <action id="org.diffscope.audio.insert.insertAudioClip^" category="Insert" icon="sound_wave_circle" description="Choose an audio file and its position in the project." />
         <action id="org.diffscope.audio.edit.replaceAudioClip^" category="Edit" icon="sound_wave_circle" description="Choose a different audio file for the current audio clip." />
+        <action id="org.diffscope.audio.edit.embedAudioClip^" category="Edit" text="Embed Audio..." description="Store the source audio in the project." />
+        <action id="org.diffscope.audio.edit.relinkAudioClip^" category="Edit" text="Relink to File..." description="Extract embedded audio to a file and link the clip to it." />
         <action id="org.diffscope.audio.export.exportAudio^" category="Export" icon="sound_wave_circle_arrow_right" description="Render the project mix or separate tracks to audio files." />
         <action
                 id="org.diffscope.audio.panel.effects"
@@ -48,6 +50,7 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         <group id="org.diffscope.audio.exportAudioActions" />
         <group id="org.diffscope.audio.playbackActions" />
         <group id="org.diffscope.audio.metronomeActions" />
+        <group id="org.diffscope.audio.embeddedAudioActions" />
         <group id="org.diffscope.audio.audioProcessingActions" />
         <phony id="org.diffscope.core.workspacePanelWidgets" />
     </items>
@@ -65,6 +68,10 @@ SPDX-License-Identifier: LGPL-3.0-or-later
         </group>
         <group id="org.diffscope.audio.metronomeActions">
             <action id="org.diffscope.audio.playback.metronome" />
+        </group>
+        <group id="org.diffscope.audio.embeddedAudioActions">
+            <action id="org.diffscope.audio.edit.embedAudioClip" />
+            <action id="org.diffscope.audio.edit.relinkAudioClip" />
         </group>
         <group id="org.diffscope.audio.audioProcessingActions" />
     </layouts>
@@ -95,9 +102,11 @@ SPDX-License-Identifier: LGPL-3.0-or-later
             <action id="org.diffscope.audio.edit.replaceAudioClip" />
         </insertion>
         <insertion target="org.diffscope.core.edit" anchor="after" relativeTo="org.diffscope.core.edit.editCurrentClipActions">
+            <group id="org.diffscope.audio.embeddedAudioActions" />
             <group id="org.diffscope.audio.audioProcessingActions" />
         </insertion>
         <insertion target="org.diffscope.core.clipItemContextMenu" anchor="after" relativeTo="org.diffscope.core.edit.editCurrentClipActions">
+            <group id="org.diffscope.audio.embeddedAudioActions" />
             <group id="org.diffscope.audio.audioProcessingActions" />
         </insertion>
         <insertion target="org.diffscope.core.file" anchor="before" relativeTo="org.diffscope.core.preferenceActions">

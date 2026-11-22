@@ -9,9 +9,12 @@ import QtQuick.Layouts
 import SVSCraft
 import SVSCraft.UIComponents
 
+import DiffScope.PitchShifter
+
 Dialog {
     id: dialog
 
+    required property int outputMode
     property double stretch: 1
     property double pitch: 0
     property int formantMode: 0
@@ -121,6 +124,25 @@ Dialog {
             text: qsTr("Link Channels")
             checked: dialog.linkChannels
             onToggled: dialog.linkChannels = checked
+        }
+
+        Label {
+            id: outputModeLabel
+            text: qsTr("Output")
+        }
+        ComboBox {
+            Accessible.labelledBy: outputModeLabel
+            Accessible.name: outputModeLabel.text
+            Layout.fillWidth: true
+            textRole: "text"
+            valueRole: "value"
+            model: [
+                { text: qsTr("Link to File"), value: PitchShiftAddOn.LinkToFile },
+                { text: qsTr("Embed Lossless"), value: PitchShiftAddOn.EmbedLossless },
+                { text: qsTr("Embed Lossy"), value: PitchShiftAddOn.EmbedLossy }
+            ]
+            currentValue: dialog.outputMode
+            onActivated: (index) => dialog.outputMode = valueAt(index)
         }
     }
 }

@@ -54,6 +54,7 @@ PropertyEditorGroupBox {
         ColumnLayout {
             FormGroup {
                 id: audioFilePathFormGroup
+                readonly property bool embedded: Boolean(groupBox.audioClip?.path?.embeddedKey)
                 readonly property string path: groupBox.audioClip?.path ? AudioQmlHelper.getDisplayAudioFilePath(groupBox.audioClip.path) : ""
                 Layout.fillWidth: true
                 label: qsTr("Audio file path")
@@ -61,15 +62,28 @@ PropertyEditorGroupBox {
                     icon.source: "image://fluent-system-icons/open"
                     display: AbstractButton.IconOnly
                     text: qsTr("Reveal in %1").arg(DesktopServices.fileManagerName)
-                    enabled: Boolean(audioFilePathFormGroup.path)
+                    enabled: !audioFilePathFormGroup.embedded && Boolean(audioFilePathFormGroup.path)
                     onClicked: () => {
                         DesktopServices.reveal(audioFilePathFormGroup.path)
                     }
                 }
                 columnItem: TextField {
-                    text: audioFilePathFormGroup.path
+                    text: audioFilePathFormGroup.embedded && groupBox.audioClipAudioContext?.status === AudioClipAudioContext.Ready
+                          ? (groupBox.audioClipAudioContext.embeddedLossless ? qsTr("Embedded audio (lossless)") : qsTr("Embedded audio (lossy)"))
+                          : audioFilePathFormGroup.path
                     readOnly: true
                     ThemedItem.flat: true
+                }
+            }
+            Annotation {
+                Layout.fillWidth: true
+                ThemedItem.controlType: SVS.CT_Error
+                label: qsTr("Embedded audio is unavailable")
+                visible: groupBox.audioClipAudioContext?.status === AudioClipAudioContext.EmbeddedAudioUnavailable
+                action: Action {
+                    enabled: groupBox.windowHandle?.projectDocumentContext.document?.transactionController.canBeginTransaction === true
+                    text: qsTr("Replace Audio Clip")
+                    onTriggered: Qt.callLater(() => AudioQmlHelper.getAudioClipAddOn(groupBox.windowHandle).replaceAudioClip(groupBox.audioClip))
                 }
             }
             Annotation {

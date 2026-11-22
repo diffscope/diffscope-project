@@ -24,6 +24,9 @@ namespace Synth::Internal {
         QML_ELEMENT
         QML_UNCREATABLE("")
     public:
+        enum OutputMode { LinkToFile, EmbedLossless, EmbedLossy };
+        Q_ENUM(OutputMode)
+
         explicit AudioExtractionAddOn(QObject *parent = nullptr);
         ~AudioExtractionAddOn() override;
 
@@ -36,14 +39,18 @@ namespace Synth::Internal {
         Q_INVOKABLE void separateAudio(dspx::AudioClip *clip);
         Q_INVOKABLE QString chooseDirectory(const QString &directory);
         Q_INVOKABLE QString normalizedPath(const QString &path) const;
-        Q_INVOKABLE void start(int extractorIndex, const QString &directory, int outputTrackCount, const QList<int> &outputRoutes);
+        Q_INVOKABLE void start(int extractorIndex, int outputMode, const QString &directory, int outputTrackCount, const QList<int> &outputRoutes);
         Q_INVOKABLE void closeDialog();
         Q_INVOKABLE void applyTempo();
 
     private:
         struct Operation;
+        QString defaultOutputDirectory() const;
         void open(dspx::AudioClip *clip, AudioExtractionTask::Type type);
         void finish();
+        bool commitExtractedTracks(const AudioExtractionResult &result, dspx::Clip *&firstClip);
+        bool commitEmbeddedSeparation(const AudioExtractionResult &result, dspx::Clip *&firstClip);
+        QString insertExtractedClips(const AudioExtractionResult &result, const QList<dspx::AudioPathInfo> &paths, dspx::Clip *&firstClip);
         void showError(const QString &message);
         bool sourceAvailable() const;
         bool sourceUnchanged() const;

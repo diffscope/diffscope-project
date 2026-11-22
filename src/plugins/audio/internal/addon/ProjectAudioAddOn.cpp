@@ -4,6 +4,7 @@
 #include "ProjectAudioAddOn.h"
 
 #include <initializer_list>
+#include <memory>
 
 #include <QCoreApplication>
 #include <QDir>
@@ -44,6 +45,7 @@
 #include <coreplugin/ProjectWindowInterface.h>
 
 #include <audio/AudioClipAudioContext.h>
+#include <audio/EmbeddedAudio.h>
 #include <audio/GlobalAudioContext.h>
 #include <audio/ProjectAudioContext.h>
 #include <audio/TrackAudioContext.h>
@@ -72,6 +74,7 @@ namespace Audio::Internal {
         const auto audioFileMoved = QStringLiteral("org.diffscope.audio.clip.fileMoved");
         const auto audioFileContentChanged = QStringLiteral("org.diffscope.audio.clip.fileContentChanged");
         const auto audioFileConsistencyUnknown = QStringLiteral("org.diffscope.audio.clip.fileConsistencyUnknown");
+        const auto embeddedAudioUnavailable = QStringLiteral("org.diffscope.audio.clip.embeddedAudioUnavailable");
     }
 
     static QString normalizedAbsolutePath(const QString &filePath) {
@@ -211,7 +214,7 @@ namespace Audio::Internal {
         const auto canReplace = [controller](const DocumentProblem &) {
             return controller->canBeginTransaction() && controller->canAcquireReadLock();
         };
-        for (const auto &type : {audioFileNotSpecified, audioFileNotFound, audioFileLoadFailed}) {
+        for (const auto &type : {audioFileNotSpecified, audioFileNotFound, audioFileLoadFailed, embeddedAudioUnavailable}) {
             m_problemManager->registerAction(clipAddOn, type, replaceText, replace, canReplace);
         }
 
@@ -572,6 +575,11 @@ namespace Audio::Internal {
         connect(clip, &dspx::AudioClip::pathChanged, context, [this, clip] {
             reloadAudioClip(clip);
         });
+        connect(EmbeddedAudio::of(context->windowHandle()->projectDocumentContext()), &EmbeddedAudio::contentChanged, context, [this, clip](const QString &key) {
+            if (clip->path().embeddedKey == key) {
+                reloadAudioClip(clip);
+            }
+        });
         connect(clip, &dspx::Clip::nameChanged, context, [addOn = QPointer(this), context] {
             if (addOn)
                 addOn->updateAudioClipProblem(context);
@@ -580,13 +588,21 @@ namespace Audio::Internal {
 
     void ProjectAudioAddOn::loadAudioClip(dspx::AudioClip *clip, AudioClipAudioContext *context) {
         auto contextPrivate = AudioClipAudioContextPrivate::of(context);
-        auto io = takeAudioClipCache(clip);
+        std::unique_ptr<talcs::AbstractAudioFormatIO> io(takeAudioClipCache(clip));
         const auto path = clip->path();
-        const auto absoluteFilePath = normalizedAbsolutePath(QDir(path.absoluteDir).filePath(path.fileName));
+        const auto absoluteFilePath = path.embeddedKey.isEmpty() ? normalizedAbsolutePath(QDir(path.absoluteDir).filePath(path.fileName)) : QString();
         QString filePath;
         auto status = AudioClipAudioContext::Ready;
 
-        if (io) {
+        if (!path.embeddedKey.isEmpty()) {
+            filePath = EmbeddedAudio::of(context->windowHandle()->projectDocumentContext())->filePath(path.embeddedKey);
+            if (!filePath.isEmpty()) {
+                io.reset(GlobalAudioContext::formatManager()->getFormatLoad(filePath));
+            }
+            if (!io) {
+                status = AudioClipAudioContext::EmbeddedAudioUnavailable;
+            }
+        } else if (io) {
             filePath = absoluteFilePath;
         } else {
             qCInfo(lcProjectAudioAddOn) << "Loading audio clip:" << path.absoluteDir << path.relativeDir << path.fileName;
@@ -620,7 +636,7 @@ namespace Audio::Internal {
                 qCWarning(lcProjectAudioAddOn) << "Audio clip file not found:" << clip->name() << path.absoluteDir << path.relativeDir << path.fileName;
                 status = AudioClipAudioContext::FileNotFound;
             } else {
-                io = GlobalAudioContext::formatManager()->getFormatLoad(filePath, path.userData, path.formatEntryClassName);
+                io.reset(GlobalAudioContext::formatManager()->getFormatLoad(filePath, path.userData, path.formatEntryClassName));
                 if (!io) {
                     qCWarning(lcProjectAudioAddOn) << "Audio clip file load failed:" << clip->name() << filePath;
                     status = AudioClipAudioContext::FileLoadFailed;
@@ -641,7 +657,7 @@ namespace Audio::Internal {
                     io->close();
                 }
             }
-            contextPrivate->clipContext->loadAudio(io);
+            contextPrivate->clipContext->loadAudio(io.release());
             contextPrivate->updateReadAheadSize();
         } else if (context->contentSource()) {
             // DspxAudioClipContext::takeAudio() destroys the AudioFormatIO, so the return value must not be deleted.
@@ -679,6 +695,10 @@ namespace Audio::Internal {
         DspxProject::DocumentProblemInfo info;
         info.entity = clip;
         switch (context->status()) {
+            case AudioClipAudioContext::EmbeddedAudioUnavailable:
+                info.type = embeddedAudioUnavailable;
+                info.message = tr("Embedded audio is unavailable in audio clip \"%1\".").arg(name);
+                break;
             case AudioClipAudioContext::FileNotFound:
                 if (path.absoluteDir.isEmpty() || path.fileName.isEmpty()) {
                     info.type = audioFileNotSpecified;

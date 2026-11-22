@@ -6,6 +6,7 @@
 
 #include <atomic>
 #include <memory>
+#include <optional>
 
 #include <QFuture>
 #include <QFutureWatcher>
@@ -19,6 +20,7 @@
 #include <QVariantList>
 #include <qqmlintegration.h>
 
+#include <audio/EmbeddedAudio.h>
 #include <synth/internal/ApiClient.h>
 #include <synth/internal/ExtractionAudioCodec.h>
 
@@ -56,6 +58,7 @@ namespace Synth::Internal {
         QList<ExtractionPitchSegment> pitch;
         double pitchSampleRate{};
         QList<ExtractionStem> stems;
+        QList<Audio::EmbeddedAudio::Prepared> embeddedStems;
     };
 
     class AudioExtractionTask : public QObject {
@@ -80,7 +83,8 @@ namespace Synth::Internal {
         QVariantList extractors() const;
         QString error() const;
         const AudioExtractionResult &result() const;
-        void start(int extractorIndex, const ExtractionAudioCodec::Input &input, int outputTrackCount, const QList<int> &outputRoutes);
+        void start(int extractorIndex, const ExtractionAudioCodec::Input &input, int outputTrackCount, const QList<int> &outputRoutes,
+                   std::optional<Audio::EmbeddedAudio::Compression> compression);
 
         Q_INVOKABLE void refresh();
         Q_INVOKABLE void cancel();
@@ -122,6 +126,7 @@ namespace Synth::Internal {
         void convertStem(const QByteArray &bytes);
         void mixNextOutput();
         void storeOutput(const ExtractionAudioCodec::Result &result, const QString &name, const QString &fileNameSuffix);
+        void prepareEmbeddedStems();
         void complete();
 
         Type m_type;
@@ -129,6 +134,7 @@ namespace Synth::Internal {
         QNetworkAccessManager *m_network{};
         QPointer<QNetworkReply> m_reply;
         QFuture<ExtractionAudioCodec::Result> m_conversion;
+        QFuture<QList<Audio::EmbeddedAudio::Prepared>> m_embedding;
         std::shared_ptr<std::atomic_bool> m_cancelled;
         QTemporaryDir m_temporaryDirectory;
         QList<Extractor> m_extractors;
@@ -137,6 +143,7 @@ namespace Synth::Internal {
         QList<ExtractionStem> m_decodedStems;
         QList<Api::V1::SeparationTrack> m_stems;
         QList<int> m_outputRoutes;
+        std::optional<Audio::EmbeddedAudio::Compression> m_outputCompression;
         int m_outputTrackCount{};
         QString m_error;
         QStringList m_refreshErrors;

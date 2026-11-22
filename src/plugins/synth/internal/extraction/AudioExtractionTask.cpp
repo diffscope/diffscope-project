@@ -5,7 +5,9 @@
 
 #include <algorithm>
 #include <cmath>
+#include <exception>
 #include <limits>
+#include <utility>
 
 #include <QDir>
 #include <QFile>
@@ -20,6 +22,8 @@
 #include <QtConcurrent/QtConcurrentRun>
 
 #include <CoreApi/applicationinfo.h>
+
+#include <TalcsFormat/AudioFormatIO.h>
 
 #include <synth/internal/SynthService.h>
 
@@ -53,6 +57,7 @@ namespace Synth::Internal {
     AudioExtractionTask::~AudioExtractionTask() {
         cancel();
         m_conversion.waitForFinished();
+        m_embedding.waitForFinished();
     }
 
     bool AudioExtractionTask::busy() const { return m_busy; }
@@ -143,7 +148,8 @@ namespace Synth::Internal {
         Q_EMIT changed();
     }
 
-    void AudioExtractionTask::start(int extractorIndex, const ExtractionAudioCodec::Input &input, int outputTrackCount, const QList<int> &outputRoutes) {
+    void AudioExtractionTask::start(int extractorIndex, const ExtractionAudioCodec::Input &input, int outputTrackCount, const QList<int> &outputRoutes,
+                                    std::optional<Audio::EmbeddedAudio::Compression> compression) {
         if (m_busy || refreshing() || extractorIndex < 0 || extractorIndex >= m_extractors.size())
             return;
         const auto &trackNames = m_extractors.at(extractorIndex).trackNames;
@@ -166,6 +172,7 @@ namespace Synth::Internal {
             }
         }
         m_conversion.waitForFinished();
+        m_embedding.waitForFinished();
         ++m_generation;
         m_cancelled = std::make_shared<std::atomic_bool>(false);
         m_busy = true;
@@ -176,6 +183,7 @@ namespace Synth::Internal {
         m_stems.clear();
         m_outputTrackCount = outputTrackCount;
         m_outputRoutes = outputRoutes;
+        m_outputCompression = compression;
         m_activeExtractor = m_extractors.at(extractorIndex);
         Q_EMIT changed();
         qCDebug(lcAudioExtractionTask) << "Entered negotiating state";
@@ -486,7 +494,10 @@ namespace Synth::Internal {
             watcher->setFuture(m_conversion);
             return;
         }
-        complete();
+        if (m_outputCompression)
+            prepareEmbeddedStems();
+        else
+            complete();
     }
 
     void AudioExtractionTask::storeOutput(const ExtractionAudioCodec::Result &result, const QString &name, const QString &fileNameSuffix) {
@@ -505,6 +516,56 @@ namespace Synth::Internal {
         m_result.stems.append({name, path,
             QString::fromLatin1(QByteArray(reinterpret_cast<const char *>(&digest), sizeof(digest)).toBase64(QByteArray::Base64UrlEncoding)), fileNameSuffix});
         mixNextOutput();
+    }
+
+    void AudioExtractionTask::prepareEmbeddedStems() {
+        using EmbeddedAudio = Audio::EmbeddedAudio;
+
+        auto watcher = new QFutureWatcher<QList<EmbeddedAudio::Prepared>>(this);
+        const auto generation = m_generation;
+        connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher, generation] {
+            watcher->deleteLater();
+            if (generation != m_generation)
+                return;
+            auto prepared = watcher->result();
+            if (prepared.size() != m_result.stems.size()) {
+                fail(tr("Could not store separated audio."));
+                return;
+            }
+            m_result.embeddedStems = std::move(prepared);
+            complete();
+        });
+        m_embedding = QtConcurrent::run([stems = m_result.stems, compression = *m_outputCompression, cancelled = m_cancelled]() -> QList<EmbeddedAudio::Prepared> {
+            QList<EmbeddedAudio::Prepared> prepared;
+            try {
+                for (const auto &stem : stems) {
+                    QFile file(stem.filePath);
+                    talcs::AudioFormatIO reader(&file);
+                    if (cancelled->load() || !file.open(QIODevice::ReadOnly) || !reader.open(talcs::AbstractAudioFormatIO::Read))
+                        return {};
+                    const auto sampleRate = reader.sampleRate();
+                    if (!(sampleRate > 0 && sampleRate <= std::numeric_limits<int>::max()))
+                        return {};
+                    const EmbeddedAudio::StreamFormat format{
+                        .sampleRate = static_cast<int>(sampleRate),
+                        .channelCount = reader.channelCount(),
+                        .frameCount = reader.length(),
+                    };
+                    file.moveToThread(nullptr);
+                    const auto audio = EmbeddedAudio::prepare(format, [&](float *samples, qint64 frames) {
+                        return cancelled->load() ? qint64(-1) : reader.read(samples, frames);
+                    }, compression).result();
+                    if (audio.key().isEmpty())
+                        return {};
+                    prepared.append(audio);
+                }
+            } catch (const std::exception &error) {
+                qCWarning(lcAudioExtractionTask) << "Could not prepare separated audio for embedding:" << error.what();
+                return {};
+            }
+            return prepared;
+        });
+        watcher->setFuture(m_embedding);
     }
 
     void AudioExtractionTask::complete() {

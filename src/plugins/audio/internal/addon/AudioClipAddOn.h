@@ -11,6 +11,8 @@
 #include <CoreApi/windowinterface.h>
 #include <dspxmodelORM/AudioClip.h>
 
+class QFutureWatcherBase;
+
 namespace talcs {
     class AbstractAudioFormatIO;
 }
@@ -39,9 +41,12 @@ namespace Audio::Internal {
         Q_INVOKABLE bool updateAudioClipToIdenticallyMovedPath(dspx::AudioClip *clip, const QString &filePath);
         Q_INVOKABLE bool updateAudioClipDigest(dspx::AudioClip *clip);
         Q_INVOKABLE void replaceAudioClip(dspx::AudioClip *clip);
+        Q_INVOKABLE void embedAudioClip(dspx::AudioClip *clip);
+        Q_INVOKABLE void relinkAudioClip(dspx::AudioClip *clip);
 
     private:
         talcs::AbstractAudioFormatIO *openAudioFile(QString *fileName, QVariant *userData, QString *entryClassName);
+        QFutureWatcherBase *m_embeddingWatcher = nullptr;
     };
 
 }
