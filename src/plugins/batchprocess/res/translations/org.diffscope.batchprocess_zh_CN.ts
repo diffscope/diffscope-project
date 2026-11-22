@@ -1297,7 +1297,7 @@
     <name>DocumentInterface</name>
     <message>
         <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="179"/>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="658"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="666"/>
         <source>The script document operation is not available in the current state.</source>
         <translation type="unfinished">脚本文档操作在当前状态下不可用。</translation>
     </message>
@@ -1310,7 +1310,7 @@
 <context>
     <name>DspxProject::EditItemsScenario</name>
     <message>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="1041"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="1043"/>
         <source>Bouncing to clip</source>
         <translation type="unfinished">合并到剪辑</translation>
     </message>

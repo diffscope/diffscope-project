@@ -4,97 +4,97 @@
 <context>
     <name>DspxProject::ClipboardEditScenario</name>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="146"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="167"/>
         <source>Pasting tempo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="148"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="169"/>
         <source>Pasting label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="150"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="171"/>
         <source>Pasting key signature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="152"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="173"/>
         <source>Pasting track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="154"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="175"/>
         <source>Pasting clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="156"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="177"/>
         <source>Pasting note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="158"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="179"/>
         <source>Pasting voice blending anchor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="160"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="181"/>
         <source>Pasting anchor node</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="162"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="183"/>
         <source>Pasting parameter data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="170"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="191"/>
         <source>Deleting parameter data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="172"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="193"/>
         <source>Deleting tempo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="174"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="195"/>
         <source>Deleting label</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="176"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="197"/>
         <source>Deleting key signature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="178"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="199"/>
         <source>Deleting track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="180"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="201"/>
         <source>Deleting clip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="182"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="203"/>
         <source>Deleting note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="184"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="205"/>
         <source>Deleting anchor node</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="186"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="207"/>
         <source>Deleting voice blending anchor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="188"/>
+        <location filename="../../src/scenarios/ClipboardEditScenario.cpp" line="209"/>
         <source>Deleting selection</source>
         <translation type="unfinished"></translation>
     </message>

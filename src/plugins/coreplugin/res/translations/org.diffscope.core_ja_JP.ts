@@ -203,17 +203,17 @@
         <translation type="obsolete">&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="303"/>
+        <location filename="../../core/CoreInterface.cpp" line="311"/>
         <source>&lt;p&gt;A professional singing-voice-synthesis editor powered by DiffSinger&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright © %2-%3 %4. All rights reserved.&lt;/p&gt;&lt;p&gt;Visit &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; for more information.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;p&gt;A professional singing-voice-synthesis editor powered by DiffSinger&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright © %2-%3 %4. All rights reserved.&lt;/p&gt;&lt;p&gt;Visit &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; for more information.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="319"/>
+        <location filename="../../core/CoreInterface.cpp" line="327"/>
         <source>&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;&lt;p&gt;This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.&lt;/p&gt;</source>
         <translation type="unfinished">&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;&lt;p&gt;This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="333"/>
+        <location filename="../../core/CoreInterface.cpp" line="341"/>
         <source>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;br&gt;Target platform: %7&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2294,7 +2294,7 @@
 <context>
     <name>Core::CoreInterface</name>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="357"/>
+        <location filename="../../core/CoreInterface.cpp" line="365"/>
         <source>About %1</source>
         <translation type="unfinished">About %1</translation>
     </message>
@@ -2302,354 +2302,346 @@
 <context>
     <name>Core::DspxInspectorDialog</name>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="69"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="40"/>
         <source>File path</source>
         <translation type="unfinished">File path</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="71"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="42"/>
         <source>&amp;Browse</source>
         <translation type="unfinished">&amp;Browse</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="74"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="45"/>
         <source>&amp;Run Check</source>
         <translation type="unfinished">&amp;Run Check</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="81"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="52"/>
         <source>&amp;Problems</source>
         <translation type="unfinished">&amp;Problems</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="86"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="57"/>
         <source>DSPX Inspector</source>
         <translation type="unfinished">DSPX Inspector</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="173"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="144"/>
         <source>Null</source>
         <translation type="unfinished">Null</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="174"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="145"/>
         <source>Boolean</source>
         <translation type="unfinished">Boolean</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="175"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="146"/>
         <source>Integer</source>
         <translation type="unfinished">Integer</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="176"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="147"/>
         <source>Number</source>
         <translation type="unfinished">Number</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="177"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="148"/>
         <source>String</source>
         <translation type="unfinished">String</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="178"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="149"/>
         <source>Array</source>
         <translation type="unfinished">Array</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="179"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="150"/>
         <source>Object</source>
         <translation type="unfinished">Object</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="195"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="166"/>
         <source>Fatal: Failed to open file</source>
         <translation type="unfinished">Fatal: Failed to open file</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="199"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="170"/>
         <source>Path</source>
         <translation type="unfinished">Path</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="200"/>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="222"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="171"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="193"/>
         <source>Error code</source>
         <translation type="unfinished">Error code</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="201"/>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="223"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="172"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="194"/>
         <source>Error text</source>
         <translation type="unfinished">Error text</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="217"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="188"/>
         <source>Fatal: Failed to parse JSON</source>
         <translation type="unfinished">Fatal: Failed to parse JSON</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="221"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="192"/>
         <source>Offset in file</source>
         <translation type="unfinished">Offset in file</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="225"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="196"/>
         <source>The file is not a valid JSON document.</source>
         <translation type="unfinished">The file is not a valid JSON document.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="232"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="203"/>
         <source>Fatal: Root is not an object</source>
         <translation type="unfinished">Fatal: Root is not an object</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="236"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="207"/>
         <source>The root of JSON document is not an object.</source>
         <translation type="unfinished">The root of JSON document is not an object.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="244"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="215"/>
         <source>Fatal: Unrecognized version</source>
         <translation type="unfinished">Fatal: Unrecognized version</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="248"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="219"/>
         <source>Actual version</source>
         <translation type="unfinished">Actual version</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="250"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="221"/>
         <source>This project file may have been created with a newer version of %1 or another application, and its version is not recognized by %1. Please try exporting the project from the application with which it was created as a version compatible with your current %1.</source>
         <translation type="unfinished">This project file may have been created with a newer version of %1 or another application, and its version is not recognized by %1. Please try exporting the project from the application with which it was created as a version compatible with your current %1.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="262"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="233"/>
         <source>Invalid data type</source>
         <translation type="unfinished">Invalid data type</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="266"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="237"/>
         <source>Expected data type</source>
         <translation type="unfinished">Expected data type</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="266"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="237"/>
         <source>, </source>
         <translation type="unfinished">, </translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="267"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="238"/>
         <source>Actual data type</source>
         <translation type="unfinished">Actual data type</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="269"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="240"/>
         <source>The value at the specific path is not of the expected data type.</source>
         <translation type="unfinished">The value at the specific path is not of the expected data type.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="277"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="248"/>
         <source>Invalid object type</source>
         <translation type="unfinished">Invalid object type</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="281"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="252"/>
         <source>Expected object type</source>
         <translation type="unfinished">Expected object type</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="282"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="253"/>
         <source>Actual object type</source>
         <translation type="unfinished">Actual object type</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="284"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="255"/>
         <source>The object at the specific path is not of the expected object type.</source>
         <translation type="unfinished">The object at the specific path is not of the expected object type.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="292"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="263"/>
         <source>Range constraint violation</source>
         <translation type="unfinished">Range constraint violation</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="296"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="267"/>
         <source>Expected maximum value</source>
         <translation type="unfinished">Expected maximum value</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="296"/>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="297"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="267"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="268"/>
         <source>None</source>
         <translation type="unfinished">None</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="297"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="268"/>
         <source>Expected minimum value</source>
         <translation type="unfinished">Expected minimum value</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="298"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="269"/>
         <source>Actual value</source>
         <translation type="unfinished">Actual value</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="300"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="271"/>
         <source>The value of the property at the specific path is outside the allowed range. The value must be between the expected minimum and maximum value (inclusive).</source>
         <translation type="unfinished">The value of the property at the specific path is outside the allowed range. The value must be between the expected minimum and maximum value (inclusive).</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="308"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="279"/>
         <source>Expected enum value</source>
         <translation type="unfinished">Expected enum value</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="310"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="281"/>
         <source>Actual enum value</source>
         <translation type="unfinished">Actual enum value</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="313"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="284"/>
         <source>Enum constraint violation</source>
         <translation type="unfinished">Enum constraint violation</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="317"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="288"/>
         <source>The value of the property at the specific path is not one of the allowed enum values.</source>
         <translation type="unfinished">The value of the property at the specific path is not one of the allowed enum values.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="325"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="296"/>
         <source>Missing property</source>
         <translation type="unfinished">Missing property</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="329"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="300"/>
         <source>Missing properties</source>
         <translation type="unfinished">Missing properties</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="333"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="304"/>
         <source>One or more properties are missing in the object at the specific path.</source>
         <translation type="unfinished">One or more properties are missing in the object at the specific path.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="341"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="312"/>
         <source>Redundant property</source>
         <translation type="unfinished">Redundant property</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="345"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="316"/>
         <source>Redundant properties</source>
         <translation type="unfinished">Redundant properties</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="349"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="320"/>
         <source>One or more properties are redundant in the object at the specific path.</source>
         <translation type="unfinished">One or more properties are redundant in the object at the specific path.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="357"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="328"/>
         <source>Index</source>
         <translation type="unfinished">Index</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="361"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="332"/>
         <source>Overlapping items</source>
         <translation type="unfinished">Overlapping items</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="365"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="336"/>
         <source>Items at specific indexes in the array at the specific path overlap.</source>
         <translation type="unfinished">Items at specific indexes in the array at the specific path overlap.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="373"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="344"/>
         <source>Zero-length range</source>
         <translation type="unfinished">Zero-length range</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="377"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="348"/>
         <source>The range length of the entity object at the specific path is zero.</source>
         <translation type="unfinished">The range length of the entity object at the specific path is zero.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="385"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="356"/>
         <source>Erroneous clip range</source>
         <translation type="unfinished">Erroneous clip range</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="389"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="360"/>
         <source>The clipping range of the clip entity object at the specific path exceeds its range limit.</source>
         <translation type="unfinished">The clipping range of the clip entity object at the specific path exceeds its range limit.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="397"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="368"/>
         <source>Erroneous clip position</source>
         <translation type="unfinished">Erroneous clip position</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="401"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="372"/>
         <source>The position of the clip entity object at the specific path exceeds the view range limit. It might be not visible in the viewport.</source>
         <translation type="unfinished">The position of the clip entity object at the specific path exceeds the view range limit. It might be not visible in the viewport.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="409"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="380"/>
         <source>Safe range limit exceeded</source>
         <translation type="unfinished">Safe range limit exceeded</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="413"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="384"/>
         <source>The position of the entity object at the specific path exceeds the safe project length limit (4,000,000 ticks).</source>
         <translation type="unfinished">The position of the entity object at the specific path exceeds the safe project length limit (4,000,000 ticks).</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="424"/>
         <source>File Created With Another Application</source>
-        <translation type="unfinished">File Created With Another Application</translation>
+        <translation type="obsolete">File Created With Another Application</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="428"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="41"/>
         <source>Editor ID</source>
         <translation type="unfinished">Editor ID</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="429"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="42"/>
         <source>Editor name</source>
         <translation type="unfinished">Editor name</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="431"/>
         <source>This project file was created with another application. Some features may not be fully compatible or may behave differently.</source>
-        <translation type="unfinished">This project file was created with another application. Some features may not be fully compatible or may behave differently.</translation>
+        <translation type="obsolete">This project file was created with another application. Some features may not be fully compatible or may behave differently.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="436"/>
         <source>File Created With Incompatible Version</source>
-        <translation type="unfinished">File Created With Incompatible Version</translation>
+        <translation type="obsolete">File Created With Incompatible Version</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="440"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="64"/>
         <source>Version</source>
         <translation type="unfinished">Version</translation>
-    </message>
-    <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="442"/>
-        <source>This project file was created with a newer version or test version of %1. Some features may not be fully compatible or may behave differently.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.</source>
         <translation type="obsolete">This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="462"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="409"/>
         <source>No problems found</source>
         <translation type="unfinished">No problems found</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="462"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="409"/>
         <source>The project file is valid and no problems were found.</source>
         <translation type="unfinished">The project file is valid and no problems were found.</translation>
     </message>
@@ -3007,34 +2999,34 @@ Continue to bounce?</source>
 <context>
     <name>Core::Internal::CorePlugin</name>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="199"/>
+        <location filename="../../internal/CorePlugin.cpp" line="203"/>
         <source>Initializing core plugin...</source>
         <translation type="unfinished">Initializing core plugin...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="221"/>
+        <location filename="../../internal/CorePlugin.cpp" line="225"/>
         <source>Plugins loading complete, preparing for subsequent initialization...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="245"/>
+        <location filename="../../internal/CorePlugin.cpp" line="249"/>
         <source>Initializing GUI...</source>
         <translation type="unfinished">Initializing GUI...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="519"/>
+        <location filename="../../internal/CorePlugin.cpp" line="527"/>
         <source>Last run terminated abnormally</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="519"/>
+        <location filename="../../internal/CorePlugin.cpp" line="527"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="568"/>
+        <location filename="../../internal/CorePlugin.cpp" line="576"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3043,12 +3035,12 @@ Please go to Plugins to see more details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="571"/>
+        <location filename="../../internal/CorePlugin.cpp" line="579"/>
         <source>%1 (%2)</source>
         <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="573"/>
+        <location filename="../../internal/CorePlugin.cpp" line="581"/>
         <source>Plugin Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3056,17 +3048,17 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::CoreProjectLifecycleStrategy</name>
     <message>
-        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="42"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="38"/>
         <source>Untitled</source>
         <translation type="unfinished">Untitled</translation>
     </message>
     <message>
-        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="45"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="42"/>
         <source>Unnamed track</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="46"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="43"/>
         <source>Unnamed clip</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4397,57 +4389,46 @@ You can check for problems in the file with DSPX Inspector.</source>
 You can check for problems in the file with DSPX Inspector.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="133"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="36"/>
         <source>File created with another application</source>
         <translation type="unfinished">File created with another application</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="134"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="38"/>
         <source>This project file was created with another application (%1). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="135"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="39"/>
         <source>name unknown</source>
         <translation type="unfinished">name unknown</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="141"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="60"/>
         <source>File created with a potentially incompatible %1 version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="142"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="62"/>
         <source>This project file was created with a newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="149"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="270"/>
         <source>Additional check failed</source>
-        <translation type="unfinished">Additional check failed</translation>
+        <translation type="obsolete">Additional check failed</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="150"/>
-        <source>%1
-
-The file can still be opened, but it may cause potential problems.
-
-Do you want to continue opening it?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="156"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="273"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="135"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="252"/>
         <source>Potential document integrity issue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="157"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="136"/>
         <source>The document integrity check failed while saving the file. The file can still be saved, but it may not be parsed correctly when opened again.
 
 Under normal circumstances, this problem should not occur. It may be caused by defects in %1 or some plugins.
@@ -4458,12 +4439,12 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="172"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="151"/>
         <source>File Modified Externally</source>
         <translation type="unfinished">File Modified Externally</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="173"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="152"/>
         <source>The file has been modified by another program since it was last saved.
 
 Do you want to save as a new file or overwrite it?</source>
@@ -4472,69 +4453,69 @@ Do you want to save as a new file or overwrite it?</source>
 Do you want to save as a new file or overwrite it?</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="175"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="154"/>
         <source>Save As...</source>
         <translation type="unfinished">Save As...</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="176"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="155"/>
         <source>Overwrite</source>
         <translation type="unfinished">Overwrite</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="205"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="184"/>
         <source>Do you want to save before closing?</source>
         <translation type="unfinished">Do you want to save before closing?</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="206"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="185"/>
         <source>If you choose not to save, a copy of the current project file will be created to help recover your work in case of accidental incorrect operation.</source>
         <translation type="unfinished">If you choose not to save, a copy of the current project file will be created to help recover your work in case of accidental incorrect operation.</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="225"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="204"/>
         <source>Complete recovery failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="226"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="205"/>
         <source>Complete recovery failed. Partial recovery will be attempted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="241"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="220"/>
         <source>Failed to open file</source>
         <translation type="unfinished">Failed to open file</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="247"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="226"/>
         <source>Failed to Load Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="250"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="264"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="267"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="229"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="243"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="246"/>
         <source>Failed to save file</source>
         <translation type="unfinished">Failed to save file</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="253"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="232"/>
         <source>Failed to restore recovery file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="253"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="232"/>
         <source>Cannot restore the recovery file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="264"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="243"/>
         <source>The project cannot be saved in its current state.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="267"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="246"/>
         <source>Choose a different path for the project copy.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4551,13 +4532,13 @@ Do you want to save as a new file or overwrite it?</translation>
     </message>
     <message>
         <location filename="../../windows/ProjectWindowInterface.cpp" line="287"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="259"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="238"/>
         <source>Operation Conflict</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../windows/ProjectWindowInterface.cpp" line="288"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="260"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="239"/>
         <source>Please wait until the current operation is complete before proceeding.</source>
         <translation type="unfinished"></translation>
     </message>

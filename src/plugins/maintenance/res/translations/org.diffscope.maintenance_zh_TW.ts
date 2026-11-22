@@ -251,12 +251,12 @@
 <context>
     <name>Maintenance::ViewJsonAddOn</name>
     <message>
-        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="112"/>
+        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="115"/>
         <source>Failed to create JSON file</source>
         <translation type="unfinished">Failed to create JSON file</translation>
     </message>
     <message>
-        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="113"/>
+        <location filename="../../internal/addons/ViewJsonAddOn.cpp" line="116"/>
         <source>Could not create temporary JSON file:
 
 %1</source>

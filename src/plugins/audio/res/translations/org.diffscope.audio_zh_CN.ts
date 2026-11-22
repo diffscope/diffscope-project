@@ -24,27 +24,27 @@
 <context>
     <name>Application::ActionClass</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1021"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1142"/>
         <source>Playback</source>
         <translation type="unfinished">播放</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1022"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1143"/>
         <source>Insert</source>
         <translation type="unfinished">插入</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1023"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1144"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1024"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1145"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1025"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1146"/>
         <source>Panel</source>
         <translation type="unfinished">面板</translation>
     </message>
@@ -52,147 +52,152 @@
 <context>
     <name>Application::ActionDescription</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1029"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1150"/>
         <source>Start playback, or pause or stop it according to playback settings.</source>
         <translation type="unfinished">开始播放，或根据播放设置暂停或停止播放。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1030"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1151"/>
         <source>Choose an audio file and its position in the project.</source>
         <translation type="unfinished">选择音频文件及其在工程中的位置。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1031"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1152"/>
         <source>Choose a different audio file for the current audio clip.</source>
         <translation type="unfinished">为当前音频剪辑选择其他音频文件。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1032"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1155"/>
         <source>Render the project mix or separate tracks to audio files.</source>
         <translation type="unfinished">将工程混音或各个轨道渲染为音频文件。</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1028"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1149"/>
         <source>Record MIDI notes into the current singing clip.</source>
         <translation type="unfinished">将 MIDI 音符录制到当前歌声剪辑中。</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.audio_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1153"/>
         <source>Store the source audio in the project.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将源音频存储在工程中。</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.audio_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1154"/>
         <source>Extract embedded audio to a file and link the clip to it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将嵌入音频提取到文件，并将剪辑链接到该文件。</translation>
     </message>
 </context>
 <context>
     <name>Application::ActionText</name>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="997"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1115"/>
         <source>Main Menu</source>
         <translation>主菜单</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="999"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1117"/>
         <source>&amp;Play</source>
         <translation type="unfinished">播放(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1000"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1118"/>
         <source>P&amp;ause</source>
         <translation type="unfinished">暂停(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1001"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1119"/>
         <source>&amp;Stop</source>
         <translation type="unfinished">停止(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1003"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1121"/>
         <source>Toggle Playback</source>
         <translation type="unfinished">切换播放状态</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1004"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1122"/>
         <source>&amp;Metronome</source>
         <translation type="unfinished">节拍器(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1005"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1123"/>
         <source>Play Button</source>
         <translation type="unfinished">播放按钮</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1006"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1124"/>
         <source>Pause Button</source>
         <translation type="unfinished">暂停按钮</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1007"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1125"/>
         <source>Record Button</source>
         <translation type="unfinished">录制按钮</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1008"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1126"/>
         <source>Insert Audio Clip...</source>
         <translation type="unfinished">插入音频剪辑...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1009"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1127"/>
         <source>Replace Audio Clip...</source>
         <translation type="unfinished">替换音频剪辑...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1010"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1130"/>
         <source>Export Audio...</source>
         <translation type="unfinished">导出音频...</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1011"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1131"/>
         <source>Effects (Experimental)</source>
         <translation type="unfinished">效果器（实验性）</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1012"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1132"/>
         <source>Export Audio Actions</source>
         <translation type="unfinished">音频导出操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1013"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1133"/>
         <source>Playback Actions</source>
         <translation type="unfinished">播放操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1014"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1134"/>
         <source>Metronome Actions</source>
         <translation type="unfinished">节拍器操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1015"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1135"/>
+        <source>Embedded Audio Actions</source>
+        <translation type="unfinished">嵌入音频操作</translation>
+    </message>
+    <message>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1136"/>
         <source>Audio Processing Actions</source>
         <translation type="unfinished">音频处理操作</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1016"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1137"/>
         <source>Workspace Panel Widgets</source>
         <translation type="unfinished">工作区面板小部件</translation>
     </message>
     <message>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1002"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1120"/>
         <source>Record</source>
         <translation type="unfinished">录制</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.audio_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1128"/>
         <source>Embed Audio...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">嵌入音频...</translation>
     </message>
     <message>
-        <location filename="../org.diffscope.audio_actions.xml"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1129"/>
         <source>Relink to File...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重新链接到文件...</translation>
     </message>
 </context>
 <context>
@@ -345,6 +350,25 @@
     </message>
 </context>
 <context>
+    <name>Audio::EmbeddedAudio</name>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp" line="361"/>
+        <location filename="../../audio/EmbeddedAudio.cpp" line="416"/>
+        <source>Could not encode the audio.</source>
+        <translation type="unfinished">无法编码音频。</translation>
+    </message>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp" line="373"/>
+        <source>Could not open the source audio.</source>
+        <translation type="unfinished">无法打开源音频。</translation>
+    </message>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp" line="379"/>
+        <source>The source audio sample rate is unsupported.</source>
+        <translation type="unfinished">不支持源音频的采样率。</translation>
+    </message>
+</context>
+<context>
     <name>Audio::Internal::AudioAndMidiPage</name>
     <message>
         <location filename="../../internal/settings/AudioAndMidiPage.cpp" line="11"/>
@@ -360,114 +384,116 @@
 <context>
     <name>Audio::Internal::AudioClipAddOn</name>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="144"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="166"/>
         <source>Open Audio File</source>
         <translation type="unfinished">打开音频文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="156"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="178"/>
         <source>Failed to open audio file</source>
         <translation type="unfinished">打开音频文件失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="157"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="179"/>
         <source>Unable to open &quot;%1&quot; as an audio file.</source>
         <translation type="unfinished">无法将“%1”作为音频文件打开。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="241"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="263"/>
         <source>Inserting audio clip</source>
         <translation type="unfinished">插入音频剪辑</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="268"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="290"/>
         <source>Updating audio clip path</source>
         <translation type="unfinished">更新音频剪辑路径</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="300"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="322"/>
         <source>Updating audio clip digest</source>
         <translation type="unfinished">更新音频剪辑摘要</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="345"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="367"/>
         <source>Replacing audio clip</source>
         <translation type="unfinished">替换音频剪辑</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="136"/>
         <source>Copy Failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">复制失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="137"/>
         <source>The selection contains unavailable embedded audio.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">所选内容包含不可用的嵌入音频。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="432"/>
         <source>Embed Audio Failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">嵌入音频失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="454"/>
         <source>Replace Lossless Audio</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">替换无损音频</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="452"/>
         <source>Other clips using this audio will also use lossy encoding. The number of affected clips is %L1.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">使用此音频的其他剪辑也将使用有损编码。受影响的剪辑数量为 %L1。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="453"/>
         <source>The lossless copy will be replaced. Any clips restored by undo will use the lossy copy.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无损副本将被替换。通过撤销恢复的任何剪辑都将使用有损副本。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="461"/>
         <source>Embedding audio clip</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">嵌入音频剪辑</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="503"/>
         <source>Audio Clip</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音频剪辑</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="514"/>
         <source>Relink to File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重新链接到文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="516"/>
         <source>Audio File (*.%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音频文件 (*.%1)</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="528"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="533"/>
         <source>Relink Failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重新链接失败</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="529"/>
         <source>Choose a file with the .%1 extension.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">请选择扩展名为 .%1 的文件。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="534"/>
         <source>Could not extract the embedded audio.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法提取嵌入音频。</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="540"/>
         <source>Relinking audio clip</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">重新链接音频剪辑</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/AudioClipAddOn.cpp"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="440"/>
+        <location filename="../../internal/addon/AudioClipAddOn.cpp" line="468"/>
         <source>Could not store the embedded audio.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">无法存储嵌入音频。</translation>
     </message>
 </context>
 <context>
@@ -563,32 +589,32 @@
 <context>
     <name>Audio::Internal::AudioPlugin</name>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="69"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="71"/>
         <source>Initializing audio plugin...</source>
         <translation>正在初始化音频插件...</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="87"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="91"/>
         <source>Audio Device Changed</source>
         <translation type="unfinished">音频设备已变更</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="88"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="92"/>
         <source>A change in audio devices has been detected. You can check or adjust the current device in the audio settings.</source>
         <translation type="unfinished">检测到音频设备发生变化。你可以在音频设置中检查或调整当前使用的设备。</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="89"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="93"/>
         <source>Open Audio Output Settings</source>
         <translation type="unfinished">打开音频输出设置</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="146"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="150"/>
         <source>Failed to initialize audio output system</source>
         <translation>初始化音频输出系统失败</translation>
     </message>
     <message>
-        <location filename="../../internal/AudioPlugin.cpp" line="147"/>
+        <location filename="../../internal/AudioPlugin.cpp" line="151"/>
         <source>%1 will not play sound because no available audio output device found.
 
 Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device status.</source>
@@ -985,26 +1011,26 @@ Please go to Settings &gt; Audio and MIDI &gt; Audio Output to check the device 
 <context>
     <name>Audio::Internal::ProjectAudioAddOn</name>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="675"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="705"/>
         <source>Audio clip &quot;%1&quot; has no file specified</source>
         <translation type="unfinished">音频剪辑“%1”未指定文件</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="678"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="708"/>
         <source>The file in audio clip &quot;%1&quot; is not found:
 %2</source>
         <translation type="unfinished">未找到音频剪辑“%1”中的文件：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="683"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="713"/>
         <source>Failed to load audio file in audio clip &quot;%1&quot;:
 %2</source>
         <translation type="unfinished">加载音频剪辑“%1”中的音频文件失败：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="688"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="718"/>
         <source>The file in audio clip &quot;%1&quot; has been moved.
 From: %2
 To: %3</source>
@@ -1013,23 +1039,23 @@ To: %3</source>
 新位置：%3</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="697"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="727"/>
         <source>The file in audio clip &quot;%1&quot; has been changed:
 %2</source>
         <translation type="unfinished">音频剪辑“%1”中的文件已更改：
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="694"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="724"/>
         <source>No checksum is recorded for the file in audio clip &quot;%1&quot;.
 %2</source>
         <translation type="unfinished">音频剪辑“%1”中的文件未记录校验和。
 %2</translation>
     </message>
     <message>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="700"/>
         <source>Embedded audio is unavailable in audio clip &quot;%1&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音频剪辑“%1”中的嵌入音频不可用。</translation>
     </message>
 </context>
 <context>
@@ -1728,7 +1754,7 @@ Estimated size of each file: %3</source>
     <name>AudioOutputWelcomeWizardPage</name>
     <message>
         <location filename="../../qml/welcomewizardpages/AudioOutputWelcomeWizardPage.qml" line="17"/>
-        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="998"/>
+        <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/audio/res/qak_org.diffscope.audio_actions.cpp" line="1116"/>
         <source>Audio Output</source>
         <translation>音频输出</translation>
     </message>
@@ -1766,114 +1792,114 @@ Estimated size of each file: %3</source>
 <context>
     <name>AudioPropertyEditor</name>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="42"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="46"/>
         <source>Audio</source>
         <translation>音频</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="48"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="52"/>
         <source>Multiple audio clips</source>
         <translation type="unfinished">多个音频剪辑</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="55"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="60"/>
         <source>Audio file path</source>
         <translation type="unfinished">音频文件路径</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="59"/>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="105"/>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="235"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="64"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="123"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="238"/>
         <source>Reveal in %1</source>
         <translation type="unfinished">在 %1 中显示</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="74"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="92"/>
         <source>Audio file not specified</source>
         <translation type="unfinished">未指定音频文件</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="74"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="92"/>
         <source>Audio file not found</source>
         <translation type="unfinished">未找到音频文件</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="80"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="98"/>
         <source>Audio file failed to load</source>
         <translation type="unfinished">音频文件加载失败</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="85"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="103"/>
         <source>Audio file moved</source>
         <translation type="unfinished">音频文件已移动</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="90"/>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="228"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="108"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="231"/>
         <source>Update Path</source>
         <translation type="unfinished">更新路径</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="101"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="119"/>
         <source>Actual path</source>
         <translation type="unfinished">实际路径</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="120"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="138"/>
         <source>Audio file content changed</source>
         <translation type="unfinished">音频文件内容已更改</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="126"/>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="230"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="144"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="233"/>
         <source>Confirm the Change</source>
         <translation type="unfinished">确认更改</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="135"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="153"/>
         <source>Audio file content consistency unknown</source>
         <translation type="unfinished">音频文件内容一致性未知</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="141"/>
-        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="232"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="159"/>
+        <location filename="../../internal/addon/ProjectAudioAddOn.cpp" line="235"/>
         <source>Confirm Current File</source>
         <translation type="unfinished">确认当前文件</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="72"/>
         <source>Embedded audio (lossless)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">嵌入音频（无损）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="72"/>
         <source>Embedded audio (lossy)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">嵌入音频（有损）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="168"/>
         <source>Sample rate (Hz)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">采样率（Hz）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="178"/>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">时长</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="186"/>
         <source>%1 (%2 samples)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1（%2 采样点）</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="81"/>
         <source>Embedded audio is unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">嵌入音频不可用</translation>
     </message>
     <message>
-        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml" line="85"/>
         <source>Replace Audio Clip</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">替换音频剪辑</translation>
     </message>
 </context>
 <context>
@@ -2008,6 +2034,62 @@ Estimated size of each file: %3</source>
         <location filename="../../qml/dialogs/EffectsPresetDialog.qml" line="197"/>
         <source>A preset with the name &quot;%1&quot; already exists. Overwrite it?</source>
         <translation type="unfinished">已存在名为“%1”的预设。要覆盖它吗？</translation>
+    </message>
+</context>
+<context>
+    <name>EmbedAudioDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml" line="15"/>
+        <source>Embedding Audio</source>
+        <translation type="unfinished">嵌入音频</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml" line="15"/>
+        <source>Embed Audio</source>
+        <translation type="unfinished">嵌入音频</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml" line="41"/>
+        <source>Lossless</source>
+        <translation type="unfinished">无损</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml" line="56"/>
+        <source>Lossy</source>
+        <translation type="unfinished">有损</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml" line="50"/>
+        <source>Lossless embedding preserves the source audio quality but usually requires more storage space. Choose lossless embedding for audio included in the final export.</source>
+        <translation type="unfinished">无损嵌入会保留源音频的音质，但通常需要更多存储空间。对于包含在最终导出中的音频，请选择无损嵌入。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml" line="64"/>
+        <source>Lossy embedding usually requires less storage space but discards some audio detail. Choose lossy embedding for audio used only as a reference.</source>
+        <translation type="unfinished">有损嵌入通常需要较少的存储空间，但会丢弃部分音频细节。对于仅用作参考的音频，请选择有损嵌入。</translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/EmbedAudioDialog.qml" line="71"/>
+        <source>Encoding audio</source>
+        <translation type="unfinished">正在编码音频</translation>
+    </message>
+</context>
+<context>
+    <name>EmbeddedAudio</name>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp" line="556"/>
+        <source>Could not store embedded audio.</source>
+        <translation type="unfinished">无法存储嵌入音频。</translation>
+    </message>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp" line="565"/>
+        <source>Could not write embedded audio to the recovery directory.</source>
+        <translation type="unfinished">无法将嵌入音频写入恢复目录。</translation>
+    </message>
+    <message>
+        <location filename="../../audio/EmbeddedAudio.cpp" line="576"/>
+        <source>Could not save embedded audio with key %1.</source>
+        <translation type="unfinished">无法保存键为 %1 的嵌入音频。</translation>
     </message>
 </context>
 <context>
@@ -2311,77 +2393,6 @@ Estimated size of each file: %3</source>
         <location filename="../../qml/waveformsinger/WaveformSingerControlPanel.qml" line="45"/>
         <source>Type</source>
         <translation type="unfinished">类型</translation>
-    </message>
-</context>
-<context>
-    <name>Audio::EmbeddedAudio</name>
-    <message>
-        <location filename="../../audio/EmbeddedAudio.cpp"/>
-        <source>Could not encode the audio.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../audio/EmbeddedAudio.cpp"/>
-        <source>Could not open the source audio.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../audio/EmbeddedAudio.cpp"/>
-        <source>The source audio sample rate is unsupported.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../audio/EmbeddedAudio.cpp"/>
-        <source>Could not store embedded audio.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../audio/EmbeddedAudio.cpp"/>
-        <source>Could not write embedded audio to the recovery directory.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../audio/EmbeddedAudio.cpp"/>
-        <source>Could not save embedded audio with key %1.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>EmbedAudioDialog</name>
-    <message>
-        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
-        <source>Embedding Audio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
-        <source>Embed Audio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
-        <source>Lossless</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
-        <source>Lossy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
-        <source>Lossless embedding preserves the source audio quality but usually requires more storage space. Choose lossless embedding for audio included in the final export.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
-        <source>Lossy embedding usually requires less storage space but discards some audio detail. Choose lossy embedding for audio used only as a reference.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../qml/dialogs/EmbedAudioDialog.qml"/>
-        <source>Encoding audio</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

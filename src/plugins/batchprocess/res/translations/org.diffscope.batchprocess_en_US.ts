@@ -1297,7 +1297,7 @@
     <name>DocumentInterface</name>
     <message>
         <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="179"/>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="658"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="666"/>
         <source>The script document operation is not available in the current state.</source>
         <translation type="unfinished">The script document operation is not available in the current state.</translation>
     </message>
@@ -1310,7 +1310,7 @@
 <context>
     <name>DspxProject::EditItemsScenario</name>
     <message>
-        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="1041"/>
+        <location filename="../../internal/coremodule/CoreModuleExtension.cpp" line="1043"/>
         <source>Bouncing to clip</source>
         <translation type="unfinished">Bouncing to clip</translation>
     </message>

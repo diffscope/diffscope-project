@@ -226,17 +226,17 @@
         <translation type="vanished">&lt;h3&gt;许可协议&lt;/h3&gt;&lt;p&gt;根据 Apache License, Version 2.0 授权。&lt;br&gt;你可以在 %1 获取许可协议副本。&lt;/p&gt;&lt;p&gt;本应用程序以&lt;b&gt;原样分发，不提供任何明示或暗示的担保或条件&lt;/b&gt;。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="303"/>
+        <location filename="../../core/CoreInterface.cpp" line="311"/>
         <source>&lt;p&gt;A professional singing-voice-synthesis editor powered by DiffSinger&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright © %2-%3 %4. All rights reserved.&lt;/p&gt;&lt;p&gt;Visit &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; for more information.&lt;/p&gt;</source>
         <translation>&lt;p&gt;基于 DiffSinger 的专业歌声合成编辑器&lt;/p&gt;&lt;p&gt;版本 %1&lt;/p&gt;&lt;p&gt;版权所有 © %2-%3 %4。保留所有权利。&lt;/p&gt;&lt;p&gt;访问 &lt;a href=&quot;%5&quot;&gt;%5&lt;/a&gt; 获取更多信息。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="319"/>
+        <location filename="../../core/CoreInterface.cpp" line="327"/>
         <source>&lt;h3&gt;License&lt;/h3&gt;&lt;p&gt;Licensed under the Apache License, Version 2.0.&lt;br&gt;You may obtain a copy of the License at %1.&lt;/p&gt;&lt;p&gt;This application is distributed &lt;b&gt;AS IS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND&lt;/b&gt;, either express or implied.&lt;/p&gt;&lt;p&gt;This license does not apply to plugins. Please refer to Plugins to view the licenses applicable to each individual plugin.&lt;/p&gt;</source>
         <translation>&lt;h3&gt;许可协议&lt;/h3&gt;&lt;p&gt;根据 Apache License, Version 2.0 授权。&lt;br&gt;你可以在 %1 获取许可协议副本。&lt;/p&gt;&lt;p&gt;本应用程序以&lt;b&gt;原样分发，不提供任何明示或暗示的担保或条件&lt;/b&gt;。&lt;/p&gt;&lt;p&gt;此许可协议不适用于插件。请参阅“插件”以查看适用于每个插件的许可协议。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="333"/>
+        <location filename="../../core/CoreInterface.cpp" line="341"/>
         <source>&lt;h3&gt;Build Information&lt;/h3&gt;&lt;p&gt;Branch: %1&lt;br&gt;Commit: %2&lt;br&gt;Build date: %3&lt;br&gt;Toolchain: %4 %5 %6&lt;br&gt;Target platform: %7&lt;/p&gt;</source>
         <translation type="unfinished">&lt;h3&gt;构建信息&lt;/h3&gt;&lt;p&gt;分支：%1&lt;br&gt;提交：%2&lt;br&gt;构建日期：%3&lt;br&gt;工具链：%4 %5 %6&lt;br&gt;目标平台：%7&lt;/p&gt;</translation>
     </message>
@@ -2341,7 +2341,7 @@
 <context>
     <name>Core::CoreInterface</name>
     <message>
-        <location filename="../../core/CoreInterface.cpp" line="357"/>
+        <location filename="../../core/CoreInterface.cpp" line="365"/>
         <source>About %1</source>
         <translation>关于 %1</translation>
     </message>
@@ -2349,354 +2349,350 @@
 <context>
     <name>Core::DspxInspectorDialog</name>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="69"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="40"/>
         <source>File path</source>
         <translation>文件路径</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="71"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="42"/>
         <source>&amp;Browse</source>
         <translation>浏览(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="74"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="45"/>
         <source>&amp;Run Check</source>
         <translation>运行检查(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="81"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="52"/>
         <source>&amp;Problems</source>
         <translation>问题(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="86"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="57"/>
         <source>DSPX Inspector</source>
         <translation>DSPX 检查器</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="173"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="144"/>
         <source>Null</source>
         <translation>空值</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="174"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="145"/>
         <source>Boolean</source>
         <translation>布尔值</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="175"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="146"/>
         <source>Integer</source>
         <translation>整数</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="176"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="147"/>
         <source>Number</source>
         <translation>数值</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="177"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="148"/>
         <source>String</source>
         <translation>字符串</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="178"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="149"/>
         <source>Array</source>
         <translation>数组</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="179"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="150"/>
         <source>Object</source>
         <translation>对象</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="195"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="166"/>
         <source>Fatal: Failed to open file</source>
         <translation>严重错误：打开文件失败</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="199"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="170"/>
         <source>Path</source>
         <translation>路径</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="200"/>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="222"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="171"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="193"/>
         <source>Error code</source>
         <translation>错误码</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="201"/>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="223"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="172"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="194"/>
         <source>Error text</source>
         <translation>错误文本</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="217"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="188"/>
         <source>Fatal: Failed to parse JSON</source>
         <translation>严重错误：解析 JSON 失败</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="221"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="192"/>
         <source>Offset in file</source>
         <translation>在文件中的偏移</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="225"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="196"/>
         <source>The file is not a valid JSON document.</source>
         <translation>此文件不是有效的 JSON 文档。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="232"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="203"/>
         <source>Fatal: Root is not an object</source>
         <translation>严重错误：根元素不是对象</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="236"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="207"/>
         <source>The root of JSON document is not an object.</source>
         <translation>JSON 文档的根元素不是对象。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="244"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="215"/>
         <source>Fatal: Unrecognized version</source>
         <translation>严重错误：无法识别版本</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="248"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="219"/>
         <source>Actual version</source>
         <translation>实际版本</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="250"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="221"/>
         <source>This project file may have been created with a newer version of %1 or another application, and its version is not recognized by %1. Please try exporting the project from the application with which it was created as a version compatible with your current %1.</source>
         <translation>该工程文件可能是使用更高版本的 %1 或其他应用程序创建的，而 %1 无法识别其版本。请尝试从创建该工程的应用程序中导出与当前 %1 兼容的版本。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="262"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="233"/>
         <source>Invalid data type</source>
         <translation>无效的数据类型</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="266"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="237"/>
         <source>Expected data type</source>
         <translation>预期数据类型</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="266"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="237"/>
         <source>, </source>
         <translation>，</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="267"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="238"/>
         <source>Actual data type</source>
         <translation>实际数据类型</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="269"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="240"/>
         <source>The value at the specific path is not of the expected data type.</source>
         <translation>位于指定路径的值不是预期的数据类型。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="277"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="248"/>
         <source>Invalid object type</source>
         <translation>无效的对象类型</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="281"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="252"/>
         <source>Expected object type</source>
         <translation>预期对象类型</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="282"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="253"/>
         <source>Actual object type</source>
         <translation>实际对象类型</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="284"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="255"/>
         <source>The object at the specific path is not of the expected object type.</source>
         <translation>位于指定路径的对象不是预期的数据类型。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="292"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="263"/>
         <source>Range constraint violation</source>
         <translation>范围约束违反</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="296"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="267"/>
         <source>Expected maximum value</source>
         <translation>预期最大值</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="296"/>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="297"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="267"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="268"/>
         <source>None</source>
         <translation>无</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="297"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="268"/>
         <source>Expected minimum value</source>
         <translation>预期最小值</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="298"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="269"/>
         <source>Actual value</source>
         <translation>实际值</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="300"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="271"/>
         <source>The value of the property at the specific path is outside the allowed range. The value must be between the expected minimum and maximum value (inclusive).</source>
         <translation>位于指定路径的属性值超出了允许的范围。该值必须介于预期最小值和最大值之间（包含最小值和最大值）。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="308"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="279"/>
         <source>Expected enum value</source>
         <translation>预期枚举值</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="310"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="281"/>
         <source>Actual enum value</source>
         <translation>实际枚举值</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="313"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="284"/>
         <source>Enum constraint violation</source>
         <translation>枚举约束违反</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="317"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="288"/>
         <source>The value of the property at the specific path is not one of the allowed enum values.</source>
         <translation>位于指定路径的属性值不是允许的枚举值之一。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="325"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="296"/>
         <source>Missing property</source>
         <translation>缺少属性</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="329"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="300"/>
         <source>Missing properties</source>
         <translation>缺少属性</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="333"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="304"/>
         <source>One or more properties are missing in the object at the specific path.</source>
         <translation>位于指定路径的对象缺少一个或多个属性。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="341"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="312"/>
         <source>Redundant property</source>
         <translation>冗余属性</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="345"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="316"/>
         <source>Redundant properties</source>
         <translation>冗余属性</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="349"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="320"/>
         <source>One or more properties are redundant in the object at the specific path.</source>
         <translation>位于指定路径的对象中存在一个或多个冗余属性。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="357"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="328"/>
         <source>Index</source>
         <translation>索引</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="361"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="332"/>
         <source>Overlapping items</source>
         <translation>重叠的项目</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="365"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="336"/>
         <source>Items at specific indexes in the array at the specific path overlap.</source>
         <translation>数组中位于指定路径的特定索引处的项目重叠。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="373"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="344"/>
         <source>Zero-length range</source>
         <translation>零长度区间</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="377"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="348"/>
         <source>The range length of the entity object at the specific path is zero.</source>
         <translation>位于指定路径的实体对象的区间长度为零。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="385"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="356"/>
         <source>Erroneous clip range</source>
         <translation>剪辑范围错误</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="389"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="360"/>
         <source>The clipping range of the clip entity object at the specific path exceeds its range limit.</source>
         <translation>位于指定路径的剪辑实体对象的裁剪范围超过了其范围限制。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="397"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="368"/>
         <source>Erroneous clip position</source>
         <translation>剪辑位置错误</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="401"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="372"/>
         <source>The position of the clip entity object at the specific path exceeds the view range limit. It might be not visible in the viewport.</source>
         <translation>位于指定路径的剪辑实体对象的位置超出了视图范围限制，可能在视口中不可见。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="409"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="380"/>
         <source>Safe range limit exceeded</source>
         <translation>超出安全范围限制</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="413"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="384"/>
         <source>The position of the entity object at the specific path exceeds the safe project length limit (4,000,000 ticks).</source>
         <translation>位于指定路径的实体对象超出了安全工程长度限制（4,000,000 刻）。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="424"/>
         <source>File Created With Another Application</source>
-        <translation>使用其他应用程序创建的文件</translation>
+        <translation type="vanished">使用其他应用程序创建的文件</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="428"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="41"/>
         <source>Editor ID</source>
         <translation>编辑器标识符</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="429"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="42"/>
         <source>Editor name</source>
         <translation>编辑器名称</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="431"/>
         <source>This project file was created with another application. Some features may not be fully compatible or may behave differently.</source>
-        <translation>此工程文件由其他应用程序创建。某些功能可能不完全兼容或运行方式有所不同。</translation>
+        <translation type="vanished">此工程文件由其他应用程序创建。某些功能可能不完全兼容或运行方式有所不同。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="436"/>
         <source>File Created With Incompatible Version</source>
-        <translation>使用不兼容的版本创建的文件</translation>
+        <translation type="vanished">使用不兼容的版本创建的文件</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="440"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="64"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="442"/>
         <source>This project file was created with a newer version or test version of %1. Some features may not be fully compatible or may behave differently.</source>
-        <translation type="unfinished">此工程文件是用 %1 的较新版本或测试版本创建的。某些功能可能不完全兼容或行为有所不同。</translation>
+        <translation type="obsolete">此工程文件是用 %1 的较新版本或测试版本创建的。某些功能可能不完全兼容或行为有所不同。</translation>
     </message>
     <message>
         <source>This project file was created with an newer version or test version of %1. Some features may not be fully compatible or may behave differently.</source>
         <translation type="vanished">此工程文件是用 %1 的较新版本或测试版本创建的。某些功能可能不完全兼容或行为有所不同。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="462"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="409"/>
         <source>No problems found</source>
         <translation>未发现问题</translation>
     </message>
     <message>
-        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="462"/>
+        <location filename="../../project/utils/DspxInspectorDialog.cpp" line="409"/>
         <source>The project file is valid and no problems were found.</source>
         <translation>工程文件有效，未发现任何问题。</translation>
     </message>
@@ -3064,27 +3060,27 @@ Continue to bounce?</source>
 <context>
     <name>Core::Internal::CorePlugin</name>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="199"/>
+        <location filename="../../internal/CorePlugin.cpp" line="203"/>
         <source>Initializing core plugin...</source>
         <translation>正在初始化核心插件...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="221"/>
+        <location filename="../../internal/CorePlugin.cpp" line="225"/>
         <source>Plugins loading complete, preparing for subsequent initialization...</source>
         <translation type="unfinished">插件加载完成，正在准备后续初始化...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="245"/>
+        <location filename="../../internal/CorePlugin.cpp" line="249"/>
         <source>Initializing GUI...</source>
         <translation>正在初始化图形界面...</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="519"/>
+        <location filename="../../internal/CorePlugin.cpp" line="527"/>
         <source>Last run terminated abnormally</source>
         <translation>上次运行异常终止</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="519"/>
+        <location filename="../../internal/CorePlugin.cpp" line="527"/>
         <source>%1 did not exit normally during its last run.
 
 To check for unsaved files, please go to Recovery Files.</source>
@@ -3093,7 +3089,7 @@ To check for unsaved files, please go to Recovery Files.</source>
 要检查未保存的文件，请前往“恢复文件”。</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="568"/>
+        <location filename="../../internal/CorePlugin.cpp" line="576"/>
         <source>Errors occurred while loading some plugins:
 
 %1
@@ -3106,12 +3102,12 @@ Please go to Plugins to see more details.</source>
 请前往“插件”查看详细信息。</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="571"/>
+        <location filename="../../internal/CorePlugin.cpp" line="579"/>
         <source>%1 (%2)</source>
         <translation>%1（%2）</translation>
     </message>
     <message>
-        <location filename="../../internal/CorePlugin.cpp" line="573"/>
+        <location filename="../../internal/CorePlugin.cpp" line="581"/>
         <source>Plugin Error</source>
         <translation>插件错误</translation>
     </message>
@@ -3119,17 +3115,17 @@ Please go to Plugins to see more details.</source>
 <context>
     <name>Core::Internal::CoreProjectLifecycleStrategy</name>
     <message>
-        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="42"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="38"/>
         <source>Untitled</source>
         <translation>无标题</translation>
     </message>
     <message>
-        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="45"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="42"/>
         <source>Unnamed track</source>
         <translation>未命名轨道</translation>
     </message>
     <message>
-        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="46"/>
+        <location filename="../../internal/scenariostrategies/CoreProjectLifecycleStrategy.cpp" line="43"/>
         <source>Unnamed clip</source>
         <translation>未命名剪辑</translation>
     </message>
@@ -4494,12 +4490,12 @@ You can check for problems in the file with DSPX Inspector.</source>
 你可以使用 DSPX Inspector 检查文件中的问题。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="133"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="36"/>
         <source>File created with another application</source>
         <translation>使用其他应用程序创建的文件</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="134"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="38"/>
         <source>This project file was created with another application (%1). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</source>
@@ -4508,17 +4504,17 @@ Do you want to continue opening it?</source>
 是否继续打开？</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="135"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="39"/>
         <source>name unknown</source>
         <translation>名称未知</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="141"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="60"/>
         <source>File created with a potentially incompatible %1 version</source>
         <translation type="unfinished">文件由可能不兼容的 %1 版本创建</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="142"/>
+        <location filename="../../internal/ProjectEditorChecker.cpp" line="62"/>
         <source>This project file was created with a newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.
 
 Do you want to continue opening it?</source>
@@ -4527,32 +4523,29 @@ Do you want to continue opening it?</source>
 是否继续打开？</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="149"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="270"/>
         <source>Additional check failed</source>
-        <translation>附加检查失败</translation>
+        <translation type="vanished">附加检查失败</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="150"/>
         <source>%1
 
 The file can still be opened, but it may cause potential problems.
 
 Do you want to continue opening it?</source>
-        <translation type="unfinished">%1
+        <translation type="obsolete">%1
 
 此文件仍可打开，但可能导致潜在问题。
 
 是否继续打开？</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="156"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="273"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="135"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="252"/>
         <source>Potential document integrity issue</source>
         <translation>潜在的文档完整性问题</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="157"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="136"/>
         <source>The document integrity check failed while saving the file. The file can still be saved, but it may not be parsed correctly when opened again.
 
 Under normal circumstances, this problem should not occur. It may be caused by defects in %1 or some plugins.
@@ -4569,12 +4562,12 @@ Do you want to continue?</source>
 是否继续？</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="172"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="151"/>
         <source>File Modified Externally</source>
         <translation>文件在外部修改</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="173"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="152"/>
         <source>The file has been modified by another program since it was last saved.
 
 Do you want to save as a new file or overwrite it?</source>
@@ -4583,69 +4576,69 @@ Do you want to save as a new file or overwrite it?</source>
 你想另存为新文件还是覆盖现有文件？</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="175"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="154"/>
         <source>Save As...</source>
         <translation>另存为...</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="176"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="155"/>
         <source>Overwrite</source>
         <translation>覆盖</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="205"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="184"/>
         <source>Do you want to save before closing?</source>
         <translation>你想在关闭前保存吗？</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="206"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="185"/>
         <source>If you choose not to save, a copy of the current project file will be created to help recover your work in case of accidental incorrect operation.</source>
         <translation>如果你选择不保存，当前工程文件的副本将会被创建，以便在意外误操作时帮助你恢复工作。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="225"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="204"/>
         <source>Complete recovery failed</source>
         <translation type="unfinished">完整恢复失败</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="226"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="205"/>
         <source>Complete recovery failed. Partial recovery will be attempted.</source>
         <translation type="unfinished">完整恢复失败。将尝试部分恢复。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="241"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="220"/>
         <source>Failed to open file</source>
         <translation>打开文件失败</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="247"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="226"/>
         <source>Failed to Load Project</source>
         <translation type="unfinished">加载工程失败</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="250"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="264"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="267"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="229"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="243"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="246"/>
         <source>Failed to save file</source>
         <translation>保存文件失败</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="253"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="232"/>
         <source>Failed to restore recovery file</source>
         <translation type="unfinished">还原恢复文件失败</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="253"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="232"/>
         <source>Cannot restore the recovery file.</source>
         <translation type="unfinished">无法还原恢复文件。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="264"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="243"/>
         <source>The project cannot be saved in its current state.</source>
         <translation type="unfinished">当前状态下无法保存工程。</translation>
     </message>
     <message>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="267"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="246"/>
         <source>Choose a different path for the project copy.</source>
         <translation type="unfinished">请为工程副本选择其他路径。</translation>
     </message>
@@ -4670,13 +4663,13 @@ Do you want to continue opening it?</source>
     </message>
     <message>
         <location filename="../../windows/ProjectWindowInterface.cpp" line="287"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="259"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="238"/>
         <source>Operation Conflict</source>
         <translation type="unfinished">操作冲突</translation>
     </message>
     <message>
         <location filename="../../windows/ProjectWindowInterface.cpp" line="288"/>
-        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="260"/>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="239"/>
         <source>Please wait until the current operation is complete before proceeding.</source>
         <translation type="unfinished">请等待当前操作完成后再继续。</translation>
     </message>
