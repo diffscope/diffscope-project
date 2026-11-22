@@ -234,7 +234,24 @@ namespace BatchProcess::Internal {
         return writeJson(*sources, data);
     }
 
+    bool parseDSPXModel(const QJsonValue &data, bool checked, opendspx::Model *model) {
+        const auto source = jsonconv_stdcorelib::fromQJsonValue(data, jsonconv_stdcorelib::IntegerConversion::PreserveInt32);
+        const opendspx::Serializer::ConversionOption options = checked ? opendspx::Serializer::ConversionOption(opendspx::Serializer::CheckError) : opendspx::Serializer::ConversionOption{};
+        opendspx::SerializationErrorList errors;
+        *model = opendspx::JsonConverterV1::fromJson<opendspx::Model>(source, errors, options);
+        return !errors.containsFatal() && (!checked || !errors.containsError());
+    }
+
     bool importDSPX(QObject *object, const QJsonValue &data, bool checked) {
+        if (auto *value = qobject_cast<dspx::Model *>(object)) {
+            opendspx::Model converted;
+            if (!parseDSPXModel(data, checked, &converted)) {
+                return false;
+            }
+            prepareReplacement(value);
+            value->fromOpenDSPX(converted);
+            return true;
+        }
         const auto source = jsonconv_stdcorelib::fromQJsonValue(data, jsonconv_stdcorelib::IntegerConversion::PreserveInt32);
         const opendspx::Serializer::ConversionOption options = checked ? opendspx::Serializer::ConversionOption(opendspx::Serializer::CheckError) : opendspx::Serializer::ConversionOption{};
         if (auto *nodes = qobject_cast<dspx::AnchorNodeSequence *>(object)) {
@@ -247,14 +264,6 @@ namespace BatchProcess::Internal {
                 node->fromOpenDSPX(value);
                 if (!nodes->insertItem(node)) { node->model()->destroyItem(node); return false; }
             }
-            return true;
-        }
-        if (auto *value = qobject_cast<dspx::Model *>(object)) {
-            opendspx::SerializationErrorList errors;
-            const auto converted = opendspx::JsonConverterV1::fromJson<opendspx::Model>(source, errors, options);
-            if (errors.containsFatal() || (checked && errors.containsError())) return false;
-            prepareReplacement(value);
-            value->fromOpenDSPX(converted);
             return true;
         }
         if (auto *value = qobject_cast<dspx::Track *>(object)) {

@@ -44,6 +44,10 @@
 #include <dspxmodelORM/TrackList.h>
 #include <dspxmodelORM/VibratoPointDataArray.h>
 
+namespace opendspx {
+    struct Model;
+}
+
 namespace BatchProcess::Internal {
     QString modelObjectKind(QObject *object);
     QObject *modelOwner(QObject *object);
@@ -54,6 +58,7 @@ namespace BatchProcess::Internal {
     QList<QPointer<dspx::EntityObject>> modelEntities(dspx::Model *model);
     bool exportDSPX(QObject *object, QJsonValue *data);
     bool exportDefaultSingerSources(QJsonValue *data);
+    bool parseDSPXModel(const QJsonValue &data, bool checked, opendspx::Model *model);
     bool importDSPX(QObject *object, const QJsonValue &data, bool checked = true);
     dspx::EntityObject *allocateEntity(dspx::Model *model, const QString &kind, bool original = false);
     bool attachEntity(QObject *container, dspx::EntityObject *entity, int index, const QString &key);

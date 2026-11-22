@@ -803,16 +803,10 @@ namespace BatchProcess::Internal {
                 return success(values(projects));
             }
             if (operation == QStringLiteral("newProjectFromOpenDSPX")) {
-                // Parse into a temporary native model before initializing a project window.
-                auto temporary = std::make_unique<DspxProject::Document>();
-                const auto transaction = temporary->transactionController()->beginTransaction();
-                if (!importDSPX(temporary->model(), QJsonValue::fromVariant(args.property(0).toVariant()), !args.property(2).toBool())) {
-                    temporary->transactionController()->abortTransaction(transaction);
+                opendspx::Model native;
+                if (!parseDSPXModel(QJsonValue::fromVariant(args.property(0).toVariant()), !args.property(2).toBool(), &native)) {
                     return failure(QStringLiteral("invalidData"), operation);
                 }
-                const auto native = temporary->model()->toOpenDSPX();
-                temporary->transactionController()->abortTransaction(transaction);
-                temporary.reset();
                 auto *parent = m_context->windowInterface() ? m_context->windowInterface()->window() : nullptr;
                 auto *context = Core::CoreInterface::projectLifecycleScenario()->newProjectFromModel(native, args.property(1).toString(), parent);
                 auto *project = context ? qobject_cast<Core::ProjectWindowInterface *>(context->parent()) : nullptr;
