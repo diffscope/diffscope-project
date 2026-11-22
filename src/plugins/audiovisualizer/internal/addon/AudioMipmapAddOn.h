@@ -4,12 +4,15 @@
 #ifndef DIFFSCOPE_AUDIO_VISUALIZER_AUDIOMIPMAPADDON_H
 #define DIFFSCOPE_AUDIO_VISUALIZER_AUDIOMIPMAPADDON_H
 
-#include <CoreApi/windowinterface.h>
-
-#include <SVSCraftCore/WaveformMipmap.h>
+#include <atomic>
 
 #include <QHash>
 #include <QSet>
+#include <QThreadPool>
+
+#include <CoreApi/windowinterface.h>
+
+#include <SVSCraftCore/WaveformMipmap.h>
 
 namespace dspx {
     class AudioClip;
@@ -44,18 +47,18 @@ namespace AudioVisualizer::Internal {
         void addClip(dspx::Clip *clip);
         void removeClip(dspx::Clip *clip);
         void reloadAudioClip(dspx::AudioClip *clip);
-        void handleMipmapLoaded(dspx::AudioClip *clip, double sampleRate, const SVS::WaveformMipmap &mipmap);
-
-    Q_SIGNALS:
-        void mipmapLoaded(dspx::AudioClip *clip, double sampleRate, const SVS::WaveformMipmap &mipmap);
 
     private:
         void loadAudioClip(dspx::AudioClip *clip);
         void processAudioClipMipmap(dspx::AudioClip *clip, double sampleRate, const SVS::WaveformMipmap &mipmap);
 
         QHash<dspx::AudioClip *, double> m_audioClipSampleRates;
+        QHash<dspx::AudioClip *, quint64> m_mipmapRequests;
+        quint64 m_nextMipmapRequest = 0;
         QHash<dspx::AudioClip *, SVS::WaveformMipmap> m_audioClipMipmaps;
         QHash<dspx::AudioClip *, QSet<AudioThumbnailWaveformThumbnail *>> m_audioClipThumbnailViews;
+        std::atomic_bool m_closing = false;
+        QThreadPool m_mipmapPool;
     };
 
 }
