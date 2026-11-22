@@ -112,8 +112,7 @@ namespace DspxProject {
         Document *document() const;
 
         /**
-         * Returns the assigned document log directory path, or an empty string if logging is disabled.
-         * The path is available before the directory is created.
+         * Returns the active document log directory path, or an empty string if logging is unavailable.
          */
         QString documentLogDirectory() const;
 

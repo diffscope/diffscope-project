@@ -237,10 +237,7 @@ namespace DspxProject {
 
     bool ProjectDocumentContextPrivate::setupDocumentLog() {
         Q_Q(ProjectDocumentContext);
-        if (recoveryDirPath.isEmpty()) {
-            return false;
-        }
-        if (!lockRecoveryDirectory()) {
+        if (!documentLogLock || !resetDocumentLog()) {
             return false;
         }
         QObject::connect(document->model(), &dspx::Model::projectNameChanged, q, [this](const QString &) {
@@ -252,7 +249,7 @@ namespace DspxProject {
             });
         }
         writeRecoveryNameFile();
-        return resetDocumentLog();
+        return true;
     }
 
     void ProjectDocumentContextPrivate::cleanupDocumentLog() {
@@ -290,7 +287,7 @@ namespace DspxProject {
 
     QString ProjectDocumentContext::documentLogDirectory() const {
         Q_D(const ProjectDocumentContext);
-        return d->recoveryDirPath;
+        return d->documentLogLock ? d->recoveryDirPath : QString();
     }
 
     QString ProjectDocumentContext::defaultDocumentName() const {
@@ -443,6 +440,10 @@ namespace DspxProject {
             return {ProjectFileError::InvalidState, {}, {}};
         }
         const QScopedValueRollback initializationGuard(initializing, true);
+        if (!recoveryDirPath.isEmpty()) {
+            lockRecoveryDirectory();
+        }
+        auto logGuard = qScopeGuard([this] { cleanupDocumentLog(); });
         auto newDocument = std::make_unique<Document>();
         try {
             auto projectModel = model;
@@ -467,7 +468,13 @@ namespace DspxProject {
             fileLocker->setParent(q);
         }
         document->setParent(q);
-        setupDocumentLog();
+        try {
+            if (setupDocumentLog()) {
+                logGuard.dismiss();
+            }
+        } catch (const std::exception &error) {
+            qCWarning(lcProjectDocumentContext) << "Failed to initialize the document log:" << error.what();
+        }
         return {};
     }
 
