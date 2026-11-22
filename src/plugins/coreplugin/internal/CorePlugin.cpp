@@ -39,6 +39,8 @@
 #include <SVSCraftQuick/MessageBox.h>
 #include <SVSCraftQuick/Theme.h>
 
+#include <dspxproject/CheckerRegistry.h>
+#include <dspxproject/DocumentPersistenceHookRegistry.h>
 #include <loadapi/initroutine.h>
 
 #include <notifications/NotificationCenter.h>
@@ -73,6 +75,8 @@
 #include <coreplugin/internal/NotificationAddOn.h>
 #include <coreplugin/internal/PlatformJumpListHelper.h>
 #include <coreplugin/internal/ProblemsAddOn.h>
+#include <coreplugin/internal/ProjectEditorChecker.h>
+#include <coreplugin/internal/ProjectEditorPersistenceHook.h>
 #include <coreplugin/internal/ProjectFileOpenHandler.h>
 #include <coreplugin/internal/ProjectStartupTimerAddOn.h>
 #include <coreplugin/internal/ProjectWindowNavigatorAddOn.h>
@@ -279,6 +283,10 @@ namespace Core::Internal {
 
     void CorePlugin::initializeSingletons() {
         new CoreInterface(this);
+        auto *checkerRegistry = CoreInterface::dspxCheckerRegistry();
+        checkerRegistry->registerChecker(new ProjectEditorChecker(checkerRegistry));
+        auto *persistenceHookRegistry = CoreInterface::dspxPersistenceHookRegistry();
+        persistenceHookRegistry->registerHook(new ProjectEditorPersistenceHook(persistenceHookRegistry));
         new BehaviorPreference(this);
         new DspxProject::Clipboard(this);
     }

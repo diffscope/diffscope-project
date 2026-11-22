@@ -22,7 +22,8 @@ namespace DspxProject {
         using SaveMode = ProjectDocumentContextPrivate::SaveMode;
 
         ProjectDocumentContext *openProject(QWindow *parent, QString path, bool asTemplate, const QString &name);
-        ProjectDocumentContext *presentProject(QWindow *parent, const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const ProjectLifecycleOptions &options, const QString &sourcePath = {});
+        ProjectDocumentContext *newProjectFromModel(QWindow *parent, const opendspx::Model &model, const QString &name, bool fileBacked, const QString &recoverySourceDirectory = {});
+        ProjectDocumentContext *presentProject(QWindow *parent, const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const ProjectLifecycleOptions &options, const QString &sourcePath = {}, const QString &recoverySourceDirectory = {});
         Status saveProjectWithGuard(ProjectDocumentContext *context, QWindow *parent, SaveMode mode, const QString &path = {});
         Status saveProject(ProjectDocumentContext *context, QWindow *parent, const ProjectLifecycleOptions &options, SaveMode mode, QString path = {});
         Status prepareClose(ProjectDocumentContext *context, QWindow *parent);

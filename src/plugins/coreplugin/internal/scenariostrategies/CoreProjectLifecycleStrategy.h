@@ -13,8 +13,7 @@ namespace Core::Internal {
     class CoreProjectLifecycleStrategy : public DspxProject::ProjectLifecycleStrategy {
         Q_DECLARE_TR_FUNCTIONS(Core::Internal::CoreProjectLifecycleStrategy)
     public:
-        // The checker must be non-null and remain valid during strategy calls.
-        explicit CoreProjectLifecycleStrategy(DspxProject::IChecker *checker);
+        CoreProjectLifecycleStrategy(DspxProject::IChecker *checker, DspxProject::IDocumentPersistenceHook *persistenceHook);
 
         static QString recoveryRootPath();
         static QString recoveryCopyPath();
@@ -35,6 +34,7 @@ namespace Core::Internal {
 
     private:
         DspxProject::IChecker *m_checker;
+        DspxProject::IDocumentPersistenceHook *m_persistenceHook;
     };
 
 }

@@ -4,7 +4,7 @@
 #include "ProjectLifecycleScenario.h"
 #include "ProjectLifecycleScenario_p.h"
 
-#include <stdexcept>
+#include <memory>
 #include <utility>
 
 #include <QDir>
@@ -19,8 +19,6 @@
 #include <opendspx/model.h>
 #include <stdcorelib/support/json.h>
 
-#include <SVSCraftCore/Semver.h>
-
 #include <dspxproject/Document.h>
 #include <dspxproject/IChecker.h>
 #include <dspxproject/ProjectLifecycleStrategy.h>
@@ -30,23 +28,6 @@
 namespace DspxProject {
 
     Q_STATIC_LOGGING_CATEGORY(lcProjectLifecycle, "diffscope.dspxproject.projectlifecycle")
-
-    static QString versionFromModel(const opendspx::Model *model) {
-        try {
-            return QString::fromStdString(model->content.workspace.at("diffscope").at("editorVersion").toString());
-        } catch (const std::out_of_range &) {
-            return {};
-        }
-    }
-
-    static bool isVersionCompatible(const QString &version, const QString &currentVersion) {
-        if (version.isEmpty()) {
-            return true;
-        }
-        const SVS::Semver current(currentVersion);
-        const SVS::Semver file(version);
-        return file == current || (!(file > current) && file.preRelease().isEmpty() && file.build().isEmpty());
-    }
 
     static ProjectLifecycleScenario::Status reportFailure(ProjectLifecycleStrategy *strategy, const ProjectFileError &error, QWindow *parent) {
         qCWarning(lcProjectLifecycle) << "Project operation failed" << error.code << error.path << error.detail;
@@ -109,9 +90,7 @@ namespace DspxProject {
 
     ProjectDocumentContext *ProjectLifecycleScenario::newProjectFromModel(const opendspx::Model &model, const QString &name, QWindow *parent, bool fileBacked) {
         Q_D(ProjectLifecycleScenario);
-        const auto options = d->strategy->projectLifecycleOptions();
-        const auto documentName = name.isEmpty() ? options.document.untitledName + QStringLiteral(".dspx") : name;
-        return d->presentProject(parent, model, documentName, fileBacked ? std::make_unique<Core::FileLocker>() : nullptr, options);
+        return d->newProjectFromModel(parent, model, name, fileBacked);
     }
 
     ProjectDocumentContext *ProjectLifecycleScenario::newProjectFromTemplate(const QString &path, QWindow *parent, const QString &name) {
@@ -171,21 +150,14 @@ namespace DspxProject {
             return nullptr;
         }
 
-        const auto &global = candidate.model.content.global;
-        if (QString::fromStdString(global.editorId) != options.document.editorId) {
-            const ProjectWarning warning{ProjectWarning::OtherEditor, path, QString::fromStdString(global.editorName)};
-            if (!strategy->confirmWarning(warning, parentWindow)) {
-                return nullptr;
-            }
-        } else if (const auto version = versionFromModel(&candidate.model); !isVersionCompatible(version, options.document.editorVersion)) {
-            const ProjectWarning warning{ProjectWarning::IncompatibleVersion, path, version};
-            if (!strategy->confirmWarning(warning, parentWindow)) {
-                return nullptr;
-            }
-        }
-        const auto warnings = options.checker->runCheck(candidate.model, IChecker::Strong, true);
-        if (!warnings.isEmpty()) {
-            const ProjectWarning warning{ProjectWarning::CheckerWarning, path, warnings.front().message};
+        const auto warnings = options.checker->runCheck(candidate.model, IChecker::Strong, false);
+        for (const auto &checkWarning : warnings) {
+            const ProjectWarning warning{
+                .code = ProjectWarning::CheckerWarning,
+                .path = path,
+                .message = checkWarning.message,
+                .detail = checkWarning.detail,
+            };
             if (!strategy->confirmWarning(warning, parentWindow)) {
                 return nullptr;
             }
@@ -202,9 +174,15 @@ namespace DspxProject {
         return context.data();
     }
 
-    ProjectDocumentContext *ProjectLifecycleScenarioPrivate::presentProject(QWindow *parent, const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const ProjectLifecycleOptions &options, const QString &sourcePath) {
+    ProjectDocumentContext *ProjectLifecycleScenarioPrivate::newProjectFromModel(QWindow *parent, const opendspx::Model &model, const QString &name, bool fileBacked, const QString &recoverySourceDirectory) {
+        const auto options = strategy->projectLifecycleOptions();
+        const auto documentName = name.isEmpty() ? options.document.untitledName + QStringLiteral(".dspx") : name;
+        return presentProject(parent, model, documentName, fileBacked ? std::make_unique<Core::FileLocker>() : nullptr, options, {}, recoverySourceDirectory);
+    }
+
+    ProjectDocumentContext *ProjectLifecycleScenarioPrivate::presentProject(QWindow *parent, const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const ProjectLifecycleOptions &options, const QString &sourcePath, const QString &recoverySourceDirectory) {
         auto context = std::make_unique<ProjectDocumentContext>(options.document);
-        auto error = ProjectDocumentContextPrivate::get(context.get())->initialize(model, name, std::move(locker));
+        auto error = ProjectDocumentContextPrivate::get(context.get())->initialize(model, name, std::move(locker), recoverySourceDirectory);
         if (error.code != ProjectFileError::None) {
             error.path = sourcePath;
             reportFailure(strategy, error, parent);
@@ -232,7 +210,7 @@ namespace DspxProject {
                 return nullptr;
             }
         }
-        return newProjectFromModel(candidate.model, name, parentWindow);
+        return d->newProjectFromModel(parentWindow, candidate.model, name, true, path);
     }
 
     ProjectLifecycleScenario::Status ProjectLifecycleScenario::saveProject(ProjectDocumentContext *context, QWindow *parent) {
@@ -318,7 +296,7 @@ namespace DspxProject {
             return reportFailure(strategy, error, parentWindow);
         }
         if (prepared.hasIntegrityWarning) {
-            const ProjectWarning warning{ProjectWarning::SaveIntegrity, path, {}};
+            const ProjectWarning warning{.code = ProjectWarning::SaveIntegrity, .path = path};
             if (!strategy->confirmWarning(warning, parentWindow) || !project) {
                 return Status::Cancelled;
             }

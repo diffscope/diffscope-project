@@ -63,8 +63,6 @@ namespace DspxProject {
     struct ProjectWarning {
         /** The warning category. */
         enum Code {
-            OtherEditor, /**< The source identifies a different editor. */
-            IncompatibleVersion, /**< The source editor version is incompatible. */
             CheckerWarning, /**< Project validation reported warnings. */
             SaveIntegrity /**< Serialization reported integrity warnings. */
         };
@@ -73,7 +71,9 @@ namespace DspxProject {
         Code code;
         /** The affected project path. */
         QString path;
-        /** The editor name, version, or checker message, empty if unavailable. */
+        /** The checker warning title, empty if unavailable. */
+        QString message;
+        /** The checker warning detail, empty if unavailable. */
         QString detail;
     };
 

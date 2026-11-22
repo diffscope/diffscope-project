@@ -261,7 +261,7 @@
             scope.master = { multiChannelOutput: d("multiChannelOutput", defaulted(master, "multiChannelOutput", false)) };
             if (own(input, "keySignatures")) scope.keySignatures = childList("keySignatures", "KeySignature");
             if (own(input, "audioDSPs")) scope.audioDSP = childList("audioDSPs", "AudioDSP");
-            value = { version: "1.0.0", content: { global: { name: d("projectName", ""), author: d("projectAuthor", ""), centShift: d("globalCentShift", 0), editorId: "org.diffscope.diffscope", editorName: "DiffScope" }, master: { control: bus(input) }, timeline: { labels: childList("labels", "Label"), tempos: childList("tempos", "Tempo"), timeSignatures: childList("timeSignatures", "TimeSignature") }, tracks: childList("tracks", "Track"), workspace: w } };
+            value = { version: "1.0.0", content: { global: { name: d("projectName", ""), author: d("projectAuthor", ""), centShift: d("globalCentShift", 0), editorId: "", editorName: "" }, master: { control: bus(input) }, timeline: { labels: childList("labels", "Label"), tempos: childList("tempos", "Tempo"), timeSignatures: childList("timeSignatures", "TimeSignature") }, tracks: childList("tracks", "Track"), workspace: w } };
         } else if (kind === "Track") {
             const scope = extension(w);
             scope.colorId = d("colorId", defaulted(scope, "colorId", 0)); scope.height = d("height", defaulted(scope, "height", 80));

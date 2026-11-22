@@ -4,6 +4,7 @@
 #ifndef DIFFSCOPE_MAINTENANCE_VIEWJSONADDON_H
 #define DIFFSCOPE_MAINTENANCE_VIEWJSONADDON_H
 
+#include <QString>
 #include <qqmlintegration.h>
 
 #include <CoreApi/windowinterface.h>
@@ -26,7 +27,6 @@ namespace Maintenance {
 
     private:
         void generateSessionId();
-        QByteArray serializeJson() const;
 
         QString m_sessionId;
     };

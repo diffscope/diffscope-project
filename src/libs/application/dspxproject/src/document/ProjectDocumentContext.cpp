@@ -5,8 +5,10 @@
 #include "ProjectDocumentContext_p.h"
 
 #include <exception>
+#include <memory>
 #include <sstream>
 #include <utility>
+#include <vector>
 
 #include <QDir>
 #include <QFile>
@@ -17,8 +19,17 @@
 #include <QScopedValueRollback>
 #include <QUuid>
 
+#include <opendspx/audioclip.h>
+#include <opendspx/clip.h>
+#include <opendspx/mixedsinger.h>
+#include <opendspx/model.h>
+#include <opendspx/paramcurve.h>
+#include <opendspx/paramcurveanchor.h>
+#include <opendspx/paramcurvefree.h>
 #include <opendspx/serializer/serializer.h>
-#include <stdcorelib/support/json.h>
+#include <opendspx/singer.h>
+#include <opendspx/singingclip.h>
+#include <opendspx/singlesinger.h>
 
 #include <dini/engine.h>
 #include <dini/transaction.h>
@@ -27,16 +38,79 @@
 #include <dspxmodelORM/Model.h>
 #include <dspxproject/Document.h>
 #include <dspxproject/IChecker.h>
+#include <dspxproject/IDocumentPersistenceHook.h>
 #include <transactional/TransactionController.h>
 
 namespace DspxProject {
 
     Q_LOGGING_CATEGORY(lcProjectDocumentContext, "diffscope.dspxproject.projectdocumentcontext")
 
-    void ProjectDocumentContextPrivate::writeEditorInfo(opendspx::Model &model) const {
-        model.content.global.editorId = options.editorId.toStdString();
-        model.content.global.editorName = options.editorName.toStdString();
-        model.content.workspace["diffscope"]["editorVersion"] = options.editorVersion.toStdString();
+    template<typename Derived, typename Base>
+    static std::shared_ptr<Derived> copyModelItem(const std::shared_ptr<Base> &item) {
+        return std::make_shared<Derived>(static_cast<const Derived &>(*item));
+    }
+
+    static void detachSingers(std::vector<opendspx::SingerRef> &singers) {
+        for (auto &singer : singers) {
+            if (!singer) {
+                continue;
+            }
+            switch (singer->type) {
+                case opendspx::Singer::Type::Single:
+                    singer = copyModelItem<opendspx::SingleSinger>(singer);
+                    break;
+                case opendspx::Singer::Type::Mixed: {
+                    auto mixed = copyModelItem<opendspx::MixedSinger>(singer);
+                    detachSingers(mixed->singers);
+                    singer = std::move(mixed);
+                    break;
+                }
+            }
+        }
+    }
+
+    static void detachCurves(std::vector<opendspx::ParamCurveRef> &curves) {
+        for (auto &curve : curves) {
+            if (!curve) {
+                continue;
+            }
+            switch (curve->type) {
+                case opendspx::ParamCurve::Anchor:
+                    curve = copyModelItem<opendspx::ParamCurveAnchor>(curve);
+                    break;
+                case opendspx::ParamCurve::Free:
+                    curve = copyModelItem<opendspx::ParamCurveFree>(curve);
+                    break;
+            }
+        }
+    }
+
+    static void detachSharedModelItems(opendspx::Model &model) {
+        for (auto &track : model.content.tracks) {
+            for (auto &clip : track.clips) {
+                if (!clip) {
+                    continue;
+                }
+                switch (clip->type) {
+                    case opendspx::Clip::Type::Audio:
+                        clip = copyModelItem<opendspx::AudioClip>(clip);
+                        break;
+                    case opendspx::Clip::Type::Singing: {
+                        auto singingClip = copyModelItem<opendspx::SingingClip>(clip);
+                        for (auto &[name, param] : singingClip->params) {
+                            detachCurves(param.original);
+                            detachCurves(param.transform);
+                            detachCurves(param.edited);
+                        }
+                        if (singingClip->sources) {
+                            detachSingers(singingClip->sources->singers);
+                        }
+                        clip = std::move(singingClip);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     QString ProjectDocumentContextPrivate::recoveryDisplayName() const {
@@ -214,6 +288,11 @@ namespace DspxProject {
         return d->document;
     }
 
+    QString ProjectDocumentContext::documentLogDirectory() const {
+        Q_D(const ProjectDocumentContext);
+        return d->recoveryDirPath;
+    }
+
     QString ProjectDocumentContext::defaultDocumentName() const {
         Q_D(const ProjectDocumentContext);
         return d->defaultDocumentName;
@@ -258,6 +337,18 @@ namespace DspxProject {
     ProjectFileError ProjectDocumentContext::saveCopy(const QString &path, const SaveOptions &options) {
         Q_D(ProjectDocumentContext);
         return d->save(path, ProjectDocumentContextPrivate::SaveMode::Copy, options);
+    }
+
+    ProjectFileError ProjectDocumentContext::saveCopy(opendspx::Model &model) {
+        Q_D(ProjectDocumentContext);
+        if (const auto error = d->validateSave({}, ProjectDocumentContextPrivate::SaveMode::Copy); error.code != ProjectFileError::None) {
+            return error;
+        }
+        Core::TransactionController::ScopedReadLock readLock(d->document->transactionController());
+        if (!readLock) {
+            return {ProjectFileError::Busy, {}, {}};
+        }
+        return d->prepareSaveModel(model);
     }
 
     ProjectDocumentContextPrivate::OpenCandidate ProjectDocumentContextPrivate::readProjectFile(const QString &path, bool keepFileOpen) {
@@ -320,7 +411,7 @@ namespace DspxProject {
     }
 
     ProjectFileError ProjectDocumentContextPrivate::loadFile(const QString &path, const QString &name, OpenMode mode, const ProjectDocumentContext::OpenOptions &options) {
-        if (document) {
+        if (document || initializing) {
             return {ProjectFileError::InvalidState, path, {}};
         }
 
@@ -331,7 +422,8 @@ namespace DspxProject {
         if (options.checker) {
             const auto warnings = options.checker->runCheck(candidate.model, IChecker::Strong, true);
             if (!warnings.isEmpty() && !options.acceptCheckerWarnings) {
-                return {ProjectFileError::CheckerWarning, path, warnings.front().message};
+                const auto &warning = warnings.front();
+                return {.code = ProjectFileError::CheckerWarning, .path = path, .detail = warning.detail, .message = warning.message};
             }
         }
 
@@ -345,15 +437,19 @@ namespace DspxProject {
         return error;
     }
 
-    ProjectFileError ProjectDocumentContextPrivate::initialize(const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker) {
+    ProjectFileError ProjectDocumentContextPrivate::initialize(const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const QString &recoverySourceDirectory) {
         Q_Q(ProjectDocumentContext);
-        if (document) {
+        if (document || initializing) {
             return {ProjectFileError::InvalidState, {}, {}};
         }
+        const QScopedValueRollback initializationGuard(initializing, true);
         auto newDocument = std::make_unique<Document>();
         try {
             auto projectModel = model;
-            writeEditorInfo(projectModel);
+            if (auto *hook = options.persistenceHook) {
+                detachSharedModelItems(projectModel);
+                hook->beforeLoadModel(*q, projectModel, recoverySourceDirectory);
+            }
             auto storage = newDocument->model()->document();
             auto transaction = storage->engine()->beginTransaction({.undoable = false});
             storage->setTransaction(&transaction);
@@ -385,14 +481,14 @@ namespace DspxProject {
         if (!document || (!fileLocker && mode != SaveMode::Copy)) {
             return {ProjectFileError::InvalidState, path, {}};
         }
-        if (writing) {
+        if (saving) {
             return {ProjectFileError::Busy, path, {}};
         }
         const auto currentPath = fileLocker ? fileLocker->path() : QString();
         if (mode == SaveMode::Current && (path.isEmpty() || currentPath != path)) {
             return {ProjectFileError::InvalidState, path, {}};
         }
-        if (mode == SaveMode::Copy && !currentPath.isEmpty() && canonicalOrAbsolutePath(currentPath) == canonicalOrAbsolutePath(path)) {
+        if (mode == SaveMode::Copy && !path.isEmpty() && !currentPath.isEmpty() && canonicalOrAbsolutePath(currentPath) == canonicalOrAbsolutePath(path)) {
             return {ProjectFileError::CopyToCurrentFile, path, {}};
         }
         return {};
@@ -416,10 +512,28 @@ namespace DspxProject {
         return writeSave(prepared.data, path, mode);
     }
 
-    ProjectDocumentContextPrivate::PreparedSave ProjectDocumentContextPrivate::prepareSave(bool compress) const {
+    ProjectFileError ProjectDocumentContextPrivate::prepareSaveModel(opendspx::Model &model) {
+        Q_Q(ProjectDocumentContext);
+        const QScopedValueRollback saveGuard(saving, true);
         try {
-            auto model = document->model()->toOpenDSPX();
-            writeEditorInfo(model);
+            auto prepared = document->model()->toOpenDSPX();
+            if (auto *hook = options.persistenceHook) {
+                hook->afterSaveModel(*q, prepared);
+            }
+            model = std::move(prepared);
+            return {};
+        } catch (const std::exception &error) {
+            return {ProjectFileError::Write, {}, QString::fromUtf8(error.what())};
+        }
+    }
+
+    ProjectDocumentContextPrivate::PreparedSave ProjectDocumentContextPrivate::prepareSave(bool compress) {
+        opendspx::Model model;
+        if (auto error = prepareSaveModel(model); error.code != ProjectFileError::None) {
+            return {.error = std::move(error)};
+        }
+        const QScopedValueRollback saveGuard(saving, true);
+        try {
             opendspx::Serializer::OutputOption outputOptions = opendspx::Serializer::WriteSchema;
             if (compress) {
                 outputOptions |= opendspx::Serializer::Compress;
@@ -441,7 +555,7 @@ namespace DspxProject {
         if (const auto error = validateSave(path, mode); error.code != ProjectFileError::None) {
             return error;
         }
-        const QScopedValueRollback writeGuard(writing, true);
+        const QScopedValueRollback saveGuard(saving, true);
         if (mode == SaveMode::Copy) {
             Core::FileLocker locker;
             if (!locker.saveAs(path, data)) {

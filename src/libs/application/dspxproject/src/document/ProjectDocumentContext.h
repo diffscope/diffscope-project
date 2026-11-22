@@ -23,6 +23,7 @@ namespace DspxProject {
 
     class Document;
     class IChecker;
+    class IDocumentPersistenceHook;
     class ProjectDocumentContextPrivate;
 
     /** The result of a project file operation. */
@@ -48,6 +49,8 @@ namespace DspxProject {
         QString path;
         /** The diagnostic detail, empty if unavailable. */
         QString detail;
+        /** The warning title if code is CheckerWarning. */
+        QString message;
     };
 
     /**
@@ -66,18 +69,14 @@ namespace DspxProject {
         Q_PROPERTY(Document *document READ document CONSTANT)
         Q_PROPERTY(QString defaultDocumentName READ defaultDocumentName NOTIFY defaultDocumentNameChanged)
     public:
-        /** The editor identity and document recovery configuration. */
+        /** The document persistence configuration. */
         struct Options {
-            /** The editor identifier written during initialization and saving. */
-            QString editorId;
-            /** The editor display name written during initialization and saving. */
-            QString editorName;
-            /** The editor version recorded in the project workspace. */
-            QString editorVersion;
             /** The fallback recovery display name. */
             QString untitledName;
             /** The recovery root directory, empty to disable document logging. */
             QString recoveryRootPath;
+            /** The borrowed persistence hook, valid for the context's lifetime if non-null. */
+            IDocumentPersistenceHook *persistenceHook = nullptr;
         };
 
         /** The source reading and validation policy. */
@@ -111,6 +110,12 @@ namespace DspxProject {
 
         /** Returns the owned document, or nullptr before successful initialization. */
         Document *document() const;
+
+        /**
+         * Returns the assigned document log directory path, or an empty string if logging is disabled.
+         * The path is available before the directory is created.
+         */
+        QString documentLogDirectory() const;
 
         /** Returns the suggested document name, which may be empty. */
         QString defaultDocumentName() const;
@@ -156,6 +161,13 @@ namespace DspxProject {
          * CopyToCurrentFile for the current file, or the save result. @pre path is nonempty.
          */
         ProjectFileError saveCopy(const QString &path, const SaveOptions &options);
+        /**
+         * Saves a copy to model without changing the file association or clean history position.
+         * Supports non-file documents. Returns InvalidState before initialization, Busy if
+         * access is unavailable, Write if model preparation fails, or None on success.
+         * Updates model only on success.
+         */
+        ProjectFileError saveCopy(opendspx::Model &model);
 
     Q_SIGNALS:
         /** Notifies that save() or saveAs() succeeded. */

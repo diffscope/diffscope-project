@@ -4,6 +4,7 @@
 #include "CheckerRegistry.h"
 #include "CheckerRegistry_p.h"
 
+#include <utility>
 
 namespace DspxProject {
 
@@ -25,13 +26,15 @@ namespace DspxProject {
     }
 
     QList<CheckWarning> CheckerRegistry::runCheck(const opendspx::Model &model, Level level, bool failFast) {
-        Q_D(CheckerRegistry);
-        for (auto checker : d->checkers) {
+        QList<CheckWarning> result;
+        for (auto *checker : checkers()) {
             auto warnings = checker->runCheck(model, level, failFast);
-            if (failFast && !warnings.isEmpty())
+            if (failFast && !warnings.isEmpty()) {
                 return warnings;
+            }
+            result.append(std::move(warnings));
         }
-        return {};
+        return result;
     }
 
 }

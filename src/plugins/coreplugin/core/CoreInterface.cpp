@@ -39,6 +39,7 @@
 #include <SVSCraftQuick/Theme.h>
 
 #include <dspxproject/CheckerRegistry.h>
+#include <dspxproject/DocumentPersistenceHookRegistry.h>
 #include <dspxproject/ProjectLifecycleScenario.h>
 
 #include <notifications/NotificationCenter.h>
@@ -68,6 +69,7 @@ namespace Core {
         QAK::ActionRegistry *actionRegistry;
         QAK::QuickActionContext *actionContext = nullptr;
         DspxProject::CheckerRegistry *dspxCheckerRegistry;
+        DspxProject::DocumentPersistenceHookRegistry *dspxPersistenceHookRegistry = nullptr;
         TrackColorSchema *trackColorSchema;
         SingerCatalog::DefaultLyricManager *defaultLyricManager;
         SingerCatalog::SingerRegistry *singerRegistry;
@@ -83,12 +85,13 @@ namespace Core {
             actionContext = new QAK::QuickActionContext(q);
             actionRegistry->addContext(actionContext);
             dspxCheckerRegistry = new DspxProject::CheckerRegistry(q);
+            dspxPersistenceHookRegistry = new DspxProject::DocumentPersistenceHookRegistry(q);
             trackColorSchema = new TrackColorSchema(q);
             singerRegistry = new SingerCatalog::SingerRegistry(q);
             defaultLyricManager = new SingerCatalog::DefaultLyricManager(singerRegistry, q);
             mixedSingerPresets = new MixedSingerPresets(q);
             fileOpenDispatcher = new FileOpenDispatcher(q);
-            auto strategy = new Internal::CoreProjectLifecycleStrategy(dspxCheckerRegistry);
+            auto strategy = new Internal::CoreProjectLifecycleStrategy(dspxCheckerRegistry, dspxPersistenceHookRegistry);
             projectLifecycleScenario = new DspxProject::ProjectLifecycleScenario(strategy, q);
             strategy->setParent(projectLifecycleScenario);
             notificationCenter = new Notifications::NotificationCenter(q);
@@ -137,6 +140,11 @@ namespace Core {
     DspxProject::CheckerRegistry *CoreInterface::dspxCheckerRegistry() {
         Q_ASSERT(instance());
         return instance()->d_func()->dspxCheckerRegistry;
+    }
+
+    DspxProject::DocumentPersistenceHookRegistry *CoreInterface::dspxPersistenceHookRegistry() {
+        Q_ASSERT(instance());
+        return instance()->d_func()->dspxPersistenceHookRegistry;
     }
 
     TrackColorSchema *CoreInterface::trackColorSchema() {

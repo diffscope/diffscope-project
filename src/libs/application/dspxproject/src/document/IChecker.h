@@ -4,7 +4,10 @@
 #ifndef DIFFSCOPE_DSPXPROJECT_ICHECKER_H
 #define DIFFSCOPE_DSPXPROJECT_ICHECKER_H
 
+#include <QList>
 #include <QObject>
+#include <QPair>
+#include <QString>
 #include <QVariant>
 
 #include <dspxproject/dspxprojectglobal.h>
@@ -44,12 +47,12 @@ namespace DspxProject {
     struct CheckWarning {
         /** The validation level associated with the warning. */
         IChecker::Level level;
-        /** The user-visible warning summary. */
+        /** The user-visible warning title. */
         QString message;
         /** The affected JSON path, empty if no specific location applies. */
         QString jsonPath;
-        /** The additional user-visible explanation, empty if absent. */
-        QString description;
+        /** The user-visible warning detail, empty if absent. */
+        QString detail;
         /** The diagnostic names and associated values. */
         QList<QPair<QString, QVariant>> info;
     };

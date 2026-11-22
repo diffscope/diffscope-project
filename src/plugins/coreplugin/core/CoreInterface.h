@@ -19,6 +19,7 @@ class QWindow;
 
 namespace DspxProject {
     class CheckerRegistry;
+    class DocumentPersistenceHookRegistry;
     class ProjectLifecycleScenario;
 }
 
@@ -73,6 +74,7 @@ namespace Core {
         static QAK::QuickActionContext *actionContext();
 
         static DspxProject::CheckerRegistry *dspxCheckerRegistry();
+        static DspxProject::DocumentPersistenceHookRegistry *dspxPersistenceHookRegistry();
 
         static TrackColorSchema *trackColorSchema();
 

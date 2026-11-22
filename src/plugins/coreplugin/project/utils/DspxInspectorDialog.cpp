@@ -5,9 +5,6 @@
 #include "DspxInspectorDialog_p.h"
 
 #include <sstream>
-#include <stdexcept>
-
-#include <application_config.h>
 
 #include <QApplication>
 #include <QDir>
@@ -21,12 +18,9 @@
 
 #include <CoreApi/runtimeinterface.h>
 
-#include <stdcorelib/support/json.h>
-
 #include <opendspx/model.h>
 #include <opendspx/serializer/serializer.h>
 
-#include <SVSCraftCore/Semver.h>
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/CoreInterface.h>
@@ -34,29 +28,6 @@
 #include <coreplugin/ProjectFileDialogs.h>
 
 namespace Core {
-
-    static QString getVersionStringFromModel(const opendspx::Model &model) {
-        try {
-            return QString::fromStdString(model.content.workspace.at("diffscope").at("editorVersion").toString());
-        } catch (const std::out_of_range &) {
-            return {};
-        }
-    }
-
-    static bool checkIsVersionCompatible(const QString &version) {
-        if (version.isEmpty())
-            return true;
-        SVS::Semver currentSemver(QStringLiteral(APPLICATION_SEMVER));
-        SVS::Semver fileSemver(version);
-        if (fileSemver == currentSemver)
-            return true;
-        if (fileSemver > currentSemver)
-            return false;
-        if (!fileSemver.preRelease().isEmpty() || !fileSemver.build().isEmpty()) {
-            return false;
-        }
-        return true;
-    }
 
     DspxInspectorDialog::DspxInspectorDialog(QWidget *parent) : QDialog(parent), d_ptr(new DspxInspectorDialogPrivate) {
         Q_D(DspxInspectorDialog);
@@ -418,40 +389,16 @@ namespace Core {
             }
             if (errors.containsFatal())
                 break;
-            if (dspxModel.content.global.editorId != CoreInterface::dspxEditorId()) {
-                addErrorItem(
-                    problemModel,
-                    tr("File Created With Another Application"),
-                    QStringLiteral("$.content.global.editorId"),
-                    style()->standardIcon(QStyle::SP_MessageBoxWarning),
-                    {
-                        {tr("Editor ID"), QString::fromStdString(dspxModel.content.global.editorId)},
-                        {tr("Editor name"), QString::fromStdString(dspxModel.content.global.editorName)},
-                    },
-                    tr("This project file was created with another application. Some features may not be fully compatible or may behave differently.")
-                );
-            } else if (auto version = getVersionStringFromModel(dspxModel); !checkIsVersionCompatible(version)) {
-                addErrorItem(
-                    problemModel,
-                    tr("File Created With Incompatible Version"),
-                    QStringLiteral("$.content.workspace.diffscope.editorVersion"),
-                    style()->standardIcon(QStyle::SP_MessageBoxWarning),
-                    {
-                        {tr("Version"), version},
-                    },
-                    tr("This project file was created with a newer version or test version of %1. Some features may not be fully compatible or may behave differently.").arg(QApplication::applicationDisplayName())
-                );
-            }
 
-            auto customCheckResult = CoreInterface::dspxCheckerRegistry()->runCheck(dspxModel, DspxProject::IChecker::Weak, false);
-            for (const auto &warning : customCheckResult) {
+            const auto warnings = CoreInterface::dspxCheckerRegistry()->runCheck(dspxModel, DspxProject::IChecker::Weak, false);
+            for (const auto &warning : warnings) {
                 addErrorItem(
                     problemModel,
                     warning.message,
                     warning.jsonPath,
                     warning.level == DspxProject::IChecker::Strong ? style()->standardIcon(QStyle::SP_MessageBoxWarning) : QIcon(),
                     warning.info,
-                    warning.description
+                    warning.detail
                 );
             }
         } while (false);

@@ -37,7 +37,7 @@ namespace DspxProject {
         /**
          * Runs registered checkers at the requested level.
          * Returns the first nonempty warning list if failFast is true.
-         * Returns an empty list after all checkers complete otherwise.
+         * Returns all warnings in registration order if failFast is false.
          */
         QList<CheckWarning> runCheck(const opendspx::Model &model, Level level, bool failFast) override;
 

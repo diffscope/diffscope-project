@@ -126,29 +126,8 @@ namespace Core {
         Q_D(ProjectFileDialogs);
         auto engine = RuntimeInterface::qmlEngine();
         switch (warning.code) {
-            case DspxProject::ProjectWarning::OtherEditor:
-                return SVS::MessageBox::question(
-                    engine,
-                    d->window,
-                    tr("File created with another application"),
-                    tr("This project file was created with another application (%1). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
-                        .arg(warning.detail.isEmpty() ? tr("name unknown") : warning.detail)
-                ) == SVS::SVSCraft::Yes;
-            case DspxProject::ProjectWarning::IncompatibleVersion:
-                return SVS::MessageBox::question(
-                    engine,
-                    d->window,
-                    tr("File created with a potentially incompatible %1 version").arg(QApplication::applicationDisplayName()),
-                    tr("This project file was created with a newer version or test version of %1 (%2). Some features may not be fully compatible or may behave differently.\n\nDo you want to continue opening it?")
-                        .arg(QApplication::applicationDisplayName(), warning.detail)
-                ) == SVS::SVSCraft::Yes;
             case DspxProject::ProjectWarning::CheckerWarning:
-                return SVS::MessageBox::question(
-                    engine,
-                    d->window,
-                    tr("Additional check failed"),
-                    tr("%1\n\nThe file can still be opened, but it may cause potential problems.\n\nDo you want to continue opening it?").arg(warning.detail)
-                ) == SVS::SVSCraft::Yes;
+                return SVS::MessageBox::question(engine, d->window, warning.message, warning.detail) == SVS::SVSCraft::Yes;
             case DspxProject::ProjectWarning::SaveIntegrity:
                 return SVS::MessageBox::warning(
                     engine,
@@ -267,7 +246,7 @@ namespace Core {
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to save file"), tr("Choose a different path for the project copy."));
                 return;
             case DspxProject::ProjectFileError::CheckerWarning:
-                SVS::MessageBox::warning(engine, d->window, tr("Additional check failed"), details);
+                SVS::MessageBox::warning(engine, d->window, error.message, error.detail);
                 return;
             case DspxProject::ProjectFileError::IntegrityWarning:
                 SVS::MessageBox::warning(engine, d->window, tr("Potential document integrity issue"), details);

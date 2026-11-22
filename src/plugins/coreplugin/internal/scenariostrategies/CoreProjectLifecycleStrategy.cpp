@@ -3,8 +3,6 @@
 
 #include "CoreProjectLifecycleStrategy.h"
 
-#include <application_config.h>
-
 #include <QDir>
 #include <QFileInfo>
 #include <QImage>
@@ -29,18 +27,17 @@
 
 namespace Core::Internal {
 
-    CoreProjectLifecycleStrategy::CoreProjectLifecycleStrategy(DspxProject::IChecker *checker) : m_checker(checker) {
+    CoreProjectLifecycleStrategy::CoreProjectLifecycleStrategy(DspxProject::IChecker *checker, DspxProject::IDocumentPersistenceHook *persistenceHook)
+        : m_checker(checker), m_persistenceHook(persistenceHook) {
     }
 
     DspxProject::ProjectLifecycleOptions CoreProjectLifecycleStrategy::projectLifecycleOptions() const {
         const auto fileOptions = BehaviorPreference::fileOption();
         return {
             .document = {
-                .editorId = QString::fromLatin1(CoreInterface::dspxEditorId()),
-                .editorName = QStringLiteral("DiffScope"),
-                .editorVersion = QStringLiteral(APPLICATION_SEMVER),
                 .untitledName = tr("Untitled"),
                 .recoveryRootPath = BehaviorPreference::documentLogEnabled() ? recoveryRootPath() : QString(),
+                .persistenceHook = m_persistenceHook,
             },
             .defaultTrackName = tr("Unnamed track"),
             .defaultClipName = tr("Unnamed clip"),

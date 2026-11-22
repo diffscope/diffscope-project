@@ -41,11 +41,12 @@ namespace DspxProject {
         static OpenCandidate readProjectFile(const QString &path, bool keepFileOpen);
         static OpenCandidate restoreProjectModel(const QString &directory, bool allowPartialRecovery);
         ProjectFileError loadFile(const QString &path, const QString &name, OpenMode mode, const ProjectDocumentContext::OpenOptions &options);
-        ProjectFileError initialize(const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker);
+        ProjectFileError initialize(const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const QString &recoverySourceDirectory = {});
         static QString canonicalOrAbsolutePath(const QString &path);
         ProjectFileError validateSave(const QString &path, SaveMode mode) const;
         ProjectFileError save(const QString &path, SaveMode mode, const ProjectDocumentContext::SaveOptions &options);
-        PreparedSave prepareSave(bool compress) const;
+        ProjectFileError prepareSaveModel(opendspx::Model &model);
+        PreparedSave prepareSave(bool compress);
         ProjectFileError writeSave(const QByteArray &data, const QString &path, SaveMode mode);
 
         ProjectDocumentContext *q_ptr;
@@ -57,9 +58,9 @@ namespace DspxProject {
         QString recoveryDirPath;
         QFile *documentLogDevice{};
         QLockFile *documentLogLock{};
-        bool writing = false;
+        bool initializing = false;
+        bool saving = false;
 
-        void writeEditorInfo(opendspx::Model &model) const;
         QString recoveryDisplayName() const;
         bool writeRecoveryNameFile() const;
         bool lockRecoveryDirectory();

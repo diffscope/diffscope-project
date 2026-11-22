@@ -6,29 +6,29 @@
 #include <optional>
 #include <sstream>
 
+#include <QByteArray>
 #include <QDesktopServices>
 #include <QDir>
+#include <QJsonDocument>
 #include <QLoggingCategory>
 #include <QQmlComponent>
 #include <QSaveFile>
 #include <QUrl>
 #include <QUuid>
 #include <QVariant>
-#include <QJsonDocument>
 
-#include <CoreApi/runtimeinterface.h>
 #include <CoreApi/applicationinfo.h>
-
-#include <SVSCraftQuick/MessageBox.h>
+#include <CoreApi/runtimeinterface.h>
 
 #include <opendspx/model.h>
 #include <opendspx/serializer/serializer.h>
 
-#include <dspxmodelORM/Model.h>
+#include <SVSCraftQuick/MessageBox.h>
 
-#include <coreplugin/ProjectWindowInterface.h>
 #include <dspxproject/ProjectDocumentContext.h>
-#include <dspxproject/Document.h>
+
+#include <coreplugin/ProjectFileDialogs.h>
+#include <coreplugin/ProjectWindowInterface.h>
 
 namespace Maintenance {
 
@@ -68,20 +68,23 @@ namespace Maintenance {
         m_sessionId = QString::fromLatin1(base64);
     }
 
-    QByteArray ViewJsonAddOn::serializeJson() const {
-        auto model = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext()->document()->model()->toOpenDSPX();
+    static QByteArray serializeJson(const opendspx::Model &model) {
         opendspx::SerializationErrorList errors;
         std::stringstream out(std::ios::out);
         opendspx::Serializer::serialize(out, model, errors, opendspx::Serializer::CheckError, opendspx::Serializer::WriteSchema);
-        auto data = QByteArray::fromStdString(out.str());
-        data = QJsonDocument::fromJson(data).toJson(QJsonDocument::Indented);
-        return data;
+        const auto data = QByteArray::fromStdString(out.str());
+        return QJsonDocument::fromJson(data).toJson(QJsonDocument::Indented);
     }
 
     void ViewJsonAddOn::generateJsonFileAndOpen() {
-        const auto data = serializeJson();
-
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
+        opendspx::Model model;
+        if (const auto error = windowInterface->projectDocumentContext()->saveCopy(model); error.code != DspxProject::ProjectFileError::None) {
+            Core::ProjectFileDialogs(windowInterface->window()).reportError(error);
+            return;
+        }
+        const auto data = serializeJson(model);
+
         auto attemptWrite = [&](const QString &sessionId) -> std::optional<QString> {
             auto path = QDir(Core::ApplicationInfo::applicationLocation(Core::ApplicationInfo::TempData)).filePath(sessionId + QStringLiteral(".json"));
             QSaveFile file(path);
