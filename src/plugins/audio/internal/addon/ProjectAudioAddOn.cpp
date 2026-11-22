@@ -630,7 +630,17 @@ namespace Audio::Internal {
 
         contextPrivate->setRealAudioPath(filePath);
         contextPrivate->setStatus(status);
+        contextPrivate->sourceSampleRate = 0;
+        contextPrivate->sourceSampleCount = -1;
         if (io) {
+            const bool wasOpen = io->openMode().testFlag(talcs::AbstractAudioFormatIO::Read);
+            if (wasOpen || io->open(talcs::AbstractAudioFormatIO::Read)) {
+                contextPrivate->sourceSampleRate = io->sampleRate();
+                contextPrivate->sourceSampleCount = io->length();
+                if (!wasOpen) {
+                    io->close();
+                }
+            }
             contextPrivate->clipContext->loadAudio(io);
             contextPrivate->updateReadAheadSize();
         } else if (context->contentSource()) {

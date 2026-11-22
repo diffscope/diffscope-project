@@ -1747,6 +1747,21 @@ Estimated size of each file: %3</numerusform>
         <source>Confirm Current File</source>
         <translation type="unfinished">Confirm Current File</translation>
     </message>
+    <message>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <source>Sample rate (Hz)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/propertyeditors/AudioPropertyEditor.qml"/>
+        <source>%1 (%2 samples)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>EffectsPanel</name>

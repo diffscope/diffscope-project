@@ -25,6 +25,8 @@ namespace Audio {
         talcs::DspxAudioClipContext *clipContext{};
         AudioClipAudioContext::Status status = AudioClipAudioContext::Unknown;
         QString realAudioPath;
+        double sourceSampleRate = 0;
+        qint64 sourceSampleCount = -1;
 
         void setStatus(AudioClipAudioContext::Status status);
         void setRealAudioPath(const QString &realAudioPath);

@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: Team OpenVPI
 // SPDX-License-Identifier: LGPL-3.0-or-later
 
+pragma ValueTypeBehavior: Addressable
+
 import QtQml
 import QtQuick
 import QtQuick.Controls
@@ -19,6 +21,8 @@ PropertyEditorGroupBox {
     readonly property QtObject audioClip: groupBox.windowHandle?.projectDocumentContext.document.selectionModel.clipSelectionModel.selectedItems[0] ?? null
     readonly property QtObject projectAudioAddOn: AudioQmlHelper.getProjectAudioAddOn(groupBox.windowHandle)
     property QtObject audioClipAudioContext: null
+    readonly property real sourceSampleRate: audioClipAudioContext?.sourceSampleRate ?? 0
+    readonly property real sourceSampleCount: audioClipAudioContext?.sourceSampleCount ?? -1
 
     function refreshAudioClipAudioContext() {
         audioClipAudioContext = AudioQmlHelper.getAudioClipAudioContext(audioClip)
@@ -142,6 +146,33 @@ PropertyEditorGroupBox {
                     onTriggered: () => {
                         AudioQmlHelper.getAudioClipAddOn(groupBox.windowHandle).updateAudioClipDigest(groupBox.audioClip)
                     }
+                }
+            }
+            FormGroup {
+                Layout.fillWidth: true
+                visible: groupBox.sourceSampleRate > 0
+                label: qsTr("Sample rate (Hz)")
+                columnItem: TextField {
+                    text: groupBox.sourceSampleRate.toLocaleString(Qt.locale(), "f", 0)
+                    readOnly: true
+                    ThemedItem.flat: true
+                }
+            }
+            FormGroup {
+                Layout.fillWidth: true
+                visible: groupBox.sourceSampleRate > 0 && groupBox.sourceSampleCount >= 0
+                label: qsTr("Duration")
+                columnItem: TextField {
+                    text: {
+                        if (groupBox.sourceSampleRate <= 0 || groupBox.sourceSampleCount < 0)
+                            return ""
+                        const milliseconds = Math.round(groupBox.sourceSampleCount * 1000 / groupBox.sourceSampleRate)
+                        const time = new longTime(milliseconds).toString()
+                        const samples = groupBox.sourceSampleCount.toLocaleString(Qt.locale(), "f", 0)
+                        return qsTr("%1 (%2 samples)").arg(time).arg(samples)
+                    }
+                    readOnly: true
+                    ThemedItem.flat: true
                 }
             }
         }

@@ -40,6 +40,8 @@ namespace Audio {
         Q_PROPERTY(dspx::AudioClip *clip READ clip CONSTANT)
         Q_PROPERTY(Status status READ status NOTIFY statusChanged)
         Q_PROPERTY(QString realAudioPath READ realAudioPath NOTIFY realAudioPathChanged)
+        Q_PROPERTY(double sourceSampleRate READ sourceSampleRate NOTIFY audioChanged)
+        Q_PROPERTY(qint64 sourceSampleCount READ sourceSampleCount NOTIFY audioChanged)
 
     public:
         enum Status {
@@ -61,6 +63,8 @@ namespace Audio {
 
         Status status() const;
         QString realAudioPath() const;
+        double sourceSampleRate() const;
+        qint64 sourceSampleCount() const;
 
         talcs::PositionableMixerAudioSource *controlMixer() const;
         talcs::PositionableMixerAudioSource *clipMixer() const;

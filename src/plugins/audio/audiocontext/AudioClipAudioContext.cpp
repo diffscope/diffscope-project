@@ -70,6 +70,16 @@ namespace Audio {
         return d->realAudioPath;
     }
 
+    double AudioClipAudioContext::sourceSampleRate() const {
+        Q_D(const AudioClipAudioContext);
+        return d->sourceSampleRate;
+    }
+
+    qint64 AudioClipAudioContext::sourceSampleCount() const {
+        Q_D(const AudioClipAudioContext);
+        return d->sourceSampleCount;
+    }
+
     talcs::PositionableMixerAudioSource *AudioClipAudioContext::controlMixer() const {
         Q_D(const AudioClipAudioContext);
         return d->clipContext->controlMixer();
