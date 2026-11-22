@@ -58,6 +58,7 @@ namespace Audio::Internal {
         QEventLoop eventLoop;
         QObject::connect(dialog, SIGNAL(accepted()), &eventLoop, SLOT(quit()));
         QObject::connect(dialog, SIGNAL(rejected()), &eventLoop, SLOT(quit()));
+        QObject::connect(dialog, SIGNAL(closed()), &eventLoop, SLOT(quit()));
         QMetaObject::invokeMethod(dialog, "open");
         eventLoop.exec();
         return dialog->property("result").toInt() == 1;
