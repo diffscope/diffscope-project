@@ -79,6 +79,8 @@ namespace VisualEditor::Internal {
         registerLayer(ViewLayerPoint::ArrangementClipAdornment, "ClipProblemLayer");
         registerLayer(ViewLayerPoint::ArrangementTimelineForeground, "EditorTimelineLoopIndicatorLayer");
         registerLayer(ViewLayerPoint::ArrangementTimelineForeground, "EditorTimelinePlayheadLayer");
+        registerLayer(ViewLayerPoint::PhonemeBackground, "PhonemeNoteBoundaryLayer");
+        registerLayer(ViewLayerPoint::ParameterBackground, "ParameterOverlayLayer");
     }
 
     bool VisualEditorPlugin::delayedInitialize() {

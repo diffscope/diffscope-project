@@ -31,7 +31,7 @@ QtObject {
         property PhonemeViewModel itemBeingDragged: null
         property bool phonemeHovered: false
         readonly property int hoverCursorPosition:
-            sequencePositionToTimeline(pointerTimePosition)
+            clipPositionToTimeline(pointerTimePosition)
         readonly property bool timeCursorEditing: itemBeingDragged !== null
         readonly property bool timeCursorUnaligned: true
         readonly property bool timeCursorActive:
@@ -46,11 +46,11 @@ QtObject {
         Layout.fillHeight: true
 
         function itemTimelinePosition(item): int {
-            return control.sequencePositionToTimeline(
-                item?.sequencePosition ?? 0)
+            return control.clipPositionToTimeline(
+                item?.position ?? 0)
         }
 
-        function sequencePositionToTimeline(position): int {
+        function clipPositionToTimeline(position): int {
             return Math.round(
                 position
                 + (control.clipViewModel?.position ?? 0)
@@ -72,9 +72,6 @@ QtObject {
 
         phonemeSequenceViewModel:
             d.projectViewModelContext?.getPhonemeSequenceViewModel(
-                contextObject?.editingClip ?? null) ?? null
-        noteSequenceViewModel:
-            d.projectViewModelContext?.getNoteSequenceViewModel(
                 contextObject?.editingClip ?? null) ?? null
         clipViewModel:
             d.projectViewModelContext?.getClipViewItemFromDocumentItem(

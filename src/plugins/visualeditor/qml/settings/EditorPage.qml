@@ -40,6 +40,8 @@ ScrollView {
     property int noteEditPitchCurveDisplayMode: EditorPreference.PCDM_Automatic
     property double autoPitchCurveDisplayPixelDensityThreshold: defaultAutoPitchCurveDisplayPixelDensityThreshold
     property bool displayPronunciationBelowNote: false
+    property bool showPhonemeNoteBoundaryOverlay: true
+    property int parameterPanelOverlayMode: EditorPreference.POM_FirstPhoneme
     property bool showLyricOverlay: false
     property int lyricPhraseGapThreshold: 240
     property bool warnOfOverlappingNotes: true
@@ -76,6 +78,8 @@ ScrollView {
     onNoteEditPitchCurveDisplayModeChanged: if (started) pageHandle.markDirty()
     onAutoPitchCurveDisplayPixelDensityThresholdChanged: if (started) pageHandle.markDirty()
     onDisplayPronunciationBelowNoteChanged: if (started) pageHandle.markDirty()
+    onShowPhonemeNoteBoundaryOverlayChanged: if (started) pageHandle.markDirty()
+    onParameterPanelOverlayModeChanged: if (started) pageHandle.markDirty()
     onShowLyricOverlayChanged: if (started) pageHandle.markDirty()
     onLyricPhraseGapThresholdChanged: if (started) pageHandle.markDirty()
     onWarnOfOverlappingNotesChanged: if (started) pageHandle.markDirty()
@@ -370,8 +374,14 @@ ScrollView {
                 Layout.fillWidth: true
 
                 GridLayout {
+                    id: pianoRollLayout
+
+                    readonly property int subOptionIndent: 22
+
                     anchors.fill: parent
                     columns: 3
+                    columnSpacing: 12
+                    rowSpacing: 8
 
                     CheckBox {
                         text: qsTr("Adjust vertical view during automatic page scrolling")
@@ -380,28 +390,24 @@ ScrollView {
                         checked: page.pianoRollAutoPageVerticalAdjustment
                         onClicked: page.pianoRollAutoPageVerticalAdjustment = checked
                     }
-                    RowLayout {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        Layout.leftMargin: autoPageOverflowComboBox.mirrored ? 0 : 22
-                        Layout.rightMargin: autoPageOverflowComboBox.mirrored ? 22 : 0
-                        enabled: page.pianoRollAutoPageVerticalAdjustment
 
-                        Label {
-                            id: autoPageOverflowLabel
-                            text: qsTr("If notes exceed the view height")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        Item {
-                            Layout.fillWidth: true
-                        }
-                        ComboBox {
-                            id: autoPageOverflowComboBox
-                            model: [qsTr("Align Top"), qsTr("Align Bottom"), qsTr("Center"), qsTr("Zoom to Fit")]
-                            currentIndex: page.pianoRollAutoPageOverflowBehavior
-                            Accessible.name: autoPageOverflowLabel.text
-                            onActivated: (index) => page.pianoRollAutoPageOverflowBehavior = index
-                        }
+                    Label {
+                        id: autoPageOverflowLabel
+                        enabled: page.pianoRollAutoPageVerticalAdjustment
+                        Layout.leftMargin: mirrored ? 0 : pianoRollLayout.subOptionIndent
+                        Layout.rightMargin: mirrored ? pianoRollLayout.subOptionIndent : 0
+                        Layout.columnSpan: 2
+                        text: qsTr("If notes exceed the view height")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    ComboBox {
+                        Layout.fillWidth: true
+                        implicitContentWidthPolicy: ComboBox.WidestText
+                        enabled: autoPageOverflowLabel.enabled
+                        model: [qsTr("Align Top"), qsTr("Align Bottom"), qsTr("Center"), qsTr("Zoom to Fit")]
+                        currentIndex: page.pianoRollAutoPageOverflowBehavior
+                        Accessible.name: autoPageOverflowLabel.text
+                        onActivated: (index) => page.pianoRollAutoPageOverflowBehavior = index
                     }
 
                     Label {
@@ -418,65 +424,65 @@ ScrollView {
                         onMoved: page.pianoKeyboardBlackKeyLengthRatio = value + 0.6
                         ThemedItem.onDoubleClickReset: moved()
                     }
+
                     Label {
+                        Layout.columnSpan: 2
                         text: qsTr("Display piano key label on")
                         TextMatcherItem on text { matcher: page.matcher }
                     }
-                    Item {
-                        Layout.fillWidth: true
-                    }
                     ComboBox {
+                        Layout.fillWidth: true
+                        implicitContentWidthPolicy: ComboBox.WidestText
                         model: [qsTr("All keys"), qsTr("C keys only"), qsTr("None")]
                         currentIndex: page.pianoKeyboardLabelPolicy
                         onActivated: (index) => page.pianoKeyboardLabelPolicy = index
                     }
 
                     Label {
+                        Layout.columnSpan: 2
                         text: qsTr("Pronunciation display position")
                         TextMatcherItem on text { matcher: page.matcher }
                     }
-                    Item {
-                        Layout.fillWidth: true
-                    }
                     ComboBox {
+                        Layout.fillWidth: true
+                        implicitContentWidthPolicy: ComboBox.WidestText
                         model: [qsTr("Above note"), qsTr("Below note")]
                         currentIndex: page.displayPronunciationBelowNote ? 1 : 0
                         onActivated: (index) => page.displayPronunciationBelowNote = (index === 1)
                     }
 
                     Label {
+                        Layout.columnSpan: 2
                         text: qsTr("Pitch curve display in note edit mode")
                         TextMatcherItem on text { matcher: page.matcher }
                     }
-                    Item {
-                        Layout.fillWidth: true
-                    }
                     ComboBox {
+                        Layout.fillWidth: true
+                        implicitContentWidthPolicy: ComboBox.WidestText
                         model: [qsTr("Automatic"), qsTr("Always show"), qsTr("Always hide")]
                         currentIndex: page.noteEditPitchCurveDisplayMode
                         onActivated: (index) => page.noteEditPitchCurveDisplayMode = index
                     }
 
-                    RowLayout {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 22
+                    Label {
+                        id: autoPitchCurveDisplayThresholdLabel
                         enabled: page.noteEditPitchCurveDisplayMode === EditorPreference.PCDM_Automatic
-
-                        Label {
-                            text: qsTr("Automatic display zoom threshold")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        Slider {
-                            Layout.fillWidth: true
-                            from: Math.log2(page.minAutoPitchCurveDisplayPixelDensityThreshold)
-                            to: Math.log2(page.maxAutoPitchCurveDisplayPixelDensityThreshold)
-                            value: Math.log2(page.autoPitchCurveDisplayPixelDensityThreshold)
-                            onMoved: page.autoPitchCurveDisplayPixelDensityThreshold = Math.pow(2, value)
-                            ThemedItem.sliderTrackStartType: SVS.TS_Begin
-                            ThemedItem.doubleClickResetValue: Math.log2(page.defaultAutoPitchCurveDisplayPixelDensityThreshold)
-                            ThemedItem.onDoubleClickReset: moved()
-                        }
+                        Layout.leftMargin: mirrored ? 0 : pianoRollLayout.subOptionIndent
+                        Layout.rightMargin: mirrored ? pianoRollLayout.subOptionIndent : 0
+                        text: qsTr("Automatic display zoom threshold")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Slider {
+                        Layout.columnSpan: 2
+                        enabled: autoPitchCurveDisplayThresholdLabel.enabled
+                        Layout.fillWidth: true
+                        from: Math.log2(page.minAutoPitchCurveDisplayPixelDensityThreshold)
+                        to: Math.log2(page.maxAutoPitchCurveDisplayPixelDensityThreshold)
+                        value: Math.log2(page.autoPitchCurveDisplayPixelDensityThreshold)
+                        onMoved: page.autoPitchCurveDisplayPixelDensityThreshold = Math.pow(2, value)
+                        ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                        ThemedItem.doubleClickResetValue: Math.log2(page.defaultAutoPitchCurveDisplayPixelDensityThreshold)
+                        ThemedItem.onDoubleClickReset: moved()
                     }
 
                     CheckBox {
@@ -495,25 +501,23 @@ ScrollView {
                         onClicked: page.showLyricOverlay = checked
                     }
 
-                    RowLayout {
-                        Layout.columnSpan: 3
-                        Layout.leftMargin: lyricPhraseGapSpinBox.mirrored ? 0 : 22
-                        Layout.rightMargin: lyricPhraseGapSpinBox.mirrored ? 22 : 0
+                    Label {
+                        id: lyricPhraseGapLabel
                         enabled: page.showLyricOverlay
-
-                        Label {
-                            id: lyricPhraseGapLabel
-                            text: qsTr("Lyric phrase gap threshold (ticks)")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        SpinBox {
-                            id: lyricPhraseGapSpinBox
-                            from: 1
-                            to: 1920
-                            value: page.lyricPhraseGapThreshold
-                            Accessible.name: lyricPhraseGapLabel.text
-                            onValueModified: page.lyricPhraseGapThreshold = value
-                        }
+                        Layout.leftMargin: mirrored ? 0 : pianoRollLayout.subOptionIndent
+                        Layout.rightMargin: mirrored ? pianoRollLayout.subOptionIndent : 0
+                        Layout.columnSpan: 2
+                        text: qsTr("Lyric phrase gap threshold (ticks)")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    SpinBox {
+                        Layout.fillWidth: true
+                        enabled: lyricPhraseGapLabel.enabled
+                        from: 1
+                        to: 1920
+                        value: page.lyricPhraseGapThreshold
+                        Accessible.name: lyricPhraseGapLabel.text
+                        onValueModified: page.lyricPhraseGapThreshold = value
                     }
 
                     CheckBox {
@@ -524,171 +528,158 @@ ScrollView {
                         onClicked: page.showSingerBackground = checked
                     }
 
-                    RowLayout {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        Layout.leftMargin: singerBackgroundOpacitySpinBox.mirrored ? 0 : 22
-                        Layout.rightMargin: singerBackgroundOpacitySpinBox.mirrored ? 22 : 0
+                    Label {
+                        id: singerBackgroundOpacityLabel
                         enabled: page.showSingerBackground
-
-                        Label {
-                            id: singerBackgroundOpacityLabel
-                            text: qsTr("Singer background opacity")
-                            TextMatcherItem on text { matcher: page.matcher }
+                        Layout.leftMargin: mirrored ? 0 : pianoRollLayout.subOptionIndent
+                        Layout.rightMargin: mirrored ? pianoRollLayout.subOptionIndent : 0
+                        text: qsTr("Singer background opacity")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Slider {
+                        enabled: singerBackgroundOpacityLabel.enabled
+                        Layout.fillWidth: true
+                        Layout.horizontalStretchFactor: 1
+                        from: 0
+                        to: 1
+                        value: page.singerBackgroundOpacity
+                        Accessible.name: singerBackgroundOpacityLabel.text
+                        onMoved: page.singerBackgroundOpacity = value
+                        ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                        ThemedItem.onDoubleClickReset: page.singerBackgroundOpacity = 0.25
+                    }
+                    DoubleSpinBox {
+                        Layout.fillWidth: true
+                        enabled: singerBackgroundOpacityLabel.enabled
+                        decimals: 0
+                        from: 0
+                        to: 100
+                        value: Math.round(page.singerBackgroundOpacity * 100)
+                        Accessible.name: singerBackgroundOpacityLabel.text
+                        onValueModified: page.singerBackgroundOpacity = value / 100.0
+                        textFromValue: function(value, decimals, locale) {
+                            return value + "%"
                         }
-                        Slider {
-                            Layout.fillWidth: true
-                            from: 0
-                            to: 1
-                            value: page.singerBackgroundOpacity
-                            Accessible.name: singerBackgroundOpacityLabel.text
-                            onMoved: page.singerBackgroundOpacity = value
-                            ThemedItem.sliderTrackStartType: SVS.TS_Begin
-                            ThemedItem.onDoubleClickReset: page.singerBackgroundOpacity = 0.25
-                        }
-                        DoubleSpinBox {
-                            id: singerBackgroundOpacitySpinBox
-                            decimals: 0
-                            from: 0
-                            to: 100
-                            value: Math.round(page.singerBackgroundOpacity * 100)
-                            Accessible.name: singerBackgroundOpacityLabel.text
-                            onValueModified: page.singerBackgroundOpacity = value / 100.0
-                            textFromValue: function(value, decimals, locale) {
-                                return value + "%"
-                            }
-                            valueFromText: function(text, locale) {
-                                return parseInt(text.replace("%", ""))
-                            }
+                        valueFromText: function(text, locale) {
+                            return parseInt(text.replace("%", ""))
                         }
                     }
 
-                    RowLayout {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        Layout.leftMargin: singerBackgroundAlignmentComboBox.mirrored ? 0 : 22
-                        Layout.rightMargin: singerBackgroundAlignmentComboBox.mirrored ? 22 : 0
+                    Label {
+                        id: singerBackgroundAlignmentLabel
                         enabled: page.showSingerBackground
-
-                        Label {
-                            id: singerBackgroundAlignmentLabel
-                            text: qsTr("Background alignment")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        Item {
-                            Layout.fillWidth: true
-                        }
-                        ComboBox {
-                            id: singerBackgroundAlignmentComboBox
-                            model: [qsTr("Left"), qsTr("Center"), qsTr("Right")]
-                            currentIndex: page.singerBackgroundAlignment
-                            Accessible.name: singerBackgroundAlignmentLabel.text
-                            onActivated: (index) => page.singerBackgroundAlignment = index
-                        }
+                        Layout.leftMargin: mirrored ? 0 : pianoRollLayout.subOptionIndent
+                        Layout.rightMargin: mirrored ? pianoRollLayout.subOptionIndent : 0
+                        Layout.columnSpan: 2
+                        text: qsTr("Background alignment")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    ComboBox {
+                        Layout.fillWidth: true
+                        implicitContentWidthPolicy: ComboBox.WidestText
+                        enabled: singerBackgroundAlignmentLabel.enabled
+                        model: [qsTr("Left"), qsTr("Center"), qsTr("Right")]
+                        currentIndex: page.singerBackgroundAlignment
+                        Accessible.name: singerBackgroundAlignmentLabel.text
+                        onActivated: (index) => page.singerBackgroundAlignment = index
                     }
 
-                    RowLayout {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        Layout.leftMargin: singerBackgroundHorizontalMarginSpinBox.mirrored ? 0 : 22
-                        Layout.rightMargin: singerBackgroundHorizontalMarginSpinBox.mirrored ? 22 : 0
+                    Label {
+                        id: singerBackgroundHorizontalMarginLabel
                         enabled: page.showSingerBackground
                                  && (page.singerBackgroundAlignment === EditorPreference.SBA_Left
                                      || page.singerBackgroundAlignment === EditorPreference.SBA_Right)
-
-                        Label {
-                            id: singerBackgroundHorizontalMarginLabel
-                            text: qsTr("Horizontal margin")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        Slider {
-                            Layout.fillWidth: true
-                            from: 0
-                            to: 200
-                            stepSize: 1
-                            snapMode: Slider.SnapAlways
-                            value: page.singerBackgroundHorizontalMargin
-                            Accessible.name: singerBackgroundHorizontalMarginLabel.text
-                            onMoved: page.singerBackgroundHorizontalMargin = Math.round(value)
-                            ThemedItem.sliderTrackStartType: SVS.TS_Begin
-                            ThemedItem.onDoubleClickReset: page.singerBackgroundHorizontalMargin = 32
-                        }
-                        SpinBox {
-                            id: singerBackgroundHorizontalMarginSpinBox
-                            from: 0
-                            to: 200
-                            value: page.singerBackgroundHorizontalMargin
-                            Accessible.name: singerBackgroundHorizontalMarginLabel.text
-                            onValueModified: page.singerBackgroundHorizontalMargin = value
-                        }
+                        Layout.leftMargin: mirrored ? 0 : pianoRollLayout.subOptionIndent
+                        Layout.rightMargin: mirrored ? pianoRollLayout.subOptionIndent : 0
+                        text: qsTr("Horizontal margin")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Slider {
+                        enabled: singerBackgroundHorizontalMarginLabel.enabled
+                        Layout.fillWidth: true
+                        Layout.horizontalStretchFactor: 1
+                        from: 0
+                        to: 200
+                        stepSize: 1
+                        snapMode: Slider.SnapAlways
+                        value: page.singerBackgroundHorizontalMargin
+                        Accessible.name: singerBackgroundHorizontalMarginLabel.text
+                        onMoved: page.singerBackgroundHorizontalMargin = Math.round(value)
+                        ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                        ThemedItem.onDoubleClickReset: page.singerBackgroundHorizontalMargin = 32
+                    }
+                    SpinBox {
+                        Layout.fillWidth: true
+                        enabled: singerBackgroundHorizontalMarginLabel.enabled
+                        from: 0
+                        to: 200
+                        value: page.singerBackgroundHorizontalMargin
+                        Accessible.name: singerBackgroundHorizontalMarginLabel.text
+                        onValueModified: page.singerBackgroundHorizontalMargin = value
                     }
 
-                    RowLayout {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        Layout.leftMargin: singerBackgroundHorizontalOffsetSpinBox.mirrored ? 0 : 22
-                        Layout.rightMargin: singerBackgroundHorizontalOffsetSpinBox.mirrored ? 22 : 0
+                    Label {
+                        id: singerBackgroundHorizontalOffsetLabel
                         enabled: page.showSingerBackground
                                  && page.singerBackgroundAlignment === EditorPreference.SBA_Center
-
-                        Label {
-                            id: singerBackgroundHorizontalOffsetLabel
-                            text: qsTr("Horizontal offset")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        Slider {
-                            Layout.fillWidth: true
-                            from: -200
-                            to: 200
-                            stepSize: 1
-                            snapMode: Slider.SnapAlways
-                            value: page.singerBackgroundHorizontalOffset
-                            Accessible.name: singerBackgroundHorizontalOffsetLabel.text
-                            onMoved: page.singerBackgroundHorizontalOffset = Math.round(value)
-                            ThemedItem.onDoubleClickReset: page.singerBackgroundHorizontalOffset = 0
-                        }
-                        SpinBox {
-                            id: singerBackgroundHorizontalOffsetSpinBox
-                            from: -200
-                            to: 200
-                            value: page.singerBackgroundHorizontalOffset
-                            Accessible.name: singerBackgroundHorizontalOffsetLabel.text
-                            onValueModified: page.singerBackgroundHorizontalOffset = value
-                        }
+                        Layout.leftMargin: mirrored ? 0 : pianoRollLayout.subOptionIndent
+                        Layout.rightMargin: mirrored ? pianoRollLayout.subOptionIndent : 0
+                        text: qsTr("Horizontal offset")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Slider {
+                        enabled: singerBackgroundHorizontalOffsetLabel.enabled
+                        Layout.fillWidth: true
+                        Layout.horizontalStretchFactor: 1
+                        from: -200
+                        to: 200
+                        stepSize: 1
+                        snapMode: Slider.SnapAlways
+                        value: page.singerBackgroundHorizontalOffset
+                        Accessible.name: singerBackgroundHorizontalOffsetLabel.text
+                        onMoved: page.singerBackgroundHorizontalOffset = Math.round(value)
+                        ThemedItem.onDoubleClickReset: page.singerBackgroundHorizontalOffset = 0
+                    }
+                    SpinBox {
+                        Layout.fillWidth: true
+                        enabled: singerBackgroundHorizontalOffsetLabel.enabled
+                        from: -200
+                        to: 200
+                        value: page.singerBackgroundHorizontalOffset
+                        Accessible.name: singerBackgroundHorizontalOffsetLabel.text
+                        onValueModified: page.singerBackgroundHorizontalOffset = value
                     }
 
-                    RowLayout {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        Layout.leftMargin: singerBackgroundVerticalMarginSpinBox.mirrored ? 0 : 22
-                        Layout.rightMargin: singerBackgroundVerticalMarginSpinBox.mirrored ? 22 : 0
+                    Label {
+                        id: singerBackgroundVerticalMarginLabel
                         enabled: page.showSingerBackground
-
-                        Label {
-                            id: singerBackgroundVerticalMarginLabel
-                            text: qsTr("Vertical margin")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        Slider {
-                            Layout.fillWidth: true
-                            from: 0
-                            to: 100
-                            stepSize: 1
-                            snapMode: Slider.SnapAlways
-                            value: page.singerBackgroundVerticalMargin
-                            Accessible.name: singerBackgroundVerticalMarginLabel.text
-                            onMoved: page.singerBackgroundVerticalMargin = Math.round(value)
-                            ThemedItem.sliderTrackStartType: SVS.TS_Begin
-                            ThemedItem.onDoubleClickReset: page.singerBackgroundVerticalMargin = 32
-                        }
-                        SpinBox {
-                            id: singerBackgroundVerticalMarginSpinBox
-                            from: 0
-                            to: 100
-                            value: page.singerBackgroundVerticalMargin
-                            Accessible.name: singerBackgroundVerticalMarginLabel.text
-                            onValueModified: page.singerBackgroundVerticalMargin = value
-                        }
+                        Layout.leftMargin: mirrored ? 0 : pianoRollLayout.subOptionIndent
+                        Layout.rightMargin: mirrored ? pianoRollLayout.subOptionIndent : 0
+                        text: qsTr("Vertical margin")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Slider {
+                        enabled: singerBackgroundVerticalMarginLabel.enabled
+                        Layout.fillWidth: true
+                        Layout.horizontalStretchFactor: 1
+                        from: 0
+                        to: 100
+                        stepSize: 1
+                        snapMode: Slider.SnapAlways
+                        value: page.singerBackgroundVerticalMargin
+                        Accessible.name: singerBackgroundVerticalMarginLabel.text
+                        onMoved: page.singerBackgroundVerticalMargin = Math.round(value)
+                        ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                        ThemedItem.onDoubleClickReset: page.singerBackgroundVerticalMargin = 32
+                    }
+                    SpinBox {
+                        Layout.fillWidth: true
+                        enabled: singerBackgroundVerticalMarginLabel.enabled
+                        from: 0
+                        to: 100
+                        value: page.singerBackgroundVerticalMargin
+                        Accessible.name: singerBackgroundVerticalMarginLabel.text
+                        onValueModified: page.singerBackgroundVerticalMargin = value
                     }
 
                     CheckBox {
@@ -696,45 +687,67 @@ ScrollView {
                         text: qsTr("Show all singer backgrounds when blending voices")
                         TextMatcherItem on text { matcher: page.matcher }
                         Layout.columnSpan: 3
-                        Layout.leftMargin: mirrored ? 0 : 22
-                        Layout.rightMargin: mirrored ? 22 : 0
+                        Layout.leftMargin: mirrored ? 0 : pianoRollLayout.subOptionIndent
+                        Layout.rightMargin: mirrored ? pianoRollLayout.subOptionIndent : 0
                         enabled: page.showSingerBackground
                         checked: page.showAllSingerBackgrounds
                         onClicked: page.showAllSingerBackgrounds = checked
                     }
 
-                    RowLayout {
-                        Layout.columnSpan: 3
-                        Layout.fillWidth: true
-                        Layout.leftMargin: singerBackgroundSpacingSpinBox.mirrored ? 0 : 44
-                        Layout.rightMargin: singerBackgroundSpacingSpinBox.mirrored ? 44 : 0
+                    Label {
+                        id: singerBackgroundSpacingLabel
                         enabled: page.showSingerBackground && page.showAllSingerBackgrounds
+                        Layout.leftMargin: mirrored ? 0 : 2 * pianoRollLayout.subOptionIndent
+                        Layout.rightMargin: mirrored ? 2 * pianoRollLayout.subOptionIndent : 0
+                        text: qsTr("Singer background spacing")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    Slider {
+                        enabled: singerBackgroundSpacingLabel.enabled
+                        Layout.fillWidth: true
+                        Layout.horizontalStretchFactor: 1
+                        from: 0
+                        to: 100
+                        stepSize: 1
+                        snapMode: Slider.SnapAlways
+                        value: page.singerBackgroundSpacing
+                        Accessible.name: singerBackgroundSpacingLabel.text
+                        onMoved: page.singerBackgroundSpacing = Math.round(value)
+                        ThemedItem.sliderTrackStartType: SVS.TS_Begin
+                        ThemedItem.onDoubleClickReset: page.singerBackgroundSpacing = 16
+                    }
+                    SpinBox {
+                        Layout.fillWidth: true
+                        enabled: singerBackgroundSpacingLabel.enabled
+                        from: 0
+                        to: 100
+                        value: page.singerBackgroundSpacing
+                        Accessible.name: singerBackgroundSpacingLabel.text
+                        onValueModified: page.singerBackgroundSpacing = value
+                    }
 
-                        Label {
-                            id: singerBackgroundSpacingLabel
-                            text: qsTr("Singer background spacing")
-                            TextMatcherItem on text { matcher: page.matcher }
-                        }
-                        Slider {
-                            Layout.fillWidth: true
-                            from: 0
-                            to: 100
-                            stepSize: 1
-                            snapMode: Slider.SnapAlways
-                            value: page.singerBackgroundSpacing
-                            Accessible.name: singerBackgroundSpacingLabel.text
-                            onMoved: page.singerBackgroundSpacing = Math.round(value)
-                            ThemedItem.sliderTrackStartType: SVS.TS_Begin
-                            ThemedItem.onDoubleClickReset: page.singerBackgroundSpacing = 16
-                        }
-                        SpinBox {
-                            id: singerBackgroundSpacingSpinBox
-                            from: 0
-                            to: 100
-                            value: page.singerBackgroundSpacing
-                            Accessible.name: singerBackgroundSpacingLabel.text
-                            onValueModified: page.singerBackgroundSpacing = value
-                        }
+                    CheckBox {
+                        text: qsTr("Show note boundaries in the phoneme panel")
+                        TextMatcherItem on text { matcher: page.matcher }
+                        Layout.columnSpan: 3
+                        checked: page.showPhonemeNoteBoundaryOverlay
+                        onClicked: page.showPhonemeNoteBoundaryOverlay = checked
+                    }
+
+                    Label {
+                        id: parameterPanelOverlayLabel
+                        Layout.columnSpan: 2
+                        text: qsTr("Parameter panel overlay")
+                        TextMatcherItem on text { matcher: page.matcher }
+                    }
+                    ComboBox {
+                        id: parameterPanelOverlayComboBox
+                        Layout.fillWidth: true
+                        implicitContentWidthPolicy: ComboBox.WidestText
+                        model: [qsTr("First phoneme"), qsTr("Note boundaries"), qsTr("None")]
+                        currentIndex: page.parameterPanelOverlayMode
+                        Accessible.name: parameterPanelOverlayLabel.text
+                        onActivated: (index) => page.parameterPanelOverlayMode = index
                     }
 
                     Label {
@@ -743,6 +756,7 @@ ScrollView {
                     }
                     Slider {
                         Layout.fillWidth: true
+                        Layout.horizontalStretchFactor: 1
                         from: 0
                         to: 1
                         value: page.bottomPanelOpacity
@@ -751,6 +765,7 @@ ScrollView {
                         ThemedItem.onDoubleClickReset: page.bottomPanelOpacity = 0.5
                     }
                     DoubleSpinBox {
+                        Layout.fillWidth: true
                         decimals: 0
                         from: 0
                         to: 100

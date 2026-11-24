@@ -162,8 +162,10 @@ namespace VisualEditor {
         if (!clip || phonemeSequenceViewModelMap.contains(clip)) {
             return;
         }
-        auto *sequenceViewModel = new sflow::PointSequenceViewModel(q_ptr, "sequencePosition");
+        auto *sequenceViewModel = new sflow::PointSequenceViewModel(q_ptr, "position");
         phonemeSequenceViewModelMap.insert(clip, sequenceViewModel);
+        auto *firstPhonemeSequenceViewModel = new sflow::PointSequenceViewModel(q_ptr, "position");
+        firstPhonemeSequenceViewModelMap.insert(clip, firstPhonemeSequenceViewModel);
         clipNotes.insert(clip, {});
 
         auto *noteSequence = clip->notes();
@@ -202,6 +204,10 @@ namespace VisualEditor {
         auto *sequenceViewModel = phonemeSequenceViewModelMap.take(clip);
         if (sequenceViewModel) {
             sequenceViewModel->deleteLater();
+        }
+        auto *firstPhonemeSequenceViewModel = firstPhonemeSequenceViewModelMap.take(clip);
+        if (firstPhonemeSequenceViewModel) {
+            firstPhonemeSequenceViewModel->deleteLater();
         }
     }
 
@@ -312,6 +318,7 @@ namespace VisualEditor {
         binding->orderKeys.clear();
         binding->order.clear();
         binding->nextStableOrder = 0;
+        syncFirstPhoneme(binding);
     }
 
     void PhonemeViewModelContextData::bindActivePhoneme(NoteBinding *binding,
@@ -331,7 +338,7 @@ namespace VisualEditor {
         viewItem->setAssociatedNote(q->getNoteViewItemFromDocumentItem(binding->note));
         viewItem->setContent(phoneme->token());
         viewItem->setEdited(binding->edited);
-        viewItem->setPosition(documentPositionToViewPosition(binding->note, phoneme->start()));
+        viewItem->setNotePosition(documentPositionToViewPosition(binding->note, phoneme->start()));
         --syncingViewDepth;
 
         connectActivePhoneme(phoneme, viewItem);
@@ -352,7 +359,7 @@ namespace VisualEditor {
                         return;
                     }
                     ++syncingViewDepth;
-                    viewItem->setPosition(
+                    viewItem->setNotePosition(
                         documentPositionToViewPosition(binding->note, phoneme->start()));
                     --syncingViewDepth;
                     updateLiveOrder(binding, viewItem);
@@ -370,7 +377,7 @@ namespace VisualEditor {
         if (!connectViewItem) {
             return;
         }
-        connect(viewItem, &sflow::PhonemeViewModel::positionChanged, this,
+        connect(viewItem, &sflow::PhonemeViewModel::notePositionChanged, this,
                 [this, viewItem] {
                     handleViewPositionChanged(viewItem);
                 });
@@ -395,7 +402,7 @@ namespace VisualEditor {
         if (!binding || !viewItem || binding->orderKeys.contains(viewItem)) {
             return;
         }
-        const OrderKey key {viewItem->position(), binding->stableOrders.value(viewItem)};
+        const OrderKey key {viewItem->notePosition(), binding->stableOrders.value(viewItem)};
         auto next = binding->order.lower_bound(key);
         sflow::PhonemeViewModel *previousItem = nullptr;
         if (next != binding->order.begin()) {
@@ -438,6 +445,7 @@ namespace VisualEditor {
         NoteBinding *binding, sflow::PhonemeViewModel *viewItem) {
         removeFromLiveOrder(binding, viewItem);
         insertIntoLiveOrder(binding, viewItem);
+        syncFirstPhoneme(binding);
     }
 
     void PhonemeViewModelContextData::rebuildLiveOrder(NoteBinding *binding) {
@@ -451,6 +459,28 @@ namespace VisualEditor {
         }
         for (auto *viewItem : binding->viewItems) {
             insertIntoLiveOrder(binding, viewItem);
+        }
+        syncFirstPhoneme(binding);
+    }
+
+    void PhonemeViewModelContextData::syncFirstPhoneme(NoteBinding *binding) {
+        if (!binding) {
+            return;
+        }
+        auto *sequenceViewModel = firstPhonemeSequenceViewModelMap.value(binding->clip);
+        if (!sequenceViewModel) {
+            return;
+        }
+        auto *firstPhoneme = binding->order.empty() ? nullptr : binding->order.begin()->second;
+        if (binding->firstPhoneme == firstPhoneme) {
+            return;
+        }
+        if (binding->firstPhoneme) {
+            sequenceViewModel->removeItem(binding->firstPhoneme);
+        }
+        binding->firstPhoneme = firstPhoneme;
+        if (binding->firstPhoneme) {
+            sequenceViewModel->insertItem(binding->firstPhoneme);
         }
     }
 
@@ -610,7 +640,7 @@ namespace VisualEditor {
         double minimum = notePosition;
         double maximum = notePosition;
         for (auto *viewItem : binding->viewItems) {
-            const double position = notePosition + viewItem->position();
+            const double position = notePosition + viewItem->notePosition();
             minimum = qMin(minimum, position);
             maximum = qMax(maximum, position);
         }
@@ -638,7 +668,7 @@ namespace VisualEditor {
         ++syncingViewDepth;
         for (auto *viewItem : binding->viewItems) {
             if (auto *phoneme = phonemeDocumentItemMap.value(viewItem)) {
-                viewItem->setPosition(
+                viewItem->setNotePosition(
                     documentPositionToViewPosition(binding->note, phoneme->start()));
             }
         }
@@ -738,7 +768,7 @@ namespace VisualEditor {
         if (editOperation != MoveEdit || targetViewItem != viewItem) {
             auto *phoneme = phonemeDocumentItemMap.value(viewItem);
             ++syncingViewDepth;
-            viewItem->setPosition(
+            viewItem->setNotePosition(
                 documentPositionToViewPosition(binding->note, phoneme->start()));
             --syncingViewDepth;
             updateLiveOrder(binding, viewItem);
@@ -780,7 +810,7 @@ namespace VisualEditor {
             connect(sequenceItem, &QObject::destroyed, this, [this] {
                 abortEdit();
             });
-        originalViewPosition = viewItem->position();
+        originalViewPosition = viewItem->notePosition();
         originalViewContent = viewItem->content();
         transactionId = id;
         return true;
@@ -795,7 +825,7 @@ namespace VisualEditor {
             return;
         }
         const int newPosition =
-            viewPositionToDocumentPosition(binding->note, viewItem->position());
+            viewPositionToDocumentPosition(binding->note, viewItem->notePosition());
         if (newPosition == phoneme->start()) {
             document->transactionController()->abortTransaction(transactionId);
             restoreTargetViewItem();
@@ -936,7 +966,7 @@ namespace VisualEditor {
             return;
         }
         ++syncingViewDepth;
-        viewItem->setPosition(originalViewPosition);
+        viewItem->setNotePosition(originalViewPosition);
         viewItem->setContent(originalViewContent);
         viewItem->setEdited(binding->edited);
         --syncingViewDepth;
@@ -970,7 +1000,7 @@ namespace VisualEditor {
                     } else if (auto *binding = bindingForViewItem(viewItem)) {
                         auto *phoneme = phonemeDocumentItemMap.value(viewItem);
                         ++syncingViewDepth;
-                        viewItem->setPosition(
+                        viewItem->setNotePosition(
                             documentPositionToViewPosition(binding->note, phoneme->start()));
                         --syncingViewDepth;
                         updateLiveOrder(binding, viewItem);
@@ -986,7 +1016,7 @@ namespace VisualEditor {
                     } else if (auto *binding = bindingForViewItem(viewItem)) {
                         auto *phoneme = phonemeDocumentItemMap.value(viewItem);
                         ++syncingViewDepth;
-                        viewItem->setPosition(
+                        viewItem->setNotePosition(
                             documentPositionToViewPosition(binding->note, phoneme->start()));
                         --syncingViewDepth;
                         updateLiveOrder(binding, viewItem);

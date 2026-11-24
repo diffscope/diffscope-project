@@ -43,6 +43,8 @@ namespace VisualEditor::Internal {
         EditorPreference::NoteEditPitchCurveDisplayMode noteEditPitchCurveDisplayMode{};
         double autoPitchCurveDisplayPixelDensityThreshold{kDefaultAutoPitchCurveDisplayPixelDensityThreshold};
         bool displayPronunciationBelowNote{};
+        bool showPhonemeNoteBoundaryOverlay{true};
+        EditorPreference::ParameterOverlayMode parameterPanelOverlayMode{EditorPreference::POM_FirstPhoneme};
         bool showLyricOverlay{};
         int lyricPhraseGapThreshold{240};
         bool warnOfOverlappingNotes{true};
@@ -122,6 +124,10 @@ namespace VisualEditor::Internal {
         Q_EMIT autoPitchCurveDisplayPixelDensityThresholdChanged();
         d->displayPronunciationBelowNote = settings->value("displayPronunciationBelowNote", false).toBool();
         emit displayPronunciationBelowNoteChanged();
+        d->showPhonemeNoteBoundaryOverlay = settings->value("showPhonemeNoteBoundaryOverlay", true).toBool();
+        emit showPhonemeNoteBoundaryOverlayChanged();
+        d->parameterPanelOverlayMode = settings->value("parameterPanelOverlayMode", QVariant::fromValue(POM_FirstPhoneme)).value<ParameterOverlayMode>();
+        emit parameterPanelOverlayModeChanged();
         setLyricPhraseGapThreshold(settings->value("lyricPhraseGapThreshold", 240).toInt());
         setShowLyricOverlay(settings->value("showLyricOverlay", false).toBool());
         d->warnOfOverlappingNotes = settings->value("warnOfOverlappingNotes", true).toBool();
@@ -177,6 +183,8 @@ namespace VisualEditor::Internal {
         settings->setValue("noteEditPitchCurveDisplayMode", static_cast<int>(d->noteEditPitchCurveDisplayMode));
         settings->setValue("autoPitchCurveDisplayPixelDensityThreshold", d->autoPitchCurveDisplayPixelDensityThreshold);
         settings->setValue("displayPronunciationBelowNote", d->displayPronunciationBelowNote);
+        settings->setValue("showPhonemeNoteBoundaryOverlay", d->showPhonemeNoteBoundaryOverlay);
+        settings->setValue("parameterPanelOverlayMode", static_cast<int>(d->parameterPanelOverlayMode));
         settings->setValue("showLyricOverlay", d->showLyricOverlay);
         settings->setValue("lyricPhraseGapThreshold", d->lyricPhraseGapThreshold);
         settings->setValue("warnOfOverlappingNotes", d->warnOfOverlappingNotes);
@@ -488,6 +496,32 @@ namespace VisualEditor::Internal {
             return;
         d->displayPronunciationBelowNote = displayPronunciationBelowNote;
         emit m_instance->displayPronunciationBelowNoteChanged();
+    }
+
+    bool EditorPreference::showPhonemeNoteBoundaryOverlay() {
+        M_INSTANCE_D;
+        return d->showPhonemeNoteBoundaryOverlay;
+    }
+
+    void EditorPreference::setShowPhonemeNoteBoundaryOverlay(bool showPhonemeNoteBoundaryOverlay) {
+        M_INSTANCE_D;
+        if (d->showPhonemeNoteBoundaryOverlay == showPhonemeNoteBoundaryOverlay)
+            return;
+        d->showPhonemeNoteBoundaryOverlay = showPhonemeNoteBoundaryOverlay;
+        Q_EMIT m_instance->showPhonemeNoteBoundaryOverlayChanged();
+    }
+
+    EditorPreference::ParameterOverlayMode EditorPreference::parameterPanelOverlayMode() {
+        M_INSTANCE_D;
+        return d->parameterPanelOverlayMode;
+    }
+
+    void EditorPreference::setParameterPanelOverlayMode(ParameterOverlayMode mode) {
+        M_INSTANCE_D;
+        if (mode < POM_FirstPhoneme || mode > POM_None || d->parameterPanelOverlayMode == mode)
+            return;
+        d->parameterPanelOverlayMode = mode;
+        Q_EMIT m_instance->parameterPanelOverlayModeChanged();
     }
 
     bool EditorPreference::showLyricOverlay() {

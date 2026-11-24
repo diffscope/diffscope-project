@@ -349,6 +349,11 @@ namespace VisualEditor {
         return d->phonemeData->phonemeSequenceViewModelMap.value(clip);
     }
 
+    sflow::PointSequenceViewModel *ProjectViewModelContext::getFirstPhonemeSequenceViewModel(dspx::SingingClip *clip) const {
+        Q_D(const ProjectViewModelContext);
+        return d->phonemeData->firstPhonemeSequenceViewModelMap.value(clip);
+    }
+
 }
 
 #include "moc_ProjectViewModelContext.cpp"

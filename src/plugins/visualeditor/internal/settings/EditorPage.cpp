@@ -88,6 +88,10 @@ namespace VisualEditor::Internal {
         qCDebug(lcEditorPage) << m_widget->property("autoPitchCurveDisplayPixelDensityThreshold");
         m_widget->setProperty("displayPronunciationBelowNote", EditorPreference::instance()->property("displayPronunciationBelowNote"));
         qCDebug(lcEditorPage) << m_widget->property("displayPronunciationBelowNote");
+        m_widget->setProperty("showPhonemeNoteBoundaryOverlay", EditorPreference::instance()->property("showPhonemeNoteBoundaryOverlay"));
+        qCDebug(lcEditorPage) << m_widget->property("showPhonemeNoteBoundaryOverlay");
+        m_widget->setProperty("parameterPanelOverlayMode", EditorPreference::instance()->property("parameterPanelOverlayMode"));
+        qCDebug(lcEditorPage) << m_widget->property("parameterPanelOverlayMode");
         m_widget->setProperty("showLyricOverlay", EditorPreference::showLyricOverlay());
         m_widget->setProperty("lyricPhraseGapThreshold", EditorPreference::lyricPhraseGapThreshold());
         m_widget->setProperty("warnOfOverlappingNotes", EditorPreference::instance()->property("warnOfOverlappingNotes"));
@@ -156,6 +160,10 @@ namespace VisualEditor::Internal {
         EditorPreference::instance()->setProperty("autoPitchCurveDisplayPixelDensityThreshold", m_widget->property("autoPitchCurveDisplayPixelDensityThreshold"));
         qCDebug(lcEditorPage) << "displayPronunciationBelowNote" << m_widget->property("displayPronunciationBelowNote");
         EditorPreference::instance()->setProperty("displayPronunciationBelowNote", m_widget->property("displayPronunciationBelowNote"));
+        qCDebug(lcEditorPage) << "showPhonemeNoteBoundaryOverlay" << m_widget->property("showPhonemeNoteBoundaryOverlay");
+        EditorPreference::instance()->setProperty("showPhonemeNoteBoundaryOverlay", m_widget->property("showPhonemeNoteBoundaryOverlay"));
+        qCDebug(lcEditorPage) << "parameterPanelOverlayMode" << m_widget->property("parameterPanelOverlayMode");
+        EditorPreference::instance()->setProperty("parameterPanelOverlayMode", m_widget->property("parameterPanelOverlayMode"));
         EditorPreference::setLyricPhraseGapThreshold(m_widget->property("lyricPhraseGapThreshold").toInt());
         EditorPreference::setShowLyricOverlay(m_widget->property("showLyricOverlay").toBool());
         qCDebug(lcEditorPage) << "warnOfOverlappingNotes" << m_widget->property("warnOfOverlappingNotes");

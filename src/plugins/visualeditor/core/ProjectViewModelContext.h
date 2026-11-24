@@ -132,6 +132,7 @@ namespace VisualEditor {
         Q_INVOKABLE sflow::RangeSequenceViewModel *getSingingClipRangeIndicatorSequenceViewModel(dspx::Track *track) const;
         Q_INVOKABLE sflow::RangeSequenceViewModel *getNoteSequenceViewModel(dspx::SingingClip *clip) const;
         Q_INVOKABLE sflow::PointSequenceViewModel *getPhonemeSequenceViewModel(dspx::SingingClip *clip) const;
+        Q_INVOKABLE sflow::PointSequenceViewModel *getFirstPhonemeSequenceViewModel(dspx::SingingClip *clip) const;
 
 
     private:

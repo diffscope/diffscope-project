@@ -12,13 +12,19 @@ import DiffScope.VisualEditor
 Loader {
     id: control
 
+    readonly property var projectViewModelContext:
+        control.ViewLayer.windowHandle?.ProjectViewModelContext.context ?? null
+    readonly property var clipViewModel:
+        projectViewModelContext?.getClipViewItemFromDocumentItem(
+            control.ViewLayer.pianoRollPanelInterface?.editingClip ?? null) ?? null
+
     active: SynthesisVisualizerSettings.showPhonemeWaveforms
 
     sourceComponent: SynthesisWaveformLayer {
         id: waveforms
 
-        projectViewModelContext: control.ViewLayer.windowHandle?.ProjectViewModelContext.context ?? null
-        clipViewModel: control.ViewLayer.clipViewModel
+        projectViewModelContext: control.projectViewModelContext
+        clipViewModel: control.clipViewModel
         startTick: control.ViewLayer.pianoRollPanelInterface?.timeViewModel?.start ?? 0
         pixelDensity: control.ViewLayer.pianoRollPanelInterface?.timeLayoutViewModel?.pixelDensity ?? 0
         foregroundColor: waveforms.trackViewModel?.color ?? Theme.accentColor
