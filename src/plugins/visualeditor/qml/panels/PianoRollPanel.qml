@@ -31,6 +31,7 @@ QtObject {
             const height = splitView.itemAt(i).SplitView.preferredHeight
             bottomPanelHeights.push(height >= 0 ? height : null)
         }
+        const parameterEditorContext = addOn.windowHandle.ProjectViewModelContext.context?.parameterEditorContext
         return {
             tool: pianoRollPanelInterface.tool,
             duration: pianoRollPanelInterface.positionAlignmentManipulator.duration,
@@ -39,7 +40,8 @@ QtObject {
             scaleHighlightEnabled: pianoRollPanelInterface.scaleHighlightEnabled,
             additionalTracks: Array.from(addOn.additionalTrackLoader.loadedComponents),
             bottomAdditionalTracks: Array.from(addOn.bottomAdditionalTrackLoader.loadedComponents),
-            bottomPanelHeights: bottomPanelHeights
+            bottomPanelHeights: bottomPanelHeights,
+            parameterRowCount: parameterEditorContext?.rows.length ?? 1
         }
     }
 
@@ -60,6 +62,7 @@ QtObject {
                 || (state.tuplet !== undefined && !tuplets.includes(state.tuplet))
                 || (state.isAutoPageScrollingEnabled !== undefined && typeof state.isAutoPageScrollingEnabled !== "boolean")
                 || (state.scaleHighlightEnabled !== undefined && typeof state.scaleHighlightEnabled !== "boolean")
+                || (state.parameterRowCount !== undefined && (!Number.isInteger(state.parameterRowCount) || state.parameterRowCount < 1))
                 || (state.additionalTracks !== undefined && !validTracks(state.additionalTracks))
                 || (state.bottomAdditionalTracks !== undefined && !validTracks(state.bottomAdditionalTracks))
                 || (heights !== undefined && (!Array.isArray(heights)
@@ -86,6 +89,15 @@ QtObject {
             const splitView = pianoRollPanelInterface.pianoRollView.noteAreaSplitView
             for (let i = 1; i < splitView.count; ++i)
                 splitView.itemAt(i).SplitView.preferredHeight = state.bottomPanelHeights?.[i - 1] ?? undefined
+
+            const parameterEditorContext = pianoRollPanelInterface.windowHandle.ProjectViewModelContext.context?.parameterEditorContext
+            if (parameterEditorContext) {
+                const parameterRowCount = state.parameterRowCount ?? initial.parameterRowCount
+                while (parameterEditorContext.rows.length > parameterRowCount)
+                    parameterEditorContext.removeRow(parameterEditorContext.rows[parameterEditorContext.rows.length - 1])
+                while (parameterEditorContext.rows.length < parameterRowCount)
+                    parameterEditorContext.addRow()
+            }
         }
 
         function saveState() {

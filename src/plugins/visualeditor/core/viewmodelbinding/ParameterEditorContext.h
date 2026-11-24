@@ -5,12 +5,14 @@
 #define DIFFSCOPE_VISUALEDITOR_PARAMETEREDITORCONTEXT_H
 
 #include <QAbstractItemModel>
+#include <QList>
 #include <QObject>
 #include <QScopedPointer>
 #include <qqmlintegration.h>
 
 #include <singercatalog/ArchitectureInfo.h>
 
+#include <visualeditor/ParameterEditorRow.h>
 #include <visualeditor/visualeditorglobal.h>
 
 namespace dspx {
@@ -85,7 +87,6 @@ namespace VisualEditor {
         void parameterChanged();
 
     private:
-        friend class ParameterEditorContextPrivate;
         explicit ParameterViewModelBinding(QObject *parent, bool editable);
         QScopedPointer<ParameterViewModelBindingPrivate> d_ptr;
     };
@@ -100,45 +101,33 @@ namespace VisualEditor {
         Q_DECLARE_PRIVATE(ParameterEditorContext)
         Q_PROPERTY(dspx::SingingClip *singingClip READ singingClip NOTIFY singingClipChanged)
         Q_PROPERTY(QAbstractItemModel *parameterModel READ parameterModel CONSTANT)
-        Q_PROPERTY(QString editingParameterId READ editingParameterId WRITE setEditingParameterId NOTIFY editingParameterIdChanged)
-        Q_PROPERTY(QString referenceParameterId READ referenceParameterId WRITE setReferenceParameterId NOTIFY referenceParameterIdChanged)
-        Q_PROPERTY(QString editingParameterDisplayName READ editingParameterDisplayName NOTIFY editingParameterIdChanged)
-        Q_PROPERTY(QString referenceParameterDisplayName READ referenceParameterDisplayName NOTIFY referenceParameterIdChanged)
+        Q_PROPERTY(QList<ParameterEditorRow *> rows READ rows NOTIFY rowsChanged)
+        Q_PROPERTY(int currentRowIndex READ currentRowIndex WRITE setCurrentRowIndex NOTIFY currentRowIndexChanged)
         Q_PROPERTY(bool transformEditing READ transformEditing WRITE setTransformEditing NOTIFY transformEditingChanged)
         Q_PROPERTY(ParameterViewModelBinding *pitchBinding READ pitchBinding CONSTANT)
-        Q_PROPERTY(ParameterViewModelBinding *editingBinding READ editingBinding CONSTANT)
-        Q_PROPERTY(ParameterViewModelBinding *referenceBinding READ referenceBinding CONSTANT)
-        Q_PROPERTY(ParameterViewModelBinding *referenceDataBinding READ referenceDataBinding NOTIFY referenceDataBindingChanged)
 
     public:
         ~ParameterEditorContext() override;
 
         dspx::SingingClip *singingClip() const;
         QAbstractItemModel *parameterModel() const;
-
-        QString editingParameterId() const;
-        void setEditingParameterId(const QString &parameterId);
-        QString referenceParameterId() const;
-        void setReferenceParameterId(const QString &parameterId);
-        QString editingParameterDisplayName() const;
-        QString referenceParameterDisplayName() const;
+        QList<ParameterEditorRow *> rows() const;
+        int currentRowIndex() const;
+        void setCurrentRowIndex(int index);
         bool transformEditing() const;
         void setTransformEditing(bool transformEditing);
 
         ParameterViewModelBinding *pitchBinding() const;
-        ParameterViewModelBinding *editingBinding() const;
-        ParameterViewModelBinding *referenceBinding() const;
-        ParameterViewModelBinding *referenceDataBinding() const;
 
         void setSingingClip(dspx::SingingClip *singingClip);
 
-        Q_INVOKABLE void swapParameters();
+        Q_INVOKABLE ParameterEditorRow *addRow();
+        Q_INVOKABLE void removeRow(ParameterEditorRow *row);
 
     Q_SIGNALS:
         void singingClipChanged();
-        void editingParameterIdChanged();
-        void referenceParameterIdChanged();
-        void referenceDataBindingChanged();
+        void rowsChanged();
+        void currentRowIndexChanged();
         void transformEditingChanged();
 
     private:

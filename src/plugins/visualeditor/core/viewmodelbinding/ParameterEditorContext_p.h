@@ -11,6 +11,7 @@
 
 #include <QAbstractListModel>
 #include <QHash>
+#include <QList>
 #include <QMetaObject>
 #include <QPointer>
 #include <QSet>
@@ -85,6 +86,7 @@ namespace VisualEditor {
         QHash<int, QByteArray> roleNames() const override;
 
         void setEntries(QList<Entry> entries);
+        const QList<Entry> &entries() const;
         const Entry *find(const QString &parameterId) const;
         const Entry *firstAvailable() const;
 
@@ -114,6 +116,9 @@ namespace VisualEditor {
         };
 
         explicit ParameterViewModelBindingPrivate(ParameterViewModelBinding *q, bool editable);
+
+        static ParameterViewModelBinding *create(QObject *parent, bool editable);
+        static ParameterViewModelBindingPrivate *get(ParameterViewModelBinding *q);
 
         ParameterViewModelBinding *q_ptr{};
         bool editable{};
@@ -247,6 +252,8 @@ namespace VisualEditor {
         Q_DECLARE_PUBLIC(ParameterEditorContext)
 
     public:
+        static ParameterEditorContextPrivate *get(ParameterEditorContext *q);
+
         ParameterEditorContext *q_ptr{};
         ProjectViewModelContext *projectContext{};
         DspxProject::Document *document{};
@@ -255,16 +262,12 @@ namespace VisualEditor {
         QPointer<dspx::SingingClip> singingClip;
         QPointer<dspx::Sources> sources;
         QString architectureId;
-        QString editingParameterId;
-        QString referenceParameterId;
-        QString editingDisplayName;
-        QString referenceDisplayName;
-        bool transformEditing{};
 
         ParameterDefinitionListModel *parameterModel{};
         ParameterViewModelBinding *pitchBinding{};
-        ParameterViewModelBinding *editingBinding{};
-        ParameterViewModelBinding *referenceBinding{};
+        QList<ParameterEditorRow *> rows;
+        int currentRowIndex{};
+        bool transformEditing{};
 
         QVector<QMetaObject::Connection> clipConnections;
         QVector<QMetaObject::Connection> sourceConnections;
@@ -276,10 +279,20 @@ namespace VisualEditor {
         QSet<QString> supportedParameters() const;
         void rebuildParameterModel();
         void refreshBindings();
-        void abortEditingOperation();
+        void refreshRowBindings(ParameterEditorRow *row);
         void clearParameterSelection();
         const ParameterDefinitionListModel::Entry *entry(const QString &parameterId) const;
         QString displayName(const QString &parameterId, const QString &remembered) const;
+
+        ParameterEditorRow *createRow();
+        QString parameterIdForNewRow() const;
+        ParameterEditorRow *currentRow() const;
+        void activateRow(ParameterEditorRow *row);
+        void updateRowDisplayNames(ParameterEditorRow *row);
+        void refreshRowSelection(ParameterEditorRow *row);
+        void setRowEditingParameterId(ParameterEditorRow *row, const QString &parameterId);
+        void setRowReferenceParameterId(ParameterEditorRow *row, const QString &parameterId);
+        void swapRowParameters(ParameterEditorRow *row);
     };
 }
 

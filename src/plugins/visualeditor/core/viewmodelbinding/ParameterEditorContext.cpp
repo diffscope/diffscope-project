@@ -41,8 +41,10 @@
 #include <singercatalog/ClipSingerIdProvider.h>
 #include <singercatalog/SingerRegistry.h>
 
+#include <visualeditor/ParameterEditorRow.h>
 #include <visualeditor/ProjectViewModelContext.h>
 #include <visualeditor/internal/EditorPreference.h>
+#include <visualeditor/private/ParameterEditorRow_p.h>
 
 namespace VisualEditor {
 
@@ -248,6 +250,10 @@ namespace VisualEditor {
         beginResetModel();
         m_entries = std::move(entries);
         endResetModel();
+    }
+
+    const QList<ParameterDefinitionListModel::Entry> &ParameterDefinitionListModel::entries() const {
+        return m_entries;
     }
 
     const ParameterDefinitionListModel::Entry *ParameterDefinitionListModel::find(const QString &parameterId) const {
@@ -1204,6 +1210,18 @@ namespace VisualEditor {
 
     ParameterViewModelBinding::~ParameterViewModelBinding() = default;
 
+    ParameterViewModelBinding *ParameterViewModelBindingPrivate::create(QObject *parent, bool editable) {
+        return new ParameterViewModelBinding(parent, editable);
+    }
+
+    ParameterViewModelBindingPrivate *ParameterViewModelBindingPrivate::get(ParameterViewModelBinding *q) {
+        return q->d_func();
+    }
+
+    ParameterEditorContextPrivate *ParameterEditorContextPrivate::get(ParameterEditorContext *q) {
+        return q->d_func();
+    }
+
     QString ParameterViewModelBinding::parameterId() const { Q_D(const ParameterViewModelBinding); return d->parameterId; }
     SingerCatalog::ParameterInfo ParameterViewModelBinding::parameterInfo() const { Q_D(const ParameterViewModelBinding); return d->parameterInfo; }
     SingerCatalog::ParameterInfo ParameterViewModelBinding::transformParameterInfo() const { return SingerCatalog::transformParameterInfo(); }
@@ -1279,12 +1297,8 @@ namespace VisualEditor {
             refreshBindings();
         });
         parameterModel = new ParameterDefinitionListModel(q);
-        pitchBinding = new ParameterViewModelBinding(q, true);
-        editingBinding = new ParameterViewModelBinding(q, true);
-        referenceBinding = new ParameterViewModelBinding(q, false);
-        pitchBinding->d_func()->initialize(document, windowHandle);
-        editingBinding->d_func()->initialize(document, windowHandle);
-        referenceBinding->d_func()->initialize(document, windowHandle);
+        pitchBinding = ParameterViewModelBindingPrivate::create(q, true);
+        ParameterViewModelBindingPrivate::get(pitchBinding)->initialize(document, windowHandle);
 
         auto *noteSelection = document->selectionModel()->noteSelectionModel();
         QObject::connect(noteSelection, &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged,
@@ -1310,14 +1324,17 @@ namespace VisualEditor {
 
         rebuildParameterModel();
         refreshBindings();
+        const auto row = createRow();
+        currentRowIndex = rows.indexOf(row);
     }
 
     void ParameterEditorContextPrivate::setSingingClip(dspx::SingingClip *clip) {
         Q_Q(ParameterEditorContext);
         if (singingClip == clip)
             return;
-        pitchBinding->d_func()->abortActiveEdit();
-        editingBinding->d_func()->abortActiveEdit();
+        ParameterViewModelBindingPrivate::get(pitchBinding)->abortActiveEdit();
+        for (auto *row : std::as_const(rows))
+            ParameterViewModelBindingPrivate::get(ParameterEditorRowPrivate::get(row)->editingBinding)->abortActiveEdit();
         disconnectAll(clipConnections);
         disconnectAll(sourceConnections);
         singingClip = clip;
@@ -1391,10 +1408,6 @@ namespace VisualEditor {
     }
 
     void ParameterEditorContextPrivate::rebuildParameterModel() {
-        const QString oldEditingParameterId = editingParameterId;
-        const QString oldReferenceParameterId = referenceParameterId;
-        const QString oldEditingDisplayName = displayName(editingParameterId, editingDisplayName);
-        const QString oldReferenceDisplayName = displayName(referenceParameterId, referenceDisplayName);
         QList<ParameterDefinitionListModel::Entry> entries;
         entries.append({{}, VisualEditor::ParameterEditorContext::tr("None"), {}, true, true});
         const auto supported = supportedParameters();
@@ -1427,74 +1440,70 @@ namespace VisualEditor {
                 appendFallback(key);
             }
         }
-        appendFallback(editingParameterId);
-        appendFallback(referenceParameterId);
+        for (const auto *row : std::as_const(rows)) {
+            const auto *d = ParameterEditorRowPrivate::get(row);
+            appendFallback(d->editingParameterId);
+            appendFallback(d->referenceParameterId);
+        }
         parameterModel->setEntries(std::move(entries));
 
-        const auto *editingDefinition = entry(editingParameterId);
-        if ((!editingDefinition || editingParameterId.isEmpty()) &&
-            singingClip) {
-            if (const auto *firstAvailable = parameterModel->firstAvailable()) {
-                editingParameterId = firstAvailable->parameterId;
-                editingDefinition = firstAvailable;
+        for (auto *row : std::as_const(rows)) {
+            auto *d = ParameterEditorRowPrivate::get(row);
+            const QString oldEditingParameterId = d->editingParameterId;
+            const QString oldReferenceParameterId = d->referenceParameterId;
+            const QString oldEditingDisplayName = d->editingDisplayName;
+            const QString oldReferenceDisplayName = d->referenceDisplayName;
+
+            if (d->editingParameterId.isEmpty() && singingClip) {
+                if (const auto *firstAvailable = parameterModel->firstAvailable())
+                    d->editingParameterId = firstAvailable->parameterId;
             }
-        }
+            if (!d->referenceParameterId.isEmpty() && !entry(d->referenceParameterId))
+                d->referenceParameterId.clear();
 
-        const auto *referenceDefinition = entry(referenceParameterId);
-        if (!referenceParameterId.isEmpty() &&
-            !referenceDefinition) {
-            referenceParameterId.clear();
-            referenceDefinition = entry(referenceParameterId);
-        }
+            d->editingDisplayName = displayName(d->editingParameterId, d->editingDisplayName);
+            d->referenceDisplayName = displayName(d->referenceParameterId, d->referenceDisplayName);
 
-        if (editingDefinition) {
-            const auto *definition = editingDefinition;
-            editingDisplayName = definition->displayName;
+            const bool editingParameterChanged = oldEditingParameterId != d->editingParameterId;
+            const bool referenceParameterChanged = oldReferenceParameterId != d->referenceParameterId;
+            if (editingParameterChanged || oldEditingDisplayName != d->editingDisplayName)
+                Q_EMIT row->editingParameterIdChanged();
+            if (referenceParameterChanged || oldReferenceDisplayName != d->referenceDisplayName)
+                Q_EMIT row->referenceParameterIdChanged();
+            if (editingParameterChanged || referenceParameterChanged)
+                Q_EMIT row->referenceDataBindingChanged();
         }
-        if (referenceDefinition && !referenceDefinition->none) {
-            const auto *definition = referenceDefinition;
-            referenceDisplayName = definition->displayName;
-        }
-
-        const bool editingParameterChanged = oldEditingParameterId != editingParameterId;
-        const bool referenceParameterChanged = oldReferenceParameterId != referenceParameterId;
-        if (editingParameterChanged ||
-            oldEditingDisplayName != displayName(editingParameterId, editingDisplayName)) {
-            Q_EMIT q_ptr->editingParameterIdChanged();
-        }
-        if (referenceParameterChanged ||
-            oldReferenceDisplayName != displayName(referenceParameterId, referenceDisplayName)) {
-            Q_EMIT q_ptr->referenceParameterIdChanged();
-        }
-        if (editingParameterChanged || referenceParameterChanged)
-            Q_EMIT q_ptr->referenceDataBindingChanged();
     }
 
     void ParameterEditorContextPrivate::refreshBindings() {
+        ParameterViewModelBindingPrivate::get(pitchBinding)->setTarget(
+            singingClip, QStringLiteral("pitch"), SingerCatalog::pitchParameterInfo(), true);
+        for (auto *row : std::as_const(rows))
+            refreshRowBindings(row);
+    }
+
+    void ParameterEditorContextPrivate::refreshRowBindings(ParameterEditorRow *row) {
         const auto update = [this](ParameterViewModelBinding *binding, const QString &id) {
             if (id.isEmpty()) {
-                binding->d_func()->setTarget(singingClip, {}, {}, false);
+                ParameterViewModelBindingPrivate::get(binding)->setTarget(singingClip, {}, {}, false);
                 return;
             }
             if (const auto *definition = entry(id)) {
-                binding->d_func()->setTarget(singingClip, id, definition->parameterInfo, definition->supported);
+                ParameterViewModelBindingPrivate::get(binding)->setTarget(
+                    singingClip, id, definition->parameterInfo, definition->supported);
             } else {
                 SingerCatalog::ParameterInfo info;
                 info.displayName = id;
-                binding->d_func()->setTarget(singingClip, id, info, supportedParameters().contains(id));
+                ParameterViewModelBindingPrivate::get(binding)->setTarget(
+                    singingClip, id, info, supportedParameters().contains(id));
             }
         };
-        pitchBinding->d_func()->setTarget(singingClip, QStringLiteral("pitch"),
-                                          SingerCatalog::pitchParameterInfo(), true);
-        update(editingBinding, editingParameterId);
-        if (!referenceParameterId.isEmpty() && referenceParameterId == editingParameterId)
-            referenceBinding->d_func()->setTarget(nullptr, {}, {}, false);
+        auto *d = ParameterEditorRowPrivate::get(row);
+        update(d->editingBinding, d->editingParameterId);
+        if (!d->referenceParameterId.isEmpty() && d->referenceParameterId == d->editingParameterId)
+            ParameterViewModelBindingPrivate::get(d->referenceBinding)->setTarget(nullptr, {}, {}, false);
         else
-            update(referenceBinding, referenceParameterId);
-    }
-
-    void ParameterEditorContextPrivate::abortEditingOperation() {
-        editingBinding->d_func()->abortActiveEdit();
+            update(d->referenceBinding, d->referenceParameterId);
     }
 
     void ParameterEditorContextPrivate::clearParameterSelection() {
@@ -1503,8 +1512,11 @@ namespace VisualEditor {
                           dspx::SelectionModel::ST_None);
         pitchBinding->freeSelection()->clear();
         pitchBinding->transformFreeSelection()->clear();
-        editingBinding->freeSelection()->clear();
-        editingBinding->transformFreeSelection()->clear();
+        for (auto *row : std::as_const(rows)) {
+            const auto *d = ParameterEditorRowPrivate::get(row);
+            d->editingBinding->freeSelection()->clear();
+            d->editingBinding->transformFreeSelection()->clear();
+        }
     }
 
     const ParameterDefinitionListModel::Entry *ParameterEditorContextPrivate::entry(
@@ -1531,101 +1543,207 @@ namespace VisualEditor {
 
     ParameterEditorContext::~ParameterEditorContext() = default;
 
-    dspx::SingingClip *ParameterEditorContext::singingClip() const { Q_D(const ParameterEditorContext); return d->singingClip; }
-    QAbstractItemModel *ParameterEditorContext::parameterModel() const { Q_D(const ParameterEditorContext); return d->parameterModel; }
-    QString ParameterEditorContext::editingParameterId() const { Q_D(const ParameterEditorContext); return d->editingParameterId; }
+    ParameterEditorRow *ParameterEditorContextPrivate::createRow() {
+        Q_Q(ParameterEditorContext);
+        auto *row = ParameterEditorRowPrivate::create(q, q);
+        auto *d = ParameterEditorRowPrivate::get(row);
+        d->editingBinding = ParameterViewModelBindingPrivate::create(row, true);
+        d->referenceBinding = ParameterViewModelBindingPrivate::create(row, false);
+        ParameterViewModelBindingPrivate::get(d->editingBinding)->initialize(document, projectContext->windowHandle());
+        ParameterViewModelBindingPrivate::get(d->referenceBinding)->initialize(document, projectContext->windowHandle());
 
-    void ParameterEditorContext::setEditingParameterId(const QString &parameterId) {
-        Q_D(ParameterEditorContext);
+        const auto activate = [this, row] { activateRow(row); };
+        for (auto *controller : {d->editingBinding->interactionController(),
+                                 d->editingBinding->transformInteractionController()}) {
+            QObject::connect(controller, &sflow::ParameterEditorInteractionController::freeEditingStarted, q, activate);
+            QObject::connect(controller, &sflow::ParameterEditorInteractionController::anchorInsertionStarted, q, activate);
+            QObject::connect(controller, &sflow::ParameterEditorInteractionController::anchorMovingStarted, q, activate);
+            QObject::connect(controller, &sflow::ParameterEditorInteractionController::anchorDeletionStarted, q, activate);
+            QObject::connect(controller, &sflow::ParameterEditorInteractionController::anchorInterpolationChangingStarted, q, activate);
+            QObject::connect(controller, &sflow::ParameterEditorInteractionController::freeRangeSelectingStarted, q, activate);
+            QObject::connect(controller, &sflow::ParameterEditorInteractionController::anchorRubberBandDraggingStarted, q, activate);
+        }
+        for (auto *selectionController : {d->editingBinding->anchorSelectionController(),
+                                          d->editingBinding->transformAnchorSelectionController()}) {
+            QObject::connect(selectionController, &sflow::SelectionController::editScopeFocusedChanged, q,
+                [this, row, selectionController] {
+                    if (!selectionController->editScopeFocused())
+                        return;
+                    auto *current = currentRow();
+                    if (current && current != row) {
+                        const auto *currentPrivate = ParameterEditorRowPrivate::get(current);
+                        auto *currentSelection = currentPrivate->editingBinding->anchorSelectionController();
+                        auto *currentTransformSelection = currentPrivate->editingBinding->transformAnchorSelectionController();
+                        if ((transformEditing && currentTransformSelection->editScopeFocused())
+                            || (!transformEditing && currentSelection->editScopeFocused()))
+                            return;
+                    }
+                    activateRow(row);
+                });
+        }
+
+        d->editingParameterId = parameterIdForNewRow();
+        d->editingDisplayName = displayName(d->editingParameterId, {});
+        d->referenceDisplayName = displayName({}, {});
+        rows.append(row);
+        refreshRowBindings(row);
+        return row;
+    }
+
+    QString ParameterEditorContextPrivate::parameterIdForNewRow() const {
+        QSet<QString> used;
+        for (const auto *row : std::as_const(rows))
+            used.insert(ParameterEditorRowPrivate::get(row)->editingParameterId);
+
+        const ParameterDefinitionListModel::Entry *firstParameter = nullptr;
+        for (const auto &entry : parameterModel->entries()) {
+            if (entry.none)
+                continue;
+            if (!firstParameter)
+                firstParameter = &entry;
+            if (entry.supported && !used.contains(entry.parameterId))
+                return entry.parameterId;
+        }
+        return firstParameter ? firstParameter->parameterId : QString();
+    }
+
+    ParameterEditorRow *ParameterEditorContextPrivate::currentRow() const {
+        if (currentRowIndex < 0 || currentRowIndex >= rows.size())
+            return nullptr;
+        return rows.at(currentRowIndex);
+    }
+
+    void ParameterEditorContextPrivate::activateRow(ParameterEditorRow *row) {
+        Q_Q(ParameterEditorContext);
+        const int index = rows.indexOf(row);
+        if (index < 0 || index == currentRowIndex)
+            return;
+        currentRowIndex = index;
+        Q_EMIT q->currentRowIndexChanged();
+    }
+
+    void ParameterEditorContextPrivate::updateRowDisplayNames(ParameterEditorRow *row) {
+        auto *d = ParameterEditorRowPrivate::get(row);
+        d->editingDisplayName = displayName(d->editingParameterId, d->editingDisplayName);
+        d->referenceDisplayName = displayName(d->referenceParameterId, d->referenceDisplayName);
+    }
+
+    void ParameterEditorContextPrivate::refreshRowSelection(ParameterEditorRow *row) {
+        if (currentRowIndex < 0 || currentRowIndex >= rows.size() || rows.at(currentRowIndex) != row)
+            return;
+        const auto *d = ParameterEditorRowPrivate::get(row);
+        if (!singingClip || !d->editingBinding->parameterExists())
+            return;
+        auto *parameter = singingClip->parameters()->item(d->editingParameterId);
+        if (!parameter)
+            return;
+        document->selectionModel()->select(nullptr,
+            dspx::SelectionModel::ClearPreviousSelection,
+            dspx::SelectionModel::ST_AnchorNode,
+            transformEditing ? parameter->anchorTransform() : parameter->anchorEdited());
+    }
+
+    void ParameterEditorContextPrivate::setRowEditingParameterId(ParameterEditorRow *row, const QString &parameterId) {
+        auto *d = ParameterEditorRowPrivate::get(row);
         if (d->editingParameterId == parameterId)
             return;
-        if (const auto *definition = d->entry(parameterId)) {
-            d->editingDisplayName = definition->displayName;
-        } else if (!parameterId.isEmpty()) {
-            d->editingDisplayName = parameterId;
-        }
         d->editingParameterId = parameterId;
-        d->clearParameterSelection();
-        d->refreshBindings();
-        if (d->editingBinding->parameterExists()) {
-            auto *parameter = d->singingClip->parameters()->item(parameterId);
-            d->document->selectionModel()->select(nullptr,
-                dspx::SelectionModel::ClearPreviousSelection,
-                dspx::SelectionModel::ST_AnchorNode,
-                d->transformEditing ? parameter->anchorTransform() : parameter->anchorEdited());
-        }
-        Q_EMIT editingParameterIdChanged();
-        Q_EMIT referenceDataBindingChanged();
+        updateRowDisplayNames(row);
+        clearParameterSelection();
+        refreshRowBindings(row);
+        refreshRowSelection(row);
+        Q_EMIT row->editingParameterIdChanged();
+        Q_EMIT row->referenceDataBindingChanged();
     }
 
-    QString ParameterEditorContext::referenceParameterId() const { Q_D(const ParameterEditorContext); return d->referenceParameterId; }
-
-    void ParameterEditorContext::setReferenceParameterId(const QString &parameterId) {
-        Q_D(ParameterEditorContext);
+    void ParameterEditorContextPrivate::setRowReferenceParameterId(ParameterEditorRow *row, const QString &parameterId) {
+        auto *d = ParameterEditorRowPrivate::get(row);
         if (d->referenceParameterId == parameterId)
             return;
-        if (const auto *definition = d->entry(parameterId)) {
-            d->referenceDisplayName = definition->displayName;
-        } else if (!parameterId.isEmpty()) {
-            d->referenceDisplayName = parameterId;
-        }
         d->referenceParameterId = parameterId;
-        d->refreshBindings();
-        Q_EMIT referenceParameterIdChanged();
-        Q_EMIT referenceDataBindingChanged();
+        updateRowDisplayNames(row);
+        refreshRowBindings(row);
+        Q_EMIT row->referenceParameterIdChanged();
+        Q_EMIT row->referenceDataBindingChanged();
     }
 
-    QString ParameterEditorContext::editingParameterDisplayName() const { Q_D(const ParameterEditorContext); return d->displayName(d->editingParameterId, d->editingDisplayName); }
-    QString ParameterEditorContext::referenceParameterDisplayName() const { Q_D(const ParameterEditorContext); return d->displayName(d->referenceParameterId, d->referenceDisplayName); }
+    void ParameterEditorContextPrivate::swapRowParameters(ParameterEditorRow *row) {
+        auto *d = ParameterEditorRowPrivate::get(row);
+        std::swap(d->editingParameterId, d->referenceParameterId);
+        std::swap(d->editingDisplayName, d->referenceDisplayName);
+        clearParameterSelection();
+        refreshRowBindings(row);
+        refreshRowSelection(row);
+        Q_EMIT row->editingParameterIdChanged();
+        Q_EMIT row->referenceParameterIdChanged();
+        Q_EMIT row->referenceDataBindingChanged();
+    }
+
+    dspx::SingingClip *ParameterEditorContext::singingClip() const { Q_D(const ParameterEditorContext); return d->singingClip; }
+    QAbstractItemModel *ParameterEditorContext::parameterModel() const { Q_D(const ParameterEditorContext); return d->parameterModel; }
+    QList<ParameterEditorRow *> ParameterEditorContext::rows() const { Q_D(const ParameterEditorContext); return d->rows; }
+    int ParameterEditorContext::currentRowIndex() const { Q_D(const ParameterEditorContext); return d->currentRowIndex; }
+
+    void ParameterEditorContext::setCurrentRowIndex(int index) {
+        Q_D(ParameterEditorContext);
+        if (d->rows.isEmpty())
+            return;
+        const int clamped = qBound(0, index, int(d->rows.size()) - 1);
+        if (d->currentRowIndex == clamped)
+            return;
+        d->currentRowIndex = clamped;
+        Q_EMIT currentRowIndexChanged();
+    }
+
     bool ParameterEditorContext::transformEditing() const { Q_D(const ParameterEditorContext); return d->transformEditing; }
 
     void ParameterEditorContext::setTransformEditing(bool transformEditing) {
         Q_D(ParameterEditorContext);
         if (d->transformEditing == transformEditing)
             return;
-        d->abortEditingOperation();
+        for (auto *row : std::as_const(d->rows))
+            ParameterViewModelBindingPrivate::get(ParameterEditorRowPrivate::get(row)->editingBinding)->abortActiveEdit();
         d->transformEditing = transformEditing;
         d->clearParameterSelection();
-        if (d->editingBinding->parameterExists()) {
-            auto *parameter = d->singingClip->parameters()->item(d->editingParameterId);
-            d->document->selectionModel()->select(nullptr,
-                dspx::SelectionModel::ClearPreviousSelection,
-                dspx::SelectionModel::ST_AnchorNode,
-                transformEditing ? parameter->anchorTransform() : parameter->anchorEdited());
-        }
+        if (auto *row = d->currentRow())
+            d->refreshRowSelection(row);
         Q_EMIT transformEditingChanged();
     }
 
     ParameterViewModelBinding *ParameterEditorContext::pitchBinding() const { Q_D(const ParameterEditorContext); return d->pitchBinding; }
-    ParameterViewModelBinding *ParameterEditorContext::editingBinding() const { Q_D(const ParameterEditorContext); return d->editingBinding; }
-    ParameterViewModelBinding *ParameterEditorContext::referenceBinding() const { Q_D(const ParameterEditorContext); return d->referenceBinding; }
-    ParameterViewModelBinding *ParameterEditorContext::referenceDataBinding() const { Q_D(const ParameterEditorContext); return d->editingParameterId == d->referenceParameterId ? d->editingBinding : d->referenceBinding; }
 
     void ParameterEditorContext::setSingingClip(dspx::SingingClip *singingClip) {
         Q_D(ParameterEditorContext);
         d->setSingingClip(singingClip);
     }
 
-    void ParameterEditorContext::swapParameters() {
+    ParameterEditorRow *ParameterEditorContext::addRow() {
         Q_D(ParameterEditorContext);
-        const auto editingId = d->editingParameterId;
-        const auto editingName = d->editingDisplayName;
-        d->editingParameterId = d->referenceParameterId;
-        d->editingDisplayName = d->referenceDisplayName;
-        d->referenceParameterId = editingId;
-        d->referenceDisplayName = editingName;
+        auto *row = d->createRow();
+        d->currentRowIndex = int(d->rows.size()) - 1;
+        Q_EMIT rowsChanged();
+        Q_EMIT currentRowIndexChanged();
+        return row;
+    }
+
+    void ParameterEditorContext::removeRow(ParameterEditorRow *row) {
+        Q_D(ParameterEditorContext);
+        if (!row || d->rows.size() <= 1)
+            return;
+        const int index = d->rows.indexOf(row);
+        if (index < 0)
+            return;
+
+        ParameterViewModelBindingPrivate::get(ParameterEditorRowPrivate::get(row)->editingBinding)->abortActiveEdit();
+        d->rows.removeAt(index);
+        if (index < d->currentRowIndex)
+            --d->currentRowIndex;
+        else if (index == d->currentRowIndex)
+            d->currentRowIndex = qMin(index, int(d->rows.size()) - 1);
         d->clearParameterSelection();
-        d->refreshBindings();
-        if (d->editingBinding->parameterExists()) {
-            auto *parameter = d->singingClip->parameters()->item(d->editingParameterId);
-            d->document->selectionModel()->select(nullptr,
-                dspx::SelectionModel::ClearPreviousSelection,
-                dspx::SelectionModel::ST_AnchorNode,
-                d->transformEditing ? parameter->anchorTransform() : parameter->anchorEdited());
-        }
-        Q_EMIT editingParameterIdChanged();
-        Q_EMIT referenceParameterIdChanged();
-        Q_EMIT referenceDataBindingChanged();
+        row->deleteLater();
+        Q_EMIT rowsChanged();
+        Q_EMIT currentRowIndexChanged();
     }
 }
 
