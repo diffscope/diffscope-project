@@ -164,8 +164,6 @@ namespace VisualEditor {
         }
         auto *sequenceViewModel = new sflow::PointSequenceViewModel(q_ptr, "position");
         phonemeSequenceViewModelMap.insert(clip, sequenceViewModel);
-        auto *firstPhonemeSequenceViewModel = new sflow::PointSequenceViewModel(q_ptr, "position");
-        firstPhonemeSequenceViewModelMap.insert(clip, firstPhonemeSequenceViewModel);
         clipNotes.insert(clip, {});
 
         auto *noteSequence = clip->notes();
@@ -204,10 +202,6 @@ namespace VisualEditor {
         auto *sequenceViewModel = phonemeSequenceViewModelMap.take(clip);
         if (sequenceViewModel) {
             sequenceViewModel->deleteLater();
-        }
-        auto *firstPhonemeSequenceViewModel = firstPhonemeSequenceViewModelMap.take(clip);
-        if (firstPhonemeSequenceViewModel) {
-            firstPhonemeSequenceViewModel->deleteLater();
         }
     }
 
@@ -318,7 +312,6 @@ namespace VisualEditor {
         binding->orderKeys.clear();
         binding->order.clear();
         binding->nextStableOrder = 0;
-        syncFirstPhoneme(binding);
     }
 
     void PhonemeViewModelContextData::bindActivePhoneme(NoteBinding *binding,
@@ -445,7 +438,6 @@ namespace VisualEditor {
         NoteBinding *binding, sflow::PhonemeViewModel *viewItem) {
         removeFromLiveOrder(binding, viewItem);
         insertIntoLiveOrder(binding, viewItem);
-        syncFirstPhoneme(binding);
     }
 
     void PhonemeViewModelContextData::rebuildLiveOrder(NoteBinding *binding) {
@@ -459,28 +451,6 @@ namespace VisualEditor {
         }
         for (auto *viewItem : binding->viewItems) {
             insertIntoLiveOrder(binding, viewItem);
-        }
-        syncFirstPhoneme(binding);
-    }
-
-    void PhonemeViewModelContextData::syncFirstPhoneme(NoteBinding *binding) {
-        if (!binding) {
-            return;
-        }
-        auto *sequenceViewModel = firstPhonemeSequenceViewModelMap.value(binding->clip);
-        if (!sequenceViewModel) {
-            return;
-        }
-        auto *firstPhoneme = binding->order.empty() ? nullptr : binding->order.begin()->second;
-        if (binding->firstPhoneme == firstPhoneme) {
-            return;
-        }
-        if (binding->firstPhoneme) {
-            sequenceViewModel->removeItem(binding->firstPhoneme);
-        }
-        binding->firstPhoneme = firstPhoneme;
-        if (binding->firstPhoneme) {
-            sequenceViewModel->insertItem(binding->firstPhoneme);
         }
     }
 

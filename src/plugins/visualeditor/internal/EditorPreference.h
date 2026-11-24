@@ -47,7 +47,7 @@ namespace VisualEditor::Internal {
         Q_PROPERTY(double autoPitchCurveDisplayPixelDensityThreshold READ autoPitchCurveDisplayPixelDensityThreshold WRITE setAutoPitchCurveDisplayPixelDensityThreshold NOTIFY autoPitchCurveDisplayPixelDensityThresholdChanged)
         Q_PROPERTY(bool displayPronunciationBelowNote READ displayPronunciationBelowNote WRITE setDisplayPronunciationBelowNote NOTIFY displayPronunciationBelowNoteChanged)
         Q_PROPERTY(bool showPhonemeNoteBoundaryOverlay READ showPhonemeNoteBoundaryOverlay WRITE setShowPhonemeNoteBoundaryOverlay NOTIFY showPhonemeNoteBoundaryOverlayChanged)
-        Q_PROPERTY(EditorPreference::ParameterOverlayMode parameterPanelOverlayMode READ parameterPanelOverlayMode WRITE setParameterPanelOverlayMode NOTIFY parameterPanelOverlayModeChanged)
+        Q_PROPERTY(EditorPreference::ParameterOverlay parameterPanelOverlay READ parameterPanelOverlay WRITE setParameterPanelOverlay NOTIFY parameterPanelOverlayChanged)
         Q_PROPERTY(bool showLyricOverlay READ showLyricOverlay WRITE setShowLyricOverlay NOTIFY showLyricOverlayChanged)
         Q_PROPERTY(int lyricPhraseGapThreshold READ lyricPhraseGapThreshold WRITE setLyricPhraseGapThreshold NOTIFY lyricPhraseGapThresholdChanged)
         Q_PROPERTY(bool warnOfOverlappingNotes READ warnOfOverlappingNotes WRITE setWarnOfOverlappingNotes NOTIFY warnOfOverlappingNotesChanged)
@@ -91,12 +91,12 @@ namespace VisualEditor::Internal {
         };
         Q_ENUM(NoteEditPitchCurveDisplayMode)
 
-        enum ParameterOverlayMode {
-            POM_FirstPhoneme,
-            POM_NoteBoundary,
-            POM_None,
+        enum ParameterOverlayFlag {
+            POF_AllPhonemes = 0x01,
+            POF_NoteBoundary = 0x02,
         };
-        Q_ENUM(ParameterOverlayMode)
+        Q_ENUM(ParameterOverlayFlag)
+        Q_DECLARE_FLAGS(ParameterOverlay, ParameterOverlayFlag)
 
         enum ScrollModifier {
             SM_Control,
@@ -185,8 +185,8 @@ namespace VisualEditor::Internal {
         static bool showPhonemeNoteBoundaryOverlay();
         static void setShowPhonemeNoteBoundaryOverlay(bool showPhonemeNoteBoundaryOverlay);
 
-        static ParameterOverlayMode parameterPanelOverlayMode();
-        static void setParameterPanelOverlayMode(ParameterOverlayMode mode);
+        static ParameterOverlay parameterPanelOverlay();
+        static void setParameterPanelOverlay(ParameterOverlay overlay);
 
         static bool showLyricOverlay();
         static void setShowLyricOverlay(bool showLyricOverlay);
@@ -251,7 +251,7 @@ namespace VisualEditor::Internal {
         void autoPitchCurveDisplayPixelDensityThresholdChanged();
         void displayPronunciationBelowNoteChanged();
         void showPhonemeNoteBoundaryOverlayChanged();
-        void parameterPanelOverlayModeChanged();
+        void parameterPanelOverlayChanged();
         void showLyricOverlayChanged();
         void lyricPhraseGapThresholdChanged();
         void warnOfOverlappingNotesChanged();
@@ -273,5 +273,7 @@ namespace VisualEditor::Internal {
     };
 
 }
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(VisualEditor::Internal::EditorPreference::ParameterOverlay)
 
 #endif //DIFFSCOPE_VISUALEDITOR_EDITORPREFERENCE_H

@@ -73,7 +73,6 @@ namespace VisualEditor {
             dspx::PhonemeSequence *activeSequence{};
             bool edited{};
             quint64 nextStableOrder{};
-            sflow::PhonemeViewModel *firstPhoneme{};
             QList<sflow::PhonemeViewModel *> viewItems;
             QHash<sflow::PhonemeViewModel *, quint64> stableOrders;
             QHash<sflow::PhonemeViewModel *, OrderKey> orderKeys;
@@ -97,7 +96,6 @@ namespace VisualEditor {
 
         QSet<dspx::Track *> boundTracks;
         QHash<dspx::SingingClip *, sflow::PointSequenceViewModel *> phonemeSequenceViewModelMap;
-        QHash<dspx::SingingClip *, sflow::PointSequenceViewModel *> firstPhonemeSequenceViewModelMap;
         QHash<dspx::SingingClip *, QSet<dspx::Note *>> clipNotes;
         QHash<dspx::Note *, NoteBinding *> noteBindings;
         QHash<dspx::Phoneme *, sflow::PhonemeViewModel *> phonemeViewItemMap;
@@ -145,7 +143,6 @@ namespace VisualEditor {
         void removeFromLiveOrder(NoteBinding *binding, sflow::PhonemeViewModel *viewItem);
         void updateLiveOrder(NoteBinding *binding, sflow::PhonemeViewModel *viewItem);
         void rebuildLiveOrder(NoteBinding *binding);
-        void syncFirstPhoneme(NoteBinding *binding);
 
         void bindTempo(dspx::Tempo *tempo);
         void unbindTempo(dspx::Tempo *tempo);

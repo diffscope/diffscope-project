@@ -5,28 +5,41 @@ import QtQuick
 
 import dev.sjimo.ScopicFlow.Views as ScopicFlowViews
 
-ScopicFlowViews.SequenceBoundaryView {
+Item {
+    id: layer
+
     readonly property var projectViewModelContext:
         ViewLayer.windowHandle?.ProjectViewModelContext.context ?? null
     readonly property var pianoRollPanelInterface:
         ViewLayer.pianoRollPanelInterface
     readonly property var editingClip:
         pianoRollPanelInterface?.editingClip ?? null
-    readonly property int overlayMode:
-        EditorPreference.parameterPanelOverlayMode
+    readonly property var clipViewModel:
+        projectViewModelContext?.getClipViewItemFromDocumentItem(editingClip) ?? null
+    readonly property var timeViewModel:
+        pianoRollPanelInterface?.timeViewModel ?? null
+    readonly property var timeLayoutViewModel:
+        pianoRollPanelInterface?.timeLayoutViewModel ?? null
 
-    visible: overlayMode !== EditorPreference.POM_None
-    sequenceViewModel: {
-        switch (overlayMode) {
-        case EditorPreference.POM_FirstPhoneme:
-            return projectViewModelContext?.getFirstPhonemeSequenceViewModel(editingClip) ?? null
-        case EditorPreference.POM_NoteBoundary:
-            return projectViewModelContext?.getNoteSequenceViewModel(editingClip) ?? null
-        default:
-            return null
-        }
+    ScopicFlowViews.SequenceBoundaryView {
+        anchors.fill: parent
+        visible: (EditorPreference.parameterPanelOverlay
+            & EditorPreference.POF_AllPhonemes) !== 0
+        sequenceViewModel: layer.projectViewModelContext?.getPhonemeSequenceViewModel(
+            layer.editingClip) ?? null
+        timeViewModel: layer.timeViewModel
+        timeLayoutViewModel: layer.timeLayoutViewModel
+        clipViewModel: layer.clipViewModel
     }
-    timeViewModel: pianoRollPanelInterface?.timeViewModel ?? null
-    timeLayoutViewModel: pianoRollPanelInterface?.timeLayoutViewModel ?? null
-    clipViewModel: projectViewModelContext?.getClipViewItemFromDocumentItem(editingClip) ?? null
+
+    ScopicFlowViews.SequenceBoundaryView {
+        anchors.fill: parent
+        visible: (EditorPreference.parameterPanelOverlay
+            & EditorPreference.POF_NoteBoundary) !== 0
+        sequenceViewModel: layer.projectViewModelContext?.getNoteSequenceViewModel(
+            layer.editingClip) ?? null
+        timeViewModel: layer.timeViewModel
+        timeLayoutViewModel: layer.timeLayoutViewModel
+        clipViewModel: layer.clipViewModel
+    }
 }

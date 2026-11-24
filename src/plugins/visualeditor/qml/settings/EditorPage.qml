@@ -41,7 +41,7 @@ ScrollView {
     property double autoPitchCurveDisplayPixelDensityThreshold: defaultAutoPitchCurveDisplayPixelDensityThreshold
     property bool displayPronunciationBelowNote: false
     property bool showPhonemeNoteBoundaryOverlay: true
-    property int parameterPanelOverlayMode: EditorPreference.POM_FirstPhoneme
+    property int parameterPanelOverlay: 0
     property bool showLyricOverlay: false
     property int lyricPhraseGapThreshold: 240
     property bool warnOfOverlappingNotes: true
@@ -79,7 +79,7 @@ ScrollView {
     onAutoPitchCurveDisplayPixelDensityThresholdChanged: if (started) pageHandle.markDirty()
     onDisplayPronunciationBelowNoteChanged: if (started) pageHandle.markDirty()
     onShowPhonemeNoteBoundaryOverlayChanged: if (started) pageHandle.markDirty()
-    onParameterPanelOverlayModeChanged: if (started) pageHandle.markDirty()
+    onParameterPanelOverlayChanged: if (started) pageHandle.markDirty()
     onShowLyricOverlayChanged: if (started) pageHandle.markDirty()
     onLyricPhraseGapThresholdChanged: if (started) pageHandle.markDirty()
     onWarnOfOverlappingNotesChanged: if (started) pageHandle.markDirty()
@@ -734,20 +734,40 @@ ScrollView {
                         onClicked: page.showPhonemeNoteBoundaryOverlay = checked
                     }
 
-                    Label {
-                        id: parameterPanelOverlayLabel
-                        Layout.columnSpan: 2
-                        text: qsTr("Parameter panel overlay")
-                        TextMatcherItem on text { matcher: page.matcher }
-                    }
-                    ComboBox {
-                        id: parameterPanelOverlayComboBox
+                    RowLayout {
+                        Layout.columnSpan: 3
                         Layout.fillWidth: true
-                        implicitContentWidthPolicy: ComboBox.WidestText
-                        model: [qsTr("First phoneme"), qsTr("Note boundaries"), qsTr("None")]
-                        currentIndex: page.parameterPanelOverlayMode
-                        Accessible.name: parameterPanelOverlayLabel.text
-                        onActivated: (index) => page.parameterPanelOverlayMode = index
+
+                        Label {
+                            id: parameterPanelOverlayLabel
+                            text: qsTr("Parameter panel overlay")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        CheckBox {
+                            text: qsTr("All phonemes")
+                            TextMatcherItem on text { matcher: page.matcher }
+                            checked: page.parameterPanelOverlay & EditorPreference.POF_AllPhonemes
+                            onClicked: {
+                                if (checked)
+                                    page.parameterPanelOverlay |= EditorPreference.POF_AllPhonemes
+                                else
+                                    page.parameterPanelOverlay &= ~EditorPreference.POF_AllPhonemes
+                            }
+                        }
+                        CheckBox {
+                            text: qsTr("Note boundaries")
+                            TextMatcherItem on text { matcher: page.matcher }
+                            checked: page.parameterPanelOverlay & EditorPreference.POF_NoteBoundary
+                            onClicked: {
+                                if (checked)
+                                    page.parameterPanelOverlay |= EditorPreference.POF_NoteBoundary
+                                else
+                                    page.parameterPanelOverlay &= ~EditorPreference.POF_NoteBoundary
+                            }
+                        }
+                        Item {
+                            Layout.fillWidth: true
+                        }
                     }
 
                     Label {
