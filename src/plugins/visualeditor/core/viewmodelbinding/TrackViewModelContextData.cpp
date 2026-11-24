@@ -9,7 +9,7 @@
 #include <QStateMachine>
 #include <QtGlobal>
 
-#include <SVSCraftCore/DecibelLinearizer.h>
+#include <SVSCraftCore/Decibels.h>
 
 #include <ScopicFlowCore/ListViewModel.h>
 #include <ScopicFlowCore/TrackListInteractionController.h>
@@ -38,11 +38,11 @@ namespace VisualEditor {
     Q_STATIC_LOGGING_CATEGORY(lcTrackViewModelContextData, "diffscope.visualeditor.trackviewmodelcontextdata")
 
     static inline double toDecibel(double gain) {
-        return SVS::DecibelLinearizer::gainToDecibels(gain);
+        return SVS::Decibels::gainToDecibels(gain);
     }
 
     static inline double toLinear(double decibel) {
-        return SVS::DecibelLinearizer::decibelsToGain(decibel);
+        return SVS::Decibels::decibelsToGain(decibel);
     }
 
     static inline double getClampedHeight(dspx::Track *track) {

@@ -19,8 +19,10 @@ ColumnLayout {
 
     readonly property double minimumFrequencyHz: 20
     readonly property double maximumFrequencyHz: 20000
-    readonly property double minimumGainDb: -24
-    readonly property double maximumGainDb: 24
+    readonly property double minimumGainDb: -96
+    readonly property double maximumGainDb: 12
+    readonly property double displayMinimumGainDb: -12
+    readonly property double displayMaximumGainDb: 12
 
     implicitWidth: 360
     spacing: 4
@@ -52,15 +54,24 @@ ColumnLayout {
             minimumFrequencyHz, maximumFrequencyHz) * graphArea.width
     }
 
+    function gainPositionFromDb(value) {
+        return SVS.decibelsToPosition(value) / SVS.decibelsToPosition(maximumGainDb)
+    }
+
+    function gainDbFromPosition(position) {
+        return Math.max(minimumGainDb,
+            SVS.positionToDecibels(position * SVS.decibelsToPosition(maximumGainDb)))
+    }
+
     function gainFromY(y) {
         const position = 1 - Math.min(Math.max(y / Math.max(graphArea.height, 1), 0), 1)
-        return linearValue(position, minimumGainDb, maximumGainDb)
+        return linearValue(position, displayMinimumGainDb, displayMaximumGainDb)
     }
 
     function yFromGain(gainDb) {
         return (1 - linearPosition(
-                    Math.min(Math.max(gainDb, minimumGainDb), maximumGainDb),
-                    minimumGainDb, maximumGainDb)) * graphArea.height
+                    Math.min(Math.max(gainDb, displayMinimumGainDb), displayMaximumGainDb),
+                    displayMinimumGainDb, displayMaximumGainDb)) * graphArea.height
     }
 
     Rectangle {
@@ -393,8 +404,8 @@ ColumnLayout {
             maximum: editor.maximumGainDb
             defaultValue: 0
             decimals: 1
-            positionFromValue: value => editor.linearPosition(value, minimum, maximum)
-            valueFromPosition: position => editor.linearValue(position, minimum, maximum)
+            positionFromValue: value => editor.gainPositionFromDb(value)
+            valueFromPosition: position => editor.gainDbFromPosition(position)
             previewValue: value => editor.effectsUnit.previewCurrentGainDb(value)
             setValue: value => editor.effectsUnit.setCurrentGainDb(value)
             commitValue: () => editor.effectsUnit.commitPreview()

@@ -6,7 +6,7 @@
 #include <ScopicFlowCore/ListViewModel.h>
 #include <ScopicFlowCore/TrackViewModel.h>
 
-#include <SVSCraftCore/DecibelLinearizer.h>
+#include <SVSCraftCore/Decibels.h>
 
 #include <audio/GlobalAudioContext.h>
 
@@ -19,11 +19,11 @@ namespace AudioVisualizer::Internal {
     namespace {
 
         double toDecibels(double gain) {
-            return SVS::DecibelLinearizer::gainToDecibels(gain);
+            return SVS::Decibels::gainToDecibels(gain);
         }
 
         double toGain(double decibels) {
-            return SVS::DecibelLinearizer::decibelsToGain(decibels);
+            return SVS::Decibels::decibelsToGain(decibels);
         }
 
     }

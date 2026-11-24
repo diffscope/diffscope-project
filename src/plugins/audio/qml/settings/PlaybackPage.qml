@@ -115,10 +115,10 @@ ScrollView {
                         Layout.fillWidth: true
                         Slider {
                             Layout.fillWidth: true
-                            from: SVS.decibelToLinearValue(-96)
-                            to: SVS.decibelToLinearValue(6)
-                            value: SVS.decibelToLinearValue(SVS.gainToDecibels(page.pageHandle.metronomeGain))
-                            onMoved: page.pageHandle.metronomeGain = SVS.decibelsToGain(SVS.linearValueToDecibel(value))
+                            from: SVS.decibelsToPosition(-96) - SVS.decibelsToPosition(0)
+                            to: SVS.decibelsToPosition(6) - SVS.decibelsToPosition(0)
+                            value: SVS.decibelsToPosition(SVS.gainToDecibels(page.pageHandle.metronomeGain)) - SVS.decibelsToPosition(0)
+                            onMoved: page.pageHandle.metronomeGain = SVS.decibelsToGain(SVS.positionToDecibels(value + SVS.decibelsToPosition(0)))
                             ThemedItem.onDoubleClickReset: moved()
                         }
                         DoubleSpinBox {

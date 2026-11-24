@@ -94,10 +94,10 @@ ScrollView {
                             Layout.fillWidth: true
                             Slider {
                                 Layout.fillWidth: true
-                                from: SVS.decibelToLinearValue(-96)
-                                to: SVS.decibelToLinearValue(6)
-                                value: SVS.decibelToLinearValue(SVS.gainToDecibels(page.helper?.previewGain ?? 1))
-                                onMoved: page.helper.previewGain = SVS.decibelsToGain(SVS.linearValueToDecibel(value))
+                                from: SVS.decibelsToPosition(-96) - SVS.decibelsToPosition(0)
+                                to: SVS.decibelsToPosition(6) - SVS.decibelsToPosition(0)
+                                value: SVS.decibelsToPosition(SVS.gainToDecibels(page.helper?.previewGain ?? 1)) - SVS.decibelsToPosition(0)
+                                onMoved: page.helper.previewGain = SVS.decibelsToGain(SVS.positionToDecibels(value + SVS.decibelsToPosition(0)))
                                 ThemedItem.onDoubleClickReset: moved()
                                 Accessible.name: volumeLabel.text
                             }

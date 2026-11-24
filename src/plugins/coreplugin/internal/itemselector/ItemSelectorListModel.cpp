@@ -15,7 +15,7 @@
 #include <QPointer>
 #include <QVariantMap>
 
-#include <SVSCraftCore/DecibelLinearizer.h>
+#include <SVSCraftCore/Decibels.h>
 #include <SVSCraftCore/MusicMode.h>
 #include <SVSCraftCore/MusicModeInfo.h>
 #include <SVSCraftCore/MusicPitch.h>
@@ -619,7 +619,7 @@ namespace Core::Internal {
                         .arg(track->clips()->size())
                         .arg(track->colorId() + 1)
                         .arg(track->height(), 0, 'f', 2)
-                        .arg(SVS::DecibelLinearizer::gainToDecibels(track->gain()), 0, 'f', 1)
+                        .arg(SVS::Decibels::gainToDecibels(track->gain()), 0, 'f', 1)
                         .arg(track->pan(), 0, 'f', 2)
                         .arg(yesNo(track->mute()), yesNo(track->solo()));
                 }

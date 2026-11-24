@@ -214,10 +214,10 @@ namespace EqualizerEffectsUnit::Internal {
 
         float yFromResponse(float responseDb, float height) {
             const float normalized = (std::clamp(responseDb,
-                                                 static_cast<float>(minimumGainDb),
-                                                 static_cast<float>(maximumGainDb))
-                                      - static_cast<float>(minimumGainDb))
-                / static_cast<float>(maximumGainDb - minimumGainDb);
+                                                 static_cast<float>(displayMinimumGainDb),
+                                                 static_cast<float>(displayMaximumGainDb))
+                                      - static_cast<float>(displayMinimumGainDb))
+                / static_cast<float>(displayMaximumGainDb - displayMinimumGainDb);
             return height * (1.0f - normalized);
         }
 

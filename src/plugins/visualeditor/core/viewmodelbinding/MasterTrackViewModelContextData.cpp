@@ -13,7 +13,7 @@
 #include <ScopicFlowCore/TrackListInteractionController.h>
 #include <ScopicFlowCore/TrackViewModel.h>
 
-#include <SVSCraftCore/DecibelLinearizer.h>
+#include <SVSCraftCore/Decibels.h>
 
 #include <dspxmodelORM/Model.h>
 
@@ -26,11 +26,11 @@ namespace VisualEditor {
     Q_STATIC_LOGGING_CATEGORY(lcMasterTrackViewModelContextData, "diffscope.visualeditor.mastertrackviewmodelcontextdata")
 
     static inline double toDecibel(double gain) {
-        return SVS::DecibelLinearizer::gainToDecibels(gain);
+        return SVS::Decibels::gainToDecibels(gain);
     }
 
     static inline double toLinear(double decibel) {
-        return SVS::DecibelLinearizer::decibelsToGain(decibel);
+        return SVS::Decibels::decibelsToGain(decibel);
     }
 
     void MasterTrackViewModelContextData::initStateMachine() {

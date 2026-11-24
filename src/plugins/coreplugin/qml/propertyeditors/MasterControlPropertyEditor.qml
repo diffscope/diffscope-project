@@ -44,8 +44,8 @@ PropertyEditorGroupBox {
             to: SVS.decibelsToGain(6)
             spinBoxValueFromProperty: v => SVS.gainToDecibels(v)
             propertyFromSpinBoxValue: v => SVS.decibelsToGain(v)
-            sliderValueFromProperty: v => SVS.decibelToLinearValue(SVS.gainToDecibels(v)) - SVS.decibelToLinearValue(0)
-            propertyFromSliderValue: v => SVS.decibelsToGain(SVS.linearValueToDecibel(v + SVS.decibelToLinearValue(0)))
+            sliderValueFromProperty: v => SVS.decibelsToPosition(SVS.gainToDecibels(v)) - SVS.decibelsToPosition(0)
+            propertyFromSliderValue: v => SVS.decibelsToGain(SVS.positionToDecibels(v + SVS.decibelsToPosition(0)))
             transactionName: qsTr("Editing gain")
         }
         DoublePropertyEditorField {

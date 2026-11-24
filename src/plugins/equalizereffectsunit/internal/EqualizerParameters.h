@@ -10,8 +10,10 @@ namespace EqualizerEffectsUnit::Internal {
 
     inline constexpr double minimumFrequencyHz = 20.0;
     inline constexpr double maximumFrequencyHz = 20000.0;
-    inline constexpr double minimumGainDb = -24.0;
-    inline constexpr double maximumGainDb = 24.0;
+    inline constexpr double minimumGainDb = -96.0;
+    inline constexpr double maximumGainDb = 12.0;
+    inline constexpr double displayMinimumGainDb = -12.0;
+    inline constexpr double displayMaximumGainDb = 12.0;
     inline constexpr double minimumQ = 0.1;
     inline constexpr double maximumQ = 24.0;
     inline constexpr double defaultQ = 1.0;

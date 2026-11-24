@@ -20,11 +20,11 @@ GridLayout {
     rowSpacing: 8
 
     function sliderValueFromDb(value) {
-        return SVS.decibelToLinearValue(value) - SVS.decibelToLinearValue(0)
+        return SVS.decibelsToPosition(value) - SVS.decibelsToPosition(0)
     }
 
     function dbFromSliderValue(value) {
-        return SVS.linearValueToDecibel(value + SVS.decibelToLinearValue(0))
+        return SVS.positionToDecibels(value + SVS.decibelsToPosition(0))
     }
 
     Label {

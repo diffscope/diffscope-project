@@ -14,7 +14,7 @@
 #include <ScopicFlowCore/TrackListInteractionController.h>
 #include <ScopicFlowCore/TrackViewModel.h>
 
-#include <SVSCraftCore/DecibelLinearizer.h>
+#include <SVSCraftCore/Decibels.h>
 
 #include <TalcsCore/MixerAudioSource.h>
 #include <TalcsCore/PositionableMixerAudioSource.h>
@@ -199,8 +199,8 @@ namespace AudioVisualizer::Internal {
                         right = 0.0f;
                     }
 
-                    updateSmoothedValue(state->left, static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(left)));
-                    updateSmoothedValue(state->right, static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(right)));
+                    updateSmoothedValue(state->left, static_cast<float>(SVS::Decibels::gainToDecibels(left)));
+                    updateSmoothedValue(state->right, static_cast<float>(SVS::Decibels::gainToDecibels(right)));
                     if (m_audioContext->isRunning()) {
                         startLevelMeterTimer();
                     }
@@ -229,9 +229,9 @@ namespace AudioVisualizer::Internal {
                         return;
                     }
                     updateSmoothedValue(m_metronomeMeter->left,
-                                        static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(0, 0.0f))));
+                                        static_cast<float>(SVS::Decibels::gainToDecibels(values.value(0, 0.0f))));
                     updateSmoothedValue(m_metronomeMeter->right,
-                                        static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(1, 0.0f))));
+                                        static_cast<float>(SVS::Decibels::gainToDecibels(values.value(1, 0.0f))));
                     if (m_audioContext->isRunning()) {
                         startLevelMeterTimer();
                     }
@@ -260,9 +260,9 @@ namespace AudioVisualizer::Internal {
                         return;
                     }
                     updateSmoothedValue(m_deviceOutputMeter->left,
-                                        static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(0, 0.0f))));
+                                        static_cast<float>(SVS::Decibels::gainToDecibels(values.value(0, 0.0f))));
                     updateSmoothedValue(m_deviceOutputMeter->right,
-                                        static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(1, 0.0f))));
+                                        static_cast<float>(SVS::Decibels::gainToDecibels(values.value(1, 0.0f))));
                     startLevelMeterTimer();
                 });
     }
@@ -293,9 +293,9 @@ namespace AudioVisualizer::Internal {
                         return;
                     }
                     updateSmoothedValue(m_masterMeter->left,
-                                        static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(0, 0.0f))));
+                                        static_cast<float>(SVS::Decibels::gainToDecibels(values.value(0, 0.0f))));
                     updateSmoothedValue(m_masterMeter->right,
-                                        static_cast<float>(SVS::DecibelLinearizer::gainToDecibels(values.value(1, 0.0f))));
+                                        static_cast<float>(SVS::Decibels::gainToDecibels(values.value(1, 0.0f))));
                     if (m_audioContext->isRunning()) {
                         startLevelMeterTimer();
                     }
