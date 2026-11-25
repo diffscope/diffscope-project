@@ -41,7 +41,8 @@ QtObject {
             additionalTracks: Array.from(addOn.additionalTrackLoader.loadedComponents),
             bottomAdditionalTracks: Array.from(addOn.bottomAdditionalTrackLoader.loadedComponents),
             bottomPanelHeights: bottomPanelHeights,
-            parameterRowCount: parameterEditorContext?.rows.length ?? 1
+            parameterRowCount: parameterEditorContext?.rows.length ?? 1,
+            parameterSelections: parameterEditorContext?.saveParameterSelections() ?? []
         }
     }
 
@@ -55,6 +56,13 @@ QtObject {
             const durations = [PositionAlignmentManipulator.Auto, PositionAlignmentManipulator.Unset, PositionAlignmentManipulator.Note1st, PositionAlignmentManipulator.Note2nd, PositionAlignmentManipulator.Note4th, PositionAlignmentManipulator.Note8th, PositionAlignmentManipulator.Note16th, PositionAlignmentManipulator.Note32nd, PositionAlignmentManipulator.Note64th, PositionAlignmentManipulator.Note128th]
             const tuplets = [PositionAlignmentManipulator.None, PositionAlignmentManipulator.Triplet, PositionAlignmentManipulator.Quintuplet]
             const validTracks = ids => Array.isArray(ids) && ids.every(id => typeof id === "string")
+            const validParameterSelections = selections => Array.isArray(selections)
+                && selections.every(architecture => architecture
+                    && typeof architecture.architectureId === "string"
+                    && Array.isArray(architecture.rows)
+                    && architecture.rows.every(row => row
+                        && typeof row.editingParameterId === "string"
+                        && typeof row.referenceParameterId === "string"))
             const heights = state.bottomPanelHeights
             if (typeof state !== "object" || Array.isArray(state)
                 || (state.tool !== undefined && (!Number.isInteger(state.tool) || state.tool < PianoRollPanelInterface.PointerTool || state.tool > PianoRollPanelInterface.PitchAnchorSelectTool))
@@ -63,6 +71,7 @@ QtObject {
                 || (state.isAutoPageScrollingEnabled !== undefined && typeof state.isAutoPageScrollingEnabled !== "boolean")
                 || (state.scaleHighlightEnabled !== undefined && typeof state.scaleHighlightEnabled !== "boolean")
                 || (state.parameterRowCount !== undefined && (!Number.isInteger(state.parameterRowCount) || state.parameterRowCount < 1))
+                || (state.parameterSelections !== undefined && !validParameterSelections(state.parameterSelections))
                 || (state.additionalTracks !== undefined && !validTracks(state.additionalTracks))
                 || (state.bottomAdditionalTracks !== undefined && !validTracks(state.bottomAdditionalTracks))
                 || (heights !== undefined && (!Array.isArray(heights)
@@ -97,6 +106,7 @@ QtObject {
                     parameterEditorContext.removeRow(parameterEditorContext.rows[parameterEditorContext.rows.length - 1])
                 while (parameterEditorContext.rows.length < parameterRowCount)
                     parameterEditorContext.addRow()
+                parameterEditorContext.restoreParameterSelections(state.parameterSelections ?? initial.parameterSelections)
             }
         }
 

@@ -8,6 +8,7 @@
 #include <QList>
 #include <QObject>
 #include <QScopedPointer>
+#include <QVariantList>
 #include <qqmlintegration.h>
 
 #include <singercatalog/ArchitectureInfo.h>
@@ -123,6 +124,8 @@ namespace VisualEditor {
 
         Q_INVOKABLE ParameterEditorRow *addRow();
         Q_INVOKABLE void removeRow(ParameterEditorRow *row);
+        Q_INVOKABLE QVariantList saveParameterSelections() const;
+        Q_INVOKABLE void restoreParameterSelections(const QVariantList &state);
 
     Q_SIGNALS:
         void singingClipChanged();

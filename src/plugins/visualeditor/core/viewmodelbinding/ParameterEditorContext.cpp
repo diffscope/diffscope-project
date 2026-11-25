@@ -11,9 +11,10 @@
 #include <QLoggingCategory>
 #include <QMetaType>
 #include <QScopedValueRollback>
+#include <QSignalBlocker>
 #include <QState>
 #include <QStateMachine>
-#include <QVariantList>
+#include <QVariantMap>
 
 #include <ScopicFlowCore/AnchorParameterViewModel.h>
 #include <ScopicFlowCore/FreeParameterViewModel.h>
@@ -28,7 +29,6 @@
 #include <dspxmodelORM/NoteSequence.h>
 #include <dspxmodelORM/ParameterMap.h>
 #include <dspxmodelORM/SingingClip.h>
-#include <dspxmodelORM/Sources.h>
 #include <dspxmodelSelectionModel/AnchorNodeSelectionModel.h>
 #include <dspxmodelSelectionModel/FreeParameterSelectionModel.h>
 #include <dspxmodelSelectionModel/NoteSelectionModel.h>
@@ -259,13 +259,6 @@ namespace VisualEditor {
     const ParameterDefinitionListModel::Entry *ParameterDefinitionListModel::find(const QString &parameterId) const {
         const auto it = std::find_if(m_entries.cbegin(), m_entries.cend(), [&parameterId](const Entry &entry) {
             return entry.parameterId == parameterId;
-        });
-        return it == m_entries.cend() ? nullptr : &*it;
-    }
-
-    const ParameterDefinitionListModel::Entry *ParameterDefinitionListModel::firstAvailable() const {
-        const auto it = std::find_if(m_entries.cbegin(), m_entries.cend(), [](const Entry &entry) {
-            return !entry.none;
         });
         return it == m_entries.cend() ? nullptr : &*it;
     }
@@ -1292,10 +1285,9 @@ namespace VisualEditor {
         document = windowHandle->projectDocumentContext()->document();
         registry = Core::CoreInterface::singerRegistry();
         singerIdProvider = new SingerCatalog::ClipSingerIdProvider(q);
-        QObject::connect(singerIdProvider, &SingerCatalog::ClipSingerIdProvider::singerTreeChanged, q, [this] {
-            rebuildParameterModel();
-            refreshBindings();
-        });
+        const auto refresh = [this] { refreshParameters(); };
+        QObject::connect(singerIdProvider, &SingerCatalog::ClipSingerIdProvider::architectureIdChanged, q, refresh);
+        QObject::connect(singerIdProvider, &SingerCatalog::ClipSingerIdProvider::singerTreeChanged, q, refresh);
         parameterModel = new ParameterDefinitionListModel(q);
         pitchBinding = ParameterViewModelBindingPrivate::create(q, true);
         ParameterViewModelBindingPrivate::get(pitchBinding)->initialize(document, windowHandle);
@@ -1306,11 +1298,9 @@ namespace VisualEditor {
             if (auto *sequence = noteSelection->noteSequenceWithSelectedItems())
                 setSingingClip(sequence->singingClip());
         });
-        auto refreshArchitecture = [this](const QString &architectureId_) {
-            if (architectureId_ != architectureId)
-                return;
-            rebuildParameterModel();
-            refreshBindings();
+        const auto refreshArchitecture = [this](const QString &architectureId) {
+            if (architectureId == singerIdProvider->architectureId())
+                refreshParameters();
         };
         QObject::connect(registry, &SingerCatalog::SingerRegistry::architectureRegistered, q, refreshArchitecture);
         QObject::connect(registry, &SingerCatalog::SingerRegistry::architectureUpdated, q, refreshArchitecture);
@@ -1322,8 +1312,7 @@ namespace VisualEditor {
         QObject::connect(registry, &SingerCatalog::SingerRegistry::singerUpdated, q, refreshSinger);
         QObject::connect(registry, &SingerCatalog::SingerRegistry::singerRemoved, q, refreshSinger);
 
-        rebuildParameterModel();
-        refreshBindings();
+        refreshParameters();
         const auto row = createRow();
         currentRowIndex = rows.indexOf(row);
     }
@@ -1336,13 +1325,11 @@ namespace VisualEditor {
         for (auto *row : std::as_const(rows))
             ParameterViewModelBindingPrivate::get(ParameterEditorRowPrivate::get(row)->editingBinding)->abortActiveEdit();
         disconnectAll(clipConnections);
-        disconnectAll(sourceConnections);
         singingClip = clip;
         reconnectClip();
         reconnectSources();
         clearParameterSelection();
-        rebuildParameterModel();
-        refreshBindings();
+        refreshParameters();
         Q_EMIT q->singingClipChanged();
     }
 
@@ -1352,44 +1339,22 @@ namespace VisualEditor {
         clipConnections.append(QObject::connect(singingClip, &dspx::SingingClip::sourcesChanged,
             q_ptr, [this] {
                 reconnectSources();
-                rebuildParameterModel();
-                refreshBindings();
+                refreshParameters();
             }));
         auto *parameters = singingClip->parameters();
+        const auto refresh = [this] { refreshParameters(); };
         clipConnections.append(QObject::connect(parameters, &dspx::ParameterMap::itemInserted,
-            q_ptr, [this](const QString &, dspx::Parameter *) {
-                rebuildParameterModel();
-                refreshBindings();
-            }));
+                                                q_ptr, refresh));
         clipConnections.append(QObject::connect(parameters, &dspx::ParameterMap::itemRemoved,
-            q_ptr, [this](const QString &, dspx::Parameter *) {
-                rebuildParameterModel();
-                refreshBindings();
-            }));
+                                                q_ptr, refresh));
         clipConnections.append(QObject::connect(singingClip, &QObject::destroyed, q_ptr, [this] {
             setSingingClip(nullptr);
         }));
     }
 
     void ParameterEditorContextPrivate::reconnectSources() {
-        disconnectAll(sourceConnections);
-        sources = singingClip ? singingClip->sources() : nullptr;
-        architectureId = sources ? sources->category() : QString{};
-        singerIdProvider->setSources(sources);
-        if (!sources)
-            return;
-        sourceConnections.append(QObject::connect(sources, &dspx::Sources::categoryChanged,
-            q_ptr, [this](const QString &category) {
-                architectureId = category;
-                rebuildParameterModel();
-                refreshBindings();
-            }));
-        sourceConnections.append(QObject::connect(sources, &QObject::destroyed, q_ptr, [this] {
-            sources = nullptr;
-            architectureId.clear();
-            rebuildParameterModel();
-            refreshBindings();
-        }));
+        const QSignalBlocker blocker(singerIdProvider);
+        singerIdProvider->setSources(singingClip ? singingClip->sources() : nullptr);
     }
 
     QSet<QString> ParameterEditorContextPrivate::supportedParameters() const {
@@ -1403,14 +1368,36 @@ namespace VisualEditor {
             return {};
         };
         const auto singerId = firstSingerId(firstSingerId, singerIdProvider->singerTree());
-        const auto parameters = registry->singerInfo(architectureId, singerId).supportedParameters();
+        const auto parameters = registry->singerInfo(singerIdProvider->architectureId(), singerId).supportedParameters();
         return QSet<QString>(parameters.cbegin(), parameters.cend());
     }
 
-    void ParameterEditorContextPrivate::rebuildParameterModel() {
+    QList<ParameterEditorContextPrivate::ParameterSelection> ParameterEditorContextPrivate::rowParameterSelections() const {
+        QList<ParameterSelection> selections;
+        selections.reserve(rows.size());
+        for (const auto *row : rows)
+            selections.append({row->editingParameterId(), row->referenceParameterId()});
+        return selections;
+    }
+
+    void ParameterEditorContextPrivate::refreshParameters() {
+        const auto architecture = singingClip ? std::optional(singerIdProvider->architectureId()) : std::nullopt;
+        if (rowArchitecture == architecture) {
+            applyParameterSelections(rowParameterSelections());
+            return;
+        }
+
+        if (rowArchitecture)
+            parameterSelections.insert(*rowArchitecture, rowParameterSelections());
+        rowArchitecture = architecture;
+        applyParameterSelections(rowArchitecture ? parameterSelections.value(*rowArchitecture) : QList<ParameterSelection>{});
+    }
+
+    void ParameterEditorContextPrivate::applyParameterSelections(QList<ParameterSelection> selections) {
         QList<ParameterDefinitionListModel::Entry> entries;
         entries.append({{}, VisualEditor::ParameterEditorContext::tr("None"), {}, true, true});
         const auto supported = supportedParameters();
+        const auto architectureId = singerIdProvider->architectureId();
         QSet<QString> included;
         included.insert(QStringLiteral("pitch"));
         if (registry->containsArchitecture(architectureId)) {
@@ -1440,32 +1427,38 @@ namespace VisualEditor {
                 appendFallback(key);
             }
         }
-        for (const auto *row : std::as_const(rows)) {
-            const auto *d = ParameterEditorRowPrivate::get(row);
-            appendFallback(d->editingParameterId);
-            appendFallback(d->referenceParameterId);
+        if (selections.size() > rows.size())
+            selections.resize(rows.size());
+        QSet<QString> used;
+        for (const auto &selection : std::as_const(selections)) {
+            appendFallback(selection.editingParameterId);
+            appendFallback(selection.referenceParameterId);
+            used.insert(selection.editingParameterId);
         }
         parameterModel->setEntries(std::move(entries));
 
-        for (auto *row : std::as_const(rows)) {
+        while (selections.size() < rows.size()) {
+            const auto parameterId = automaticParameterId(used);
+            used.insert(parameterId);
+            selections.append({parameterId, {}});
+        }
+
+        for (qsizetype i = 0; i < rows.size(); ++i) {
+            auto *row = rows.at(i);
             auto *d = ParameterEditorRowPrivate::get(row);
-            const QString oldEditingParameterId = d->editingParameterId;
-            const QString oldReferenceParameterId = d->referenceParameterId;
-            const QString oldEditingDisplayName = d->editingDisplayName;
-            const QString oldReferenceDisplayName = d->referenceDisplayName;
+            const auto &selection = selections.at(i);
+            const bool editingParameterChanged = d->editingParameterId != selection.editingParameterId;
+            const bool referenceParameterChanged = d->referenceParameterId != selection.referenceParameterId;
+            const auto oldEditingDisplayName = d->editingDisplayName;
+            const auto oldReferenceDisplayName = d->referenceDisplayName;
+            d->editingParameterId = selection.editingParameterId;
+            d->referenceParameterId = selection.referenceParameterId;
+            if (editingParameterChanged)
+                d->editingDisplayName.clear();
+            if (referenceParameterChanged)
+                d->referenceDisplayName.clear();
+            updateRowDisplayNames(row);
 
-            if (d->editingParameterId.isEmpty() && singingClip) {
-                if (const auto *firstAvailable = parameterModel->firstAvailable())
-                    d->editingParameterId = firstAvailable->parameterId;
-            }
-            if (!d->referenceParameterId.isEmpty() && !entry(d->referenceParameterId))
-                d->referenceParameterId.clear();
-
-            d->editingDisplayName = displayName(d->editingParameterId, d->editingDisplayName);
-            d->referenceDisplayName = displayName(d->referenceParameterId, d->referenceDisplayName);
-
-            const bool editingParameterChanged = oldEditingParameterId != d->editingParameterId;
-            const bool referenceParameterChanged = oldReferenceParameterId != d->referenceParameterId;
             if (editingParameterChanged || oldEditingDisplayName != d->editingDisplayName)
                 Q_EMIT row->editingParameterIdChanged();
             if (referenceParameterChanged || oldReferenceDisplayName != d->referenceDisplayName)
@@ -1473,6 +1466,7 @@ namespace VisualEditor {
             if (editingParameterChanged || referenceParameterChanged)
                 Q_EMIT row->referenceDataBindingChanged();
         }
+        refreshBindings();
     }
 
     void ParameterEditorContextPrivate::refreshBindings() {
@@ -1582,7 +1576,10 @@ namespace VisualEditor {
                 });
         }
 
-        d->editingParameterId = parameterIdForNewRow();
+        QSet<QString> used;
+        for (const auto *existingRow : std::as_const(rows))
+            used.insert(existingRow->editingParameterId());
+        d->editingParameterId = automaticParameterId(used);
         d->editingDisplayName = displayName(d->editingParameterId, {});
         d->referenceDisplayName = displayName({}, {});
         rows.append(row);
@@ -1590,11 +1587,7 @@ namespace VisualEditor {
         return row;
     }
 
-    QString ParameterEditorContextPrivate::parameterIdForNewRow() const {
-        QSet<QString> used;
-        for (const auto *row : std::as_const(rows))
-            used.insert(ParameterEditorRowPrivate::get(row)->editingParameterId);
-
+    QString ParameterEditorContextPrivate::automaticParameterId(const QSet<QString> &used) const {
         const ParameterDefinitionListModel::Entry *firstParameter = nullptr;
         for (const auto &entry : parameterModel->entries()) {
             if (entry.none)
@@ -1744,6 +1737,48 @@ namespace VisualEditor {
         row->deleteLater();
         Q_EMIT rowsChanged();
         Q_EMIT currentRowIndexChanged();
+    }
+
+    QVariantList ParameterEditorContext::saveParameterSelections() const {
+        Q_D(const ParameterEditorContext);
+        auto selectionsByArchitecture = d->parameterSelections;
+        if (d->rowArchitecture)
+            selectionsByArchitecture.insert(*d->rowArchitecture, d->rowParameterSelections());
+
+        QVariantList state;
+        state.reserve(selectionsByArchitecture.size());
+        for (auto it = selectionsByArchitecture.cbegin(); it != selectionsByArchitecture.cend(); ++it) {
+            QVariantList rows;
+            rows.reserve(it.value().size());
+            for (const auto &selection : it.value()) {
+                rows.append(QVariantMap{
+                    {"editingParameterId", selection.editingParameterId},
+                    {"referenceParameterId", selection.referenceParameterId},
+                });
+            }
+            state.append(QVariantMap{{"architectureId", it.key()}, {"rows", rows}});
+        }
+        return state;
+    }
+
+    void ParameterEditorContext::restoreParameterSelections(const QVariantList &state) {
+        Q_D(ParameterEditorContext);
+        d->parameterSelections.clear();
+        for (const auto &value : state) {
+            const auto architecture = value.toMap();
+            const auto rows = architecture.value("rows").toList();
+            const auto rowCount = qMin(rows.size(), d->rows.size());
+            QList<ParameterEditorContextPrivate::ParameterSelection> selections;
+            selections.reserve(rowCount);
+            for (qsizetype i = 0; i < rowCount; ++i) {
+                const auto row = rows.at(i).toMap();
+                selections.append({row.value("editingParameterId").toString(), row.value("referenceParameterId").toString()});
+            }
+            d->parameterSelections.insert(architecture.value("architectureId").toString(), std::move(selections));
+        }
+
+        if (d->rowArchitecture)
+            d->applyParameterSelections(d->parameterSelections.value(*d->rowArchitecture));
     }
 }
 

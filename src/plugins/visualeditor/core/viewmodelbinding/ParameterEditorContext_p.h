@@ -8,10 +8,12 @@
 
 #include <array>
 #include <limits>
+#include <optional>
 
 #include <QAbstractListModel>
 #include <QHash>
 #include <QList>
+#include <QMap>
 #include <QMetaObject>
 #include <QPointer>
 #include <QSet>
@@ -38,7 +40,6 @@ namespace dspx {
     class Model;
     class ParameterMap;
     class SelectionModel;
-    class Sources;
 }
 
 namespace SingerCatalog {
@@ -88,7 +89,6 @@ namespace VisualEditor {
         void setEntries(QList<Entry> entries);
         const QList<Entry> &entries() const;
         const Entry *find(const QString &parameterId) const;
-        const Entry *firstAvailable() const;
 
     private:
         QList<Entry> m_entries;
@@ -252,6 +252,11 @@ namespace VisualEditor {
         Q_DECLARE_PUBLIC(ParameterEditorContext)
 
     public:
+        struct ParameterSelection {
+            QString editingParameterId;
+            QString referenceParameterId;
+        };
+
         static ParameterEditorContextPrivate *get(ParameterEditorContext *q);
 
         ParameterEditorContext *q_ptr{};
@@ -260,8 +265,8 @@ namespace VisualEditor {
         SingerCatalog::SingerRegistry *registry{};
         SingerCatalog::ClipSingerIdProvider *singerIdProvider{};
         QPointer<dspx::SingingClip> singingClip;
-        QPointer<dspx::Sources> sources;
-        QString architectureId;
+        std::optional<QString> rowArchitecture;
+        QMap<QString, QList<ParameterSelection>> parameterSelections;
 
         ParameterDefinitionListModel *parameterModel{};
         ParameterViewModelBinding *pitchBinding{};
@@ -270,14 +275,15 @@ namespace VisualEditor {
         bool transformEditing{};
 
         QVector<QMetaObject::Connection> clipConnections;
-        QVector<QMetaObject::Connection> sourceConnections;
 
         void initialize();
         void setSingingClip(dspx::SingingClip *clip);
         void reconnectClip();
         void reconnectSources();
         QSet<QString> supportedParameters() const;
-        void rebuildParameterModel();
+        QList<ParameterSelection> rowParameterSelections() const;
+        void refreshParameters();
+        void applyParameterSelections(QList<ParameterSelection> selections);
         void refreshBindings();
         void refreshRowBindings(ParameterEditorRow *row);
         void clearParameterSelection();
@@ -285,7 +291,7 @@ namespace VisualEditor {
         QString displayName(const QString &parameterId, const QString &remembered) const;
 
         ParameterEditorRow *createRow();
-        QString parameterIdForNewRow() const;
+        QString automaticParameterId(const QSet<QString> &used) const;
         ParameterEditorRow *currentRow() const;
         void activateRow(ParameterEditorRow *row);
         void updateRowDisplayNames(ParameterEditorRow *row);
