@@ -67,8 +67,6 @@ namespace VisualEditor {
         Core::TransactionController::TransactionId panTransactionId{};
         Core::TransactionController::TransactionId multiChannelTransactionId{};
 
-        bool syncingFromModel{false};
-
         bool gainChanged{false};
         bool panChanged{false};
 

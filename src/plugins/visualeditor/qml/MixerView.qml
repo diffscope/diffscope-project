@@ -49,6 +49,7 @@ Item {
             scrollBehaviorViewModel: view.mixerPanelInterface?.scrollBehaviorViewModel ?? null
             trackListInteractionController: view.mixerPanelInterface?.masterTrackListInteractionController ?? null
             selectionController: null
+            showTrackNumber: false
         }
     }
 }

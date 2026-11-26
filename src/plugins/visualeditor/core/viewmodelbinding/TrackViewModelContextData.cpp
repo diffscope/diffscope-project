@@ -559,7 +559,6 @@ namespace VisualEditor {
         controller->setSecondarySelectInteraction(sflow::TrackListInteractionController::RubberBandSelect);
         controller->setPrimaryItemInteraction(sflow::TrackListInteractionController::DragMove);
         controller->setSecondaryItemInteraction(sflow::TrackListInteractionController::DragCopy);
-        controller->setItemAction(sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditSolo | sflow::TrackListInteractionController::EditName | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan | sflow::TrackListInteractionController::AdjustHeight);
 
         connect(controller, &sflow::TrackListInteractionController::rubberBandDraggingStarted, this, [=, this](QQuickItem *) {
             Q_EMIT rubberBandDragWillStart();

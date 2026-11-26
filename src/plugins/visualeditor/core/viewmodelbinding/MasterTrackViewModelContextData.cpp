@@ -223,6 +223,8 @@ namespace VisualEditor {
 
         masterTrackListViewModel = new sflow::ListViewModel(q);
         masterTrackViewModel = new sflow::TrackViewModel(masterTrackListViewModel);
+        masterTrackViewModel->setItemAction(sflow::TrackViewModel::EditMute | sflow::TrackViewModel::EditGain | sflow::TrackViewModel::EditPan |
+                                            sflow::TrackViewModel::EditMultiChannelOutput);
 
         initStateMachine();
     }
@@ -247,13 +249,11 @@ namespace VisualEditor {
             }
             masterTrackViewModel->setPan(pan);
         });
-        connect(model, &dspx::Model::multiChannelOutputChanged, this, [=, this](bool enabled) {
+        connect(model, &dspx::Model::multiChannelOutputChanged, masterTrackViewModel, [this](bool enabled) {
             if (masterTrackViewModel->multiChannelOutput() == enabled) {
                 return;
             }
-            syncingFromModel = true;
             masterTrackViewModel->setMultiChannelOutput(enabled);
-            syncingFromModel = false;
         });
 
         connect(masterTrackViewModel, &sflow::TrackViewModel::muteChanged, this, [=, this] {
@@ -278,14 +278,10 @@ namespace VisualEditor {
             model->setPan(masterTrackViewModel->pan());
             panChanged = true;
         });
-        connect(masterTrackViewModel, &sflow::TrackViewModel::multiChannelOutputChanged, this, [=, this] {
-            if (syncingFromModel) {
-                return;
+        connect(masterTrackViewModel, &sflow::TrackViewModel::multiChannelOutputChanged, this, [this] {
+            if (!stateMachine->configuration().contains(multiChannelEditingState)) {
+                masterTrackViewModel->setMultiChannelOutput(model->multiChannelOutput());
             }
-            Q_EMIT multiChannelTransactionWillStart();
-            QMetaObject::invokeMethod(this, [this] {
-                Q_EMIT multiChannelTransactionWillFinish();
-            }, Qt::QueuedConnection);
         });
 
         masterTrackViewModel->setName(tr("Master"));
@@ -306,7 +302,6 @@ namespace VisualEditor {
         controller->setSecondarySelectInteraction(sflow::TrackListInteractionController::None);
         controller->setPrimaryItemInteraction(sflow::TrackListInteractionController::None);
         controller->setSecondaryItemInteraction(sflow::TrackListInteractionController::None);
-        controller->setItemAction(sflow::TrackListInteractionController::EditMute | sflow::TrackListInteractionController::EditGain | sflow::TrackListInteractionController::EditPan);
 
         connect(controller, &sflow::TrackListInteractionController::muteEditingStarted, this, [=, this](QQuickItem *, int) {
             Q_EMIT muteTransactionWillStart();
@@ -333,6 +328,13 @@ namespace VisualEditor {
         });
         connect(controller, &sflow::TrackListInteractionController::panEditingAborted, this, [=, this](QQuickItem *, int) {
             Q_EMIT panTransactionWillAbort();
+        });
+
+        connect(controller, &sflow::TrackListInteractionController::multiChannelOutputEditingStarted, this, [this](QQuickItem *, int) {
+            Q_EMIT multiChannelTransactionWillStart();
+        });
+        connect(controller, &sflow::TrackListInteractionController::multiChannelOutputEditingFinished, this, [this](QQuickItem *, int) {
+            Q_EMIT multiChannelTransactionWillFinish();
         });
 
         return controller;
@@ -430,9 +432,6 @@ namespace VisualEditor {
         } else {
             qCWarning(lcMasterTrackViewModelContextData) << "Failed to change master track multichannel output because the transaction could not start.";
             q_ptr->windowHandle()->sendOperationConflictNotification();
-            syncingFromModel = true;
-            masterTrackViewModel->setMultiChannelOutput(model->multiChannelOutput());
-            syncingFromModel = false;
             Q_EMIT multiChannelTransactionNotStarted();
         }
     }

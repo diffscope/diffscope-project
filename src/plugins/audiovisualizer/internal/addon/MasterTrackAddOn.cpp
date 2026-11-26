@@ -68,6 +68,7 @@ namespace AudioVisualizer::Internal {
         auto globalAudioContext = Audio::GlobalAudioContext::instance();
 
         m_metronomeTrackViewModel = new sflow::TrackViewModel(this);
+        m_metronomeTrackViewModel->setItemAction(sflow::TrackViewModel::EditMute | sflow::TrackViewModel::EditGain | sflow::TrackViewModel::EditPan);
         m_metronomeTrackViewModel->setName(tr("Metronome"));
         m_metronomeTrackViewModel->setGain(toDecibels(Audio::GlobalAudioContext::metronomeGain()));
         m_metronomeTrackViewModel->setPan(Audio::GlobalAudioContext::metronomePan());
@@ -110,6 +111,7 @@ namespace AudioVisualizer::Internal {
         });
 
         m_deviceOutputTrackViewModel = new sflow::TrackViewModel(this);
+        m_deviceOutputTrackViewModel->setItemAction(sflow::TrackViewModel::EditGain | sflow::TrackViewModel::EditPan);
         m_deviceOutputTrackViewModel->setName(tr("Device Output"));
         m_deviceOutputTrackViewModel->setGain(toDecibels(Audio::GlobalAudioContext::deviceGain()));
         m_deviceOutputTrackViewModel->setPan(Audio::GlobalAudioContext::devicePan());
