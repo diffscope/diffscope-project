@@ -471,12 +471,13 @@ namespace Audio::Internal {
     void ProjectAudioAddOn::syncMasterControl() {
         auto windowInterface = windowHandle()->cast<Core::ProjectWindowInterface>();
         auto masterModel = windowInterface->projectDocumentContext()->document()->model();
+        auto masterTrackMixer = m_context->masterTrackMixer();
         auto masterControlMixer = m_context->masterControlMixer();
-        masterControlMixer->setRouteChannels(masterModel->multiChannelOutput());
+        masterTrackMixer->setRouteChannels(masterModel->multiChannelOutput());
         masterControlMixer->setGain(static_cast<float>(masterModel->gain()));
         masterControlMixer->setPan(static_cast<float>(masterModel->pan()));
         masterControlMixer->setSilentFlags(masterModel->mute() ? -1 : 0);
-        connect(masterModel, &dspx::Model::multiChannelOutputChanged, masterControlMixer, &talcs::PositionableMixerAudioSource::setRouteChannels);
+        connect(masterModel, &dspx::Model::multiChannelOutputChanged, masterTrackMixer, &talcs::PositionableMixerAudioSource::setRouteChannels);
         connect(masterModel, &dspx::Model::gainChanged, masterControlMixer, &talcs::PositionableMixerAudioSource::setGain);
         connect(masterModel, &dspx::Model::panChanged, masterControlMixer, &talcs::PositionableMixerAudioSource::setPan);
         connect(masterModel, &dspx::Model::muteChanged, masterControlMixer, [masterControlMixer](bool mute) {

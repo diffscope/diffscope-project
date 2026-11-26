@@ -21,6 +21,7 @@
 #include <CoreApi/filelocker.h>
 
 #include <TalcsCore/MixerAudioSource.h>
+#include <TalcsCore/PositionableMixerAudioSource.h>
 #include <TalcsCore/TransportAudioSource.h>
 #include <TalcsDspx/DspxProjectAudioExporter.h>
 #include <TalcsDspx/DspxProjectContext.h>
@@ -693,6 +694,13 @@ namespace Audio {
             });
             connect(&exporter, &talcs::DspxProjectAudioExporter::clippingDetected, this, [sourceIndexMap, this](talcs::DspxTrackContext *track) {
                 Q_EMIT clippingDetected(sourceIndexMap.value(track));
+            });
+
+            auto masterTrackMixer = projectContext->masterTrackMixer();
+            const auto routeChannels = masterTrackMixer->routeChannels();
+            masterTrackMixer->setRouteChannels(false);
+            const auto restoreRoutingGuard = makeScopeGuard([masterTrackMixer, routeChannels] {
+                masterTrackMixer->setRouteChannels(routeChannels);
             });
 
             const auto result = exporter.exec();
