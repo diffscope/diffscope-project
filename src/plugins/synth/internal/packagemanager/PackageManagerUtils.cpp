@@ -4,6 +4,10 @@
 #include "PackageManagerUtils.h"
 
 #include <algorithm>
+#include <cstdint>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include <QCoreApplication>
 #include <QEventLoop>
@@ -17,6 +21,9 @@
 #include <QTimer>
 #include <QVariant>
 #include <QtGlobal>
+
+#include <unicode/localematcher.h>
+#include <unicode/locid.h>
 
 #include <coreplugin/ChildProcess.h>
 
@@ -292,17 +299,58 @@ namespace Synth::Internal {
 
     QString localizedPackageText(const QJsonValue &value) {
         const auto object = value.toObject();
-        const auto languages = QLocale().uiLanguages();
-        for (auto language : languages) {
-            language.replace(u'_', u'-');
-            for (auto it = object.begin(); it != object.end(); ++it) {
-                auto key = it.key();
-                key.replace(u'_', u'-');
-                if (key.compare(language, Qt::CaseInsensitive) == 0)
-                    return it.value().toString();
+        const auto fallback = object.value(QStringLiteral("_")).toString();
+        const auto requested = QLocale().bcp47Name().toStdString();
+        if (requested.empty())
+            return fallback;
+
+        const auto normalize = [](QString code) {
+            auto tag = code.trimmed().toStdString();
+            if (const auto suffix = tag.find_first_of(".@"); suffix != std::string::npos)
+                tag.resize(suffix);
+            std::ranges::replace(tag, '_', '-');
+            return tag;
+        };
+
+        UErrorCode status = U_ZERO_ERROR;
+        std::vector<icu::Locale> locales;
+        std::vector<QString> keys;
+        for (auto it = object.begin(); it != object.end(); ++it) {
+            if (it.key() == QStringLiteral("_"))
+                continue;
+            const auto tag = normalize(it.key());
+            if (tag.empty())
+                continue;
+            auto locale = icu::Locale::forLanguageTag(icu::StringPiece(tag.data(), static_cast<int32_t>(tag.size())), status);
+            if (U_FAILURE(status) || locale.isBogus()) {
+                status = U_ZERO_ERROR;
+                continue;
             }
+            locale.canonicalize(status);
+            if (U_FAILURE(status)) {
+                status = U_ZERO_ERROR;
+                continue;
+            }
+            locales.push_back(std::move(locale));
+            keys.push_back(it.key());
         }
-        return object.value(QStringLiteral("_")).toString();
+        if (locales.empty())
+            return fallback;
+
+        auto matcher = icu::LocaleMatcher::Builder()
+                           .setSupportedLocales(locales.begin(), locales.end())
+                           .setNoDefaultLocale()
+                           .build(status);
+        if (U_FAILURE(status))
+            return fallback;
+        const auto *matched = matcher.getBestMatchForListString(icu::StringPiece(requested.data(), static_cast<int32_t>(requested.size())), status);
+        if (U_FAILURE(status) || !matched)
+            return fallback;
+        for (std::size_t index = 0; index < locales.size(); ++index) {
+            if (*matched == locales[index])
+                return object.value(keys[index]).toString();
+        }
+        return fallback;
     }
 
 }

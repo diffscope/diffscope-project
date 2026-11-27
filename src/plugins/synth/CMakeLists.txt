@@ -6,6 +6,7 @@ project(synth
     DESCRIPTION ${CURRENT_PLUGIN_DESC}
 )
 
+find_package(ICU REQUIRED COMPONENTS uc i18n data)
 find_package(xxHash CONFIG REQUIRED)
 
 set(DIFFSCOPE_DSSP_CATALOG_URL "https://catalogs.diffscope.org/v1/dssp/" CACHE STRING
@@ -62,6 +63,9 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         svscraft::QmlExtras
         xxHash::xxhash
     LINKS_PRIVATE
+        ICU::uc
+        ICU::i18n
+        ICU::data
         ${_dssp_zlib_link}
     INCLUDE_PRIVATE
         internal/**
