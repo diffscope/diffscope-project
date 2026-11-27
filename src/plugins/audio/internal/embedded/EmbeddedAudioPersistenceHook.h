@@ -13,7 +13,9 @@ namespace Audio::Internal {
         using IDocumentPersistenceHook::IDocumentPersistenceHook;
 
         void beforeLoadModel(DspxProject::ProjectDocumentContext &context, opendspx::Model &model, const QString &recoverySourceDirectory) override;
-        void afterSaveModel(DspxProject::ProjectDocumentContext &context, opendspx::Model &model) override;
+        void afterSaveModel(DspxProject::ProjectDocumentContext &context, opendspx::Model &model, const QString &destination) override;
+        void prepareReplacement(DspxProject::ProjectDocumentContext &context, DspxProject::ProjectDocumentContext &candidate) override;
+        void finishReplacement(DspxProject::ProjectDocumentContext &context, DspxProject::ProjectDocumentContext &candidate) override;
     };
 
 }

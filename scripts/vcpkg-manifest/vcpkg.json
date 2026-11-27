@@ -51,7 +51,8 @@
             "name": "qiconmaker",
             "platform": "windows | osx"
         },
-        "i18next"
+        "i18next",
+        "iceoryx2"
     ],
     "features": {
         "test": {

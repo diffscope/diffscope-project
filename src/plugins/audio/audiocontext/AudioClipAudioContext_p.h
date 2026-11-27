@@ -8,6 +8,10 @@
 
 #include <QPointer>
 
+namespace dspx {
+    struct AudioPathInfo;
+}
+
 namespace talcs {
     class DspxAudioClipContext;
     class DspxTrackContext;
@@ -35,6 +39,7 @@ namespace Audio {
 
         static AudioClipAudioContext *create(Core::ProjectWindowInterface *windowHandle, dspx::AudioClip *clip, talcs::DspxTrackContext *trackContext);
         static AudioClipAudioContextPrivate *of(AudioClipAudioContext *q);
+        static QString findReferencedFile(const dspx::AudioPathInfo &path, const QString &projectPath);
         static void updateReadAheadSizes();
     };
 

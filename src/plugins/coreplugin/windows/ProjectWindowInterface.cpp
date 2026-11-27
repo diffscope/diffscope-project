@@ -74,6 +74,7 @@
 #include <coreplugin/internal/CoreParameterResamplingStrategy.h>
 #include <coreplugin/internal/CorePickTrackColorStrategy.h>
 #include <singercatalog/DefaultLyricManager.h>
+#include <transactional/TransactionController.h>
 
 namespace Core {
 
@@ -170,6 +171,36 @@ namespace Core {
     DspxProject::ProjectDocumentContext *ProjectWindowInterface::projectDocumentContext() const {
         Q_D(const ProjectWindowInterface);
         return d->projectDocumentContext;
+    }
+
+    bool ProjectWindowInterface::isManaged() const {
+        Q_D(const ProjectWindowInterface);
+        return d->managed;
+    }
+
+    void ProjectWindowInterface::closeManagedProject(bool preserveRecoveryLog) {
+        Q_D(ProjectWindowInterface);
+        if (!d->managed || isEffectivelyClosed())
+            return;
+        if (preserveRecoveryLog)
+            d->projectDocumentContext->preserveRecoveryLog();
+        window()->hide();
+        if (d->pendingCloseConnection)
+            return;
+        Q_EMIT managedCloseRequested();
+        auto *controller = d->projectDocumentContext->document()->transactionController();
+        if (controller->hasReadLocks()) {
+            d->pendingCloseConnection = connect(controller, &TransactionController::accessStateChanged, this, [this, d, controller] {
+                if (!controller->hasReadLocks()) {
+                    disconnect(d->pendingCloseConnection);
+                    d->pendingCloseConnection = {};
+                    if (!isEffectivelyClosed())
+                        quit();
+                }
+            }, Qt::QueuedConnection);
+            return;
+        }
+        quit();
     }
 
     WorkspacePanelRegistry *ProjectWindowInterface::workspacePanelRegistry() const {
@@ -325,18 +356,34 @@ namespace Core {
         return win;
     }
 
-    ProjectWindowInterface::ProjectWindowInterface(DspxProject::ProjectDocumentContext *projectDocumentContext, QObject *parent) : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {
+    void ProjectWindowInterfacePrivate::updateFilePath() {
+        Q_Q(ProjectWindowInterface);
+        if (auto *window = q->window()) {
+            const auto *locker = projectDocumentContext->fileLocker();
+            const auto path = locker ? locker->path() : QString();
+            window->setFilePath(path.isEmpty() ? projectDocumentContext->defaultDocumentName() : path);
+        }
+    }
+
+    ProjectWindowInterface::ProjectWindowInterface(DspxProject::ProjectDocumentContext *projectDocumentContext, QObject *parent)
+        : ProjectWindowInterface(projectDocumentContext, false, true, parent) {
+    }
+
+    ProjectWindowInterface::ProjectWindowInterface(DspxProject::ProjectDocumentContext *projectDocumentContext, bool managed, bool initiallyVisible, QObject *parent)
+        : ProjectWindowInterface(*new ProjectWindowInterfacePrivate, parent) {
         Q_D(ProjectWindowInterface);
         d->projectDocumentContext = projectDocumentContext;
-        if (d->projectDocumentContext->fileLocker()) {
-            connect(d->projectDocumentContext->fileLocker(), &FileLocker::pathChanged, this, [=, this] {
-                auto win = window();
-                if (!win)
-                    return;
-                auto path = d->projectDocumentContext->fileLocker()->path();
-                win->setFilePath(path.isEmpty() ? d->projectDocumentContext->defaultDocumentName() : path);
-            });
-        }
+        d->managed = managed;
+        setInitiallyVisible(initiallyVisible);
+        const auto bindFileLocker = [this, d] {
+            disconnect(d->filePathConnection);
+            if (auto *locker = d->projectDocumentContext->fileLocker())
+                d->filePathConnection = connect(locker, &FileLocker::pathChanged, this, [d] { d->updateFilePath(); });
+            d->updateFilePath();
+        };
+        connect(projectDocumentContext, &DspxProject::ProjectDocumentContext::fileLockerChanged, this, bindFileLocker);
+        connect(projectDocumentContext, &DspxProject::ProjectDocumentContext::defaultDocumentNameChanged, this, [d] { d->updateFilePath(); });
+        bindFileLocker();
         d->init();
     }
     ProjectWindowInterface::ProjectWindowInterface(ProjectWindowInterfacePrivate &d, QObject *parent) : ActionWindowInterfaceBase(parent), d_ptr(&d) {

@@ -33,8 +33,21 @@ namespace DspxProject {
          */
         virtual void beforeLoadModel(ProjectDocumentContext &context, opendspx::Model &model, const QString &recoverySourceDirectory) = 0;
 
-        /** Updates the extracted model before serialization. */
-        virtual void afterSaveModel(ProjectDocumentContext &context, opendspx::Model &model) = 0;
+        /**
+         * Updates the extracted model before serialization.
+         * destination is the output path for a file save and is empty for an in-memory copy or snapshot.
+         */
+        virtual void afterSaveModel(ProjectDocumentContext &context, opendspx::Model &model, const QString &destination) = 0;
+        /**
+         * Prepares resources from the temporary candidate before replacing the live document.
+         * The default implementation does nothing. An exception derived from std::exception aborts the replacement before commit.
+         */
+        virtual void prepareReplacement(ProjectDocumentContext &context, ProjectDocumentContext &candidate);
+        /**
+         * Adopts the prepared resources from the temporary candidate after the replacement commits.
+         * The default implementation does nothing. Work that can fail belongs in prepareReplacement().
+         */
+        virtual void finishReplacement(ProjectDocumentContext &context, ProjectDocumentContext &candidate);
     };
 
 }

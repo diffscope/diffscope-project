@@ -1,0 +1,8 @@
+{
+  "name": "vcpkg-tool-rust",
+  "version": "1.92.0",
+  "description": "Rust compiler, Cargo, and native standard library for build hosts",
+  "homepage": "https://www.rust-lang.org/",
+  "license": "Apache-2.0 OR MIT",
+  "supports": "native"
+}

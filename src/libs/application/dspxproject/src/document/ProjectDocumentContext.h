@@ -4,6 +4,7 @@
 #ifndef DIFFSCOPE_DSPXPROJECT_PROJECTDOCUMENTCONTEXT_H
 #define DIFFSCOPE_DSPXPROJECT_PROJECTDOCUMENTCONTEXT_H
 
+#include <QByteArray>
 #include <QObject>
 #include <QScopedPointer>
 #include <QString>
@@ -37,10 +38,14 @@ namespace DspxProject {
             Write, /**< Serialization or destination writing failed. */
             Restore, /**< Recovery data could not be restored. */
             Busy, /**< A conflicting operation prevents access. */
+            Cancelled, /**< The operation was cancelled. */
+            PathInUse, /**< The path is associated with a different project. */
+            NeedsConfirmation, /**< A file change or overwrite requires confirmation. */
             InvalidState, /**< The context state or destination is unsuitable. */
             CopyToCurrentFile, /**< A copy targets the current project file. */
             CheckerWarning, /**< Validation warnings require acceptance. */
             IntegrityWarning, /**< Serialization integrity warnings require acceptance. */
+            TooLarge, /**< The serialized snapshot or path exceeds the requested size limit. */
         };
 
         /** The result code, None on success. */
@@ -56,18 +61,19 @@ namespace DspxProject {
     /**
      * @brief Owns an initialized project document and its optional file association.
      *
-     * Construction creates an uninitialized context. A successful openFile() or
-     * newFile() initializes the document exactly once. File operations return
-     * ProjectFileError::None on success and an error code otherwise.
+     * Construction creates an uninitialized context. Once initialized, the context
+     * keeps the same document object when reloading a file or loading a snapshot.
+     * Persistence operations return ProjectFileError::None on success and an error code otherwise.
      * Recovery logging is enabled if Options::recoveryRootPath is nonempty.
      */
     class DSPXPROJECT_EXPORT ProjectDocumentContext : public QObject {
         Q_OBJECT
         QML_ANONYMOUS
         Q_DECLARE_PRIVATE(ProjectDocumentContext)
-        Q_PROPERTY(Core::FileLocker *fileLocker READ fileLocker CONSTANT)
+        Q_PROPERTY(Core::FileLocker *fileLocker READ fileLocker NOTIFY fileLockerChanged)
         Q_PROPERTY(Document *document READ document CONSTANT)
         Q_PROPERTY(QString defaultDocumentName READ defaultDocumentName NOTIFY defaultDocumentNameChanged)
+        Q_PROPERTY(bool fileOperationsAllowed READ fileOperationsAllowed NOTIFY fileLockerChanged)
     public:
         /** The document persistence configuration. */
         struct Options {
@@ -77,6 +83,10 @@ namespace DspxProject {
             QString recoveryRootPath;
             /** The borrowed persistence hook, valid for the context's lifetime if non-null. */
             IDocumentPersistenceHook *persistenceHook = nullptr;
+            /** Whether to save the current file atomically and disable file saves for non-file documents. */
+            bool externallyManaged = false;
+            /** Whether saving attempts to keep the file open. Applies to ordinary file documents. */
+            bool keepFileOpenAfterSave = false;
         };
 
         /** The source reading and validation policy. */
@@ -85,7 +95,7 @@ namespace DspxProject {
             IChecker *checker = nullptr;
             /** Whether an existing project file remains open and locked after reading. */
             bool keepFileOpen = false;
-            /** Whether detected checker warnings permit initialization. */
+            /** Whether detected checker warnings permit the load to proceed. */
             bool acceptCheckerWarnings = false;
         };
 
@@ -99,14 +109,21 @@ namespace DspxProject {
 
         /** Creates an uninitialized context with the specified configuration. */
         explicit ProjectDocumentContext(const Options &options, QObject *parent = nullptr);
-        /** Destroys the document, releases file locks, and removes active recovery data. */
+        /** Destroys the document, releases file locks, and removes active recovery data unless preservation was requested. */
         ~ProjectDocumentContext() override;
 
         /**
          * Returns the borrowed file locker, or nullptr before initialization or for a
          * non-file document. A new file document has a locker with an empty path.
+         * Reacquire the locker after fileLockerChanged().
          */
         Core::FileLocker *fileLocker() const;
+        /** Returns the source or former project file path retained for relative references, or an empty string if absent. */
+        QString retainedReferenceFilePath() const;
+        /** Returns whether file operations are enabled for the persistence mode. Externally managed contexts require a file locker. */
+        bool fileOperationsAllowed() const;
+        /** Returns whether two nonempty paths refer to the same file or resolve to the same destination. */
+        static bool sameFilePath(const QString &first, const QString &second);
 
         /** Returns the owned document, or nullptr before successful initialization. */
         Document *document() const;
@@ -129,6 +146,26 @@ namespace DspxProject {
          */
         ProjectFileError openFile(const QString &path, const OpenOptions &options);
         /**
+         * Loads path and adopts its file association on success. Replaces an existing
+         * document's contents and resets its undo history while preserving the document object.
+         * Returns the read, validation, or load result. @pre path is nonempty.
+         */
+        ProjectFileError reloadFile(const QString &path, const OpenOptions &options);
+        /**
+         * Loads an OpenDSPX snapshot as a non-file document. Replaces an existing
+         * document's contents and releases its file association on success.
+         * Returns the decoding, validation, or load result.
+         */
+        ProjectFileError loadSnapshot(const QByteArray &data, const OpenOptions &options);
+        /**
+         * Serializes an OpenDSPX snapshot into data without changing the file association or clean history position.
+         * Returns InvalidState before initialization, Busy if access is unavailable,
+         * IntegrityWarning if the options reject a warning, or the serialization result. Updates data only on success.
+         */
+        ProjectFileError saveSnapshot(QByteArray &data, const SaveOptions &options);
+        /** Retains the active recovery data when the context is destroyed. */
+        void preserveRecoveryLog();
+        /**
          * Initializes a new document from model with the suggested name.
          * Creates no file locker if isNonFileDocument is true. Returns InvalidState
          * if already initialized, or the initialization result otherwise.
@@ -149,15 +186,17 @@ namespace DspxProject {
         ProjectFileError save(const SaveOptions &options);
         /**
          * Saves a file document to path and adopts that file association on success.
-         * Marks the history clean and clears the suggested name on success. Returns
+         * Uses save() if path refers to the current file. Marks the history clean on
+         * success and clears the suggested name if adopting a new path. Returns
          * InvalidState without an initialized file document, or the serialization
          * and writing result otherwise. @pre path is nonempty.
          */
         ProjectFileError saveAs(const QString &path, const SaveOptions &options);
         /**
          * Saves a copy without changing the file association or clean history position.
-         * Supports non-file documents. Returns InvalidState before initialization,
-         * CopyToCurrentFile for the current file, or the save result. @pre path is nonempty.
+         * Returns InvalidState before initialization or for an externally managed non-file
+         * document, CopyToCurrentFile if path refers to the current file, or the save result.
+         * @pre path is nonempty.
          */
         ProjectFileError saveCopy(const QString &path, const SaveOptions &options);
         /**
@@ -169,6 +208,12 @@ namespace DspxProject {
         ProjectFileError saveCopy(opendspx::Model &model);
 
     Q_SIGNALS:
+        /** Notifies that the file locker was replaced, created, or removed. */
+        void fileLockerChanged();
+        /** Notifies that an existing document is about to be replaced after preparing the candidate. */
+        void aboutToReload();
+        /** Notifies that the replacement and its file association have been committed. */
+        void reloaded();
         /** Notifies that save() or saveAs() succeeded. */
         void saved();
         /** Notifies that the suggested document name changed. */

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPDX-FileCopyrightText: Team OpenVPI
+SPDX-License-Identifier: LGPL-3.0-or-later
+-->
+<actionExtension xmlns:diffscope="http://schemas.diffscope.org/diffscope/actions/diffscope">
+    <version>1.0</version>
+    <id>org.diffscope.audiobridgeserver</id>
+    <configuration>
+        <defaultCatalog>org.diffscope.core.mainStatusBar</defaultCatalog>
+        <translationContext text="Application::ActionText" />
+    </configuration>
+    <items>
+        <phony id="org.diffscope.core.mainStatusBar" />
+        <action id="org.diffscope.audiobridgeserver.managedProjectStatus"
+                text="Managed by DiffScope Bridge" icon="plug_connected"
+                triggerable="false" diffscope:componentType="widget" />
+    </items>
+    <insertions>
+        <insertion target="org.diffscope.core.mainStatusBar" anchor="first">
+            <action id="org.diffscope.audiobridgeserver.managedProjectStatus" />
+        </insertion>
+    </insertions>
+</actionExtension>

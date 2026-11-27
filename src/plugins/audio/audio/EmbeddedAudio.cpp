@@ -47,9 +47,11 @@
 #include <dspxproject/Document.h>
 #include <dspxproject/ProjectDocumentContext.h>
 #include <transactional/TransactionController.h>
+#include <audio/AudioClipAudioContext.h>
 #include <audio/GlobalAudioContext.h>
 #include <audio/internal/EmbeddedAudioCodec.h>
 #include <audio/internal/EmbeddedAudioPersistenceHook.h>
+#include <audio/private/AudioClipAudioContext_p.h>
 
 namespace Audio {
 
@@ -566,7 +568,72 @@ namespace Audio {
         }
     }
 
-    void Internal::EmbeddedAudioPersistenceHook::afterSaveModel(DspxProject::ProjectDocumentContext &context, opendspx::Model &model) {
+    void Internal::EmbeddedAudioPersistenceHook::prepareReplacement(DspxProject::ProjectDocumentContext &context, DspxProject::ProjectDocumentContext &candidate) {
+        const auto *source = EmbeddedAudio::of(&candidate)->d_func();
+        auto *target = EmbeddedAudio::of(&context)->d_func();
+        for (const auto &[key, entry] : source->entries.asKeyValueRange()) {
+            if (!target->writeJournal(key, *entry.file))
+                throw std::runtime_error(EmbeddedAudio::tr("Could not write embedded audio to the recovery directory.").toStdString());
+        }
+    }
+
+    void Internal::EmbeddedAudioPersistenceHook::finishReplacement(DspxProject::ProjectDocumentContext &context, DspxProject::ProjectDocumentContext &candidate) {
+        auto *source = EmbeddedAudio::of(&candidate)->d_func();
+        auto *audio = EmbeddedAudio::of(&context);
+        auto *target = audio->d_func();
+        auto previous = std::exchange(target->entries, {});
+        target->entries = std::move(source->entries);
+        for (auto &entry : previous)
+            target->retiredFiles.append(std::move(entry.file));
+        for (auto &entry : target->entries)
+            entry.generation = ++target->generation;
+        target->savedKeys.clear();
+        if (context.fileLocker()) {
+            const auto references = liveReferences(*context.document());
+            target->savedKeys = QSet<QString>(references.keyBegin(), references.keyEnd());
+        }
+        for (const auto &key : target->entries.keys())
+            Q_EMIT audio->contentChanged(key);
+        for (const auto &key : previous.keys()) {
+            if (!target->entries.contains(key))
+                Q_EMIT audio->contentChanged(key);
+        }
+    }
+
+    void Internal::EmbeddedAudioPersistenceHook::afterSaveModel(DspxProject::ProjectDocumentContext &context, opendspx::Model &model, const QString &destination) {
+        const auto base = QFileInfo(destination).absoluteDir();
+        const auto referencePath = context.retainedReferenceFilePath();
+        const auto tracks = context.document()->model()->tracks()->items();
+        for (qsizetype trackIndex = 0; trackIndex < tracks.size(); ++trackIndex) {
+            auto &clips = model.content.tracks.at(trackIndex).clips;
+            auto target = clips.begin();
+            for (auto *clip : tracks.at(trackIndex)->clips()->asRange()) {
+                if (target == clips.end())
+                    break;
+                auto &serialized = *target++;
+                auto *source = qobject_cast<dspx::AudioClip *>(clip);
+                if (!source || !serialized || serialized->type != opendspx::Clip::Type::Audio ||
+                    !source->path().embeddedKey.isEmpty())
+                    continue;
+                auto &audio = static_cast<opendspx::AudioClip &>(*serialized);
+                auto *audioContext = AudioClipAudioContext::of(source);
+                auto resolved = audioContext ? audioContext->realAudioPath() : QString();
+                if (!audioContext && !referencePath.isEmpty() && !QFileInfo(QString::fromStdString(audio.path)).isFile())
+                    resolved = AudioClipAudioContextPrivate::findReferencedFile(source->path(), referencePath);
+                if (resolved.isEmpty() && destination.isEmpty())
+                    continue;
+                const QFileInfo sourceInfo(resolved.isEmpty() ? QString::fromStdString(audio.path) : resolved);
+                if (sourceInfo.fileName().isEmpty())
+                    continue;
+                audio.path = sourceInfo.absoluteFilePath().toStdString();
+                if (!destination.isEmpty()) {
+                    auto &metadata = audio.workspace["diffscope"]["audio"];
+                    auto properties = metadata.toObject();
+                    properties["relativeDir"] = base.relativeFilePath(sourceInfo.absolutePath()).toStdString();
+                    metadata = std::move(properties);
+                }
+            }
+        }
         const auto *store = EmbeddedAudio::of(&context)->d_func();
         stdc::json::Object audio;
         for (const auto &key : modelKeys(model)) {

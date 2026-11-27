@@ -91,7 +91,9 @@ namespace Audio::Internal {
 
     ProjectAudioAddOn::~ProjectAudioAddOn() {
         if (m_context && AudioSystem::instance() && AudioSystem::outputSystem()) {
-            GlobalAudioContext::preMixer()->removeSource(m_context->preMixer());
+            auto *audio = ProjectAudioContextPrivate::of(m_context);
+            audio->releaseRenderSession();
+            GlobalAudioContext::preMixer()->removeSource(audio->deviceSource.get());
             if (m_metronomeAudioSource) {
                 m_metronomeAudioSource->setDetector(nullptr);
             }
@@ -112,7 +114,11 @@ namespace Audio::Internal {
         Q_ASSERT(ProjectAudioContext::of(windowInterface) == nullptr);
         m_context = ProjectAudioContextPrivate::create(windowInterface);
         windowInterface->addObject(m_context);
-        GlobalAudioContext::preMixer()->addSource(m_context->preMixer());
+        GlobalAudioContext::preMixer()->addSource(ProjectAudioContextPrivate::of(m_context)->deviceSource.get());
+        connect(GlobalAudioContext::instance(), &GlobalAudioContext::sampleRateChanged, this, [this](double sampleRate) {
+            if (!m_context->hasRenderSession())
+                Q_EMIT m_context->sampleRateChanged(sampleRate);
+        });
 
         auto dspxProjectContext = ProjectAudioContextPrivate::of(m_context)->projectContext.get();
         dspxProjectContext->setFormatManager(GlobalAudioContext::formatManager());
@@ -477,7 +483,10 @@ namespace Audio::Internal {
         masterControlMixer->setGain(static_cast<float>(masterModel->gain()));
         masterControlMixer->setPan(static_cast<float>(masterModel->pan()));
         masterControlMixer->setSilentFlags(masterModel->mute() ? -1 : 0);
-        connect(masterModel, &dspx::Model::multiChannelOutputChanged, masterTrackMixer, &talcs::PositionableMixerAudioSource::setRouteChannels);
+        connect(masterModel, &dspx::Model::multiChannelOutputChanged, this, [this, masterTrackMixer](bool enabled) {
+            if (!ProjectAudioContextPrivate::of(m_context)->hasRenderRoutingOverride())
+                masterTrackMixer->setRouteChannels(enabled);
+        });
         connect(masterModel, &dspx::Model::gainChanged, masterControlMixer, &talcs::PositionableMixerAudioSource::setGain);
         connect(masterModel, &dspx::Model::panChanged, masterControlMixer, &talcs::PositionableMixerAudioSource::setPan);
         connect(masterModel, &dspx::Model::muteChanged, masterControlMixer, [masterControlMixer](bool mute) {
@@ -563,7 +572,7 @@ namespace Audio::Internal {
         connect(clip, &dspx::Clip::startChanged, clipContext, &talcs::DspxAudioClipContext::setStart);
         connect(clip, &dspx::Clip::clipStartChanged, clipContext, &talcs::DspxAudioClipContext::setClipStart);
         connect(clip, &dspx::Clip::clipLengthChanged, clipContext, &talcs::DspxAudioClipContext::setClipLen);
-        connect(GlobalAudioContext::instance(), &GlobalAudioContext::sampleRateChanged, clipContext, [clipContext] {
+        connect(m_context, &ProjectAudioContext::sampleRateChanged, clipContext, [clipContext] {
             clipContext->updatePosition();
         });
         connect(windowHandle()->cast<Core::ProjectWindowInterface>()->projectTimeline()->musicTimeline(), &SVS::MusicTimeline::tempiChanged, clipContext, [clipContext] {
@@ -612,23 +621,19 @@ namespace Audio::Internal {
                 if (!sha512Matches(filePath, path.digest)) {
                     status = AudioClipAudioContext::FileContentChanged;
                 }
+            } else if (!context->realAudioPath().isEmpty() && QFileInfo(context->realAudioPath()).isFile() &&
+                       sha512Matches(context->realAudioPath(), path.digest)) {
+                filePath = context->realAudioPath();
+                status = AudioClipAudioContext::FileMoved;
             } else {
                 auto projectDocumentContext = windowHandle()->cast<Core::ProjectWindowInterface>()->projectDocumentContext();
                 auto fileLocker = projectDocumentContext->fileLocker();
                 const auto projectFilePath = fileLocker ? fileLocker->path() : QString();
-                if (!projectFilePath.isEmpty()) {
-                    const auto projectDir = QFileInfo(projectFilePath).absoluteDir();
-                    const auto relativeFilePath = normalizedAbsolutePath(projectDir.filePath(QDir(path.relativeDir).filePath(path.fileName)));
-                    if (QFileInfo(relativeFilePath).isFile() && sha512Matches(relativeFilePath, path.digest)) {
-                        filePath = relativeFilePath;
-                    } else {
-                        const auto siblingFilePath = normalizedAbsolutePath(projectDir.filePath(path.fileName));
-                        if (QFileInfo(siblingFilePath).isFile() && sha512Matches(siblingFilePath, path.digest)) {
-                            filePath = siblingFilePath;
-                        }
-                    }
+                for (const auto &referencePath : {projectFilePath, projectDocumentContext->retainedReferenceFilePath()}) {
+                    filePath = AudioClipAudioContextPrivate::findReferencedFile(path, referencePath);
                     if (!filePath.isEmpty()) {
                         status = AudioClipAudioContext::FileMoved;
+                        break;
                     }
                 }
             }

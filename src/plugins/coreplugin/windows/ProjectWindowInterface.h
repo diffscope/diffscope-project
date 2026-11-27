@@ -49,6 +49,7 @@ namespace Core {
         QML_UNCREATABLE("")
         Q_PROPERTY(DspxProject::ProjectTimeline *projectTimeline READ projectTimeline CONSTANT)
         Q_PROPERTY(DspxProject::ProjectDocumentContext *projectDocumentContext READ projectDocumentContext CONSTANT)
+        Q_PROPERTY(bool managed READ isManaged CONSTANT)
         Q_PROPERTY(DspxProject::ClipboardEditScenario *clipboardEditScenario READ clipboardEditScenario CONSTANT)
         Q_PROPERTY(DspxProject::EditItemsScenario *editItemsScenario READ editItemsScenario CONSTANT)
         Q_PROPERTY(DspxProject::EditKeySignatureScenario *editKeySignatureScenario READ editKeySignatureScenario CONSTANT)
@@ -66,6 +67,8 @@ namespace Core {
         DspxProject::ProjectTimeline *projectTimeline() const;
 
         DspxProject::ProjectDocumentContext *projectDocumentContext() const;
+        bool isManaged() const;
+        void closeManagedProject(bool preserveRecoveryLog = false);
         WorkspacePanelRegistry *workspacePanelRegistry() const;
 
         DspxProject::ClipboardEditScenario *clipboardEditScenario() const;
@@ -94,10 +97,14 @@ namespace Core {
 
         Q_INVOKABLE void sendOperationConflictNotification();
 
+    Q_SIGNALS:
+        void managedCloseRequested();
+
     protected:
         QWindow *createWindow(QObject *parent) const override;
 
         explicit ProjectWindowInterface(DspxProject::ProjectDocumentContext *projectDocumentContext, QObject *parent = nullptr);
+        ProjectWindowInterface(DspxProject::ProjectDocumentContext *projectDocumentContext, bool managed, bool initiallyVisible, QObject *parent = nullptr);
         explicit ProjectWindowInterface(ProjectWindowInterfacePrivate &d, QObject *parent = nullptr);
         ~ProjectWindowInterface() override;
 

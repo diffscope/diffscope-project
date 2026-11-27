@@ -22,7 +22,7 @@ namespace Core::Internal {
         writeEditorMetadata(model);
     }
 
-    void ProjectEditorPersistenceHook::afterSaveModel(DspxProject::ProjectDocumentContext &, opendspx::Model &model) {
+    void ProjectEditorPersistenceHook::afterSaveModel(DspxProject::ProjectDocumentContext &, opendspx::Model &model, const QString &) {
         writeEditorMetadata(model);
     }
 

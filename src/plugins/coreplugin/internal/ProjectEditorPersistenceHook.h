@@ -13,7 +13,7 @@ namespace Core::Internal {
         using IDocumentPersistenceHook::IDocumentPersistenceHook;
 
         void beforeLoadModel(DspxProject::ProjectDocumentContext &context, opendspx::Model &model, const QString &recoverySourceDirectory) override;
-        void afterSaveModel(DspxProject::ProjectDocumentContext &context, opendspx::Model &model) override;
+        void afterSaveModel(DspxProject::ProjectDocumentContext &context, opendspx::Model &model, const QString &destination) override;
     };
 
 }

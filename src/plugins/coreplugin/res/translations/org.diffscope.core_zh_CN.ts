@@ -4461,6 +4461,16 @@ Continue?</source>
 <context>
     <name>Core::ProjectFileDialogs</name>
     <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="152"/>
+        <source>Replace Current Project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../project/utils/ProjectFileDialogs.cpp" line="153"/>
+        <source>The current project has unsaved changes. Do you want to discard them and open the selected project?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../project/utils/ProjectFileDialogs.cpp" line="47"/>
         <source>DiffScope Project Exchange Format (*.dspx)</source>
         <translation>DiffScope 工程交换格式 (*.dspx)</translation>

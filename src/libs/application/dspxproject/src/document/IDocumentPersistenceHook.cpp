@@ -9,4 +9,10 @@ namespace DspxProject {
 
     IDocumentPersistenceHook::~IDocumentPersistenceHook() = default;
 
+    void IDocumentPersistenceHook::prepareReplacement(ProjectDocumentContext &, ProjectDocumentContext &) {
+    }
+
+    void IDocumentPersistenceHook::finishReplacement(ProjectDocumentContext &, ProjectDocumentContext &) {
+    }
+
 }

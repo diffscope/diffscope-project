@@ -62,6 +62,8 @@ namespace Audio::Internal {
         int sampleToTick(qint64 sample) const;
 
         void syncLoopingRange();
+        void syncPlaybackPosition();
+        void applyStoppedPosition();
         void handlePlaybackStatusChanged(Audio::ProjectAudioContext::PlaybackStatus status);
         void handlePlaybackPositionChanged(int positionTick);
         void cancelPendingPlayback();

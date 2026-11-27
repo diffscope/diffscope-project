@@ -13,12 +13,14 @@
 
 #include <QEventLoop>
 #include <QFileInfo>
+#include <QFutureWatcher>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QLoggingCategory>
 #include <QMetaObject>
 #include <QMutex>
 #include <QPointer>
+#include <QPromise>
 #include <QQmlComponent>
 #include <QQuickItem>
 #include <QQuickWindow>
@@ -39,6 +41,7 @@
 #include <SVSCraftQuick/MessageBox.h>
 
 #include <TalcsCore/MixerAudioSource.h>
+#include <TalcsCore/FutureAudioSourceClipSeries.h>
 
 #include <uishell/DialogPositioner.h>
 
@@ -249,6 +252,98 @@ namespace Synth::Internal {
         QHash<Core::ProjectWindowInterface *, QPointer<SynthesisProjectAddOn>> m_addOns;
     };
 
+    class SynthesisRenderPreparationProvider : public Audio::RenderPreparationProvider {
+    public:
+        explicit SynthesisRenderPreparationProvider(SynthesisProjectAddOn *addOn)
+            : RenderPreparationProvider(addOn), m_addOn(addOn) {
+        }
+
+        QFuture<Audio::RenderPreparationResult> prepare(const Audio::ProjectAudioRenderConfig &) override {
+            struct Work {
+                QPromise<Audio::RenderPreparationResult> promise;
+                QSet<dspx::Handle> requestedClips;
+                bool scheduled = false;
+                bool finished = false;
+            };
+            auto work = std::make_shared<Work>();
+            auto *observer = new QObject(this);
+            auto *watcher = new QFutureWatcher<Audio::RenderPreparationResult>(observer);
+            work->promise.start();
+            const auto future = work->promise.future();
+            const auto finish = [observer, work](Audio::RenderPreparationResult result) {
+                if (work->finished)
+                    return;
+                work->finished = true;
+                work->promise.addResult(std::move(result));
+                work->promise.finish();
+                observer->deleteLater();
+            };
+            const auto schedule = [this, observer, work, finish] {
+                if (work->scheduled || work->finished)
+                    return;
+                work->scheduled = true;
+                QTimer::singleShot(0, observer, [this, work, finish] {
+                    if (work->finished)
+                        return;
+                    work->scheduled = false;
+                    if (work->promise.isCanceled()) {
+                        finish({Audio::RenderPreparationResult::Cancelled});
+                        return;
+                    }
+                    if (m_addOn->m_closing) {
+                        finish({Audio::RenderPreparationResult::Cancelled});
+                        return;
+                    }
+                    if (m_addOn->documentTransactionActive())
+                        return;
+                    m_addOn->processPendingWork();
+                    if (m_addOn->documentTransactionActive())
+                        return;
+                    m_addOn->synchronizeDocument();
+                    auto readiness = SynthesisProjectAddOn::AudioReadiness::Pending;
+                    qsizetype previouslyRequested = 0;
+                    do {
+                        previouslyRequested = work->requestedClips.size();
+                        readiness = m_addOn->audioReadiness(&work->requestedClips, nullptr);
+                        if (readiness == SynthesisProjectAddOn::AudioReadiness::Pending &&
+                            previouslyRequested != work->requestedClips.size())
+                            m_addOn->processPendingWork();
+                    } while (readiness == SynthesisProjectAddOn::AudioReadiness::Pending &&
+                             previouslyRequested != work->requestedClips.size());
+                    switch (readiness) {
+                        case SynthesisProjectAddOn::AudioReadiness::Ready:
+                            finish({});
+                            break;
+                        case SynthesisProjectAddOn::AudioReadiness::Failed:
+                            finish({Audio::RenderPreparationResult::Failed,
+                                    SynthesisProjectAddOn::tr("Audio synthesis did not complete successfully")});
+                            break;
+                        case SynthesisProjectAddOn::AudioReadiness::Pending:
+                            break;
+                    }
+                });
+            };
+            connect(m_addOn->m_context, &ProjectSynthesisContext::pieceChanged, observer, schedule);
+            connect(m_addOn->m_context, &ProjectSynthesisContext::piecesChanged, observer, schedule);
+            connect(m_addOn->m_taskManager, &SynthesisTaskManager::taskChanged, observer, schedule);
+            if (auto *controller = m_addOn->m_transactionController.data())
+                connect(controller, &Core::TransactionController::accessStateChanged, observer, schedule);
+            connect(watcher, &QFutureWatcher<Audio::RenderPreparationResult>::canceled, observer, [finish] {
+                finish({Audio::RenderPreparationResult::Cancelled});
+            });
+            watcher->setFuture(future);
+            schedule();
+            return future;
+        }
+
+        bool isReady(const Audio::ProjectAudioRenderConfig &) const override {
+            return m_addOn->audioReadiness(nullptr, nullptr) == SynthesisProjectAddOn::AudioReadiness::Ready;
+        }
+
+    private:
+        SynthesisProjectAddOn *m_addOn;
+    };
+
     SynthesisProjectAddOn::SynthesisProjectAddOn(QObject *parent)
         : Core::WindowInterfaceAddOn(parent) {
     }
@@ -275,8 +370,6 @@ namespace Synth::Internal {
         auto window = windowHandle()->cast<Core::ProjectWindowInterface>();
         m_taskManager = SynthInterface::instance()->taskManager();
         m_audioController = new SynthesisAudioController(this);
-        connect(Audio::GlobalAudioContext::instance(), &Audio::GlobalAudioContext::sampleRateChanged,
-                this, [this](double sampleRate) { refreshAudioRanges(sampleRate); });
         connect(m_audioController, &SynthesisAudioController::statusChanged, this, [this](SynthesisPiece *piece) {
             if (!piece) {
                 return;
@@ -364,6 +457,18 @@ namespace Synth::Internal {
         });
         connect(window->projectTimeline(), &DspxProject::ProjectTimeline::positionChanged, this, &SynthesisProjectAddOn::updatePriorities);
         if (auto audioContext = Audio::ProjectAudioContext::of(window)) {
+            m_audioController->registerRenderPreparationProvider(audioContext, new SynthesisRenderPreparationProvider(this));
+            connect(audioContext, &Audio::ProjectAudioContext::sampleRateChanged,
+                    this, [this](double sampleRate) { refreshAudioRanges(sampleRate); });
+            connect(audioContext, &Audio::ProjectAudioContext::pendingSourcePolicyChanged, this, [this](Audio::ProjectAudioContext::PendingSourcePolicy policy) {
+                const auto mode = policy == Audio::ProjectAudioContext::PendingSourcePolicy::BufferTransport
+                    ? talcs::FutureAudioSourceClipSeries::Notify
+                    : talcs::FutureAudioSourceClipSeries::Skip;
+                for (auto *runtime : m_clips) {
+                    if (runtime && runtime->audioSeries)
+                        runtime->audioSeries->setReadMode(mode);
+                }
+            });
             connect(audioContext, &Audio::ProjectAudioContext::statusChanged, this, &SynthesisProjectAddOn::updatePriorities);
             connect(audioContext, &Audio::ProjectAudioContext::playbackSuppressedClipChanged, this, [this](dspx::SingingClip *clip) {
                 for (auto runtime : m_clips) {
@@ -1009,115 +1114,113 @@ namespace Synth::Internal {
     }
 
     bool SynthesisProjectAddOn::waitForAudioSynthesis(QString *errorMessage) {
-        if (documentTransactionActive()) {
-            if (errorMessage) {
-                *errorMessage = tr("Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again");
-            }
-            return false;
-        }
-        processPendingWork();
-        if (documentTransactionActive()) {
-            if (errorMessage) {
-                *errorMessage = tr("Audio export cannot start while an edit is in progress. Finish or cancel the current edit and try again");
-            }
-            return false;
-        }
-        synchronizeDocument();
-
         QEventLoop eventLoop;
+        auto *window = windowHandle()->cast<Core::ProjectWindowInterface>();
+        bool cancelled = false;
+        const auto cancelWait = [&] {
+            cancelled = true;
+            eventLoop.quit();
+        };
+        connect(window, &Core::ProjectWindowInterface::managedCloseRequested, &eventLoop, cancelWait);
+        connect(window, &Core::ProjectWindowInterface::loadingStateChanged, &eventLoop, [cancelWait](Core::ExecutiveInterface::State state) {
+            if (state >= Core::ExecutiveInterface::Exiting)
+                cancelWait();
+        });
+        connect(window->projectDocumentContext(), &DspxProject::ProjectDocumentContext::aboutToReload, &eventLoop, cancelWait);
         connect(m_context, &ProjectSynthesisContext::pieceChanged, &eventLoop, &QEventLoop::quit);
         connect(m_context, &ProjectSynthesisContext::piecesChanged, &eventLoop, &QEventLoop::quit);
         connect(m_taskManager, &SynthesisTaskManager::taskChanged, &eventLoop, &QEventLoop::quit);
-        if (m_transactionController) {
-            connect(m_transactionController.data(), &Core::TransactionController::transactionActiveChanged, &eventLoop, &QEventLoop::quit);
+        if (m_transactionController)
             connect(m_transactionController.data(), &Core::TransactionController::accessStateChanged, &eventLoop, &QEventLoop::quit);
-        }
 
         QSet<dspx::Handle> requestedClips;
         while (true) {
+            if (cancelled || window->isEffectivelyClosed())
+                return false;
             if (documentTransactionActive()) {
-                if (errorMessage) {
+                if (errorMessage)
                     *errorMessage = tr("Audio export cannot continue while an edit is in progress. Finish or cancel the current edit and try again");
-                }
                 return false;
             }
-            bool waiting{};
-            QSet<dspx::Handle> clipsToStart;
-            for (auto runtime : m_clips) {
-                for (auto piece : synthesisPiecesForClip(runtime)) {
-                    if (!piece) {
-                        continue;
-                    }
-                    auto clip = piece->singingClip();
-                    if (!clip) {
-                        continue;
-                    }
-                    switch (piece->state()) {
-                        case SynthesisPiece::Idle:
-                        case SynthesisPiece::Stale:
-                            if (requestedClips.contains(runtime->clipHandle)) {
-                                if (errorMessage) {
-                                    *errorMessage = tr("Audio synthesis could not be started for clip \"%1\"").arg(clip->name());
-                                }
-                                return false;
-                            }
-                            clipsToStart.insert(runtime->clipHandle);
-                            break;
-                        case SynthesisPiece::Queued:
-                        case SynthesisPiece::AwaitingResponse:
-                        case SynthesisPiece::StreamingQueued:
-                        case SynthesisPiece::Synthesizing:
-                            waiting = true;
-                            break;
-                        case SynthesisPiece::Ready: {
-                            if (!m_audioController->hasBinding(piece) || piece->audioFilePath().isEmpty()) {
-                                if (errorMessage) {
-                                    *errorMessage = tr("Audio export was stopped because clip \"%1\" contains a synthesis piece without completed audio").arg(clip->name());
-                                }
-                                return false;
-                            }
-                            if (m_audioController->isCanceled(piece)) {
-                                if (errorMessage) {
-                                    *errorMessage = tr("Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip \"%1\"").arg(clip->name());
-                                }
-                                return false;
-                            }
-                            if (!m_audioController->isLoaded(piece)) {
-                                waiting = true;
-                            }
-                            break;
-                        }
-                        case SynthesisPiece::Failed:
-                            if (errorMessage) {
-                                const auto &message = SynthesisPiecePrivate::get(piece)->errorMessage;
-                                const auto detail = message.isEmpty() ? tr("Unknown synthesis error") : message;
-                                *errorMessage = tr("Audio export was stopped because synthesis failed for a synthesis piece in clip \"%1\": %2")
-                                                    .arg(clip->name(), detail);
-                            }
-                            return false;
-                    }
-                }
+            processPendingWork();
+            synchronizeDocument();
+            const auto previouslyRequested = requestedClips.size();
+            switch (audioReadiness(&requestedClips, errorMessage)) {
+                case AudioReadiness::Ready:
+                    return true;
+                case AudioReadiness::Failed:
+                    return false;
+                case AudioReadiness::Pending:
+                    if (m_transactionController && m_transactionController->hasReadLocks())
+                        return false;
+                    if (requestedClips.size() == previouslyRequested)
+                        eventLoop.exec();
+                    break;
             }
-
-            if (m_transactionController && m_transactionController->hasReadLocks() &&
-                (!clipsToStart.isEmpty() || waiting || m_commitPending || !m_pendingTaskWritebacks.isEmpty())) {
-                qCWarning(lcSynthesisScheduler) << "Could not prepare synthesis for export while the document is locked for reading.";
-                return false;
-            }
-            if (!clipsToStart.isEmpty()) {
-                for (const auto clipHandle : clipsToStart) {
-                    requestedClips.insert(clipHandle);
-                    auto runtime = m_clips.value(clipHandle);
-                    if (runtime && runtime->clip)
-                        resynthesizeClip(runtime->clip, SynthesisTaskType::Pronunciation, {});
-                }
-                continue;
-            }
-            if (!waiting) {
-                return true;
-            }
-            eventLoop.exec();
         }
+    }
+
+    SynthesisProjectAddOn::AudioReadiness SynthesisProjectAddOn::audioReadiness(QSet<dspx::Handle> *requestedClips, QString *errorMessage) {
+        bool waiting = documentTransactionActive() || m_commitPending || m_documentSyncPending ||
+                       !m_pendingTaskWritebacks.isEmpty() || !m_pendingFinalizers.isEmpty();
+        QSet<dspx::Handle> clipsToStart;
+        for (auto *runtime : m_clips) {
+            for (auto *piece : synthesisPiecesForClip(runtime)) {
+                auto *clip = piece ? piece->singingClip() : nullptr;
+                if (!clip)
+                    continue;
+                switch (piece->state()) {
+                    case SynthesisPiece::Idle:
+                    case SynthesisPiece::Stale:
+                        if (requestedClips && requestedClips->contains(runtime->clipHandle)) {
+                            if (errorMessage)
+                                *errorMessage = tr("Audio synthesis could not be started for clip \"%1\"").arg(clip->name());
+                            return AudioReadiness::Failed;
+                        }
+                        clipsToStart.insert(runtime->clipHandle);
+                        break;
+                    case SynthesisPiece::Queued:
+                    case SynthesisPiece::AwaitingResponse:
+                    case SynthesisPiece::StreamingQueued:
+                    case SynthesisPiece::Synthesizing:
+                        waiting = true;
+                        break;
+                    case SynthesisPiece::Ready:
+                        if (!m_audioController->hasBinding(piece) || piece->audioFilePath().isEmpty()) {
+                            if (errorMessage)
+                                *errorMessage = tr("Audio export was stopped because clip \"%1\" contains a synthesis piece without completed audio").arg(clip->name());
+                            return AudioReadiness::Failed;
+                        }
+                        if (m_audioController->isCanceled(piece)) {
+                            if (errorMessage)
+                                *errorMessage = tr("Audio export was stopped because audio synthesis was canceled for a synthesis piece in clip \"%1\"").arg(clip->name());
+                            return AudioReadiness::Failed;
+                        }
+                        if (!m_audioController->isLoaded(piece))
+                            waiting = true;
+                        break;
+                    case SynthesisPiece::Failed:
+                        if (errorMessage) {
+                            const auto &message = SynthesisPiecePrivate::get(piece)->errorMessage;
+                            const auto detail = message.isEmpty() ? tr("Unknown synthesis error") : message;
+                            *errorMessage = tr("Audio export was stopped because synthesis failed for a synthesis piece in clip \"%1\": %2")
+                                                .arg(clip->name(), detail);
+                        }
+                        return AudioReadiness::Failed;
+                }
+            }
+        }
+        if (!waiting && clipsToStart.isEmpty())
+            return AudioReadiness::Ready;
+        if (requestedClips && m_transactionController && !m_transactionController->hasReadLocks() && !documentTransactionActive()) {
+            for (const auto clipHandle : clipsToStart) {
+                requestedClips->insert(clipHandle);
+                auto *runtime = m_clips.value(clipHandle);
+                if (runtime && runtime->clip)
+                    resynthesizeClip(runtime->clip, SynthesisTaskType::Pronunciation, {});
+            }
+        }
+        return AudioReadiness::Pending;
     }
 
     void SynthesisProjectAddOn::notifyFailure(SynthesisPiece *piece, const QString &message, const QVariant &problemData,

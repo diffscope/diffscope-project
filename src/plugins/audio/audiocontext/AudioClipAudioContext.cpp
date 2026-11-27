@@ -4,8 +4,11 @@
 #include "AudioClipAudioContext.h"
 #include "AudioClipAudioContext_p.h"
 
+#include <initializer_list>
 #include <utility>
 
+#include <QDir>
+#include <QFileInfo>
 #include <QHash>
 
 #include <TalcsCore/BufferingAudioSource.h>
@@ -18,8 +21,21 @@
 #include <coreplugin/ProjectWindowInterface.h>
 #include <audio/EmbeddedAudio.h>
 #include <audio/internal/AudioPreference.h>
+#include <audio/internal/HashHelper.h>
 
 namespace Audio {
+
+    QString AudioClipAudioContextPrivate::findReferencedFile(const dspx::AudioPathInfo &path, const QString &projectPath) {
+        if (projectPath.isEmpty() || path.digest.isEmpty())
+            return {};
+        const auto directory = QFileInfo(projectPath).absoluteDir();
+        for (const auto &relative : {QDir(path.relativeDir).filePath(path.fileName), path.fileName}) {
+            const auto file = QDir::cleanPath(directory.absoluteFilePath(relative));
+            if (QFileInfo(file).isFile() && Internal::HashHelper::digest(file).compare(path.digest, Qt::CaseInsensitive) == 0)
+                return file;
+        }
+        return {};
+    }
 
     static QHash<dspx::AudioClip *, AudioClipAudioContext *> s_audioClipAudioContexts;
 

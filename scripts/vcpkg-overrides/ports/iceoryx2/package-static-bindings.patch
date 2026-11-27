@@ -1,0 +1,146 @@
+--- a/iceoryx2-c/CMakeLists.txt
++++ b/iceoryx2-c/CMakeLists.txt
+@@ -48,35 +48,19 @@
+ add_library(static-lib INTERFACE)
+ add_library(iceoryx2-c::static-lib ALIAS static-lib)
+ 
+-# shared lib
+-
+-add_library(shared-lib INTERFACE)
+-add_library(iceoryx2-c::shared-lib ALIAS shared-lib)
+-
+-# NOTE the solution with specifying a 'BUILD_INTERFACE' and a 'INSTALL_INTERFACE' was the only one that worked;
+-# alternatively an imported library could be created, e.g. 'iceoryx2_ffi' with a corresponding alias, e.g. 'iceoryx2::ffi';
+-# the imported lib needs to be present here and also in 'Config.cmake.in' but they need to be named differently, e.g.
+-# 'iceoryx2_ffi_imported' in 'Config.cmake.in' but with the same alias, e.g 'iceoryx2::ffi';
+-# the 'target_link_libraries' would then depend on 'iceoryx2::ffi'
+ include(GNUInstallDirs)
+ target_link_libraries(static-lib INTERFACE
+     iceoryx2-c::includes-only
+     $<BUILD_INTERFACE:${ICEORYX2_C_STATIC_LIB_LINK_FILE}>
+-    $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_LIBDIR}/${ICEORYX2_C_STATIC_LIB_LINK_NAME}>
++    $<INSTALL_INTERFACE:iceoryx2-c::ffi-static>
+     $<$<NOT:$<PLATFORM_ID:Windows,QNX,Android>>:m pthread>
+     $<$<PLATFORM_ID:Windows>:userenv ntdll psapi ws2_32 wsock32>
+     $<$<AND:$<PLATFORM_ID:Windows>,$<OR:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>>:bcrypt synchronization>
+-    $<$<PLATFORM_ID:Darwin>:stdc++>
++    $<$<PLATFORM_ID:Darwin>:c++>
+     $<$<PLATFORM_ID:FreeBSD>:rt util>
+     $<$<PLATFORM_ID:Linux>:dl rt>
+     $<$<PLATFORM_ID:QNX>:stdc++ socket>
+ )
+-target_link_libraries(shared-lib INTERFACE
+-    iceoryx2-c::includes-only
+-    $<BUILD_INTERFACE:${ICEORYX2_C_SHARED_LIB_LINK_FILE}>
+-    $<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_LIBDIR}/${ICEORYX2_C_SHARED_LIB_LINK_NAME}>
+-)
+-
+ include(${CMAKE_CURRENT_LIST_DIR}/cmake/install.cmake)
+ 
+ # Tests
+--- a/iceoryx2-c/cmake/Config.cmake.in
++++ b/iceoryx2-c/cmake/Config.cmake.in
+@@ -12,6 +12,21 @@
+ 
+ @PACKAGE_INIT@
+ 
++if(NOT TARGET iceoryx2-c::ffi-static)
++    add_library(iceoryx2-c::ffi-static STATIC IMPORTED)
++    set_target_properties(iceoryx2-c::ffi-static PROPERTIES
++        IMPORTED_CONFIGURATIONS RELEASE
++        IMPORTED_LOCATION_RELEASE "${PACKAGE_PREFIX_DIR}/@CMAKE_INSTALL_LIBDIR@/@ICEORYX2_C_STATIC_LIB_LINK_NAME@"
++    )
++
++    set(_iceoryx2_ffi_debug "${PACKAGE_PREFIX_DIR}/debug/@CMAKE_INSTALL_LIBDIR@/@ICEORYX2_C_STATIC_LIB_LINK_NAME@")
++    if(EXISTS "${_iceoryx2_ffi_debug}")
++        set_property(TARGET iceoryx2-c::ffi-static APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
++        set_property(TARGET iceoryx2-c::ffi-static PROPERTY IMPORTED_LOCATION_DEBUG "${_iceoryx2_ffi_debug}")
++    endif()
++    unset(_iceoryx2_ffi_debug)
++endif()
++
+ include("${CMAKE_CURRENT_LIST_DIR}/@TARGETS_EXPORT_NAME@.cmake")
+ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
+ check_required_components("@PROJECT_NAME@")
+--- a/iceoryx2-c/cmake/install.cmake
++++ b/iceoryx2-c/cmake/install.cmake
+@@ -57,7 +57,7 @@
+ 
+ # target directories
+ install(
+-    TARGETS includes-only static-lib shared-lib
++    TARGETS includes-only static-lib
+     EXPORT ${TARGETS_EXPORT_NAME}
+     RUNTIME DESTINATION ${DESTINATION_BINDIR} COMPONENT bin
+     LIBRARY DESTINATION ${DESTINATION_LIBDIR} COMPONENT lib
+@@ -74,7 +74,7 @@
+ 
+ # lib
+ install(
+-    FILES ${ICEORYX2_C_LIB_ARTIFACTS}
++    FILES "${ICEORYX2_C_STATIC_LIB_LINK_FILE}"
+     DESTINATION ${DESTINATION_LIBDIR}
+     COMPONENT lib
+ )
+--- a/iceoryx2-cxx/CMakeLists.txt
++++ b/iceoryx2-cxx/CMakeLists.txt
+@@ -158,29 +158,6 @@
+   target_link_libraries(static-lib-cxx PUBLIC flatbuffers::flatbuffers)
+ endif()
+ 
+-# shared lib
+-
+-add_library(shared-lib-cxx SHARED $<TARGET_OBJECTS:iceoryx2-cxx-object-lib>)
+-add_library(iceoryx2-cxx::shared-lib-cxx ALIAS shared-lib-cxx)
+-
+-target_compile_features(shared-lib-cxx PUBLIC ${ICEORYX2_CXX_STD})
+-set_target_properties(shared-lib-cxx
+-    PROPERTIES
+-    POSITION_INDEPENDENT_CODE ON
+-    OUTPUT_NAME "iceoryx2_cxx"
+-)
+-
+-target_link_libraries(shared-lib-cxx
+-    PUBLIC
+-    iceoryx2-bb-cxx::iceoryx2-bb-cxx
+-    iceoryx2-c::shared-lib
+-    iceoryx2-cxx::includes-only-cxx
+-)
+-
+-if(${IOX2_FEATURE_FLATBUFFERS})
+-  target_link_libraries(shared-lib-cxx PUBLIC flatbuffers::flatbuffers)
+-endif()
+-
+ # include install setup
+ 
+ include(${CMAKE_CURRENT_LIST_DIR}/cmake/install.cmake)
+--- a/iceoryx2-cxx/cmake/install.cmake
++++ b/iceoryx2-cxx/cmake/install.cmake
+@@ -57,7 +57,7 @@
+ 
+ # target directories
+ install(
+-    TARGETS includes-only-cxx static-lib-cxx shared-lib-cxx
++    TARGETS includes-only-cxx static-lib-cxx
+     EXPORT ${TARGETS_EXPORT_NAME}
+     RUNTIME DESTINATION ${DESTINATION_BINDIR} COMPONENT bin
+     LIBRARY DESTINATION ${DESTINATION_LIBDIR} COMPONENT lib
+--- a/iceoryx2-cmake-modules/platform/win/modules/Iceoryx2PlatformSettings.cmake
++++ b/iceoryx2-cmake-modules/platform/win/modules/Iceoryx2PlatformSettings.cmake
+@@ -27,13 +27,13 @@
+ set(ICEORYX2_C_WARNINGS CACHE INTERNAL "")
+ 
+ if(CMAKE_C_COMPILER_ID MATCHES MSVC)
+-    set(ICEORYX2_C_WARNINGS     "${ICEORYX2_C_WARNINGS} /W0" CACHE INTERNAL "") # TODO same as iceoryx classic; check if we can increase the warning level
++    set(ICEORYX2_C_WARNINGS     ${ICEORYX2_C_WARNINGS} /W0 CACHE INTERNAL "") # TODO same as iceoryx classic; check if we can increase the warning level
+ endif()
+ set(ICEORYX2_CXX_WARNINGS       ${ICEORYX2_C_WARNINGS} CACHE INTERNAL "")
+ 
+ if(WARNING_AS_ERROR)
+     if(CMAKE_C_COMPILER_ID MATCHES MSVC)
+-        set(ICEORYX2_C_WARNINGS "${ICEORYX2_C_WARNINGS} /W0" CACHE INTERNAL "") # TODO same as iceoryx classic; set to /WX if possible
++        set(ICEORYX2_C_WARNINGS ${ICEORYX2_C_WARNINGS} /W0 CACHE INTERNAL "") # TODO same as iceoryx classic; set to /WX if possible
+     endif()
+-    set(ICEORYX2_CXX_WARNINGS   "${ICEORYX_CXX_WARNINGS} /W0" CACHE INTERNAL "") # TODO same as iceoryx classic; set to /WX if possible
++    set(ICEORYX2_CXX_WARNINGS   ${ICEORYX2_CXX_WARNINGS} /W0 CACHE INTERNAL "") # TODO same as iceoryx classic; set to /WX if possible
+ endif()

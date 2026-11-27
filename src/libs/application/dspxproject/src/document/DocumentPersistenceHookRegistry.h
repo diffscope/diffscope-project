@@ -31,7 +31,9 @@ namespace DspxProject {
         QList<IDocumentPersistenceHook *> hooks() const;
 
         void beforeLoadModel(ProjectDocumentContext &context, opendspx::Model &model, const QString &recoverySourceDirectory) override;
-        void afterSaveModel(ProjectDocumentContext &context, opendspx::Model &model) override;
+        void afterSaveModel(ProjectDocumentContext &context, opendspx::Model &model, const QString &destination) override;
+        void prepareReplacement(ProjectDocumentContext &context, ProjectDocumentContext &candidate) override;
+        void finishReplacement(ProjectDocumentContext &context, ProjectDocumentContext &candidate) override;
 
     private:
         QScopedPointer<DocumentPersistenceHookRegistryPrivate> d_ptr;

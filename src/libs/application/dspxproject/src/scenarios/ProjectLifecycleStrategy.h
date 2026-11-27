@@ -57,6 +57,8 @@ namespace DspxProject {
         QString currentPath;
         /** The suggested document name, empty if unavailable. */
         QString suggestedName;
+        /** The optional object whose destruction cancels path selection. */
+        QObject *cancelOnDestroyed = nullptr;
     };
 
     /** A lifecycle warning requiring a decision before continuation. */
@@ -64,7 +66,8 @@ namespace DspxProject {
         /** The warning category. */
         enum Code {
             CheckerWarning, /**< Project validation reported warnings. */
-            SaveIntegrity /**< Serialization reported integrity warnings. */
+            SaveIntegrity, /**< Serialization reported integrity warnings. */
+            DirtyReplacement /**< Replacement discards unsaved document changes. */
         };
 
         /** The warning category for this operation. */
@@ -75,6 +78,8 @@ namespace DspxProject {
         QString message;
         /** The checker warning detail, empty if unavailable. */
         QString detail;
+        /** The optional object whose destruction cancels confirmation. */
+        QObject *cancelOnDestroyed = nullptr;
     };
 
     /**

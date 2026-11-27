@@ -1,0 +1,152 @@
+{
+  "aarch64-apple-darwin": {
+    "rustc": "84b26546833851fdbc151f7d87b2b61554ca2c9e28a753007386841c57e43a05a32966b06ad021aa4e073e93f5953f07f96bd3944f3cb310bfe29ed714113823",
+    "cargo": "809fc536ca2a4496aed377f512f7718762643379e6bfb5870c8b6a682f03c2231c24c96b0585de9afc432f8f32e293a3dbecb32e5522c479943f21f84536b41e",
+    "rust-std": "5521b3e52fc56438efad145b9d3359392f6fef96cc0035acdd86e98edd3b0647890112e6c79e40af2de799f0c0ddba5995b3994682c7860045ce53865edb730c"
+  },
+  "aarch64-pc-windows-gnullvm": {
+    "rustc": "a7556b86bce94dd8c078a62f71a9a0a3f4b3e841bc5d4fae546d797b78186eb1",
+    "cargo": "56d38a6a89e2a38ec777938d74feb93a3498bc8788df96a94fcb4eac2e07338b",
+    "rust-std": "4e79f57b80040757a3425568b5978986f026daf771649a64021c74bcc138214b"
+  },
+  "aarch64-pc-windows-msvc": {
+    "rustc": "07ba5606143de3bc916455714f67732fca05805591396a8190d5e88b8863eea3",
+    "cargo": "3fc47cc29781190c5075f807836c4b98d411aaf27c59598fbfb2aa781ccf6190",
+    "rust-std": "b20c5c696af4ecfb683370ca0ee3c76ab8726fe6470ce9f1368d41a5b06ea065"
+  },
+  "aarch64-unknown-linux-gnu": {
+    "rustc": "7c8706fad4c038b5eacab0092e15db54d2b365d5f3323ca046fe987f814e7826",
+    "cargo": "cb2ce6be6411b986e25c71ad8a813f9dfbe3461738136fd684e3644f8dd75df4",
+    "rust-std": "ce2ab42c09d633b0a8b4b65a297c700ae0fad47aae890f75894782f95be7e36d"
+  },
+  "aarch64-unknown-linux-musl": {
+    "rustc": "e7099dddd30f92093916e47a34cd6a866ea0acbf2836c17b74bdd795f0137a2a",
+    "cargo": "492614aa4fab1d58cdf495ab040426174e740038f715145bbbce7a87716a4c8b",
+    "rust-std": "94b9f84f21d29825c55a27fbb6b4b9fb9296a4a841aa54d85b95c42445623363"
+  },
+  "arm-unknown-linux-gnueabi": {
+    "rustc": "18961e1d83fb747b60c766f68f8297a54452def6e79cc3e02c2d23712e0b3a17",
+    "cargo": "d09d3e8402f868b784aa17f2e8268de91d8f4634c34bfb5be65596abc6043d35",
+    "rust-std": "35478e20f8cc13912b31f2905b313a2820ddae564b363a66ab7a5da39d12787f"
+  },
+  "arm-unknown-linux-gnueabihf": {
+    "rustc": "53406761d1774302d50007ab005ff95befc9396856389fadbc94949629bed71d",
+    "cargo": "dbeb44e4924218afc7c57db5f7a48058fe0bd0653c292fab5cc4a8b9016b2096",
+    "rust-std": "836ada282b65c57d71f9b7e6fb490832410c954aac905c5437fb0bf851b53c83"
+  },
+  "armv7-unknown-linux-gnueabihf": {
+    "rustc": "c49d5679f7f4f5ce3cf0d3b72c4299a0f95521087f3122d6c15be77658d4f9e9",
+    "cargo": "713f7d2ca8776ce537c0a5e716f7bdf644d54949c78c0a98ca4113f80bd670e7",
+    "rust-std": "e3ac810db43067d8af9e17679d47534e871f1daad8cd0762e67da935681e9e19"
+  },
+  "i686-pc-windows-gnu": {
+    "rustc": "a3dd59a53c7c919457b4c4eab814c3cd18cdc7a3f679fdaf8df6f9a21ef8c1ef",
+    "cargo": "8b6368d75f20c3cdfbb0c03f2cd7c386b9224bbf3717fbd635fff6ace0260660",
+    "rust-std": "b3eefe10d4aed3ccbeaff3ae9cd2e0e0a36894c0635d0e69af1c9a698679d75f"
+  },
+  "i686-pc-windows-msvc": {
+    "rustc": "e892036f2ac1f24cdf853df74f631e9ad80fa6fcb2b9ca241527ed5b03eea96d",
+    "cargo": "a734070e84d1d9124bd0f4157eadf66c5b2030e49162f209ad0a0ebf895333ff",
+    "rust-std": "e5671b276047647e994a7cab99c90ee70c46787572fbe4e266a13c6edb84d5ce"
+  },
+  "i686-unknown-linux-gnu": {
+    "rustc": "c1c920cd59e255e5dcf844af22b80483fe4b04ff04f143be6da69314bd6733f8",
+    "cargo": "63001bbde1c036fae9ad624807bfb18117c7e7cb4a04de81adc4acc7e8580c07",
+    "rust-std": "abc840631a4462a4c8ec61341110ff653ab2ef86ef3b10f84489d00cc8a9310d"
+  },
+  "loongarch64-unknown-linux-gnu": {
+    "rustc": "6207ea209b332c01437fe742c2ef2bc914c88b6d4f9a23a43bc01ad924f6e4a8",
+    "cargo": "32f4b393f1471d7d50c9a50512f02116187b3ea6a885c26ff2d74f87fa72baa8",
+    "rust-std": "62e2568ebf6f1addc750a8c32dd1fa4fef8d27679cbac33b837afeb54f204819"
+  },
+  "loongarch64-unknown-linux-musl": {
+    "rustc": "66ac74c23df9f42cbda26587a37a70a67d5fd9821673656712a9f5a3b4cc8151",
+    "cargo": "edf8ae60bbe7821dfd02434951cca3b8c3ea63dc075b8a425ca45ac84da5796e",
+    "rust-std": "274838eebb615e6d2719157aa53230cd0c3233a1e6f1c975c0f5978198c55da3"
+  },
+  "powerpc-unknown-linux-gnu": {
+    "rustc": "961cb6b8c2b5e969ad8eb0256fee43b88608b27310d946a7df3c9e9577139cae",
+    "cargo": "1249c64f95d8187b3a89cf8429329bdbc98f53a9fc538e898c95c487e3234d90",
+    "rust-std": "c3e809a324b00eb53096c58df38645bb496c6560de334dfe04ed0b77c0605aaa"
+  },
+  "powerpc64-unknown-linux-gnu": {
+    "rustc": "357dd4745f978080d35dbb6192ecfea331abbb93d88be7d70407856b30722a40",
+    "cargo": "e94a8f97c3143158e285b4f8ade1fae844961caca30c0eeed44f6c14da484f05",
+    "rust-std": "2ce706afa4a46b6773340854de877fc63618a40e351298a4e3da8eb482619863"
+  },
+  "powerpc64le-unknown-linux-gnu": {
+    "rustc": "f48a214ff6fa36a77de8a0a2ee009be8aa48ba1533792450aca5edac29497606",
+    "cargo": "49dd01f5d10e3f368181223db0fbf7dc191161f7d80a295de4909bf87e53da58",
+    "rust-std": "eba59766c2d9805c0a1fc82fd723acbb36569e1bec1088c037bba84d965f70ba"
+  },
+  "powerpc64le-unknown-linux-musl": {
+    "rustc": "f418ffded33abecec8d8aa72abf40448511ac78e8ae14ca43c066c7dd98310c3",
+    "cargo": "0f64d4df6bfad74ac9a60dfccf0c574ef56cd092d3207931b100e9b9130f7640",
+    "rust-std": "8b515e18b6ac8f8d37ea3cabe644b7f571984333c3b4192b7f5877e79eae7893"
+  },
+  "riscv64gc-unknown-linux-gnu": {
+    "rustc": "729f4c074ccda30bff493fa94f255bcfcec1be594fecd8a4d0f57da845121c64",
+    "cargo": "e8708d0a929ad15941ecde368e8a156911927a805b492afafc737124b6aa55d4",
+    "rust-std": "8ee20dcf3b1063fa6069b3ce85e1fcf42794dfa783263314865cb53fff42d9e4"
+  },
+  "s390x-unknown-linux-gnu": {
+    "rustc": "6a8cf614a74f7469c70d32b378f0163633e6bbe19624b248b758501c5bcdfe84",
+    "cargo": "a290edf359a5632dfda3b2325a309d9edeb58c97de97e3cc67274335b58adf05",
+    "rust-std": "ebf944dc95015498d322504a54e4f9cdb28590f7790aa3a9eb86d6cf4b6c93ff"
+  },
+  "sparcv9-sun-solaris": {
+    "rustc": "74d6f885557f11b136d780c6fcc22d1db4b80644baaad22dbbbe29c890a0475a",
+    "cargo": "a0749eb1c52b8b6488fa0515ce0ae945f5a8dee331762334e1462776dfa0ec96",
+    "rust-std": "e9ae7dc479e6c97335b3ebee8c3d69069cf6a617942196871229794ca94f3458"
+  },
+  "x86_64-apple-darwin": {
+    "rustc": "0facbd5d2742c8e97c53d59c9b5b81db6088cfc285d9ecb99523a50d6765fc5c",
+    "cargo": "b033a7c33aba8af947c9d0ab2785f9696347cded228ffe731897f1c627466262",
+    "rust-std": "6ce143bf9e83c71e200f4180e8774ab22c8c8c2351c88484b13ff13be82c8d57"
+  },
+  "x86_64-pc-solaris": {
+    "rustc": "03ed0965a4b4006f347513e7a2e7e0a9dac13053b432d65e97c59fd604973542",
+    "cargo": "cbfc3e9543990f65dff8c76f0cc87b22b15f5ed6777cfb71b7eb7ea634a4d27f",
+    "rust-std": "776ceb389296b22a74bd7631f4440b965504d1687448030d2d51c853fe4598a5"
+  },
+  "x86_64-pc-windows-gnu": {
+    "rustc": "fa0cbdf49f267f316433f054ca99951177827d0d406ddbaba9a0bbdcb093b56d",
+    "cargo": "962e0350346b417719cc36db333424a03e368d602fb411676c901f15487ea29c",
+    "rust-std": "d4043304ef0e4792fb79a1153cbeca41308aac37cb1af3aa6bc3f0bb6d2276e1"
+  },
+  "x86_64-pc-windows-gnullvm": {
+    "rustc": "e67ec11b4c6e04e95effa7b4063ae8327c2861c6d08a7c692d69a0f1adcd8ecb",
+    "cargo": "c27d5936e1c11feb33f3221b85741c33f783c8723fca84552e7c2a5a73959352",
+    "rust-std": "6169605b3073a7c2d6960bc1c74cb9cd6b65f45ee34e7ede02368e07ce4564cf"
+  },
+  "x86_64-pc-windows-msvc": {
+    "rustc": "c92dedfc7167c96f21662f3b32652e0a32ff0a67a2481ef83cadc280b0bb0a603d36ac3ece040267902e93977c25fa0e4ece45eca96add2a30a8242876d8d5ac",
+    "cargo": "064602c43c6be2cc431a046251c3dd19b47f60d1627a6a08413c710d49d41e3f57cf57be8b7a057f9d92e522a4fd14ed17bb1bf4b902dab19e932612493f3850",
+    "rust-std": "7cb080ef1852e35ce64d552dae1362814c43c15f43522ff1defc8dbfe9aff5c3d439b20a383bf3d047c42ee930b3495c4c688991eabd5f68e8a8ba98445e3880"
+  },
+  "x86_64-unknown-freebsd": {
+    "rustc": "f9b3a4fdb825c171e15f68db7c4faefecd60ea7475b9b11e98004fb7d711fd7c",
+    "cargo": "7bf1853c6ac4b426d7b4b67ee4ecf60f4a3e83151147a13b4cf04f81ccff3c4b",
+    "rust-std": "151929a4255175d14b2cbcb69ef46d9217add23be268b9cd1446f8eab16616f2"
+  },
+  "x86_64-unknown-illumos": {
+    "rustc": "e74f639cdfb368edfede795394932c8665cb192a2618e88c947ebd57ce2cc159",
+    "cargo": "a620fd5c893261ac0f9b59dfe6062f4a8e1eaf517b8116b64d3c0925dc1a5d1d",
+    "rust-std": "31c6f2296543e684554b9eb4ac34551270a0a9c7d0cbc96986cf15a301e27035"
+  },
+  "x86_64-unknown-linux-gnu": {
+    "rustc": "56391790ef6792decfbadd96b6571b7e3197dc11a75ca216dbad88d4b26237a50cf1940502b6dcbd2b978e560c0b44b52a1ea22e0954f51443a304d457c9cdbd",
+    "cargo": "7b315dff9a895a482aefae57e6c72d0de191fa2f9a1ffcde65db63312672c6d0f60a11dc544286250a11298fd46f5e6fff9865c894216d98c0eaa61862216356",
+    "rust-std": "50deb6f287bd94c32ed97ef1120c16e65c20ce22e6f53c4e7bb20063d3faa07e480c30f768c3d4719e5cc90540eea48134ff445c70dad38f974d255b28758411"
+  },
+  "x86_64-unknown-linux-musl": {
+    "rustc": "f1a037c367d29d329d041f0bf1d271e60440adc961b6eaa9ea902018a672d4a3",
+    "cargo": "b37ef0ce8c49103a904559f17c83c6e5a182f0f165f158e7be00e9036ca8c6d5",
+    "rust-std": "11f0b7efccdb5e7972e3c0fc23693a487abc28b624675c08161d055a016d527e"
+  },
+  "x86_64-unknown-netbsd": {
+    "rustc": "a0cdbdd508e72de8f3e783b61827fac1f741acd6503464dc263a7292880a16e5",
+    "cargo": "19065f32ac1edae4f000695d3814b5b1ae2649e218304d223e8af1634f465b37",
+    "rust-std": "db6a8d3a091551701b12e40cc58d4a541adfb63f250074aae90d250329beb8de"
+  }
+}

@@ -68,6 +68,7 @@ namespace Core {
         };
 
         bool withWriteAccess(const std::function<void()> &callback);
+        bool replaceBaseline(const std::function<void()> &replace);
 
         int currentStep() const;
         void setCurrentStep(int step);

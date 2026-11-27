@@ -1,0 +1,22 @@
+{
+  "name": "iceoryx2",
+  "version": "0.10.0",
+  "description": "Shared-memory IPC with Rust, C and C++ bindings",
+  "homepage": "https://github.com/eclipse-iceoryx/iceoryx2",
+  "license": "Apache-2.0 OR MIT",
+  "supports": "native",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    },
+    {
+      "name": "vcpkg-tool-rust",
+      "host": true
+    }
+  ]
+}

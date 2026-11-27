@@ -561,6 +561,23 @@ namespace Audio {
             return R_Fail;
         }
 
+        auto renderSession = ProjectAudioContext::of(d->windowHandle)->acquireRenderSession();
+        if (!renderSession) {
+            d->setError(CannotStartExport);
+            return R_Fail;
+        }
+        const auto closeConnection = connect(d->windowHandle, &Core::ProjectWindowInterface::managedCloseRequested, this, [this, d] {
+            d->setError(Cancelled);
+            cancel();
+        });
+        const auto reloadConnection = connect(d->windowHandle->projectDocumentContext(), &DspxProject::ProjectDocumentContext::aboutToReload, this, [d] {
+            d->setError(Cancelled);
+        });
+        const auto closeGuard = makeScopeGuard([closeConnection, reloadConnection] {
+            QObject::disconnect(closeConnection);
+            QObject::disconnect(reloadConnection);
+        });
+
         const QPointer<DspxProject::Document> document(d->windowHandle->projectDocumentContext()->document());
         if (!document || !document->transactionController()->canAcquireReadLock()) {
             qCWarning(lcAudioExporter) << "Could not acquire a document read lock.";
@@ -570,8 +587,10 @@ namespace Audio {
         const auto approvedWarnings = d->preflightWarnings;
         for (const auto listener : s_listeners) {
             if (!listener->prepareCallback(this))
-                return d->error == NoError ? R_Abort : R_Fail;
+                return d->error == NoError || d->error == Cancelled ? R_Abort : R_Fail;
         }
+        if (d->error != NoError)
+            return R_Abort;
 
         Core::TransactionController::ScopedReadLock readLock(
             document && d->windowHandle->projectDocumentContext()->document() == document ? document->transactionController() : nullptr);
@@ -665,6 +684,10 @@ namespace Audio {
                     listener->willFinishCallback(this);
                 }
             });
+            const auto renderGuard = makeScopeGuard([&] {
+                if (!renderSession->release())
+                    addRuntimeWarning(tr("Cannot reopen audio after exported"));
+            });
 
             for (const auto listener : s_listeners) {
                 if (!listener->willStartCallback(this)) {
@@ -676,15 +699,12 @@ namespace Audio {
                 listenerToCallFinishList.prepend(listener);
             }
 
-            const auto currentBufferSize = projectContext->preMixer()->bufferSize();
-            const auto currentSampleRate = projectContext->preMixer()->sampleRate();
-            const auto reopenMixerGuard = makeScopeGuard([&] {
-                if (!projectContext->preMixer()->open(currentBufferSize, currentSampleRate)) {
-                    addRuntimeWarning(tr("Cannot reopen audio after exported"));
-                }
-            });
-
-            if (!projectContext->preMixer()->open(1024, d->config.formatSampleRate())) {
+            if (!renderSession->configure({
+                    .maximumFrames = 1024,
+                    .sampleRate = d->config.formatSampleRate(),
+                    .channels = d->config.formatMono() ? 1 : 2,
+                    .mode = ProjectAudioRenderConfig::Mode::Offline,
+                })) {
                 d->setError(CannotStartExport);
                 return R_Fail;
             }
@@ -694,13 +714,6 @@ namespace Audio {
             });
             connect(&exporter, &talcs::DspxProjectAudioExporter::clippingDetected, this, [sourceIndexMap, this](talcs::DspxTrackContext *track) {
                 Q_EMIT clippingDetected(sourceIndexMap.value(track));
-            });
-
-            auto masterTrackMixer = projectContext->masterTrackMixer();
-            const auto routeChannels = masterTrackMixer->routeChannels();
-            masterTrackMixer->setRouteChannels(false);
-            const auto restoreRoutingGuard = makeScopeGuard([masterTrackMixer, routeChannels] {
-                masterTrackMixer->setRouteChannels(routeChannels);
             });
 
             const auto result = exporter.exec();

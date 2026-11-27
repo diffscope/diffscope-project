@@ -29,10 +29,20 @@ namespace DspxProject {
         }
     }
 
-    void DocumentPersistenceHookRegistry::afterSaveModel(ProjectDocumentContext &context, opendspx::Model &model) {
+    void DocumentPersistenceHookRegistry::afterSaveModel(ProjectDocumentContext &context, opendspx::Model &model, const QString &destination) {
         for (auto *hook : hooks()) {
-            hook->afterSaveModel(context, model);
+            hook->afterSaveModel(context, model, destination);
         }
+    }
+
+    void DocumentPersistenceHookRegistry::prepareReplacement(ProjectDocumentContext &context, ProjectDocumentContext &candidate) {
+        for (auto *hook : hooks())
+            hook->prepareReplacement(context, candidate);
+    }
+
+    void DocumentPersistenceHookRegistry::finishReplacement(ProjectDocumentContext &context, ProjectDocumentContext &candidate) {
+        for (auto *hook : hooks())
+            hook->finishReplacement(context, candidate);
     }
 
 }

@@ -60,7 +60,7 @@ namespace Core::Internal {
             }
             auto context = project->projectDocumentContext();
             const auto locker = context->fileLocker();
-            if (locker && !locker->path().isEmpty() && QFileInfo(locker->path()).canonicalFilePath() == canonicalPath) {
+            if (locker && DspxProject::ProjectDocumentContext::sameFilePath(locker->path(), canonicalPath)) {
                 return context;
             }
         }
@@ -68,7 +68,10 @@ namespace Core::Internal {
     }
 
     void CoreProjectLifecycleStrategy::activateProject(DspxProject::ProjectDocumentContext *context) {
-        ProjectWindowNavigatorAddOn::raiseWindow(ProjectWindowInterface::of(context->document()));
+        auto *window = ProjectWindowInterface::of(context->document());
+        if (window->window()->visibility() == QWindow::Hidden)
+            window->window()->show();
+        ProjectWindowNavigatorAddOn::raiseWindow(window);
     }
 
     void CoreProjectLifecycleStrategy::presentProject(std::unique_ptr<DspxProject::ProjectDocumentContext> context) {

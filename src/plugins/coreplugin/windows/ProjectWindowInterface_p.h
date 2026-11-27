@@ -15,6 +15,9 @@ namespace Core {
         Notifications::NotificationModel *notifications{};
         DspxProject::ProjectTimeline *projectTimeline;
         DspxProject::ProjectDocumentContext *projectDocumentContext;
+        bool managed = false;
+        QMetaObject::Connection filePathConnection;
+        QMetaObject::Connection pendingCloseConnection;
         WorkspacePanelRegistry *workspacePanelRegistry = nullptr;
         DspxProject::ClipboardEditScenario *clipboardEditScenario = nullptr;
         DspxProject::EditItemsScenario *editItemsScenario = nullptr;
@@ -30,6 +33,7 @@ namespace Core {
         void init();
         void initEditScenarios();
         void initActionContext();
+        void updateFilePath();
     };
 
 }

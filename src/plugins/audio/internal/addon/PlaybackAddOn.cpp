@@ -3,6 +3,8 @@
 
 #include "PlaybackAddOn.h"
 
+#include <atomic>
+
 #include <QPointer>
 #include <QQmlComponent>
 #include <QScopedValueRollback>
@@ -74,21 +76,23 @@ namespace Audio::Internal {
 
         auto transport = m_context->transport();
         connect(transport, &talcs::TransportAudioSource::positionAboutToChange, this, [this] {
+            if (!ProjectAudioContextPrivate::of(m_context)->usesLocalTransport())
+                return;
             if (auto recorder = MidiRecordingAddOn::of(windowHandle()->cast<Core::ProjectWindowInterface>()); recorder && recorder->isBusy())
                 return;
             if (!m_context->isRunning())
                 return;
-            QScopedValueRollback positionFlag(m_transportPositionFlag, false);
-            m_projectTimeline->setPosition(sampleToTick(m_context->transport()->position()));
+            syncPlaybackPosition();
         }, Qt::QueuedConnection);
         connect(transport, &talcs::TransportAudioSource::playbackStatusChanged, this, [this](talcs::TransportAudioSource::PlaybackStatus status) {
+            if (!ProjectAudioContextPrivate::of(m_context)->usesLocalTransport())
+                return;
             if (auto recorder = MidiRecordingAddOn::of(windowHandle()->cast<Core::ProjectWindowInterface>()); recorder && recorder->isBusy())
                 return;
             if (status == talcs::TransportAudioSource::Paused &&
                 m_context->transport()->playbackStatus() == talcs::TransportAudioSource::Paused &&
-                m_context->status() == ProjectAudioContext::Stopped &&
-                AudioPreference::playbackBehavior() == AudioPreference::PB_ReturnToStart) {
-                m_projectTimeline->setPosition(m_projectTimeline->lastPosition());
+                m_context->status() == ProjectAudioContext::Stopped) {
+                applyStoppedPosition();
             }
         }, Qt::QueuedConnection);
 
@@ -100,7 +104,7 @@ namespace Audio::Internal {
             syncLoopingRange();
             handlePlaybackPositionChanged(m_projectTimeline->position());
         });
-        connect(GlobalAudioContext::instance(), &GlobalAudioContext::sampleRateChanged, this, [this] {
+        connect(m_context, &ProjectAudioContext::sampleRateChanged, this, [this] {
             syncLoopingRange();
             handlePlaybackPositionChanged(m_projectTimeline->position());
         });
@@ -131,10 +135,8 @@ namespace Audio::Internal {
             recorder->requestPlayback(this, m_playRequestSerial);
             return;
         }
-        if (m_context && m_context->status() != ProjectAudioContext::Playing) {
-            handlePlaybackPositionChanged(m_projectTimeline->position());
+        if (m_context && m_context->status() != ProjectAudioContext::Playing)
             m_context->setStatus(ProjectAudioContext::Playing);
-        }
     }
 
     void PlaybackAddOn::pause() {
@@ -194,8 +196,8 @@ namespace Audio::Internal {
 
     void PlaybackAddOn::finishRecordingPlayback(bool stopRequested) {
         syncLoopingRange();
-        if (stopRequested && AudioPreference::playbackBehavior() == AudioPreference::PB_ReturnToStart)
-            m_projectTimeline->setPosition(m_projectTimeline->lastPosition());
+        if (stopRequested)
+            applyStoppedPosition();
         if (auto effectsAddOn = EffectsAddOn::of(windowHandle()->cast<Core::ProjectWindowInterface>()))
             effectsAddOn->refreshAllEffects();
         m_context->transport()->setPosition(tickToSample(m_projectTimeline->position()));
@@ -227,7 +229,9 @@ namespace Audio::Internal {
     }
 
     qint64 PlaybackAddOn::tickToSample(int tick) const {
-        auto sampleRate = GlobalAudioContext::sampleRate();
+        auto sampleRate = m_context->sampleRate();
+        if (qFuzzyIsNull(sampleRate))
+            sampleRate = GlobalAudioContext::sampleRate();
         if (qFuzzyIsNull(sampleRate)) {
             return 0;
         }
@@ -236,7 +240,9 @@ namespace Audio::Internal {
     }
 
     int PlaybackAddOn::sampleToTick(qint64 sample) const {
-        auto sampleRate = GlobalAudioContext::sampleRate();
+        auto sampleRate = m_context->sampleRate();
+        if (qFuzzyIsNull(sampleRate))
+            sampleRate = GlobalAudioContext::sampleRate();
         if (qFuzzyIsNull(sampleRate)) {
             return 0;
         }
@@ -245,6 +251,7 @@ namespace Audio::Internal {
     }
 
     void PlaybackAddOn::syncLoopingRange() {
+        const auto graphLock = m_context->lockRenderGraphForUpdate();
         if (auto recorder = MidiRecordingAddOn::of(windowHandle()->cast<Core::ProjectWindowInterface>()); recorder && recorder->isBusy()) {
             m_context->transport()->setLoopingRange(-1, -1);
             return;
@@ -267,31 +274,57 @@ namespace Audio::Internal {
         );
     }
 
+    void PlaybackAddOn::syncPlaybackPosition() {
+        qint64 sample;
+        {
+            const auto graphLock = m_context->lockRenderGraphForUpdate();
+            sample = m_context->transport()->position();
+        }
+        const QScopedValueRollback positionFlag(m_transportPositionFlag, false);
+        m_projectTimeline->setPosition(sampleToTick(sample));
+    }
+
+    void PlaybackAddOn::applyStoppedPosition() {
+        if (AudioPreference::playbackBehavior() == AudioPreference::PB_ReturnToStart)
+            m_projectTimeline->setPosition(m_projectTimeline->lastPosition());
+    }
+
     void PlaybackAddOn::handlePlaybackStatusChanged(ProjectAudioContext::PlaybackStatus status) {
+        const auto *context = ProjectAudioContextPrivate::of(m_context);
+        if (!context->usesLocalTransport()) {
+            m_lastStatus = ProjectAudioContext::Stopped;
+            return;
+        }
+        const auto graphLock = m_context->lockRenderGraphForUpdate();
         auto recorder = MidiRecordingAddOn::of(windowHandle()->cast<Core::ProjectWindowInterface>());
         auto transport = m_context->transport();
+        if (context->localPlaybackEnabled && m_lastStatus == ProjectAudioContext::Playing &&
+            (status == ProjectAudioContext::Stopped || status == ProjectAudioContext::Paused))
+            syncPlaybackPosition();
         switch (status) {
             case ProjectAudioContext::Stopped:
-                if (transport->playbackStatus() != talcs::TransportAudioSource::Paused) {
+                if (transport->playbackStatus() != talcs::TransportAudioSource::Paused)
                     transport->pause();
-                } else {
-                    if ((!recorder || !recorder->isBusy()) && AudioPreference::playbackBehavior() == AudioPreference::PB_ReturnToStart) {
-                        m_projectTimeline->setPosition(m_projectTimeline->lastPosition());
-                    }
-                }
+                if ((context->localPlaybackEnabled || transport->playbackStatus() == talcs::TransportAudioSource::Paused) &&
+                    (!recorder || !recorder->isBusy()))
+                    applyStoppedPosition();
                 break;
             case ProjectAudioContext::Playing:
             case ProjectAudioContext::Recording: {
-                auto device = GlobalAudioContext::device();
-                if (device && device->isOpen() && !device->isStarted()) {
-                    device->start(GlobalAudioContext::playback());
-                }
                 if (status == ProjectAudioContext::Playing && m_lastStatus == ProjectAudioContext::Stopped && (!recorder || !recorder->isBusy())) {
                     if (AudioPreference::playbackBehavior() == AudioPreference::PB_KeepAtCurrentButPlayFromStart) {
+                        const QScopedValueRollback positionFlag(m_transportPositionFlag, false);
                         m_projectTimeline->setPosition(m_projectTimeline->lastPosition());
                     } else {
                         m_projectTimeline->setLastPosition(m_projectTimeline->position());
                     }
+                }
+                if (status == ProjectAudioContext::Playing)
+                    handlePlaybackPositionChanged(m_projectTimeline->position());
+                if (!context->localPlaybackEnabled) {
+                    auto device = GlobalAudioContext::device();
+                    if (device && device->isOpen() && !device->isStarted())
+                        device->start(GlobalAudioContext::playback());
                 }
                 transport->play();
                 break;
@@ -305,12 +338,18 @@ namespace Audio::Internal {
     }
 
     void PlaybackAddOn::handlePlaybackPositionChanged(int positionTick) {
+        const auto *context = ProjectAudioContextPrivate::of(m_context);
+        if (!context->usesLocalTransport())
+            return;
         if (auto recorder = MidiRecordingAddOn::of(windowHandle()->cast<Core::ProjectWindowInterface>()); recorder && recorder->isBusy())
             return;
         if (m_transportPositionFlag) {
+            const auto graphLock = m_context->lockRenderGraphForUpdate();
             if (auto effectsAddOn = EffectsAddOn::of(windowHandle()->cast<Core::ProjectWindowInterface>())) {
                 effectsAddOn->refreshAllEffects();
             }
+            if (context->localPlaybackEnabled)
+                context->renderSeekGeneration->fetch_add(1, std::memory_order_relaxed);
             m_context->transport()->setPosition(tickToSample(positionTick));
         }
     }

@@ -45,6 +45,7 @@ namespace Synth {
     namespace Internal {
 
         class SynthesisExportListener;
+        class SynthesisRenderPreparationProvider;
         class SynthesisAudioController;
 
         class SynthesisProjectAddOn : public Core::WindowInterfaceAddOn {
@@ -80,6 +81,7 @@ namespace Synth {
             struct ManualRequest;
 
             friend class SynthesisExportListener;
+            friend class SynthesisRenderPreparationProvider;
 
             QList<dspx::SingingClip *> synchronizeDocument();
             ClipRuntime *runtimeForClip(dspx::SingingClip *clip) const;
@@ -127,6 +129,8 @@ namespace Synth {
             void detachAudioSeries(ClipRuntime *runtime);
             bool installAudio(ClipRuntime *runtime, SynthesisPiece *piece, const QString &filePath, QString *errorMessage);
             bool refreshAudioRanges(double sampleRate, QString *errorMessage = nullptr);
+            enum class AudioReadiness { Ready, Pending, Failed };
+            AudioReadiness audioReadiness(QSet<dspx::Handle> *requestedClips, QString *errorMessage);
             bool waitForAudioSynthesis(QString *errorMessage);
             void notifyFailure(SynthesisPiece *piece, const QString &message, const QVariant &problemData = {},
                                const QList<dspx::Handle> &errorNotes = {},

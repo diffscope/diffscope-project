@@ -33,3 +33,7 @@
 [submodule "qjsengine-polyfills"]
 	path = src/libs/3rdparty/qjsengine-polyfills
 	url = ../../CrSjimo/qjsengine-polyfills.git
+
+[submodule "src/libs/3rdparty/diffscope-bridge-protocol"]
+	path = src/libs/3rdparty/diffscope-bridge-protocol
+	url = ../../diffscope/diffscope-bridge-protocol.git

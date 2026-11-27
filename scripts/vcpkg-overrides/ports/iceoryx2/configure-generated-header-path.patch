@@ -1,0 +1,37 @@
+--- a/iceoryx2-ffi/c/build.rs
++++ b/iceoryx2-ffi/c/build.rs
+@@ -13,18 +13,25 @@
+ extern crate cbindgen;
+ 
+ use std::env;
+-use std::path::Path;
++use std::path::{Path, PathBuf};
+ 
+ fn main() {
+-    // this is the out dir of the iceoryx2-ffi-c crate not the workspace out dir,
+-    // therefore we need to traverse to a known location and create the path for the header
+-    let out_dir = env::var("OUT_DIR").expect("Target output directory");
++    println!("cargo:rerun-if-env-changed=ICEORYX2_C_HEADER_DIR");
++    println!("cargo:rerun-if-changed=src");
++    println!("cargo:rerun-if-changed=cbindgen.toml");
+ 
+-    let mut header_path = Path::new(&out_dir)
+-        .join("../../../")
+-        .canonicalize()
+-        .expect("Path to iceoryx2 base dir for header generation");
+-    header_path.push("iceoryx2-ffi-c-cbindgen/include/iox2/iceoryx2.h");
++    let include_dir = match env::var_os("ICEORYX2_C_HEADER_DIR") {
++        Some(path) => PathBuf::from(path),
++        None => {
++            let out_dir = env::var("OUT_DIR").expect("Target output directory");
++            Path::new(&out_dir)
++                .join("../../../")
++                .canonicalize()
++                .expect("Path to iceoryx2 base dir for header generation")
++                .join("iceoryx2-ffi-c-cbindgen/include")
++        }
++    };
++    let header_path = include_dir.join("iox2/iceoryx2.h");
+ 
+     let crate_dir = env::var("CARGO_MANIFEST_DIR").expect("Cargo manifest dir");
+ 

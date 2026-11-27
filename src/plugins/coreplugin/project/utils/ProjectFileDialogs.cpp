@@ -7,6 +7,7 @@
 #include <memory>
 
 #include <QApplication>
+#include <QDialog>
 #include <QDialogButtonBox>
 #include <QDir>
 #include <QFileDialog>
@@ -44,9 +45,20 @@ namespace Core {
         state->endGroup();
 
         QFileDialog dialog;
+        if (request.cancelOnDestroyed) {
+            QObject::connect(request.cancelOnDestroyed, &QObject::destroyed, &dialog, [&dialog] {
+                for (auto *child : dialog.findChildren<QDialog *>())
+                    child->reject();
+                dialog.reject();
+            });
+        }
         dialog.setNameFilters({tr("DiffScope Project Exchange Format (*.dspx)"), tr("All Files (*)")});
-        dialog.setAcceptMode(saving ? QFileDialog::AcceptSave : QFileDialog::AcceptOpen);
         dialog.setFileMode(saving ? QFileDialog::AnyFile : QFileDialog::ExistingFile);
+        dialog.setAcceptMode(saving ? QFileDialog::AcceptSave : QFileDialog::AcceptOpen);
+        if (saving) {
+            dialog.setWindowTitle(QFileDialog::tr("Save As"));
+            dialog.setDefaultSuffix(QStringLiteral("dspx"));
+        }
         if (saving && !request.currentPath.isEmpty()) {
             const QFileInfo currentFile(request.currentPath);
             dialog.setDirectory(currentFile.absolutePath());
@@ -127,7 +139,34 @@ namespace Core {
         auto engine = RuntimeInterface::qmlEngine();
         switch (warning.code) {
             case DspxProject::ProjectWarning::CheckerWarning:
-                return SVS::MessageBox::question(engine, d->window, warning.message, warning.detail) == SVS::SVSCraft::Yes;
+                if (!warning.cancelOnDestroyed)
+                    return SVS::MessageBox::question(engine, d->window, warning.message, warning.detail) == SVS::SVSCraft::Yes;
+                [[fallthrough]];
+            case DspxProject::ProjectWarning::DirtyReplacement: {
+                const bool dirty = warning.code == DspxProject::ProjectWarning::DirtyReplacement;
+                QQmlComponent component(engine, "SVSCraft.UIComponents", "MessageBoxDialog");
+                if (component.isError()) {
+                    qFatal() << component.errorString();
+                }
+                std::unique_ptr<QObject> object(component.createWithInitialProperties({
+                    {"text", dirty ? tr("Replace Current Project") : warning.message},
+                    {"informativeText", dirty ? tr("The current project has unsaved changes. Do you want to discard them and open the selected project?") : warning.detail},
+                    {"buttons", (SVS::SVSCraft::Yes | SVS::SVSCraft::Cancel).toInt()},
+                    {"primaryButton", SVS::SVSCraft::Cancel},
+                    {"icon", dirty ? SVS::SVSCraft::Warning : SVS::SVSCraft::Question},
+                    {"transientParent", QVariant::fromValue(d->window.data())},
+                }));
+                if (!object) {
+                    qFatal() << component.errorString();
+                }
+                auto *window = qobject_cast<QQuickWindow *>(object.get());
+                if (!window) {
+                    qFatal("MessageBoxDialog in SVSCraft.UIComponents is not QQuickWindow");
+                }
+                if (warning.cancelOnDestroyed)
+                    QObject::connect(warning.cancelOnDestroyed, &QObject::destroyed, window, &QWindow::close);
+                return SVS::MessageBox::customExec(window).toInt() == SVS::SVSCraft::Yes;
+            }
             case DspxProject::ProjectWarning::SaveIntegrity:
                 return SVS::MessageBox::warning(
                     engine,
@@ -215,6 +254,7 @@ namespace Core {
         const auto details = path.isEmpty() ? error.detail : (error.detail.isEmpty() ? path : path + QStringLiteral("\n\n") + error.detail);
         switch (error.code) {
             case DspxProject::ProjectFileError::None:
+            case DspxProject::ProjectFileError::Cancelled:
                 return;
             case DspxProject::ProjectFileError::Read:
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to open file"), details);
@@ -226,6 +266,7 @@ namespace Core {
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to Load Project"), details);
                 return;
             case DspxProject::ProjectFileError::Write:
+            case DspxProject::ProjectFileError::TooLarge:
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to save file"), details);
                 return;
             case DspxProject::ProjectFileError::Restore:
@@ -241,6 +282,10 @@ namespace Core {
                 return;
             case DspxProject::ProjectFileError::InvalidState:
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to save file"), tr("The project cannot be saved in its current state."));
+                return;
+            case DspxProject::ProjectFileError::PathInUse:
+            case DspxProject::ProjectFileError::NeedsConfirmation:
+                SVS::MessageBox::warning(engine, d->window, QCoreApplication::translate("Core::ProjectWindowInterface", "Operation Conflict"), details);
                 return;
             case DspxProject::ProjectFileError::CopyToCurrentFile:
                 SVS::MessageBox::critical(engine, d->window, tr("Failed to save file"), tr("Choose a different path for the project copy."));

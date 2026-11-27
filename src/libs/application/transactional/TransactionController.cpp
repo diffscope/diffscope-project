@@ -128,6 +128,26 @@ namespace Core {
         return true;
     }
 
+    bool TransactionController::replaceBaseline(const std::function<void()> &replace) {
+        Q_D(TransactionController);
+        return withWriteAccess([&] {
+            replace();
+            const int oldCurrentStep = d->currentStep;
+            const int oldCleanStep = d->cleanStep;
+            const int oldTotalSteps = totalSteps();
+            d->currentStep = 0;
+            d->cleanStep = 0;
+            if (oldTotalSteps) {
+                d->stepModel->removeRows(0, oldTotalSteps);
+                Q_EMIT totalStepsChanged(0);
+            }
+            if (oldCurrentStep != 0)
+                Q_EMIT currentStepChanged(0);
+            if (oldCleanStep != 0)
+                Q_EMIT cleanStepChanged(0);
+        });
+    }
+
     int TransactionController::currentStep() const {
         Q_D(const TransactionController);
         return d->currentStep;

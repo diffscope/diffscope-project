@@ -25,13 +25,16 @@ namespace DspxProject {
         ProjectDocumentContext *newProjectFromModel(QWindow *parent, const opendspx::Model &model, const QString &name, bool fileBacked, const QString &recoverySourceDirectory = {});
         ProjectDocumentContext *presentProject(QWindow *parent, const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const ProjectLifecycleOptions &options, const QString &sourcePath = {}, const QString &recoverySourceDirectory = {});
         Status saveProjectWithGuard(ProjectDocumentContext *context, QWindow *parent, SaveMode mode, const QString &path = {});
-        Status saveProject(ProjectDocumentContext *context, QWindow *parent, const ProjectLifecycleOptions &options, SaveMode mode, QString path = {});
+        ProjectFileError saveProject(ProjectDocumentContext *context, QWindow *parent, const ProjectLifecycleOptions &options,
+                                     SaveMode mode, QString path = {}, bool overwriteConfirmed = false,
+                                     qsizetype maximumPathBytes = -1, QObject *cancelOnDestroyed = nullptr);
         Status prepareClose(ProjectDocumentContext *context, QWindow *parent);
+        ProjectFileError checkPath(const QString &path, ProjectDocumentContext *context, bool copy = false) const;
 
         Q_DECLARE_PUBLIC(ProjectLifecycleScenario)
         ProjectLifecycleScenario *q_ptr;
         ProjectLifecycleStrategy *strategy;
-        QSet<QString> openingPaths;
+        QSet<QString> fileOperationPaths;
         QSet<ProjectDocumentContext *> busyProjects;
     };
 

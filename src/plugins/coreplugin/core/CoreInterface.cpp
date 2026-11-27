@@ -40,6 +40,7 @@
 
 #include <dspxproject/CheckerRegistry.h>
 #include <dspxproject/DocumentPersistenceHookRegistry.h>
+#include <dspxproject/ProjectDocumentContext.h>
 #include <dspxproject/ProjectLifecycleScenario.h>
 
 #include <notifications/NotificationCenter.h>
@@ -49,6 +50,7 @@
 #include <coreplugin/FileOpenDispatcher.h>
 #include <coreplugin/HomeWindowInterface.h>
 #include <coreplugin/MixedSingerPresets.h>
+#include <coreplugin/ProjectWindowInterface.h>
 #include <coreplugin/TrackColorSchema.h>
 #include <coreplugin/internal/BehaviorPreference.h>
 #include <coreplugin/internal/CoreProjectLifecycleStrategy.h>
@@ -76,6 +78,8 @@ namespace Core {
         MixedSingerPresets *mixedSingerPresets;
         FileOpenDispatcher *fileOpenDispatcher;
         DspxProject::ProjectLifecycleScenario *projectLifecycleScenario;
+        int managedProjectCount = 0;
+        bool quitOnLastWindowClosed = true;
         Notifications::NotificationCenter *notificationCenter;
 
         void init() {
@@ -175,6 +179,28 @@ namespace Core {
     DspxProject::ProjectLifecycleScenario *CoreInterface::projectLifecycleScenario() {
         Q_ASSERT(instance());
         return instance()->d_func()->projectLifecycleScenario;
+    }
+
+    ProjectWindowInterface *CoreInterface::createManagedProject(QObject *owner, bool fileBacked, bool initiallyVisible) {
+        Q_ASSERT(owner);
+        auto *core = instance();
+        auto *d = core->d_func();
+        auto context = projectLifecycleScenario()->createUntitledProject(fileBacked, true);
+        if (!context)
+            return nullptr;
+        if (d->managedProjectCount++ == 0) {
+            d->quitOnLastWindowClosed = QApplication::quitOnLastWindowClosed();
+            QApplication::setQuitOnLastWindowClosed(false);
+        }
+        auto *project = ProjectWindowInterfaceRegistry::instance()->create(context.get(), true, initiallyVisible);
+        QQmlEngine::setObjectOwnership(project, QQmlEngine::CppOwnership);
+        context.release()->setParent(project);
+        connect(owner, &QObject::destroyed, project, [project] { project->closeManagedProject(true); });
+        connect(project, &QObject::destroyed, core, [d] {
+            if (--d->managedProjectCount == 0)
+                QApplication::setQuitOnLastWindowClosed(d->quitOnLastWindowClosed);
+        });
+        return project;
     }
 
     Notifications::NotificationModel *CoreInterface::globalNotifications() {

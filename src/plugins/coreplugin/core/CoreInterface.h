@@ -45,6 +45,7 @@ namespace Core {
     }
 
     class FileOpenDispatcher;
+    class ProjectWindowInterface;
     class PropertyEditorManager;
     class TrackColorSchema;
     class MixedSingerPresets;
@@ -87,6 +88,7 @@ namespace Core {
         static FileOpenDispatcher *fileOpenDispatcher();
 
         static DspxProject::ProjectLifecycleScenario *projectLifecycleScenario();
+        static ProjectWindowInterface *createManagedProject(QObject *owner, bool fileBacked, bool initiallyVisible);
 
         static Notifications::NotificationModel *globalNotifications();
         // Returns active notifications across all scopes.

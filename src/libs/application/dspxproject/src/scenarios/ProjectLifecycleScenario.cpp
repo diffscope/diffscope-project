@@ -4,10 +4,13 @@
 #include "ProjectLifecycleScenario.h"
 #include "ProjectLifecycleScenario_p.h"
 
+#include <algorithm>
 #include <memory>
 #include <utility>
 
+#include <QDateTime>
 #include <QDir>
+#include <QFile>
 #include <QFileInfo>
 #include <QLoggingCategory>
 #include <QPointer>
@@ -35,6 +38,14 @@ namespace DspxProject {
         return ProjectLifecycleScenario::Status::Failed;
     }
 
+    static ProjectLifecycleScenario::Status reportSaveResult(ProjectLifecycleStrategy *strategy, const ProjectFileError &error, QWindow *parent) {
+        if (error.code == ProjectFileError::None)
+            return ProjectLifecycleScenario::Status::Success;
+        if (error.code == ProjectFileError::Cancelled)
+            return ProjectLifecycleScenario::Status::Cancelled;
+        return reportFailure(strategy, error, parent);
+    }
+
     ProjectLifecycleScenario::ProjectLifecycleScenario(ProjectLifecycleStrategy *strategy, QObject *parent)
         : QObject(parent), d_ptr(new ProjectLifecycleScenarioPrivate{.q_ptr = this, .strategy = strategy}) {
     }
@@ -42,6 +53,18 @@ namespace DspxProject {
     ProjectLifecycleScenario::~ProjectLifecycleScenario() = default;
 
     ProjectDocumentContext *ProjectLifecycleScenario::newProject(const QString &name, QWindow *parent) {
+        Q_D(ProjectLifecycleScenario);
+        auto context = createUntitledProject(true, false, name);
+        if (!context) {
+            reportFailure(d->strategy, {ProjectFileError::Load}, parent);
+            return nullptr;
+        }
+        const QPointer<ProjectDocumentContext> guard(context.get());
+        d->strategy->presentProject(std::move(context));
+        return guard.data();
+    }
+
+    std::unique_ptr<ProjectDocumentContext> ProjectLifecycleScenario::createUntitledProject(bool fileBacked, bool externallyManaged, const QString &name) {
         Q_D(ProjectLifecycleScenario);
         const auto options = d->strategy->projectLifecycleOptions();
         auto defaultClip = std::make_shared<opendspx::SingingClip>(
@@ -85,7 +108,13 @@ namespace DspxProject {
             }
         };
         const auto documentName = name.isEmpty() ? options.document.untitledName + QStringLiteral(".dspx") : name;
-        return d->presentProject(parent, defaultModel, documentName, std::make_unique<Core::FileLocker>(), options);
+        auto documentOptions = options.document;
+        documentOptions.externallyManaged = externallyManaged;
+        documentOptions.keepFileOpenAfterSave = options.keepOpenedFileLocked;
+        auto context = std::make_unique<ProjectDocumentContext>(documentOptions);
+        if (context->newFile(defaultModel, documentName, !fileBacked).code != ProjectFileError::None)
+            return {};
+        return context;
     }
 
     ProjectDocumentContext *ProjectLifecycleScenario::newProjectFromModel(const opendspx::Model &model, const QString &name, QWindow *parent, bool fileBacked) {
@@ -128,23 +157,24 @@ namespace DspxProject {
         }
 
         const auto fileKey = ProjectDocumentContextPrivate::canonicalOrAbsolutePath(path);
-        if (openingPaths.contains(fileKey)) {
-            return nullptr;
-        }
-        openingPaths.insert(fileKey);
-        const auto openingGuard = qScopeGuard([&] {
-            openingPaths.remove(fileKey);
-        });
-
         if (!asTemplate) {
             if (QPointer<ProjectDocumentContext> existing = strategy->findOpenProject(fileKey)) {
                 strategy->activateProject(existing.data());
                 return existing.data();
             }
+            if (const auto error = checkPath(fileKey, nullptr); error.code != ProjectFileError::None) {
+                reportFailure(strategy, error, parentWindow);
+                return nullptr;
+            }
+            fileOperationPaths.insert(fileKey);
         }
+        const auto openingGuard = qScopeGuard([&] {
+            if (!asTemplate)
+                fileOperationPaths.remove(fileKey);
+        });
 
         const auto options = strategy->projectLifecycleOptions();
-        auto candidate = ProjectDocumentContextPrivate::readProjectFile(path, !asTemplate && options.keepOpenedFileLocked);
+        auto candidate = ProjectDocumentContextPrivate::readProjectFile(fileKey, !asTemplate && options.keepOpenedFileLocked);
         if (candidate.error.code != ProjectFileError::None) {
             reportFailure(strategy, candidate.error, parentWindow);
             return nullptr;
@@ -181,7 +211,9 @@ namespace DspxProject {
     }
 
     ProjectDocumentContext *ProjectLifecycleScenarioPrivate::presentProject(QWindow *parent, const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const ProjectLifecycleOptions &options, const QString &sourcePath, const QString &recoverySourceDirectory) {
-        auto context = std::make_unique<ProjectDocumentContext>(options.document);
+        auto documentOptions = options.document;
+        documentOptions.keepFileOpenAfterSave = options.keepOpenedFileLocked;
+        auto context = std::make_unique<ProjectDocumentContext>(documentOptions);
         auto error = ProjectDocumentContextPrivate::get(context.get())->initialize(model, name, std::move(locker), recoverySourceDirectory);
         if (error.code != ProjectFileError::None) {
             error.path = sourcePath;
@@ -228,6 +260,165 @@ namespace DspxProject {
         return d->saveProjectWithGuard(context, parent, ProjectLifecycleScenarioPrivate::SaveMode::Copy, path);
     }
 
+    ProjectFileError ProjectLifecycleScenarioPrivate::checkPath(const QString &path, ProjectDocumentContext *context, bool copy) const {
+        if (auto *owner = strategy->findOpenProject(path); owner && (owner != context || copy))
+            return {owner == context ? ProjectFileError::CopyToCurrentFile : ProjectFileError::PathInUse, path};
+        if (std::ranges::any_of(fileOperationPaths, [&](const auto &pending) { return ProjectDocumentContext::sameFilePath(pending, path); }))
+            return {ProjectFileError::Busy, path};
+        return {};
+    }
+
+    ProjectFileError ProjectLifecycleScenario::saveAssociatedFile(ProjectDocumentContext *context) {
+        Q_D(ProjectLifecycleScenario);
+        auto *locker = context->fileLocker();
+        const auto path = locker ? locker->path() : QString();
+        if (path.isEmpty())
+            return {ProjectFileError::InvalidState, path};
+        if (d->busyProjects.contains(context))
+            return {ProjectFileError::Busy, path};
+        if (const auto error = d->checkPath(path, context); error.code != ProjectFileError::None)
+            return error;
+        if (locker->isFileModifiedSinceLastSave())
+            return {ProjectFileError::NeedsConfirmation, path};
+        const auto fileKey = ProjectDocumentContextPrivate::canonicalOrAbsolutePath(path);
+        d->busyProjects.insert(context);
+        d->fileOperationPaths.insert(fileKey);
+        const auto guard = qScopeGuard([&] {
+            d->fileOperationPaths.remove(fileKey);
+            d->busyProjects.remove(context);
+        });
+        return context->save({.compress = d->strategy->projectLifecycleOptions().compress});
+    }
+
+    ProjectFileError ProjectLifecycleScenario::saveProjectToFile(ProjectDocumentContext *context, qsizetype maximumPathBytes,
+                                                                 QWindow *parent, QObject *cancelOnDestroyed) {
+        Q_D(ProjectLifecycleScenario);
+        if (d->busyProjects.contains(context))
+            return {ProjectFileError::Busy};
+        d->busyProjects.insert(context);
+        const auto guard = qScopeGuard([&] { d->busyProjects.remove(context); });
+        return d->saveProject(context, parent, d->strategy->projectLifecycleOptions(),
+                              ProjectLifecycleScenarioPrivate::SaveMode::Associate, {}, false, maximumPathBytes, cancelOnDestroyed);
+    }
+
+    ProjectFileError ProjectLifecycleScenario::restoreProjectFile(ProjectDocumentContext *context, const QString &path) {
+        Q_D(ProjectLifecycleScenario);
+        if (path.isEmpty())
+            return {ProjectFileError::Read, path};
+        const auto fileKey = ProjectDocumentContextPrivate::canonicalOrAbsolutePath(path);
+        if (d->busyProjects.contains(context))
+            return {ProjectFileError::Busy, path};
+        if (const auto error = d->checkPath(fileKey, context); error.code != ProjectFileError::None)
+            return error;
+        d->busyProjects.insert(context);
+        d->fileOperationPaths.insert(fileKey);
+        const auto guard = qScopeGuard([&] {
+            d->fileOperationPaths.remove(fileKey);
+            d->busyProjects.remove(context);
+        });
+
+        const auto options = d->strategy->projectLifecycleOptions();
+        return context->reloadFile(fileKey, {.checker = options.checker, .keepFileOpen = options.keepOpenedFileLocked});
+    }
+
+    ProjectFileError ProjectLifecycleScenario::replaceProjectFromFile(ProjectDocumentContext *context, FileReplacement replacement,
+                                                                      QByteArray &snapshot, qsizetype maximumBytes,
+                                                                      QWindow *parent, QObject *cancelOnDestroyed) {
+        Q_D(ProjectLifecycleScenario);
+        if (d->busyProjects.contains(context))
+            return {ProjectFileError::Busy};
+        d->busyProjects.insert(context);
+        const auto busyGuard = qScopeGuard([&] { d->busyProjects.remove(context); });
+        const QPointer<ProjectDocumentContext> project(context);
+        const QPointer<QWindow> parentWindow(parent);
+        const QPointer<QObject> interaction(cancelOnDestroyed);
+        const auto cancelled = [&] { return !project || (cancelOnDestroyed && !interaction); };
+        const auto path = d->strategy->requestPath({.purpose = ProjectPathRequest::Open, .cancelOnDestroyed = interaction}, parentWindow);
+        if (path.isEmpty() || cancelled())
+            return {ProjectFileError::Cancelled};
+
+        const auto fileKey = ProjectDocumentContextPrivate::canonicalOrAbsolutePath(path);
+        const bool associate = replacement == FileReplacement::Associate;
+        if (associate) {
+            if (fileKey.toUtf8().size() > maximumBytes)
+                return {ProjectFileError::TooLarge, fileKey};
+            if (const auto error = d->checkPath(fileKey, context); error.code != ProjectFileError::None)
+                return error;
+            d->fileOperationPaths.insert(fileKey);
+        }
+        const auto fileGuard = qScopeGuard([&] {
+            if (associate)
+                d->fileOperationPaths.remove(fileKey);
+        });
+
+        const auto options = d->strategy->projectLifecycleOptions();
+        auto *contextData = ProjectDocumentContextPrivate::get(context);
+        ProjectDocumentContextPrivate::OpenCandidate candidate;
+        if (associate) {
+            candidate = ProjectDocumentContextPrivate::readProjectFile(fileKey, options.keepOpenedFileLocked && !contextData->options.externallyManaged);
+        } else {
+            QFile source(fileKey);
+            if (!source.open(QIODevice::ReadOnly))
+                return {ProjectFileError::Read, fileKey, source.errorString()};
+            const auto bytes = source.readAll();
+            if (source.error() != QFileDevice::NoError)
+                return {ProjectFileError::Read, fileKey, source.errorString()};
+            candidate = ProjectDocumentContextPrivate::decodeProject(bytes);
+            candidate.referenceFilePath = fileKey;
+        }
+        if (candidate.error.code != ProjectFileError::None) {
+            candidate.error.path = fileKey;
+            return candidate.error;
+        }
+
+        auto *controller = context->document()->transactionController();
+        Core::TransactionController::ScopedReadLock readLock(controller);
+        if (!readLock)
+            return {ProjectFileError::Busy, fileKey};
+        const auto confirm = [&](ProjectWarning::Code code, const QString &message = {}, const QString &detail = {}) {
+            return d->strategy->confirmWarning({code, fileKey, message, detail, interaction}, parentWindow) && !cancelled();
+        };
+        for (const auto &warning : options.checker->runCheck(candidate.model, IChecker::Strong, true)) {
+            if (!confirm(ProjectWarning::CheckerWarning, warning.message, warning.detail))
+                return {ProjectFileError::Cancelled};
+        }
+        if (controller->currentStep() != controller->cleanStep() && !confirm(ProjectWarning::DirtyReplacement))
+            return {ProjectFileError::Cancelled};
+
+        readLock.release();
+        ProjectDocumentContextPrivate::ReplacementSnapshot result{snapshot, maximumBytes, options.compress};
+        auto error = contextData->replace(std::move(candidate), {}, associate ? nullptr : &result);
+        if (error.code != ProjectFileError::None)
+            error.path = fileKey;
+        return error;
+    }
+
+    ProjectFileError ProjectLifecycleScenario::saveProjectSnapshot(ProjectDocumentContext *context, QByteArray &data) {
+        Q_D(ProjectLifecycleScenario);
+        if (d->busyProjects.contains(context))
+            return {ProjectFileError::Busy};
+        return context->saveSnapshot(data, {.compress = d->strategy->projectLifecycleOptions().compress});
+    }
+
+    ProjectFileError ProjectLifecycleScenario::detachProjectFile(ProjectDocumentContext *context, QByteArray &data, qsizetype maximumBytes) {
+        Q_D(ProjectLifecycleScenario);
+        if (d->busyProjects.contains(context))
+            return {ProjectFileError::Busy};
+        d->busyProjects.insert(context);
+        const auto guard = qScopeGuard([&] { d->busyProjects.remove(context); });
+        return ProjectDocumentContextPrivate::get(context)->detachFile(
+            data, maximumBytes, {.compress = d->strategy->projectLifecycleOptions().compress});
+    }
+
+    ProjectFileError ProjectLifecycleScenario::restoreProjectSnapshot(ProjectDocumentContext *context, const QByteArray &data) {
+        Q_D(ProjectLifecycleScenario);
+        if (d->busyProjects.contains(context))
+            return {ProjectFileError::Busy};
+        d->busyProjects.insert(context);
+        const auto guard = qScopeGuard([&] { d->busyProjects.remove(context); });
+        return context->loadSnapshot(data, {.checker = d->strategy->projectLifecycleOptions().checker});
+    }
+
     ProjectLifecycleScenario::Status ProjectLifecycleScenarioPrivate::saveProjectWithGuard(ProjectDocumentContext *context, QWindow *parent, SaveMode mode, const QString &path) {
         if (busyProjects.contains(context)) {
             return Status::Failed;
@@ -236,26 +427,33 @@ namespace DspxProject {
         const auto guard = qScopeGuard([&] {
             busyProjects.remove(context);
         });
-        const auto options = strategy->projectLifecycleOptions();
-        return saveProject(context, parent, options, mode, path);
+        const QPointer<QWindow> parentWindow(parent);
+        const auto error = saveProject(context, parent, strategy->projectLifecycleOptions(), mode, path);
+        return reportSaveResult(strategy, error, parentWindow);
     }
 
-    ProjectLifecycleScenario::Status ProjectLifecycleScenarioPrivate::saveProject(ProjectDocumentContext *context, QWindow *parent, const ProjectLifecycleOptions &options, SaveMode mode, QString path) {
+    ProjectFileError ProjectLifecycleScenarioPrivate::saveProject(ProjectDocumentContext *context, QWindow *parent,
+                                                                  const ProjectLifecycleOptions &options, SaveMode mode,
+                                                                  QString path, bool overwriteConfirmed,
+                                                                  qsizetype maximumPathBytes, QObject *cancelOnDestroyed) {
         const QPointer<QWindow> parentWindow(parent);
+        const QPointer<QObject> interaction(cancelOnDestroyed);
+        const bool cancellable = cancelOnDestroyed != nullptr;
         auto document = context->document();
         const auto locker = context->fileLocker();
-        if (!locker && mode != SaveMode::Copy) {
-            const ProjectFileError error{ProjectFileError::InvalidState, path, {}};
-            return reportFailure(strategy, error, parentWindow);
-        }
+        const auto currentPath = locker ? locker->path() : QString();
+        const bool association = mode == SaveMode::Associate;
+        const bool canSave = association ? currentPath.isEmpty() : mode == SaveMode::Copy || locker;
+        if (!document || !canSave)
+            return {ProjectFileError::InvalidState, path};
 
         const QPointer<ProjectDocumentContext> project(context);
-        const auto currentPath = locker ? locker->path() : QString();
-        if (!document->transactionController()->canAcquireReadLock()) {
-            const ProjectFileError error{ProjectFileError::Busy, currentPath, {}};
-            return reportFailure(strategy, error, parentWindow);
-        }
+        if (!document->transactionController()->canAcquireReadLock())
+            return {ProjectFileError::Busy, currentPath};
 
+        bool pathSelected = false;
+        if (mode == SaveMode::As && ProjectDocumentContext::sameFilePath(currentPath, path))
+            mode = SaveMode::Current;
         if (mode == SaveMode::Current) {
             path = currentPath;
             if (path.isEmpty()) {
@@ -263,7 +461,7 @@ namespace DspxProject {
             } else if (options.checkExternalChanges && locker->isFileModifiedSinceLastSave()) {
                 const auto choice = strategy->resolveExternalChange(currentPath, parentWindow);
                 if (!project || choice == ProjectLifecycleStrategy::ExternalChangeChoice::Cancel) {
-                    return Status::Cancelled;
+                    return {ProjectFileError::Cancelled};
                 }
                 if (choice == ProjectLifecycleStrategy::ExternalChangeChoice::SaveAs) {
                     mode = SaveMode::As;
@@ -272,45 +470,69 @@ namespace DspxProject {
             }
         }
         if (path.isEmpty()) {
-            const ProjectPathRequest request{mode == SaveMode::Copy ? ProjectPathRequest::SaveCopy : ProjectPathRequest::SaveAs, currentPath, context->defaultDocumentName()};
+            const ProjectPathRequest request{mode == SaveMode::Copy ? ProjectPathRequest::SaveCopy : ProjectPathRequest::SaveAs,
+                                             currentPath, context->defaultDocumentName(), cancelOnDestroyed};
             path = strategy->requestPath(request, parentWindow);
-            if (!project || path.isEmpty()) {
-                return Status::Cancelled;
+            if (!project || path.isEmpty() || (cancellable && !interaction)) {
+                return {ProjectFileError::Cancelled};
             }
+            pathSelected = true;
+            if (mode == SaveMode::As && ProjectDocumentContext::sameFilePath(currentPath, path))
+                return saveProject(context, parentWindow, options, SaveMode::Current, {});
         }
         const auto contextPrivate = ProjectDocumentContextPrivate::get(context);
         if (const auto error = contextPrivate->validateSave(path, mode); error.code != ProjectFileError::None) {
-            return reportFailure(strategy, error, parentWindow);
+            return error;
+        }
+        const auto fileKey = ProjectDocumentContextPrivate::canonicalOrAbsolutePath(path);
+        if (maximumPathBytes >= 0 && fileKey.toUtf8().size() > maximumPathBytes)
+            return {ProjectFileError::TooLarge, path};
+        if (const auto error = checkPath(fileKey, context, mode == SaveMode::Copy); error.code != ProjectFileError::None)
+            return error;
+        fileOperationPaths.insert(fileKey);
+        const auto fileGuard = qScopeGuard([&] { fileOperationPaths.remove(fileKey); });
+        if (mode != SaveMode::Current && !pathSelected && !overwriteConfirmed && QFileInfo::exists(fileKey)) {
+            if (strategy->resolveExternalChange(fileKey, parentWindow) != ProjectLifecycleStrategy::ExternalChangeChoice::Overwrite || !project)
+                return {ProjectFileError::Cancelled};
         }
 
+        const QFileInfo destination(fileKey);
+        const auto modifiedTime = destination.lastModified();
+        const auto previousSize = destination.exists() ? destination.size() : -1;
+
         Core::TransactionController::ScopedReadLock readLock(document->transactionController());
-        if (!readLock) {
-            const ProjectFileError error{ProjectFileError::Busy, path, {}};
-            return reportFailure(strategy, error, parentWindow);
-        }
-        const auto prepared = contextPrivate->prepareSave(options.compress);
+        if (!readLock)
+            return {ProjectFileError::Busy, path};
+        const auto prepared = contextPrivate->prepareSave(options.compress, fileKey);
         if (prepared.error.code != ProjectFileError::None) {
             auto error = prepared.error;
             error.path = path;
-            readLock.release();
-            return reportFailure(strategy, error, parentWindow);
+            return error;
         }
         if (prepared.hasIntegrityWarning) {
+            if (association)
+                return {ProjectFileError::IntegrityWarning, path};
             const ProjectWarning warning{.code = ProjectWarning::SaveIntegrity, .path = path};
             if (!strategy->confirmWarning(warning, parentWindow) || !project) {
-                return Status::Cancelled;
+                return {ProjectFileError::Cancelled};
             }
         }
 
-        const auto error = contextPrivate->writeSave(prepared.data, path, mode);
+        const QFileInfo finalDestination(fileKey);
+        if (finalDestination.lastModified() != modifiedTime || (finalDestination.exists() ? finalDestination.size() : -1) != previousSize) {
+            return {ProjectFileError::NeedsConfirmation, path};
+        }
+        if (cancellable && !interaction)
+            return {ProjectFileError::Cancelled};
+        const auto error = contextPrivate->writeSave(prepared.data, mode == SaveMode::Current ? path : fileKey, mode);
         readLock.release();
         if (error.code != ProjectFileError::None) {
-            return reportFailure(strategy, error, parentWindow);
+            return error;
         }
         if (project && mode != SaveMode::Copy) {
             strategy->recordRecentFile(project.data(), true);
         }
-        return Status::Success;
+        return {};
     }
 
     ProjectLifecycleScenario::Status ProjectLifecycleScenario::prepareClose(ProjectDocumentContext *context, QWindow *parent) {
@@ -351,15 +573,18 @@ namespace DspxProject {
             return Status::Cancelled;
         }
         switch (choice) {
-            case ProjectLifecycleStrategy::CloseChoice::Save:
-                return saveProject(context, parentWindow, options, SaveMode::Current);
+            case ProjectLifecycleStrategy::CloseChoice::Save: {
+                const auto error = saveProject(context, parentWindow, options, SaveMode::Current);
+                return reportSaveResult(strategy, error, parentWindow);
+            }
             case ProjectLifecycleStrategy::CloseChoice::Discard: {
                 const auto &path = options.recoveryCopyPath;
                 if (path.isEmpty() || !QDir().mkpath(QFileInfo(path).absolutePath())) {
                     const ProjectFileError error{ProjectFileError::Write, path, {}};
                     return reportFailure(strategy, error, parentWindow);
                 }
-                return saveProject(context, parentWindow, options, SaveMode::Copy, path);
+                const auto error = saveProject(context, parentWindow, options, SaveMode::Copy, path, true);
+                return reportSaveResult(strategy, error, parentWindow);
             }
             case ProjectLifecycleStrategy::CloseChoice::Cancel:
                 return Status::Cancelled;

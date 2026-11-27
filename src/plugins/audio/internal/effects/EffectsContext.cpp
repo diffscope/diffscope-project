@@ -29,6 +29,8 @@
 #include <audio/EffectsUnit.h>
 #include <audio/EffectsUnitClass.h>
 #include <audio/EffectsUnitCollection.h>
+#include <audio/ProjectAudioContext.h>
+#include <audio/private/ProjectAudioContext_p.h>
 
 namespace Audio::Internal {
 
@@ -37,10 +39,15 @@ namespace Audio::Internal {
     class EffectsChainFilter : public talcs::AudioSource {
     public:
         struct Slot {
+            EffectsUnit *unit{};
             talcs::AudioSource *processor{};
             bool enabled{};
             bool opened{};
         };
+
+        void setSeekGeneration(std::shared_ptr<std::atomic<quint64>> generation) {
+            m_seekGeneration = std::move(generation);
+        }
 
         bool open(qint64 bufferSize, double sampleRate) override {
             if (!AudioSource::open(bufferSize, sampleRate)) {
@@ -67,11 +74,12 @@ namespace Audio::Internal {
             AudioSource::close();
         }
 
-        void setProcessors(const QList<QPair<talcs::AudioSource *, bool>> &processors) {
+        void setProcessors(const QList<QPair<EffectsUnit *, bool>> &processors) {
             QMutexLocker locker(&m_mutex);
             QList<Slot> newSlots;
             newSlots.reserve(processors.size());
-            for (const auto &[processor, enabled] : processors) {
+            for (const auto &[unit, enabled] : processors) {
+                auto *processor = unit->processor();
                 auto old = std::ranges::find_if(m_slots, [processor](const Slot &slot) {
                     return slot.processor == processor;
                 });
@@ -82,7 +90,7 @@ namespace Audio::Internal {
                         qCWarning(lcEffectsContext) << "Failed to open effect processor" << processor;
                     }
                 }
-                newSlots.append({processor, enabled, opened});
+                newSlots.append({unit, processor, enabled, opened});
             }
             for (auto &oldSlot : m_slots) {
                 const bool retained = std::ranges::any_of(newSlots, [&oldSlot](const Slot &slot) {
@@ -98,6 +106,14 @@ namespace Audio::Internal {
     protected:
         qint64 processReading(const talcs::AudioSourceReadData &readData) override {
             QMutexLocker locker(&m_mutex);
+            if (m_seekGeneration) {
+                const auto generation = m_seekGeneration->load(std::memory_order_relaxed);
+                if (m_lastSeekGeneration != generation) {
+                    m_lastSeekGeneration = generation;
+                    for (const auto &slot : std::as_const(m_slots))
+                        slot.unit->refresh();
+                }
+            }
             for (const auto &slot : std::as_const(m_slots)) {
                 if (slot.enabled && slot.opened) {
                     slot.processor->read(readData);
@@ -109,6 +125,8 @@ namespace Audio::Internal {
     private:
         QMutex m_mutex;
         QList<Slot> m_slots;
+        std::shared_ptr<std::atomic<quint64>> m_seekGeneration;
+        quint64 m_lastSeekGeneration = 0;
     };
 
     struct EffectsContext::Entry {
@@ -130,6 +148,8 @@ namespace Audio::Internal {
         Q_ASSERT(m_windowHandle);
         Q_ASSERT(m_audioDSPList);
         Q_ASSERT(m_mixer);
+        if (auto *audio = ProjectAudioContext::of(windowHandle))
+            m_filter->setSeekGeneration(ProjectAudioContextPrivate::of(audio)->renderSeekGeneration);
 
         if (m_mixer->readingFilter()) {
             m_readingFilterConflict = true;
@@ -473,11 +493,11 @@ namespace Audio::Internal {
     }
 
     void EffectsContext::updateAudioChain() {
-        QList<QPair<talcs::AudioSource *, bool>> processors;
+        QList<QPair<EffectsUnit *, bool>> processors;
         processors.reserve(static_cast<qsizetype>(m_entries.size()));
         for (const auto &entry : m_entries) {
             if (entry->unit) {
-                processors.append({entry->unit->processor(), entry->item->enabled() && !m_effectsBypassed});
+                processors.append({entry->unit, entry->item->enabled() && !m_effectsBypassed});
             }
         }
         m_filter->setProcessors(processors);

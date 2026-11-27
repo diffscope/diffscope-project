@@ -4,7 +4,10 @@
 #ifndef DIFFSCOPE_SYNTH_SYNTHESISAUDIOCONTROLLER_H
 #define DIFFSCOPE_SYNTH_SYNTHESISAUDIOCONTROLLER_H
 
+#include <memory>
+
 #include <QHash>
+#include <QMutex>
 #include <QObject>
 #include <QPointer>
 #include <QString>
@@ -14,6 +17,8 @@ namespace Core {
 }
 
 namespace Audio {
+    class ProjectAudioContext;
+    class RenderPreparationProvider;
     class TrackAudioContext;
 }
 
@@ -38,6 +43,8 @@ namespace Synth::Internal {
         explicit SynthesisAudioController(QObject *parent = nullptr);
         ~SynthesisAudioController() override;
 
+        void registerRenderPreparationProvider(Audio::ProjectAudioContext *context, Audio::RenderPreparationProvider *provider);
+
         bool prepare(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, QPointer<Audio::TrackAudioContext> &trackContext, talcs::FutureAudioSourceClipSeries *&series, QString *errorMessage = nullptr);
         bool install(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, QPointer<Audio::TrackAudioContext> &trackContext, talcs::FutureAudioSourceClipSeries *&series, const QString &filePath, QString *errorMessage = nullptr);
         bool refreshRange(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, Audio::TrackAudioContext *trackContext, talcs::FutureAudioSourceClipSeries *series, double sampleRate, QString *errorMessage = nullptr);
@@ -56,8 +63,12 @@ namespace Synth::Internal {
 
     private:
         struct Binding;
+        struct RangeReadiness;
         void destroyBinding(Binding *binding);
+        QMutexLocker<QRecursiveMutex> lockRenderGraphForUpdate();
 
+        QPointer<Audio::ProjectAudioContext> m_audioContext;
+        std::shared_ptr<RangeReadiness> m_rangeReadiness;
         QHash<SynthesisPiece *, Binding *> m_bindings;
     };
 

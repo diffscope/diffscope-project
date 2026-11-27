@@ -213,6 +213,8 @@ namespace Core::Internal {
             }
             const QFileInfo logsFileInfo(directory.filePath(QStringLiteral("logs")));
             const QFileInfo snapshotFileInfo(directory.filePath(QStringLiteral("snapshot")));
+            if (!snapshotFileInfo.isFile())
+                continue;
             const auto modifiedText = logsFileInfo.exists()
                 ? formatLastModified(logsFileInfo)
                 : formatLastModified(snapshotFileInfo);

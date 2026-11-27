@@ -10,6 +10,7 @@
 #include <utility>
 
 #include <QPromise>
+#include <QSet>
 
 #include <TalcsCore/FutureAudioSource.h>
 #include <TalcsCore/FutureAudioSourceClipSeries.h>
@@ -94,8 +95,13 @@ namespace Synth::Internal {
         AudioClipRange range;
     };
 
+    struct SynthesisAudioController::RangeReadiness {
+        QSet<Binding *> pending;
+        QSet<talcs::FutureAudioSourceClipSeries *> activeSeries;
+    };
+
     SynthesisAudioController::SynthesisAudioController(QObject *parent)
-        : QObject(parent) {
+        : QObject(parent), m_rangeReadiness(std::make_shared<RangeReadiness>()) {
     }
 
     SynthesisAudioController::~SynthesisAudioController() {
@@ -103,6 +109,21 @@ namespace Synth::Internal {
         for (auto binding : bindings) {
             destroyBinding(binding);
         }
+    }
+
+    void SynthesisAudioController::registerRenderPreparationProvider(Audio::ProjectAudioContext *context, Audio::RenderPreparationProvider *provider) {
+        m_audioContext = context;
+        context->registerRenderPreparationProvider(provider, [readiness = m_rangeReadiness](qint64 position, qint64 frames) {
+            const auto end = position + frames;
+            return std::ranges::none_of(std::as_const(readiness->pending), [&](const Binding *binding) {
+                const auto &range = binding->range;
+                return readiness->activeSeries.contains(binding->series) && range.position < end && position < range.position + range.length;
+            });
+        });
+    }
+
+    QMutexLocker<QRecursiveMutex> SynthesisAudioController::lockRenderGraphForUpdate() {
+        return m_audioContext ? m_audioContext->lockRenderGraphForUpdate() : QMutexLocker<QRecursiveMutex>(nullptr);
     }
 
     bool SynthesisAudioController::prepare(Core::ProjectWindowInterface *window, dspx::SingingClip *clip, SynthesisPiece *piece, QPointer<Audio::TrackAudioContext> &trackContext, talcs::FutureAudioSourceClipSeries *&series, QString *errorMessage) {
@@ -123,14 +144,17 @@ namespace Synth::Internal {
             return false;
         }
 
+        const auto graphLock = lockRenderGraphForUpdate();
         if (series && trackContext != currentTrackContext) {
             detachSeries(trackContext, series);
         }
         if (!series) {
             series = new talcs::FutureAudioSourceClipSeries(this);
             series->setBufferingTarget(projectAudioContext->transport());
-            series->setReadMode(talcs::FutureAudioSourceClipSeries::Notify);
-            if (projectAudioContext->playbackSuppressedClip() != clip && !currentTrackContext->trackMixer()->addSource(series)) {
+            series->setReadMode(projectAudioContext->pendingSourcePolicy() == Audio::ProjectAudioContext::PendingSourcePolicy::BufferTransport
+                ? talcs::FutureAudioSourceClipSeries::Notify
+                : talcs::FutureAudioSourceClipSeries::Skip);
+            if (!setPlaybackEnabled(currentTrackContext, series, projectAudioContext->playbackSuppressedClip() != clip)) {
                 delete series;
                 series = nullptr;
                 if (errorMessage) {
@@ -161,9 +185,13 @@ namespace Synth::Internal {
         promise->setProgressRange(0, progressMaximum);
         promise->start();
         auto futureSource = new talcs::FutureAudioSource(promise->future(), {}, this);
-        connect(futureSource, &talcs::FutureAudioSource::statusChanged, this, [this, piece = QPointer<SynthesisPiece>(piece), futureSource = QPointer<talcs::FutureAudioSource>(futureSource)] {
+        connect(futureSource, &talcs::FutureAudioSource::statusChanged, this, [this, piece = QPointer<SynthesisPiece>(piece), futureSource = QPointer<talcs::FutureAudioSource>(futureSource)](talcs::FutureAudioSource::Status status) {
             const auto binding = m_bindings.value(piece.data());
             if (piece && futureSource && binding && binding->futureSource == futureSource.data()) {
+                if (status == talcs::FutureAudioSource::Ready) {
+                    const auto graphLock = lockRenderGraphForUpdate();
+                    m_rangeReadiness->pending.remove(binding);
+                }
                 Q_EMIT statusChanged(piece.data());
             }
         });
@@ -177,15 +205,17 @@ namespace Synth::Internal {
             }
             return false;
         }
-        m_bindings.insert(piece, new Binding{
-                                     series,
-                                     clipView,
-                                     futureSource,
-                                     std::move(promise),
-                                     nullptr,
-                                     nullptr,
-                                     range,
-                                 });
+        auto *binding = new Binding{
+            series,
+            clipView,
+            futureSource,
+            std::move(promise),
+            nullptr,
+            nullptr,
+            range,
+        };
+        m_bindings.insert(piece, binding);
+        m_rangeReadiness->pending.insert(binding);
         return true;
     }
 
@@ -261,6 +291,7 @@ namespace Synth::Internal {
             binding->range.length == range.length) {
             return true;
         }
+        const auto graphLock = lockRenderGraphForUpdate();
         if (!series->setClipRange(binding->clip, range.position, range.length)) {
             if (errorMessage) {
                 *errorMessage = Synth::Internal::SynthesisProjectAddOn::tr("Synthesized audio for the synthesis piece could not be repositioned");
@@ -281,6 +312,8 @@ namespace Synth::Internal {
         if (!binding) {
             return;
         }
+        const auto graphLock = lockRenderGraphForUpdate();
+        m_rangeReadiness->pending.remove(binding);
         if (binding->series && binding->clip.isValid()) {
             binding->series->removeClip(binding->clip);
         }
@@ -321,6 +354,7 @@ namespace Synth::Internal {
         if (!series) {
             return;
         }
+        const auto graphLock = lockRenderGraphForUpdate();
         const auto pieces = m_bindings.keys();
         for (auto piece : pieces) {
             auto binding = m_bindings.value(piece);
@@ -331,6 +365,7 @@ namespace Synth::Internal {
         if (trackContext) {
             trackContext->trackMixer()->removeSource(series);
         }
+        m_rangeReadiness->activeSeries.remove(series);
         delete series;
         series = nullptr;
         trackContext = nullptr;
@@ -339,13 +374,19 @@ namespace Synth::Internal {
     bool SynthesisAudioController::setPlaybackEnabled(Audio::TrackAudioContext *trackContext, talcs::FutureAudioSourceClipSeries *series, bool enabled) {
         if (!trackContext || !series)
             return true;
+        const auto graphLock = lockRenderGraphForUpdate();
         const auto mixer = trackContext->trackMixer();
         const auto attached = mixer->findSource(series) != mixer->nullIterator();
-        if (enabled && !attached)
-            return mixer->addSource(series);
-        if (!enabled && attached) {
-            mixer->removeSource(series);
-            series->close();
+        if (enabled) {
+            if (!attached && !mixer->addSource(series))
+                return false;
+            m_rangeReadiness->activeSeries.insert(series);
+        } else {
+            if (attached) {
+                mixer->removeSource(series);
+                series->close();
+            }
+            m_rangeReadiness->activeSeries.remove(series);
         }
         return true;
     }
