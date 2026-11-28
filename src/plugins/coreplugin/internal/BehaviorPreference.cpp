@@ -17,6 +17,7 @@ namespace Core::Internal {
         bool initialized{};
 
         BehaviorPreference::StartupBehavior startupBehavior{};
+        BehaviorPreference::ProjectOpenBehavior projectOpenBehavior = BehaviorPreference::POB_Ask;
         bool useSystemLanguage{};
         QString localeName{};
         BehaviorPreference::CentralCName centralCName{};
@@ -72,6 +73,11 @@ namespace Core::Internal {
         settings->beginGroup(QStringLiteral("org.diffscope.core.behavior"));
         d->startupBehavior = settings->value("startupBehavior", QVariant::fromValue(SB_CloseHomeWindowAfterOpeningProject | SB_OpenHomeWindowWhenLastProjectClosed)).value<StartupBehavior>();
         emit startupBehaviorChanged();
+        const auto openBehavior = settings->value("projectOpenBehavior", POB_Ask).toInt();
+        d->projectOpenBehavior = openBehavior == POB_NewWindow || openBehavior == POB_CurrentWindow
+            ? static_cast<ProjectOpenBehavior>(openBehavior)
+            : POB_Ask;
+        Q_EMIT projectOpenBehaviorChanged();
         d->useSystemLanguage = settings->value("useSystemLanguage", true).toBool();
         emit useSystemLanguageChanged();
         d->localeName = settings->value("localeName", QLocale().name()).toString();
@@ -151,6 +157,7 @@ namespace Core::Internal {
         auto settings = RuntimeInterface::settings();
         settings->beginGroup(QStringLiteral("org.diffscope.core.behavior"));
         settings->setValue("startupBehavior", static_cast<int>(d->startupBehavior));
+        settings->setValue("projectOpenBehavior", static_cast<int>(d->projectOpenBehavior));
         settings->setValue("useSystemLanguage", d->useSystemLanguage);
         settings->setValue("localeName", d->localeName);
         settings->setValue("centralCName", static_cast<int>(d->centralCName));
@@ -202,6 +209,19 @@ namespace Core::Internal {
         d->startupBehavior = startupBehavior;
         emit m_instance->startupBehaviorChanged();
     }
+    BehaviorPreference::ProjectOpenBehavior BehaviorPreference::projectOpenBehavior() {
+        M_INSTANCE_D;
+        return d->projectOpenBehavior;
+    }
+
+    void BehaviorPreference::setProjectOpenBehavior(ProjectOpenBehavior behavior) {
+        M_INSTANCE_D;
+        if (d->projectOpenBehavior == behavior)
+            return;
+        d->projectOpenBehavior = behavior;
+        Q_EMIT m_instance->projectOpenBehaviorChanged();
+    }
+
     bool BehaviorPreference::useSystemLanguage() {
         M_INSTANCE_D;
         return d->useSystemLanguage;

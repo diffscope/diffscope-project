@@ -319,7 +319,7 @@ Window {
                         } else if (object instanceof Menu) {
                             target.insertMenu(index, object)
                         } else {
-                            target.insertItem(index, target.toolButtonComponent.create(this, {visible: false}))
+                            target.insertItem(index, target.toolButtonComponent.createObject(target, {visible: false}))
                         }
                     }
                     onObjectRemoved: (index, object) => {

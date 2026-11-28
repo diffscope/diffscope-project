@@ -78,6 +78,7 @@
 #include <coreplugin/internal/ProjectEditorChecker.h>
 #include <coreplugin/internal/ProjectEditorPersistenceHook.h>
 #include <coreplugin/internal/ProjectFileOpenHandler.h>
+#include <coreplugin/internal/ProjectLifecycleAddOn.h>
 #include <coreplugin/internal/ProjectStartupTimerAddOn.h>
 #include <coreplugin/internal/ProjectWindowNavigatorAddOn.h>
 #include <coreplugin/internal/PropertiesAddOn.h>
@@ -318,6 +319,8 @@ namespace Core::Internal {
     }
 
     void CorePlugin::initializeWindows() {
+        HomeWindowInterfaceRegistry::instance()->attach<ProjectLifecycleAddOn>();
+        ProjectWindowInterfaceRegistry::instance()->attach<ProjectLifecycleAddOn>();
         HomeWindowInterfaceRegistry::instance()->attach<HomeAddOn>();
         HomeWindowInterfaceRegistry::instance()->attach<FileDropAddOn>();
         ProjectWindowInterfaceRegistry::instance()->attach<FileDropAddOn>();

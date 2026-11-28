@@ -570,7 +570,15 @@ namespace VisualEditor {
             d->updateVerticalPageTurn(progress);
         });
 
-        auto noteSelectionModel = d->windowHandle->projectDocumentContext()->document()->selectionModel()->noteSelectionModel();
+        auto *projectContext = windowHandle->projectDocumentContext();
+        connect(projectContext, &DspxProject::ProjectDocumentContext::aboutToReload, this, [this] {
+            setEditingClip(nullptr);
+        });
+        connect(projectContext, &DspxProject::ProjectDocumentContext::reloaded, this, [this] {
+            setImplicitNoteLength(PianoRollPanelInterfacePrivate::defaultImplicitNoteLength);
+        });
+
+        auto noteSelectionModel = projectContext->document()->selectionModel()->noteSelectionModel();
 
         connect(noteSelectionModel, &dspx::NoteSelectionModel::noteSequenceWithSelectedItemsChanged, this, [=, this] {
             auto noteSequence = noteSelectionModel->noteSequenceWithSelectedItems();

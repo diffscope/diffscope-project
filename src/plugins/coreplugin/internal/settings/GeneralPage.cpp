@@ -55,6 +55,7 @@ namespace Core::Internal {
         qCInfo(lcGeneralPage) << "Beginning setting";
         widget();
         m_widget->setProperty("startupBehavior", BehaviorPreference::instance()->property("startupBehavior"));
+        m_widget->setProperty("projectOpenBehavior", static_cast<int>(BehaviorPreference::projectOpenBehavior()));
         qCDebug(lcGeneralPage) << "startupBehavior" << m_widget->property("startupBehavior");
         m_widget->setProperty("useSystemLanguage", BehaviorPreference::instance()->property("useSystemLanguage"));
         qCDebug(lcGeneralPage) << "useSystemLanguage" << m_widget->property("useSystemLanguage");
@@ -96,6 +97,7 @@ namespace Core::Internal {
         const bool promptRestartForLanguage = appliedLocaleName != QLocale().name();
         qCDebug(lcGeneralPage) << "startupBehavior" << m_widget->property("startupBehavior");
         BehaviorPreference::instance()->setProperty("startupBehavior", m_widget->property("startupBehavior"));
+        BehaviorPreference::setProjectOpenBehavior(static_cast<BehaviorPreference::ProjectOpenBehavior>(m_widget->property("projectOpenBehavior").toInt()));
         qCDebug(lcGeneralPage) << "useSystemLanguage" << m_widget->property("useSystemLanguage");
         BehaviorPreference::instance()->setProperty("useSystemLanguage", m_widget->property("useSystemLanguage"));
         qCDebug(lcGeneralPage) << "localeName" << m_widget->property("localeName");

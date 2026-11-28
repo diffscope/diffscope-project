@@ -104,6 +104,15 @@ namespace DspxProject {
          */
         ProjectDocumentContext *newProjectFromModel(const opendspx::Model &model, const QString &name = {}, QWindow *parent = nullptr, bool fileBacked = true);
 
+        /** Creates and opens a default project with the strategy's destination choice. */
+        ProjectDocumentContext *newProjectForWindow(ProjectDocumentContext *current, QWindow *parent);
+        ProjectDocumentContext *newProjectFromTemplateForWindow(ProjectDocumentContext *current, const QString &path, QWindow *parent);
+        /** Dispatches a single file from the current project window, requesting a path if empty. */
+        void openFileForWindow(ProjectDocumentContext *current, const QString &path, QWindow *parent);
+        ProjectDocumentContext *openProjectForWindow(ProjectDocumentContext *current, const QString &path, QWindow *parent);
+        ProjectDocumentContext *newProjectFromModelForWindow(ProjectDocumentContext *current, const opendspx::Model &model, const QString &name, QWindow *parent);
+        ProjectDocumentContext *recoverProjectForWindow(ProjectDocumentContext *current, ProjectRecoverySource source, const QString &path, const QString &name, QWindow *parent);
+
         /**
          * Saves the project, requesting a destination for an unsaved file document.
          * Returns the save outcome. @pre context is non-null with an initialized document.

@@ -77,6 +77,7 @@ namespace VisualEditor::Internal {
         void bindEditingNavigation();
         void updateTrackNavigation();
         void updateClipNavigation();
+        void initializeProjectView();
         void resetTimeViewStart();
         void adjustViewForEditingClip();
 

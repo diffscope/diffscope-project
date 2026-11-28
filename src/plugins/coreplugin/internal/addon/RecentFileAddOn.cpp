@@ -240,7 +240,16 @@ namespace Core::Internal {
 
     void RecentFileAddOn::openRecentFile(int index) const {
         auto filePath = CoreInterface::recentFileCollection()->recentFiles().at(index);
-        CoreInterface::projectLifecycleScenario()->openFiles({filePath}, windowHandle()->window());
+        openRecentFilePath(filePath);
+    }
+
+    void RecentFileAddOn::openRecentFilePath(const QString &path) const {
+        auto *scenario = CoreInterface::projectLifecycleScenario();
+        auto *window = windowHandle()->window();
+        if (auto *project = qobject_cast<ProjectWindowInterface *>(windowHandle()); project && !project->isManaged())
+            scenario->openFileForWindow(project->projectDocumentContext(), path, window);
+        else
+            scenario->openFiles({path}, window);
     }
 
     void RecentFileAddOn::removeRecentFile(int index) {
@@ -258,7 +267,12 @@ namespace Core::Internal {
         const bool isProjectCopy = kind == RFK_LatestUnsavedProject;
         const auto recoverySource = isProjectCopy ? DspxProject::ProjectRecoverySource::ProjectCopy : DspxProject::ProjectRecoverySource::DocumentLog;
         const auto name = isProjectCopy ? QString() : defaultDocumentNameFromRecoveryName(item->data(UIShell::USDef::RF_NameRole).toString());
-        CoreInterface::projectLifecycleScenario()->recoverProject(recoverySource, path, name, windowHandle()->window());
+        auto *scenario = CoreInterface::projectLifecycleScenario();
+        auto *window = windowHandle()->window();
+        if (auto *project = qobject_cast<ProjectWindowInterface *>(windowHandle()); project && !project->isManaged())
+            scenario->recoverProjectForWindow(project->projectDocumentContext(), recoverySource, path, name, window);
+        else
+            scenario->recoverProject(recoverySource, path, name, window);
     }
 
     void RecentFileAddOn::removeRecoveryFile(int index) {

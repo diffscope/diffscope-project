@@ -98,6 +98,12 @@ namespace Core {
         initEditScenarios();
         initActionContext();
         q->boundTimelineRangeHint();
+        if (!q->isManaged()) {
+            QObject::connect(projectDocumentContext, &DspxProject::ProjectDocumentContext::reloaded, q, [q] {
+                q->projectTimeline()->goTo(0);
+                q->boundTimelineRangeHint();
+            });
+        }
     }
 
     void ProjectWindowInterfacePrivate::initEditScenarios() {

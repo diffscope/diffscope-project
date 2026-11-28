@@ -27,10 +27,18 @@ namespace Core::Internal {
     }
 
     QSet<qsizetype> ProjectFileOpenHandler::openFiles(const QStringList &filePaths, QWindow *parentWindow) {
+        return openFiles(filePaths, parentWindow, nullptr);
+    }
+
+    QSet<qsizetype> ProjectFileOpenHandler::openFiles(const QStringList &filePaths, QWindow *parentWindow, DspxProject::ProjectDocumentContext *currentProject) {
         const QPointer<QWindow> parent(parentWindow);
         QSet<qsizetype> indexes;
+        auto *scenario = CoreInterface::projectLifecycleScenario();
         for (qsizetype index = 0; index < filePaths.size(); ++index) {
-            CoreInterface::projectLifecycleScenario()->openProject(filePaths.at(index), parent);
+            if (currentProject && filePaths.size() == 1)
+                scenario->openProjectForWindow(currentProject, filePaths.at(index), parent);
+            else
+                scenario->openProject(filePaths.at(index), parent);
             indexes.insert(index);
         }
         return indexes;

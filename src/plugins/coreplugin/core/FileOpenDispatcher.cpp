@@ -12,6 +12,13 @@
 #include <QScopedValueRollback>
 #include <QThread>
 
+#include <CoreApi/windowsystem.h>
+
+#include <dspxproject/ProjectDocumentContext.h>
+
+#include <coreplugin/CoreInterface.h>
+#include <coreplugin/ProjectWindowInterface.h>
+#include <coreplugin/internal/ProjectFileOpenHandler.h>
 #include <coreplugin/private/FileOpenPlan_p.h>
 
 namespace Core {
@@ -111,7 +118,13 @@ namespace Core {
             if (batch.isEmpty()) {
                 continue;
             }
-            const auto claimed = checkedIndexes(registration->handler->openFiles(batch, request->parentWindow), batch.size());
+            auto *projectHandler = request->currentProject
+                ? qobject_cast<Internal::ProjectFileOpenHandler *>(registration->handler.data())
+                : nullptr;
+            const auto indexes = projectHandler
+                ? projectHandler->openFiles(batch, request->parentWindow, request->currentProject)
+                : registration->handler->openFiles(batch, request->parentWindow);
+            const auto claimed = checkedIndexes(indexes, batch.size());
             QSet<qsizetype> consumed;
             for (qsizetype index = 0; index < originalIndexes.size(); ++index) {
                 const auto originalIndex = originalIndexes.at(index);
@@ -178,6 +191,10 @@ namespace Core {
     }
 
     void FileOpenDispatcher::openFiles(const QStringList &filePaths, QWindow *parentWindow) {
+        openFiles(filePaths, parentWindow, nullptr);
+    }
+
+    void FileOpenDispatcher::openFiles(const QStringList &filePaths, QWindow *parentWindow, DspxProject::ProjectDocumentContext *currentProject) {
         Q_D(FileOpenDispatcher);
         Q_ASSERT(QThread::currentThread() == thread());
         auto request = QSharedPointer<FileOpenRequest>::create();
@@ -187,6 +204,7 @@ namespace Core {
         }
         request->parentWindow = parentWindow;
         request->hadParentWindow = parentWindow != nullptr;
+        request->currentProject = currentProject;
         d->pendingRequests.enqueue(request);
         d->processRequests();
     }
@@ -205,6 +223,11 @@ namespace Core {
         request->parentWindow = parentWindow;
         request->hadParentWindow = parentWindow != nullptr;
         request->planned = true;
+        if (parentWindow && urls.size() == 1 && request->filePaths.size() == 1) {
+            auto *project = qobject_cast<ProjectWindowInterface *>(CoreInterface::windowSystem()->findWindow(parentWindow));
+            if (project && !project->isManaged())
+                request->currentProject = project->projectDocumentContext();
+        }
         request->handlers = d->handlers;
         for (qsizetype index = 0; index < request->filePaths.size(); ++index) {
             request->owners.append(-1);

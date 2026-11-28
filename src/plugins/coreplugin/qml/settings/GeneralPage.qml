@@ -17,6 +17,7 @@ ScrollView {
     required property QtObject pageHandle
     property bool started: false
     property int startupBehavior
+    property int projectOpenBehavior: BehaviorPreference.POB_Ask
     property bool useSystemLanguage
     property string localeName
     property int centralCName
@@ -39,6 +40,7 @@ ScrollView {
     }
 
     onStartupBehaviorChanged: if (started) pageHandle.markDirty()
+    onProjectOpenBehaviorChanged: if (started) pageHandle.markDirty()
     onUseSystemLanguageChanged: if (started) pageHandle.markDirty()
     onLocaleNameChanged: if (started) pageHandle.markDirty()
     onCentralCNameChanged: if (started) pageHandle.markDirty()
@@ -100,6 +102,27 @@ ScrollView {
                                     page.startupBehavior &= ~BehaviorPreference.SB_CreateNewProject
                                 }
                             }
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            id: projectOpenBehaviorLabel
+                            text: qsTr("When creating or opening a project")
+                            TextMatcherItem on text { matcher: page.matcher }
+                        }
+                        ComboBox {
+                            Layout.fillWidth: true
+                            Accessible.name: projectOpenBehaviorLabel.text
+                            model: [
+                                { text: qsTr("Ask"), value: BehaviorPreference.POB_Ask },
+                                { text: qsTr("Open in New Window"), value: BehaviorPreference.POB_NewWindow },
+                                { text: qsTr("Open in Current Window"), value: BehaviorPreference.POB_CurrentWindow }
+                            ]
+                            textRole: "text"
+                            valueRole: "value"
+                            currentValue: page.projectOpenBehavior
+                            onActivated: page.projectOpenBehavior = currentValue
                         }
                     }
                     CheckBox {

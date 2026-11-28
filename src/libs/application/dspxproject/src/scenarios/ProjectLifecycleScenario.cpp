@@ -64,9 +64,7 @@ namespace DspxProject {
         return guard.data();
     }
 
-    std::unique_ptr<ProjectDocumentContext> ProjectLifecycleScenario::createUntitledProject(bool fileBacked, bool externallyManaged, const QString &name) {
-        Q_D(ProjectLifecycleScenario);
-        const auto options = d->strategy->projectLifecycleOptions();
+    static opendspx::Model defaultProjectModel(const ProjectLifecycleOptions &options) {
         auto defaultClip = std::make_shared<opendspx::SingingClip>(
             options.defaultClipName.toStdString(),
             opendspx::BusControl{},
@@ -78,7 +76,7 @@ namespace DspxProject {
             }
         );
         defaultClip->sources = options.defaultClipSources.toOpenDSPX();
-        const opendspx::Model defaultModel{
+        return {
             .version = opendspx::Model::Version::V1,
             .content = {
                 .global = {},
@@ -107,12 +105,17 @@ namespace DspxProject {
                 }
             }
         };
+    }
+
+    std::unique_ptr<ProjectDocumentContext> ProjectLifecycleScenario::createUntitledProject(bool fileBacked, bool externallyManaged, const QString &name) {
+        Q_D(ProjectLifecycleScenario);
+        const auto options = d->strategy->projectLifecycleOptions();
         const auto documentName = name.isEmpty() ? options.document.untitledName + QStringLiteral(".dspx") : name;
         auto documentOptions = options.document;
         documentOptions.externallyManaged = externallyManaged;
         documentOptions.keepFileOpenAfterSave = options.keepOpenedFileLocked;
         auto context = std::make_unique<ProjectDocumentContext>(documentOptions);
-        if (context->newFile(defaultModel, documentName, !fileBacked).code != ProjectFileError::None)
+        if (context->newFile(defaultProjectModel(options), documentName, !fileBacked).code != ProjectFileError::None)
             return {};
         return context;
     }
@@ -134,24 +137,65 @@ namespace DspxProject {
 
     void ProjectLifecycleScenario::openFiles(const QStringList &paths, QWindow *parent) {
         Q_D(ProjectLifecycleScenario);
+        d->openFiles(paths, parent);
+    }
+
+    ProjectDocumentContext *ProjectLifecycleScenario::newProjectForWindow(ProjectDocumentContext *current, QWindow *parent) {
+        Q_D(ProjectLifecycleScenario);
+        const auto options = d->strategy->projectLifecycleOptions();
+        const auto name = options.document.untitledName + QStringLiteral(".dspx");
+        return d->presentProject(parent, defaultProjectModel(options), name, std::make_unique<Core::FileLocker>(), options, {}, {}, current);
+    }
+
+    ProjectDocumentContext *ProjectLifecycleScenario::newProjectFromTemplateForWindow(ProjectDocumentContext *current, const QString &path, QWindow *parent) {
+        Q_D(ProjectLifecycleScenario);
+        return d->openProject(parent, path, true, {}, current);
+    }
+
+    void ProjectLifecycleScenario::openFileForWindow(ProjectDocumentContext *current, const QString &path, QWindow *parent) {
+        Q_D(ProjectLifecycleScenario);
+        d->openFiles(path.isEmpty() ? QStringList() : QStringList{path}, parent, current);
+    }
+
+    ProjectDocumentContext *ProjectLifecycleScenario::openProjectForWindow(ProjectDocumentContext *current, const QString &path, QWindow *parent) {
+        Q_D(ProjectLifecycleScenario);
+        return d->openProject(parent, path, false, {}, current);
+    }
+
+    ProjectDocumentContext *ProjectLifecycleScenario::newProjectFromModelForWindow(ProjectDocumentContext *current, const opendspx::Model &model, const QString &name, QWindow *parent) {
+        Q_D(ProjectLifecycleScenario);
+        return d->newProjectFromModel(parent, model, name, true, {}, current);
+    }
+
+    ProjectDocumentContext *ProjectLifecycleScenario::recoverProjectForWindow(ProjectDocumentContext *current, ProjectRecoverySource source, const QString &path, const QString &name, QWindow *parent) {
+        Q_D(ProjectLifecycleScenario);
+        return d->recoverProject(source, path, name, parent, current);
+    }
+
+    void ProjectLifecycleScenarioPrivate::openFiles(const QStringList &paths, QWindow *parent, ProjectDocumentContext *current) {
         if (!paths.isEmpty()) {
-            d->strategy->dispatchFiles(paths, parent);
+            strategy->dispatchFiles(paths, parent, current);
             return;
         }
         const QPointer<QWindow> parentWindow(parent);
-        const ProjectPathRequest request{ProjectPathRequest::Open, {}, {}};
-        const auto path = d->strategy->requestPath(request, parentWindow);
-        if (!path.isEmpty()) {
-            d->strategy->dispatchFiles({path}, parentWindow);
+        const QPointer<ProjectDocumentContext> currentProject(current);
+        const ProjectPathRequest request{.purpose = ProjectPathRequest::Open, .cancelOnDestroyed = current};
+        const auto path = strategy->requestPath(request, parentWindow);
+        if (!path.isEmpty() && (!current || (currentProject && parentWindow))) {
+            strategy->dispatchFiles({path}, parentWindow, currentProject);
         }
     }
 
-    ProjectDocumentContext *ProjectLifecycleScenarioPrivate::openProject(QWindow *parent, QString path, bool asTemplate, const QString &name) {
+    ProjectDocumentContext *ProjectLifecycleScenarioPrivate::openProject(QWindow *parent, QString path, bool asTemplate, const QString &name, ProjectDocumentContext *current) {
         const QPointer<QWindow> parentWindow(parent);
+        const QPointer<ProjectDocumentContext> currentProject(current);
         if (path.isEmpty()) {
-            const ProjectPathRequest request{asTemplate ? ProjectPathRequest::Template : ProjectPathRequest::Open, {}, {}};
+            const ProjectPathRequest request{
+                .purpose = asTemplate ? ProjectPathRequest::Template : ProjectPathRequest::Open,
+                .cancelOnDestroyed = current,
+            };
             path = strategy->requestPath(request, parentWindow);
-            if (path.isEmpty()) {
+            if (path.isEmpty() || (current && (!currentProject || !parentWindow))) {
                 return nullptr;
             }
         }
@@ -187,30 +231,57 @@ namespace DspxProject {
                 .path = path,
                 .message = checkWarning.message,
                 .detail = checkWarning.detail,
+                .cancelOnDestroyed = currentProject,
             };
-            if (!strategy->confirmWarning(warning, parentWindow)) {
+            if (!strategy->confirmWarning(warning, parentWindow) || (current && (!currentProject || !parentWindow))) {
                 return nullptr;
             }
         }
 
         if (asTemplate) {
             const auto documentName = name.isEmpty() ? options.document.untitledName + QStringLiteral(".dspx") : name;
-            return presentProject(parentWindow, candidate.model, documentName, std::make_unique<Core::FileLocker>(), options, path);
+            return presentProject(parentWindow, candidate.model, documentName, std::make_unique<Core::FileLocker>(), options, path, {}, currentProject);
         }
-        const QPointer<ProjectDocumentContext> context(presentProject(parentWindow, candidate.model, {}, std::move(candidate.locker), options, path));
+        const QPointer<ProjectDocumentContext> context(presentProject(parentWindow, candidate.model, {}, std::move(candidate.locker), options, path, {}, currentProject));
         if (context) {
             strategy->recordRecentFile(context.data(), false);
         }
         return context.data();
     }
 
-    ProjectDocumentContext *ProjectLifecycleScenarioPrivate::newProjectFromModel(QWindow *parent, const opendspx::Model &model, const QString &name, bool fileBacked, const QString &recoverySourceDirectory) {
+    ProjectDocumentContext *ProjectLifecycleScenarioPrivate::newProjectFromModel(QWindow *parent, const opendspx::Model &model, const QString &name, bool fileBacked, const QString &recoverySourceDirectory, ProjectDocumentContext *current) {
         const auto options = strategy->projectLifecycleOptions();
         const auto documentName = name.isEmpty() ? options.document.untitledName + QStringLiteral(".dspx") : name;
-        return presentProject(parent, model, documentName, fileBacked ? std::make_unique<Core::FileLocker>() : nullptr, options, {}, recoverySourceDirectory);
+        return presentProject(parent, model, documentName, fileBacked ? std::make_unique<Core::FileLocker>() : nullptr, options, {}, recoverySourceDirectory, current);
     }
 
-    ProjectDocumentContext *ProjectLifecycleScenarioPrivate::presentProject(QWindow *parent, const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const ProjectLifecycleOptions &options, const QString &sourcePath, const QString &recoverySourceDirectory) {
+    ProjectDocumentContext *ProjectLifecycleScenarioPrivate::presentProject(QWindow *parent, const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const ProjectLifecycleOptions &options, const QString &sourcePath, const QString &recoverySourceDirectory, ProjectDocumentContext *current) {
+        if (current) {
+            const QPointer<ProjectDocumentContext> currentProject(current);
+            const QPointer<QWindow> parentWindow(parent);
+            const auto destination = strategy->chooseOpenDestination(parentWindow);
+            if (!currentProject || !parentWindow || destination == ProjectLifecycleStrategy::OpenDestination::Cancel)
+                return nullptr;
+            if (destination == ProjectLifecycleStrategy::OpenDestination::CurrentWindow) {
+                if (busyProjects.contains(current)) {
+                    reportFailure(strategy, {ProjectFileError::Busy, sourcePath}, parentWindow);
+                    return nullptr;
+                }
+                busyProjects.insert(current);
+                const auto guard = qScopeGuard([&] { busyProjects.remove(current); });
+                if (resolveUnsavedChanges(current, parentWindow) != Status::Success || !currentProject || !parentWindow)
+                    return nullptr;
+                auto *contextData = ProjectDocumentContextPrivate::get(current);
+                auto error = contextData->replace({.model = model, .locker = std::move(locker)}, {}, nullptr, name, recoverySourceDirectory);
+                if (error.code != ProjectFileError::None) {
+                    error.path = sourcePath;
+                    reportFailure(strategy, error, parentWindow);
+                    return nullptr;
+                }
+                return currentProject.data();
+            }
+        }
+
         auto documentOptions = options.document;
         documentOptions.keepFileOpenAfterSave = options.keepOpenedFileLocked;
         auto context = std::make_unique<ProjectDocumentContext>(documentOptions);
@@ -226,23 +297,30 @@ namespace DspxProject {
     }
 
     ProjectDocumentContext *ProjectLifecycleScenario::recoverProject(ProjectRecoverySource source, const QString &path, const QString &name, QWindow *parent) {
+        Q_D(ProjectLifecycleScenario);
+        return d->recoverProject(source, path, name, parent);
+    }
+
+    ProjectDocumentContext *ProjectLifecycleScenarioPrivate::recoverProject(ProjectRecoverySource source, const QString &path, const QString &name, QWindow *parent, ProjectDocumentContext *current) {
         if (source == ProjectRecoverySource::ProjectCopy) {
-            return newProjectFromTemplate(path, parent, name);
+            return openProject(parent, path, true, name, current);
         }
 
-        Q_D(ProjectLifecycleScenario);
         const QPointer<QWindow> parentWindow(parent);
+        const QPointer<ProjectDocumentContext> currentProject(current);
         auto candidate = ProjectDocumentContextPrivate::restoreProjectModel(path, false);
         if (candidate.error.code != ProjectFileError::None) {
             qCWarning(lcProjectLifecycle) << "Complete project recovery failed" << candidate.error.path << candidate.error.detail;
-            d->strategy->notifyPartialRecovery(candidate.error, parentWindow);
+            strategy->notifyPartialRecovery(candidate.error, parentWindow);
+            if (current && (!currentProject || !parentWindow))
+                return nullptr;
             candidate = ProjectDocumentContextPrivate::restoreProjectModel(path, true);
             if (candidate.error.code != ProjectFileError::None) {
-                reportFailure(d->strategy, candidate.error, parentWindow);
+                reportFailure(strategy, candidate.error, parentWindow);
                 return nullptr;
             }
         }
-        return d->newProjectFromModel(parentWindow, candidate.model, name, true, path);
+        return newProjectFromModel(parentWindow, candidate.model, name, true, path, currentProject);
     }
 
     ProjectLifecycleScenario::Status ProjectLifecycleScenario::saveProject(ProjectDocumentContext *context, QWindow *parent) {
@@ -541,18 +619,22 @@ namespace DspxProject {
     }
 
     ProjectLifecycleScenario::Status ProjectLifecycleScenarioPrivate::prepareClose(ProjectDocumentContext *context, QWindow *parent) {
-        const QPointer<QWindow> parentWindow(parent);
         if (busyProjects.contains(context)) {
             return Status::Failed;
-        }
-        const auto locker = context->fileLocker();
-        if (!locker) {
-            return Status::Success;
         }
         busyProjects.insert(context);
         const auto guard = qScopeGuard([&] {
             busyProjects.remove(context);
         });
+        return resolveUnsavedChanges(context, parent);
+    }
+
+    ProjectLifecycleScenario::Status ProjectLifecycleScenarioPrivate::resolveUnsavedChanges(ProjectDocumentContext *context, QWindow *parent) {
+        const QPointer<QWindow> parentWindow(parent);
+        const auto locker = context->fileLocker();
+        if (!locker) {
+            return Status::Success;
+        }
 
         const QPointer<ProjectDocumentContext> contextGuard(context);
         const auto controller = context->document()->transactionController();

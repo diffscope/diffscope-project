@@ -55,6 +55,9 @@ namespace VisualEditor {
         auto projectTimeline = windowHandle->projectTimeline();
         timeViewModel->setTimeline(projectTimeline->musicTimeline());
         timeViewModel->setEnd(projectTimeline->rangeHint());
+        QObject::connect(windowHandle->projectDocumentContext(), &DspxProject::ProjectDocumentContext::reloaded, timeViewModel, [this] {
+            timeViewModel->setStart(0);
+        });
         QObject::connect(projectTimeline, &DspxProject::ProjectTimeline::rangeHintChanged, timeViewModel, [=, this] {
             timeViewModel->setEnd(projectTimeline->rangeHint());
         });

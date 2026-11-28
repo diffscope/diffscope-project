@@ -113,38 +113,46 @@ namespace VisualEditor::Internal {
             if (auto context = window->getFirstObject<SVS::DockingContext>())
                 context->show(context->panel("org.diffscope.visualeditor.panel.pianoRoll"));
         });
+        connect(window->projectDocumentContext(), &DspxProject::ProjectDocumentContext::reloaded, this, &PianoRollAddOn::initializeProjectView, Qt::QueuedConnection);
     }
 
     bool PianoRollAddOn::delayedInitialize() {
-        QTimer::singleShot(0, this, [this] {
-            auto panelInterface = pianoRollPanelInterface();
-            resetTimeViewStart();
-            auto clip = panelInterface->editingClip();
-            auto firstNote = clip ? clip->notes()->firstItem() : nullptr;
-            auto editArea = panelInterface->pianoRollView()->property("centerEditArea").value<QQuickItem *>();
-            if (!firstNote || !editArea || editArea->width() <= 0 || editArea->height() <= 0)
-                return;
-
-            static constexpr int noteCount = 8;
-            auto timeLayoutViewModel = panelInterface->timeLayoutViewModel();
-            auto note = firstNote;
-            auto i = 0;
-            double keyNumber = 0;
-            for (; note && i < noteCount; note = note->nextItem(), ++i) {
-                if (timeLayoutViewModel->pixelDensity() > 0 && note->position() - firstNote->position() > editArea->width() / timeLayoutViewModel->pixelDensity()) {
-                    break;
-                }
-                keyNumber += note->keyNumber();
-            }
-            keyNumber /= i;
-
-            auto clavierViewModel = panelInterface->clavierViewModel();
-            if (clavierViewModel->pixelDensity() > 0) {
-                const double viewKeyCount = editArea->height() / clavierViewModel->pixelDensity();
-                clavierViewModel->setStart(centeredClavierViewStart(keyNumber, keyNumber, viewKeyCount));
-            }
-        });
+        QTimer::singleShot(0, this, &PianoRollAddOn::initializeProjectView);
         return WindowInterfaceAddOn::delayedInitialize();
+    }
+
+    void PianoRollAddOn::initializeProjectView() {
+        auto *panelInterface = pianoRollPanelInterface();
+        auto *clip = panelInterface->editingClip();
+        if (!clip) {
+            panelInterface->timeViewModel()->setStart(0);
+            return;
+        }
+
+        resetTimeViewStart();
+        auto *firstNote = clip->notes()->firstItem();
+        auto *editArea = panelInterface->pianoRollView()->property("centerEditArea").value<QQuickItem *>();
+        if (!firstNote || !editArea || editArea->width() <= 0 || editArea->height() <= 0)
+            return;
+
+        static constexpr int noteCount = 8;
+        auto *timeLayoutViewModel = panelInterface->timeLayoutViewModel();
+        auto *note = firstNote;
+        auto i = 0;
+        double keyNumber = 0;
+        for (; note && i < noteCount; note = note->nextItem(), ++i) {
+            if (timeLayoutViewModel->pixelDensity() > 0 && note->position() - firstNote->position() > editArea->width() / timeLayoutViewModel->pixelDensity()) {
+                break;
+            }
+            keyNumber += note->keyNumber();
+        }
+        keyNumber /= i;
+
+        auto *clavierViewModel = panelInterface->clavierViewModel();
+        if (clavierViewModel->pixelDensity() > 0) {
+            const double viewKeyCount = editArea->height() / clavierViewModel->pixelDensity();
+            clavierViewModel->setStart(centeredClavierViewStart(keyNumber, keyNumber, viewKeyCount));
+        }
     }
 
     void PianoRollAddOn::bindEditingNavigation() {

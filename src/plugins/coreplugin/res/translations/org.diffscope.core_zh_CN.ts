@@ -457,13 +457,13 @@
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6597"/>
-        <source>Create a project in a new window.</source>
-        <translation type="unfinished">在新窗口中创建工程。</translation>
+        <source>Create a project.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6598"/>
-        <source>Create a project from an existing file in a new window.</source>
-        <translation type="unfinished">从现有文件在新窗口中创建工程。</translation>
+        <source>Create a project from an existing file.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../../../cmake-build-relwithdebinfo/src/plugins/coreplugin/res/qak_org.diffscope.core_actions.cpp" line="6599"/>
@@ -5254,6 +5254,26 @@ Do you want to continue opening it?</source>
 <context>
     <name>GeneralPage</name>
     <message>
+        <location filename="../../qml/settings/GeneralPage.qml" line="111"/>
+        <source>When creating or opening a project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/GeneralPage.qml" line="118"/>
+        <source>Ask</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/GeneralPage.qml" line="119"/>
+        <source>Open in New Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settings/GeneralPage.qml" line="120"/>
+        <source>Open in Current Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/settings/GeneralPage.qml" line="68"/>
         <source>Startup</source>
         <translation>启动</translation>
@@ -6672,6 +6692,34 @@ Do you want to continue opening it?</source>
         <location filename="../../qml/actions/ProjectActions.qml" line="62"/>
         <source>Click to show details</source>
         <translation>单击以显示详情</translation>
+    </message>
+</context>
+<context>
+    <name>ProjectOpenDestinationDialog</name>
+    <message>
+        <location filename="../../qml/dialogs/ProjectOpenDestinationDialog.qml" line="16"/>
+        <source>Open Project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/ProjectOpenDestinationDialog.qml" line="17"/>
+        <source>Where do you want to open the project?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/ProjectOpenDestinationDialog.qml" line="20"/>
+        <source>Open in New Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/ProjectOpenDestinationDialog.qml" line="21"/>
+        <source>Open in Current Window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/dialogs/ProjectOpenDestinationDialog.qml" line="28"/>
+        <source>Do not ask again</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

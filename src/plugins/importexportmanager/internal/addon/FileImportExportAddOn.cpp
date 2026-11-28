@@ -12,6 +12,7 @@
 #include <QEventLoop>
 #include <QFileInfo>
 #include <QLoggingCategory>
+#include <QPointer>
 #include <QQmlComponent>
 #include <QWindow>
 #include <QFileDialog>
@@ -146,12 +147,19 @@ namespace ImportExportManager::Internal {
 
     void FileImportExportAddOn::execImport(FileConverter *converter) const {
         qCInfo(lcFileImportExportAddOn) << "Exec import" << converter << converter->name();
+        const QPointer<Core::WindowInterface> origin(windowHandle());
         opendspx::Model model;
         QString path;
-        if (!execImportToModel(converter, model, path)) {
+        if (!execImportToModel(converter, model, path) || !origin) {
             return;
         }
-        Core::CoreInterface::projectLifecycleScenario()->newProjectFromModel(model, QFileInfo(path).baseName() + QStringLiteral(".dspx"), windowHandle()->window());
+        auto *scenario = Core::CoreInterface::projectLifecycleScenario();
+        const auto name = QFileInfo(path).baseName() + QStringLiteral(".dspx");
+        auto *window = origin->window();
+        if (auto *project = qobject_cast<Core::ProjectWindowInterface *>(origin.data()); project && !project->isManaged())
+            scenario->newProjectFromModelForWindow(project->projectDocumentContext(), model, name, window);
+        else
+            scenario->newProjectFromModel(model, name, window);
     }
 
     void FileImportExportAddOn::execImportTracks(FileConverter *converter) const {
@@ -208,6 +216,7 @@ namespace ImportExportManager::Internal {
     }
 
     bool FileImportExportAddOn::execImportToModel(FileConverter *converter, opendspx::Model &model, QString &path) const {
+        const QPointer<QWindow> parentWindow(windowHandle()->window());
         if (!converter->runPreExecCheck()) {
             qCInfo(lcFileImportExportAddOn) << "Import pre-exec check failed";
             return false;
@@ -224,7 +233,7 @@ namespace ImportExportManager::Internal {
         state->beginGroup(QStringLiteral("org.diffscope.importexportmanager.fileDialog"));
         state->setValue(QStringLiteral("defaultImportExportDir"), QFileInfo(path).absolutePath());
         state->endGroup();
-        if (!converter->execImport(path, model, windowHandle()->window())) {
+        if (!parentWindow || !converter->execImport(path, model, parentWindow)) {
             qCInfo(lcFileImportExportAddOn) << "Import failed or canceled";
             return false;
         }

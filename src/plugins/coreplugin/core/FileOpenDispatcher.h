@@ -16,10 +16,15 @@
 
 class QWindow;
 
+namespace DspxProject {
+    class ProjectDocumentContext;
+}
+
 namespace Core {
 
     namespace Internal {
         class CorePlugin;
+        class CoreProjectLifecycleStrategy;
     }
 
     class IFileOpenHandler;
@@ -46,12 +51,14 @@ namespace Core {
         Q_INVOKABLE FileOpenPlan *prepareDrop(const QList<QUrl> &urls, QWindow *parentWindow = nullptr);
 
     private:
+        void openFiles(const QStringList &filePaths, QWindow *parentWindow, DspxProject::ProjectDocumentContext *currentProject);
         void setReady(bool ready);
 
         QScopedPointer<FileOpenDispatcherPrivate> d_ptr;
 
         friend class FileOpenPlan;
         friend class Internal::CorePlugin;
+        friend class Internal::CoreProjectLifecycleStrategy;
     };
 
 }

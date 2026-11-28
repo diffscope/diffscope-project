@@ -166,9 +166,11 @@ QtObject {
                         icon.source: "image://fluent-system-icons/folder_open"
                         onTriggered: () => {
                             if (d.isRecovery) {
-                                d.addOn.openRecoveryFile(fileMenu.index)
+                                const index = fileMenu.index
+                                Qt.callLater(() => d.addOn.openRecoveryFile(index))
                             } else {
-                                d.addOn.openRecentFile(fileMenu.index)
+                                const path = fileMenu.path
+                                Qt.callLater(() => d.addOn.openRecentFilePath(path))
                             }
                         }
                     }

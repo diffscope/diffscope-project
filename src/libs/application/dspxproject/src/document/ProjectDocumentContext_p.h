@@ -50,7 +50,8 @@ namespace DspxProject {
         static OpenCandidate restoreProjectModel(const QString &directory, bool allowPartialRecovery);
         ProjectFileError loadFile(const QString &path, const QString &name, OpenMode mode, const ProjectDocumentContext::OpenOptions &options);
         ProjectFileError initialize(const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const QString &recoverySourceDirectory = {});
-        ProjectFileError replace(OpenCandidate candidate, const ProjectDocumentContext::OpenOptions &options, ReplacementSnapshot *snapshot = nullptr);
+        ProjectFileError replace(OpenCandidate candidate, const ProjectDocumentContext::OpenOptions &options, ReplacementSnapshot *snapshot = nullptr,
+                                 const QString &documentName = {}, const QString &recoverySourceDirectory = {});
         void setFileLocker(std::unique_ptr<Core::FileLocker> locker);
         ProjectFileError detachFile(QByteArray &data, qsizetype maximumBytes, const ProjectDocumentContext::SaveOptions &options);
         static QString canonicalOrAbsolutePath(const QString &path);

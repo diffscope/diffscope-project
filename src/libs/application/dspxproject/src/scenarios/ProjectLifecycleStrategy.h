@@ -104,6 +104,7 @@ namespace DspxProject {
             Discard, /**< Write a recovery copy and permit closing. */
             Cancel /**< Cancel closing. */
         };
+        enum class OpenDestination { NewWindow, CurrentWindow, Cancel };
 
         /** Creates a lifecycle strategy with an optional QObject parent. */
         explicit ProjectLifecycleStrategy(QObject *parent = nullptr);
@@ -124,8 +125,10 @@ namespace DspxProject {
         virtual void presentProject(std::unique_ptr<ProjectDocumentContext> context) = 0;
         /** Records the project in recent files, optionally capturing a thumbnail. */
         virtual void recordRecentFile(ProjectDocumentContext *context, bool captureThumbnail) = 0;
-        /** Dispatches file paths to the application's file handlers. */
-        virtual void dispatchFiles(const QStringList &paths, QWindow *parent) = 0;
+        /** Dispatches paths, with an optional current context for a project open. */
+        virtual void dispatchFiles(const QStringList &paths, QWindow *parent, ProjectDocumentContext *current) = 0;
+        /** Returns the destination for a project opened from the parent project window. */
+        virtual OpenDestination chooseOpenDestination(QWindow *parent) = 0;
 
         /** Returns a selected path, or an empty string on cancellation. */
         virtual QString requestPath(const ProjectPathRequest &request, QWindow *parent) = 0;

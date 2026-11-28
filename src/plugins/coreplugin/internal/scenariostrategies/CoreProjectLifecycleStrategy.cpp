@@ -3,17 +3,25 @@
 
 #include "CoreProjectLifecycleStrategy.h"
 
+#include <memory>
+
+#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
 #include <QImage>
+#include <QQmlComponent>
 #include <QQmlEngine>
 #include <QQuickWindow>
+#include <QVariant>
 #include <QWindow>
 
 #include <CoreApi/applicationinfo.h>
 #include <CoreApi/filelocker.h>
 #include <CoreApi/recentfilecollection.h>
+#include <CoreApi/runtimeinterface.h>
 #include <CoreApi/windowsystem.h>
+
+#include <SVSCraftQuick/MessageBox.h>
 
 #include <coreplugin/CoreInterface.h>
 #include <coreplugin/FileOpenDispatcher.h>
@@ -105,8 +113,47 @@ namespace Core::Internal {
         return QDir(recoveryRootPath()).filePath(QStringLiteral("latest_unsaved_project.dspx"));
     }
 
-    void CoreProjectLifecycleStrategy::dispatchFiles(const QStringList &paths, QWindow *parent) {
-        CoreInterface::fileOpenDispatcher()->openFiles(paths, parent);
+    void CoreProjectLifecycleStrategy::dispatchFiles(const QStringList &paths, QWindow *parent, DspxProject::ProjectDocumentContext *current) {
+        CoreInterface::fileOpenDispatcher()->openFiles(paths, parent, current);
+    }
+
+    CoreProjectLifecycleStrategy::OpenDestination CoreProjectLifecycleStrategy::chooseOpenDestination(QWindow *parent) {
+        using Preference = BehaviorPreference;
+        switch (Preference::projectOpenBehavior()) {
+            case Preference::POB_NewWindow:
+                return OpenDestination::NewWindow;
+            case Preference::POB_CurrentWindow:
+                return OpenDestination::CurrentWindow;
+            case Preference::POB_Ask:
+                break;
+        }
+
+        enum { NewWindowButton = 1, CurrentWindowButton };
+        QQmlComponent component(RuntimeInterface::qmlEngine(), "DiffScope.Core", "ProjectOpenDestinationDialog");
+        if (component.isError()) {
+            qFatal() << component.errorString();
+        }
+        std::unique_ptr<QObject> object(component.createWithInitialProperties({
+            {"transientParent", QVariant::fromValue(parent)},
+            {"newWindowButton", static_cast<int>(NewWindowButton)},
+            {"currentWindowButton", static_cast<int>(CurrentWindowButton)},
+        }));
+        if (!object) {
+            qFatal() << component.errorString();
+        }
+        auto *dialog = qobject_cast<QQuickWindow *>(object.get());
+        if (!dialog) {
+            qFatal("ProjectOpenDestinationDialog in DiffScope.Core is not QQuickWindow");
+        }
+        QObject::connect(parent, &QObject::destroyed, dialog, &QWindow::close);
+        const auto button = SVS::MessageBox::customExec(dialog).toInt();
+        if (button != NewWindowButton && button != CurrentWindowButton)
+            return OpenDestination::Cancel;
+        if (dialog->property("rememberChoice").toBool()) {
+            Preference::setProjectOpenBehavior(button == NewWindowButton ? Preference::POB_NewWindow : Preference::POB_CurrentWindow);
+            Preference::instance()->save();
+        }
+        return button == NewWindowButton ? OpenDestination::NewWindow : OpenDestination::CurrentWindow;
     }
 
     QString CoreProjectLifecycleStrategy::requestPath(const DspxProject::ProjectPathRequest &request, QWindow *parent) {

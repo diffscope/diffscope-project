@@ -26,6 +26,7 @@ namespace Core {
     public:
         QStringList filePaths;
         QPointer<QWindow> parentWindow;
+        QPointer<DspxProject::ProjectDocumentContext> currentProject;
         bool hadParentWindow = false;
         bool planned = false;
         QList<QSharedPointer<FileOpenHandlerRegistration>> handlers;

@@ -40,6 +40,8 @@ namespace Core::Internal {
         Q_INVOKABLE void shiftNotes(int semitone);
 
     private:
+        void selectFirstSingingClip();
+
         Notifications::NotificationMessage *m_pitchOutOfRangeNotification;
     };
 

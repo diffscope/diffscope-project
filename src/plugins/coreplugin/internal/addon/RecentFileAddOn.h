@@ -37,6 +37,7 @@ namespace Core::Internal {
 
     public Q_SLOTS:
         void openRecentFile(int index) const;
+        Q_INVOKABLE void openRecentFilePath(const QString &path) const;
         static void removeRecentFile(int index);
         Q_INVOKABLE void openRecoveryFile(int index);
         Q_INVOKABLE void removeRecoveryFile(int index);

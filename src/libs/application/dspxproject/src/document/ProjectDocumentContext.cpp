@@ -565,7 +565,8 @@ namespace DspxProject {
         return {};
     }
 
-    ProjectFileError ProjectDocumentContextPrivate::replace(OpenCandidate candidate, const ProjectDocumentContext::OpenOptions &openOptions, ReplacementSnapshot *snapshot) {
+    ProjectFileError ProjectDocumentContextPrivate::replace(OpenCandidate candidate, const ProjectDocumentContext::OpenOptions &openOptions, ReplacementSnapshot *snapshot,
+                                                           const QString &documentName, const QString &recoverySourceDirectory) {
         Q_Q(ProjectDocumentContext);
         if (candidate.error.code != ProjectFileError::None)
             return candidate.error;
@@ -577,8 +578,8 @@ namespace DspxProject {
                 return {ProjectFileError::CheckerWarning, {}, warnings.front().detail, warnings.front().message};
         }
         if (!document) {
-            const auto name = candidate.locker ? QString() : options.untitledName;
-            return initialize(candidate.model, name, std::move(candidate.locker));
+            const auto name = documentName.isEmpty() && !candidate.locker ? options.untitledName : documentName;
+            return initialize(candidate.model, name, std::move(candidate.locker), recoverySourceDirectory);
         }
 
         const QScopedValueRollback initializingGuard(initializing, true);
@@ -586,7 +587,7 @@ namespace DspxProject {
         stagingOptions.recoveryRootPath.clear();
         ProjectDocumentContext staged(stagingOptions);
         staged.d_func()->retainedReferenceFilePath = candidate.referenceFilePath;
-        if (const auto error = staged.d_func()->initialize(candidate.model, {}, {}); error.code != ProjectFileError::None)
+        if (const auto error = staged.d_func()->initialize(candidate.model, documentName, {}, recoverySourceDirectory); error.code != ProjectFileError::None)
             return error;
         QByteArray snapshotData;
         if (snapshot) {
@@ -622,8 +623,8 @@ namespace DspxProject {
         document->selectionModel()->select(nullptr, dspx::SelectionModel::ClearPreviousSelection);
         if (options.persistenceHook)
             options.persistenceHook->finishReplacement(*q, staged);
-        QString name;
-        if (!fileLocker)
+        auto name = documentName;
+        if (name.isEmpty() && !fileLocker)
             name = retainedReferenceFilePath.isEmpty() ? options.untitledName : QFileInfo(retainedReferenceFilePath).fileName();
         q->setDefaultDocumentName(name);
         writeRecoveryNameFile();

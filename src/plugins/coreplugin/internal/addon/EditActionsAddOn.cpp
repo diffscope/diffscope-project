@@ -119,28 +119,28 @@ namespace Core::Internal {
     }
 
     void EditActionsAddOn::extensionsInitialized() {
+        auto *context = windowHandle()->cast<ProjectWindowInterface>()->projectDocumentContext();
+        connect(context, &DspxProject::ProjectDocumentContext::reloaded, this, &EditActionsAddOn::selectFirstSingingClip);
     }
 
     bool EditActionsAddOn::delayedInitialize() {
+        selectFirstSingingClip();
+        return WindowInterfaceAddOn::delayedInitialize();
+    }
+
+    void EditActionsAddOn::selectFirstSingingClip() {
         auto *document = windowHandle()->cast<ProjectWindowInterface>()->projectDocumentContext()->document();
         const auto tracks = document->model()->tracks()->items();
-        dspx::SingingClip *firstSingingClip = nullptr;
         for (auto *track : tracks) {
             for (auto *clip : track->clips()->asRange()) {
                 if (clip->kind() != dspx::Clip::Singing) {
                     continue;
                 }
-                firstSingingClip = static_cast<dspx::SingingClip *>(clip);
-                break;
-            }
-            if (firstSingingClip) {
-                break;
+                auto *singingClip = static_cast<dspx::SingingClip *>(clip);
+                document->selectionModel()->select(nullptr, dspx::SelectionModel::Select, dspx::SelectionModel::ST_Note, singingClip->notes());
+                return;
             }
         }
-        if (firstSingingClip) {
-            document->selectionModel()->select(nullptr, dspx::SelectionModel::Select, dspx::SelectionModel::ST_Note, firstSingingClip->notes());
-        }
-        return WindowInterfaceAddOn::delayedInitialize();
     }
 
     void EditActionsAddOn::shiftCursor(ShiftCursorDirection direction) {

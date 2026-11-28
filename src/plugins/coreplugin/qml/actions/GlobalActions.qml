@@ -21,33 +21,6 @@ ActionCollection {
     required property ActionWindowInterfaceBase windowHandle
 
     ActionItem {
-        actionId: "org.diffscope.core.file.new"
-        Action {
-            onTriggered: (o) => {
-                CoreInterface.projectLifecycleScenario.newProject("", d.windowHandle.window)
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.file.newFromTemplate"
-        Action {
-            onTriggered: (o) => {
-                CoreInterface.projectLifecycleScenario.newProjectFromTemplate("", d.windowHandle.window)
-            }
-        }
-    }
-
-    ActionItem {
-        actionId: "org.diffscope.core.file.open"
-        Action {
-            onTriggered: (o) => {
-                CoreInterface.projectLifecycleScenario.openFiles([], d.windowHandle.window)
-            }
-        }
-    }
-
-    ActionItem {
         actionId: "org.diffscope.core.documentations"
         Action {
             onTriggered: () => {

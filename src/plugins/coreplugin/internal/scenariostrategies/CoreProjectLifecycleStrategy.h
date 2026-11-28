@@ -23,7 +23,8 @@ namespace Core::Internal {
         void activateProject(DspxProject::ProjectDocumentContext *context) override;
         void presentProject(std::unique_ptr<DspxProject::ProjectDocumentContext> context) override;
         void recordRecentFile(DspxProject::ProjectDocumentContext *context, bool captureThumbnail) override;
-        void dispatchFiles(const QStringList &paths, QWindow *parent) override;
+        void dispatchFiles(const QStringList &paths, QWindow *parent, DspxProject::ProjectDocumentContext *current) override;
+        OpenDestination chooseOpenDestination(QWindow *parent) override;
 
         QString requestPath(const DspxProject::ProjectPathRequest &request, QWindow *parent) override;
         bool confirmWarning(const DspxProject::ProjectWarning &warning, QWindow *parent) override;

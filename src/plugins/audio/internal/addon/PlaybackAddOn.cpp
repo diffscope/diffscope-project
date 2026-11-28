@@ -74,6 +74,14 @@ namespace Audio::Internal {
         m_documentModel = windowInterface->projectDocumentContext()->document()->model();
         Q_ASSERT(m_documentModel);
 
+        if (!windowInterface->isManaged()) {
+            connect(windowInterface->projectDocumentContext(), &DspxProject::ProjectDocumentContext::aboutToReload, this, [this, windowInterface] {
+                cancelPendingPlayback();
+                if (auto *recorder = MidiRecordingAddOn::of(windowInterface); !recorder || !recorder->isBusy())
+                    m_context->setStatus(ProjectAudioContext::Stopped);
+            });
+        }
+
         auto transport = m_context->transport();
         connect(transport, &talcs::TransportAudioSource::positionAboutToChange, this, [this] {
             if (!ProjectAudioContextPrivate::of(m_context)->usesLocalTransport())

@@ -23,6 +23,7 @@ namespace Core::Internal {
         QML_SINGLETON
         Q_DECLARE_PRIVATE(BehaviorPreference)
         Q_PROPERTY(BehaviorPreference::StartupBehavior startupBehavior READ startupBehavior WRITE setStartupBehavior NOTIFY startupBehaviorChanged)
+        Q_PROPERTY(BehaviorPreference::ProjectOpenBehavior projectOpenBehavior READ projectOpenBehavior WRITE setProjectOpenBehavior NOTIFY projectOpenBehaviorChanged)
         Q_PROPERTY(bool useSystemLanguage READ useSystemLanguage WRITE setUseSystemLanguage NOTIFY useSystemLanguageChanged)
         Q_PROPERTY(QString localeName READ localeName WRITE setLocaleName NOTIFY localeNameChanged)
         Q_PROPERTY(BehaviorPreference::CentralCName centralCName READ centralCName WRITE setCentralCName NOTIFY centralCNameChanged)
@@ -77,6 +78,11 @@ namespace Core::Internal {
 
         static StartupBehavior startupBehavior();
         static void setStartupBehavior(StartupBehavior startupBehavior);
+
+        enum ProjectOpenBehavior { POB_Ask, POB_NewWindow, POB_CurrentWindow };
+        Q_ENUM(ProjectOpenBehavior)
+        static ProjectOpenBehavior projectOpenBehavior();
+        static void setProjectOpenBehavior(ProjectOpenBehavior behavior);
 
         static bool useSystemLanguage();
         static void setUseSystemLanguage(bool useSystemLanguage);
@@ -242,6 +248,7 @@ namespace Core::Internal {
 
     Q_SIGNALS:
         void startupBehaviorChanged();
+        void projectOpenBehaviorChanged();
         void useSystemLanguageChanged();
         void localeNameChanged();
         void centralCNameChanged();

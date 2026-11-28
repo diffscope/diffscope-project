@@ -62,7 +62,8 @@ namespace VisualEditor {
         bool isMouseTrackingDisabled{false};
         bool scaleHighlightEnabled{false};
 
-        int implicitNoteLength{480};
+        static constexpr int defaultImplicitNoteLength = 480;
+        int implicitNoteLength{defaultImplicitNoteLength};
         QMetaObject::Connection currentNoteConnection;
 
         struct VerticalView {

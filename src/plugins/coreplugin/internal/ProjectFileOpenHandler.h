@@ -6,6 +6,10 @@
 
 #include <coreplugin/IFileOpenHandler.h>
 
+namespace DspxProject {
+    class ProjectDocumentContext;
+}
+
 namespace Core::Internal {
 
     class ProjectFileOpenHandler : public IFileOpenHandler {
@@ -16,6 +20,7 @@ namespace Core::Internal {
 
         QSet<qsizetype> preflight(const QStringList &filePaths, QWindow *parentWindow) const override;
         QSet<qsizetype> openFiles(const QStringList &filePaths, QWindow *parentWindow) override;
+        QSet<qsizetype> openFiles(const QStringList &filePaths, QWindow *parentWindow, DspxProject::ProjectDocumentContext *currentProject);
     };
 
 }

@@ -21,14 +21,17 @@ namespace DspxProject {
         using Status = ProjectLifecycleScenario::Status;
         using SaveMode = ProjectDocumentContextPrivate::SaveMode;
 
-        ProjectDocumentContext *openProject(QWindow *parent, QString path, bool asTemplate, const QString &name);
-        ProjectDocumentContext *newProjectFromModel(QWindow *parent, const opendspx::Model &model, const QString &name, bool fileBacked, const QString &recoverySourceDirectory = {});
-        ProjectDocumentContext *presentProject(QWindow *parent, const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const ProjectLifecycleOptions &options, const QString &sourcePath = {}, const QString &recoverySourceDirectory = {});
+        void openFiles(const QStringList &paths, QWindow *parent, ProjectDocumentContext *current = nullptr);
+        ProjectDocumentContext *openProject(QWindow *parent, QString path, bool asTemplate, const QString &name, ProjectDocumentContext *current = nullptr);
+        ProjectDocumentContext *recoverProject(ProjectRecoverySource source, const QString &path, const QString &name, QWindow *parent, ProjectDocumentContext *current = nullptr);
+        ProjectDocumentContext *newProjectFromModel(QWindow *parent, const opendspx::Model &model, const QString &name, bool fileBacked, const QString &recoverySourceDirectory = {}, ProjectDocumentContext *current = nullptr);
+        ProjectDocumentContext *presentProject(QWindow *parent, const opendspx::Model &model, const QString &name, std::unique_ptr<Core::FileLocker> locker, const ProjectLifecycleOptions &options, const QString &sourcePath = {}, const QString &recoverySourceDirectory = {}, ProjectDocumentContext *current = nullptr);
         Status saveProjectWithGuard(ProjectDocumentContext *context, QWindow *parent, SaveMode mode, const QString &path = {});
         ProjectFileError saveProject(ProjectDocumentContext *context, QWindow *parent, const ProjectLifecycleOptions &options,
                                      SaveMode mode, QString path = {}, bool overwriteConfirmed = false,
                                      qsizetype maximumPathBytes = -1, QObject *cancelOnDestroyed = nullptr);
         Status prepareClose(ProjectDocumentContext *context, QWindow *parent);
+        Status resolveUnsavedChanges(ProjectDocumentContext *context, QWindow *parent);
         ProjectFileError checkPath(const QString &path, ProjectDocumentContext *context, bool copy = false) const;
 
         Q_DECLARE_PUBLIC(ProjectLifecycleScenario)
