@@ -10,12 +10,14 @@ import QActionKit
 import SVSCraft.Extras
 import SVSCraft.UIComponents
 
+import DiffScope.AudioBridgeServer
 import DiffScope.Core
 
 ActionCollection {
     id: root
 
-    required property ProjectWindowInterface windowHandle
+    required property BridgeStatusAddOn addOn
+    readonly property ProjectWindowInterface windowHandle: addOn?.windowHandle ?? null
 
     ActionItem {
         actionId: "org.diffscope.audiobridgeserver.managedProjectStatus"
@@ -27,7 +29,7 @@ ActionCollection {
                 Theme.foregroundPrimaryColor, Theme.backgroundPrimaryColor, Theme.navigationColor
             ])
 
-            visible: root.windowHandle.managed
+            visible: root.windowHandle?.managed ?? false
             Layout.topMargin: 2
             Layout.bottomMargin: 2
             horizontalPadding: 6
