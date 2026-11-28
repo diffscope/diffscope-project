@@ -53,10 +53,10 @@ namespace AudioBridge::Internal {
 
         AudioReplyStatus checkLocked(const AudioRequestV1 &request) const;
         void invalidateLocked();
-        void renderLoop(std::stop_token stop);
+        void renderLoop();
 
         mutable std::mutex m_mutex;
-        std::condition_variable_any m_changed;
+        std::condition_variable m_changed;
         Audio::ProjectAudioRenderSession *m_render{};
         Mode m_mode{Mode::Idle};
         quint32 m_generation{};
@@ -66,7 +66,8 @@ namespace AudioBridge::Internal {
         std::optional<AudioReplyStatus> m_result;
         std::optional<QPromise<void>> m_suspension;
         const std::function<void()> m_notifyCompletion;
-        std::jthread m_thread;
+        bool m_stopping{};
+        std::thread m_thread;
     };
 
     class AudioIpc {

@@ -7,9 +7,11 @@
 #include <array>
 #include <bit>
 #include <chrono>
+#include <condition_variable>
 #include <functional>
 #include <future>
 #include <limits>
+#include <mutex>
 #include <thread>
 #include <utility>
 #include <vector>
@@ -124,13 +126,20 @@ namespace AudioBridge::Internal {
         : audioName(BridgeAudioServicePrefix + randomToken()),
           wakeName(BridgeWakeServicePrefix + audioName.right(BridgeAudioPortTokenHexDigits)),
           maxFrames(maxFrames), channels(channels), m_notifyCompletion(std::move(notifyCompletion)),
-          m_thread([this](std::stop_token stop) {
+          m_thread([this] {
               QThread::currentThread()->setPriority(QThread::TimeCriticalPriority);
-              renderLoop(stop);
+              renderLoop();
           }) {
     }
 
-    AudioPort::~AudioPort() = default;
+    AudioPort::~AudioPort() {
+        {
+            const std::lock_guard lock(m_mutex);
+            m_stopping = true;
+        }
+        m_changed.notify_all();
+        m_thread.join();
+    }
 
     void AudioPort::configure(Audio::ProjectAudioRenderSession *render, Mode mode, quint32 generation, qint64 position) {
         suspend();
@@ -213,9 +222,12 @@ namespace AudioBridge::Internal {
             m_position = request.projectFrame + request.frames;
     }
 
-    void AudioPort::renderLoop(std::stop_token stop) {
+    void AudioPort::renderLoop() {
         std::unique_lock lock(m_mutex);
-        while (m_changed.wait(lock, stop, [this] { return m_job.has_value(); })) {
+        while (true) {
+            m_changed.wait(lock, [this] { return m_stopping || m_job.has_value(); });
+            if (!m_job)
+                break;
             const auto job = *std::exchange(m_job, std::nullopt);
             auto *render = m_render;
             const auto mode = m_mode;
@@ -286,12 +298,22 @@ namespace AudioBridge::Internal {
 
         using Command = std::function<void(State &)>;
         std::mutex mutex;
-        std::condition_variable_any changed;
+        std::condition_variable changed;
         std::vector<Command> commands;
         quint64 completionSerial{};
-        std::jthread thread;
+        bool stopping{};
+        std::thread thread;
 
-        Dispatcher() : thread([this](std::stop_token stop) { run(stop); }) {
+        Dispatcher() : thread([this] { run(); }) {
+        }
+
+        ~Dispatcher() {
+            {
+                const std::lock_guard lock(mutex);
+                stopping = true;
+            }
+            changed.notify_all();
+            thread.join();
         }
 
         void post(Command command) {
@@ -306,7 +328,7 @@ namespace AudioBridge::Internal {
             changed.notify_all();
         }
 
-        void run(std::stop_token stop) {
+        void run() {
             State state;
             auto node = iox2::NodeBuilder().signal_handling_mode(iox2::SignalHandlingMode::Disabled).create<ipc>();
             auto waitSet = iox2::WaitSetBuilder().signal_handling_mode(iox2::SignalHandlingMode::Disabled).create<ipc>();
@@ -314,12 +336,14 @@ namespace AudioBridge::Internal {
                 state.node.emplace(std::move(node.value()));
                 state.waitSet.emplace(std::move(waitSet.value()));
             }
-            while (!stop.stop_requested()) {
+            while (true) {
                 std::vector<Command> work;
                 quint64 serial;
                 {
                     std::unique_lock lock(mutex);
-                    if (state.endpoints.empty() && !changed.wait(lock, stop, [this] { return !commands.empty(); }))
+                    if (state.endpoints.empty())
+                        changed.wait(lock, [this] { return stopping || !commands.empty(); });
+                    if (stopping)
                         break;
                     work.swap(commands);
                     serial = completionSerial;
@@ -336,8 +360,8 @@ namespace AudioBridge::Internal {
                 }
                 if (pending) {
                     std::unique_lock lock(mutex);
-                    changed.wait_for(lock, stop, pendingRenderPollInterval, [this, serial] {
-                        return completionSerial != serial || !commands.empty();
+                    changed.wait_for(lock, pendingRenderPollInterval, [this, serial] {
+                        return stopping || completionSerial != serial || !commands.empty();
                     });
                     continue;
                 }
