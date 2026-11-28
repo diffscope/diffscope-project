@@ -60,6 +60,8 @@ namespace Audio {
         /// Dispatches input from any thread. Callers must stop submitting before this context is destroyed.
         /// Events use a distinct source ID and the steady clock specified by MidiInputEvent.
         void submitEvent(const talcs::MidiInputEvent &event);
+        /// Queues a MIDI event for preview only.
+        void submitPreviewEvent(const talcs::MidiInputEvent &event);
 
     Q_SIGNALS:
         void devicesChanged();

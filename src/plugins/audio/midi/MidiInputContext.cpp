@@ -290,6 +290,11 @@ namespace Audio {
         d->dispatcher.eventCallback(event);
     }
 
+    void MidiInputContext::submitPreviewEvent(const talcs::MidiInputEvent &event) {
+        Q_D(MidiInputContext);
+        d->integrator.eventCallback(event);
+    }
+
     void MidiInputContextPrivate::reconnectDevice() {
         Q_Q(MidiInputContext);
         if (!deviceId.isEmpty() && portIds.contains(deviceId) && !q->isDeviceReady())

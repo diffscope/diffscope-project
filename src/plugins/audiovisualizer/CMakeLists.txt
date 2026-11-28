@@ -33,6 +33,8 @@ diffscope_add_builtin_plugin(${PROJECT_NAME}
         svscraft::Quick
         visualeditor
         ScopicFlowCore
+    LINKS_PRIVATE
+        talcs::Midi
     INCLUDE_PRIVATE
         internal/**
 )
