@@ -49,6 +49,7 @@ if(unsupported_host)
     message(FATAL_ERROR "Rust ${VERSION} has no packaged host toolchain for ${rust_target}. Set VCPKG_RUST_HOST_TARGET to a published host triple in the host triplet.")
 endif()
 
+set(VCPKG_FIXUP_MACHO_RPATH OFF)
 set(rust_root "${CURRENT_PACKAGES_DIR}/tools/${PORT}")
 foreach(component IN ITEMS rustc cargo rust-std)
     set(archive_name "${component}-${VERSION}-${rust_target}.tar.xz")
