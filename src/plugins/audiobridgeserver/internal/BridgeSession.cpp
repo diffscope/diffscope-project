@@ -218,7 +218,7 @@ namespace AudioBridge::Internal {
             break;
         }
         case ControlOpcode::RevealProject:
-            setVisible(true, true);
+            setVisible(true);
             m_server->reply(request);
             break;
         case ControlOpcode::SaveState:
@@ -270,12 +270,12 @@ namespace AudioBridge::Internal {
             m_server->status(m_connection, statusBody());
     }
 
-    void BridgeSession::setVisible(bool visible, bool activate) {
+    void BridgeSession::setVisible(bool visible) {
         if (auto *window = m_window ? m_window->window() : nullptr) {
             if (visible && window->windowStates().testFlag(Qt::WindowMinimized))
                 window->setWindowStates(window->windowStates() & ~Qt::WindowStates(Qt::WindowMinimized));
             window->setVisible(visible);
-            if (visible && activate) {
+            if (visible) {
                 window->raise();
                 window->requestActivate();
             }
@@ -625,7 +625,7 @@ namespace AudioBridge::Internal {
             case ProjectAction::LinkFile:
             case ProjectAction::ImportToHost: {
                 m_projectDialog = std::make_unique<QObject>();
-                setVisible(true, true);
+                setVisible(true);
                 const auto replacement = action == ProjectAction::LinkFile ? FileReplacement::Associate : FileReplacement::Import;
                 if (m_projectDialog)
                     error = scenario->replaceProjectFromFile(context, replacement, data, payloadLimit, m_window->window(), m_projectDialog.get());
@@ -647,7 +647,7 @@ namespace AudioBridge::Internal {
                     break;
                 }
                 m_projectDialog = std::make_unique<QObject>();
-                setVisible(true, true);
+                setVisible(true);
                 if (m_projectDialog)
                     error = scenario->saveProjectToFile(context, payloadLimit, m_window->window(), m_projectDialog.get());
                 else

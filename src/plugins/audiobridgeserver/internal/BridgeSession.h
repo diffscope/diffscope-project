@@ -56,7 +56,7 @@ namespace AudioBridge::Internal {
         };
 
         void publishStatus();
-        void setVisible(bool visible, bool activate = false);
+        void setVisible(bool visible);
         void watchFilePath();
         void configureAudio(const ControlRequest &request);
         void transport(const ControlRequest &request);

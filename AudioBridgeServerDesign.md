@@ -83,7 +83,7 @@ Windows 通过 `QLocalServer::UserAccessOption` 将管道访问限制在当前�
 | `5 ReleaseAudio` | 退役当前端口并释放渲染权，保留工程。 |
 | `6 Transport` | 回报宿主 `Playing`、`Stopped`、`Unknown`，并附可用的工程采样位置。实时模式下，宿主停止走带时允许 `Play`、`Pause`、`Stop`、`Seek` 控制输出到 DAW 的试听。DAW 驱动实时回放或离线批次进行时，工程试听命令返回 `TransportOwnedByHost`。`Seek` 使用协商的采样率及有效采样位置。 |
 | `7 BeginOffline`、`8 EndOffline` | 启动或结束离线批次。准备成功后 `BeginOffline` 返回可读块的代际。`EndOffline` 也可取消正在等待的开始请求。恢复实时配置后发布新的代际。每个会话至多一个离线批次。 |
-| `9 SetEditorVisible`、`10 RevealProject` | 设置窗口可见性，或显式显示并请求激活窗口。 |
+| `9 SetEditorVisible`、`10 RevealProject` | 编辑器打开和显式唤起均会恢复最小化的工程窗口、显示窗口并请求激活。编辑器关闭时隐藏窗口。 |
 | `11 SaveState`、`12 RestoreState` | 无交互保存并取得完整状态包，或载入完整状态包。回复以操作完成时的结果为准。 |
 | `13 Status` | 服务端事件。报告工程加载、音频通道就绪和离线准备状态、窗口实际可见性以及最近错误。文件工程报告已提交的 `externalPath`，无文件关联时为空。归纳期限错失或源不可用等音频诊断，避免逐块发送控制消息。 |
 | `15 ProjectAction` | 执行插件编辑器发起的工程操作。请求包含操作枚举，成功回复包含结果工程的完整状态包。 |
