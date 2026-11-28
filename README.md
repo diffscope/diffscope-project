@@ -38,7 +38,7 @@ Visit <https://diffscope.org/downloads/#diffscope> to download.
 
 - [x] Basic SVS editor experience
 - [ ] Scripting and MCP
-- [ ] VST bridge
+- [x] VST bridge
 - [ ] Plugin SDK
 
 ## Build
